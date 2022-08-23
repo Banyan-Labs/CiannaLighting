@@ -2,9 +2,11 @@ import React, { FC } from "react";
 import * as data from "./links.json";
 import "./style/Navbar.scss";
 import logo from "../../assets/ciana-lighting-logo.png";
+import { FaRegBell, FaChevronDown } from "react-icons/fa";
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
+// Interface for Link
 type Link = {
   label: string;
   href: string;
@@ -29,14 +31,14 @@ const Links: FC<{ links: Link[] }> = ({}) => {
 const User: FC = ({}) => {
   return (
     <div className="navbar-user-container">
-      <span>Icon</span>
+      <FaRegBell />
       <div>
         <span className="navbar-user-hi">Hi, </span>
         <span className="navbar-user-name">Jane</span>
         <br />
         <span className="navbar-user-role">User</span>
       </div>
-      <div>Dropdown</div>
+      <FaChevronDown />
     </div>
   );
 };
