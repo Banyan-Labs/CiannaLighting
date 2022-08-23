@@ -5,8 +5,8 @@ import "./index.scss";
 function App() {
   return (
     <>
-      <Navbar link={"test"} />
-      <h1>Hello World</h1>
+      <Navbar />
+      {/* <h1>Hello World</h1> */}
     </>
   );
 }
