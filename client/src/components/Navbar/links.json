@@ -2,15 +2,15 @@
   "links": [
     {
       "label": "Dashboard",
-      "href": "/dashboard"
+      "href": "/dashboard/"
     },
     {
       "label": "Projects",
-      "href": "/projects"
+      "href": "/projects/"
     },
     {
       "label": "Catalog",
-      "href": "/catalog"
+      "href": "/catalog/"
     }
   ]
 }

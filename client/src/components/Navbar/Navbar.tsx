@@ -3,6 +3,7 @@ import * as data from "./links.json";
 import "./style/Navbar.scss";
 import logo from "../../assets/ciana-lighting-logo.png";
 import { FaRegBell, FaChevronDown } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
@@ -13,14 +14,15 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[] }> = ({}) => {
+  const { user } = useParams();
   return (
     <div className="navbar-links-container">
       {links.map((link: Link) => {
         return (
           <div key={link.href}>
-            <a href={link.href} className="navbar-links">
+            <Link to={link.href + user} className="navbar-links">
               {link.label}
-            </a>
+            </Link>
           </div>
         );
       })}
@@ -28,13 +30,15 @@ const Links: FC<{ links: Link[] }> = ({}) => {
   );
 };
 
-const User: FC = ({}) => {
+const User: FC<{ user: any }> = ({ user }) => {
   return (
     <div className="navbar-user-container">
       <FaRegBell />
       <div>
         <span className="navbar-user-hi">Hi, </span>
-        <span className="navbar-user-name">Jane</span>
+        <span className="navbar-user-name">
+          {user[0].toUpperCase() + user.substring(1)}
+        </span>
         <br />
         <span className="navbar-user-role">User</span>
       </div>
@@ -43,7 +47,7 @@ const User: FC = ({}) => {
   );
 };
 
-const Navbar: FC = ({}) => {
+const Navbar: FC<{ user: any }> = ({ user }) => {
   return (
     <>
       <nav className="navbar-container">
@@ -52,7 +56,7 @@ const Navbar: FC = ({}) => {
         </div>
         <div className="navbar-vertical-divider" />
         <Links links={links} />
-        <User />
+        <User user={user} />
       </nav>
     </>
   );
