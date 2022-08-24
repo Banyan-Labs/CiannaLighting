@@ -78,6 +78,10 @@
   opacity: 0.8;
 }
 
+.login-sub-text {
+  color: #949494;
+}
+
 @media only screen and (max-width: 1024px) {
   .login-bg-dark {
     width: 35%;

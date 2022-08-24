@@ -26,6 +26,11 @@ const Login: FC = ({}) => {
               <button>Sign In</button>
             </div>
           </form>
+          <p className="login-sub-text">
+            Trouble logging in?
+            <br />
+            Please contact your system administrator.
+          </p>
         </div>
       </div>
     </>
