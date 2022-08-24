@@ -15,6 +15,8 @@ const App: FC<AppProps> = (props) => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Navigate to="/login" />} />
+          <Route path="/catalog" element={<Navigate to="/login" />} />
+          <Route path="/projects" element={<Navigate to="/login" />} />
           <Route path="/dashboard/:user" element={<Dashboard />} />
           <Route path="/projects/:user" element={<Projects />} />
           <Route path="/catalog/:user" element={<Catalog />} />

@@ -9,6 +9,7 @@ $primary-bg-dark-text: #cbcbcb;
 $primary-bg-dark-link: #cbcbcb;
 $primary-bg-dark-link-hover: #f2f2f2;
 $primary-bg-dark-link-active: #f2f2f2;
+$primary-bg-dark-button-text: #f2f2f2;
 
 //White Background Colors
 $primary-bg-white: #f2f2f2;
@@ -34,14 +35,25 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
 
 //Mixins *in progress
 @mixin input-label {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: $primary-bg-white-text;
+  margin-bottom: 5px;
 }
 
 @mixin input-field {
   border: 1px solid $line-light;
-  border-radius: 10px;
+  border-radius: 5px;
+  padding: 15px 10px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+@mixin link-bg-white {
+  text-decoration: none;
+  font-size: 12px;
+  color: $primary-bg-white-text;
+  font-weight: bold;
 }
 
 @mixin nav-link {
@@ -55,4 +67,12 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
   height: 35px;
   width: 1px;
   background-color: $line-dark;
+}
+
+@mixin button($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 5px;
 }
