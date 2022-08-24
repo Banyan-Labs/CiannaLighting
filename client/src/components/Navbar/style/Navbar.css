@@ -4,16 +4,10 @@
   height: 100px;
   background-color: #101010;
   border-bottom: 0.5px solid #3c3c3c;
-  -webkit-box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
-          box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 .navbar-container img {
   margin-top: 10px;
   height: 150px;
@@ -21,22 +15,15 @@
 }
 
 .logo-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-self: center;
 }
 
 .navbar-links-container {
   margin-right: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: 300px;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 
 .navbar-links {
@@ -48,41 +35,28 @@
 }
 
 .navbar-user-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   width: 250px;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
   margin-left: auto;
   color: #cbcbcb;
 }
-
 .navbar-user-container div {
   font-size: 14px;
 }
-
 .navbar-user-container .navbar-user-hi {
   font-weight: 100;
 }
-
 .navbar-user-container .navbar-user-role {
   font-size: 12px;
   font-weight: 100;
 }
 
 .navbar-vertical-divider {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-self: center;
   height: 35px;
   width: 1px;
   background-color: #3c3c3c;
-}
-/*# sourceMappingURL=Navbar.css.map */
+}/*# sourceMappingURL=Navbar.css.map */
