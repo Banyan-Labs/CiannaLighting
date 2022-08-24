@@ -57,6 +57,9 @@
   color: #101010;
   font-weight: bold;
 }
+.login-form-container a:hover {
+  opacity: 0.5;
+}
 .login-form-container div {
   display: flex;
   justify-content: center;
@@ -68,4 +71,8 @@
   border: none;
   border-radius: 5px;
   font-weight: bold;
+}
+.login-form-container div button:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }/*# sourceMappingURL=login.css.map */

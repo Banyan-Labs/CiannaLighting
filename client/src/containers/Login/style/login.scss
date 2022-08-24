@@ -40,12 +40,19 @@
   a {
     @include link-bg-white;
   }
+  a:hover {
+    opacity: 0.5;
+  }
   div {
     display: flex;
     justify-content: center;
     button {
       @include button($primary-bg-dark, $primary-bg-dark-button-text);
       font-weight: bold;
+    }
+    button:hover {
+      cursor: pointer;
+      opacity: 0.8;
     }
   }
 }

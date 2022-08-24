@@ -38,7 +38,7 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
   font-size: 14px;
   font-weight: bold;
   color: $primary-bg-white-text;
-  margin-bottom: 5px;
+  line-height: 28px;
 }
 
 @mixin input-field {
@@ -54,6 +54,7 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
   font-size: 12px;
   color: $primary-bg-white-text;
   font-weight: bold;
+  line-height: 36px;
 }
 
 @mixin nav-link {

@@ -1,4 +1,4 @@
-import React, { useReducer, FC, useEffect } from "react";
+import React, { FC } from "react";
 
 import "./style/login.scss";
 const Login: FC = ({}) => {
@@ -20,7 +20,6 @@ const Login: FC = ({}) => {
             <label>Password</label>
             <br />
             <input id="password" type="password" placeholder="Password" />
-            <br />
             <a href="/forgot-password">Forgot Password?</a>
             <br />
             <div>
