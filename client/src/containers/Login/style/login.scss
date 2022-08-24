@@ -56,3 +56,35 @@
     }
   }
 }
+
+// Tablet Media Query
+@media only screen and (max-width: 1024px) {
+  .login-bg-dark {
+    width: 35%;
+  }
+  .login-gold-accent {
+    width: 2%;
+  }
+  .login-form-container {
+    margin: 0 auto;
+  }
+}
+
+//Mobile Media Query
+@media only screen and (max-width: 764px) {
+  .login-container {
+    flex-flow: column;
+  }
+  .login-bg-dark {
+    width: 100%;
+    height: 10vh;
+  }
+  .login-gold-accent {
+    width: 100%;
+    height: 1vh;
+  }
+  .login-form-container {
+    width: auto;
+    margin: 15vh auto;
+  }
+}

@@ -33,13 +33,13 @@
   font-size: 14px;
   font-weight: bold;
   color: #101010;
-  margin-bottom: 5px;
+  line-height: 28px;
 }
 .login-form-container input {
   border: 1px solid #cbcbcb;
   border-radius: 5px;
   padding: 15px 10px;
-  width: 100%;
+  width: 95%;
   margin-bottom: 25px;
 }
 .login-form-container input::-moz-placeholder {
@@ -56,6 +56,7 @@
   font-size: 12px;
   color: #101010;
   font-weight: bold;
+  line-height: 36px;
 }
 .login-form-container a:hover {
   opacity: 0.5;
@@ -75,4 +76,33 @@
 .login-form-container div button:hover {
   cursor: pointer;
   opacity: 0.8;
+}
+
+@media only screen and (max-width: 1024px) {
+  .login-bg-dark {
+    width: 35%;
+  }
+  .login-gold-accent {
+    width: 2%;
+  }
+  .login-form-container {
+    margin: 0 auto;
+  }
+}
+@media only screen and (max-width: 764px) {
+  .login-container {
+    flex-flow: column;
+  }
+  .login-bg-dark {
+    width: 100%;
+    height: 10vh;
+  }
+  .login-gold-accent {
+    width: 100%;
+    height: 1vh;
+  }
+  .login-form-container {
+    width: auto;
+    margin: 15vh auto;
+  }
 }/*# sourceMappingURL=login.css.map */
