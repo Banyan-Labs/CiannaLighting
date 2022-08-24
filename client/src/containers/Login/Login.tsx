@@ -1,11 +1,14 @@
 import React, { FC } from "react";
+import logo from "../../assets/ciana-lighting-logo.png";
 
 import "./style/login.scss";
 const Login: FC = ({}) => {
   return (
     <>
       <div className="login-container">
-        <div className="login-bg-dark" />
+        <div className="login-bg-dark">
+          <img src={logo} alt="ciana lighting logo" />
+        </div>
         <div className="login-gold-accent" />
 
         <div className="login-form-container">
