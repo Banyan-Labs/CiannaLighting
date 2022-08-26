@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import logo from "../../assets/ciana-lighting-logo.png";
 
+
 import "./style/login.scss";
-const Login: FC = ({}) => {
+const Login: FC = (props) => {
+
   return (
     <>
       <div className="login-container">
