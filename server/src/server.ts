@@ -3,6 +3,7 @@ import express from "express";
 import logging from '../config/logging'
 import config from "../config/config";
 import mongoose from 'mongoose';
+import userRoutes from './routes/userRoutes'
 
 const router = express()
 
@@ -40,7 +41,7 @@ router.use((req, res, next)=>{
 })
 
 /**Routes */
-
+router.use('/api/users', userRoutes)
 /**Errors */
 router.use((req,res,next)=>{
     const error = new Error('not found')
