@@ -1,10 +1,12 @@
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import "./style/dashboard.scss";
 
-const Dashboard: FC = ({}) => {
-  const { user } = useParams();
+import { AppProps } from "../../App";
+
+const Dashboard: FC<AppProps> = ({user, setUser}) => {
+  // const { user } = useParams();
 
   return (
     <>

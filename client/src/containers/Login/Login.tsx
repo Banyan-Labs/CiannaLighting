@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import logo from "../../assets/ciana-lighting-logo.png";
-
-
 import "./style/login.scss";
-const Login: FC = (props) => {
+import { AppProps } from "../../App";
+const Login: FC<AppProps> = (props) => {
+
+  
 
   return (
     <>

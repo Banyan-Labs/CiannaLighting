@@ -8,7 +8,8 @@ import "./index.scss";
 
 
 export interface AppProps {
-  
+  user: any;
+  setUser: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const App: FC<AppProps> = (props) => {
@@ -18,11 +19,11 @@ const App: FC<AppProps> = (props) => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login"  element={<Login />} />
+          <Route path="/login"  element={<Login user={user} setUser={setUser} />} />
           <Route path="/dashboard" element={<Navigate to="/login" />} />
           <Route path="/catalog" element={<Navigate to="/login" />} />
           <Route path="/projects" element={<Navigate to="/login" />} />
-          <Route path="/dashboard/:user" element={<Dashboard />} />
+          <Route path="/dashboard/:user" element={<Dashboard user={user} setUser={setUser}/>} />
           <Route path="/projects/:user" element={<Projects />} />
           <Route path="/catalog/:user" element={<Catalog />} />
         </Routes>
