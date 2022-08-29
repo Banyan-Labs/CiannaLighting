@@ -9,10 +9,6 @@ import axios from "../../api/axios";
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
-
-
-
-
 // Interface for Link
 type Link = {
   label: string;
@@ -37,49 +33,59 @@ const Links: FC<{ links: Link[] }> = ({}) => {
 };
 
 const User: FC<{ user: any }> = ({ user }) => {
+  const navigate = useNavigate();
+  const params = useParams();
   return (
-    <div className="navbar-user-container">
-      <FaRegBell />
-      <div>
-        <span className="navbar-user-hi">Hi, </span>
-        <span className="navbar-user-name">
-          {user.name.toUpperCase()}Welcome!
-        </span>
-        <br />
-        <span className="navbar-user-role">User</span>
-      </div>
-      <FaChevronDown />
-    </div>
+    <>
+      {!user ? (
+        navigate("/login")
+      ) : (
+        <div className="navbar-user-container">
+          <FaRegBell />
+          <div>
+            <span className="navbar-user-hi">Hi, </span>
+            <span className="navbar-user-name">
+              {user?.name?.split(" ")[0]?.toUpperCase() ||
+                params.user?.toString().split(" ")[0].toUpperCase()}
+              !
+            </span>
+            <br />
+            <span className="navbar-user-role">User</span>
+          </div>
+          <FaChevronDown />
+        </div>
+      )}
+    </>
   );
 };
 
 const Navbar: FC<AppProps> = ({ user, setUser }) => {
-  console.log(user, 'navUser')
-  const navigate = useNavigate()
+  // console.log(user, "navUser");
+  const navigate = useNavigate();
 
-  const handleLogout =async(e:any)=>{
-    console.log(user, "USER")
-    try{
-    e.preventDefault()
-    const response = await axios.post('/users/log_out/user', {"email":  user.email})
-    
-    console.log(response?.data, 'response')
-    setUser({})
-    console.log(user, "POST=>post")
-    navigate("/login")
-    
-  
-  }catch(err){
-    console.log(err, 'ERRORRRRR')
-  }
-  }
+  const handleLogout = async (e: any) => {
+    console.log(user, "USER");
+    try {
+      e.preventDefault();
+      const response = await axios.post("/users/log_out/user", {
+        email: user.email,
+      });
+
+      console.log(response?.data, "response");
+      setUser({});
+      console.log(user, "POST=>post");
+      navigate("/login");
+    } catch (err) {
+      console.log(err, "ERRORRRRR");
+    }
+  };
   return (
     <>
       <nav className="navbar-container">
         <div className="logo-container">
           <img src={logo} alt="Ciana Logo" />
         </div>
-        <button onClick={(e)=>handleLogout(e)}>logout</button> 
+        <button onClick={(e) => handleLogout(e)}>logout</button>
         <div className="navbar-vertical-divider" />
         <Links links={links} />
         <User user={user} />
