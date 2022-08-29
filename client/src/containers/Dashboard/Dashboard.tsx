@@ -6,15 +6,15 @@ import "./style/dashboard.scss";
 
 import { AppProps } from "../../App";
 
-const Dashboard: FC<AppProps> = ({user, setUser, handleLogout}) => {
+const Dashboard: FC<AppProps> = ({user, setUser}) => {
   // const { user } = useParams();
 
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} setUser={setUser}/>
       This is the dashboard.
-      <button onClick={(e)=>handleLogout(e)}>logout</button>
+      {/* <button onClick={(e)=>handleLogout(e)}>logout</button> */}
     </>
   );
 };

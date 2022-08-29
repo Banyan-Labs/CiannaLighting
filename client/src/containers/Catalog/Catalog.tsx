@@ -4,11 +4,11 @@ import Navbar from "../../components/Navbar/Navbar";
 
 import "./style/catalog.scss";
 
-const Catalog: FC = ({}) => {
+const Catalog: FC = () => {
   const { user } = useParams();
   return (
     <>
-      <Navbar user={user} />
+      <Navbar  user={user} setUser={()=>''} />
       This is catalog page.
     </>
   );

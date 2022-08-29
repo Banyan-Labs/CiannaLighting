@@ -34,7 +34,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   await User.findOne({ email: email, password: password })
     .exec()
     .then((user) => {
-    //   console.log(user, res, "weird");
       if(user){
         user.isAuth = true;
         user.save()
