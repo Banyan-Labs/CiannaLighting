@@ -9,10 +9,6 @@ import axios from "../../api/axios";
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
-
-
-
-
 // Interface for Link
 type Link = {
   label: string;
@@ -43,7 +39,7 @@ const User: FC<{ user: any }> = ({ user }) => {
       <div>
         <span className="navbar-user-hi">Hi, </span>
         <span className="navbar-user-name">
-          {user.name.toUpperCase()}Welcome!
+          {user?.name?.split(" ")[0]?.toUpperCase() || "Test"}!
         </span>
         <br />
         <span className="navbar-user-role">User</span>
@@ -54,32 +50,31 @@ const User: FC<{ user: any }> = ({ user }) => {
 };
 
 const Navbar: FC<AppProps> = ({ user, setUser }) => {
-  console.log(user, 'navUser')
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleLogout =async(e:any)=>{
-    console.log(user, "USER")
-    try{
-    e.preventDefault()
-    const response = await axios.post('/users/log_out/user', {"email":  user.email})
-    
-    console.log(response?.data, 'response')
-    setUser({})
-    console.log(user, "POST=>post")
-    navigate("/login")
-    
-  
-  }catch(err){
-    console.log(err, 'ERRORRRRR')
-  }
-  }
+  const handleLogout = async (e: any) => {
+    // console.log(user, "USER");
+    try {
+      e.preventDefault();
+      const response = await axios.post("/users/log_out/user", {
+        email: user.email,
+      });
+
+      // console.log(response?.data, "response");
+      setUser({});
+      // console.log(user, "POST=>post");
+      navigate("/login");
+    } catch (err) {
+      console.log(err, "ERRORRRRR");
+    }
+  };
   return (
     <>
       <nav className="navbar-container">
         <div className="logo-container">
           <img src={logo} alt="Ciana Logo" />
         </div>
-        <button onClick={(e)=>handleLogout(e)}>logout</button> 
+        <button onClick={(e) => handleLogout(e)}>logout</button>
         <div className="navbar-vertical-divider" />
         <Links links={links} />
         <User user={user} />
