@@ -6,18 +6,18 @@ import { AppProps } from "../../App";
 import { Navigate } from "react-router-dom";
 
 const Dashboard: FC<AppProps> = ({ user, setUser }) => {
-  {
-    if (Object.keys(user).length === 0) {
-      return <Navigate to="/login" />;
-    } else {
-      return (
+  return (
+    <>
+      {Object.keys(user).length === 0 ? (
+        <Navigate to="/login" />
+      ) : (
         <>
           <Navbar user={user} setUser={setUser} />
           This is the dashboard.
         </>
-      );
-    }
-  }
+      )}
+    </>
+  );
 };
 
 export default Dashboard;
