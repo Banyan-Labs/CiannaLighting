@@ -43,6 +43,7 @@ router.use((req, res, next)=>{
 /**Routes */
 router.use('/api/users', userRoutes)
 router.use('/api/user', userRoutes)
+// router.use('/api')
 /**Errors */
 router.use((req,res,next)=>{
     const error = new Error('not found')
