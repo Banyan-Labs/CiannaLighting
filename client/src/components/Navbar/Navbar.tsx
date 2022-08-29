@@ -37,7 +37,7 @@ const User: FC<{ user: any }> = ({ user }) => {
       <div>
         <span className="navbar-user-hi">Hi, </span>
         <span className="navbar-user-name">
-          {user[0].toUpperCase() + user.substring(1)}
+          {user.name.toUpperCase()}Welcome!
         </span>
         <br />
         <span className="navbar-user-role">User</span>
@@ -48,6 +48,7 @@ const User: FC<{ user: any }> = ({ user }) => {
 };
 
 const Navbar: FC<{ user: any }> = ({ user }) => {
+  console.log(user, 'navUser')
   return (
     <>
       <nav className="navbar-container">
