@@ -8,7 +8,7 @@ const Projects: FC = ({}) => {
   const { user } = useParams();
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} setUser={()=>''}/>
       This is projects page.
     </>
   );

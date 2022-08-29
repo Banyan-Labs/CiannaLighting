@@ -10,6 +10,7 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
     name,
     email,
     password,
+    isAuth: false
   });
   return user
     .save()
@@ -25,6 +26,72 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
       });
     });
 };
+
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  const email: string = req.body.email;
+  const password: string = req.body.password;
+  console.log(email, password, "params");
+  await User.findOne({ email: email, password: password })
+    .exec()
+    .then((user) => {
+      if(user){
+        user.isAuth = true;
+        user.save()
+        
+        return res.status(200).json({
+            User: {
+                name: user?.name,
+                email: user?.email,
+                id: user?._id,
+                isAuth: user?.isAuth,
+            },
+        });
+        
+    }else{
+        next()
+    }
+    })
+    .catch((error) => {
+      console.log(error.message);
+      return res.status(500).json({
+        message: error.message,
+        error,
+      });
+    });
+};
+const logOut = async (req: Request, res: Response, next: NextFunction) => {
+  const email: string = req.body.email;
+//   const name: string = req.body.name;
+  console.log(email, "params");
+  await User.findOne({ email: email})
+    .exec()
+    .then((user) => {
+      console.log(user, res, "weird");
+      if(user){
+        user.isAuth = false;
+        user.save()
+        
+        return res.status(200).json({
+            User: {
+                name: user?.name,
+                email: user?.email,
+                id: user?._id,
+                isAuth: user?.isAuth,
+            },
+        });
+    }else{
+        next()
+    }
+    })
+    .catch((error) => {
+      console.log(error.message, 'what');
+      return res.status(500).json({
+        message: error.message,
+        error,
+      });
+    });
+};
+
 const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
   User.find()
     .exec()
@@ -42,4 +109,4 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export default { getAllUsers, createUser };
+export default { getAllUsers, createUser, login, logOut};
