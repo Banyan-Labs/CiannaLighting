@@ -33,47 +33,36 @@ const Links: FC<{ links: Link[] }> = ({}) => {
 };
 
 const User: FC<{ user: any }> = ({ user }) => {
-  const navigate = useNavigate();
-  const params = useParams();
   return (
-    <>
-      {!user ? (
-        navigate("/login")
-      ) : (
-        <div className="navbar-user-container">
-          <FaRegBell />
-          <div>
-            <span className="navbar-user-hi">Hi, </span>
-            <span className="navbar-user-name">
-              {user?.name?.split(" ")[0]?.toUpperCase() ||
-                params.user?.toString().split(" ")[0].toUpperCase()}
-              !
-            </span>
-            <br />
-            <span className="navbar-user-role">User</span>
-          </div>
-          <FaChevronDown />
-        </div>
-      )}
-    </>
+    <div className="navbar-user-container">
+      <FaRegBell />
+      <div>
+        <span className="navbar-user-hi">Hi, </span>
+        <span className="navbar-user-name">
+          {user?.name?.split(" ")[0]?.toUpperCase() || "Test"}!
+        </span>
+        <br />
+        <span className="navbar-user-role">User</span>
+      </div>
+      <FaChevronDown />
+    </div>
   );
 };
 
 const Navbar: FC<AppProps> = ({ user, setUser }) => {
-  // console.log(user, "navUser");
   const navigate = useNavigate();
 
   const handleLogout = async (e: any) => {
-    console.log(user, "USER");
+    // console.log(user, "USER");
     try {
       e.preventDefault();
       const response = await axios.post("/users/log_out/user", {
         email: user.email,
       });
 
-      console.log(response?.data, "response");
+      // console.log(response?.data, "response");
       setUser({});
-      console.log(user, "POST=>post");
+      // console.log(user, "POST=>post");
       navigate("/login");
     } catch (err) {
       console.log(err, "ERRORRRRR");
