@@ -9,11 +9,18 @@ const userSchema: Schema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    isAuth: {type: Boolean}
+    isAuth: {type: Boolean},
+    // role: {type: String, required: true},
+    // projects: {type: Array<string>}
   },
   {
     timestamps: true,
   }
 );
+/**
+ * Super Admin
+ * Employee
+ * user
+ */
 
 export default mongoose.model<Iuser>("User", userSchema);

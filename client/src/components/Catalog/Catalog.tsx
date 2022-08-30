@@ -1,15 +1,19 @@
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
+import { Navigate } from "react-router-dom";
+import { AppProps } from "../../App";
+
 
 import "./style/catalog.scss";
 
-const Catalog: FC = () => {
-  const { user } = useParams();
+const Catalog: FC<AppProps> = ({ user }) => {
+  
   return (
     <>
-      <Navbar user={user} setUser={() => ""} />
-      This is catalog page.
+      {Object.keys(user).length === 0 ? (
+        <Navigate to="/login"/>
+      ) : (
+        <>This is catalog page.</>
+      )}
     </>
   );
 };

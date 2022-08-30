@@ -1,15 +1,18 @@
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
+import { Navigate } from "react-router-dom";
+import { AppProps } from "../../App";
 
 import "./style/projects.scss";
 
-const Projects: FC = ({}) => {
-  const { user } = useParams();
+const Projects: FC<AppProps>= ({user}) => {
+  
   return (
     <>
-      <Navbar user={user} setUser={() => ""} />
-      This is projects page.
+      {Object.keys(user).length === 0 ? (
+        <Navigate to="/login"/>
+      ) : (
+        <>This is the projects page.</>
+      )}
     </>
   );
 };
