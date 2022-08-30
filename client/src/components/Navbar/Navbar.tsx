@@ -15,14 +15,14 @@ type Link = {
   href: string;
 };
 
-const Links: FC<{ links: Link[] }> = ({}) => {
-  const { user } = useParams();
+const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
+  // const { user } = useParams();
   return (
     <div className="navbar-links-container">
       {links.map((link: Link) => {
         return (
           <div key={link.href}>
-            <Link to={link.href + user} className="navbar-links">
+            <Link to={link.href + user.name} className="navbar-links">
               {link.label}
             </Link>
           </div>
@@ -76,7 +76,7 @@ const Navbar: FC<AppProps> = ({ user, setUser }) => {
         </div>
         <button onClick={(e) => handleLogout(e)}>logout</button>
         <div className="navbar-vertical-divider" />
-        <Links links={links} />
+        <Links user={user} links={links} />
         <User user={user} />
       </nav>
     </>
