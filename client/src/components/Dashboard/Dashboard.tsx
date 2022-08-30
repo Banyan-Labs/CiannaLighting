@@ -14,6 +14,7 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
         <>
           <Navbar user={user} setUser={setUser} />
           This is the dashboard.
+          "Darth Vader was here!!!!!!!!!!!!!!"
         </>
       )}
     </>
