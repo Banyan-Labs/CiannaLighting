@@ -1,0 +1,158 @@
+// ===== Import scss variables from index.scss ======
+@import "../../../variables/variables";
+
+// === Modal Background ====
+.new-project-modal-background {
+    width: 90vw;
+    height: 90vh;
+    margin-left: 5vw;
+    position: fixed;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    // opacity: 0.2;
+}
+
+// === Main container ===
+.new-project-modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 50%;
+    height: 35rem;
+    margin: 1rem auto;
+    padding: 1rem 5rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    color: $primary-bg-dark;
+    overflow: scroll;
+    box-shadow: $box-shadow;
+}
+
+::-webkit-scrollbar {
+    display: none;
+  }
+
+  // === Close modal ---> "X" button ===
+.modal-title-close-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.modal-title-close-btn button {
+    margin-right: 1rem;
+    border: 1px solid blue;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: bolder;
+    background: blue;
+    color: white;
+    transition: all 400ms ease;
+    box-shadow: $box-shadow;
+}
+
+.modal-title-close-btn button:hover {
+    background-color: white;
+    border: 1px solid darkblue;
+    color: blue;
+}
+
+// === Modal Title ===
+.modal-title {
+    font-style: italic;color: black;
+    text-align: center;
+}
+
+// === Modal Inputs ===
+.new-project-modal-inputs {
+    // @include input-field;
+    width: 90%;
+    margin: 0.2rem auto 0.8rem;
+    padding: 0.8rem;
+    border: 1px solid $line-light;
+    border-radius: 0.5rem;
+    background: transparent;
+    resize: none;
+    color: white;
+    cursor: pointer;
+    transition: all 400ms ease;
+}
+
+.new-project-modal-inputs:hover,
+.new-projects-dropdowns-container select:hover {
+    background: rgb(232, 231, 231);
+    border: 1px solid $line-dark;
+    box-shadow: $box-shadow;
+}
+
+.new-projects-dropdowns-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0 auto;
+    font-size: 20px;
+}
+
+.new-projects-dropdowns-container select {
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 0.2rem 0;
+    padding: 1rem;
+    font-size: 16px;
+    color: grey;
+    transition: all 400ms ease;
+}
+
+.new-project-modal-labels {
+    font-weight: bold;
+}
+
+.max-text-span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.max-text {
+    margin-right: 3rem;
+    font-weight: 500;
+}
+
+// === Modal footer ---> Buttons ===
+.new-project-modal-container .new-project-modal-footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.new-project-modal-container .new-project-modal-footer button {
+    // @include button(blue, white);
+    width: 40%;
+    height: 2rem;
+    margin: 0.8rem 0 0 -2rem;
+    background: blue;
+    color: white;
+    font-size: 22px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 400ms ease;
+    box-shadow: $box-shadow;
+}
+
+.new-project-modal-container .new-project-modal-footer button:hover {
+    background-color: white;
+    border: 1px solid blue;
+    color: blue;
+}
+
+#cancel-btn {
+    background-color: crimson;
+}
+
+#cancel-btn:hover {
+    background-color: white;
+    border: 1px solid red;
+    font-weight: 700;
+    color: red;
+}
