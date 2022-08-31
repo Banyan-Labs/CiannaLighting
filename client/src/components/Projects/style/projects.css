@@ -1,1 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");/*# sourceMappingURL=projects.css.map */
+.project-summary-top-bar{
+    margin-right: 20px;
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+}

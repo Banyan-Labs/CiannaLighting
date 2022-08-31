@@ -1,1 +1,96 @@
 @import "../../../variables/variables.scss";
+
+  .projects-summary{
+    background-color: $primary-bg-dark;
+    // color: $primary-bg-white-text;
+    color: white;
+    width: 45%;
+    height: 275px
+  }
+
+  .back-to-projects{
+    margin-left: 5px;
+    display: inline-flex;
+    font-size: 9px;
+  }
+  .back-to-projects:hover{
+    cursor: pointer;
+  }
+
+  .icon-chevron{
+    margin-top: 10px;
+  }
+
+  .project-summary-top-bar{
+    margin-right: 20px;
+    display: flex;
+    width: 550px;
+    justify-content: space-evenly;
+}
+
+.project-summary-name-and-date{
+    border-right: 0.5px solid white;
+    padding-right: 20px;
+}
+
+.project-summary-project-name{
+    margin-top: 10px;
+}
+
+.circle-icon{
+    margin-left: 15px;
+    font-size: 10px;
+    color: red;
+}
+
+.project-summary-date{
+    font-size: 10px;
+    margin-top: -20px;
+}
+
+.project-summary-icons{
+    display: inline-flex;
+    margin-top: 15px;
+    margin-right: 20px; 
+}
+
+.archive-icon{
+    margin-left: 15px;
+    font-weight: 800;
+    font-size: 1.2em;
+}
+.archive-icon:hover{
+    cursor: pointer;
+}
+
+.clone-icon{
+    margin-left: 15px;
+    font-size: 1.2em;
+}
+.clone-icon:hover{
+    cursor: pointer;
+}
+
+.edit-icon{
+    margin-left: 0px;
+    font-size: 1.2em;
+}
+.edit-icon:hover{
+    cursor: pointer;
+}
+
+.status{
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.project-summary-text-container{
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.project-summary-description-text{
+    margin-left: 30px;
+    margin-right: 20px;
+    text-align: justify;
+}
