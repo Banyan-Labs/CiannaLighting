@@ -1,96 +1,199 @@
 @import "../../../variables/variables.scss";
 
-  .projects-summary{
-    background-color: $primary-bg-dark;
-    // color: $primary-bg-white-text;
-    color: white;
-    width: 45%;
-    height: 275px
-  }
-
-  .back-to-projects{
-    margin-left: 5px;
-    display: inline-flex;
-    font-size: 9px;
-  }
-  .back-to-projects:hover{
-    cursor: pointer;
-  }
-
-  .icon-chevron{
-    margin-top: 10px;
-  }
-
-  .project-summary-top-bar{
-    margin-right: 20px;
-    display: flex;
-    width: 550px;
-    justify-content: space-evenly;
+.projects-top-half {
+  display: inline-flex;
+}
+//   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.project-summary-container {
+  background-color: $primary-bg-dark;
+  // color: $primary-bg-white-text;
+  color: white;
+  width: 45%;
+  height: 275px;
 }
 
-.project-summary-name-and-date{
-    border-right: 0.5px solid white;
-    padding-right: 20px;
+.back-to-projects {
+  margin-left: 5px;
+  display: inline-flex;
+  font-size: 9px;
+}
+.back-to-projects:hover {
+  cursor: pointer;
 }
 
-.project-summary-project-name{
-    margin-top: 10px;
+.chevron-icon {
+  margin-top: 10px;
 }
 
-.circle-icon{
-    margin-left: 15px;
-    font-size: 10px;
-    color: red;
+.project-summary-top-bar {
+  margin-right: 20px;
+  display: flex;
+  width: 550px;
+  justify-content: space-evenly;
 }
 
-.project-summary-date{
-    font-size: 10px;
-    margin-top: -20px;
+.project-summary-name-and-date {
+  border-right: 0.1px solid rgb(48, 47, 47);
+  padding-right: 20px;
 }
 
-.project-summary-icons{
-    display: inline-flex;
-    margin-top: 15px;
-    margin-right: 20px; 
+.project-summary-project-name {
+  margin-top: 10px;
 }
 
-.archive-icon{
-    margin-left: 15px;
-    font-weight: 800;
-    font-size: 1.2em;
-}
-.archive-icon:hover{
-    cursor: pointer;
+.circle-icon {
+  margin-left: 15px;
+  font-size: 10px;
+  color: red;
 }
 
-.clone-icon{
-    margin-left: 15px;
-    font-size: 1.2em;
-}
-.clone-icon:hover{
-    cursor: pointer;
+.project-summary-date {
+  font-size: 10px;
+  margin-top: -20px;
 }
 
-.edit-icon{
-    margin-left: 0px;
-    font-size: 1.2em;
-}
-.edit-icon:hover{
-    cursor: pointer;
+.project-summary-icons {
+  display: inline-flex;
+  margin-top: 15px;
+  margin-right: 20px;
 }
 
-.status{
-    font-size: 12px;
-    margin-top: 15px;
+.archive-icon {
+  margin-left: 15px;
+  font-weight: 800;
+  font-size: 1.2em;
+}
+.archive-icon:hover {
+  cursor: pointer;
 }
 
-.project-summary-text-container{
-    margin-left: 10px;
-    font-size: 12px;
+.clone-icon {
+  margin-left: 15px;
+  font-size: 1.2em;
+}
+.clone-icon:hover {
+  cursor: pointer;
 }
 
-.project-summary-description-text{
-    margin-left: 30px;
-    margin-right: 20px;
-    text-align: justify;
+.edit-icon {
+  margin-left: 0px;
+  font-size: 1.2em;
+}
+.edit-icon:hover {
+  cursor: pointer;
+}
+
+.status {
+  font-size: 12px;
+  margin-top: 15px;
+}
+
+.project-summary-text-container {
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.project-summary-description-text {
+  margin-left: 30px;
+  margin-right: 20px;
+  text-align: justify;
+}
+// Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.project-attachments-container {
+  background-color: $primary-bg-dark;
+
+  width: 55%;
+  color: white;
+  border-left: 0.5px solid rgb(61, 61, 61);
+}
+.project-attachments-top-bar {
+  margin-left: 15px;
+  display: inline-flex;
+  height: 60px;
+}
+
+.project-attachment {
+  padding-right: 20px;
+  border-right: 0.1px solid rgb(48, 47, 47);
+}
+
+.paperclip-icon {
+  border-radius: 50%;
+  background-color: rgb(41, 40, 40);
+  margin-top: 17px;
+  margin-left: 20px;
+  padding: 5px;
+}
+
+.paperclip-icon:hover {
+  cursor: pointer;
+}
+
+.attach-file-text {
+  font-size: 8px;
+  margin-top: 25px;
+  margin-left: 5px;
+}
+
+.project-attachments-table-container {
+  height: 65%;
+  margin-left: 10%;
+  border-bottom: 1px solid rgb(39, 39, 40);
+  margin-right: 10%;
+}
+
+.attachments-file-name {
+  width: 400px;
+  font-size: 10px;
+  text-align: left;
+}
+
+.attachments-file-size {
+  width: 100px;
+  font-size: 10px;
+  text-align: left;
+}
+
+.attachments-table {
+  border-top: 1px solid rgb(39, 39, 40);
+  border-bottom: 1px solid rgb(39, 39, 40);
+  width: 100%;
+}
+
+.attachments-dynamic-row:hover {
+  background-color: rgb(38, 39, 39);
+}
+
+.file-file-name {
+  font-size: 14px;
+  border-top: 1px solid rgb(39, 39, 40);
+  font-weight: 200;
+}
+
+.file-file-size {
+  font-size: 12px;
+  margin-right: 15px;
+  border-top: 1px solid rgb(39, 39, 40);
+  font-weight: 200;
+}
+
+.file-file-remove {
+  font-size: 12px;
+  border-top: 1px solid rgb(39, 39, 40);
+  text-align: center;
+}
+
+.file-file-remove:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.project-attachments-view-all {
+  float: right;
+  margin-right: 10%;
+  font-size: 12px;
+}
+
+.project-attachments-view-all:hover {
+  cursor: pointer;
 }
