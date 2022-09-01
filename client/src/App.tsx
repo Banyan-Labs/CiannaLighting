@@ -15,16 +15,15 @@ export interface AppProps {
 
 const App: FC<any> = (props) => {
   const [user, setUser] = useState<any>({});
-  const check=(e:any)=>{
-    e.preventDefault();
-    console.log(user, "user")
-
-  }
 
   return (
     <>
       <BrowserRouter>
-      {Object.keys(user).length === 0 ? "": <Navbar user={user} setUser={setUser} />}
+        {Object.keys(user).length === 0 ? (
+          ""
+        ) : (
+          <Navbar user={user} setUser={setUser} />
+        )}
         <Routes>
           <Route
             path="/login"
@@ -37,11 +36,16 @@ const App: FC<any> = (props) => {
             path="/dashboard/:user"
             element={<Dashboard user={user} setUser={setUser} />}
           />
-          <Route path="/projects/:user" element={<Projects user={user} setUser={setUser} />} />
-          <Route path="/catalog/:user" element={<Catalog user={user} setUser={setUser} />} />
+          <Route
+            path="/projects/:user"
+            element={<Projects user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/catalog/:user"
+            element={<Catalog user={user} setUser={setUser} />}
+          />
         </Routes>
       </BrowserRouter>
-      <button onClick={(e)=> check(e)}>check</button>
     </>
   );
 };

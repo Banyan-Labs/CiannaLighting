@@ -16,7 +16,6 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
-  // const { user } = useParams();
   return (
     <div className="navbar-links-container">
       {links.map((link: Link) => {
@@ -53,19 +52,15 @@ const Navbar: FC<AppProps> = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = async (e: any) => {
-    // console.log(user, "USER");
     try {
       e.preventDefault();
       const response = await axios.post("/users/log_out/user", {
         email: user.email,
       });
-
-      // console.log(response?.data, "response");
       setUser({});
-      // console.log(user, "POST=>post");
       navigate("/login");
     } catch (err) {
-      console.log(err, "ERRORRRRR");
+      console.log("Error: ", err);
     }
   };
   return (
@@ -74,10 +69,12 @@ const Navbar: FC<AppProps> = ({ user, setUser }) => {
         <div className="logo-container">
           <img src={logo} alt="Ciana Logo" />
         </div>
-        <button onClick={(e) => handleLogout(e)}>logout</button>
+
         <div className="navbar-vertical-divider" />
         <Links user={user} links={links} />
         <User user={user} />
+        {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
+        <button onClick={(e) => handleLogout(e)}>logout</button>
       </nav>
     </>
   );
