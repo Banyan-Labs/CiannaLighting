@@ -1,22 +1,26 @@
 import React, { FC } from "react";
-import ProjectAttachments from './ProjectAttachments'
-import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { AppProps } from "../../App";
+
 import Navbar from "../Navbar/Navbar";
 import ProjectSummary from "./ProjectSummary";
+import ProjectAttachments from "./ProjectAttachments";
+
 import "./style/projects.scss";
 
-const Projects: FC = ({}) => {
-  const { user } = useParams();
-
-  
+const Projects: FC<AppProps> = ({ user }) => {
   return (
     <>
-      <Navbar user={user} setUser={() => ""} />
-      <div className="projects-top-half">
-        <ProjectSummary />
-        <ProjectAttachments />
-      </div>
-    
+      {Object.keys(user).length === 0 ? (
+        <Navigate to="/login" />
+      ) : (
+        <>
+          <div className="projects-top-half">
+            <ProjectSummary />
+            <ProjectAttachments />
+          </div>
+        </>
+      )}
     </>
   );
 };
