@@ -15,7 +15,6 @@ const Projects: FC<AppProps> = ({ user }) => {
         <Navigate to="/login" />
       ) : (
         <>
-          <Navbar user={user} setUser={() => ""} />
           <div className="projects-top-half">
             <ProjectSummary />
             <ProjectAttachments />
