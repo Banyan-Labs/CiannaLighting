@@ -1,0 +1,24 @@
+  {
+    "links":[
+        {
+            "label": "Overview"
+            
+        },
+        {
+            "label": "Rooms"
+            
+        },
+        {
+            "label": "Schedule"
+            
+        },
+        {
+            "label": "Activity"
+            
+        },
+        {
+            "label": "Proposal"
+            
+        }
+    ]
+  }
