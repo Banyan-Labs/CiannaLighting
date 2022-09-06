@@ -5,6 +5,7 @@ import Catalog from "./components/Catalog/Catalog";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Login from "./components/Login/Login";
 import Projects from "./components/Projects/Projects";
+import CreateProjectPage from "./components/CreateProjectPage/CreateProjectPage";
 
 import "./index.scss";
 
@@ -43,6 +44,10 @@ const App: FC<any> = (props) => {
           <Route
             path="/catalog/:user"
             element={<Catalog user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/create-project/:user"
+            element={<CreateProjectPage user={user} />}
           />
         </Routes>
       </BrowserRouter>
