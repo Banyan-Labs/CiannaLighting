@@ -4,6 +4,7 @@ import logging from '../config/logging'
 import config from "../config/config";
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes'
+import projectRoutes from './routes/projectRoutes'
 
 const router = express()
 
@@ -43,6 +44,7 @@ router.use((req, res, next)=>{
 /**Routes */
 router.use('/api/users', userRoutes)
 router.use('/api/user', userRoutes)
+router.use("/api/projects", projectRoutes);
 // router.use('/api')
 /**Errors */
 router.use((req,res,next)=>{
