@@ -1,6 +1,6 @@
 import { FC, FormEvent, useState } from "react";
 
-import "./style/projectForm.css";
+// import "./style/projectForm.css";
 
 type ProjectType = {
   name: string;
