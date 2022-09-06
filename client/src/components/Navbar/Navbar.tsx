@@ -43,7 +43,7 @@ const User: FC<{ user: any }> = ({ user }) => {
         <br />
         <span className="navbar-user-role">User</span>
       </div>
-      <FaChevronDown />
+      {/* <FaChevronDown /> */}
     </div>
   );
 };

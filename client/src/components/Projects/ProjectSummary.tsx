@@ -4,6 +4,7 @@ import {
   FaRegClone,
   FaRegCheckSquare,
   FaCircle,
+  FaArchive,
 } from "react-icons/fa";
 import { BsChevronLeft } from "react-icons/bs";
 
@@ -28,14 +29,14 @@ const ProjectSummary: FC = ({}) => {
             <div></div>
             <FaRegClone className="clone-icon" />
             <div></div>
-            <FaRegCheckSquare className="archive-icon" />
+            <FaArchive className="archive-icon" />
           </div>
           <div className="project-summary-status">
-            <p className="status">Status: NEW</p>
+            <p className="status">Status: New</p>
           </div>
         </div>
         <div className="project-summary-text-container">
-          <h4>Description:</h4>
+          <p>Description:</p>
           <p className="project-summary-description-text">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
             aperiam repudiandae inventore pariatur saepe dolorum, quisquam
@@ -43,8 +44,7 @@ const ProjectSummary: FC = ({}) => {
             laboriosam modi cupiditate natus. Animi, vero. Lorem ipsum dolor sit
             amet consectetur adipisicing elit. Harum voluptas atque molestiae
             suscipit, voluptatibus veritatis repellendus, inventore numquam
-            reprehenderit veniam porro rerum. Est similique rem fuga d istinctio
-            cum nam quasi?
+            reprehenderit veniam porro rerum.
           </p>
         </div>
       </div>
