@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { AppProps } from "../../App";
 
-import Navbar from "../Navbar/Navbar";
 import ProjectSummary from "./ProjectSummary";
 import ProjectAttachments from "./ProjectAttachments";
 

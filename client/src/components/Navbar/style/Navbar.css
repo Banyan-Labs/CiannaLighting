@@ -13,6 +13,19 @@
   height: 150px;
   width: auto;
 }
+.navbar-container button {
+  border: none;
+  background-color: transparent;
+  color: #c6ad7c;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+.navbar-container button:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
 
 .logo-container {
   display: flex;

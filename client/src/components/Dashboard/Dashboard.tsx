@@ -1,8 +1,7 @@
-import React, { FC, useCallback } from "react";
-import "./style/dashboard.scss";
-
+import React, { FC, useCallback, useState } from "react";
 import { AppProps } from "../../App";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Modal from "../Modal/Modal";
 import {
   FaPlus,
   FaChevronCircleLeft,
@@ -11,6 +10,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 
+import "./style/dashboard.scss";
 const Dashboard: FC<AppProps> = ({ user, setUser }) => {
   const testProjectData = [
     {
@@ -61,6 +61,7 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
     },
   ];
 
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const projectRoute = useCallback(() => {
     const to = `/projects/${user.name}`;
@@ -104,7 +105,12 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
             <div className="dashboard-your-projects">
               <h4>Your Projects</h4>
               <div className="dashboard-vertical-divider" />
-              <button>
+              <button
+                className="dashboard-new-project-button"
+                onClick={() => {
+                  setOpenModal(true);
+                }}
+              >
                 <FaPlus /> <span>New Project</span>
               </button>
               <div className="your-projects-icons">
@@ -132,6 +138,9 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
             </a>
           </div> */}
           <div className="lower-section-table">No data to display.</div>
+          {openModal && (
+            <Modal openModal={openModal} closeModal={setOpenModal} />
+          )}
         </>
       )}
     </>
