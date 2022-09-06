@@ -10,6 +10,8 @@ import './style/projects.scss';
 
 
 
+
+
 const Projects: FC<AppProps> = ({ user }) => {
   return (
     <>
@@ -25,7 +27,7 @@ const Projects: FC<AppProps> = ({ user }) => {
             <ProjectsNav />
           </div>
 
-       
+
         </>
       )}
     </> 
