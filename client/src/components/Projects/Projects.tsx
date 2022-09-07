@@ -1,10 +1,9 @@
+import ProjectsNav from "./ProjectPageLower/ProjectsNav";
 import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { AppProps } from "../../App";
-
 import ProjectSummary from "./ProjectSummary";
 import ProjectAttachments from "./ProjectAttachments";
-
 import "./style/projects.scss";
 
 const Projects: FC<AppProps> = ({ user }) => {
@@ -18,10 +17,12 @@ const Projects: FC<AppProps> = ({ user }) => {
             <ProjectSummary />
             <ProjectAttachments />
           </div>
+          <div>
+            <ProjectsNav />
+          </div>
         </>
       )}
     </>
   );
 };
-
 export default Projects;
