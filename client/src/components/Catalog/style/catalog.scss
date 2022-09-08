@@ -22,34 +22,10 @@ body {
     flex: 3;
     display: flex;
     flex-direction: column;
-
-    .catalog-design-styles {
-      padding: 50px;
-      flex: 1;
-      color: $primary-bg-dark-text;
-    }
     .catalog-use-packages {
-      padding: 50px;
+      padding: 0 50px;
       flex: 3;
       color: $primary-bg-dark-text;
     }
-  }
-}
-
-.catalog-design-styles-buttons {
-  display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
-  grid-row-gap: 15px;
-  text-align: center;
-  margin-top: 4%;
-  .design-style-button {
-    width: 50%;
-    padding: 20px 50px;
-    background-color: transparent;
-    border-radius: 50px;
-    border: 1px solid $accent-gold;
-    color: $primary-bg-dark-text;
-    font-size: 16px;
-    font-weight: 100;
   }
 }

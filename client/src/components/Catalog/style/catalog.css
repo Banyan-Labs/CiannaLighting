@@ -24,31 +24,8 @@ body {
   display: flex;
   flex-direction: column;
 }
-.catalog-container .catalog-main-container .catalog-design-styles {
-  padding: 50px;
-  flex: 1;
-  color: #cbcbcb;
-}
 .catalog-container .catalog-main-container .catalog-use-packages {
-  padding: 50px;
+  padding: 0 50px;
   flex: 3;
   color: #cbcbcb;
-}
-
-.catalog-design-styles-buttons {
-  display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
-  grid-row-gap: 15px;
-  text-align: center;
-  margin-top: 4%;
-}
-.catalog-design-styles-buttons .design-style-button {
-  width: 50%;
-  padding: 20px 50px;
-  background-color: transparent;
-  border-radius: 50px;
-  border: 1px solid #c6ad7c;
-  color: #cbcbcb;
-  font-size: 16px;
-  font-weight: 100;
 }/*# sourceMappingURL=catalog.css.map */

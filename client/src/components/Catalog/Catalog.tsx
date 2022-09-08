@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { AppProps } from "../../App";
+import DesignStyles from "./DesignStyles/DesignStyles";
 
 import "./style/catalog.scss";
 
@@ -34,13 +35,15 @@ const Catalog: FC<AppProps> = ({ user }) => {
           <div className="catalog-container">
             <div className="catalog-side-container">Catalog Filter</div>
             <div className="catalog-main-container">
-              <div className="catalog-design-styles">
-                Design Styles
+              <DesignStyles />
+
+              <div className="catalog-use-packages">
+                Use Packages
                 <div className="catalog-design-styles-buttons">
-                  {designStyles}
+                  {/* {designStyles} */}
                 </div>
+                <div className="catalog-design-styles-divider" />
               </div>
-              <div className="catalog-use-packages">Use Packages</div>
             </div>
           </div>
         </>
