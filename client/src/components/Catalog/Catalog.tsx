@@ -5,21 +5,47 @@ import DesignStyles from "./DesignStyles/DesignStyles";
 
 import "./style/catalog.scss";
 
-const designStylesData = [
-  "Art Deco",
-  "Colonial",
-  "Asian",
-  "Contemporary",
-  "Transitional",
-  "Traditional",
-  // "Traditional",
+const usePackagesData = [
+  {
+    name: "Bride's Room",
+    img: "./",
+  },
+  {
+    name: "Celestial Room",
+    img: "./",
+  },
+  {
+    name: "Baptistry",
+    img: "./",
+  },
+  {
+    name: "Hallway",
+    img: "./",
+  },
+  {
+    name: "Reception",
+    img: "./",
+  },
+  {
+    name: "Stairway",
+    img: "./",
+  },
+  {
+    name: "Testing",
+    img: "./",
+  },
+  {
+    name: "Testing",
+    img: "./",
+  },
 ];
 
-const designStyles = designStylesData.map((style) => {
+const usePackages = usePackagesData.map((usePackage) => {
   return (
     <>
-      <div className="design-style-buttons-container">
-        <button className="design-style-button">{style}</button>
+      <div className="use-package-container">
+        <div className="use-package-image" />
+        {usePackage.name}
       </div>
     </>
   );
@@ -33,16 +59,14 @@ const Catalog: FC<AppProps> = ({ user }) => {
       ) : (
         <>
           <div className="catalog-container">
-            <div className="catalog-side-container">Catalog Filter</div>
             <div className="catalog-main-container">
               <DesignStyles />
 
               <div className="catalog-use-packages">
                 Use Packages
-                <div className="catalog-design-styles-buttons">
-                  {/* {designStyles} */}
+                <div className="catalog-use-packages-buttons">
+                  {usePackages}
                 </div>
-                <div className="catalog-design-styles-divider" />
               </div>
             </div>
           </div>
