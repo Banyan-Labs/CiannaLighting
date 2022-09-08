@@ -3,7 +3,7 @@ import * as data from "./links.json";
 import "./style/Navbar.scss";
 import logo from "../../assets/ciana-lighting-logo.png";
 import { FaRegBell, FaChevronDown } from "react-icons/fa";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppProps } from "../../App";
 import axios from "../../api/axios";
 

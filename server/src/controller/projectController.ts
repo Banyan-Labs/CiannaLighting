@@ -3,14 +3,21 @@ import mongoose from "mongoose";
 import Project from "../model/Project";
 
 const createProject = (req: Request, res: Response) => {
-  let { name, description, clientId } = req.body;
+  let { name, description, clientId, clientName, region, status } = req.body;
 
   const project = new Project({
     _id: new mongoose.Types.ObjectId(),
     name,
     clientId,
+    clientName,
+    region,
+    status,
     description,
-  });
+    rfp: {},
+    rooms: [],
+
+  }
+  );
 
   return project
     .save()

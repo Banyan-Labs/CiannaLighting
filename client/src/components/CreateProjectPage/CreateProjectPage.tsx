@@ -6,7 +6,11 @@ import axios from "../../api/axios";
 type ProjectType = {
   name: string;
   description: string;
-  clientId: string
+  region: string;
+  status: string;
+  clientId: string;
+  clientName: string;
+  rooms: string[];
 };
 
 type CreateProjectPageType = {
@@ -17,7 +21,11 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
   const [projectDetails, setProjectDetails] = useState<ProjectType>({
     name: "",
     description: "",
-    clientId: user.id
+    region:"",
+    status:"",
+    clientId: user.id,
+    clientName: user.name,
+    rooms: []
   });
 
   const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -33,15 +41,25 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
     try{
      const response = await axios.post("/projects/create-project/", projectDetails);
      setProjectDetails({
-      name:"",
-      description:"",
-      clientId: user.id
+      name: "",
+      description: "",
+      region:"",
+      status:"",
+      clientId: user.id,
+      clientName: user.name,
+      rooms: []
      })
      console.log(response.data, "response")
     }catch(err){
       console.log("Error: " + err)
     }
   };
+  // name,
+  //   clientId,
+  //   clientName,
+  //   region,
+  //   status,
+  //   description,
 
   console.log(projectDetails, user, 'user & project');
   return (
@@ -65,6 +83,26 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
           placeholder="Description"
           name="description"
           value={projectDetails.description}
+          onChange={(e) => handleFormInput(e)}
+          required
+        />
+        <label htmlFor="region">Region</label>
+        <input
+          className="project-region-input"
+          id="region"
+          placeholder="Region"
+          name="region"
+          value={projectDetails.region}
+          onChange={(e) => handleFormInput(e)}
+          required
+        />
+        <label htmlFor="description">Status</label>
+        <input
+          className="project-status-input"
+          id="status"
+          placeholder="Status"
+          name="status"
+          value={projectDetails.status}
           onChange={(e) => handleFormInput(e)}
           required
         />
