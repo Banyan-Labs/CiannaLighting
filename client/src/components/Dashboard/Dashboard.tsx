@@ -3,7 +3,7 @@ import "./style/dashboard.scss";
 
 import { AppProps } from "../../App";
 import { Navigate } from "react-router-dom";
-console.log('test')
+console.log("test");
 const Dashboard: FC<AppProps> = ({ user, setUser }) => {
   return (
     <>
@@ -11,9 +11,7 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
         <Navigate to="/login" />
       ) : (
         <>
-          
-          This is the dashboard.
-          
+          <div style={{ paddingTop: "100px" }}>This is the dashboard.</div>
         </>
       )}
     </>
