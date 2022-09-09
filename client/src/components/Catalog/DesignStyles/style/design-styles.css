@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+.catalog-design-styles {
+  flex: 1;
+  color: #cbcbcb;
+}
+.catalog-design-styles span {
+  position: relative;
+  top: 25px;
+  left: 50px;
+}
+
+.catalog-design-styles-buttons {
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-row-gap: 15px;
+  text-align: center;
+  margin-top: 4%;
+  margin-bottom: 5%;
+}
+.catalog-design-styles-buttons .design-style-button {
+  width: 220px;
+  padding: 20px 0;
+  background-color: transparent;
+  border-radius: 50px;
+  border: 1px solid #c6ad7c;
+  color: #cbcbcb;
+  font-size: 16px;
+  font-weight: 100;
+}
+.catalog-design-styles-buttons .design-style-button:hover {
+  cursor: pointer;
+  background-color: #c6ad7c;
+  font-weight: bold;
+}
+
+.catalog-design-styles-divider {
+  height: 0.5px;
+  width: 100%;
+  background-color: #3c3c3c;
+}/*# sourceMappingURL=design-styles.css.map */

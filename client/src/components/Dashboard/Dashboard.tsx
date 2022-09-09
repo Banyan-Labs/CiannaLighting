@@ -13,7 +13,11 @@ const Dashboard: FC = () => {
 
   return (
     <>
-      {user.isAuth === true ? <>This is the dashboard.</> : navigate('/login')}
+      {user.isAuth === true ? (
+        <div style={{ paddingTop: '110px' }}>This is the dashboard.</div>
+      ) : (
+        navigate('/login')
+      )}
     </>
   );
 };
