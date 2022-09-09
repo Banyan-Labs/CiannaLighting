@@ -8,35 +8,35 @@ import "./style/catalog.scss";
 const usePackagesData = [
   {
     name: "Bride's Room",
-    img: "./",
+    img: "/pexels-kseniia-lopyreva-4959835.jpg",
   },
   {
     name: "Celestial Room",
-    img: "./",
+    img: "/celestial-room.jpeg",
   },
   {
     name: "Baptistry",
-    img: "./",
+    img: "/baptistry.jpeg",
   },
   {
     name: "Hallway",
-    img: "./",
+    img: "/hallway.jpeg",
   },
   {
     name: "Reception",
-    img: "./",
+    img: "/reception.jpeg",
   },
   {
     name: "Stairway",
-    img: "./",
+    img: "/stairway.jpeg",
   },
   {
     name: "Testing",
-    img: "./",
+    img: "",
   },
   {
     name: "Testing",
-    img: "./",
+    img: "",
   },
 ];
 
@@ -44,7 +44,15 @@ const usePackages = usePackagesData.map((usePackage) => {
   return (
     <>
       <div className="use-package-container">
-        <div className="use-package-image" />
+        <div
+          className="use-package-image"
+          style={{
+            backgroundImage: `url(/images${usePackage.img})`,
+            backgroundPosition: "top",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
         {usePackage.name}
       </div>
     </>

@@ -32,7 +32,7 @@ body {
 .use-package-image {
   height: 200px;
   width: 220px;
-  background-color: #fff;
+  border: 0.25px solid #3c3c3c;
   margin: 50px 0 10px 0;
 }
 
