@@ -1,16 +1,14 @@
-import React, { FC } from "react";
-import { Navigate } from "react-router-dom";
-import { AppProps } from "../../App";
+import React, { FC } from 'react';
+import { Navigate } from 'react-router-dom';
+import { AppProps } from '../../App';
 
-
-import "./style/catalog.scss";
+import './style/catalog.scss';
 
 const Catalog: FC<AppProps> = ({ user }) => {
-  
   return (
     <>
       {Object.keys(user).length === 0 ? (
-        <Navigate to="/login"/>
+        <Navigate to='/login' />
       ) : (
         <>This is catalog page.</>
       )}
