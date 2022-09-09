@@ -13,7 +13,10 @@ export default interface lightSelectionInterface extends Document {
   socketType: string;
   mounting: string;
   crystalType: string;
-  designStyle: string;
+  crystalPinType: string;
+  crystalPinColor: string;
   usePackages: string;
+  roomId: string;
+  projectId: string;
   quantity: number;
 }

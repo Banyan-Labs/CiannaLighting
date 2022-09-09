@@ -15,10 +15,8 @@ const createProject = (req: Request, res: Response) => {
     description,
     rfp: {},
     rooms: [],
-
   }
   );
-
   return project
     .save()
     .then((project) => {

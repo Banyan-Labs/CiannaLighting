@@ -65,19 +65,41 @@ const getAllRooms = (req: Request, res: Response) => {
     });
 };
 
-const deleteRoom = (req: Request, res: Response) => {
-  Room.findByIdAndDelete(req.params.id)
+const deleteRoom =async(req: Request, res: Response) => {
+  return await Project.findByIdAndUpdate({_id: req.body.projectId})
+  .exec()
+  .then(async(project)=>{
+    
+    if(project){
+      project.rooms = project.rooms.filter((id: string)=>{ 
+        return String(id) !== req.body._id ? id : ""
+      })
+      project.save();}
+      let roomRemoved = "room removed successfully from project";
+      console.log(roomRemoved)
+    return  await Room.findByIdAndDelete({_id:req.body._id})
     .then((room) => {
-      !room
-        ? res.status(200).json(room)
+      console.log(room, req.body._id, "room within delete response")
+      return !room
+        ? res.status(200).json({
+          room,
+        
+        })
         : res.status(404).json({
-            message: "The Project you are looking for no longer exists",
+            message: "The Room you are looking for no longer exists",
+            roomRemoved
           });
     })
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
     });
+    // }else{
+      console.log("failed to delete room from project")
+      return "failed to delete room from project"
+    // }
+  })
+  
 };
 
 export default { createRoom, deleteRoom, getAllRooms };
