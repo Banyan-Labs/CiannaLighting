@@ -1,9 +1,13 @@
 @import "../../../../variables/variables.scss";
 
 .catalog-design-styles {
-  padding: 50px;
   flex: 1;
   color: $primary-bg-dark-text;
+  span {
+    position: relative;
+    top: 25px;
+    left: 50px;
+  }
 }
 .catalog-design-styles-buttons {
   display: grid;

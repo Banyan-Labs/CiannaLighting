@@ -25,7 +25,7 @@ const DesignStyles: FC = ({}) => {
   return (
     <>
       <div className="catalog-design-styles">
-        Design Styles
+        <span>Design Styles</span>
         <div className="catalog-design-styles-buttons">{designStyles}</div>
         <div className="catalog-design-styles-divider" />
       </div>

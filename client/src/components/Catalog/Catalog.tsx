@@ -63,7 +63,7 @@ const Catalog: FC<AppProps> = ({ user }) => {
               <DesignStyles />
 
               <div className="catalog-use-packages">
-                Use Packages
+                <span>Use Packages</span>
                 <div className="catalog-use-packages-buttons">
                   {usePackages}
                 </div>

@@ -24,6 +24,10 @@ body {
   flex: 3;
   color: #cbcbcb;
 }
+.catalog-container .catalog-main-container .catalog-use-packages span {
+  position: relative;
+  top: 25px;
+}
 
 .use-package-image {
   height: 200px;
@@ -49,8 +53,9 @@ body {
   padding-bottom: 25px;
 }
 
-.catalog-use-packages-buttons:hover {
+.use-package-container:hover {
   cursor: pointer;
+  opacity: 0.8;
 }
 
 ::-webkit-scrollbar {

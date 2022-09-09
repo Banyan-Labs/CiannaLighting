@@ -21,6 +21,10 @@ body {
       padding: 0 50px;
       flex: 3;
       color: $primary-bg-dark-text;
+      span {
+        position: relative;
+        top: 25px;
+      }
     }
   }
 }
@@ -49,8 +53,9 @@ body {
   padding-bottom: 25px;
 }
 
-.catalog-use-packages-buttons:hover {
+.use-package-container:hover {
   cursor: pointer;
+  opacity: 0.8;
 }
 
 ::-webkit-scrollbar {
