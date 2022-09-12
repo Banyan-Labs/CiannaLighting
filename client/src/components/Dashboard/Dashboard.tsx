@@ -68,7 +68,8 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
     navigate(to);
   }, [user.name, navigate]);
 
-  const singleProject = testProjectData.map((project) => {
+  const singleProject = testProjectData.map((project: any) => {
+    project["key"] = project.name;
     return (
       <div
         className="single-project"
@@ -129,17 +130,21 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
               View All <FaAngleRight id="view-all-angle-right" />
             </a>
           </div>
-          {/* <div className="lower-section-links">
+          <div className="lower-section-links">
             <a href="/all-projects" id="all-projects">
               All Projects
             </a>
             <a href="/archived" id="archived">
               Archived
             </a>
-          </div> */}
+          </div>
           <div className="lower-section-table">No data to display.</div>
           {openModal && (
-            <Modal openModal={openModal} closeModal={setOpenModal} />
+            <Modal
+              openModal={openModal}
+              closeModal={setOpenModal}
+              user={user}
+            />
           )}
         </>
       )}
