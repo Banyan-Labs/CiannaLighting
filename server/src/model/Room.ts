@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import lightSelectionInterface from "../interfaces/lightSelectionInterface";
 import roomInterface from "../interfaces/roomInterface";
 
 const roomSchema: Schema = new Schema(
@@ -9,7 +8,7 @@ const roomSchema: Schema = new Schema(
     projectId: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
-    lights: {type: Array<lightSelectionInterface>}
+    lights: {type: Array<string>}
   },
   {
     timestamps: true,
@@ -22,3 +21,8 @@ export default mongoose.model<roomInterface>("Room", roomSchema);
 //     lights: {type: Array}
 // }
 // include all id and name, specs for light 
+
+// Na
+// sa 
+// Africa
+// Asia
