@@ -9,8 +9,7 @@ export default interface projectInterface extends Document {
   region: string;
   status: string;
   description: string;
-  rfp: rfpDocInterface;
   rooms: string[];
 }
-
-// In project I think include designer, region, status, and rfp. And under rfp reference the rfpInterface[].
+// rfp: rfpDocInterface;
+// create and include rfp doc

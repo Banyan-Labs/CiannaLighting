@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LightSelection"
 import Room from "../model/Room";
-import Project from "../model/Project";
+
 
 const lightSelected = async(req: Request, res: Response, next: NextFunction) => {
     let { item_ID,
@@ -13,15 +13,16 @@ const lightSelected = async(req: Request, res: Response, next: NextFunction) => 
         acrylicOptions,
         environment,
         safetyCert,
-        projecVoltage,
+        projectVoltage,
         socketType,
         mounting,
         crystalType,
         crystalPinType,
         crystalPinColor,
-        usePackages,
+        roomName,
         roomId,
         projectId,
+        clientId,
         quantity } = req.body;
 
 const light = new LightSelection({
@@ -34,15 +35,16 @@ const light = new LightSelection({
       acrylicOptions,
       environment,
       safetyCert,
-      projecVoltage,
+      projectVoltage,
       socketType,
       mounting,
       crystalType,
       crystalPinType,
       crystalPinColor,
-      usePackages,
+      roomName,
       roomId,
       projectId,
+      clientId,
       quantity
       
   });
@@ -55,11 +57,11 @@ const light = new LightSelection({
         room.lights = [...room.lights, light._id]
         room.save()
         let roomSuccess = `added light to room: ${roomId}`
-        return room
+        return light
         .save()
-        .then((room) => {
+        .then((light) => {
           return res.status(201).json({
-            room,
+            light,
             message: roomSuccess
           });
         })
@@ -98,41 +100,43 @@ const getAllSelectedLights = (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async(req: Request, res: Response) => {
-  return await Room.findByIdAndUpdate({_id: req.body.projectId})
+  return await Room.findByIdAndUpdate({_id: req.body.roomId})
   .exec()
   .then(async(room)=>{
-    
+    console.log(room, "room in light deletion")
     if(room){
       room.lights = room.lights.filter((id: string)=>{ 
         return String(id) !== req.body._id ? id : ""
       })
       room.save();
-      await Project.findByIdAndUpdate({_id: req.body.projectId})
     
-    }
-      let roomRemoved = "room removed successfully from project";
-      console.log(roomRemoved)
+    
+      let lightRemoved = "light removed successfully from room";
+      console.log(lightRemoved)
     return  await LightSelection.findByIdAndDelete({_id:req.body._id})
-    .then((room) => {
-      console.log(room, req.body._id, "room within delete response")
-      return !room
+    .then((lightSelection) => {
+      console.log(room, req.body._id, "lightSelection within delete response")
+      return !lightSelection
         ? res.status(200).json({
-          room,
+          lightSelection,
         
         })
         : res.status(404).json({
-            message: "The Room you are looking for no longer exists",
-            roomRemoved
+            message: "The LightSelection you are looking for no longer exists",
+            lightRemoved
           });
     })
     .catch((error) => {
       console.log(error);
       res.status(500).json(error);
     });
-    // }else{
-      console.log("failed to delete room from project")
-      return "failed to delete room from project"
-    // }
+  }else{
+    console.log("failed to delete light from room")
+    return "failed to delete light from room"
+  }
+    
   })
   
 };
+
+export default {lightSelected, getAllSelectedLights, deleteSelectedLight};

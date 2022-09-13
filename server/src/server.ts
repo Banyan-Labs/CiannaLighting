@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 import roomRoutes from './routes/roomRoutes'
+import lightSelectionRoutes from "./routes/lightSelectionRoutes"
 
 const router = express()
 
@@ -46,7 +47,9 @@ router.use((req, res, next)=>{
 router.use('/api/users', userRoutes);
 router.use('/api/user', userRoutes);
 router.use("/api/projects", projectRoutes);
-router.use("/api/rooms", roomRoutes)
+router.use("/api/rooms", roomRoutes);
+router.use("/api/lightSelector", lightSelectionRoutes);
+
 // router.use('/api')
 /**Errors */
 router.use((req,res,next)=>{

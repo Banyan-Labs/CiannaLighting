@@ -9,14 +9,15 @@ export default interface lightSelectionInterface extends Document {
   acrylicOptions: string;
   environment: string;
   safetyCert: string;
-  projecVoltage: string;
+  projectVoltage: string;
   socketType: string;
   mounting: string;
   crystalType: string;
   crystalPinType: string;
   crystalPinColor: string;
-  usePackages: string;
+  roomName: string;
   roomId: string;
   projectId: string;
+  clientId:string;
   quantity: number;
 }

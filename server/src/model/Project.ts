@@ -12,7 +12,7 @@ const projectSchema: Schema = new Schema(
     region: {type: String, required: true},
     status: {type: String, required: true},
     description: { type: String, required: true },
-    rfp: {type: Object},
+    // rfp: {type: Object},
     rooms: { type: Array<string>},
   },
   {

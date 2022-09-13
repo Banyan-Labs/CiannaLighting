@@ -6,7 +6,6 @@ const lightSelectionSchema = new Schema({
   clientId: { type: String, required: true },
   roomId: { type: String, required: true },
   projectId: { type: String, required: true },
-  description: { type: String, required: true },
   item_ID: { type: String, required: true },
   exteriorFinish: { type: String, required: true },
   interiorFinish: { type: String, required: true },
@@ -15,13 +14,13 @@ const lightSelectionSchema = new Schema({
   acrylicOptions: { type: String, required: true },
   environment: { type: String, required: true },
   safetyCert: { type: String, required: true },
-  projecVoltage: { type: String, required: true },
+  projectVoltage: { type: String, required: true },
   socketType: { type: String, required: true },
   mounting: { type: String, required: true },
   crystalType: { type: String, required: true },
   crystalPinType: { type: String, required: true },
   crystalPinColor: { type: String, required: true },
-  usePackages: { type: String, required: true },
+  roomName: { type: String, required: true },
   quantity: { type: Number, required: true },
 });
 

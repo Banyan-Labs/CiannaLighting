@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { nextTick } from "process";
 import Project from "../model/Project";
 import Room from "../model/Room";
+import LightSelection from "../model/LightSelection";
 
 const createRoom = async(req: Request, res: Response, next: NextFunction) => {
     let { name, description, clientId, projectId } = req.body;
@@ -69,6 +70,7 @@ const deleteRoom =async(req: Request, res: Response) => {
   return await Project.findByIdAndUpdate({_id: req.body.projectId})
   .exec()
   .then(async(project)=>{
+    console.log(project, req.body.projectId, "proj in room")
     
     if(project){
       project.rooms = project.rooms.filter((id: string)=>{ 
@@ -77,6 +79,16 @@ const deleteRoom =async(req: Request, res: Response) => {
       project.save();}
       let roomRemoved = "room removed successfully from project";
       console.log(roomRemoved)
+      await LightSelection.deleteMany({roomId: req.body._id})
+        .exec()
+        .then((res)=>{
+          console.log(res, "lights all deleted")
+          return res.deletedCount  
+        })
+        .catch((err)=>{
+          console.log(err)
+          return err.message
+        })
     return  await Room.findByIdAndDelete({_id:req.body._id})
     .then((room) => {
       console.log(room, req.body._id, "room within delete response")
@@ -94,7 +106,7 @@ const deleteRoom =async(req: Request, res: Response) => {
       console.log(error);
       res.status(500).json(error);
     });
-    // }else{
+  // }else{
       console.log("failed to delete room from project")
       return "failed to delete room from project"
     // }
