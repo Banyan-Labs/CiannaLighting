@@ -33,6 +33,19 @@ const createProject = (req: Request, res: Response) => {
       });
     });
 };
+const getProject = async(req: Request, res: Response)=>{
+  return await Project.findOne({_id: req.body._id})
+      .exec()
+      .then((project)=>{
+        console.log(`project:${project?.name} `)
+        return res.status(200).json({
+          project
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+}
 
 const getAllProjects = (req: Request, res: Response) => {
   Project.find()
@@ -89,4 +102,4 @@ const deleteProject = async (req: Request, res: Response) => {
     });
 };
 
-export default { createProject, deleteProject, getAllProjects };
+export default { createProject, deleteProject, getAllProjects, getProject };

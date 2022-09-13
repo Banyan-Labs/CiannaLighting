@@ -16,12 +16,7 @@ const roomSchema: Schema = new Schema(
 );
 
 export default mongoose.model<roomInterface>("Room", roomSchema);
-// {
-//     ...details,
-//     lights: {type: Array}
-// }
-// include all id and name, specs for light 
-
+//regions
 // Na
 // sa 
 // Africa
