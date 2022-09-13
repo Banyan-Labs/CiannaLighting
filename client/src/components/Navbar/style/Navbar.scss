@@ -1,6 +1,7 @@
 @import "../../../variables/variables.scss";
 
 .navbar-container {
+  position: absolute;
   width: 100%;
   height: 100px;
   background-color: $primary-bg-dark;

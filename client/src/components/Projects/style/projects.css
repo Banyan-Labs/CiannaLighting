@@ -4,6 +4,7 @@
 }
 
 .project-summary-container {
+<<<<<<< HEAD
   background-color: #101010;
   color: white;
   width: 45%;
@@ -16,6 +17,19 @@
   display: inline-flex;
   font-size: 9px;
   color: #808080;
+=======
+  margin-top: 100px;
+  background-color: #101010;
+  color: white;
+  width: 45%;
+  height: 275px;
+}
+
+.back-to-projects {
+  margin-left: 5px;
+  display: inline-flex;
+  font-size: 9px;
+>>>>>>> main
 }
 
 .back-to-projects:hover {
@@ -24,11 +38,17 @@
 
 .chevron-icon {
   margin-top: 10px;
+<<<<<<< HEAD
   margin-right: 10px;
 }
 
 .project-summary-top-bar {
   margin-top: 10px;
+=======
+}
+
+.project-summary-top-bar {
+>>>>>>> main
   margin-right: 20px;
   display: flex;
   width: 550px;
@@ -47,13 +67,20 @@
 .circle-icon {
   margin-left: 15px;
   font-size: 10px;
+<<<<<<< HEAD
   color: #ac92eb;
+=======
+  color: red;
+>>>>>>> main
 }
 
 .project-summary-date {
   font-size: 10px;
   margin-top: -20px;
+<<<<<<< HEAD
   color: #808080;
+=======
+>>>>>>> main
 }
 
 .project-summary-icons {
@@ -64,8 +91,13 @@
 
 .archive-icon {
   margin-left: 15px;
+<<<<<<< HEAD
   font-size: 1.2em;
   color: #acacac;
+=======
+  font-weight: 800;
+  font-size: 1.2em;
+>>>>>>> main
 }
 
 .archive-icon:hover {
@@ -75,7 +107,10 @@
 .clone-icon {
   margin-left: 15px;
   font-size: 1.2em;
+<<<<<<< HEAD
   color: #acacac;
+=======
+>>>>>>> main
 }
 
 .clone-icon:hover {
@@ -85,7 +120,10 @@
 .edit-icon {
   margin-left: 0px;
   font-size: 1.2em;
+<<<<<<< HEAD
   color: #acacac;
+=======
+>>>>>>> main
 }
 
 .edit-icon:hover {
@@ -94,15 +132,24 @@
 
 .status {
   font-size: 12px;
+<<<<<<< HEAD
   margin-top: 18px;
 }
 
 .project-summary-text-container {
   margin-left: 40px;
+=======
+  margin-top: 15px;
+}
+
+.project-summary-text-container {
+  margin-left: 10px;
+>>>>>>> main
   font-size: 12px;
 }
 
 .project-summary-description-text {
+<<<<<<< HEAD
   margin-left: 80px;
   margin-right: 20px;
   font-weight: 100;
@@ -112,6 +159,19 @@
   background-color: #101010;
   width: 55%;
   color: white;
+=======
+  margin-left: 30px;
+  margin-right: 20px;
+  text-align: justify;
+}
+
+.project-attachments-container {
+  margin-top: 100px;
+  background-color: #101010;
+  width: 55%;
+  color: white;
+  border-left: 0.5px solid rgb(61, 61, 61);
+>>>>>>> main
 }
 
 .project-attachments-top-bar {

@@ -1,5 +1,7 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { AppProps } from "../../App";
+import { useAppSelector } from "../../app/hooks";
+import "./style/dashboard.scss";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import {
@@ -11,7 +13,13 @@ import {
 } from "react-icons/fa";
 
 import "./style/dashboard.scss";
-const Dashboard: FC<AppProps> = ({ user, setUser }) => {
+const Dashboard: FC = () => {
+  const { user } = useAppSelector(({ auth: user }) => user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    !user && navigate("/login" + user.name);
+  }, [user]);
   const testProjectData = [
     {
       name: "Salt Lake Temple",
@@ -62,7 +70,6 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
   ];
 
   const [openModal, setOpenModal] = useState(false);
-  const navigate = useNavigate();
   const projectRoute = useCallback(() => {
     const to = `/projects/${user.name}`;
     navigate(to);
@@ -92,10 +99,11 @@ const Dashboard: FC<AppProps> = ({ user, setUser }) => {
       </div>
     );
   });
+
   return (
     <>
-      {Object.keys(user).length === 0 ? (
-        <Navigate to="/login" />
+      {user.isAuth === true ? (
+        <div style={{ paddingTop: "110px" }}>This is the dashboard.</div>
       ) : (
         <>
           <div className="dashboard-container">

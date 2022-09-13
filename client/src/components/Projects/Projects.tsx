@@ -5,6 +5,7 @@ import { AppProps } from "../../App";
 import ProjectSummary from "./ProjectSummary";
 import ProjectAttachments from "./ProjectAttachments";
 import "./style/projects.scss";
+import RoomDetails from "../Rooms/RoomDetails";
 
 const Projects: FC<AppProps> = ({ user }) => {
   return (
@@ -15,6 +16,7 @@ const Projects: FC<AppProps> = ({ user }) => {
         <>
           <div className="projects-top-half">
             <ProjectSummary />
+            {/* <RoomDetails /> */}
             <ProjectAttachments />
           </div>
           <div>
