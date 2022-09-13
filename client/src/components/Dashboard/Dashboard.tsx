@@ -12,12 +12,6 @@ const Dashboard: FC = () => {
     !user && navigate("/login" + user.name);
   }, [user]);
 
-  const [openModal, setOpenModal] = useState(false);
-  const projectRoute = useCallback(() => {
-    const to = `/projects/${user.name}`;
-    navigate(to);
-  }, [user.name, navigate]);
-
   return (
     <>
       {user.isAuth === true ? (

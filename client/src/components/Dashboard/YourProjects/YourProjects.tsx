@@ -26,6 +26,7 @@ const YourProjects: FC = () => {
     const to = `/projects/${user.name}`;
     navigate(to);
   }, [user.name, navigate]);
+
   const testProjectData = JSON.parse(JSON.stringify(data)).data;
   const singleProject = testProjectData.map((project: any) => {
     project["key"] = project.name;
