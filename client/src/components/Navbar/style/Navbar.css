@@ -73,4 +73,10 @@
   height: 35px;
   width: 1px;
   background-color: #3c3c3c;
+}
+
+.active {
+  font-weight: 400;
+  padding-bottom: 40px;
+  border-bottom: solid 1px #c6ad7c;
 }/*# sourceMappingURL=Navbar.css.map */
