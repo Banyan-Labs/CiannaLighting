@@ -19,9 +19,9 @@ const ProjectAttachments: FC = ({}) => {
       fileSize: "456MB",
     },
   ];
-  const userAttachments = testAttachmentData.map((file) => {
+  const userAttachments = testAttachmentData.map((file, index) => {
     return (
-      <tbody>
+      <tbody key={index}>
         <tr className="attachments-dynamic-row">
           <td className="file-file-name">{file.fileName}</td>
           <td className="file-file-size">{file.fileSize}</td>

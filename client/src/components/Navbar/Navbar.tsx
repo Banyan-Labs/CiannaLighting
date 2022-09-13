@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as data from "./links.json";
 import "./style/Navbar.scss";
 import logo from "../../assets/ciana-lighting-logo.png";
@@ -17,12 +17,22 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const activeLocation = pathname.split("/")[1];
   return (
     <div className="navbar-links-container">
       {links.map((link: Link) => {
         return (
           <div key={link.href}>
-            <Link to={link.href + user.name} className="navbar-links">
+            <Link
+              to={link.href + user.name}
+              className={
+                activeLocation === link.label.toLowerCase()
+                  ? "active navbar-links"
+                  : "navbar-links"
+              }
+            >
               {link.label}
             </Link>
           </div>
@@ -71,7 +81,9 @@ const Navbar: FC<AppProps> = ({ user }) => {
         </div>
 
         <div className="navbar-vertical-divider" />
-        <Links user={user} links={links} />
+        <ul>
+          <Links user={user} links={links} />
+        </ul>
         <User user={user} />
         {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
         <button onClick={(e) => handleLogout(e)}>logout</button>

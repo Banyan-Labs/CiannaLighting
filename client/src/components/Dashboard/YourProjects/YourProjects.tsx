@@ -28,13 +28,13 @@ const YourProjects: FC = () => {
   }, [user.name, navigate]);
 
   const testProjectData = JSON.parse(JSON.stringify(data)).data;
-  const singleProject = testProjectData.map((project: any) => {
-    project["key"] = project.name;
+  const singleProject = testProjectData.map((project: any, index: any) => {
     return (
       <div
         className="single-project"
         style={{ backgroundColor: project.color }}
         onClick={projectRoute}
+        key={index}
       >
         <span>
           Created: <strong>{project.date_created}</strong>
@@ -44,7 +44,7 @@ const YourProjects: FC = () => {
         </span>
         <div className="card-divider" />
         <h3>{project.name}</h3>
-        <div className="view-details-block">
+        <div className="view-details-block" key={index}>
           <span>
             View Details <FaChevronRight className="view-details-chevron" />
           </span>
