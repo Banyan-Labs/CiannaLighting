@@ -22,11 +22,3 @@ const projectSchema: Schema = new Schema(
 
 export default mongoose.model<projectInterface>("Project", projectSchema);
 
-// name: string;
-// clientId: string;
-// clientName: string;
-// region: string;
-// status: string;
-// description: string;
-// rfp: rfpDocInterface;
-// rooms: string[];

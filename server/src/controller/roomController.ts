@@ -66,6 +66,20 @@ const getAllRooms = (req: Request, res: Response) => {
     });
 };
 
+const getRoom = async(req: Request, res: Response)=>{
+  return await Room.findOne({_id: req.body._id})
+      .exec()
+      .then((room)=>{
+        console.log(`room:${room?.name} `)
+        return res.status(200).json({
+          room
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+}
+
 const deleteRoom =async(req: Request, res: Response) => {
   return await Project.findByIdAndUpdate({_id: req.body.projectId})
   .exec()
@@ -114,4 +128,4 @@ const deleteRoom =async(req: Request, res: Response) => {
   
 };
 
-export default { createRoom, deleteRoom, getAllRooms };
+export default { createRoom, deleteRoom, getAllRooms, getRoom };

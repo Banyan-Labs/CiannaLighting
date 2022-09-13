@@ -98,6 +98,19 @@ const getAllSelectedLights = (req: Request, res: Response) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
+const getSelectedLight = async(req: Request, res: Response)=>{
+  return await LightSelection.findOne({_id: req.body._id})
+      .exec()
+      .then((light)=>{
+        console.log(`light_selected:${light?.item_ID} `)
+        return res.status(200).json({
+          light
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+}
 
 const deleteSelectedLight = async(req: Request, res: Response) => {
   return await Room.findByIdAndUpdate({_id: req.body.roomId})
@@ -139,4 +152,4 @@ const deleteSelectedLight = async(req: Request, res: Response) => {
   
 };
 
-export default {lightSelected, getAllSelectedLights, deleteSelectedLight};
+export default {lightSelected, getAllSelectedLights, deleteSelectedLight, getSelectedLight};
