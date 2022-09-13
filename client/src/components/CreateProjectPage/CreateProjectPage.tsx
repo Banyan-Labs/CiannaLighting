@@ -1,10 +1,12 @@
 import { FC, FormEvent, useState } from "react";
+import axios from "../../api/axios";
 
 // import "./style/projectForm.css";
 
 type ProjectType = {
   name: string;
   description: string;
+  clientId: string;
 };
 
 type CreateProjectPageType = {
@@ -15,6 +17,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
   const [projectDetails, setProjectDetails] = useState<ProjectType>({
     name: "",
     description: "",
+    clientId: user.id,
   });
 
   const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -24,14 +27,31 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
     });
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
     console.log("submitted");
+    try {
+      const response = await axios.post(
+        "/projects/create-project/",
+        projectDetails
+      );
+      setProjectDetails({
+        name: "",
+        description: "",
+        clientId: user.id,
+      });
+      console.log(response.data, "response");
+    } catch (err) {
+      console.log("Error: " + err);
+    }
   };
 
-  console.log(projectDetails);
+  console.log(projectDetails, user, "user & project");
   return (
-    <div className="project-create-form-wrapper">
+    <div
+      className="project-create-form-wrapper"
+      style={{ paddingTop: "100px" }}
+    >
       <form onSubmit={onSubmit} className="create-project-form">
         <label htmlFor="name">Name</label>
         <input
@@ -54,6 +74,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
           onChange={(e) => handleFormInput(e)}
           required
         />
+        <button onClick={(e) => onSubmit(e)}>submit</button>
       </form>
     </div>
   );

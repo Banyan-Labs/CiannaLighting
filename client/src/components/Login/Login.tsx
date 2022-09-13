@@ -1,77 +1,91 @@
-import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import logo from "../../assets/ciana-lighting-logo.png";
-import "./style/login.scss";
-import { AppProps } from "../../App";
-import axios from "../../api/axios";
+import { FC, useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/ciana-lighting-logo.png';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { signInAction } from '../../redux/actions/authActions';
+import './style/login.scss';
+import { AppProps } from '../../App';
+import { useEffect } from 'react';
 
-const Login: FC<AppProps> = ({ user, setUser }) => {
-  const [emailField, setEmailField] = useState("");
-  const [passwordField, setPasswordField] = useState("");
+const Login: FC<AppProps> = () => {
+  const { user, error } = useAppSelector(({ auth }) => auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function setInputs(email: string, password: string): void {
-    if (email.length) {
-      setEmailField(email);
-    } else {
-      setPasswordField(password);
-    }
-  }
+  const [userFields, setUserFields] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleFormInput = (e: FormEvent<HTMLInputElement>): void => {
+    setUserFields({
+      ...userFields,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/users/login/user", {
-        email: emailField,
-        password: passwordField,
+      dispatch(signInAction(userFields));
+      setUserFields({
+        email: '',
+        password: '',
       });
-      setUser(response.data.User);
-      setEmailField("");
-      setPasswordField("");
-      navigate("/dashboard/" + response.data.User.name);
-    } catch (err) {
-      console.log(err, "ERRORRRRR");
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
+  useEffect(() => {
+    user.isAuth === true && navigate('/dashboard/' + user.name);
+  }, [user]);
+
   return (
     <>
-      <div className="login-container">
-        <div className="login-bg-dark">
-          <img src={logo} alt="ciana lighting logo" />
+      <div className='login-container'>
+        <div className='login-bg-dark'>
+          <img src={logo} alt='ciana lighting logo' />
         </div>
-        <div className="login-gold-accent" />
+        <div className='login-gold-accent' />
 
-        <div className="login-form-container">
-          <form>
+        <div className='login-form-container'>
+          <form onSubmit={handleLogin}>
             <header>Log in</header>
             <p>Welcome! Please enter your email and password.</p>
 
             <label>Email</label>
             <br />
             <input
-              id="email"
-              type="email"
-              placeholder="Email address"
-              onChange={(e) => setInputs(e.target.value, "")}
+              id='email'
+              type='email'
+              name='email'
+              value={userFields.email}
+              onChange={(e) => handleFormInput(e)}
+              placeholder='Email address'
+              required
             />
             <br />
             <label>Password</label>
             <br />
             <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setInputs("", e.target.value)}
+              id='password'
+              type='password'
+              name='password'
+              value={userFields.password}
+              placeholder='Password'
+              onChange={(e) => handleFormInput(e)}
+              required
             />
-            <a href="/forgot-password">Forgot Password?</a>
+            <a href='/forgot-password'>Forgot Password?</a>
             <br />
             <div>
-              <button onClick={(e) => handleLogin(e)}>Sign In</button>
+              <button type='submit'>Sign In</button>
             </div>
           </form>
-          <p className="login-sub-text">
+          <p className='login-sub-text'>
             Trouble logging in?
             <br />
             Please contact your system administrator.
