@@ -35,7 +35,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
     });
   };
 
-  const onSubmit = async(e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
     console.log("submitted");
     try{
@@ -61,9 +61,12 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
   //   status,
   //   description,
 
-  console.log(projectDetails, user, 'user & project');
+  console.log(projectDetails, user, "user & project");
   return (
-    <div className="project-create-form-wrapper">
+    <div
+      className="project-create-form-wrapper"
+      style={{ paddingTop: "100px" }}
+    >
       <form onSubmit={onSubmit} className="create-project-form">
         <label htmlFor="name">Name</label>
         <input

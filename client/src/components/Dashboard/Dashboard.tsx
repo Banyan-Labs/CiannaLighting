@@ -1,22 +1,22 @@
-import React, { FC } from "react";
-import "./style/dashboard.scss";
-import data from "../../data/data.json"
-import { AppProps } from "../../App";
-import { Navigate } from "react-router-dom";
-console.log('test')
-const Dashboard: FC<AppProps> = ({ user, setUser }) => {
-  console.log(data, "dataType")
+import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
+import './style/dashboard.scss';
+
+const Dashboard: FC = () => {
+  const { user } = useAppSelector(({ auth: user }) => user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    !user && navigate('/login' + user.name);
+  }, [user]);
+
   return (
     <>
-      {Object.keys(user).length === 0 ? (
-        <Navigate to="/login" />
+      {user.isAuth === true ? (
+        <div style={{ paddingTop: '110px' }}>This is the dashboard.</div>
       ) : (
-        <>
-          
-          This is the dashboard.
-          
-          
-        </>
+        navigate('/login')
       )}
     </>
   );

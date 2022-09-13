@@ -25,11 +25,11 @@ const [renderedPage, setRenderedPage] = useState('Rooms')
   return (
     <>
       <nav className="projects-navbar-container">
-        <div className="projects-link">Overview</div>
-        <div className="projects-link">Rooms</div>
-        <div className="projects-link">Schedule</div>
-        <div className="projects-link">Activity</div>
-        <div className="projects-link">Proposal</div>
+        <div className="projects-link" onClick={()=>setRenderedPage('Overview')}>Overview</div>
+        <div className="projects-link" onClick={()=>setRenderedPage('Rooms')}>Rooms</div>
+        <div className="projects-link" onClick={()=>setRenderedPage('Schedule')}>Schedule</div>
+        <div className="projects-link" onClick={()=>setRenderedPage('Activity')}>Activity</div>
+        <div className="projects-link" onClick={()=>setRenderedPage('Proposal')}>Proposal</div>
         <div className="projects-navbar-vertical-divider" />
       </nav>
       <div>
