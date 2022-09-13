@@ -41,6 +41,9 @@
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23949494FF' stroke-width='3' stroke-dasharray='24%2c 19' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border: none;
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-room-button:hover {
@@ -50,7 +53,6 @@
 .add-sign {
   font-size: 55px;
   font-weight: 100;
-  margin: 30%;
   color: $primary-bg-white-sub-text;
 }
 .add-room {
@@ -59,15 +61,17 @@
 }
 .no-room-text {
   margin: 0 auto;
+  text-align: center;
   font-size: 12px;
+  padding-top: 150px;
+  width: 70%;
+  border-bottom: 0.5px solid $line-dark;
 }
 
 .room-container {
   display: flex;
   align-items: center;
-  width: 80%;
   margin: 50px 50px 10px 0;
-  border-bottom: 0.5px solid $line-dark;
 }
 
 .room-bottom-text {
