@@ -1,21 +1,27 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
+import { Navigate, useNavigate } from "react-router-dom";
+import YourProjects from "./YourProjects/YourProjects";
+
 import "./style/dashboard.scss";
 
-import DashboardNav from "./DashboardPageLower/DashboardNav";
+const Dashboard: FC = () => {
+  const { user } = useAppSelector(({ auth: user }) => user);
+  const navigate = useNavigate();
 
-import { AppProps } from "../../App";
-import { Navigate } from "react-router-dom";
-console.log('test')
-const Dashboard: FC<AppProps> = ({ user, setUser }) => {
+  useEffect(() => {
+    !user && navigate("/login" + user.name);
+  }, [user]);
+
   return (
     <>
-      {Object.keys(user).length === 0 ? (
-        <Navigate to="/login" />
+      {user.isAuth === true ? (
+        <>
+          <YourProjects />
+        </>
       ) : (
         <>
-          
-          <DashboardNav />
-          
+          <Navigate to="/login" />
         </>
       )}
     </>

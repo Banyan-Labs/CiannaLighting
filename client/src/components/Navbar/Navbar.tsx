@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import { FC } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as data from "./links.json";
 import "./style/Navbar.scss";
 import logo from "../../assets/ciana-lighting-logo.png";
 import { FaRegBell, FaChevronDown } from "react-icons/fa";
-import { Link, useParams, useNavigate } from "react-router-dom";
 import { AppProps } from "../../App";
-import axios from "../../api/axios";
+import { useAppDispatch } from "../../app/hooks";
+import { logoutAction } from "../../redux/actions/authActions";
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
@@ -16,12 +17,22 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const activeLocation = pathname.split("/")[1];
   return (
     <div className="navbar-links-container">
       {links.map((link: Link) => {
         return (
           <div key={link.href}>
-            <Link to={link.href + user.name} className="navbar-links">
+            <Link
+              to={link.href + user.name}
+              className={
+                activeLocation === link.label.toLowerCase()
+                  ? "active navbar-links"
+                  : "navbar-links"
+              }
+            >
               {link.label}
             </Link>
           </div>
@@ -43,26 +54,25 @@ const User: FC<{ user: any }> = ({ user }) => {
         <br />
         <span className="navbar-user-role">User</span>
       </div>
-      <FaChevronDown />
+      {/* <FaChevronDown /> */}
     </div>
   );
 };
 
-const Navbar: FC<AppProps> = ({ user, setUser }) => {
+const Navbar: FC<AppProps> = ({ user }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async (e: any) => {
     try {
       e.preventDefault();
-      const response = await axios.post("/users/log_out/user", {
-        email: user.email,
-      });
-      setUser({});
+      dispatch(logoutAction(user.email));
       navigate("/login");
     } catch (err) {
       console.log("Error: ", err);
     }
   };
+
   return (
     <>
       <nav className="navbar-container">
@@ -71,7 +81,9 @@ const Navbar: FC<AppProps> = ({ user, setUser }) => {
         </div>
 
         <div className="navbar-vertical-divider" />
-        <Links user={user} links={links} />
+        <ul>
+          <Links user={user} links={links} />
+        </ul>
         <User user={user} />
         {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
         <button onClick={(e) => handleLogout(e)}>logout</button>
