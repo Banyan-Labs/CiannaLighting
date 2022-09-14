@@ -12,6 +12,7 @@ import {
 // temporary data for UI purposes
 import * as data from "./testProjectData.json";
 import "../style/dashboard.scss";
+import DashboardNav from "../DashboardPageLower/DashboardNav";
 
 const YourProjects: FC = () => {
   const { user } = useAppSelector(({ auth: user }) => user);
@@ -86,15 +87,7 @@ const YourProjects: FC = () => {
           </div>
         </div>
       </div>
-      <div className="lower-section-links">
-        <a href="/all-projects" id="all-projects">
-          All Projects
-        </a>
-        <a href="/archived" id="archived">
-          Archived
-        </a>
-      </div>
-      <div className="lower-section-table">No data to display.</div>
+      <DashboardNav />
       {openModal && (
         <Modal openModal={openModal} closeModal={setOpenModal} user={user} />
       )}

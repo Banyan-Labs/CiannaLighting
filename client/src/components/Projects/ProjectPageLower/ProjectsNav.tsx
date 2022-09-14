@@ -10,10 +10,10 @@ import Proposal from './ProjectSubComponents/Proposal'
 
 // const links = JSON.parse(JSON.stringify(data)).links;
 
-type Link = {
-  label: string;
+// type Link = {
+//   label: string;
   
-};
+// };
 
 
 
