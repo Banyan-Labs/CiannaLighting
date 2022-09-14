@@ -10,14 +10,18 @@ const DashboardNav: FC = ({}) => {
         <a
           id="all-projects"
           onClick={() => setRenderedPage("All Projects")}
-          className={renderedPage === "All Projects" ? "lower-active" : ""}
+          className={
+            renderedPage === "All Projects" ? "lower-active" : "not-active"
+          }
         >
           All Projects
         </a>
         <a
           id="archived"
           onClick={() => setRenderedPage("Archived")}
-          className={renderedPage === "Archived" ? "lower-active" : ""}
+          className={
+            renderedPage === "Archived" ? "lower-active" : "not-active"
+          }
         >
           Archived
         </a>
