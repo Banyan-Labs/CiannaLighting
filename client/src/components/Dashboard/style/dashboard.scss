@@ -104,40 +104,6 @@
   top: 10px;
 }
 
-.lower-section-links {
-  a {
-    text-decoration: none;
-    position: relative;
-    top: -50px;
-    left: 20px;
-    color: $primary-bg-dark-text;
-    padding-bottom: 10px;
-    margin-right: 25px;
-  }
-  #all-projects {
-    font-weight: bold;
-    color: $accent-gold;
-    padding-bottom: 20px;
-  }
-  #all-projects::before {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    width: 40%;
-    border-bottom: 4px solid $accent-gold;
-  }
-  a:hover {
-    cursor: pointer;
-    font-weight: bold;
-  }
-}
-
-.lower-section-table {
-  text-align: center;
-  margin-top: 20vh;
-}
-
 .your-projects-section {
   display: flex;
   flex-direction: row;

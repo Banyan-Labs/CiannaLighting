@@ -7,10 +7,18 @@ const DashboardNav: FC = ({}) => {
   return (
     <>
       <div className="lower-section-links">
-        <a id="all-projects" onClick={() => setRenderedPage("All Projects")}>
+        <a
+          id="all-projects"
+          onClick={() => setRenderedPage("All Projects")}
+          className={renderedPage === "All Projects" ? "lower-active" : ""}
+        >
           All Projects
         </a>
-        <a id="archived" onClick={() => setRenderedPage("Archived")}>
+        <a
+          id="archived"
+          onClick={() => setRenderedPage("Archived")}
+          className={renderedPage === "Archived" ? "lower-active" : ""}
+        >
           Archived
         </a>
       </div>
