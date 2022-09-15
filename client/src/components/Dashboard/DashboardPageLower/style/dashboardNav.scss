@@ -28,7 +28,7 @@
 .lower-active {
   color: $accent-gold !important;
   padding-bottom: 20px;
-  transition: 0.5s ease-in;
+  transition: 0.3s ease-in-out;
 }
 
 .lower-active::before {
@@ -39,7 +39,7 @@
   bottom: 0;
   width: 40%;
   border-bottom: 4px solid $accent-gold;
-  transition: 0.5s ease-in;
+  transition: 0.3s ease-in-out;
 }
 
 .not-active::before {
@@ -50,7 +50,7 @@
   bottom: 0;
   width: 0%;
   border-bottom: 4px solid $accent-gold;
-  transition: 0.5s ease-in;
+  transition: 0.3s ease-in-out;
 }
 
 .lower-section-links a:hover::before {
@@ -62,7 +62,7 @@
   bottom: 0;
   width: 100%;
   border-bottom: 4px solid $accent-gold;
-  transition: 0.5s ease-in;
+  transition: 0.3s ease-in-out;
 }
 
 .lower-section-links {
