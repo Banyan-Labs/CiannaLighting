@@ -1,3 +1,4 @@
+
 import React, { FC, useState } from "react";
 import { FaSlidersH } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
@@ -83,6 +84,6 @@ const AllProjects: FC = ({}) => {
       </div>
     </div>
   );
-};
 
-export default AllProjects;
+  }
+export default AllProjects
