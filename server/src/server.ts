@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 import roomRoutes from './routes/roomRoutes'
 import lightSelectionRoutes from "./routes/lightSelectionRoutes"
+import catalogRoutes from "./routes/catalogRoutes"
 
 const router = express()
 
@@ -49,6 +50,7 @@ router.use('/api/user', userRoutes);
 router.use("/api/projects", projectRoutes);
 router.use("/api/rooms", roomRoutes);
 router.use("/api/lightSelector", lightSelectionRoutes);
+router.use("/api/catalog", catalogRoutes);
 
 // router.use('/api')
 /**Errors */
