@@ -21,11 +21,11 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
   const [projectDetails, setProjectDetails] = useState<ProjectType>({
     name: "",
     description: "",
-    region:"",
-    status:"",
+    region: "",
+    status: "",
     clientId: user.id,
     clientName: user.name,
-    rooms: []
+    rooms: [],
   });
 
   const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -38,28 +38,25 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     console.log("submitted");
-    try{
-     const response = await axios.post("/projects/create-project/", projectDetails);
-     setProjectDetails({
-      name: "",
-      description: "",
-      region:"",
-      status:"",
-      clientId: user.id,
-      clientName: user.name,
-      rooms: []
-     })
-     console.log(response.data, "response")
-    }catch(err){
-      console.log("Error: " + err)
+    try {
+      const response = await axios.post(
+        "/projects/create-project/",
+        projectDetails
+      );
+      setProjectDetails({
+        name: "",
+        description: "",
+        region: "",
+        status: "",
+        clientId: user.id,
+        clientName: user.name,
+        rooms: [],
+      });
+      console.log(response.data, "response");
+    } catch (err) {
+      console.log("Error: " + err);
     }
   };
-  // name,
-  //   clientId,
-  //   clientName,
-  //   region,
-  //   status,
-  //   description,
 
   console.log(projectDetails, user, "user & project");
   return (
@@ -109,7 +106,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
           onChange={(e) => handleFormInput(e)}
           required
         />
-        <button onClick={(e)=> onSubmit(e)}>submit</button>
+        <button onClick={(e) => onSubmit(e)}>submit</button>
       </form>
     </div>
   );
