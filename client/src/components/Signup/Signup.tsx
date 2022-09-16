@@ -24,9 +24,7 @@ const Signup: FC = () => {
 
   const registerUser = (e: any) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
-      setErrorMessage('Please complete all fields');
-    } else if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setErrorMessage('Password does not match');
     } else {
       dispatch(
