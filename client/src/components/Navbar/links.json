@@ -9,10 +9,6 @@
       "href": "/projects/"
     },
     {
-      "label": "NewProject",
-      "href": "/create-project/"
-    },
-    {
       "label": "Catalog",
       "href": "/catalog/"
     }

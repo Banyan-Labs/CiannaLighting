@@ -7,13 +7,26 @@
   background-color: $primary-bg-dark;
   border-bottom: $line-height solid $line-dark;
   box-shadow: $box-shadow;
+  display: flex;
+  align-items: center;
   img {
     margin-top: 10px;
     height: 150px;
     width: auto;
   }
-  display: flex;
-  align-items: center;
+  button {
+    border: none;
+    background-color: transparent;
+    color: $accent-gold;
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    right: 0;
+  }
+  button:hover {
+    cursor: pointer;
+    font-weight: 600;
+  }
 }
 
 .logo-container {
@@ -56,4 +69,10 @@
   display: flex;
   align-self: center;
   @include vertical-line;
+}
+
+.active {
+  font-weight: 400;
+  padding-bottom: 40px;
+  border-bottom: solid 1px $accent-gold;
 }

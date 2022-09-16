@@ -4,27 +4,32 @@ import { FaTrashAlt } from "react-icons/fa";
 const ProjectAttachments: FC = ({}) => {
   const testAttachmentData = [
     {
+      id: 1,
       fileName: "22.2022 Incredibly illuminating file",
       fileSize: "6.1MB",
     },
     {
+      id: 2,
       fileName: "23.16 Prepare to be irradiated",
       fileSize: "1MB",
     },
     {
+      id: 3,
       fileName: "123.456 Coruscating incandescence",
       fileSize: "456MB",
     },
   ];
-  const userAttachments = testAttachmentData.map((file) => {
+  const userAttachments = testAttachmentData.map((file, index) => {
     return (
-      <tr className="attachments-dynamic-row">
-        <td className="file-file-name">{file.fileName}</td>
-        <td className="file-file-size">{file.fileSize}</td>
-        <td className="file-file-remove">
-          <FaTrashAlt />
-        </td>
-      </tr>
+      <tbody key={index}>
+        <tr className="attachments-dynamic-row">
+          <td className="file-file-name">{file.fileName}</td>
+          <td className="file-file-size">{file.fileSize}</td>
+          <td className="file-file-remove">
+            <FaTrashAlt />
+          </td>
+        </tr>
+      </tbody>
     );
   });
   return (
@@ -36,11 +41,14 @@ const ProjectAttachments: FC = ({}) => {
       </div>
       <div className="project-attachments-table-container">
         <table className="attachments-table">
-          <tr>
-            <th className="attachments-file-name">File name</th>
-            <th className="attachments-file-size">File size</th>
-            <th> </th>
-          </tr>
+          <thead>
+            <tr>
+              <th className="attachments-file-name">File name</th>
+              <th className="attachments-file-size">File size</th>
+              <th> </th>
+            </tr>
+          </thead>
+
           {userAttachments}
         </table>
       </div>

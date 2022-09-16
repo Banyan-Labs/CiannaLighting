@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-pagination": "^1.0.0",
     "react-tooltip": "^4.2.21"
   }
 }

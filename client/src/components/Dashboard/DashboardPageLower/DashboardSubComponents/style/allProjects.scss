@@ -1,0 +1,120 @@
+@import "../../../../../variables/variables.scss";
+
+.all-projects-container {
+  margin-right: 1%;
+  margin-left: 1%;
+  width: 97%;
+}
+.form-bar-button-container {
+  display: inline-flex;
+  margin-top: -15px;
+  width: 100%;
+  border-bottom: 1px solid rgb(211, 211, 211);
+  padding: 5px;
+}
+
+.dashboard-all-projects-search-bar {
+  background-color: rgb(252, 247, 247);
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 15px;
+  width: 200px;
+}
+
+.dashboard-all-projects-submit {
+  background-color: $primary-bg-dark;
+  padding: 5px 15px 5px 15px;
+  color: white;
+  margin-left: 5px;
+  border-radius: 5px;
+  font-weight: 300;
+}
+.dashboard-all-projects-submit:hover {
+  cursor: pointer;
+}
+// ~~~~~~~~~~~~~~~TABLE SECTION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.dashboard-all-projects-table {
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+.table-headers {
+  text-align: left;
+  font-size: 9px;
+  border: 1px solid black;
+  padding: 5px;
+}
+.projects-table-dynamic-row {
+  font-size: 12px;
+}
+.projects-table-dynamic-name {
+  border-top: 1px solid black;
+  text-align: left;
+  margin-left: 15px;
+  font-size: 13px;
+  text-indent: 20px;
+}
+.projects-table-dynamic-designer {
+  border-top: 1px solid black;
+  width: 15%;
+}
+.projects-table-dynamic-region {
+  border-top: 1px solid black;
+  width: 15%;
+}
+.projects-table-dynamic-contact {
+  border-top: 1px solid black;
+  width: 15%;
+}
+.projects-table-dynamic-status {
+  border-top: 1px solid black;
+  width: 15%;
+}
+.projects-table-dynamic-dots {
+  border-top: 1px solid black;
+  width: 5%;
+}
+.projects-table-dynamic-dots:hover {
+  cursor: pointer;
+}
+tr {
+  height: 25px;
+}
+tr:hover {
+  color: $accent-gold;
+}
+// ~~~~~~~~~~~~~~~~~`PAGINATION LINKS~~~~~~~~~~~~~~
+.page-item {
+  list-style: none;
+  display: inline;
+  margin-left: 10px;
+}
+.page-link {
+  color: $primary-bg-dark;
+  display: inline;
+  padding: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  font-size: 12px;
+}
+
+.page-link:hover {
+//   background-color: $line-dark;
+  color: $accent-gold;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.page-bar {
+  display: inline;
+}
+
+.page-counter {
+  float: right;
+}
+
+.showing {
+  float: left;
+  font-size: 10px;
+  padding: 8px;
+}

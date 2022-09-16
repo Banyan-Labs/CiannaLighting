@@ -11,13 +11,11 @@ const designStylesData = [
   // "Traditional",
 ];
 
-const designStyles = designStylesData.map((style) => {
+const designStyles = designStylesData.map((style, index) => {
   return (
-    <>
-      <div className="design-style-buttons-container">
-        <button className="design-style-button">{style}</button>
-      </div>
-    </>
+    <div className="design-style-buttons-container" key={style}>
+      <button className="design-style-button">{style}</button>
+    </div>
   );
 });
 
