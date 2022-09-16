@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../../../app/hooks";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Modal from "../../Modal/Modal";
 import {
   FaPlus,
@@ -27,6 +28,17 @@ const YourProjects: FC = () => {
     const to = `/projects/${user.name}`;
     navigate(to);
   }, [user.name, navigate]);
+
+  const getAllProjects = () => {
+    axios
+      .get("http://localhost:1337/api/projects/account-projects/" + user.id)
+      .then((res) => {
+        console.log(res.data.projects);
+      });
+  };
+  useEffect(() => {
+    getAllProjects();
+  }, []);
 
   const testProjectData = JSON.parse(JSON.stringify(data)).data;
   const singleProject = testProjectData.map((project: any, index: any) => {
