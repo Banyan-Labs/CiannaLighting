@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createUserAction } from '../../redux/actions/authActions';
@@ -16,11 +16,6 @@ const Signup: FC = () => {
   const navigate = useNavigate();
 
   const { name, email, password, confirmPassword } = newUserInput;
-
-  // REMEMBER TO DELETE, THIS IS LIKELY NOT NEEDED
-  // useEffect(() => {
-  //     user.isAuth === true && navigate('/dashboard/' + user.name);
-  //   }, [user, navigate]);
 
   const handleUserInput = (e: any) => {
     setNewUserInput((previousState) => ({
@@ -45,10 +40,6 @@ const Signup: FC = () => {
       );
     }
   };
-
-  useEffect(() => {
-    user.isAuth === true && navigate('/dashboard/' + user.name);
-  }, [user, navigate]);
 
   return (
     <>
