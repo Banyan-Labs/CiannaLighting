@@ -7,11 +7,11 @@ type SignInType = {
   password: string;
 };
 
-type UserType = {
+export type UserType = {
   name: String;
   email: String;
   password: String;
-  isAuth: boolean;
+  isAuth?: boolean;
 };
 
 const baseUrl = "http://localhost:1337/api/"; // will be replaced with .env variables.
