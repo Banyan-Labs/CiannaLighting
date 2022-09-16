@@ -11,9 +11,7 @@ const Signup: FC = () => {
     confirmPassword: '',
   });
   const [errorMessage, setErrorMessage] = useState<String>('');
-  const { user } = useAppSelector(({ auth }) => auth);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const { name, email, password, confirmPassword } = newUserInput;
 
