@@ -31,10 +31,13 @@ const YourProjects: FC = () => {
 
   const getAllProjects = () => {
     axios
-      .get("http://localhost:1337/api/projects/account-projects/" + user.id)
+      .post("http://localhost:1337/api/projects/account-projects/", {
+        clientId: user.id,
+      })
       .then((res) => {
         console.log(res.data.projects);
-      });
+      })
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     getAllProjects();
