@@ -8,7 +8,7 @@ import { AppProps } from '../../App';
 import { useEffect } from 'react';
 
 const Login: FC<AppProps> = () => {
-  const { user, error } = useAppSelector(({ auth }) => auth);
+  const { user } = useAppSelector(({ auth }) => auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const Login: FC<AppProps> = () => {
 
   useEffect(() => {
     user.isAuth === true && navigate('/dashboard/' + user.name);
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <>
