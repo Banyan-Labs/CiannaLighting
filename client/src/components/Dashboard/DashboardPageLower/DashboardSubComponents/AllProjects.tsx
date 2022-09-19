@@ -4,12 +4,15 @@ import { BsThreeDots } from "react-icons/bs";
 import "./style/allProjects.scss";
 import testData from "./testData";
 import Pagination from "../Pagination/Pagination";
+import MiniMenu from "./MiniMenu";
 
 const AllProjects: FC = ({}) => {
   const [filterProjects, setFilterProjects] = useState("");
   const [projectList, setProjectList] = useState(testData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage, setProjectsPerPage] = useState(3);
+  const [projectsPerPage, setProjectsPerPage] = useState(5);
+
+  const [miniMenu, setMiniMenu] = useState(false)
 
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
@@ -35,8 +38,11 @@ const AllProjects: FC = ({}) => {
           <td className="projects-table-dynamic-region">{project.region}</td>
           {/* <td className="projects-table-dynamic-contact">{project.contact}</td> */}
           <td className="projects-table-dynamic-status">{project.status}</td>
-          <td className="projects-table-dynamic-dots">
+          <td onClick={()=>setMiniMenu(true)} onMouseLeave={()=>setMiniMenu(false)} className="projects-table-dynamic-dots">
             <BsThreeDots />
+            <div>
+              
+            </div>
           </td>
         </tr>
       </tbody>
@@ -67,7 +73,9 @@ const AllProjects: FC = ({}) => {
                 <td className="projects-table-dots"> </td>
               </tr>
             </thead>
+             {miniMenu === true && <MiniMenu />}
             {allProjectsTableDisplay}
+           
           </table>
           <div className="pages-list">
             <div className="page-bar">

@@ -118,3 +118,21 @@ tr:hover {
   font-size: 10px;
   padding: 8px;
 }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~MINI MENU~~~~~~~~~~~~~~~~~~~~~~~
+.mini-menu-container{
+  background-color: black;
+  color: white;
+  position: absolute;
+  height: 70px;
+  width: 100px;
+ ;
+  padding: 10px;
+  // float: right;
+}
+.mini-menu-top{
+  border-bottom: 1px solid darkgray;
+   font-size: 16px;
+}
+.mini-menu-bottom{
+  font-size: 12px;
+}
