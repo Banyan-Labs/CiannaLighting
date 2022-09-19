@@ -11,7 +11,7 @@ const userSchema: Schema = new Schema(
     password: { type: String, required: true, select: false },
     isAuth: { type: Boolean },
     role: { type: String, required: true },
-    // projects: {type: Array<string>}
+    refreshToken: { type: String, select: false },
   },
   {
     timestamps: true,

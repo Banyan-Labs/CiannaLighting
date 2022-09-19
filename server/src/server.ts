@@ -11,6 +11,7 @@ import userRoutes from './routes/userRoutes';
 import projectRoutes from './routes/projectRoutes';
 import roomRoutes from './routes/roomRoutes';
 import lightSelectionRoutes from './routes/lightSelectionRoutes';
+import refreshRoute from './routes/refreshTokenRoute';
 
 const router = express();
 
@@ -44,6 +45,7 @@ router.use('/api/projects', projectRoutes);
 router.use('/api/rooms', roomRoutes);
 router.use('/api/lightSelector', lightSelectionRoutes);
 router.use('/api/user', userRoutes);
+router.use('/refresh', refreshRoute);
 
 /**Requests */
 httpServer.listen(config.server.port, () => {

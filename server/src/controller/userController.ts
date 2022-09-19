@@ -50,7 +50,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500);
+      res.sendStatus(500);
     });
 };
 
@@ -65,7 +65,6 @@ const login = async (req: Request, res: Response) => {
   User.findOne({ email })
     .select('+password')
     .then(async (user) => {
-      console.log(user);
       if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
@@ -73,13 +72,13 @@ const login = async (req: Request, res: Response) => {
           const accessToken = jwt.sign(
             { name: user.email },
             process.env.ACCESS_TOKEN_SECRET as string,
-            { expiresIn: '1000s' }
+            { expiresIn: '1500s' }
           );
 
           const refreshToken = jwt.sign(
             { name: user.email },
             process.env.REFRESH_TOKEN_SECRET as string,
-            { expiresIn: '1d' }
+            { expiresIn: '30d' }
           );
 
           user
@@ -93,7 +92,7 @@ const login = async (req: Request, res: Response) => {
             })
             .catch((error) => {
               console.log(error.message);
-              res.status(401);
+              res.sendStatus(401);
             });
         }
       } else {
@@ -115,24 +114,34 @@ const login = async (req: Request, res: Response) => {
 
 const logOut = async (req: Request, res: Response, next: NextFunction) => {
   const email: string = req.body.email;
+  const cookies = req.cookies;
+
+  if (!cookies.jwt) return res.sendStatus(204);
+  const refreshToken = cookies.jwt;
   //   const name: string = req.body.name;
-  await User.findOne({ email: email })
+  await User.findOne({ email })
     .exec()
     .then((user) => {
+      if (!user) {
+        res.clearCookie('jwt', {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+        });
+        return res.sendStatus(204);
+      }
+
       if (user) {
+        user.refreshToken = '';
         user.isAuth = false;
         user.save();
 
-        return res.status(200).json({
-          User: {
-            name: user?.name,
-            email: user?.email,
-            id: user?._id,
-            isAuth: user?.isAuth,
-          },
+        res.clearCookie('jwt', {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
         });
-      } else {
-        next();
+        res.sendStatus(204);
       }
     })
     .catch((error) => {
