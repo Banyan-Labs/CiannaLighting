@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { request } from "http";
 import mongoose from "mongoose";
 import LightSelection from "../model/LightSelection";
 import Project from "../model/Project";
