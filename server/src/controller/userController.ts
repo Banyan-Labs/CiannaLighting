@@ -120,9 +120,6 @@ const login = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
-      console.log(
-        'something went terribly wrong. omg no, the world, my world is falling apart..'
-      );
       return res.status(500).json({
         message: error.message,
         error,
