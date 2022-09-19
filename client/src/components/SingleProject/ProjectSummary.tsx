@@ -1,14 +1,22 @@
 import React, { FC } from "react";
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from "react-icons/fa";
 import { BsChevronLeft } from "react-icons/bs";
+import { AppProps } from "../../App";
+import { Link } from "react-router-dom";
 
-const ProjectSummary: FC<{ details: any }> = ({ details }) => {
+interface ProjectSummaryProps {
+  user: AppProps[];
+  details: any;
+}
+
+const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
   return (
     <div className="project-summary-container">
       <div className="projects-summary">
         <div className="back-to-projects">
-          <BsChevronLeft className="chevron-icon" />
-          <p>Back to Projects</p>
+          <Link to={`/projects/all/${user}`}>
+            <BsChevronLeft className="chevron-icon" /> Back to Projects
+          </Link>
         </div>
         <div className="project-summary-top-bar">
           <div className="project-summary-name-and-date">

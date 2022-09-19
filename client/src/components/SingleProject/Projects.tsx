@@ -19,7 +19,7 @@ const Projects: FC<AppProps> = ({ user }) => {
       ) : (
         <>
           <div className="projects-top-half">
-            <ProjectSummary details={details} />
+            <ProjectSummary user={user} details={details} />
             {/* <RoomDetails /> */}
             <ProjectAttachments />
           </div>

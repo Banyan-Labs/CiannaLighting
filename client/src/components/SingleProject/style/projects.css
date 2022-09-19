@@ -7,25 +7,33 @@
   margin-top: 100px;
   background-color: #101010;
   color: white;
-  width: 70%;
+  width: 100%;
   height: 40vh;
 }
 
 .back-to-projects {
-  margin-top: 10px;
-  margin-left: 10px;
   display: inline-flex;
-  font-size: 9px;
+}
+.back-to-projects .chevron-icon {
+  margin-right: 10px;
+  position: relative;
+  top: 2px;
+}
+.back-to-projects a {
+  margin-top: 12px;
+  margin-left: 10px;
+  text-decoration: none;
+  font-size: 12px;
   color: #808080;
+  position: relative;
+  z-index: 2;
+}
+.back-to-projects a:hover {
+  color: rgba(255, 255, 255, 0.6705882353);
 }
 
 .back-to-projects:hover {
   cursor: pointer;
-}
-
-.chevron-icon {
-  margin-top: 10px;
-  margin-right: 10px;
 }
 
 .project-summary-top-bar {
@@ -53,7 +61,7 @@
 
 .project-summary-date {
   font-size: 10px;
-  margin-top: -20px;
+  margin-top: -15px;
   color: #808080;
 }
 
@@ -99,7 +107,6 @@
 }
 
 .project-summary-text-container {
-  margin-left: 65px;
   font-size: 12px;
 }
 
