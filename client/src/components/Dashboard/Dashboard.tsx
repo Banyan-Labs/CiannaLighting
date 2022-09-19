@@ -12,7 +12,6 @@ const Dashboard: FC = () => {
   useEffect(() => {
     !user && navigate("/login" + user.name);
   }, [user]);
-
   return (
     <>
       {user.isAuth === true ? (

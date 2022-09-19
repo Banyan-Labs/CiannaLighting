@@ -1,7 +1,9 @@
 import React, { FC, FormEvent, useState } from "react";
 import axios from "../../api/axios";
+import dataHolding from "../Dashboard/YourProjects/projectDetails";
 import { FaTimes } from "react-icons/fa";
 import "./style/modal.scss";
+import { useNavigate } from "react-router-dom";
 
 type ProjectType = {
   name: string;
@@ -25,6 +27,7 @@ type Props = {
 const Modal: FC<Props> = (props, user) => {
   let closeModal = props.closeModal;
   let openModal = props.openModal;
+  const navigate = useNavigate();
   const [projectDetails, setProjectDetails] = useState<ProjectType>({
     name: "",
     clientId: props.user.id,
@@ -150,7 +153,11 @@ const Modal: FC<Props> = (props, user) => {
               <button
                 type="submit"
                 className="new-project-modal-button"
-                onClick={(e) => onSubmit(e)}
+                onClick={(e) => {
+                  onSubmit(e);
+                  dataHolding.getData(projectDetails);
+                  navigate(`/projects/${user.name}`);
+                }}
               >
                 Create Project
               </button>

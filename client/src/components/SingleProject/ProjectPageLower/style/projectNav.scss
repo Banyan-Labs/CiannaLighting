@@ -2,12 +2,13 @@
 
 .projects-navbar-container {
   width: 100%;
-  height: 30px;
+  height: 50px;
   background-color: $primary-bg-dark;
   border-bottom: $line-height solid $line-dark;
   display: flex;
   align-items: center;
   color: white;
+  font-weight: 100;
 }
 .projects-navbar-links-container {
   margin-right: 20px;
@@ -77,4 +78,33 @@
   font-size: 12px;
   margin-top: 10px;
   margin-left: 40px;
+}
+
+// navigation links active
+
+.projects-active {
+  color: $accent-gold !important;
+  position: relative;
+  top: -2px;
+  font-weight: 400;
+  transition: 0.3s ease-in-out;
+}
+
+.projects-active::before {
+  content: "";
+  display: block;
+  position: relative;
+  top: 30px;
+  width: 40%;
+
+  border-bottom: 4px solid $accent-gold;
+  transition: 0.3s ease-in-out;
+}
+
+.not-active::before {
+  content: "";
+  display: block;
+  width: 0%;
+  border-bottom: 4px solid $accent-gold;
+  transition: 0.3s ease-in-out;
 }

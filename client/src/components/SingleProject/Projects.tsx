@@ -4,10 +4,14 @@ import { Navigate } from "react-router-dom";
 import { AppProps } from "../../App";
 import ProjectSummary from "./ProjectSummary";
 import ProjectAttachments from "./ProjectAttachments";
+
+import dataHolding from "../Dashboard/YourProjects/projectDetails";
+
 import "./style/projects.scss";
 import RoomDetails from "../Rooms/RoomDetails";
 
 const Projects: FC<AppProps> = ({ user }) => {
+  let details = dataHolding.setData();
   return (
     <>
       {Object.keys(user).length === 0 ? (
@@ -15,7 +19,7 @@ const Projects: FC<AppProps> = ({ user }) => {
       ) : (
         <>
           <div className="projects-top-half">
-            <ProjectSummary />
+            <ProjectSummary details={details} />
             {/* <RoomDetails /> */}
             <ProjectAttachments />
           </div>

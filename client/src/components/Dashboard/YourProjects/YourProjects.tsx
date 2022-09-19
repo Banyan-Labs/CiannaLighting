@@ -10,6 +10,8 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 
+import dataHolding from "./projectDetails";
+
 // temporary data for UI purposes
 import * as data from "./testProjectData.json";
 import "../style/dashboard.scss";
@@ -29,13 +31,15 @@ const YourProjects: FC = () => {
     navigate(to);
   }, [user.name, navigate]);
 
+  const [projectDetails, setProjectDetails] = useState([]);
+
   const getAllProjects = () => {
     axios
       .post("http://localhost:1337/api/projects/account-projects/", {
         clientId: user.id,
       })
       .then((res) => {
-        console.log(res.data.projects);
+        setProjectDetails(res.data.projects);
       })
       .catch((err) => console.log(err));
   };
@@ -43,17 +47,40 @@ const YourProjects: FC = () => {
     getAllProjects();
   }, []);
 
-  const testProjectData = JSON.parse(JSON.stringify(data)).data;
-  const singleProject = testProjectData.map((project: any, index: any) => {
+  const projectColors = [
+    "#AC92EB",
+    "#4FC1E8",
+    "#A0D568",
+    "#AC92EB",
+    "#4FC1E8",
+    "#A0D568",
+    "#AC92EB",
+    "#4FC1E8",
+    "#A0D568",
+    "#AC92EB",
+    "#4FC1E8",
+    "#A0D568",
+  ];
+
+  const singleProject = projectDetails.map((project: any, index: any) => {
+    const changeProject = () => {
+      project.color = projectColors[index || 0];
+      dataHolding.getData(project);
+    };
     return (
       <div
         className="single-project"
-        style={{ backgroundColor: project.color }}
-        onClick={projectRoute}
+        style={{
+          backgroundColor: projectColors[index || 0],
+        }}
+        onClick={() => {
+          projectRoute();
+          changeProject();
+        }}
         key={index}
       >
         <span>
-          Created: <strong>{project.date_created}</strong>
+          Created: <strong>{Date.parse(project.updatedAt)}</strong>
         </span>
         <span>
           Status: <strong>{project.status}</strong>

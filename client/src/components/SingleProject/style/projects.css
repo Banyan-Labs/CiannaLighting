@@ -1,13 +1,10 @@
-@import "../../../variables/variables.scss";
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
 .projects-top-half {
   display: inline-flex;
 }
-//   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .project-summary-container {
-  margin-top: 100px;
-  background-color: $primary-bg-dark;
-  // color: $primary-bg-white-text;
+  background-color: #101010;
   color: white;
   width: 45%;
   height: 40vh;
@@ -20,6 +17,7 @@
   font-size: 9px;
   color: #808080;
 }
+
 .back-to-projects:hover {
   cursor: pointer;
 }
@@ -69,6 +67,7 @@
   font-size: 1.2em;
   color: #acacac;
 }
+
 .archive-icon:hover {
   cursor: pointer;
 }
@@ -78,6 +77,7 @@
   font-size: 1.2em;
   color: #acacac;
 }
+
 .clone-icon:hover {
   cursor: pointer;
 }
@@ -87,6 +87,7 @@
   font-size: 1.2em;
   color: #acacac;
 }
+
 .edit-icon:hover {
   cursor: pointer;
 }
@@ -106,15 +107,13 @@
   margin-right: 20px;
   font-weight: 100;
 }
-// Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.project-attachments-container {
-  margin-top: 100px;
-  background-color: $primary-bg-dark;
 
+.project-attachments-container {
+  background-color: #101010;
   width: 55%;
   color: white;
-  // border-left: 0.5px solid rgb(61, 61, 61);
 }
+
 .project-attachments-top-bar {
   margin-left: 15px;
   display: inline-flex;
@@ -205,4 +204,4 @@
 
 .project-attachments-view-all:hover {
   cursor: pointer;
-}
+} /*# sourceMappingURL=projects.css.map */

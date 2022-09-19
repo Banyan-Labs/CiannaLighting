@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import AllProjects from "./DashboardSubComponents/AllProjects";
-import Archived from "./DashboardSubComponents/Archived";
+import AllProjects from "./DashboardSubComponents/AllProjectsTable";
+import Archived from "./DashboardSubComponents/ArchivedTable";
 import "./style/dashboardNav.scss";
 const DashboardNav: FC = ({}) => {
   const [renderedPage, setRenderedPage] = useState("All Projects");

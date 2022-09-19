@@ -1,31 +1,39 @@
-
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { FaSlidersH } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import "./style/allProjects.scss";
 import testData from "./testData";
 import Pagination from "../Pagination/Pagination";
+import axios from "../../../../api/axios";
 
 const AllProjects: FC = ({}) => {
   const [filterProjects, setFilterProjects] = useState("");
   const [projectList, setProjectList] = useState(testData);
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage, setProjectsPerPage] = useState(3);
-  // console.log(testData)
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
   const currentProjects = projectList.slice(
     indexOfFirstProject,
     indexOfLastProject
   );
-  const paginate = (e:any,pageNumber:number) => { 
-    e.preventDefault()
-    setCurrentPage(pageNumber) 
-  return currentPage
+  const paginate = (e: any, pageNumber: number) => {
+    e.preventDefault();
+    setCurrentPage(pageNumber);
+    return currentPage;
   };
 
+  const getProjects = () => {
+    axios.get("http://localhost:1337/api/projects/get-projects").then((res) => {
+      // console.log(res.data);
+    });
+  };
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
   const allProjectsTableDisplay = currentProjects.map((project, index) => {
-    console.log(project.name);
     return (
       <tbody key={index}>
         <tr className="projects-table-dynamic-row">
@@ -70,20 +78,16 @@ const AllProjects: FC = ({}) => {
             </thead>
             {allProjectsTableDisplay}
           </table>
-          <div className='pages-list'>
-          
+          <div className="pages-list">
             <Pagination
-              
               totalProjects={projectList.length}
               projectsPerPage={projectsPerPage}
               paginate={paginate}
             />
-            
           </div>
         </div>
       </div>
     </div>
   );
-
-  }
-export default AllProjects
+};
+export default AllProjects;
