@@ -25,7 +25,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
           _id: new mongoose.Types.ObjectId(),
           name,
           email,
-          role: 'USER',
+          role: '1212',
           password: hashedPassword,
           isAuth: false,
         });
@@ -65,11 +65,17 @@ const login = async (req: Request, res: Response) => {
   User.findOne({ email })
     .select('+password')
     .then(async (user) => {
+      if (!user) res.status(404).json({ message: 'User not found' });
       if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
+          const role = user.role;
+
           const accessToken = jwt.sign(
-            { name: user.email },
+            {
+              name: user.email,
+              role,
+            },
             process.env.ACCESS_TOKEN_SECRET as string,
             { expiresIn: '1500s' }
           );
@@ -87,7 +93,8 @@ const login = async (req: Request, res: Response) => {
             .then((authenticatedUser) => {
               res.cookie('jwt', refreshToken, {
                 httpOnly: true,
-                maxAge: 24 * 60 * 60 * 1000,
+                sameSite: 'none',
+                secure: true,
               });
               res.json({ accessToken, user: authenticatedUser });
             })
