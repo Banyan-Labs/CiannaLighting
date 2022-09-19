@@ -18,11 +18,6 @@
   border-radius: 5px;
   background-color: white;
   color: #101010;
-  overflow: scroll;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
 
 .modal-title-close-btn button {
