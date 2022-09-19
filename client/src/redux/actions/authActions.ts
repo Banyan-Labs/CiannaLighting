@@ -35,7 +35,7 @@ export const logoutAction =
   (email: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     try {
-      await createHttpRequest(baseUrl + 'users/log_out/user', {
+      await createHttpRequest(baseUrl + 'user/log_out/user', {
         email,
       });
       dispatch(logout());
