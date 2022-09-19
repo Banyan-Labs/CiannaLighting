@@ -5,8 +5,11 @@ import "./style/modal.scss";
 
 type ProjectType = {
   name: string;
-  description: string;
   clientId: string;
+  clientName: string;
+  region: string;
+  status: string;
+  description: string;
 };
 
 // Assign prop "types" to allow react dispatch to pass values among
@@ -24,8 +27,11 @@ const Modal: FC<Props> = (props, user) => {
   let openModal = props.openModal;
   const [projectDetails, setProjectDetails] = useState<ProjectType>({
     name: "",
-    description: "",
     clientId: props.user.id,
+    clientName: props.user.name,
+    region: "",
+    status: "",
+    description: "",
   });
 
   const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -45,8 +51,11 @@ const Modal: FC<Props> = (props, user) => {
       );
       setProjectDetails({
         name: "",
-        description: "",
         clientId: props.user.id,
+        clientName: props.user.name,
+        region: "",
+        status: "",
+        description: "",
       });
       console.log(response.data, "response");
     } catch (err) {
@@ -54,7 +63,6 @@ const Modal: FC<Props> = (props, user) => {
     }
   };
 
-  console.log(projectDetails, props.user, "user & project");
   return (
     <div className="new-project-modal-background">
       <div className="new-project-modal-container">
@@ -111,35 +119,31 @@ const Modal: FC<Props> = (props, user) => {
                   Status
                 </label>
                 <br />
-                <select
-                  id="status-select-menu"
-                  name="status-select-menu"
+                <input
+                  name="status"
+                  id="status"
+                  type="text"
+                  className="new-project-modal-inputs"
+                  placeholder="New"
+                  value={projectDetails.status}
+                  onChange={(e) => handleFormInput(e)}
                   required
-                >
-                  <option value="new-option" selected>
-                    New (default)
-                  </option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                  <option value="option4">Option 4</option>
-                </select>
+                ></input>
               </div>
               <br />
               <div>
                 <label className="new-project-modal-labels">Region</label>
                 <br />
-                <select
-                  id="status-select-menu"
-                  name="status-select-menu"
+                <input
+                  name="region"
+                  id="region"
+                  type="text"
+                  className="new-project-modal-inputs"
+                  placeholder="North America"
+                  value={projectDetails.region}
+                  onChange={(e) => handleFormInput(e)}
                   required
-                >
-                  <option value="default-option" selected>
-                    Select Region
-                  </option>
-                  <option value="region1">Region 1</option>
-                  <option value="region2">Region 2</option>
-                  <option value="region3">Region 3</option>
-                </select>
+                ></input>
               </div>
             </div>
             <div className="new-project-modal-footer">

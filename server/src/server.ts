@@ -12,6 +12,7 @@ import projectRoutes from './routes/projectRoutes';
 import roomRoutes from './routes/roomRoutes';
 import lightSelectionRoutes from './routes/lightSelectionRoutes';
 import refreshRoute from './routes/refreshTokenRoute';
+import catalogRoutes from './routes/catalogRoutes';
 
 const router = express();
 
@@ -46,6 +47,17 @@ router.use('/api/rooms', roomRoutes);
 router.use('/api/lightSelector', lightSelectionRoutes);
 router.use('/api/help', refreshRoute);
 router.use('/api/user', userRoutes);
+router.use('/api/catalog', catalogRoutes);
+
+// router.use('/api')
+/**Errors */
+router.use((req, res, next) => {
+  const error = new Error('not found');
+
+  return res.status(404).json({
+    message: error.message,
+  });
+});
 
 /**Requests */
 httpServer.listen(config.server.port, () => {
