@@ -1,8 +1,9 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
-export default interface Iuser extends Document{
-    name: string,
-    email: string,
-    password: string,
-    isAuth: boolean
+export default interface Iuser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  isAuth: boolean;
+  role: string;
 }

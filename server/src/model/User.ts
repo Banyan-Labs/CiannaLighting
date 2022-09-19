@@ -1,16 +1,16 @@
-import mongoose, { Schema } from "mongoose";
-import Iuser from "../interfaces/userInt";
+import mongoose, { Schema } from 'mongoose';
+import Iuser from '../interfaces/userInt';
 
 // const Schema = mongoose.Schema;
 
 const userSchema: Schema = new Schema(
   {
-    _id: {type: mongoose.Types.ObjectId},
+    _id: { type: mongoose.Types.ObjectId },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    password: { type: String, required: true },
-    isAuth: {type: Boolean},
-    // role: {type: String, required: true},
+    password: { type: String, required: true, select: false },
+    isAuth: { type: Boolean },
+    role: { type: String, required: true },
     // projects: {type: Array<string>}
   },
   {
@@ -23,4 +23,4 @@ const userSchema: Schema = new Schema(
  * user
  */
 
-export default mongoose.model<Iuser>("User", userSchema);
+export default mongoose.model<Iuser>('User', userSchema);
