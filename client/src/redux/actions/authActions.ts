@@ -14,10 +14,11 @@ export const signInAction =
   async (dispatch: Dispatch): Promise<void> => {
     try {
       const response = await createHttpRequest(
-        baseUrl + 'users/login/user',
+        baseUrl + 'user/login/user',
         payload
       );
-      dispatch(setUser(response.data.User));
+      console.log(response.data);
+      dispatch(setUser(response.data.user));
     } catch (error: any) {
       dispatch(setError(error.response.data));
     }
