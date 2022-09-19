@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { request } from "http";
 import mongoose from "mongoose";
 import LightSelection from "../model/LightSelection";
 import Project from "../model/Project";
@@ -41,6 +42,19 @@ const getProject = async(req: Request, res: Response)=>{
         return res.status(200).json({
           project
         });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+}
+const getAccountProjects = async (req:Request, res: Response) => {
+  return await Project.find({clientId: req.body.clientId})
+      .exec()
+      .then((projects)=>{
+        console.log('projects success', projects)
+        return res.status(200).json({
+          projects
+        })
       })
       .catch((error) => {
         return res.status(500).json({ message: error.message, error });
@@ -102,4 +116,4 @@ const deleteProject = async (req: Request, res: Response) => {
     });
 };
 
-export default { createProject, deleteProject, getAllProjects, getProject };
+export default { createProject, deleteProject, getAllProjects, getProject, getAccountProjects };
