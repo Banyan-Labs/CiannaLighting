@@ -44,8 +44,8 @@ router.use(express.json());
 router.use('/api/projects', projectRoutes);
 router.use('/api/rooms', roomRoutes);
 router.use('/api/lightSelector', lightSelectionRoutes);
+router.use('/api/help', refreshRoute);
 router.use('/api/user', userRoutes);
-router.use('/refresh', refreshRoute);
 
 /**Requests */
 httpServer.listen(config.server.port, () => {

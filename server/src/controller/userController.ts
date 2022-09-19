@@ -68,7 +68,6 @@ const login = async (req: Request, res: Response) => {
       if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-          user.isAuth = true;
           const accessToken = jwt.sign(
             { name: user.email },
             process.env.ACCESS_TOKEN_SECRET as string,
@@ -80,6 +79,8 @@ const login = async (req: Request, res: Response) => {
             process.env.REFRESH_TOKEN_SECRET as string,
             { expiresIn: '30d' }
           );
+          user.isAuth = true;
+          user.refreshToken = refreshToken;
 
           user
             .save()
@@ -94,11 +95,11 @@ const login = async (req: Request, res: Response) => {
               console.log(error.message);
               res.sendStatus(401);
             });
+        } else {
+          res
+            .status(401)
+            .json({ message: 'The password you entered is incorrect.' });
         }
-      } else {
-        res
-          .status(401)
-          .json({ message: 'The password you entered is incorrect.' });
       }
     })
     .catch((error) => {
@@ -112,15 +113,14 @@ const login = async (req: Request, res: Response) => {
     });
 };
 
-const logOut = async (req: Request, res: Response, next: NextFunction) => {
-  const email: string = req.body.email;
+const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
-  if (!cookies.jwt) return res.sendStatus(204);
   const refreshToken = cookies.jwt;
-  //   const name: string = req.body.name;
-  await User.findOne({ email })
-    .exec()
+
+  if (!cookies.jwt) return res.sendStatus(204);
+  await User.findOne({ refreshToken })
+    .select('+refreshToken')
     .then((user) => {
       if (!user) {
         res.clearCookie('jwt', {
@@ -132,6 +132,7 @@ const logOut = async (req: Request, res: Response, next: NextFunction) => {
       }
 
       if (user) {
+        // remember to remove from front end as well.
         user.refreshToken = '';
         user.isAuth = false;
         user.save();
