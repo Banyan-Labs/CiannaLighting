@@ -90,13 +90,23 @@ const login = async (req: Request, res: Response) => {
 
           user
             .save()
+
             .then((authenticatedUser) => {
               res.cookie('jwt', refreshToken, {
                 httpOnly: true,
                 sameSite: 'none',
                 secure: true,
               });
-              res.json({ accessToken, user: authenticatedUser });
+              res.json({
+                accessToken,
+                user: {
+                  _id: authenticatedUser._id,
+                  name: authenticatedUser.name,
+                  email: authenticatedUser.email,
+                  refreshToken: authenticatedUser.refreshToken,
+                  isAuth: authenticatedUser.isAuth,
+                },
+              });
             })
             .catch((error) => {
               console.log(error.message);
