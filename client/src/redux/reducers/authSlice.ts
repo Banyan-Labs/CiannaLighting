@@ -1,29 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface AuthStateType {
-  user: any;
-  error: any;
+    user: any;
+    error: any;
 }
 
 const initialState: AuthStateType = {
-  user: {},
-  error: null,
+    user: {},
+    error: null,
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-    setUser: (state, action) => {
-      return { ...state, user: action.payload };
+    name: 'auth',
+    initialState,
+    reducers: {
+        setUser: (state, action) => ({ ...state, user: action.payload }),
+        setError: (state, action) => ({ ...state, error: action.payload }),
+        logout: (state) => ({ ...state, user: {} }),
     },
-    setError: (state, action) => {
-      return { ...state, error: action.payload };
-    },
-    logout: (state) => {
-      return { ...state, user: {} };
-    },
-  },
 });
 
 export const { setUser, setError, logout } = authSlice.actions;

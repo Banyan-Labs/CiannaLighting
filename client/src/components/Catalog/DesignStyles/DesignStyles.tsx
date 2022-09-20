@@ -1,34 +1,36 @@
-import React, { FC } from "react";
-import "./style/design-styles.scss";
+import React, { FC } from 'react';
+import './style/design-styles.scss';
 
 const designStylesData = [
-  "Art Deco",
-  "Colonial",
-  "Asian",
-  "Contemporary",
-  "Transitional",
-  "Traditional",
-  // "Traditional",
+    'Art Deco',
+    'Colonial',
+    'Asian',
+    'Contemporary',
+    'Transitional',
+    'Traditional',
+    // "Traditional",
 ];
 
-const designStyles = designStylesData.map((style, index) => {
-  return (
-    <div className="design-style-buttons-container" key={style}>
-      <button className="design-style-button">{style}</button>
-    </div>
-  );
+const designStyles = designStylesData.map((style) => {
+    return (
+        <div className="design-style-buttons-container" key={style}>
+            <button className="design-style-button">{style}</button>
+        </div>
+    );
 });
 
-const DesignStyles: FC = ({}) => {
-  return (
-    <>
-      <div className="catalog-design-styles">
-        <span>Design Styles</span>
-        <div className="catalog-design-styles-buttons">{designStyles}</div>
-        <div className="catalog-design-styles-divider" />
-      </div>
-    </>
-  );
+const DesignStyles: FC = () => {
+    return (
+        <>
+            <div className="catalog-design-styles">
+                <span>Design Styles</span>
+                <div className="catalog-design-styles-buttons">
+                    {designStyles}
+                </div>
+                <div className="catalog-design-styles-divider" />
+            </div>
+        </>
+    );
 };
 
 export default DesignStyles;
