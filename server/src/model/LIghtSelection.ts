@@ -24,4 +24,7 @@ const lightSelectionSchema = new Schema({
   quantity: { type: Number, required: true },
 });
 
-export default mongoose.model<lightSelectionInterface>("LightSelection", lightSelectionSchema)
+export default mongoose.model<lightSelectionInterface>(
+  "LightSelection",
+  lightSelectionSchema
+);

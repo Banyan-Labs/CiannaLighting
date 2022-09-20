@@ -10,7 +10,7 @@ export interface Contact {
   name: String;
   email: String;
   phone: String;
-  subFields: String | String[] |  RfpSection[];
+  subFields: String | String[] | RfpSection[];
 }
 
 export interface RfpSection {
@@ -22,6 +22,7 @@ export interface RfpSection {
 export default interface rfpDocInterface extends Document {
   header: String;
   projectId: String;
+  clientId: String;
   schedule: Schedule[];
   scope: String;
   bid: RfpSection[];
@@ -31,5 +32,3 @@ export default interface rfpDocInterface extends Document {
   lights: String[]; //s3
   attachments: String[]; //s3
 }
-
-

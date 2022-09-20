@@ -1,21 +1,27 @@
 import mongoose, { Schema } from "mongoose";
-import rfpDocInterface, {Schedule, RfpSection, Contact} from "../interfaces/rfpDocInterface";
+import rfpDocInterface, {
+  Schedule,
+  RfpSection,
+  Contact,
+} from "../interfaces/rfpDocInterface";
 const rfpSchema: Schema = new Schema(
-    {
-      _id: { type: mongoose.Types.ObjectId },
-      projectID:{type: String, required: true},
-      header:{type: String, required: true},
-      schedule: {type: Array<Schedule>, required: true},
-      scope: {type:String, required: true},
-      bid: {type: Array<RfpSection>, required: true},
-      submittals: {type: Array<RfpSection>, required: true},
-      qualityStandards: {type: Array<RfpSection>, required: true},
-      contactInfo: {type: Array<Contact>, required: true},
-      lights: {type: Array<String>, required: true},
-      attachments: {type: Array<String>, required: true}
-    },
-    {
-        timestamps: true
-    });
+  {
+    _id: { type: mongoose.Types.ObjectId },
+    projectId: { type: String, required: true },
+    clientId: { type: String, required: true },
+    header: { type: String, required: true },
+    schedule: { type: Array<Schedule>, required: true },
+    scope: { type: String, required: true },
+    bid: { type: Array<RfpSection>, required: true },
+    submittals: { type: Array<RfpSection>, required: true },
+    qualityStandards: { type: Array<RfpSection>, required: true },
+    contactInfo: { type: Array<Contact>, required: true },
+    lights: { type: Array<String>, required: true },
+    attachments: { type: Array<String>, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-    export default mongoose.model<rfpDocInterface>("RFP", rfpSchema)
+export default mongoose.model<rfpDocInterface>("RFP", rfpSchema);

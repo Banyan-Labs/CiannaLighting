@@ -120,10 +120,6 @@ const deleteRoom =async(req: Request, res: Response) => {
       console.log(error);
       res.status(500).json(error);
     });
-  // }else{
-      console.log("failed to delete room from project")
-      return "failed to delete room from project"
-    // }
   })
   
 };
