@@ -52,10 +52,10 @@ const YourProjects: FC = () => {
   const singleProject = projectDetails.map((project: any, index: any) => {
     const changeProject = () => {
       project.color =
-        projectColors[index > projectColors.length - 1 ? 0 : index + 1];
+        projectColors[index > projectColors.length - 1 ? 0 : index];
       dataHolding.getData(project);
     };
-    const date = new Date(Date.parse(project.updatedAt));
+    const date = new Date(Date.parse(project.updatedAt)).toDateString();
     return (
       <div
         className="single-project"
@@ -70,7 +70,7 @@ const YourProjects: FC = () => {
         key={index}
       >
         <span>
-          Created: <strong>{date.toDateString()}</strong>
+          Created: <strong>{date}</strong>
         </span>
         <span>
           Status: <strong>{project.status}</strong>
