@@ -13,8 +13,8 @@ const AllUserProjects: FC<AppProps> = ({ user }) => {
         <>
           <div className="all-user-projects-container">
             <p>
-              This is for all projects. Need to pull data and display all user
-              projects in grid.
+              {/* This is for all users projects. Need to pull data and display all user
+              projects in grid. */}
             </p>
           </div>
         </>

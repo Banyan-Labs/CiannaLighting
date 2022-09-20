@@ -47,31 +47,21 @@ const YourProjects: FC = () => {
     getAllProjects();
   }, []);
 
-  const projectColors = [
-    "#AC92EB",
-    "#4FC1E8",
-    "#A0D568",
-    "#AC92EB",
-    "#4FC1E8",
-    "#A0D568",
-    "#AC92EB",
-    "#4FC1E8",
-    "#A0D568",
-    "#AC92EB",
-    "#4FC1E8",
-    "#A0D568",
-  ];
+  const projectColors = ["#AC92EB", "#4FC1E8", "#A0D568"];
 
   const singleProject = projectDetails.map((project: any, index: any) => {
     const changeProject = () => {
-      project.color = projectColors[index || 0];
+      project.color =
+        projectColors[index > projectColors.length - 1 ? 0 : index + 1];
       dataHolding.getData(project);
     };
+    const date = new Date(Date.parse(project.updatedAt));
     return (
       <div
         className="single-project"
         style={{
-          backgroundColor: projectColors[index || 0],
+          backgroundColor:
+            projectColors[index > projectColors.length - 1 ? 0 : index],
         }}
         onClick={() => {
           projectRoute();
@@ -80,7 +70,7 @@ const YourProjects: FC = () => {
         key={index}
       >
         <span>
-          Created: <strong>{Date.parse(project.updatedAt)}</strong>
+          Created: <strong>{date.toDateString()}</strong>
         </span>
         <span>
           Status: <strong>{project.status}</strong>

@@ -1,10 +1,3 @@
-// import { useState } from "react";
-
-// export const dataHolding = () => {
-//   const [data, setData] = useState("");
-//   const getData = (data: any) => {};
-// };
-
 class dataHolding {
   data: {};
   constructor() {
