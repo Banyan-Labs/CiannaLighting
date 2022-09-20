@@ -49,7 +49,6 @@ router.use('/api/help', refreshRoute);
 router.use('/api/user', userRoutes);
 router.use('/api/catalog', catalogRoutes);
 
-// router.use('/api')
 /**Errors */
 router.use((req, res, next) => {
   const error = new Error('not found');

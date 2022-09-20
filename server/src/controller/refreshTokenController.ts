@@ -22,7 +22,6 @@ const refreshTokenController = (req: Request, res: Response) => {
             process.env.ACCESS_TOKEN_SECRET as string,
             { expiresIn: '1500s' }
           );
-          console.log('fresh success');
           res.json({ accessToken });
         }
       );

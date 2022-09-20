@@ -1,7 +1,9 @@
+import { Request, Response, NextFunction } from 'express';
+
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-const verifyJWT = (req: any, res: any, next: any) => {
+const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
   const token = authHeader.split(' ')[1];

@@ -90,7 +90,6 @@ const login = async (req: Request, res: Response) => {
 
           user
             .save()
-
             .then((authenticatedUser) => {
               res.cookie('jwt', refreshToken, {
                 httpOnly: true,

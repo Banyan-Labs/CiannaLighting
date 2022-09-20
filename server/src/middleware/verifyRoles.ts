@@ -6,7 +6,6 @@ const verifyRoles = (...allowedRoles: string[]) => {
     if (!req?.body.role) return res.sendStatus(401);
     const roleArray = [...allowedRoles];
     const result = roleArray.find((role) => role === req.body.role);
-    console.log(result);
     if (!result) return res.sendStatus(401);
     next();
   };
