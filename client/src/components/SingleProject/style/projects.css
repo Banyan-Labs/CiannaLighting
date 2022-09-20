@@ -9,6 +9,7 @@
   color: white;
   width: 100%;
   height: 40vh;
+  border-right: 1px #3c3c3c solid;
 }
 
 .back-to-projects {
@@ -37,9 +38,11 @@
 }
 
 .project-summary-top-bar {
+  margin-left: 20px;
   margin-top: 10px;
   margin-right: 20px;
   display: flex;
+  width: 100%;
   justify-content: space-evenly;
 }
 
@@ -48,27 +51,22 @@
   padding-right: 20px;
 }
 
-.project-summary-project-name {
-  margin-top: 10px;
-}
-
 .circle-icon {
   margin-left: 15px;
-  position: relative;
-  top: -2px;
-  font-size: 10px;
+  font-size: 15px;
 }
 
 .project-summary-date {
-  font-size: 10px;
+  font-size: 14px;
   margin-top: -15px;
   color: #808080;
 }
 
 .project-summary-icons {
   display: inline-flex;
-  margin-top: 15px;
-  margin-right: 20px;
+  align-self: center;
+  justify-items: flex-start;
+  width: 40%;
 }
 
 .archive-icon {
@@ -102,19 +100,20 @@
 }
 
 .status {
-  font-size: 12px;
-  margin-top: 18px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .project-summary-text-container {
-  margin-left: 65px;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .project-summary-description-text {
   margin-left: 80px;
   margin-right: 20px;
   font-weight: 100;
+  font-size: 16px;
 }
 
 .project-attachments-container {

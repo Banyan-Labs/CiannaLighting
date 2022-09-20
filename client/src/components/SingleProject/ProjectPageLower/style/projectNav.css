@@ -8,6 +8,7 @@
   align-items: center;
   color: white;
   font-weight: 100;
+  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
 }
 
 .projects-navbar-links-container {

@@ -10,7 +10,7 @@ interface ProjectSummaryProps {
 }
 
 const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
-  const date = new Date(Date.parse(details.updatedAt)).toDateString();
+  const date = new Date(Date.parse(details.createdAt)).toDateString();
   return (
     <div className="project-summary-container">
       <div className="projects-summary">
@@ -21,13 +21,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
         </div>
         <div className="project-summary-top-bar">
           <div className="project-summary-name-and-date">
-            <h3 className="project-summary-project-name">
+            <h2 className="project-summary-project-name">
               {details.name}
               <FaCircle
                 className="circle-icon"
                 style={{ color: details.color }}
               />
-            </h3>
+            </h2>
             <p className="project-summary-date">Created on: {date}</p>
           </div>
           <div className="project-summary-icons">
