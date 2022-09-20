@@ -1,9 +1,7 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react';
 
-const Archived:FC = ({}) => {
-  return (
-    <div>Archived</div>
-  )
-}
+const Archived: FC = () => {
+    return <div>Archived</div>;
+};
 
-export default Archived
+export default Archived;
