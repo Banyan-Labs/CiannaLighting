@@ -134,4 +134,4 @@ const removeLight = async (req:Request, res: Response) =>{
               });
 }
 
-export default {createCatalogItem, getCatalogItems, getLight, removeLight}
+export default {createCatalogItem, getCatalogItems, getLight, removeLight};

@@ -24,4 +24,8 @@ const rfpSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.model<rfpDocInterface>("RFP", rfpSchema);
+export default mongoose.model<rfpDocInterface>(
+    "RFP", 
+    rfpSchema
+    );
+    
