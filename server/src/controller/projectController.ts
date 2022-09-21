@@ -36,7 +36,7 @@ const getProject = async (req: Request, res: Response) => {
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
-      console.log(`project:${project?.name} `);
+      console.log(`project: ${project?.name} retrieved`);
       return res.status(200).json({
         project,
       });
@@ -49,7 +49,6 @@ const getAccountProjects = async (req: Request, res: Response) => {
   return await Project.find({ clientId: req.body.clientId })
     .exec()
     .then((projects) => {
-      console.log("projects success", projects);
       return res.status(200).json({
         projects,
       });
@@ -75,26 +74,21 @@ const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
-      console.log(project, "project in projDelete");
       if (project && project.rooms.length) {
         await Room.deleteMany({ projectId: req.body._id })
           .exec()
           .then((res) => {
-            console.log(res, "rooms all deleted");
             return res.deletedCount;
           })
           .catch((err) => {
-            console.log(err);
             return err.message;
           });
         await LightSelection.deleteMany({ projectId: req.body._id })
           .exec()
           .then((res) => {
-            console.log(res, "lights all deleted");
             return res.deletedCount;
           })
           .catch((err) => {
-            console.log(err);
             return err.message;
           });
       }
@@ -106,7 +100,6 @@ const deleteProject = async (req: Request, res: Response) => {
           });
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).json(error);
     });
 };

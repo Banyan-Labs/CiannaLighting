@@ -32,12 +32,9 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     lights,
     attachments,
   });
-  console.log(projectId, "projID");
-
   let rfpAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
     .then((project) => {
-      console.log(project, "proj in rfp");
       if (project) {
         project.rfp = rfp._id;
         project.save();
@@ -47,6 +44,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
           .then((rfp) => {
             return res.status(201).json({
               rfp,
+              projectSuccess
             });
           })
           .catch((error) => {
@@ -73,7 +71,6 @@ const findRFP = async (req: Request, res: Response) => {
   return await RFP.findOne({ _id: req.body._id })
     .exec()
     .then((rfp) => {
-      console.log(`rfp success`, rfp);
       return res.status(200).json({
         rfp,
       });
@@ -87,7 +84,6 @@ const getAccountRFPS = async (req: Request, res: Response) => {
   return await RFP.find({ clientId: req.body.clientId })
     .exec()
     .then((rfp) => {
-      console.log("rfPs success", rfp);
       return res.status(200).json({
         rfp,
       });
@@ -100,7 +96,6 @@ const getRFPS = async (req: Request, res: Response) => {
   return await RFP.find()
     .exec()
     .then((rfp) => {
-      console.log("rfPs success", rfp);
       return res.status(200).json({
         rfp,
       });
@@ -114,28 +109,22 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
   return await Project.findByIdAndUpdate({ _id: req.body.projectId })
     .exec()
     .then(async (project) => {
-      console.log(project, req.body.projectId, "proj in room");
-
       if (project) {
         project.rfp = "";
         project.save();
         let rfpRemoved = "rfp removed successfully from project";
-        console.log(rfpRemoved);
-
         return await RFP.findByIdAndDelete({ _id: req.body._id })
           .then((rfp) => {
-            console.log(rfp, req.body._id, "room within delete response");
             return !rfp
               ? res.status(200).json({
-                  rfp,
+                  rfp
                 })
               : res.status(404).json({
-                  message: "The Room you are looking for no longer exists",
-                  // rfpRemoved
+                  message: "The rfp document you are looking for no longer exists",
+                  rfpRemoved
                 });
           })
           .catch((error) => {
-            console.log(error);
             res.status(500).json(error);
           });
       } else {
@@ -143,7 +132,6 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).json(error);
     });
 };
