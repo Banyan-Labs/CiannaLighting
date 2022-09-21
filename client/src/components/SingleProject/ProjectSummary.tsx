@@ -21,13 +21,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
         </div>
         <div className="project-summary-top-bar">
           <div className="project-summary-name-and-date">
-            <h2 className="project-summary-project-name">
+            <h3 className="project-summary-project-name">
               {details.name}
               <FaCircle
                 className="circle-icon"
                 style={{ color: details.color }}
               />
-            </h2>
+            </h3>
             <p className="project-summary-date">Created: {date}</p>
           </div>
           <div className="project-summary-icons">

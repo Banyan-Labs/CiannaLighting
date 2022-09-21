@@ -67,7 +67,7 @@
 .project-summary-icons {
   display: inline-flex;
   align-self: center;
-  justify-items: flex-start;
+  margin-left: 20px;
   width: 40%;
 }
 
@@ -99,22 +99,22 @@
 }
 
 .status {
-  font-size: 16px;
+  font-size: 12px;
 display: flex;
 align-items: center;
-margin-right:50px;
+margin-right: 25px;
 }
 
 .project-summary-text-container {
   margin-left: 4.5em;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .project-summary-description-text {
   margin-left: 80px;
   margin-right:20px;
   font-weight: 100;
-  font-size: 16px;
+  font-size: 12px;
 }
 // Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-attachments-container {
