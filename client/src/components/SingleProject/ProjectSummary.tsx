@@ -28,7 +28,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                 style={{ color: details.color }}
               />
             </h2>
-            <p className="project-summary-date">Created on: {date}</p>
+            <p className="project-summary-date">Created: {date}</p>
           </div>
           <div className="project-summary-icons">
             <FaRegEdit className="edit-icon" />

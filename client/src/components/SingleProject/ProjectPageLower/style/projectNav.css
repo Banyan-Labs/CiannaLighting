@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
 .projects-navbar-container {
+  position: relative;
+  top: -10px;
   width: 100%;
-  height: 50px;
-  background-color: #101010;
-  border-bottom: 0.5px solid #3c3c3c;
+  height: 10px;
   display: flex;
   align-items: center;
   color: white;
@@ -30,12 +30,15 @@
 }
 
 .projects-link {
+  position: relative;
+  top: -25px;
   margin-left: 25px;
   font-size: 15px;
 }
 
 .projects-link:hover {
   cursor: pointer;
+  font-weight: 500;
 }
 
 .add-room-button-container {
@@ -94,7 +97,7 @@
 .projects-active {
   color: #c6ad7c !important;
   position: relative;
-  top: -2px;
+  top: -28px;
   font-weight: 400;
   transition: 0.3s ease-in-out;
 }
@@ -106,7 +109,7 @@
   top: 30px;
   width: 40%;
   border-bottom: 4px solid #c6ad7c;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 .not-active::before {
@@ -114,5 +117,5 @@
   display: block;
   width: 0%;
   border-bottom: 4px solid #c6ad7c;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
 }/*# sourceMappingURL=projectNav.css.map */
