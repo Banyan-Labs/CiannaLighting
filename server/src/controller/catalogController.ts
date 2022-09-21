@@ -80,7 +80,6 @@ const createCatalogItem = async (req: Request, res: Response)=>{
     return await catalogItem
            .save()
            .then((item)=>{
-            console.log(item, "newCatalogItem")
             return res.status(201).json({
                 item
             })
@@ -109,7 +108,7 @@ const getLight = async (req: Request, res: Response) =>{
   return await CatalogItem.findOne({_id: req.body._id})
         .exec()
         .then((light)=>{
-        console.log(`project:${light?.item_ID} `)
+        console.log(`Catalog Item: ${light?.item_ID} retrieved`)
         return res.status(200).json({
           light
         });
@@ -131,9 +130,8 @@ const removeLight = async (req:Request, res: Response) =>{
                   });
             })
             .catch((error) => {
-                console.log(error);
-                res.status(500).json(error);
+                return res.status(500).json(error);
               });
 }
 
-export default {createCatalogItem, getCatalogItems, getLight, removeLight}
+export default {createCatalogItem, getCatalogItems, getLight, removeLight};

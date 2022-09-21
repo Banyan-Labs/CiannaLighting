@@ -30,7 +30,6 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const email: string = req.body.email;
   const password: string = req.body.password;
-  console.log(email, password, "params");
   await User.findOne({ email: email, password: password })
     .exec()
     .then((user) => {
@@ -52,7 +51,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     }
     })
     .catch((error) => {
-      console.log(error.message);
       return res.status(500).json({
         message: error.message,
         error,
@@ -61,16 +59,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 const logOut = async (req: Request, res: Response, next: NextFunction) => {
   const email: string = req.body.email;
-//   const name: string = req.body.name;
-  console.log(email, "params");
   await User.findOne({ email: email})
     .exec()
     .then((user) => {
-      console.log(user, res, "weird");
       if(user){
         user.isAuth = false;
-        user.save()
-        
+        user.save();
         return res.status(200).json({
             User: {
                 name: user?.name,
@@ -84,7 +78,6 @@ const logOut = async (req: Request, res: Response, next: NextFunction) => {
     }
     })
     .catch((error) => {
-      console.log(error.message, 'what');
       return res.status(500).json({
         message: error.message,
         error,

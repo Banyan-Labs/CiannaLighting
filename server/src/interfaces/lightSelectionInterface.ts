@@ -18,6 +18,6 @@ export default interface lightSelectionInterface extends Document {
   roomName: string;
   roomId: string;
   projectId: string;
-  clientId:string;
+  clientId: string;
   quantity: number;
 }

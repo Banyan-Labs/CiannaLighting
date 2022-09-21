@@ -29,9 +29,9 @@ export default interface catalogInterface extends Document {
   crystalType: string[];
   designStyle: string[];
   usePackages: string[];
-  images: string[];//s3
-  PDF: string[];//s3
-  drawingFiles: string[];//s3
+  images: string[]; //s3
+  PDF: string[]; //s3
+  drawingFiles: string[]; //s3
   costAdmin: number;
   partnerCodeAdmin: string;
 }
