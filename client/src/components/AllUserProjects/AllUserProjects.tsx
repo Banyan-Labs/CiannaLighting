@@ -1,4 +1,4 @@
-import react, { FC } from "react";
+import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { AppProps } from "../../App";
 

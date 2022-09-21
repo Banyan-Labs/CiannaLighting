@@ -1,5 +1,5 @@
 class dataHolding {
-  data: {};
+  data: Record<string, unknown>;
   constructor() {
     this.data = {};
   }

@@ -8,7 +8,7 @@ import Schedule from "./ProjectSubComponents/Schedule";
 import Activity from "./ProjectSubComponents/Activity";
 import Proposal from "./ProjectSubComponents/Proposal";
 
-const ProjectsNav: FC = ({}) => {
+const ProjectsNav: FC = () => {
   const [renderedPage, setRenderedPage] = useState("Rooms");
 
   return (
