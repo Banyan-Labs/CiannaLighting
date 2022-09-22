@@ -20,6 +20,12 @@ const router = express();
 /** Server Handler */
 const httpServer = http.createServer(router);
 
+router.use(cookieParser());
+router.use(credentials);
+router.use(cors(corsOptions)); // add any rules into the corsOptions file.
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json());
+
 mongoose
   .connect(config.mongo.url, config.mongo.options)
   .then(() => {
@@ -41,26 +47,13 @@ router.use((req, res, next) => {
   next();
 });
 
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-router.use(credentials);
-
-// Cross Origin Resource Sharing
-router.use(cors(corsOptions));
-
-// Middleware for cookies
-router.use(cookieParser());
-
-router.use(express.urlencoded({ extended: false }));
-router.use(express.json());
 /**Routes */
+router.use('/api/help', refreshRoute);
 router.use('/api/admin', adminRoutes);
 router.use('/api/user', userRoutes);
 router.use('/api/projects', projectRoutes);
 router.use('/api/rooms', roomRoutes);
 router.use('/api/lightSelector', lightSelectionRoutes);
-router.use('/api/help', refreshRoute);
-
 router.use('/api/catalog', catalogRoutes);
 
 /**Errors */

@@ -11,6 +11,7 @@ const refreshTokenController = (req: Request, res: Response) => {
   User.findOne({ refreshToken })
     .then((user) => {
       if (!user) return res.sendStatus(401);
+
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET as string,
