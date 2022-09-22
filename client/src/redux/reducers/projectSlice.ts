@@ -7,6 +7,7 @@ export interface ProjectStateType {
 }
 
 export type ProjectType = {
+    id?: string;
     name: string;
     clientId: string;
     clientName: string;
@@ -19,7 +20,7 @@ export type ProjectType = {
 
 export type RoomType = {
     clientId: string;
-    projectId: string;
+    projectId?: string;
     name: string;
     description: string;
     lights?: string[];
