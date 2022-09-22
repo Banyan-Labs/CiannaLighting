@@ -9,7 +9,6 @@ const router = express.Router();
 // Public Routes: no login required for these
 router.post('/login/user', controller.login);
 router.post('/log_out/user', controller.logOut);
-router.post('/create/user', controller.createUser);
 
 // Protected Routes
 // Note: All routes placed below verifyJWT will require an access token.
