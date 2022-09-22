@@ -41,6 +41,13 @@ const Modal: FC<Props> = (props) => {
         });
     };
 
+    const handleSelection = (e: FormEvent<HTMLSelectElement>) => {
+        setProjectDetails({
+            ...projectDetails,
+            [e.currentTarget.name]: e.currentTarget.value,
+        });
+    };
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         console.log('submitted');
@@ -62,6 +69,30 @@ const Modal: FC<Props> = (props) => {
             console.log('Error: ' + err);
         }
     };
+
+    // Hardcoded mock-data for the dropdown list values
+    const statusOptions = [
+        'New',
+        'Configure',
+        'Internal Approval',
+        'RFP',
+        'Awarded',
+        'Construction',
+        'Hold',
+        'Completed',
+        'Canceled',
+    ];
+    const regionOptions = [
+        'Choose',
+        'Africa',
+        'Asia',
+        'Caribbean',
+        'Central America',
+        'Europe',
+        'North America',
+        'Oceania',
+        'South America',
+    ];
 
     return (
         <div className="new-project-modal-background">
@@ -125,16 +156,40 @@ const Modal: FC<Props> = (props) => {
                                     Status
                                 </label>
                                 <br />
-                                <input
-                                    name="status"
+                                <select
                                     id="status"
-                                    type="text"
-                                    className="new-project-modal-inputs"
-                                    placeholder="New"
-                                    value={projectDetails.status}
-                                    onChange={(e) => handleFormInput(e)}
-                                    required
-                                ></input>
+                                    name="status"
+                                    onChange={(e) => handleSelection(e)}
+                                >
+                                    {statusOptions.map(
+                                        (
+                                            status: string,
+                                            index = statusOptions.indexOf(
+                                                status
+                                            )
+                                        ) => {
+                                            if (status === 'New') {
+                                                return (
+                                                    <option
+                                                        defaultValue={status}
+                                                        key={index}
+                                                        value={status}
+                                                    >
+                                                        {status}
+                                                    </option>
+                                                );
+                                            }
+                                            return (
+                                                <option
+                                                    key={index}
+                                                    value={status}
+                                                >
+                                                    {status}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </select>
                             </div>
                             <br />
                             <div>
@@ -142,16 +197,40 @@ const Modal: FC<Props> = (props) => {
                                     Region
                                 </label>
                                 <br />
-                                <input
-                                    name="region"
+                                <select
                                     id="region"
-                                    type="text"
-                                    className="new-project-modal-inputs"
-                                    placeholder="North America"
-                                    value={projectDetails.region}
-                                    onChange={(e) => handleFormInput(e)}
-                                    required
-                                ></input>
+                                    name="region"
+                                    onChange={(e) => handleSelection(e)}
+                                >
+                                    {regionOptions.map(
+                                        (
+                                            region: string,
+                                            index = regionOptions.indexOf(
+                                                region
+                                            )
+                                        ) => {
+                                            if (region === 'Choose') {
+                                                return (
+                                                    <option
+                                                        defaultValue={region}
+                                                        key={index}
+                                                        value={region}
+                                                    >
+                                                        {region}
+                                                    </option>
+                                                );
+                                            }
+                                            return (
+                                                <option
+                                                    key={index}
+                                                    value={region}
+                                                >
+                                                    {region}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </select>
                             </div>
                         </div>
                         <div className="new-project-modal-footer">
