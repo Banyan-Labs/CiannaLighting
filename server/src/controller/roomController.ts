@@ -15,11 +15,9 @@ const createRoom = async(req: Request, res: Response, next: NextFunction) => {
       description,
       lights: [],
   });
-  console.log(projectId)
   let roomAndProject = await Project.findByIdAndUpdate({_id: projectId})
   .exec()
   .then((project)=>{
-    console.log(project, "PROJECT")
     if(project){
         project.rooms = [...project.rooms, room._id]
         project.save()
@@ -44,7 +42,6 @@ const createRoom = async(req: Request, res: Response, next: NextFunction) => {
     }
   })
   .catch((error) => {
-    console.log(projectId, error.message, "fail")
     return res.status(500).json({
       message: error.message,
       error,
@@ -70,7 +67,7 @@ const getRoom = async(req: Request, res: Response)=>{
   return await Room.findOne({_id: req.body._id})
       .exec()
       .then((room)=>{
-        console.log(`room:${room?.name} `)
+        console.log(`room: ${room?.name} retrieved`)
         return res.status(200).json({
           room
         });
@@ -84,32 +81,25 @@ const deleteRoom =async(req: Request, res: Response) => {
   return await Project.findByIdAndUpdate({_id: req.body.projectId})
   .exec()
   .then(async(project)=>{
-    console.log(project, req.body.projectId, "proj in room")
-    
     if(project){
       project.rooms = project.rooms.filter((id: string)=>{ 
         return String(id) !== req.body._id ? id : ""
       })
       project.save();}
       let roomRemoved = "room removed successfully from project";
-      console.log(roomRemoved)
       await LightSelection.deleteMany({roomId: req.body._id})
         .exec()
         .then((res)=>{
-          console.log(res, "lights all deleted")
           return res.deletedCount  
         })
         .catch((err)=>{
-          console.log(err)
           return err.message
         })
     return  await Room.findByIdAndDelete({_id:req.body._id})
     .then((room) => {
-      console.log(room, req.body._id, "room within delete response")
       return !room
         ? res.status(200).json({
-          room,
-        
+          room
         })
         : res.status(404).json({
             message: "The Room you are looking for no longer exists",
@@ -117,13 +107,8 @@ const deleteRoom =async(req: Request, res: Response) => {
           });
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).json(error);
     });
-  // }else{
-      console.log("failed to delete room from project")
-      return "failed to delete room from project"
-    // }
   })
   
 };

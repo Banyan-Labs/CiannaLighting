@@ -3,15 +3,15 @@ import { createHttpRequest } from '../../api/requestTypes';
 import { setUser, setError, logout } from '../reducers/authSlice';
 
 type SignInType = {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 };
 
 export type UserType = {
-  name: String;
-  email: String;
-  password: String;
-  isAuth?: boolean;
+    name: string;
+    email: string;
+    password: string;
+    isAuth?: boolean;
 };
 
 const baseUrl = 'http://localhost:1337/api/'; // will be replaced with .env variables.
@@ -43,18 +43,30 @@ export const logoutAction =
       console.log(error);
     }
   };
+    (payload: SignInType) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await createHttpRequest(
+                baseUrl + 'users/login/user',
+                payload
+            );
+            dispatch(setUser(response.data.User));
+        } catch (error: any) {
+            dispatch(setError(error.response.data));
+        }
+    };
 
 export const createUserAction =
-  (user: UserType) =>
-  async (dispatch: Dispatch): Promise<void> => {
-    try {
-      const response = await createHttpRequest(
-        baseUrl + 'users/create/user',
-        user
-      );
-      dispatch(setUser(response.data.user));
-    } catch (error: any) {
-      console.log(error);
-      dispatch(setError(error.response.data));
-    }
-  };
+    (user: UserType) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await createHttpRequest(
+                baseUrl + 'users/create/user',
+                user
+            );
+            dispatch(setUser(response.data.user));
+        } catch (error: any) {
+            console.log(error);
+            dispatch(setError(error.response.data));
+        }
+    };

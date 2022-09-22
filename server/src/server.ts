@@ -13,7 +13,7 @@ import roomRoutes from './routes/roomRoutes';
 import lightSelectionRoutes from './routes/lightSelectionRoutes';
 import refreshRoute from './routes/refreshTokenRoute';
 import catalogRoutes from './routes/catalogRoutes';
-
+import rfpRoutes from './routes/rfpRoutes';
 const router = express();
 
 /** Server Handler */
@@ -27,6 +27,18 @@ mongoose
   .catch((error: any) => {
     logging.error(error);
   });
+
+router.use((req, res, next) => {
+  logging.info(
+    `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress}`
+  );
+  res.on('finish', () => {
+    logging.info(
+      `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress} - STATUS: '${res.statusCode}`
+    );
+  });
+  next();
+});
 
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
