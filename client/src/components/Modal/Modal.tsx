@@ -169,7 +169,7 @@ const Modal: FC<Props> = (props) => {
                                                 status
                                             )
                                         ) => {
-                                            if (status === 'New Status') {
+                                            if (status === 'Choose Status') {
                                                 return (
                                                     <option
                                                         defaultValue={status}
