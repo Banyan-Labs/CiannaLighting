@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ProjectStateType {
-    project: Project | null;
-    room: Room | null;
+    project: ProjectType | null;
+    room: RoomType | null;
     error: any;
 }
 
-type Project = {
+export type ProjectType = {
     name: string;
     clientId: string;
     clientName: string;
@@ -17,7 +17,7 @@ type Project = {
     rooms?: string[];
 };
 
-type Room = {
+export type RoomType = {
     clientId: string;
     projectId: string;
     name: string;
@@ -46,4 +46,5 @@ export const projectSlice = createSlice({
     },
 });
 
+export const { setProject, setRoom, setProjectError } = projectSlice.actions;
 export default projectSlice.reducer;

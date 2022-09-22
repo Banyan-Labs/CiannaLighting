@@ -1,7 +1,8 @@
 import React, { FC, FormEvent, useState } from 'react';
-import axios from '../../api/axios';
 import { FaTimes } from 'react-icons/fa';
 import './style/modal.scss';
+import { useAppDispatch } from '../../app/hooks';
+import { createProjectAction } from '../../redux/actions/projectActions';
 
 type ProjectType = {
     name: string;
@@ -34,6 +35,8 @@ const Modal: FC<Props> = (props) => {
         description: '',
     });
 
+    const dispatch = useAppDispatch();
+
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setProjectDetails({
             ...projectDetails,
@@ -45,10 +48,7 @@ const Modal: FC<Props> = (props) => {
         e.preventDefault();
         console.log('submitted');
         try {
-            const response = await axios.post(
-                '/projects/create-project/',
-                projectDetails
-            );
+            dispatch(createProjectAction(projectDetails));
             setProjectDetails({
                 name: '',
                 clientId: props.user.id,
@@ -57,7 +57,6 @@ const Modal: FC<Props> = (props) => {
                 status: '',
                 description: '',
             });
-            console.log(response.data, 'response');
         } catch (err) {
             console.log('Error: ' + err);
         }

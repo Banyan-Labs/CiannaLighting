@@ -14,7 +14,7 @@ export type UserType = {
     isAuth?: boolean;
 };
 
-const baseUrl = 'http://localhost:1337/api/'; // will be replaced with .env variables.
+export const baseUrl = 'http://localhost:1337/api/'; // will be replaced with .env variables.
 
 export const signInAction =
     (payload: SignInType) =>
