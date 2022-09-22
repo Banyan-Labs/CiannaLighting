@@ -72,6 +72,7 @@ const Modal: FC<Props> = (props) => {
 
     // Hardcoded mock-data for the dropdown list values
     const statusOptions = [
+        'Choose Status',
         'New',
         'Configure',
         'Internal Approval',
@@ -83,7 +84,7 @@ const Modal: FC<Props> = (props) => {
         'Canceled',
     ];
     const regionOptions = [
-        'Choose',
+        'Choose Region',
         'Africa',
         'Asia',
         'Caribbean',
@@ -168,7 +169,7 @@ const Modal: FC<Props> = (props) => {
                                                 status
                                             )
                                         ) => {
-                                            if (status === 'New') {
+                                            if (status === 'New Status') {
                                                 return (
                                                     <option
                                                         defaultValue={status}
@@ -209,7 +210,7 @@ const Modal: FC<Props> = (props) => {
                                                 region
                                             )
                                         ) => {
-                                            if (region === 'Choose') {
+                                            if (region === 'Choose Region') {
                                                 return (
                                                     <option
                                                         defaultValue={region}
