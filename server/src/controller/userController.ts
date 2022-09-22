@@ -145,7 +145,6 @@ const logOut = async (req: Request, res: Response) => {
       }
 
       if (user) {
-        // remember to remove from front end as well.
         user.refreshToken = '';
         user.isAuth = false;
         user.save();
