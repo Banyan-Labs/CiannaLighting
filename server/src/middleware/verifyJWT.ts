@@ -18,8 +18,8 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     (err: any, token: TokenType) => {
       if (err) return res.sendStatus(403);
 
-      req.body.email = token.name;
-      req.body.role = token.role;
+      req.body.authEmail = token.name;
+      req.body.authRole = token.role;
       next();
     }
   );

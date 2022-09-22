@@ -13,6 +13,7 @@ import roomRoutes from './routes/roomRoutes';
 import lightSelectionRoutes from './routes/lightSelectionRoutes';
 import refreshRoute from './routes/refreshTokenRoute';
 import catalogRoutes from './routes/catalogRoutes';
+import adminRoutes from './routes/adminRoutes';
 import rfpRoutes from './routes/rfpRoutes';
 const router = express();
 
@@ -53,12 +54,13 @@ router.use(cookieParser());
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 /**Routes */
-
+router.use('/api/admin', adminRoutes);
+router.use('/api/user', userRoutes);
 router.use('/api/projects', projectRoutes);
 router.use('/api/rooms', roomRoutes);
 router.use('/api/lightSelector', lightSelectionRoutes);
 router.use('/api/help', refreshRoute);
-router.use('/api/user', userRoutes);
+
 router.use('/api/catalog', catalogRoutes);
 
 /**Errors */
