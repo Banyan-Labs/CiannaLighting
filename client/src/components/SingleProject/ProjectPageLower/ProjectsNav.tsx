@@ -1,12 +1,12 @@
 import React, { FC, useState } from "react";
 
-// import * as data from "./projectLinks.json";
-import "./style/projectNav.scss";
 import Overview from "./ProjectSubComponents/Overview";
 import Rooms from "./ProjectSubComponents/Rooms";
 import Schedule from "./ProjectSubComponents/Schedule";
 import Activity from "./ProjectSubComponents/Activity";
 import Proposal from "./ProjectSubComponents/Proposal";
+
+import "./style/projectNav.scss";
 
 const ProjectsNav: FC = () => {
   const [renderedPage, setRenderedPage] = useState("Rooms");
