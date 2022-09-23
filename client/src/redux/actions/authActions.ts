@@ -24,7 +24,6 @@ export const signInAction =
         baseUrl + 'user/login/user',
         payload
       );
-      console.log(response.data);
       dispatch(setUser(response.data.user));
     } catch (error: any) {
       dispatch(setError(error.response.data));

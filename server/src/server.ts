@@ -8,13 +8,9 @@ import credentials from './middleware/credentials';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes';
-import projectRoutes from './routes/projectRoutes';
-import roomRoutes from './routes/roomRoutes';
-import lightSelectionRoutes from './routes/lightSelectionRoutes';
+import publicRoutes from './routes/publicRoutes';
 import refreshRoute from './routes/refreshTokenRoute';
-import catalogRoutes from './routes/catalogRoutes';
 import adminRoutes from './routes/adminRoutes';
-import rfpRoutes from './routes/rfpRoutes';
 const router = express();
 
 /** Server Handler */
@@ -48,13 +44,10 @@ router.use((req, res, next) => {
 });
 
 /**Routes */
-router.use('/api/help', refreshRoute);
+router.use('/api', refreshRoute);
 router.use('/api/admin', adminRoutes);
 router.use('/api/user', userRoutes);
-router.use('/api/projects', projectRoutes);
-router.use('/api/rooms', roomRoutes);
-router.use('/api/lightSelector', lightSelectionRoutes);
-router.use('/api/catalog', catalogRoutes);
+router.use('/api', publicRoutes);
 
 /**Errors */
 router.use((req, res, next) => {
