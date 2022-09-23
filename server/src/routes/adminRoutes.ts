@@ -7,10 +7,13 @@ import ROLES_LIST from '../../config/rolesList';
 const router = express.Router();
 // Admin Routes
 router.use(verifyJWT);
-router.post(
-  '/create-user',
-  verifyAuthorization(ROLES_LIST.ADMIN),
-  controller.createNewUser
-);
+verifyAuthorization(ROLES_LIST.ADMIN),
+  router
+    .post(
+      '/create-user',
+
+      controller.createNewUser
+    )
+    .get('/get-users', controller.getAllUsers);
 
 export = router;

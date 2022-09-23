@@ -10,10 +10,4 @@ const router = express.Router();
 router.post('/login/user', controller.login);
 router.post('/log_out/user', controller.logOut);
 
-// Protected Routes
-// Note: All routes placed below verifyJWT will require an access token.
-router.use(verifyJWT);
-router.use(verifyAuthorization(ROLES_LIST.ADMIN));
-router.get('/get/users', controller.getAllUsers);
-
 export = router;

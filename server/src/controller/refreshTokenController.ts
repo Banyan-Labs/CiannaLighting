@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import jwt, { VerifyErrors } from 'jsonwebtoken';
-import { TokenType } from '../middleware/verifyJWT';
+import * as jwt from 'jsonwebtoken';
 require('dotenv').config();
 import User from '../model/User';
 
