@@ -1,6 +1,11 @@
 import { Dispatch } from 'redux';
 import { createHttpRequest } from '../../api/requestTypes';
-import { setProject, setProjectError, setRoom } from '../reducers/projectSlice';
+import {
+    setProject,
+    setProjectError,
+    setRoom,
+    setProjectId,
+} from '../reducers/projectSlice';
 import { baseUrl } from './authActions';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 
@@ -12,6 +17,7 @@ export const createProjectAction =
                 baseUrl + 'projects/create-project/',
                 payload
             );
+            dispatch(setProjectId(response.data.project));
             dispatch(setProject(response.data.project));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
@@ -26,6 +32,7 @@ export const createRoomAction =
                 baseUrl + 'rooms/create-room/',
                 payload
             );
+            console.log(response);
             dispatch(setRoom(response.data.room));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));

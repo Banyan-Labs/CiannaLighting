@@ -3,7 +3,7 @@ import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createRoomAction } from '../../redux/actions/projectActions';
 import { RoomType } from '../../redux/reducers/projectSlice';
-import './style/modal.scss';
+import '../Modal/style/modal.scss';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
@@ -11,14 +11,9 @@ type Props = {
     user: any;
 };
 
-export const NewRoomModal: FC<Props> = (props) => {
-    const closeModal = props.closeModal;
-    const openModal = props.openModal;
-    const { user } = useAppSelector(({ auth }) => auth);
-    const { project } = useAppSelector(({ project }) => project);
-    const [roomDetails, setRoomDetails] = useState<RoomType>({
-        clientId: user.id,
-        projectId: project?.id,
+export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
+    const { projectId } = useAppSelector(({ project }) => project);
+    const [roomDetails, setRoomDetails] = useState({
         name: '',
         description: '',
     });
@@ -36,16 +31,20 @@ export const NewRoomModal: FC<Props> = (props) => {
         e.preventDefault();
         console.log('submitted');
         try {
-            if (project) {
-                dispatch(createRoomAction(roomDetails));
+            if (projectId) {
+                const newRoom = {
+                    clientId: user.id,
+                    projectId: projectId,
+                    name: roomDetails.name,
+                    description: roomDetails.description,
+                };
+                dispatch(createRoomAction(newRoom));
             }
-
             setRoomDetails({
-                clientId: '',
-                projectId: project?.id,
                 name: '',
                 description: '',
             });
+            closeModal(!openModal);
         } catch (err) {
             console.log('Error: ' + err);
         }
