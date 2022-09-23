@@ -1,0 +1,12 @@
+@import '../../../variables/variables.scss';
+
+.all-user-projects-container {
+    background-color: $primary-bg-dark;
+    height: 100vh;
+    width: 100%;
+    p {
+        padding: 105px 0 0 15px;
+        color: $primary-bg-dark-text;
+        margin: 0;
+    }
+}

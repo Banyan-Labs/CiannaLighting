@@ -1,8 +1,10 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import './style/modal.scss';
 import { useAppDispatch } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import './style/modal.scss';
+import { useNavigate } from 'react-router-dom';
 
 type ProjectType = {
     name: string;
@@ -23,9 +25,10 @@ type Props = {
 
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
-const Modal: FC<Props> = (props) => {
+const Modal: FC<Props> = (props, user) => {
     const closeModal = props.closeModal;
     const openModal = props.openModal;
+    const navigate = useNavigate();
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
         name: '',
         clientId: props.user.id,
@@ -38,6 +41,13 @@ const Modal: FC<Props> = (props) => {
     const dispatch = useAppDispatch();
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
+        setProjectDetails({
+            ...projectDetails,
+            [e.currentTarget.name]: e.currentTarget.value,
+        });
+    };
+
+    const handleSelection = (e: FormEvent<HTMLSelectElement>) => {
         setProjectDetails({
             ...projectDetails,
             [e.currentTarget.name]: e.currentTarget.value,
@@ -61,6 +71,31 @@ const Modal: FC<Props> = (props) => {
             console.log('Error: ' + err);
         }
     };
+
+    // Hardcoded mock-data for the dropdown list values
+    const statusOptions = [
+        'Choose Status',
+        'New',
+        'Configure',
+        'Internal Approval',
+        'RFP',
+        'Awarded',
+        'Construction',
+        'Hold',
+        'Completed',
+        'Canceled',
+    ];
+    const regionOptions = [
+        'Choose Region',
+        'Africa',
+        'Asia',
+        'Caribbean',
+        'Central America',
+        'Europe',
+        'North America',
+        'Oceania',
+        'South America',
+    ];
 
     return (
         <div className="new-project-modal-background">
@@ -124,16 +159,40 @@ const Modal: FC<Props> = (props) => {
                                     Status
                                 </label>
                                 <br />
-                                <input
-                                    name="status"
+                                <select
                                     id="status"
-                                    type="text"
-                                    className="new-project-modal-inputs"
-                                    placeholder="New"
-                                    value={projectDetails.status}
-                                    onChange={(e) => handleFormInput(e)}
-                                    required
-                                ></input>
+                                    name="status"
+                                    onChange={(e) => handleSelection(e)}
+                                >
+                                    {statusOptions.map(
+                                        (
+                                            status: string,
+                                            index = statusOptions.indexOf(
+                                                status
+                                            )
+                                        ) => {
+                                            if (status === 'Choose Status') {
+                                                return (
+                                                    <option
+                                                        defaultValue={status}
+                                                        key={index}
+                                                        value={status}
+                                                    >
+                                                        {status}
+                                                    </option>
+                                                );
+                                            }
+                                            return (
+                                                <option
+                                                    key={index}
+                                                    value={status}
+                                                >
+                                                    {status}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </select>
                             </div>
                             <br />
                             <div>
@@ -141,23 +200,51 @@ const Modal: FC<Props> = (props) => {
                                     Region
                                 </label>
                                 <br />
-                                <input
-                                    name="region"
+                                <select
                                     id="region"
-                                    type="text"
-                                    className="new-project-modal-inputs"
-                                    placeholder="North America"
-                                    value={projectDetails.region}
-                                    onChange={(e) => handleFormInput(e)}
-                                    required
-                                ></input>
+                                    name="region"
+                                    onChange={(e) => handleSelection(e)}
+                                >
+                                    {regionOptions.map(
+                                        (
+                                            region: string,
+                                            index = regionOptions.indexOf(
+                                                region
+                                            )
+                                        ) => {
+                                            if (region === 'Choose Region') {
+                                                return (
+                                                    <option
+                                                        defaultValue={region}
+                                                        key={index}
+                                                        value={region}
+                                                    >
+                                                        {region}
+                                                    </option>
+                                                );
+                                            }
+                                            return (
+                                                <option
+                                                    key={index}
+                                                    value={region}
+                                                >
+                                                    {region}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </select>
                             </div>
                         </div>
                         <div className="new-project-modal-footer">
                             <button
                                 type="submit"
                                 className="new-project-modal-button"
-                                onClick={(e) => onSubmit(e)}
+                                onClick={(e) => {
+                                    onSubmit(e);
+                                    dataHolding.getData(projectDetails);
+                                    navigate(`/projects/${user.name}`);
+                                }}
                             >
                                 Create Project
                             </button>

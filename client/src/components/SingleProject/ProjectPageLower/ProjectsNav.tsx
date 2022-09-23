@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
+
 import Overview from './ProjectSubComponents/Overview';
 import Rooms from './ProjectSubComponents/Rooms';
 import Schedule from './ProjectSubComponents/Schedule';
 import Activity from './ProjectSubComponents/Activity';
 import Proposal from './ProjectSubComponents/Proposal';
+
 import './style/projectNav.scss';
 
 const ProjectsNav: FC = () => {
@@ -13,31 +15,51 @@ const ProjectsNav: FC = () => {
         <>
             <nav className="projects-navbar-container">
                 <div
-                    className="projects-link"
+                    className={
+                        renderedPage === 'Overview'
+                            ? 'projects-link  projects-active'
+                            : ' projects-link projects-not-active'
+                    }
                     onClick={() => setRenderedPage('Overview')}
                 >
                     Overview
                 </div>
                 <div
-                    className="projects-link"
+                    className={
+                        renderedPage === 'Rooms'
+                            ? 'projects-link  projects-active'
+                            : ' projects-link projects-not-active'
+                    }
                     onClick={() => setRenderedPage('Rooms')}
                 >
                     Rooms
                 </div>
                 <div
-                    className="projects-link"
+                    className={
+                        renderedPage === 'Schedule'
+                            ? 'projects-link  projects-active'
+                            : ' projects-link projects-not-active'
+                    }
                     onClick={() => setRenderedPage('Schedule')}
                 >
                     Schedule
                 </div>
                 <div
-                    className="projects-link"
+                    className={
+                        renderedPage === 'Activity'
+                            ? 'projects-link  projects-active'
+                            : ' projects-link projects-not-active'
+                    }
                     onClick={() => setRenderedPage('Activity')}
                 >
                     Activity
                 </div>
                 <div
-                    className="projects-link"
+                    className={
+                        renderedPage === 'Proposal'
+                            ? 'projects-link  projects-active'
+                            : ' projects-link projects-not-active'
+                    }
                     onClick={() => setRenderedPage('Proposal')}
                 >
                     Proposal

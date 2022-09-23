@@ -5,13 +5,13 @@ import Iuser from "../interfaces/userInt";
 
 const userSchema: Schema = new Schema(
   {
-    _id: {type: mongoose.Types.ObjectId},
+    _id: { type: mongoose.Types.ObjectId },
     name: { type: String, required: true },
     email: { type: String, required: true },
-    password: { type: String, required: true },
-    isAuth: {type: Boolean},
-    // role: {type: String, required: true},
-    // projects: {type: Array<string>}
+    password: { type: String, required: true, select: false },
+    isAuth: { type: Boolean },
+    role: { type: String, required: true },
+    refreshToken: { type: String, select: false },
   },
   {
     timestamps: true,

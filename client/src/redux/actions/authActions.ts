@@ -21,10 +21,11 @@ export const signInAction =
     async (dispatch: Dispatch): Promise<void> => {
         try {
             const response = await createHttpRequest(
-                baseUrl + 'users/login/user',
+                baseUrl + 'user/login/user',
                 payload
             );
-            dispatch(setUser(response.data.User));
+            console.log(response.data);
+            dispatch(setUser(response.data.user));
         } catch (error: any) {
             dispatch(setError(error.response.data));
         }
@@ -34,12 +35,24 @@ export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            await createHttpRequest(baseUrl + 'users/log_out/user', {
+            await createHttpRequest(baseUrl + 'user/log_out/user', {
                 email,
             });
             dispatch(logout());
         } catch (error) {
             console.log(error);
+        }
+    };
+(payload: SignInType) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await createHttpRequest(
+                baseUrl + 'users/login/user',
+                payload
+            );
+            dispatch(setUser(response.data.User));
+        } catch (error: any) {
+            dispatch(setError(error.response.data));
         }
     };
 

@@ -1,16 +1,16 @@
 {
-  "links": [
-    {
-      "label": "Dashboard",
-      "href": "/dashboard/"
-    },
-    {
-      "label": "Projects",
-      "href": "/projects/"
-    },
-    {
-      "label": "Catalog",
-      "href": "/catalog/"
-    }
-  ]
+    "links": [
+        {
+            "label": "Dashboard",
+            "href": "/dashboard/"
+        },
+        {
+            "label": "Projects",
+            "href": "/projects/all/"
+        },
+        {
+            "label": "Catalog",
+            "href": "/catalog/"
+        }
+    ]
 }

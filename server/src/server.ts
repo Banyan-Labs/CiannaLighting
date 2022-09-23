@@ -2,17 +2,29 @@ import http from "http";
 import express from "express";
 import logging from "../config/logging";
 import config from "../config/config";
+import cookieParser from "cookie-parser";
+import corsOptions from "../config/corsOptions";
+import credentials from "./middleware/credentials";
+import cors from "cors";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes";
 import projectRoutes from "./routes/projectRoutes";
 import roomRoutes from "./routes/roomRoutes";
 import lightSelectionRoutes from "./routes/lightSelectionRoutes";
+import refreshRoute from "./routes/refreshTokenRoute";
 import catalogRoutes from "./routes/catalogRoutes";
+import adminRoutes from "./routes/adminRoutes";
 import rfpRoutes from "./routes/rfpRoutes";
 const router = express();
 
 /** Server Handler */
 const httpServer = http.createServer(router);
+
+router.use(cookieParser());
+router.use(credentials);
+router.use(cors(corsOptions)); // add any rules into the corsOptions file.
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json());
 
 mongoose
   .connect(config.mongo.url, config.mongo.options)
@@ -35,30 +47,14 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use(express.urlencoded({ extended: false }));
-router.use(express.json());
-
-router.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  if (req.method == "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-    return res.status(200).json({});
-  }
-  next();
-});
-
 /**Routes */
-router.use("/api/users", userRoutes);
+router.use("/api/help", refreshRoute);
+router.use("/api/admin", adminRoutes);
 router.use("/api/user", userRoutes);
 router.use("/api/projects", projectRoutes);
 router.use("/api/rooms", roomRoutes);
 router.use("/api/lightSelector", lightSelectionRoutes);
 router.use("/api/catalog", catalogRoutes);
-router.use("/api/rfp", rfpRoutes);
 
 /**Errors */
 router.use((req, res, next) => {

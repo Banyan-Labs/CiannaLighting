@@ -1,43 +1,56 @@
-import React, { FC } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAppSelector } from "./app/hooks";
-import Navbar from "./components/Navbar/Navbar";
-import Catalog from "./components/Catalog/Catalog";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Login from "./components/Login/Login";
-import Projects from "./components/Projects/Projects";
-import CreateProjectPage from "./components/CreateProjectPage/CreateProjectPage";
-import "./index.scss";
+import React, { FC } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useAppSelector } from './app/hooks';
+import Navbar from './components/Navbar/Navbar';
+import Catalog from './components/Catalog/Catalog';
+import Dashboard from './components/Dashboard/Dashboard';
+import Login from './components/Login/Login';
+import Projects from './components/SingleProject/Projects';
+import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage';
+import './index.scss';
+import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 
 export interface AppProps {
-  user: any;
+    user: any;
 }
 
 const App: FC = () => {
-  const { user } = useAppSelector(({ auth: user }) => user);
+    const { user } = useAppSelector(({ auth: user }) => user);
 
-  return (
-    <>
-      <BrowserRouter>
-        {user.isAuth && <Navbar user={user} />}
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login user={user} />} />
-          <Route path="/dashboard" element={<Navigate to="/login" />} />
-          <Route path="/catalog" element={<Navigate to="/login" />} />
-          <Route path="/projects" element={<Navigate to="/login" />} />
-          <Route path="/dashboard/:user" element={<Dashboard />} />
-          <Route path="/projects/:user" element={<Projects user={user} />} />
-          <Route path="/catalog/:user" element={<Catalog user={user} />} />
-          <Route
-            path="/create-project/:user"
-            element={<CreateProjectPage user={user} />}
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                {user.isAuth && <Navbar user={user} />}
+                <Routes>
+                    <Route path="/" element={<Navigate to="/login" />} />
+                    <Route path="/login" element={<Login user={user} />} />
+                    <Route
+                        path="/dashboard"
+                        element={<Navigate to="/login" />}
+                    />
+                    <Route path="/catalog" element={<Navigate to="/login" />} />
+                    <Route
+                        path="/projects/all/:user"
+                        element={<AllUserProjects user={user} />}
+                    />
+                    <Route path="/dashboard/:user" element={<Dashboard />} />
+                    <Route
+                        path="/projects/:user"
+                        element={<Projects user={user} />}
+                    />
+                    <Route
+                        path="/catalog/:user"
+                        element={<Catalog user={user} />}
+                    />
+                    <Route
+                        path="/create-project/:user"
+                        element={<CreateProjectPage user={user} />}
+                    />
+                    <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 };
 
 export default App;
