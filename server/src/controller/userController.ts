@@ -1,10 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../model/User';
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-import { RefreshTokenType } from './refreshTokenController';
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;

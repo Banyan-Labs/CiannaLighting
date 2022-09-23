@@ -60,4 +60,15 @@ const createNewUser = async (
     });
 };
 
-export default { createNewUser };
+const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+  User.find()
+    .exec()
+    .then((results) => {
+      return res.status(200).json({
+        users: results,
+        count: results.length,
+      });
+    });
+};
+
+export default { createNewUser, getAllUsers };
