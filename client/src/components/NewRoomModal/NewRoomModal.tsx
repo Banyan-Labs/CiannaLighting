@@ -1,9 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createRoomAction } from '../../redux/actions/projectActions';
-import { RoomType } from '../../redux/reducers/projectSlice';
-import '../Modal/style/modal.scss';
+import './style/newRoomModal.css';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
@@ -13,10 +13,12 @@ type Props = {
 
 export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
     const { projectId } = useAppSelector(({ project }) => project);
+    const { room } = useAppSelector(({ project }) => project);
     const [roomDetails, setRoomDetails] = useState({
         name: '',
         description: '',
     });
+    const [roomCreated, setRoomCreated] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
@@ -39,20 +41,20 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                     description: roomDetails.description,
                 };
                 dispatch(createRoomAction(newRoom));
+                setRoomCreated(!roomCreated);
             }
             setRoomDetails({
                 name: '',
                 description: '',
             });
-            closeModal(!openModal);
         } catch (err) {
             console.log('Error: ' + err);
         }
     };
 
     return (
-        <div className="new-project-modal-background">
-            <div className="new-project-modal-container">
+        <div className="new-room-modal-background">
+            <div className="new-room-modal-container">
                 <div className="modal-title-close-btn">
                     <button
                         onClick={() => {
@@ -63,57 +65,93 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                         <FaTimes />
                     </button>
                 </div>
-                <div className="new-project-modal-title">
-                    <h3 className="modal-title">New Project</h3>
-                </div>
-                <div className="new-project-modal-body">
-                    <form onSubmit={onSubmit}>
-                        <label
-                            className="new-project-modal-labels"
-                            htmlFor="name"
-                        >
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            className="new-project-modal-inputs"
-                            placeholder="Ex. 113 Baptistry"
-                            value={roomDetails.name}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <label
-                            className="new-project-modal-labels"
-                            htmlFor="description"
-                        >
-                            Description
-                        </label>
-                        <input
-                            name="description"
-                            id="description"
-                            type="text"
-                            className="new-project-modal-inputs"
-                            placeholder="Description of the project..."
-                            value={roomDetails.description}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        ></input>
-                        <span className="max-text-span">
-                            <small className="max-text">500 max</small>
-                        </span>
-                        <div className="new-project-modal-footer">
+                {!roomCreated ? (
+                    <div>
+                        <div className="new-room-modal-title">
+                            <h3 className="modal-title">New Room</h3>
+                        </div>
+                        <div className="new-room-modal-body">
+                            <form onSubmit={onSubmit}>
+                                <label
+                                    className="new-room-modal-labels"
+                                    htmlFor="name"
+                                >
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    className="new-room-modal-inputs"
+                                    placeholder="Ex. 113 Baptistry"
+                                    value={roomDetails.name}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="new-room-modal-labels"
+                                    htmlFor="description"
+                                >
+                                    Description
+                                </label>
+                                <input
+                                    name="description"
+                                    id="description"
+                                    type="text"
+                                    className="new-room-modal-inputs"
+                                    placeholder="Description of the project..."
+                                    value={roomDetails.description}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                ></input>
+                                <span className="max-text-span">
+                                    <small className="max-text">500 max</small>
+                                </span>
+                                <div className="new-room-modal-footer">
+                                    <button
+                                        type="submit"
+                                        className="new-room-modal-button"
+                                        onClick={(e) => onSubmit(e)}
+                                    >
+                                        Create Room
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="new-lights-prompt-container">
+                        <div className="new-room-modal-title">
+                            <h3 className="modal-title">
+                                You've created a new Room!
+                            </h3>
+                        </div>
+                        <div className="new-lights-prompt">
+                            <p className="new-room-name">{room?.name}</p>
+                            <div className="hr" />
+                            <p className="next-step-label">
+                                Next, let's add some lights from the catalog.
+                            </p>
+                        </div>
+                        <div className="new-room-modal-footer">
                             <button
                                 type="submit"
-                                className="new-project-modal-button"
-                                onClick={(e) => onSubmit(e)}
+                                className="new-room-modal-button"
+                                onClick={() => closeModal(!openModal)}
                             >
-                                Create Room
+                                Add lights
                             </button>
                         </div>
-                    </form>
-                </div>
+                        <div className="skip-lights-container">
+                            <button
+                                className="skip-lights-step"
+                                onClick={() => closeModal(!openModal)}
+                            >
+                                Skip, I will add lights later.
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
