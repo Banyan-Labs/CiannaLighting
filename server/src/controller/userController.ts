@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../model/User';
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+import { RefreshTokenType } from './refreshTokenController';
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -116,21 +117,4 @@ const logOut = async (req: Request, res: Response) => {
     });
 };
 
-const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
-  User.find()
-    .exec()
-    .then((results) => {
-      return res.status(200).json({
-        users: results,
-        count: results.length,
-      });
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        message: error.message,
-        error,
-      });
-    });
-};
-
-export default { getAllUsers, login, logOut };
+export default { login, logOut };
