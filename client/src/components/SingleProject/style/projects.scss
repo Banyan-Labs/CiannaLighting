@@ -1,58 +1,51 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@import "../../../variables/variables.scss";
+
 .projects-top-half {
-  display: inline-flex;
+  display: flex;
 }
-
+//   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-summary-container {
-<<<<<<< HEAD
-  background-color: #101010;
-  color: white;
-  width: 45%;
-  height: 40vh;
-}
-
-.back-to-projects {
-  margin-top: 10px;
-  margin-left: 10px;
-  display: inline-flex;
-  font-size: 9px;
-  color: #808080;
-=======
   margin-top: 100px;
-  background-color: #101010;
+  background-color: $primary-bg-dark;
   color: white;
-  width: 45%;
-  height: 275px;
+  width: 100%;
+  border-right: 1px $line-dark solid;
 }
 
 .back-to-projects {
-  margin-left: 5px;
   display: inline-flex;
-  font-size: 9px;
->>>>>>> main
+  .chevron-icon {
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+  }
+  a {
+    margin-top: 12px;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #808080;
+    position: relative;
+    z-index: 2;
+  }
+  a:hover {
+    color: #ffffffab;
+  }
 }
-
 .back-to-projects:hover {
   cursor: pointer;
 }
 
-.chevron-icon {
-  margin-top: 10px;
-<<<<<<< HEAD
-  margin-right: 10px;
-}
-
 .project-summary-top-bar {
+  margin-left: 20px;
   margin-top: 10px;
-=======
-}
-
-.project-summary-top-bar {
->>>>>>> main
-  margin-right: 20px;
   display: flex;
-  width: 550px;
+  width: 100%;
   justify-content: space-evenly;
+}
+
+.project-summary-project-name {
+  width: 110%;
 }
 
 .project-summary-name-and-date {
@@ -60,46 +53,29 @@
   padding-right: 20px;
 }
 
-.project-summary-project-name {
-  margin-top: 10px;
-}
-
 .circle-icon {
   margin-left: 15px;
-  font-size: 10px;
-<<<<<<< HEAD
-  color: #ac92eb;
-=======
-  color: red;
->>>>>>> main
+  font-size: 15px;
 }
 
 .project-summary-date {
-  font-size: 10px;
-  margin-top: -20px;
-<<<<<<< HEAD
+  font-size: 14px;
+  margin-top: -15px;
   color: #808080;
-=======
->>>>>>> main
 }
 
 .project-summary-icons {
   display: inline-flex;
-  margin-top: 15px;
-  margin-right: 20px;
+  align-self: center;
+  margin-left: 20px;
+  width: 40%;
 }
 
 .archive-icon {
   margin-left: 15px;
-<<<<<<< HEAD
   font-size: 1.2em;
   color: #acacac;
-=======
-  font-weight: 800;
-  font-size: 1.2em;
->>>>>>> main
 }
-
 .archive-icon:hover {
   cursor: pointer;
 }
@@ -107,12 +83,8 @@
 .clone-icon {
   margin-left: 15px;
   font-size: 1.2em;
-<<<<<<< HEAD
   color: #acacac;
-=======
->>>>>>> main
 }
-
 .clone-icon:hover {
   cursor: pointer;
 }
@@ -120,60 +92,38 @@
 .edit-icon {
   margin-left: 0px;
   font-size: 1.2em;
-<<<<<<< HEAD
   color: #acacac;
-=======
->>>>>>> main
 }
-
 .edit-icon:hover {
   cursor: pointer;
 }
 
 .status {
   font-size: 12px;
-<<<<<<< HEAD
-  margin-top: 18px;
+display: flex;
+align-items: center;
+margin-right: 25px;
 }
 
 .project-summary-text-container {
-  margin-left: 40px;
-=======
-  margin-top: 15px;
-}
-
-.project-summary-text-container {
-  margin-left: 10px;
->>>>>>> main
-  font-size: 12px;
+  margin-left: 4.5em;
+  font-size: 14px;
 }
 
 .project-summary-description-text {
-<<<<<<< HEAD
   margin-left: 80px;
-  margin-right: 20px;
+  margin-right:20px;
   font-weight: 100;
+  font-size: 12px;
 }
-
+// Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-attachments-container {
-  background-color: #101010;
-  width: 55%;
+  padding-top: 140px;
+  background-color: $primary-bg-dark;
+  width: 100%;
   color: white;
-=======
-  margin-left: 30px;
-  margin-right: 20px;
-  text-align: justify;
+  height: 35vh;
 }
-
-.project-attachments-container {
-  margin-top: 100px;
-  background-color: #101010;
-  width: 55%;
-  color: white;
-  border-left: 0.5px solid rgb(61, 61, 61);
->>>>>>> main
-}
-
 .project-attachments-top-bar {
   margin-left: 15px;
   display: inline-flex;
@@ -264,4 +214,5 @@
 
 .project-attachments-view-all:hover {
   cursor: pointer;
-}/*# sourceMappingURL=projects.css.map */
+}
+

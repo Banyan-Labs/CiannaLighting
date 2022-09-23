@@ -9,11 +9,10 @@ const Dashboard: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        !user && navigate('/login' + user.name);
-    }, [user]);
-
-    return (
+  useEffect(() => {
+    !user && navigate("/login" + user.name);
+  }, [user]);
+  return (
         <>
             {user.isAuth === true ? (
                 <>
