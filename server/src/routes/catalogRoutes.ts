@@ -1,10 +1,16 @@
-import express from "express";
-import catalogController from "../controller/catalogController";
+import express from 'express';
+import verifyJWT from '../middleware/verifyJWT';
+import verifyAuthorization from '../middleware/verifyAuthorization';
+import catalogController from '../controller/catalogController';
+import ROLES_LIST from '../../config/rolesList';
 const router = express.Router();
 
-router.post("/create-light", catalogController.createCatalogItem);
-router.get("/get-catalog", catalogController.getCatalogItems);
-router.get("/find-light", catalogController.getLight);
-router.delete("/remove-light", catalogController.removeLight);
+router.use(verifyJWT);
+router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE));
+router
+  .get('/get-catalog', catalogController.getCatalogItems)
+  .post('/create-light', catalogController.createCatalogItem)
+  .get('/find-light', catalogController.getLight)
+  .delete('/remove-light', catalogController.removeLight);
 
 export = router;
