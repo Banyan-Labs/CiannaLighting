@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import projectInterface from "../interfaces/projectInterface";
 import LightSelection from "../model/LightSelection";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -33,10 +34,34 @@ const createProject = (req: Request, res: Response) => {
     });
 };
 const getProject = async (req: Request, res: Response) => {
+  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  let parameters = Object.fromEntries(
+    keys.map((key: String) => [key, req.body[key.toString()]])
+  );
+  
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
       console.log(`project: ${project?.name} retrieved`);
+      if(project){
+      keys.forEach((key) => {
+          switch (key.toString()) {
+            case 'name':
+              project.name = req.body[key.toString()];
+              break;
+            case 'region':
+              project.region = req.body[key.toString()];
+              break;
+            case 'status':
+              project.status = req.body[key.toString()];
+              break;
+            case 'description':
+              project.description = req.body[key.toString()];
+              break;
+          }
+        });
+        project.save();
+      }
       return res.status(200).json({
         project,
       });
