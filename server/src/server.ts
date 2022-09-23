@@ -46,8 +46,8 @@ router.use((req, res, next) => {
 /**Routes */
 router.use('/api', refreshRoute);
 router.use('/api/admin', adminRoutes);
-router.use('/api/user', userRoutes);
-router.use('/api', publicRoutes);
+router.use('/api/user', publicRoutes);
+router.use('/api', userRoutes);
 
 /**Errors */
 router.use((req, res, next) => {
