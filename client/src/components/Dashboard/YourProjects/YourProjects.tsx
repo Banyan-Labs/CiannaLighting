@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useAppSelector } from "../../../app/hooks";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Modal from "../../Modal/Modal";
 import {
   FaPlus,
@@ -8,6 +9,8 @@ import {
   FaChevronCircleRight,
   FaChevronRight,
 } from "react-icons/fa";
+
+import dataHolding from "./projectDetails";
 
 // temporary data for UI purposes
 import * as data from "./testProjectData.json";
@@ -28,17 +31,46 @@ const YourProjects: FC = () => {
     navigate(to);
   }, [user.name, navigate]);
 
-  const testProjectData = JSON.parse(JSON.stringify(data)).data;
-  const singleProject = testProjectData.map((project: any, index: any) => {
+  const [projectDetails, setProjectDetails] = useState([]);
+
+  const getAllProjects = () => {
+    axios
+      .post("http://localhost:1337/api/projects/account-projects/", {
+        clientId: user.id,
+      })
+      .then((res) => {
+        setProjectDetails(res.data.projects);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getAllProjects();
+  }, []);
+
+  const projectColors = ["#AC92EB", "#4FC1E8", "#A0D568"];
+
+  const singleProject = projectDetails.map((project: any, index: any) => {
+    const changeProject = () => {
+      project.color =
+        projectColors[index > projectColors.length - 1 ? 0 : index];
+      dataHolding.getData(project);
+    };
+    const date = new Date(Date.parse(project.createdAt)).toDateString();
     return (
       <div
         className="single-project"
-        style={{ backgroundColor: project.color }}
-        onClick={projectRoute}
+        style={{
+          backgroundColor:
+            projectColors[index > projectColors.length - 1 ? 0 : index],
+        }}
+        onClick={() => {
+          projectRoute();
+          changeProject();
+        }}
         key={index}
       >
         <span>
-          Created: <strong>{project.date_created}</strong>
+          Created: <strong>{date}</strong>
         </span>
         <span>
           Status: <strong>{project.status}</strong>

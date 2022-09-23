@@ -5,9 +5,10 @@ import Navbar from "./components/Navbar/Navbar";
 import Catalog from "./components/Catalog/Catalog";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Login from "./components/Login/Login";
-import Projects from "./components/Projects/Projects";
+import Projects from "./components/SingleProject/Projects";
 import CreateProjectPage from "./components/CreateProjectPage/CreateProjectPage";
 import "./index.scss";
+import AllUserProjects from "./components/AllUserProjects/AllUserProjects";
 
 export interface AppProps {
   user: any;
@@ -25,7 +26,10 @@ const App: FC = () => {
           <Route path="/login" element={<Login user={user} />} />
           <Route path="/dashboard" element={<Navigate to="/login" />} />
           <Route path="/catalog" element={<Navigate to="/login" />} />
-          <Route path="/projects" element={<Navigate to="/login" />} />
+          <Route
+            path="/projects/all/:user"
+            element={<AllUserProjects user={user} />}
+          />
           <Route path="/dashboard/:user" element={<Dashboard />} />
           <Route path="/projects/:user" element={<Projects user={user} />} />
           <Route path="/catalog/:user" element={<Catalog user={user} />} />
