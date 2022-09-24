@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: any = {
+export interface ProjectStateType {
+    userProjects: any[];
+    project: any;
+}
+
+const initialState: ProjectStateType = {
     userProjects: [],
     project: {},
 };
@@ -11,7 +16,7 @@ export const projectSlice = createSlice({
     reducers: {
         setUserProjects: (state, action) => ({
             ...state,
-            userProjects: action.payload,
+            userProjects: action.payload.projects,
         }),
     },
 });
