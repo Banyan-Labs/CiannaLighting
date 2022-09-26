@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getUserProjects } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import {
     FaPlus,
@@ -18,8 +18,9 @@ import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 
 const YourProjects: FC = () => {
-    const { user } = useAppSelector(({ auth: user }) => user);
+    const { user } = useAppSelector(({ auth }) => auth);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         !user && navigate('/login' + user.name);
@@ -33,18 +34,8 @@ const YourProjects: FC = () => {
 
     const [projectDetails, setProjectDetails] = useState([]);
 
-    const getAllProjects = () => {
-        axios
-            .post('http://localhost:1337/api/projects/account-projects/', {
-                clientId: user.id,
-            })
-            .then((res) => {
-                setProjectDetails(res.data.projects);
-            })
-            .catch((err) => console.log(err));
-    };
     useEffect(() => {
-        getAllProjects();
+        dispatch(getUserProjects(user._id));
     }, []);
 
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];

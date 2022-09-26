@@ -9,11 +9,7 @@ const router = express.Router();
 router.use(verifyJWT);
 verifyAuthorization(ROLES_LIST.ADMIN),
   router
-    .post(
-      "/create-user",
-
-      controller.createNewUser
-    )
+    .post("/create-user", controller.createNewUser)
     .get("/get-users", controller.getAllUsers);
 
 export = router;

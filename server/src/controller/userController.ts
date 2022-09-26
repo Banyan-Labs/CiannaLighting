@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../model/User";
-require("dotenv").config();
 const bcrypt = require("bcrypt");
 
 const login = async (req: Request, res: Response) => {
@@ -45,6 +44,8 @@ const login = async (req: Request, res: Response) => {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,
+                path: "/",
+                maxAge: 24 * 60 * 60 * 1000,
               });
               res.json({
                 accessToken,
@@ -73,6 +74,19 @@ const login = async (req: Request, res: Response) => {
         message: error.message,
         error,
       });
+    });
+};
+
+const getUser = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  await User.findOne({ email })
+    .then((authUser) => {
+      return res.status(200).json({ authUser });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
     });
 };
 
@@ -115,4 +129,4 @@ const logOut = async (req: Request, res: Response) => {
     });
 };
 
-export default { login, logOut };
+export default { login, logOut, getUser };

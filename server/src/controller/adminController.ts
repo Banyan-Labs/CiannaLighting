@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import User from "../model/User";
-require("dotenv").config();
 const bcrypt = require("bcrypt");
 
 const createNewUser = async (
@@ -10,7 +9,6 @@ const createNewUser = async (
   next: NextFunction
 ) => {
   let { name, email, password, role } = req.body;
-  console.log(req.body);
 
   if (!name || !email || !password || !role)
     return res
@@ -19,7 +17,6 @@ const createNewUser = async (
 
   await User.findOne({ email })
     .then(async (existingUser) => {
-      console.log(existingUser);
       if (existingUser) {
         res
           .status(400)

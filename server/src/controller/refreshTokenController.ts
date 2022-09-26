@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-require("dotenv").config();
 import User from "../model/User";
 
 export interface RefreshTokenType {
@@ -9,6 +8,7 @@ export interface RefreshTokenType {
 
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
+  console.log(req.cookies);
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
 
