@@ -1,19 +1,19 @@
 export const config = {
-    mongo:{
-        options:{
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-            socketTimeoutMS: 30000,
-            keepAlive: true,
-            maxPoolSize: 50,
-            autoIndex: false,
-            retryWrites: false
-        },
-        url: 'mongodb+srv://openman:!ngRQfSp9k5TA2r@cluster0.trzawsg.mongodb.net/cianna_lighting'
+  mongo: {
+    options: {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      socketTimeoutMS: 30000,
+      keepAlive: true,
+      maxPoolSize: 50,
+      autoIndex: false,
+      retryWrites: false,
     },
-    server:{
-        host: 'localhost',
-        port: 1337
-    }
-}
-export default config
+    url: process.env.DATABASE_URI as string,
+  },
+  server: {
+    host: "localhost",
+    port: 1337,
+  },
+};
+export default config;

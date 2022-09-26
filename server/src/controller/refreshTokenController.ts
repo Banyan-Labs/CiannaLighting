@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
-require('dotenv').config();
-import User from '../model/User';
+import { Request, Response } from "express";
+import * as jwt from "jsonwebtoken";
+import User from "../model/User";
 
 export interface RefreshTokenType {
   name: string;
@@ -9,6 +8,7 @@ export interface RefreshTokenType {
 
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
+  console.log(req.cookies);
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
 
@@ -26,7 +26,7 @@ const refreshTokenController = (req: Request, res: Response) => {
             const accessToken = jwt.sign(
               { name: user.email, role },
               process.env.ACCESS_TOKEN_SECRET as string,
-              { expiresIn: '1500s' }
+              { expiresIn: "1500s" }
             );
             res.json({ accessToken });
           }
