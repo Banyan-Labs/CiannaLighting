@@ -86,6 +86,35 @@ const YourProjects: FC = () => {
                 <div className="dashboard-project-overview">
                     <h4>Project Overview</h4>
                     <div className="dashboard-vertical-divider" />
+                    <ul className="dashboard-project-overview-info">
+                        <li>
+                            <strong>20</strong> New projects
+                        </li>
+                        <li>
+                            <strong>30</strong> Configured projects
+                        </li>
+                        <li>
+                            <strong>10</strong> Internal Approval projects
+                        </li>
+                        <li>
+                            <strong>2</strong> RFP projects
+                        </li>
+                        <li>
+                            <strong>5</strong> Awarded projects
+                        </li>
+                        <li>
+                            <strong>25</strong> Construction projects
+                        </li>
+                        <li>
+                            <strong>15</strong> Hold projects
+                        </li>
+                        <li>
+                            <strong>10</strong> Completed projects
+                        </li>
+                        <li>
+                            <strong>7</strong> Canceled projects
+                        </li>
+                    </ul>
                 </div>
                 <div className="dashboard-your-projects">
                     <h4>Your Projects</h4>
