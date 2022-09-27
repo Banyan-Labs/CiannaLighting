@@ -1,9 +1,9 @@
-.all-projects-container{
+.all-projects-container {
     margin-right: 1%;
     margin-left: 1%;
     width: 97%;
 }
-.form-bar-button-container{
+.form-bar-button-container {
     display: inline-flex;
     margin-top: -15px;
     width: 100%;
@@ -14,7 +14,7 @@
     padding: 5px;
 }
 
-.dashboard-all-projects-search-bar{
+.dashboard-all-projects-search-bar {
     background-color: rgb(252, 247, 247);
     border: none;
     // padding-top: 10px;
@@ -23,10 +23,9 @@
     border-radius: 5px;
     margin-left: 15px;
     width: 200px;
-
 }
 
-.dashboard-all-projects-submit{
+.dashboard-all-projects-submit {
     background-color: black;
     padding: 5px 15px 5px 15px;
     color: white;
@@ -35,78 +34,113 @@
     font-weight: 300;
     // margin-top: 10px;
 }
-.dashboard-all-projects-submit:hover{
+.dashboard-all-projects-submit:hover {
     cursor: pointer;
 }
 // ~~~~~~~~~~~~~~~TABLE SECTION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.dashboard-all-projects-table{
+.dashboard-all-projects-table {
     width: 100%;
     border-bottom: 1px solid black;
-    
 }
-.table-headers{
+.table-headers {
     text-align: left;
     font-size: 9px;
     border: 1px solid black;
     padding: 5px;
 }
-.projects-table-dynamic-row{
+.projects-table-dynamic-row {
     font-size: 12px;
     // border-top: 1px solid rgb(39, 39, 40);
     // border-bottom: 1px solid rgb(39, 39, 40);
 }
-.projects-table-dynamic-name{
+.projects-table-dynamic-name {
     border-top: 1px solid black;
     text-align: left;
     margin-left: 15px;
     font-size: 13px;
     text-indent: 20px;
 }
-.projects-table-dynamic-designer{
+.projects-table-dynamic-designer {
     border-top: 1px solid black;
 }
-.projects-table-dynamic-region{
+.projects-table-dynamic-region {
     border-top: 1px solid black;
 }
-.projects-table-dynamic-contact{
+.projects-table-dynamic-contact {
     border-top: 1px solid black;
 }
-.projects-table-dynamic-status{
+.projects-table-dynamic-status {
     border-top: 1px solid black;
 }
-.projects-table-dynamic-dots{
+.projects-table-dynamic-dots {
     border-top: 1px solid black;
 }
-.projects-table-dynamic-dots:hover{
+
+.bs-three-dots-container {
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
 }
-tr{
+.bs-three-dots-container:hover {
+    border-radius: 50%;
+    background: rgb(219, 219, 219);
+}
+
+.align-modal-dots {
+    display: flex;
+    justify-content: center;
+}
+
+.project-mini-modal {
+    position: absolute;
+    background: black;
+    right: 60px;
+    color: rgb(194, 194, 194);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+
+    div {
+        padding: 10px 25px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+    }
+    p {
+        padding-left: 10px;
+        margin: 0;
+    }
+    .doc-type {
+        border-top: solid 1px silver;
+        font-weight: 300;
+        font-size: 13px;
+        opacity: 0.8;
+    }
+}
+
+tr {
     // padding: 10px;
     height: 25px;
     // border-bottom: 1px solid black;
 }
-tr:hover{
-    // background-color: gray;
-    color: goldenrod;
-}
 // ~~~~~~~~~~~~~~~~~`PAGINATION LINKS~~~~~~~~~~~~~~
-.page-item{
+.page-item {
     list-style: none;
     display: inline;
-    margin-left:10px ;
+    margin-left: 10px;
 }
-.page-link{
+.page-link {
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
-    transition: background-color .3s;
+    transition: background-color 0.3s;
 }
-.pages-list{
+.pages-list {
     display: inline-flex;
 }
-.page-link:hover{
+.page-link:hover {
     background-color: goldenrod;
     // border-radius: 15px;
 }
-

@@ -8,7 +8,6 @@ export interface RefreshTokenType {
 
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
-  console.log(req.cookies);
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
 
