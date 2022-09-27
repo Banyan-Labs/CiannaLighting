@@ -1,221 +1,221 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
 .projects-top-half {
-  display: flex;
+    display: flex;
 }
 
 .project-summary-container {
-  margin-top: 100px;
-  background-color: #101010;
-  color: white;
-  width: 100%;
-  border-right: 1px #3c3c3c solid;
+    margin-top: 100px;
+    background-color: #101010;
+    color: white;
+    width: 100%;
+    border-right: 1px #3c3c3c solid;
 }
 
 .back-to-projects {
-  display: inline-flex;
+    display: inline-flex;
 }
 .back-to-projects .chevron-icon {
-  margin-right: 10px;
-  position: relative;
-  top: 2px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
 }
 .back-to-projects a {
-  margin-top: 12px;
-  margin-left: 10px;
-  text-decoration: none;
-  font-size: 12px;
-  color: #808080;
-  position: relative;
-  z-index: 2;
+    margin-top: 12px;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #808080;
+    position: relative;
+    z-index: 2;
 }
 .back-to-projects a:hover {
-  color: rgba(255, 255, 255, 0.6705882353);
+    color: rgba(255, 255, 255, 0.6705882353);
 }
 
 .back-to-projects:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .project-summary-top-bar {
-  margin-left: 20px;
-  margin-top: 10px;
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+    margin-left: 20px;
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .project-summary-project-name {
-  width: 110%;
+    width: 110%;
 }
 
 .project-summary-name-and-date {
-  border-right: 0.1px solid rgb(48, 47, 47);
-  padding-right: 20px;
+    border-right: 0.1px solid rgb(48, 47, 47);
+    padding-right: 20px;
 }
 
 .circle-icon {
-  margin-left: 15px;
-  font-size: 15px;
+    margin-left: 15px;
+    font-size: 15px;
 }
 
 .project-summary-date {
-  font-size: 14px;
-  margin-top: -15px;
-  color: #808080;
+    font-size: 14px;
+    margin-top: -15px;
+    color: #808080;
 }
 
 .project-summary-icons {
-  display: inline-flex;
-  align-self: center;
-  margin-left: 20px;
-  width: 40%;
+    display: inline-flex;
+    align-self: center;
+    margin-left: 20px;
+    width: 40%;
 }
 
 .archive-icon {
-  margin-left: 15px;
-  font-size: 1.2em;
-  color: #acacac;
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: #acacac;
 }
 
 .archive-icon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .clone-icon {
-  margin-left: 15px;
-  font-size: 1.2em;
-  color: #acacac;
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: #acacac;
 }
 
 .clone-icon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .edit-icon {
-  margin-left: 0px;
-  font-size: 1.2em;
-  color: #acacac;
+    margin-left: 0px;
+    font-size: 1.2em;
+    color: #acacac;
 }
 
 .edit-icon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .status {
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  margin-right: 25px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
 }
 
 .project-summary-text-container {
-  margin-left: 4.5em;
-  font-size: 14px;
+    margin-left: 4.5em;
+    font-size: 14px;
 }
 
 .project-summary-description-text {
-  margin-left: 80px;
-  margin-right: 20px;
-  font-weight: 100;
-  font-size: 12px;
+    margin-left: 80px;
+    margin-right: 20px;
+    font-weight: 100;
+    font-size: 12px;
 }
 
 .project-attachments-container {
-  padding-top: 140px;
-  background-color: #101010;
-  width: 100%;
-  color: white;
-  height: 35vh;
+    padding-top: 140px;
+    background-color: #101010;
+    width: 100%;
+    color: white;
+    height: 35vh;
 }
 
 .project-attachments-top-bar {
-  margin-left: 15px;
-  display: inline-flex;
-  height: 60px;
+    margin-left: 15px;
+    display: inline-flex;
+    height: 60px;
 }
 
 .project-attachment {
-  padding-right: 20px;
-  border-right: 0.1px solid rgb(48, 47, 47);
+    padding-right: 20px;
+    border-right: 0.1px solid rgb(48, 47, 47);
 }
 
 .paperclip-icon {
-  border-radius: 50%;
-  background-color: rgb(41, 40, 40);
-  margin-top: 17px;
-  margin-left: 20px;
-  padding: 5px;
+    border-radius: 50%;
+    background-color: rgb(41, 40, 40);
+    margin-top: 17px;
+    margin-left: 20px;
+    padding: 5px;
 }
 
 .paperclip-icon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .attach-file-text {
-  font-size: 8px;
-  margin-top: 25px;
-  margin-left: 5px;
+    font-size: 8px;
+    margin-top: 25px;
+    margin-left: 5px;
 }
 
 .project-attachments-table-container {
-  height: 65%;
-  margin-left: 10%;
-  border-bottom: 1px solid rgb(39, 39, 40);
-  margin-right: 10%;
+    height: 65%;
+    margin-left: 10%;
+    border-bottom: 1px solid rgb(39, 39, 40);
+    margin-right: 10%;
 }
 
 .attachments-file-name {
-  width: 400px;
-  font-size: 10px;
-  text-align: left;
+    width: 400px;
+    font-size: 10px;
+    text-align: left;
 }
 
 .attachments-file-size {
-  width: 100px;
-  font-size: 10px;
-  text-align: left;
+    width: 100px;
+    font-size: 10px;
+    text-align: left;
 }
 
 .attachments-table {
-  border-top: 1px solid rgb(39, 39, 40);
-  border-bottom: 1px solid rgb(39, 39, 40);
-  width: 100%;
+    border-top: 1px solid rgb(39, 39, 40);
+    border-bottom: 1px solid rgb(39, 39, 40);
+    width: 100%;
 }
 
 .attachments-dynamic-row:hover {
-  background-color: rgb(38, 39, 39);
+    background-color: rgb(38, 39, 39);
 }
 
 .file-file-name {
-  font-size: 14px;
-  border-top: 1px solid rgb(39, 39, 40);
-  font-weight: 200;
+    font-size: 14px;
+    border-top: 1px solid rgb(39, 39, 40);
+    font-weight: 200;
 }
 
 .file-file-size {
-  font-size: 12px;
-  margin-right: 15px;
-  border-top: 1px solid rgb(39, 39, 40);
-  font-weight: 200;
+    font-size: 12px;
+    margin-right: 15px;
+    border-top: 1px solid rgb(39, 39, 40);
+    font-weight: 200;
 }
 
 .file-file-remove {
-  font-size: 12px;
-  border-top: 1px solid rgb(39, 39, 40);
-  text-align: center;
+    font-size: 12px;
+    border-top: 1px solid rgb(39, 39, 40);
+    text-align: center;
 }
 
 .file-file-remove:hover {
-  cursor: pointer;
-  color: red;
+    cursor: pointer;
+    color: red;
 }
 
 .project-attachments-view-all {
-  float: right;
-  margin-right: 10%;
-  font-size: 12px;
+    float: right;
+    margin-right: 10%;
+    font-size: 12px;
 }
 
 .project-attachments-view-all:hover {
-  cursor: pointer;
-}/*# sourceMappingURL=projects.css.map */
+    cursor: pointer;
+} /*# sourceMappingURL=projects.css.map */

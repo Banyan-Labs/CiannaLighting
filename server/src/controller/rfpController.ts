@@ -44,7 +44,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
           .then((rfp) => {
             return res.status(201).json({
               rfp,
-              projectSuccess
+              projectSuccess,
             });
           })
           .catch((error) => {
@@ -68,9 +68,18 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const findRFP = async (req: Request, res: Response) => {
+  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  let parameters = Object.fromEntries(
+    keys.map((key: String) => [key, req.body[key.toString()]])
+  );
   return await RFP.findOne({ _id: req.body._id })
     .exec()
-    .then((rfp) => {
+    .then((rfp: any) => {
+      if (rfp && keys.length) {
+        keys.map((keyName: string) => {
+          rfp[keyName] = parameters[keyName];
+        });
+      }
       return res.status(200).json({
         rfp,
       });
@@ -117,11 +126,12 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
           .then((rfp) => {
             return !rfp
               ? res.status(200).json({
-                  rfp
+                  rfp,
                 })
               : res.status(404).json({
-                  message: "The rfp document you are looking for no longer exists",
-                  rfpRemoved
+                  message:
+                    "The rfp document you are looking for no longer exists",
+                  rfpRemoved,
                 });
           })
           .catch((error) => {

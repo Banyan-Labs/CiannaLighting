@@ -98,10 +98,19 @@ const getAllSelectedLights = (req: Request, res: Response) => {
     });
 };
 const getSelectedLight = async (req: Request, res: Response) => {
+  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  let parameters = Object.fromEntries(
+    keys.map((key: String) => [key, req.body[key.toString()]])
+  );
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
-    .then((light) => {
-      console.log(`light_selected:${light?.item_ID} `);
+    .then((light: any) => {
+      if (light && keys.length) {
+        keys.map((keyName: string) => {
+          light[keyName] = parameters[keyName];
+        });
+      }
+      console.log(`light_selected:${light?.item_ID}`);
       return res.status(200).json({
         light,
       });

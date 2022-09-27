@@ -1,9 +1,7 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react';
 
 const Overview: FC = () => {
-  return (
-    <div>Overview</div>
-  )
-}
+    return <div>Overview</div>;
+};
 
-export default Overview
+export default Overview;

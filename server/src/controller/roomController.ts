@@ -5,50 +5,48 @@ import Project from "../model/Project";
 import Room from "../model/Room";
 import LightSelection from "../model/LightSelection";
 
-const createRoom = async(req: Request, res: Response, next: NextFunction) => {
-    let { name, description, clientId, projectId } = req.body;
-    const room = new Room({
-      _id: new mongoose.Types.ObjectId(),
-      name,
-      clientId,
-      projectId,
-      description,
-      lights: [],
+const createRoom = async (req: Request, res: Response, next: NextFunction) => {
+  let { name, description, clientId, projectId } = req.body;
+  const room = new Room({
+    _id: new mongoose.Types.ObjectId(),
+    name,
+    clientId,
+    projectId,
+    description,
+    lights: [],
   });
-  let roomAndProject = await Project.findByIdAndUpdate({_id: projectId})
-  .exec()
-  .then((project)=>{
-    if(project){
-        project.rooms = [...project.rooms, room._id]
-        project.save()
-        let projectSuccess = `added room to project: ${projectId}`
+  let roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+    .exec()
+    .then((project) => {
+      if (project) {
+        project.rooms = [...project.rooms, room._id];
+        project.save();
+        let projectSuccess = `added room to project: ${projectId}`;
         return room
-        .save()
-        .then((room) => {
-          return res.status(201).json({
-            room,
-            message: projectSuccess
+          .save()
+          .then((room) => {
+            return res.status(201).json({
+              room,
+              message: projectSuccess,
+            });
+          })
+          .catch((error) => {
+            return res.status(500).json({
+              message: error.message,
+              error,
+            });
           });
-        })
-        .catch((error) => {
-          return res.status(500).json({
-            message: error.message,
-            error,
-          });
-        })
-    }
-    else{
-        next()
-    }
-  })
-  .catch((error) => {
-    return res.status(500).json({
-      message: error.message,
-      error,
+      } else {
+        next();
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        message: error.message,
+        error,
+      });
     });
-  })
-return roomAndProject
-
+  return roomAndProject;
 };
 
 const getAllRooms = (req: Request, res: Response) => {
@@ -63,54 +61,63 @@ const getAllRooms = (req: Request, res: Response) => {
     });
 };
 
-const getRoom = async(req: Request, res: Response)=>{
-  return await Room.findOne({_id: req.body._id})
-      .exec()
-      .then((room)=>{
-        console.log(`room: ${room?.name} retrieved`)
-        return res.status(200).json({
-          room
+const getRoom = async (req: Request, res: Response) => {
+  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  let parameters = Object.fromEntries(
+    keys.map((key: String) => [key, req.body[key.toString()]])
+  );
+  return await Room.findOne({ _id: req.body._id })
+    .exec()
+    .then((room: any) => {
+      if (room && keys.length) {
+        keys.map((keyName: string) => {
+          room[keyName] = parameters[keyName];
         });
-      })
-      .catch((error) => {
-        return res.status(500).json({ message: error.message, error });
+      }
+      console.log(`room: ${room?.name} retrieved`);
+      return res.status(200).json({
+        room,
       });
-}
-
-const deleteRoom =async(req: Request, res: Response) => {
-  return await Project.findByIdAndUpdate({_id: req.body.projectId})
-  .exec()
-  .then(async(project)=>{
-    if(project){
-      project.rooms = project.rooms.filter((id: string)=>{ 
-        return String(id) !== req.body._id ? id : ""
-      })
-      project.save();}
-      let roomRemoved = "room removed successfully from project";
-      await LightSelection.deleteMany({roomId: req.body._id})
-        .exec()
-        .then((res)=>{
-          return res.deletedCount  
-        })
-        .catch((err)=>{
-          return err.message
-        })
-    return  await Room.findByIdAndDelete({_id:req.body._id})
-    .then((room) => {
-      return !room
-        ? res.status(200).json({
-          room
-        })
-        : res.status(404).json({
-            message: "The Room you are looking for no longer exists",
-            roomRemoved
-          });
     })
     .catch((error) => {
-      res.status(500).json(error);
+      return res.status(500).json({ message: error.message, error });
     });
-  })
-  
+};
+
+const deleteRoom = async (req: Request, res: Response) => {
+  return await Project.findByIdAndUpdate({ _id: req.body.projectId })
+    .exec()
+    .then(async (project) => {
+      if (project) {
+        project.rooms = project.rooms.filter((id: string) => {
+          return String(id) !== req.body._id ? id : "";
+        });
+        project.save();
+      }
+      let roomRemoved = "room removed successfully from project";
+      await LightSelection.deleteMany({ roomId: req.body._id })
+        .exec()
+        .then((res) => {
+          return res.deletedCount;
+        })
+        .catch((err) => {
+          return err.message;
+        });
+      return await Room.findByIdAndDelete({ _id: req.body._id })
+        .then((room) => {
+          return !room
+            ? res.status(200).json({
+                room,
+              })
+            : res.status(404).json({
+                message: "The Room you are looking for no longer exists",
+                roomRemoved,
+              });
+        })
+        .catch((error) => {
+          res.status(500).json(error);
+        });
+    });
 };
 
 export default { createRoom, deleteRoom, getAllRooms, getRoom };

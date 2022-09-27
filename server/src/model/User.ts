@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-import Iuser from '../interfaces/userInt';
+import mongoose, { Schema } from "mongoose";
+import Iuser from "../interfaces/userInt";
 
 // const Schema = mongoose.Schema;
 
@@ -23,4 +23,4 @@ const userSchema: Schema = new Schema(
  * user
  */
 
-export default mongoose.model<Iuser>('User', userSchema);
+export default mongoose.model<Iuser>("User", userSchema);

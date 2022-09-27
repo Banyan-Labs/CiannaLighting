@@ -1,5 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
-import axios from '../../api/axios';
+import { useAppDispatch } from '../../app/hooks';
+import { createProjectAction } from '../../redux/actions/projectActions';
 
 // import "./style/projectForm.css";
 
@@ -28,6 +29,8 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
         rooms: [],
     });
 
+    const dispatch = useAppDispatch();
+
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setProjectDetails({
             ...projectDetails,
@@ -39,10 +42,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
         e.preventDefault();
         console.log('submitted');
         try {
-            const response = await axios.post(
-                '/projects/create-project/',
-                projectDetails
-            );
+            dispatch(createProjectAction(projectDetails));
             setProjectDetails({
                 name: '',
                 description: '',
@@ -52,7 +52,6 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
                 clientName: user.name,
                 rooms: [],
             });
-            console.log(response.data, 'response');
         } catch (err) {
             console.log('Error: ' + err);
         }

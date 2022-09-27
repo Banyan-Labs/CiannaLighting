@@ -1,9 +1,7 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react';
 
-const Activity:FC = () => {
-  return (
-    <div>Activity</div>
-  )
-}
+const Activity: FC = () => {
+    return <div>Activity</div>;
+};
 
-export default Activity
+export default Activity;

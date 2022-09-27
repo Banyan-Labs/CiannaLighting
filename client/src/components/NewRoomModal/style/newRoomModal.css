@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
-.new-project-modal-background {
+.new-room-modal-background {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -7,17 +7,20 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.new-project-modal-container {
+.new-room-modal-container {
     position: absolute;
     top: 150px;
     left: 30%;
     width: 450px;
-    height: 400px;
+    height: 370px;
     margin: 1rem auto;
     padding: 1rem 5rem;
     border-radius: 5px;
     background-color: white;
-    color: #101010;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .modal-title-close-btn button {
@@ -42,7 +45,7 @@ label {
     font-size: 12px;
 }
 
-.new-project-modal-inputs {
+.new-room-modal-inputs {
     border: 1px solid #cbcbcb;
     border-radius: 5px;
     padding: 15px 10px;
@@ -54,27 +57,15 @@ label {
     background-color: #345c9c;
 }
 
-.new-projects-dropdowns-container {
-    position: relative;
-    top: -20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 0 auto;
-    font-size: 16px;
-}
-
-.new-projects-dropdowns-container select {
-    border: 1px solid rgb(194, 194, 194);
-    border-radius: 5px;
-    margin: 0.2rem 0;
-    padding: 10px 15px;
-    font-size: 14px;
-    color: grey;
-    transition: all 400ms ease;
-}
-
-.new-project-modal-labels {
+.new-room-modal-labels {
     font-weight: bold;
+}
+
+.new-room-name {
+    border-bottom: #cbcbcb;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
 }
 
 .max-text-span {
@@ -92,16 +83,54 @@ label {
     color: #101010;
 }
 
-.new-project-modal-container .new-project-modal-footer {
+.new-lights-prompt-container {
+    padding: 2rem 1rem;
+}
+
+.new-lights-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 125px;
+    margin-bottom: 20px;
+}
+
+.hr {
+    background-color: #cbcbcb;
+    height: 1px;
+    width: 70%;
+}
+
+.next-step-label {
+    font-size: 11px;
+}
+
+.new-room-modal-container .new-room-modal-footer {
     display: flex;
     justify-content: space-evenly;
 }
 
-.new-project-modal-container .new-project-modal-footer button {
+.new-room-modal-container .new-room-modal-footer button {
     background-color: #528dea;
     color: white;
     padding: 15px 50px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-} /*# sourceMappingURL=modal.css.map */
+}
+
+.skip-lights-container {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+}
+
+.skip-lights-step {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    font-weight: 700;
+    color: #a3a3a3;
+}
