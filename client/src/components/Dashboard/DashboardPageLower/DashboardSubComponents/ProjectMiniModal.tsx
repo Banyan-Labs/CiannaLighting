@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 import './style/allProjects.scss';
-import { FaCopy, FaEye, FaBan } from 'react-icons/fa';
+import { FaRegCopy, FaRegEye, FaBan } from 'react-icons/fa';
 
 const ProjectMiniModal: FC = () => {
     const herro = 'hello';
     return (
         <div className="project-mini-modal">
             <div>
-                <FaCopy />
+                <FaRegCopy />
                 <p>Duplicate</p>
             </div>
             <div>
-                <FaEye /> <p>View</p>
+                <FaRegEye /> <p>View</p>
             </div>
 
             <div className="doc-type">
