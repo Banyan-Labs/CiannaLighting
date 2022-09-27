@@ -1,21 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import User from '../model/User';
-require('dotenv').config();
-const bcrypt = require('bcrypt');
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import User from "../model/User";
+import bcrypt from "bcrypt";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   if (!email || !password)
     return res
       .status(400)
-      .json({ message: 'Username and password are required' });
+      .json({ message: "Username and password are required" });
 
   User.findOne({ email })
-    .select('+password')
+    .select("+password")
     .then(async (user) => {
-      if (!user) res.status(404).json({ message: 'User not found' });
+      if (!user) res.status(404).json({ message: "User not found" });
       if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
@@ -27,13 +25,13 @@ const login = async (req: Request, res: Response) => {
               role,
             },
             process.env.ACCESS_TOKEN_SECRET as string,
-            { expiresIn: '1500s' }
+            { expiresIn: "1500s" }
           );
 
           const refreshToken = jwt.sign(
             { name: user.email },
             process.env.REFRESH_TOKEN_SECRET as string,
-            { expiresIn: '30d' }
+            { expiresIn: "30d" }
           );
           user.isAuth = true;
           user.refreshToken = refreshToken;
@@ -41,10 +39,12 @@ const login = async (req: Request, res: Response) => {
           user
             .save()
             .then((authenticatedUser) => {
-              res.cookie('jwt', refreshToken, {
+              res.cookie("jwt", refreshToken, {
                 httpOnly: true,
-                sameSite: 'none',
+                sameSite: "none",
                 secure: true,
+                path: "/",
+                maxAge: 24 * 60 * 60 * 1000,
               });
               res.json({
                 accessToken,
@@ -64,7 +64,7 @@ const login = async (req: Request, res: Response) => {
         } else {
           res
             .status(401)
-            .json({ message: 'The password you entered is incorrect.' });
+            .json({ message: "The password you entered is incorrect." });
         }
       }
     })
@@ -76,6 +76,47 @@ const login = async (req: Request, res: Response) => {
     });
 };
 
+const getUser = async (req: Request, res: Response) => {
+  const { email, emailChange, password, passwordChange, name, update } =
+    req.body;
+  await User.findOne({ email })
+    .select("+password")
+    .then(async (authUser) => {
+      if (authUser != null) {
+        if (update === true) {
+          const match = await bcrypt.compare(password, authUser.password);
+          if (match) {
+            if (passwordChange) {
+              const newHashedPassword = await bcrypt.hash(passwordChange, 10);
+              authUser.password = newHashedPassword;
+            }
+            if (emailChange) {
+              authUser.email = emailChange;
+            }
+            if (name) {
+              authUser.name = name;
+            }
+            authUser.save();
+          } else {
+            res.status(500).json({
+              message: "Password is incorrect.",
+            });
+          }
+        }
+      }
+      return res.status(200).json({
+        authUser,
+        message: `Don't forget you're new password if you changed it ${authUser?.name}!`,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500).json({
+        message: error.message,
+      });
+    });
+};
+
 const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
@@ -83,25 +124,25 @@ const logOut = async (req: Request, res: Response) => {
 
   if (!cookies.jwt) return res.sendStatus(204);
   await User.findOne({ refreshToken })
-    .select('+refreshToken')
+    .select("+refreshToken")
     .then((user) => {
       if (!user) {
-        res.clearCookie('jwt', {
+        res.clearCookie("jwt", {
           httpOnly: true,
-          sameSite: 'none',
+          sameSite: "none",
           secure: true,
         });
         return res.sendStatus(204);
       }
 
       if (user) {
-        user.refreshToken = '';
+        user.refreshToken = "";
         user.isAuth = false;
         user.save();
 
-        res.clearCookie('jwt', {
+        res.clearCookie("jwt", {
           httpOnly: true,
-          sameSite: 'none',
+          sameSite: "none",
           secure: true,
         });
         res.sendStatus(204);
@@ -115,4 +156,4 @@ const logOut = async (req: Request, res: Response) => {
     });
 };
 
-export default { login, logOut };
+export default { login, logOut, getUser };

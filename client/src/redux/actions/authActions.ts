@@ -1,6 +1,11 @@
 import { Dispatch } from 'redux';
-import { createHttpRequest } from '../../api/requestTypes';
-import { setUser, setError, logout } from '../reducers/authSlice';
+import axios from '../../api/axios';
+import {
+    setUser,
+    setError,
+    logout,
+    setAccessToken,
+} from '../reducers/authSlice';
 
 type SignInType = {
     email: string;
@@ -14,42 +19,34 @@ export type UserType = {
     isAuth?: boolean;
 };
 
-const baseUrl = 'http://localhost:1337/api/'; // will be replaced with .env variables.
-
 export const signInAction =
-  (payload: SignInType) =>
-  async (dispatch: Dispatch): Promise<void> => {
-    try {
-      const response = await createHttpRequest(
-        baseUrl + 'user/login/user',
-        payload
-      );
-      console.log(response.data);
-      dispatch(setUser(response.data.user));
-    } catch (error: any) {
-      dispatch(setError(error.response.data));
-    }
-  };
-
-export const logoutAction =
-  (email: string) =>
-  async (dispatch: Dispatch): Promise<void> => {
-    try {
-      await createHttpRequest(baseUrl + 'user/log_out/user', {
-        email,
-      });
-      dispatch(logout());
-    } catch (error) {
-      console.log(error);
-    }
-  };
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const response = await createHttpRequest(
-                baseUrl + 'users/login/user',
-                payload
-            );
+            const response = await axios.post('user/login/user', payload);
+            localStorage.setItem('token', response.data.accessToken);
+            dispatch(setUser(response.data));
+        } catch (error: any) {
+            dispatch(setError(error.response.data));
+        }
+    };
+
+export const logoutAction =
+    (email: string) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            await axios.post('user/log_out/user', {
+                email,
+            });
+            dispatch(logout());
+        } catch (error) {
+            console.log(error);
+        }
+    };
+(payload: SignInType) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await axios.post('users/login/user', payload);
             dispatch(setUser(response.data.User));
         } catch (error: any) {
             dispatch(setError(error.response.data));
@@ -60,13 +57,23 @@ export const createUserAction =
     (user: UserType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const response = await createHttpRequest(
-                baseUrl + 'users/create/user',
-                user
-            );
+            const response = await axios.post('users/create/user', user);
             dispatch(setUser(response.data.user));
         } catch (error: any) {
             console.log(error);
             dispatch(setError(error.response.data));
+        }
+    };
+
+export const refreshToken =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await axios.get('refresh', {
+                withCredentials: true,
+            });
+            dispatch(setAccessToken(response.data.accessToken));
+        } catch (error) {
+            console.log(error);
         }
     };

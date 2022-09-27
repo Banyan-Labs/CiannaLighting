@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import User from '../model/User';
-require('dotenv').config();
-const bcrypt = require('bcrypt');
+import { NextFunction, Request, Response } from "express";
+import mongoose from "mongoose";
+import User from "../model/User";
+import bcrypt from "bcrypt";
 
 const createNewUser = async (
   req: Request,
@@ -10,20 +9,18 @@ const createNewUser = async (
   next: NextFunction
 ) => {
   let { name, email, password, role } = req.body;
-  console.log(req.body);
 
   if (!name || !email || !password || !role)
     return res
       .status(400)
-      .json({ message: 'Please fill in all required fields' });
+      .json({ message: "Please fill in all required fields" });
 
   await User.findOne({ email })
     .then(async (existingUser) => {
-      console.log(existingUser);
       if (existingUser) {
         res
           .status(400)
-          .json({ message: 'An account with this email already exists' });
+          .json({ message: "An account with this email already exists" });
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({

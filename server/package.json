@@ -31,6 +31,7 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.2",
     "@types/concurrently": "^7.0.0",
     "@types/config": "^3.3.0",
