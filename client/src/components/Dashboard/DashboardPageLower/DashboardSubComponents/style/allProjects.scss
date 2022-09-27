@@ -7,9 +7,6 @@
     display: inline-flex;
     margin-top: -15px;
     width: 100%;
-    // margin-left: 1%;
-    // margin-left: 5%;
-    // margin-right: 1%;
     border-bottom: 1px solid rgb(211, 211, 211);
     padding: 5px;
 }
@@ -17,8 +14,6 @@
 .dashboard-all-projects-search-bar {
     background-color: rgb(252, 247, 247);
     border: none;
-    // padding-top: 10px;
-    // padding-bottom: 2px;
     padding: 5px;
     border-radius: 5px;
     margin-left: 15px;
@@ -32,7 +27,6 @@
     margin-left: 5px;
     border-radius: 5px;
     font-weight: 300;
-    // margin-top: 10px;
 }
 .dashboard-all-projects-submit:hover {
     cursor: pointer;
@@ -50,8 +44,6 @@
 }
 .projects-table-dynamic-row {
     font-size: 12px;
-    // border-top: 1px solid rgb(39, 39, 40);
-    // border-bottom: 1px solid rgb(39, 39, 40);
 }
 .projects-table-dynamic-name {
     border-top: 1px solid black;
@@ -121,9 +113,7 @@
 }
 
 tr {
-    // padding: 10px;
     height: 25px;
-    // border-bottom: 1px solid black;
 }
 // ~~~~~~~~~~~~~~~~~`PAGINATION LINKS~~~~~~~~~~~~~~
 .page-item {
@@ -143,5 +133,4 @@ tr {
 }
 .page-link:hover {
     background-color: goldenrod;
-    // border-radius: 15px;
 }
