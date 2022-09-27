@@ -1,62 +1,62 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
 .room-details-container {
-  background-color: white;
-  width: 37.5%;
-  height: 500px;
+    background-color: white;
+    width: 37.5%;
+    height: 500px;
 }
 
 .room-details-top {
-  display: inline-flex;
+    display: inline-flex;
 }
 
 .room-details-close-button {
-  font-size: 20px;
-  margin: 10px;
+    font-size: 20px;
+    margin: 10px;
 }
 
 .room-details-close-button:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .room-details-project-name {
-  font-size: 12px;
-  padding-left: 300px;
+    font-size: 12px;
+    padding-left: 300px;
 }
 
 .room-details-room-name-bar {
-  margin-right: 0px;
-  display: inline-flex;
-  width: 350px;
-  justify-content: space-evenly;
+    margin-right: 0px;
+    display: inline-flex;
+    width: 350px;
+    justify-content: space-evenly;
 }
 
 .room-details-circle-icon {
-  margin-left: 7px;
-  margin-top: 5px;
-  font-size: 10px;
-  color: red;
+    margin-left: 7px;
+    margin-top: 5px;
+    font-size: 10px;
+    color: red;
 }
 
 .trash-icon {
-  margin-left: 15px;
-  font-weight: 800;
-  font-size: 1.2em;
+    margin-left: 15px;
+    font-weight: 800;
+    font-size: 1.2em;
 }
 
 .trash-icon:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .room-description-light-divider {
-  border-bottom: 1px solid black;
-  margin-right: 50px;
-  margin-left: 40px;
+    border-bottom: 1px solid black;
+    margin-right: 50px;
+    margin-left: 40px;
 }
 
 .room-description-no-lights {
-  display: block;
-  align-self: center;
-  align-content: center;
-  padding-left: 35%;
-  padding-top: 15%;
-}/*# sourceMappingURL=roomDetails.css.map */
+    display: block;
+    align-self: center;
+    align-content: center;
+    padding-left: 35%;
+    padding-top: 15%;
+} /*# sourceMappingURL=roomDetails.css.map */
