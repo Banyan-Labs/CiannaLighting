@@ -9,16 +9,10 @@ const router = express.Router();
 router.use(verifyJWT);
 router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE));
 router
-  .get("/get-catalog", catalogController.getCatalogItems)
-  .post("/create-light", catalogController.createCatalogItem)
-  .get("/find-light", catalogController.getLight)
-  .delete("/remove-light", catalogController.removeLight)
-  .get("/get-lightSelections", lightSelectionController.getAllSelectedLights)
-  .get("/find-lightSelection", lightSelectionController.getSelectedLight)
-  .post("/create-lightSelection", lightSelectionController.lightSelected)
-  .delete(
-    "/delete-lightSelection",
-    lightSelectionController.deleteSelectedLight
-  );
+  .get('/get-catalog', catalogController.getCatalogItems)
+  .post('/create-light', catalogController.createCatalogItem)
+  .post('/find-light', catalogController.getLight)
+  .delete('/remove-light', catalogController.removeLight)
+  
 
 export = router;

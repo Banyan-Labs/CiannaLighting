@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../model/User";
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   if (!email || !password)
     return res
       .status(400)
@@ -78,15 +77,43 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const { email } = req.body;
-
+  const { email, emailChange, password, passwordChange, name, update } =
+    req.body;
   await User.findOne({ email })
-    .then((authUser) => {
-      return res.status(200).json({ authUser });
+    .select("+password")
+    .then(async (authUser) => {
+      if (authUser != null) {
+        if (update === true) {
+          const match = await bcrypt.compare(password, authUser.password);
+          if (match) {
+            if (passwordChange) {
+              const newHashedPassword = await bcrypt.hash(passwordChange, 10);
+              authUser.password = newHashedPassword;
+            }
+            if (emailChange) {
+              authUser.email = emailChange;
+            }
+            if (name) {
+              authUser.name = name;
+            }
+            authUser.save();
+          } else {
+            res.status(500).json({
+              message: "Password is incorrect.",
+            });
+          }
+        }
+      }
+      return res.status(200).json({
+        authUser,
+        message: `Don't forget you're new password if you changed it ${authUser?.name}!`,
+      });
     })
     .catch((error) => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(500).json({
+        message: error.message,
+      });
     });
 };
 

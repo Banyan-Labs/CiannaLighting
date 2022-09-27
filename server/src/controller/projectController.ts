@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import projectInterface from "../interfaces/projectInterface";
 import LightSelection from "../model/LightSelection";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -33,10 +34,35 @@ const createProject = (req: Request, res: Response) => {
     });
 };
 const getProject = async (req: Request, res: Response) => {
+  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  let parameters = Object.fromEntries(
+    keys.map((key: String) => [key, req.body[key.toString()]])
+  );
+
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
-      console.log(`project:${project?.name} `);
+      console.log(`project: ${project?.name} retrieved`);
+      if (project && keys.length) {
+        keys.map((keyName: string) => {
+          switch (keyName) {
+            case "name":
+              project.name = parameters["name"];
+              break;
+            case "region":
+              project.region = parameters["region"];
+              break;
+            case "status":
+              project.status = parameters["status"];
+              break;
+            case "description":
+              project.description = parameters["description"];
+              break;
+            default:
+              null;
+          }
+        });
+      }
       return res.status(200).json({
         project,
       });
@@ -49,7 +75,6 @@ const getAccountProjects = async (req: Request, res: Response) => {
   return await Project.find({ clientId: req.body.clientId })
     .exec()
     .then((projects) => {
-      console.log("projects success", projects);
       return res.status(200).json({
         projects,
       });
@@ -75,7 +100,6 @@ const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
-      console.log(project, "project in projDelete");
       if (project && project.rooms.length) {
         await Room.deleteMany({ projectId: req.body._id })
           .exec()
