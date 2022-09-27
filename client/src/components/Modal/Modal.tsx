@@ -31,7 +31,7 @@ const Modal: FC<Props> = (props, user) => {
     const navigate = useNavigate();
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
         name: '',
-        clientId: props.user.id,
+        clientId: props.user._id,
         clientName: props.user.name,
         region: '',
         status: '',

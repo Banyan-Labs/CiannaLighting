@@ -14,10 +14,7 @@ export const createProjectAction =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
-            const response = await axioscall.post(
-                'projects/create-project/',
-                payload
-            );
+            const response = await axioscall.post('/create-project/', payload);
             dispatch(setProjectId(response.data.project));
             dispatch(setProject(response.data.project));
         } catch (error: any) {
@@ -30,10 +27,7 @@ export const createRoomAction =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
-            const response = await axioscall.post(
-                'rooms/create-room/',
-                payload
-            );
+            const response = await axioscall.post('/create-room', payload);
             console.log(response);
             dispatch(setRoom(response.data.room));
         } catch (error: any) {

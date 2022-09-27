@@ -6,7 +6,6 @@ export const store = configureStore({
     reducer: {
         auth: authReducer,
         project: projectReducer,
-        projects: projectReducer,
     },
 });
 
