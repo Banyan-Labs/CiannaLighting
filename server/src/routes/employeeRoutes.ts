@@ -1,9 +1,9 @@
-import express from 'express';
-import verifyJWT from '../middleware/verifyJWT';
-import verifyAuthorization from '../middleware/verifyAuthorization';
-import catalogController from '../controller/catalogController';
-import lightSelectionController from '../controller/lightSelectionController';
-import ROLES_LIST from '../../config/rolesList';
+import express from "express";
+import verifyJWT from "../middleware/verifyJWT";
+import verifyAuthorization from "../middleware/verifyAuthorization";
+import catalogController from "../controller/catalogController";
+import lightSelectionController from "../controller/lightSelectionController";
+import ROLES_LIST from "../../config/rolesList";
 const router = express.Router();
 
 router.use(verifyJWT);

@@ -1,9 +1,10 @@
-import React, { FC, FormEvent, useState } from "react";
-import axios from "../../api/axios";
-import dataHolding from "../Dashboard/YourProjects/projectDetails";
-import { FaTimes } from "react-icons/fa";
-import "./style/modal.scss";
-import { useNavigate } from "react-router-dom";
+import React, { FC, FormEvent, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { useAppDispatch } from '../../app/hooks';
+import { createProjectAction } from '../../redux/actions/projectActions';
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import './style/modal.scss';
+import { useNavigate } from 'react-router-dom';
 
 type ProjectType = {
     name: string;
@@ -25,17 +26,19 @@ type Props = {
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
 const Modal: FC<Props> = (props, user) => {
-  const closeModal = props.closeModal;
-  const openModal = props.openModal;
-  const navigate = useNavigate();
-  const [projectDetails, setProjectDetails] = useState<ProjectType>({
-    name: "",
-    clientId: props.user.id,
-    clientName: props.user.name,
-    region: "",
-    status: "",
-    description: "",
-  });
+    const closeModal = props.closeModal;
+    const openModal = props.openModal;
+    const navigate = useNavigate();
+    const [projectDetails, setProjectDetails] = useState<ProjectType>({
+        name: '',
+        clientId: props.user._id,
+        clientName: props.user.name,
+        region: '',
+        status: '',
+        description: '',
+    });
+
+    const dispatch = useAppDispatch();
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setProjectDetails({
@@ -55,10 +58,7 @@ const Modal: FC<Props> = (props, user) => {
         e.preventDefault();
         console.log('submitted');
         try {
-            const response = await axios.post(
-                '/projects/create-project/',
-                projectDetails
-            );
+            dispatch(createProjectAction(projectDetails));
             setProjectDetails({
                 name: '',
                 clientId: props.user.id,
@@ -67,7 +67,6 @@ const Modal: FC<Props> = (props, user) => {
                 status: '',
                 description: '',
             });
-            console.log(response.data, 'response');
         } catch (err) {
             console.log('Error: ' + err);
         }
@@ -238,19 +237,19 @@ const Modal: FC<Props> = (props, user) => {
                             </div>
                         </div>
                         <div className="new-project-modal-footer">
-              <button
-                type="submit"
-                className="new-project-modal-button"
-                onClick={(e) => {
-                  onSubmit(e);
-                  dataHolding.getData(projectDetails);
-                  navigate(`/projects/${user.name}`);
-                }}
-              >
-                Create Project
-              </button>
-            </div>
-          </form>
+                            <button
+                                type="submit"
+                                className="new-project-modal-button"
+                                onClick={(e) => {
+                                    onSubmit(e);
+                                    dataHolding.getData(projectDetails);
+                                    navigate(`/projects/${user.name}`);
+                                }}
+                            >
+                                Create Project
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 const verifyAuthorization = (...allowedRoles: string[]) => {
   // By passing this in as middleware on the route, you restrict access to that route with the role or roles you pass in as the argument.
