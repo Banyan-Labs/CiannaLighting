@@ -4,11 +4,15 @@ import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
 import testData from './testData';
 import Pagination from '../Pagination/Pagination';
+import ProjectMiniModal from './ProjectMiniModal';
 
 const AllProjects: FC = () => {
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectList] = useState(testData);
+    const [projectOptionsModal, setProjectOptionsModal] =
+        useState<boolean>(false);
+    const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 5;
     const indexOfLastProject = currentPage * projectsPerPage;
@@ -23,8 +27,16 @@ const AllProjects: FC = () => {
         return currentPage;
     };
 
+    const onMouseOver = (index: number | null) => {
+        setProjectOptionsModal(true);
+        setProjectIndex(index);
+    };
+    const onMouseOut = () => {
+        setProjectOptionsModal(false);
+        setProjectIndex(null);
+    };
+
     const allProjectsTableDisplay = currentProjects.map((project, index) => {
-        console.log(project.name);
         return (
             <tbody key={index}>
                 <tr className="projects-table-dynamic-row">
@@ -41,8 +53,19 @@ const AllProjects: FC = () => {
                     <td className="projects-table-dynamic-status">
                         {project.status}
                     </td>
-                    <td className="projects-table-dynamic-dots">
-                        <BsThreeDots />
+                    <td
+                        className="projects-table-dynamic-dots"
+                        onMouseOver={() => onMouseOver(index)}
+                        onMouseLeave={() => onMouseOut()}
+                    >
+                        <div className="align-modal-dots">
+                            <span className="bs-three-dots-container">
+                                <BsThreeDots />
+                            </span>
+                        </div>
+                        {projectOptionsModal && projectIndex === index && (
+                            <ProjectMiniModal />
+                        )}
                     </td>
                 </tr>
             </tbody>

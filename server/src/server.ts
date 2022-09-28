@@ -12,7 +12,8 @@ import userRoutes from "./routes/userRoutes";
 import publicRoutes from "./routes/publicRoutes";
 import refreshRoute from "./routes/refreshTokenRoute";
 import adminRoutes from "./routes/adminRoutes";
-import employeeRoutes from "./routes/employeeRoutes"
+import employeeRoutes from "./routes/employeeRoutes";
+
 const router = express();
 
 /** Server Handler */
@@ -46,10 +47,10 @@ router.use((req, res, next) => {
 });
 
 /**Routes */
-router.use("/api", refreshRoute);
-router.use("/api/admin", adminRoutes);
+router.use("/api/rf", refreshRoute);
+router.use("/api/public", publicRoutes);
+router.use("/api/cmd", adminRoutes);
 router.use("/api/internal", employeeRoutes);
-router.use("/api/user", publicRoutes);
 router.use("/api", userRoutes);
 
 /**Errors */

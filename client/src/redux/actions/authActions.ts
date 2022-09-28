@@ -23,7 +23,7 @@ export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const response = await axios.post('user/login/user', payload);
+            const response = await axios.post('public/login/user', payload);
             localStorage.setItem('token', response.data.accessToken);
             dispatch(setUser(response.data));
         } catch (error: any) {
@@ -35,7 +35,7 @@ export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            await axios.post('user/log_out/user', {
+            await axios.post('public/log_out/user', {
                 email,
             });
             dispatch(logout());
