@@ -48,7 +48,9 @@ const YourProjects: FC = () => {
                 className="single-project"
                 style={{
                     backgroundColor:
-                        projectColors[index > projectColors.length ? 0 : index],
+                        projectColors[
+                            index > projectColors.length - 1 ? 0 : index
+                        ],
                 }}
                 onClick={() => {
                     projectRoute();
