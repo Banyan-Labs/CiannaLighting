@@ -12,13 +12,12 @@ import {
 
 import dataHolding from './projectDetails';
 
-// temporary data for UI purposes
-import * as data from './testProjectData.json';
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth }) => auth);
+    const { userProjects } = useAppSelector(({ project }) => project);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -32,19 +31,16 @@ const YourProjects: FC = () => {
         navigate(to);
     }, [user.name, navigate]);
 
-    const [projectDetails, setProjectDetails] = useState([]);
-
     useEffect(() => {
         dispatch(getUserProjects(user._id));
     }, []);
 
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
-    const singleProject = projectDetails.map((project: any, index: any) => {
+    const singleProject = userProjects.map((project: any, index: any) => {
+        const color = projectColors[index > projectColors.length ? 0 : index];
         const changeProject = () => {
-            project.color =
-                projectColors[index > projectColors.length - 1 ? 0 : index];
-            dataHolding.getData(project);
+            dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
         return (
@@ -52,9 +48,7 @@ const YourProjects: FC = () => {
                 className="single-project"
                 style={{
                     backgroundColor:
-                        projectColors[
-                            index > projectColors.length - 1 ? 0 : index
-                        ],
+                        projectColors[index > projectColors.length ? 0 : index],
                 }}
                 onClick={() => {
                     projectRoute();
