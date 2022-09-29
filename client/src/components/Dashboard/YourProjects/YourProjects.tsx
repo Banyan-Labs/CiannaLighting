@@ -38,7 +38,7 @@ const YourProjects: FC = () => {
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     // displays the 4 most recent projects.
-    const latestProjects = userProjects.slice(0, 4);
+    const latestProjects = userProjects.slice(userProjects.length - 4);
 
     const singleProject = latestProjects.map((project: any, index: any) => {
         const color =
