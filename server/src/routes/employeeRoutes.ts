@@ -2,7 +2,7 @@ import express from "express";
 import verifyJWT from "../middleware/verifyJWT";
 import verifyAuthorization from "../middleware/verifyAuthorization";
 import catalogController from "../controller/catalogController";
-import lightSelectionController from "../controller/lightSelectionController";
+import srController from "../controller/statusAndRegionController";
 import ROLES_LIST from "../../config/rolesList";
 const router = express.Router();
 
@@ -13,6 +13,8 @@ router
   .post('/create-light', catalogController.createCatalogItem)
   .post('/find-light', catalogController.getLight)
   .delete('/remove-light', catalogController.removeLight)
+  .post('/new-sr', srController.addInfo)
+  .delete('/delete-sr', srController.deleteData)
   
 
 export = router;
