@@ -37,8 +37,15 @@ const YourProjects: FC = () => {
 
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
-    const singleProject = userProjects.map((project: any, index: any) => {
-        const color = projectColors[index > projectColors.length ? 0 : index];
+    const latestProjects = userProjects.slice(0, 4);
+
+    const singleProject = latestProjects.map((project: any, index: any) => {
+        const color =
+            projectColors[
+                index > projectColors.length - 1
+                    ? index - (userProjects.length - (projectColors.length + 1))
+                    : index
+            ];
         const changeProject = () => {
             dataHolding.getData(project, color);
         };
@@ -47,10 +54,8 @@ const YourProjects: FC = () => {
             <div
                 className="single-project"
                 style={{
-                    backgroundColor:
-                        projectColors[
-                            index > projectColors.length - 1 ? 0 : index
-                        ],
+                    backgroundColor: color,
+                    borderTop: '1px solid #3c3c3c',
                 }}
                 onClick={() => {
                     projectRoute();
