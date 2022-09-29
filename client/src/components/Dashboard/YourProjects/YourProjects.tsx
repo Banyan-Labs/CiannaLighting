@@ -37,6 +37,7 @@ const YourProjects: FC = () => {
 
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
+    // displays the 4 most recent projects.
     const latestProjects = userProjects.slice(0, 4);
 
     const singleProject = latestProjects.map((project: any, index: any) => {
@@ -110,9 +111,13 @@ const YourProjects: FC = () => {
 
                     <div className="your-projects-section">
                         {singleProject}
-                        <div className="your-projects-none">
-                            <span>You have no other projects.</span>
-                        </div>
+                        {singleProject.length == 0 ? (
+                            <div className="your-projects-none">
+                                <span>You have no projects.</span>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             </div>
