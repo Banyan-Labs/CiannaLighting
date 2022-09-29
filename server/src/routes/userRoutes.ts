@@ -15,10 +15,9 @@ router.use(verifyJWT);
 router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
 router
   .post("/find-user", userController.getUser)
-  .get("/get-catalog", catalogController.getCatalogItems)
   .post('/find-light', catalogController.getLight)
   // Project Routes
-  .get("/get-projects", projectController.getAllProjects)
+  .post("/get-projects", projectController.getAllProjects)
   .post("/account-projects", projectController.getAccountProjects)
   .post("/find-project", projectController.getProject)
   .post("/create-project", projectController.createProject)

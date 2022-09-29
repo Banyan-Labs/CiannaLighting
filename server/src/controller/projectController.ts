@@ -84,8 +84,12 @@ const getAccountProjects = async (req: Request, res: Response) => {
     });
 };
 
-const getAllProjects = (req: Request, res: Response) => {
-  Project.find()
+const getAllProjects = async(req: Request, res: Response) => {
+  let check = Object.keys(req.body).filter(x=> x != "authEmail" && x != "authRole" );
+  let security = check.filter(x=> x === 'status' || x === 'region' || x === 'clientId')
+  console.log(check, security, "run")
+  if(security.length && check.length === security.length){
+    await Project.find({...req.body})
     .then((projects) => {
       return res.status(200).json({
         projects,
@@ -94,6 +98,18 @@ const getAllProjects = (req: Request, res: Response) => {
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
     });
+  }else{
+
+ await Project.find()
+    .then((projects) => {
+      return res.status(200).json({
+        projects,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({ message: error.message, error });
+    });
+  }
 };
 
 const deleteProject = async (req: Request, res: Response) => {
