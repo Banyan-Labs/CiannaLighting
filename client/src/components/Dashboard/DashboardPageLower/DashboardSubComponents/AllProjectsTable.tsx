@@ -9,23 +9,12 @@ import ProjectMiniModal from './ProjectMiniModal';
 const AllProjects: FC = () => {
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
-    const [projectList] = useState(testData);
+    // const [projectList, setProjectList] = useState(testData);
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 5;
-    const indexOfLastProject = currentPage * projectsPerPage;
-    const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-    const currentProjects = projectList.slice(
-        indexOfFirstProject,
-        indexOfLastProject
-    );
-    const paginate = (e: any, pageNumber: number) => {
-        e.preventDefault();
-        setCurrentPage(pageNumber);
-        return currentPage;
-    };
 
     const onMouseOver = (index: number | null) => {
         setProjectOptionsModal(true);
@@ -35,6 +24,14 @@ const AllProjects: FC = () => {
         setProjectOptionsModal(false);
         setProjectIndex(null);
     };
+
+    const lastIndex = currentPage * projectsPerPage;
+    const firstIndex = lastIndex - projectsPerPage;
+    const currentProjects = testData.slice(firstIndex, lastIndex);
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    const lastPage = Math.ceil(testData.length / projectsPerPage);
 
     const allProjectsTableDisplay = currentProjects.map((project, index) => {
         return (
@@ -105,11 +102,35 @@ const AllProjects: FC = () => {
                         {allProjectsTableDisplay}
                     </table>
                     <div className="pages-list">
-                        <Pagination
-                            totalProjects={projectList.length}
-                            projectsPerPage={projectsPerPage}
-                            paginate={paginate}
-                        />
+                        <nav>
+                            <ul className="pagination">
+                                {currentPage > 1 && (
+                                    <li
+                                        onClick={() =>
+                                            setCurrentPage(currentPage - 1)
+                                        }
+                                        className="page-link"
+                                    >
+                                        &lt;
+                                    </li>
+                                )}
+                                <Pagination
+                                    totalProjects={testData.length}
+                                    projectsPerPage={projectsPerPage}
+                                    paginate={(page: number) => paginate(page)}
+                                />
+                                {currentPage !== lastPage && (
+                                    <li
+                                        onClick={() =>
+                                            setCurrentPage(currentPage + 1)
+                                        }
+                                        className="page-link"
+                                    >
+                                        &gt;
+                                    </li>
+                                )}
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
