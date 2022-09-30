@@ -17,10 +17,5 @@ const userSchema: Schema = new Schema(
     timestamps: true,
   }
 );
-/**
- * Super Admin
- * Employee
- * user
- */
 
 export default mongoose.model<Iuser>("User", userSchema);
