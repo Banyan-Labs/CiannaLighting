@@ -58,6 +58,7 @@ const createNewUser = async (
 };
 
 const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+  console.log('hit')
   User.find()
     .exec()
     .then((results) => {

@@ -21,6 +21,7 @@ const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth }) => auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { userProjects } = useAppSelector(({project})=> project)
 
     useEffect(() => {
         !user && navigate('/login' + user.name);
@@ -32,7 +33,7 @@ const YourProjects: FC = () => {
         navigate(to);
     }, [user.name, navigate]);
 
-    const [projectDetails, setProjectDetails] = useState([]);
+    const [projectDetails, setProjectDetails] = useState(userProjects);
 
     useEffect(() => {
         dispatch(getUserProjects(user._id));

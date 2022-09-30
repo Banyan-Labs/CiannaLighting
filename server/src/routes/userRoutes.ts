@@ -15,7 +15,6 @@ router.use(verifyJWT);
 router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
 router
   .post("/find-user", userController.getUser)
-  .post('/find-light', catalogController.getLight)
   // Project Routes
   .post("/get-projects", projectController.getAllProjects)
   .post("/account-projects", projectController.getAccountProjects)
