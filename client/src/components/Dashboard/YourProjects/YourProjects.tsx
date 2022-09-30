@@ -19,14 +19,12 @@ import {
 
 import dataHolding from './projectDetails';
 
-// temporary data for UI purposes
-import * as data from './testProjectData.json';
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
-import { ProjectType } from '../../../redux/reducers/projectSlice';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth }) => auth);
+    const { userProjects } = useAppSelector(({ project }) => project);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -40,7 +38,6 @@ const YourProjects: FC = () => {
         navigate(to);
     }, [user.name, navigate]);
 
-    const [projectDetails, setProjectDetails] = useState<ProjectType[]>([]);
     const [newProjects, setNewProjects] = useState(0);
     const [onHoldProjects, setOnHoldProjects] = useState(0);
     const [canceledProjects, setCanceledProjects] = useState(0);
@@ -53,8 +50,8 @@ const YourProjects: FC = () => {
         let canceledProjectsNumber = 0;
         let completedProjectsNumber = 0;
 
-        if (projectDetails.length != 0) {
-            projectDetails.map((project) => {
+        if (userProjects.length != 0) {
+            userProjects.map((project) => {
                 if (project.status == 'New') {
                     newProjectsNumber = newProjectsNumber + 1;
                 } else if (project.status == 'Hold') {
@@ -70,24 +67,29 @@ const YourProjects: FC = () => {
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
         }
-    }, [projectDetails]);
+    }, [userProjects]);
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
-    const singleProject = projectDetails.map((project: any, index: any) => {
+    // displays the 4 most recent projects.
+    const latestProjects = userProjects.slice(userProjects.length - 4);
+
+    const singleProject = latestProjects.map((project: any, index: any) => {
+        const color =
+            projectColors[
+                index > projectColors.length - 1
+                    ? index - (userProjects.length - (projectColors.length + 1))
+                    : index
+            ];
         const changeProject = () => {
-            project.color =
-                projectColors[index > projectColors.length - 1 ? 0 : index];
-            dataHolding.getData(project);
+            dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
         return (
             <div
                 className="single-project"
                 style={{
-                    backgroundColor:
-                        projectColors[
-                            index > projectColors.length - 1 ? 0 : index
-                        ],
+                    backgroundColor: color,
+                    borderTop: '1px solid #3c3c3c',
                 }}
                 onClick={() => {
                     projectRoute();
@@ -126,7 +128,7 @@ const YourProjects: FC = () => {
                                 Total Projects
                             </div>
                             <div className="number-of-all-projects">
-                                {projectDetails.length}
+                                {userProjects.length}
                             </div>
                         </div>
                         <div>
@@ -187,9 +189,13 @@ const YourProjects: FC = () => {
 
                     <div className="your-projects-section">
                         {singleProject}
-                        <div className="your-projects-none">
-                            <span>You have no other projects.</span>
-                        </div>
+                        {singleProject.length == 0 ? (
+                            <div className="your-projects-none">
+                                <span>You have no projects.</span>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             </div>

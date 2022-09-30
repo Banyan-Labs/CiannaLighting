@@ -242,7 +242,7 @@ const Modal: FC<Props> = (props, user) => {
                                 className="new-project-modal-button"
                                 onClick={(e) => {
                                     onSubmit(e);
-                                    dataHolding.getData(projectDetails);
+                                    dataHolding.getData(projectDetails, '');
                                     navigate(`/projects/${user.name}`);
                                 }}
                             >
