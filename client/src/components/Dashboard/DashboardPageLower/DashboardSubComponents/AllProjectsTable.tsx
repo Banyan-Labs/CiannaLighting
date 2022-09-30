@@ -9,7 +9,6 @@ import ProjectMiniModal from './ProjectMiniModal';
 const AllProjects: FC = () => {
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
-    // const [projectList, setProjectList] = useState(testData);
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
