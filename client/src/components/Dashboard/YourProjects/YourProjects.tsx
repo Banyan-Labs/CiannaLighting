@@ -67,7 +67,7 @@ const YourProjects: FC = () => {
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
         }
-    }, [userProjects]);
+    }, []);
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     // displays the 4 most recent projects.
