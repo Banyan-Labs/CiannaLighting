@@ -20,7 +20,7 @@ import {
 import dataHolding from './projectDetails';
 
 // temporary data for UI purposes
-import * as data from './testProjectData.json';
+// import * as data from './testProjectData.json';
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { ProjectType } from '../../../redux/reducers/projectSlice';

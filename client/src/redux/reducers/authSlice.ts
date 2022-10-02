@@ -16,7 +16,11 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUser: (state, action) => ({ ...state, user: action.payload.user }),
+        setUser: (state, action) => ({
+            ...state,
+            user: action.payload.user,
+            accessToken: action.payload.accessToken,
+        }),
         setError: (state, action) => ({ ...state, error: action.payload }),
         logout: (state) => ({ ...state, user: {} }),
         setAccessToken: (state, action) => ({
