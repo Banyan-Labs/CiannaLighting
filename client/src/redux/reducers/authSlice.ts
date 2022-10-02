@@ -4,13 +4,11 @@ import { UserType } from '../../app/typescriptTypes';
 export interface AuthStateType {
     user: UserType;
     error: any;
-    accessToken: string;
 }
 
 const initialState: AuthStateType = {
     user: { _id: '', name: '', email: '', role: '' },
     error: null,
-    accessToken: '',
 };
 
 export const authSlice = createSlice({
@@ -23,7 +21,6 @@ export const authSlice = createSlice({
             return {
                 ...state,
                 user: action.payload.user,
-                accessToken: action.payload.accessToken,
             };
         },
         setUserOnRefresh: (state, action) => ({
@@ -36,7 +33,7 @@ export const authSlice = createSlice({
             localStorage.setItem('role', action.payload.user.role);
             return {
                 ...state,
-                accessToken: action.payload.accessToken,
+
                 user: action.payload.user,
             };
         },

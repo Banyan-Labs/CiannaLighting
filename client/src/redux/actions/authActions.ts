@@ -35,9 +35,13 @@ export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            await axios.post('public/log_out/user', {
-                email,
-            });
+            await axios.post(
+                'public/log_out/user',
+                {
+                    email,
+                },
+                { withCredentials: true }
+            );
             dispatch(logout());
         } catch (error) {
             console.log(error);

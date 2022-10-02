@@ -118,11 +118,13 @@ const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
   const refreshToken = cookies.jwt;
+  console.log(refreshToken);
 
   if (!cookies.jwt) return res.sendStatus(204);
   await User.findOne({ refreshToken })
     .select("+refreshToken")
     .then((user) => {
+      console.log(user);
       if (!user) {
         res.clearCookie("jwt", {
           httpOnly: true,
