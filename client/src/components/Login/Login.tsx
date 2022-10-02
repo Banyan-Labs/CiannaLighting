@@ -1,5 +1,5 @@
 import React, { FC, useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { signInAction } from '../../redux/actions/authActions';
@@ -7,6 +7,10 @@ import './style/login.scss';
 import { useEffect } from 'react';
 
 const Login: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
+    const { accessToken } = useAppSelector(
+        ({ auth: accessToken }) => accessToken
+    );
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -31,12 +35,15 @@ const Login: FC = () => {
                 email: '',
                 password: '',
             });
-            navigate('/dashboard');
         } catch (error) {
             console.log(error);
             return error;
         }
     };
+
+    useEffect(() => {
+        if (user._id && accessToken) navigate(`/dashboard?_id=${user._id}`);
+    }, [user._id, accessToken]);
 
     return (
         <>

@@ -9,8 +9,9 @@ export const getAllUsersSlice = createSlice({
     initialState,
     reducers: {
         setUsers: (state, action) => ({ ...state, users: action.payload }),
+        setNewUser: (state, action) => ({ ...state, user: action.payload }),
     },
 });
 
-export const { setUsers } = getAllUsersSlice.actions;
+export const { setUsers, setNewUser } = getAllUsersSlice.actions;
 export default getAllUsersSlice.reducer;

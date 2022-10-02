@@ -41,9 +41,8 @@ const login = async (req: Request, res: Response) => {
               res.cookie("jwt", refreshToken, {
                 httpOnly: true,
                 sameSite: "none",
-                secure: true,
                 path: "/",
-                maxAge: 24 * 60 * 60 * 1000,
+                secure: true,
               });
               res.json({
                 accessToken,
@@ -51,7 +50,7 @@ const login = async (req: Request, res: Response) => {
                   _id: authenticatedUser._id,
                   name: authenticatedUser.name,
                   email: authenticatedUser.email,
-                  refreshToken: authenticatedUser.refreshToken,
+                  role: authenticatedUser.role,
                 },
               });
             })
@@ -75,9 +74,9 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const { email, emailChange, password, passwordChange, name, update } =
+  const { _id, email, emailChange, password, passwordChange, name, update } =
     req.body;
-  await User.findOne({ email })
+  await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {

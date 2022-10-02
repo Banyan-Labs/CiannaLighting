@@ -1,56 +1,50 @@
 import { Dispatch } from 'redux';
 import axios, { axiosPrivate } from '../../api/axios';
-import {
-    setUser,
-    logout,
-    setAccessToken,
-    removeToken,
-} from '../reducers/authSlice';
+import { setUser, logout, setAccessToken } from '../reducers/authSlice';
 
 type SignInType = {
     email: string;
     password: string;
 };
-import { UserType, CreateUserType } from '../../app/typescriptTypes';
 
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const response = await axios.post('public/login/user', payload);
-        localStorage.setItem('token', response.data.accessToken);
+        const response = await axios.post('public/login/user', payload, {
+            withCredentials: true,
+        });
+
         dispatch(setUser(response.data));
-    };
-
-export const getUser =
-    (email: string) =>
-    async (dispatch: Dispatch): Promise<void> => {
-        const axiosInst = await axiosPrivate();
-
-        const response = await axiosInst.post('find-user', { email });
-        dispatch(setUser(response.data.user));
-    };
-
-export const createUserAction =
-    (user: CreateUserType) =>
-    async (dispatch: Dispatch): Promise<void> => {
-        const response = await axios.post('users/create/user', user);
-        dispatch(setUser(response.data.user));
     };
 
 export const refreshToken =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const response = await axios.get('refresh', {
+            const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
-            dispatch(setAccessToken(response.data.accessToken));
+            console.log(response);
+            dispatch(setAccessToken(response.data));
         } catch (error) {
+            // dispatch(removeToken());
             console.log(error);
-            dispatch(removeToken());
             throw error;
         }
     };
+
+// export const getUser =
+//     (_id: string) =>
+//     async (dispatch: Dispatch): Promise<void> => {
+//         const axiosInst = await axiosPrivate();
+//         try {
+//             const response = await axiosInst.post('find-user', { _id });
+//             dispatch(setUserOnRefresh({ user: response.data.authUser }));
+//         } catch (error) {
+//             console.log(error);
+//             throw error;
+//         }
+//     };
 
 export const logoutAction =
     (email: string) =>
@@ -59,7 +53,6 @@ export const logoutAction =
             await axios.post('public/log_out/user', {
                 email,
             });
-            localStorage.removeItem('token');
             dispatch(logout());
         } catch (error) {
             console.log(error);

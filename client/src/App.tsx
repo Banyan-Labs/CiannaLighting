@@ -1,35 +1,69 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAppSelector } from './app/hooks';
-import Navbar from './components/Navbar/Navbar';
+import { ROLES } from './app/constants';
+import './index.scss';
+import RequireAuth from './components/RequireAuth/RequireAuth';
+import Layout from './components/Layout/Layout';
 import Catalog from './components/Catalog/Catalog';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import Projects from './components/SingleProject/Projects';
 import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage';
-import './index.scss';
 import AllUserProjects from './components/AllUserProjects/AllUserProjects';
+import PersistLogin from './components/PersistLogin/PersistLogin';
+import Unauthorized from './components/RequireAuth/Unauthorized';
+
+export interface AppProps {
+    user: any;
+}
 
 const App: FC = () => {
-    const { user } = useAppSelector(({ auth: user }) => user);
-
     return (
         <>
             <BrowserRouter>
-                {user.email && <Navbar />}
                 <Routes>
-                    <Route path="/" element={<Navigate to="/login" />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/catalog" element={<Navigate to="/login" />} />
-                    <Route path="/projects/all" element={<AllUserProjects />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/catalog" element={<Catalog />} />
-                    <Route
-                        path="/create-project"
-                        element={<CreateProjectPage />}
-                    />
-                    <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="/" element={<Layout />}>
+                        <Route path="/" element={<Navigate to="/login" />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route element={<PersistLogin />}>
+                            <Route
+                                element={
+                                    <RequireAuth roles={Object.values(ROLES)} />
+                                }
+                            >
+                                {/* <Route
+                            path="/catalog"
+                            element={<Navigate to="/login" />}
+                        /> */}
+                                <Route
+                                    path="/projects/all/:user"
+                                    element={<AllUserProjects />}
+                                />
+                                <Route
+                                    path={'/dashboard'}
+                                    element={<Dashboard />}
+                                />
+                                <Route
+                                    path="/projects/:user"
+                                    element={<Projects />}
+                                />
+                                <Route
+                                    path="/catalog/:user"
+                                    element={<Catalog />}
+                                />
+                                <Route
+                                    path="/create-project/:user"
+                                    element={<CreateProjectPage />}
+                                />
+                                <Route
+                                    path="/unauthorized"
+                                    element={<Unauthorized />}
+                                />
+                            </Route>
+                        </Route>
+                    </Route>
+
+                    {/* <Route path="*" element={<Navigate to="/" />} /> */}
                 </Routes>
             </BrowserRouter>
         </>
