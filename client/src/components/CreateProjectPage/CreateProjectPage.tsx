@@ -37,7 +37,6 @@ const CreateProjectPage: FC = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('submitted');
         try {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({
@@ -53,8 +52,6 @@ const CreateProjectPage: FC = () => {
             console.log('Error: ' + err);
         }
     };
-
-    console.log(projectDetails, user, 'user & project');
     return (
         <div
             className="project-create-form-wrapper"
