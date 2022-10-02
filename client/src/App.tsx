@@ -10,41 +10,24 @@ import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage'
 import './index.scss';
 import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 
-export interface AppProps {
-    user: any;
-}
-
 const App: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
 
     return (
         <>
             <BrowserRouter>
-                {user.isAuth && <Navbar user={user} />}
+                {user.email && <Navbar />}
                 <Routes>
                     <Route path="/" element={<Navigate to="/login" />} />
-                    <Route path="/login" element={<Login user={user} />} />
-                    <Route
-                        path="/dashboard"
-                        element={<Navigate to="/login" />}
-                    />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/catalog" element={<Navigate to="/login" />} />
+                    <Route path="/projects/all" element={<AllUserProjects />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/catalog" element={<Catalog />} />
                     <Route
-                        path="/projects/all/:user"
-                        element={<AllUserProjects user={user} />}
-                    />
-                    <Route path="/dashboard/:user" element={<Dashboard />} />
-                    <Route
-                        path="/projects/:user"
-                        element={<Projects user={user} />}
-                    />
-                    <Route
-                        path="/catalog/:user"
-                        element={<Catalog user={user} />}
-                    />
-                    <Route
-                        path="/create-project/:user"
-                        element={<CreateProjectPage user={user} />}
+                        path="/create-project"
+                        element={<CreateProjectPage />}
                     />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

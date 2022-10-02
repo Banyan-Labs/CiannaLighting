@@ -40,7 +40,6 @@ const createNewUser = async (
                 _id: result.id,
                 name: result.name,
                 email: result.email,
-                isAuth: result.isAuth,
                 role: result.role,
               },
             });

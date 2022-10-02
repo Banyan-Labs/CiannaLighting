@@ -12,30 +12,25 @@ const Pagination: FC<Props> = ({
     paginate,
 }: Props) => {
     const pageNumbers = [];
+
     for (let i = 1; i <= Math.ceil(totalProjects / projectsPerPage); i++) {
         pageNumbers.push(i);
     }
-    const paginationMap = pageNumbers.map((number) => {
-        return (
-            <li key={number} className="page-item">
-                <a href="!#" onClick={() => paginate} className="page-link">
-                    {number}
-                </a>
-            </li>
-        );
-    });
+
     return (
-        <nav>
-            <ul className="pagination">
-                <a href="!#" className="page-link">
-                    &laquo;
-                </a>
-                {paginationMap}
-                <a href="!#" className="page-link">
-                    &raquo;
-                </a>
-            </ul>
-        </nav>
+        <>
+            {pageNumbers.map((number, index) => (
+                <li key={index} className="page-item">
+                    <a
+                        href="!#"
+                        onClick={() => paginate(number)}
+                        className="page-link"
+                    >
+                        {number}
+                    </a>
+                </li>
+            ))}
+        </>
     );
 };
 

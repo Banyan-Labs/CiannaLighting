@@ -4,11 +4,9 @@ import logo from '../../assets/ciana-lighting-logo.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { signInAction } from '../../redux/actions/authActions';
 import './style/login.scss';
-import { AppProps } from '../../App';
 import { useEffect } from 'react';
 
-const Login: FC<AppProps> = () => {
-    const { user } = useAppSelector(({ auth }) => auth);
+const Login: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -33,15 +31,12 @@ const Login: FC<AppProps> = () => {
                 email: '',
                 password: '',
             });
+            navigate('/dashboard');
         } catch (error) {
             console.log(error);
             return error;
         }
     };
-
-    useEffect(() => {
-        user.isAuth === true && navigate('/dashboard/' + user.name);
-    }, [user, navigate]);
 
     return (
         <>

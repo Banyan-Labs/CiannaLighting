@@ -26,13 +26,9 @@ import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { ProjectType } from '../../../redux/reducers/projectSlice';
 
 const YourProjects: FC = () => {
-    const { user } = useAppSelector(({ auth }) => auth);
+    const { user } = useAppSelector(({ auth: user }) => user);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        !user && navigate('/login' + user.name);
-    }, [user]);
 
     const [openModal, setOpenModal] = useState(false);
     const projectRoute = useCallback(() => {
@@ -74,10 +70,11 @@ const YourProjects: FC = () => {
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     const singleProject = projectDetails.map((project: any, index: any) => {
+        const color = '';
         const changeProject = () => {
             project.color =
                 projectColors[index > projectColors.length - 1 ? 0 : index];
-            dataHolding.getData(project);
+            dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
         return (

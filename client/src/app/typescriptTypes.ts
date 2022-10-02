@@ -1,7 +1,11 @@
-export type User = {
+export type UserType = {
     _id: string;
     name: string;
     email: string;
-    isAuth: boolean;
-    refreshToken: string;
+};
+
+export type CreateUserType = {
+    name: string;
+    email: string;
+    password: string;
 };

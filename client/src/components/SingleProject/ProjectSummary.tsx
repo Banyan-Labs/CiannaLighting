@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { BsChevronLeft } from 'react-icons/bs';
-import { AppProps } from '../../App';
 import { Link } from 'react-router-dom';
+import { UserType } from '../../app/typescriptTypes';
 
 interface ProjectSummaryProps {
-    user: AppProps[];
+    user: UserType;
     details: any;
 }
 
 const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
-    const date = new Date(Date.parse(details.createdAt)).toDateString();
+    const date = new Date(Date.parse(details.data.createdAt)).toDateString();
     return (
         <div className="project-summary-container">
             <div className="projects-summary">
@@ -23,7 +23,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                 <div className="project-summary-top-bar">
                     <div className="project-summary-name-and-date">
                         <h3 className="project-summary-project-name">
-                            {details.name}
+                            {details.data.name}
                             <FaCircle
                                 className="circle-icon"
                                 style={{ color: details.color }}
@@ -39,13 +39,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                         <FaArchive className="archive-icon" />
                     </div>
                     <div className="project-summary-status">
-                        <p className="status">Status: {details.status}</p>
+                        <p className="status">Status: {details.data.status}</p>
                     </div>
                 </div>
                 <div className="project-summary-text-container">
                     <p>Description:</p>
                     <p className="project-summary-description-text">
-                        {details.description}
+                        {details.data.description}
                     </p>
                 </div>
             </div>

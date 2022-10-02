@@ -33,7 +33,6 @@ const login = async (req: Request, res: Response) => {
             process.env.REFRESH_TOKEN_SECRET as string,
             { expiresIn: "30d" }
           );
-          user.isAuth = true;
           user.refreshToken = refreshToken;
 
           user
@@ -53,7 +52,6 @@ const login = async (req: Request, res: Response) => {
                   name: authenticatedUser.name,
                   email: authenticatedUser.email,
                   refreshToken: authenticatedUser.refreshToken,
-                  isAuth: authenticatedUser.isAuth,
                 },
               });
             })
@@ -137,7 +135,6 @@ const logOut = async (req: Request, res: Response) => {
 
       if (user) {
         user.refreshToken = "";
-        user.isAuth = false;
         user.save();
 
         res.clearCookie("jwt", {

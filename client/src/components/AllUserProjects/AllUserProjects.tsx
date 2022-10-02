@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AppProps } from '../../App';
+import { useAppSelector } from '../../app/hooks';
 
 import './style/style.scss';
 
-const AllUserProjects: FC<AppProps> = ({ user }) => {
+const AllUserProjects: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     return (
         <>
             {Object.keys(user).length === 0 ? (

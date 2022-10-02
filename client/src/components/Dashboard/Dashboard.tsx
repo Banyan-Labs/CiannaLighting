@@ -10,15 +10,7 @@ const Dashboard: FC = () => {
 
     return (
         <>
-            {user.isAuth === true ? (
-                <>
-                    <YourProjects />
-                </>
-            ) : (
-                <>
-                    <Navigate to="/login" />
-                </>
-            )}
+            <YourProjects />
         </>
     );
 };

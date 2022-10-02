@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UserType } from '../../app/typescriptTypes';
 
 export interface AuthStateType {
-    user: any;
+    user: UserType;
     error: any;
     accessToken: string;
 }
 
 const initialState: AuthStateType = {
-    user: {},
+    user: { _id: '', name: '', email: '' },
     error: null,
     accessToken: '',
 };
@@ -22,13 +23,15 @@ export const authSlice = createSlice({
             accessToken: action.payload.accessToken,
         }),
         setError: (state, action) => ({ ...state, error: action.payload }),
-        logout: (state) => ({ ...state, user: {} }),
+        logout: () => initialState,
         setAccessToken: (state, action) => ({
             ...state,
             accessToken: action.payload,
         }),
+        removeToken: (state) => ({ ...state, accessToken: '' }),
     },
 });
 
-export const { setUser, setError, logout, setAccessToken } = authSlice.actions;
+export const { setUser, setError, logout, setAccessToken, removeToken } =
+    authSlice.actions;
 export default authSlice.reducer;
