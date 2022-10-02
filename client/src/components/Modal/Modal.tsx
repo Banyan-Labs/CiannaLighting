@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/modal.scss';
@@ -25,7 +25,8 @@ type Props = {
 
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
-const Modal: FC<Props> = (props, user) => {
+const Modal: FC<Props> = (props) => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     const closeModal = props.closeModal;
     const openModal = props.openModal;
     const navigate = useNavigate();

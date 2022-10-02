@@ -9,11 +9,8 @@ const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
     const userId = useParams('_id');
-    const userRole = localStorage.getItem('role');
-    console.log(userRole, 'pers');
     const dispatch = useAppDispatch();
     const token = localStorage.getItem('token');
-    console.log(token);
 
     useEffect(() => {
         let isMounted = true;
@@ -28,16 +25,9 @@ const PersistLogin = () => {
             }
         };
 
-        userId ? verifyRefreshToken() : setIsLoading(false);
+        userId || !token ? verifyRefreshToken() : setIsLoading(false);
         () => (isMounted = false);
     }, []);
-
-    // useEffect(() => {
-    //     if (!user._id && userId) {
-    //         dispatch(getUser(userId));
-    //         setIsLoading(false);
-    //     }
-    // }, [userId]);
 
     return <>{isLoading && !user._id ? <p>Loading...</p> : <Outlet />}</>;
 };
