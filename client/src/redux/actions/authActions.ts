@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import axios, { axiosPrivate } from '../../api/axios';
+import axios from '../../api/axios';
 import { setUser, logout, setAccessToken } from '../reducers/authSlice';
 
 type SignInType = {
@@ -24,27 +24,12 @@ export const refreshToken =
             const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
-            console.log(response);
             dispatch(setAccessToken(response.data));
         } catch (error) {
-            // dispatch(removeToken());
             console.log(error);
             throw error;
         }
     };
-
-// export const getUser =
-//     (_id: string) =>
-//     async (dispatch: Dispatch): Promise<void> => {
-//         const axiosInst = await axiosPrivate();
-//         try {
-//             const response = await axiosInst.post('find-user', { _id });
-//             dispatch(setUserOnRefresh({ user: response.data.authUser }));
-//         } catch (error) {
-//             console.log(error);
-//             throw error;
-//         }
-//     };
 
 export const logoutAction =
     (email: string) =>

@@ -8,9 +8,7 @@ import { useEffect } from 'react';
 
 const Login: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { accessToken } = useAppSelector(
-        ({ auth: accessToken }) => accessToken
-    );
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -42,8 +40,8 @@ const Login: FC = () => {
     };
 
     useEffect(() => {
-        if (user._id && accessToken) navigate(`/dashboard?_id=${user._id}`);
-    }, [user._id, accessToken]);
+        if (user._id) navigate(`/dashboard?_id=${user._id}`);
+    }, [user._id]);
 
     return (
         <>
