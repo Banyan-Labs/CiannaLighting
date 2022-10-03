@@ -39,69 +39,62 @@
 .table-headers {
     text-align: left;
     font-size: 9px;
-    border: 1px solid black;
     padding: 5px;
 }
 .projects-table-dynamic-row {
+    border-top: 1px solid black;
     font-size: 12px;
+    width: 100%;
 }
 .projects-table-dynamic-name {
-    border-top: 1px solid black;
     text-align: left;
     margin-left: 15px;
     font-size: 13px;
     text-indent: 20px;
 }
-.projects-table-dynamic-designer {
-    border-top: 1px solid black;
-}
-.projects-table-dynamic-region {
-    border-top: 1px solid black;
-}
-.projects-table-dynamic-contact {
-    border-top: 1px solid black;
-}
+
 .projects-table-dynamic-status {
-    border-top: 1px solid black;
     span {
-        border-radius: 0.2rem;
-        padding: 4px;
+        border-radius: 0.5rem;
+        padding: 1px 5px;
+        font-size: 10px;
+        font-weight: bold;
     }
     .statusColorNew {
-        color: darkblue;
-        background-color: lightblue;
+        color: rgb(6, 6, 185);
+        background-color: rgb(144, 216, 240);
     }
     .statusColorConstruction {
-        color: orange;
+        color: rgb(160, 160, 3);
         background-color: rgb(243, 243, 140);
     }
     .statusColorCompleted {
-        color: green;
+        color: darkgreen;
         background-color: lightgreen;
     }
     .statusColorHold {
-        color: darkred;
-        background-color: red;
+        color: rgb(185, 5, 5);
+        background-color: rgb(238, 145, 145);
     }
     .statusColorConfigure {
         color: darkcyan;
-        background-color: lightcyan;
+        background-color: rgb(185, 250, 250);
     }
     .statusColorRFP {
-        color: darkgray;
+        color: rgb(107, 103, 103);
         background-color: lightgray;
     }
     .statusColorInternalApproval {
-        color: darkgray;
-        background-color: lightgray;
+        color: rgb(127, 45, 168);
+        background-color: rgb(226, 149, 224);
     }
     .statusColorAwarded {
-        color: darkgray;
-        background-color: lightgray;
+        color: rgb(41, 41, 160);
+        background-color: rgb(184, 184, 247);
     }
-    .statusColorCancelled {
-        color: rgb(226, 9, 9);
-        background-color: lightgray;
+    .statusColorCanceled {
+        color: rgb(156, 123, 62);
+        background-color: rgb(235, 201, 140);
     }
 }
 .projects-table-dynamic-dots {
@@ -153,8 +146,13 @@
 }
 
 tr {
-    height: 25px;
+    height: 50px;
 }
+
+table {
+    border-collapse: collapse;
+}
+
 // ~~~~~~~~~~~~~~~~~`PAGINATION LINKS~~~~~~~~~~~~~~
 .page-item {
     list-style: none;

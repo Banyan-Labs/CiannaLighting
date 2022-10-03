@@ -40,6 +40,7 @@ const AllProjects: FC = () => {
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
 
     const allProjectsTableDisplay = currentProjects.map((project, index) => {
+        const statusNoSpace = project.status.replace(/\s/g, '');
         return (
             <tbody key={index}>
                 <tr className="projects-table-dynamic-row">
@@ -54,7 +55,7 @@ const AllProjects: FC = () => {
                     </td>
                     {/* <td className="projects-table-dynamic-contact">{project.contact}</td> */}
                     <td className="projects-table-dynamic-status">
-                        <span className={`statusColor${project.status}`}>
+                        <span className={`statusColor${statusNoSpace}`}>
                             {project.status}
                         </span>
                     </td>
