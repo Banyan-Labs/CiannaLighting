@@ -8,6 +8,7 @@ export interface RefreshTokenType {
 
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
+  console.log(cookies, "refresh controller");
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
 
@@ -27,7 +28,15 @@ const refreshTokenController = (req: Request, res: Response) => {
               process.env.ACCESS_TOKEN_SECRET as string,
               { expiresIn: "1500s" }
             );
-            res.json({ accessToken });
+            res.json({
+              accessToken,
+              user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+              },
+            });
           }
         );
       }

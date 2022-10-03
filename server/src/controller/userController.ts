@@ -33,7 +33,6 @@ const login = async (req: Request, res: Response) => {
             process.env.REFRESH_TOKEN_SECRET as string,
             { expiresIn: "30d" }
           );
-          user.isAuth = true;
           user.refreshToken = refreshToken;
 
           user
@@ -42,9 +41,8 @@ const login = async (req: Request, res: Response) => {
               res.cookie("jwt", refreshToken, {
                 httpOnly: true,
                 sameSite: "none",
-                secure: true,
                 path: "/",
-                maxAge: 24 * 60 * 60 * 1000,
+                secure: true,
               });
               res.json({
                 accessToken,
@@ -52,8 +50,7 @@ const login = async (req: Request, res: Response) => {
                   _id: authenticatedUser._id,
                   name: authenticatedUser.name,
                   email: authenticatedUser.email,
-                  refreshToken: authenticatedUser.refreshToken,
-                  isAuth: authenticatedUser.isAuth,
+                  role: authenticatedUser.role,
                 },
               });
             })
@@ -77,9 +74,9 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const { email, emailChange, password, passwordChange, name, update } =
+  const { _id, email, emailChange, password, passwordChange, name, update } =
     req.body;
-  await User.findOne({ email })
+  await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
@@ -121,11 +118,13 @@ const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
   const refreshToken = cookies.jwt;
+  console.log(refreshToken);
 
   if (!cookies.jwt) return res.sendStatus(204);
   await User.findOne({ refreshToken })
     .select("+refreshToken")
     .then((user) => {
+      console.log(user);
       if (!user) {
         res.clearCookie("jwt", {
           httpOnly: true,
@@ -137,7 +136,6 @@ const logOut = async (req: Request, res: Response) => {
 
       if (user) {
         user.refreshToken = "";
-        user.isAuth = false;
         user.save();
 
         res.clearCookie("jwt", {

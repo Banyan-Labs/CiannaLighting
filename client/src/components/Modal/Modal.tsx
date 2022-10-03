@@ -25,10 +25,11 @@ type Props = {
 
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
-const Modal: FC<Props> = (props, user) => {
+const Modal: FC<Props> = (props) => {
     const { status } = useAppSelector(({ filter: status }) => status);
     const { region } = useAppSelector(({ filter: region }) => region);
 
+    const { user } = useAppSelector(({ auth: user }) => user);
     const closeModal = props.closeModal;
     const openModal = props.openModal;
     const navigate = useNavigate();

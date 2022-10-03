@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';

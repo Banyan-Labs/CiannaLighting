@@ -1,18 +1,19 @@
 import React, { FC, useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
-import { createUserAction } from '../../redux/actions/authActions';
+import { createUserAction } from '../../redux/actions/usersActions';
 
 const Signup: FC = () => {
     const [newUserInput, setNewUserInput] = useState({
         name: '',
         email: '',
+        role: '',
         password: '',
         confirmPassword: '',
     });
     const [errorMessage, setErrorMessage] = useState<string>('');
     const dispatch = useAppDispatch();
 
-    const { name, email, password, confirmPassword } = newUserInput;
+    const { name, email, role, password, confirmPassword } = newUserInput;
 
     const handleUserInput = (e: any) => {
         setNewUserInput((previousState) => ({
@@ -31,6 +32,7 @@ const Signup: FC = () => {
                     name,
                     email,
                     password,
+                    role,
                 })
             );
         }
@@ -64,6 +66,17 @@ const Signup: FC = () => {
                         value={newUserInput.email}
                         onChange={(e) => handleUserInput(e)}
                         placeholder="Email address"
+                        required
+                    />
+                    <label>Role</label>
+                    <br />
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={newUserInput.email}
+                        onChange={(e) => handleUserInput(e)}
+                        placeholder="Assign Role"
                         required
                     />
                     <br />
