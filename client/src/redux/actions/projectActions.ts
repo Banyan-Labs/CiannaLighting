@@ -12,7 +12,6 @@ import { setUserProjects } from '../reducers/projectSlice';
 export const createProjectAction =
     (payload: ProjectType) =>
     async (dispatch: Dispatch): Promise<void> => {
-        console.log(payload, 'what?')
         const axioscall = await axiosPrivate();
         try {
             const response = await axioscall.post('/create-project/', payload);

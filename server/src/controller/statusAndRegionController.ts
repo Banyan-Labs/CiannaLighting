@@ -27,7 +27,7 @@ const addInfo = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getData = async (req: Request, res: Response, next: NextFunction) => {
-    let { label} = req.body;
+    let { label } = req.body;
 
     await statusAndRegion.find({label})
         .exec()

@@ -5,7 +5,7 @@ import projectReducer from './reducers/projectSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        project: projectReducer,
+        project: projectReducer
     },
 });
 
