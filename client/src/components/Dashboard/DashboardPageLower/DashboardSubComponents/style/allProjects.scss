@@ -63,6 +63,46 @@
 }
 .projects-table-dynamic-status {
     border-top: 1px solid black;
+    span {
+        border-radius: 0.2rem;
+        padding: 4px;
+    }
+    .statusColorNew {
+        color: darkblue;
+        background-color: lightblue;
+    }
+    .statusColorConstruction {
+        color: orange;
+        background-color: rgb(243, 243, 140);
+    }
+    .statusColorCompleted {
+        color: green;
+        background-color: lightgreen;
+    }
+    .statusColorHold {
+        color: darkred;
+        background-color: red;
+    }
+    .statusColorConfigure {
+        color: darkcyan;
+        background-color: lightcyan;
+    }
+    .statusColorRFP {
+        color: darkgray;
+        background-color: lightgray;
+    }
+    .statusColorInternalApproval {
+        color: darkgray;
+        background-color: lightgray;
+    }
+    .statusColorAwarded {
+        color: darkgray;
+        background-color: lightgray;
+    }
+    .statusColorCancelled {
+        color: rgb(226, 9, 9);
+        background-color: lightgray;
+    }
 }
 .projects-table-dynamic-dots {
     border-top: 1px solid black;

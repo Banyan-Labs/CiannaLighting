@@ -1,12 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
-import testData from './testData';
+import { getAllProjects } from '../../../../redux/actions/projectActions';
+import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
 const AllProjects: FC = () => {
+    const dispatch = useAppDispatch();
+    const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
@@ -14,6 +17,10 @@ const AllProjects: FC = () => {
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 5;
+
+    useEffect(() => {
+        dispatch(getAllProjects());
+    }, []);
 
     const onMouseOver = (index: number | null) => {
         setProjectOptionsModal(true);
@@ -26,11 +33,11 @@ const AllProjects: FC = () => {
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const currentProjects = testData.slice(firstIndex, lastIndex);
+    const currentProjects = allProjects.slice(firstIndex, lastIndex);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    const lastPage = Math.ceil(testData.length / projectsPerPage);
+    const lastPage = Math.ceil(allProjects.length / projectsPerPage);
 
     const allProjectsTableDisplay = currentProjects.map((project, index) => {
         return (
@@ -47,7 +54,9 @@ const AllProjects: FC = () => {
                     </td>
                     {/* <td className="projects-table-dynamic-contact">{project.contact}</td> */}
                     <td className="projects-table-dynamic-status">
-                        {project.status}
+                        <span className={`statusColor${project.status}`}>
+                            {project.status}
+                        </span>
                     </td>
                     <td
                         className="projects-table-dynamic-dots"
@@ -114,7 +123,7 @@ const AllProjects: FC = () => {
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={testData.length}
+                                    totalProjects={allProjects.length}
                                     projectsPerPage={projectsPerPage}
                                     paginate={(page: number) => paginate(page)}
                                 />

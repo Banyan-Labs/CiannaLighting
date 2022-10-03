@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/modal.scss';
@@ -26,6 +26,9 @@ type Props = {
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
 const Modal: FC<Props> = (props, user) => {
+    const { status } = useAppSelector(({ filter: status }) => status);
+    const { region } = useAppSelector(({ filter: region }) => region);
+
     const closeModal = props.closeModal;
     const openModal = props.openModal;
     const navigate = useNavigate();
@@ -71,31 +74,6 @@ const Modal: FC<Props> = (props, user) => {
             console.log('Error: ' + err);
         }
     };
-
-    // Hardcoded mock-data for the dropdown list values
-    const statusOptions = [
-        'Choose Status',
-        'New',
-        'Configure',
-        'Internal Approval',
-        'RFP',
-        'Awarded',
-        'Construction',
-        'Hold',
-        'Completed',
-        'Canceled',
-    ];
-    const regionOptions = [
-        'Choose Region',
-        'Africa',
-        'Asia',
-        'Caribbean',
-        'Central America',
-        'Europe',
-        'North America',
-        'Oceania',
-        'South America',
-    ];
 
     return (
         <div className="new-project-modal-background">
@@ -164,12 +142,10 @@ const Modal: FC<Props> = (props, user) => {
                                     name="status"
                                     onChange={(e) => handleSelection(e)}
                                 >
-                                    {statusOptions.map(
+                                    {status.map(
                                         (
                                             status: string,
-                                            index = statusOptions.indexOf(
-                                                status
-                                            )
+                                            index = status.indexOf(status)
                                         ) => {
                                             if (status === 'Choose Status') {
                                                 return (
@@ -205,12 +181,10 @@ const Modal: FC<Props> = (props, user) => {
                                     name="region"
                                     onChange={(e) => handleSelection(e)}
                                 >
-                                    {regionOptions.map(
+                                    {region.map(
                                         (
                                             region: string,
-                                            index = regionOptions.indexOf(
-                                                region
-                                            )
+                                            index = region.indexOf(region)
                                         ) => {
                                             if (region === 'Choose Region') {
                                                 return (
