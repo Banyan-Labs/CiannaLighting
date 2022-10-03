@@ -1,5 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 
 // import "./style/projectForm.css";
@@ -14,17 +14,14 @@ type ProjectType = {
     rooms: string[];
 };
 
-type CreateProjectPageType = {
-    user: any;
-};
-
-const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
+const CreateProjectPage: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
         name: '',
         description: '',
         region: '',
         status: '',
-        clientId: user.id,
+        clientId: user._id,
         clientName: user.name,
         rooms: [],
     });
@@ -40,7 +37,6 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('submitted');
         try {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({
@@ -48,7 +44,7 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
                 description: '',
                 region: '',
                 status: '',
-                clientId: user.id,
+                clientId: user._id,
                 clientName: user.name,
                 rooms: [],
             });
@@ -56,8 +52,6 @@ const CreateProjectPage: FC<CreateProjectPageType> = ({ user }) => {
             console.log('Error: ' + err);
         }
     };
-
-    console.log(projectDetails, user, 'user & project');
     return (
         <div
             className="project-create-form-wrapper"

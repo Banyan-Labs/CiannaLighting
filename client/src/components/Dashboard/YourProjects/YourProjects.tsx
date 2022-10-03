@@ -23,14 +23,10 @@ import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 
 const YourProjects: FC = () => {
-    const { user } = useAppSelector(({ auth }) => auth);
+    const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        !user && navigate('/login' + user.name);
-    }, [user]);
 
     const [openModal, setOpenModal] = useState(false);
     const projectRoute = useCallback(() => {
@@ -67,7 +63,7 @@ const YourProjects: FC = () => {
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
         }
-    }, []);
+    }, [user._id]);
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     // displays the 4 most recent projects.

@@ -4,9 +4,9 @@ import * as data from './links.json';
 import './style/Navbar.scss';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { FaRegBell } from 'react-icons/fa';
-import { AppProps } from '../../App';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logoutAction } from '../../redux/actions/authActions';
+import { UserType } from '../../app/typescriptTypes';
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
@@ -16,7 +16,7 @@ type Link = {
     href: string;
 };
 
-const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
+const Links: FC<{ links: Link[]; user: UserType }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
@@ -26,7 +26,7 @@ const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
                 return (
                     <div key={link.href}>
                         <Link
-                            to={link.href + user.name}
+                            to={link.href}
                             className={
                                 activeLocation === link.label.toLowerCase()
                                     ? 'active navbar-links'
@@ -42,24 +42,8 @@ const Links: FC<{ links: Link[]; user: any }> = ({ user }) => {
     );
 };
 
-const User: FC<{ user: any }> = ({ user }) => {
-    return (
-        <div className="navbar-user-container">
-            <FaRegBell />
-            <div>
-                <span className="navbar-user-hi">Hi, </span>
-                <span className="navbar-user-name">
-                    {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}!
-                </span>
-                <br />
-                <span className="navbar-user-role">User</span>
-            </div>
-            {/* <FaChevronDown /> */}
-        </div>
-    );
-};
-
-const Navbar: FC<AppProps> = ({ user }) => {
+const Navbar: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -67,7 +51,6 @@ const Navbar: FC<AppProps> = ({ user }) => {
         try {
             e.preventDefault();
             dispatch(logoutAction(user.email));
-            navigate('/login');
         } catch (err) {
             console.log('Error: ', err);
         }
@@ -84,7 +67,19 @@ const Navbar: FC<AppProps> = ({ user }) => {
                 <ul>
                     <Links user={user} links={links} />
                 </ul>
-                <User user={user} />
+                <div className="navbar-user-container">
+                    <FaRegBell />
+                    <div>
+                        <span className="navbar-user-hi">Hi, </span>
+                        <span className="navbar-user-name">
+                            {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
+                            !
+                        </span>
+                        <br />
+                        <span className="navbar-user-role">User</span>
+                    </div>
+                    {/* <FaChevronDown /> */}
+                </div>
                 {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
                 <button onClick={(e) => handleLogout(e)}>logout</button>
             </nav>
