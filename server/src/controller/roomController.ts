@@ -51,6 +51,18 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getAllRooms = (req: Request, res: Response) => {
+  let {projectId} = req.body;
+  if(projectId && projectId.length){
+    Room.find({projectId})
+    .then((rooms) => {
+      return res.status(200).json({
+        rooms,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({ message: error.message, error });
+    }); 
+  }else{
   Room.find()
     .then((rooms) => {
       return res.status(200).json({
@@ -60,6 +72,7 @@ const getAllRooms = (req: Request, res: Response) => {
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
     });
+  }
 };
 
 const getRoom = async (req: Request, res: Response) => {
