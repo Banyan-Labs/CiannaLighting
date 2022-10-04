@@ -20,7 +20,7 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
         description: '',
     });
     const [roomCreated, setRoomCreated] = useState<boolean>(false);
-    console.log(user);
+    console.log(user, projectId);
 
     const dispatch = useAppDispatch();
 

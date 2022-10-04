@@ -9,5 +9,6 @@ router.post("/login/user", controller.login);
 router.post("/log_out/user", controller.logOut);
 router.post("/s_r", statusController.getData);
 router.post("/get-catalog", catalogController.getCatalogItems);
+router.post('/find-light', catalogController.getLight);
 
 export = router;

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../model/User";
 import bcrypt from "bcrypt";
 
+
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password)
