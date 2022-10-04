@@ -11,8 +11,8 @@ const createProject = async (req: Request, res: Response) => {
     req.body;
   let newRooms: string[] = []
   if(_id){
-    newRooms = reCreate(_id, rooms)
-    console.log(rooms, "roooooms ?")
+    newRooms = await reCreate(_id, rooms)
+    console.log(rooms, newRooms, "roooooms ?")
   }
   const project = new Project({
     _id: new mongoose.Types.ObjectId(),
@@ -161,43 +161,65 @@ const deleteProject = async (req: Request, res: Response) => {
 };
 
 const reCreate = (project: string, rooms: string[]) => {
+  let newRooms:string[] = []
  
-  const newRooms = rooms.map((roomID: string) => {
+   rooms.forEach(async(roomID: string) => {
     console.log("room in rooms: ", roomID);
     let reRun: string = ""
-    const checkRoom = async (trying: string) => {
-      console.log("runningCheckRoom.....")
-      await Room.findOne({ _id: trying })
+    let newID = ""
+    // const checkRoom = async (trying: string) => {
+    //   console.log("runningCheckRoom.....")
+    //   await 
+      Room.findOne({ _id: roomID })
         .exec()
         .then((room: any) => {
-          console.log(room._id, "rooms")
+          console.log(room, "room found")
           let lights: string[] | [];
-          if (room.lights.length) {
-            lights = handleLights(room.lights, trying);
-          } else {
-            lights = [];
-          }
+          // if (room.lights.length) {
+          //   lights = handleLights(room.lights, roomID);
+          //   console.log(lights, "lights in recreate")
+          // } else {
+          //   lights = [];
+          // }
+          // _id: new mongoose.Types.ObjectId(),
+          // name,
+          // clientId,
+          // projectId,
+          // description,
+          // lights: [],
           const newRoom = new Room({
-            ...room,
-            lights: lights,
             _id: new mongoose.Types.ObjectId(),
+            name: room.name,
+            clientId: room.clientId, 
             projectId: project,
+            description: room.description,
+            lights: /*lights*/[],
           });
+          console.log(newRoom, "newroom??")
           newRoom.save();
           reRun = ""
-          roomID = newRoom._id;
+          newID = newRoom._id.toString();
+          console.log(newID, "newID right after reassigning")
+          newRooms.push(newID)
         })
-        .catch(() => {
-          reRun = trying;
+        .catch((error) => {
+          console.log(error)
         });
-    };
-    console.log("beforeCheckRoom")
-    checkRoom(roomID);
-    console.log('afterCheckRoom')
-    while (reRun.length) {
-      checkRoom(reRun);
-    }
-    return roomID
+        // console.log(newID, roomID, "inCheckRoom")
+        
+      // };
+      // console.log("beforeCheckRoom")
+      // while (newID == ""){
+
+      //   checkRoom(roomID);
+      //   console.log(newID)
+      // }
+      console.log(newID, roomID, "new => old")
+    // console.log('afterCheckRoom')
+    // while (reRun.length) {
+    //   checkRoom(reRun);
+    // }
+    return newID
   });
   console.log(newRooms, "what? new rooms? ")
   return newRooms
@@ -207,8 +229,9 @@ const handleLights = (lights: string[], roomID: string): string[] => {
   let newLights = lights.map((lightID: string) => {
     console.log("light in lights: ", lightID);
     let reRun: string = "";
-    const checkLight = async (trying: string) => {
-      await LightSelection.findOne({ _id: trying })
+    let newID = "";
+    const checkLight = (trying: string) => {
+       LightSelection.findOne({ _id: trying })
         .exec()
         .then((lightSelection: any) => {
           console.log(lightSelection._id, "lightSelections")
@@ -218,20 +241,22 @@ const handleLights = (lights: string[], roomID: string): string[] => {
             roomId: roomID,
           });
           light.save();
-          lightID = light._id;
+          newID = light._id;
           reRun = ""
 
         })
         .catch(() => {
           reRun = trying;
         });
+        console.log(newID, lightID, "inCheckRoom")
     };
     checkLight(lightID);
+    console.log(newID, lightID, "OUTACheckRoom")
     while (reRun.length) {
       checkLight(reRun);
     }
 
-    return lightID;
+    return newID;
   });
   console.log(newLights, "newLights")
   return newLights;

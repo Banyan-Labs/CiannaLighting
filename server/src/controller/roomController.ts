@@ -21,6 +21,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
       if (project) {
         project.rooms = [...project.rooms, room._id];
         project.save();
+        console.log(project, "PROJECT FOUND AND UPDATED")
         let projectSuccess = `added room to project: ${projectId}`;
         return room
           .save()

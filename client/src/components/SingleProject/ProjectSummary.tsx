@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { BsChevronLeft } from 'react-icons/bs';
-import { AppProps } from '../../App';
 import { Link } from 'react-router-dom';
+import { UserType } from '../../app/typescriptTypes';
 
 interface ProjectSummaryProps {
-    user: AppProps[];
+    user: UserType;
     details: any;
 }
 

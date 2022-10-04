@@ -1,14 +1,15 @@
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AppProps } from '../../App';
 import ProjectSummary from './ProjectSummary';
 import ProjectAttachments from './ProjectAttachments';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/projects.scss';
+import { useAppSelector } from '../../app/hooks';
 // import RoomDetails from "../Rooms/RoomDetails";
 
-const Projects: FC<AppProps> = ({ user }) => {
+const Projects: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     const details = dataHolding.setData();
     return (
         <>

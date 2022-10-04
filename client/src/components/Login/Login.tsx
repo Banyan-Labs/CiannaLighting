@@ -1,14 +1,14 @@
 import React, { FC, useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { signInAction } from '../../redux/actions/authActions';
 import './style/login.scss';
-import { AppProps } from '../../App';
 import { useEffect } from 'react';
 
-const Login: FC<AppProps> = () => {
-    const { user } = useAppSelector(({ auth }) => auth);
+const Login: FC = () => {
+    const { user } = useAppSelector(({ auth: user }) => user);
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -40,8 +40,8 @@ const Login: FC<AppProps> = () => {
     };
 
     useEffect(() => {
-        user.isAuth === true && navigate('/dashboard/' + user.name);
-    }, [user, navigate]);
+        if (user._id) navigate(`/dashboard?_id=${user._id}`);
+    }, [user._id]);
 
     return (
         <>

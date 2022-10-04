@@ -38,6 +38,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
       if (project) {
         project.rfp = rfp._id;
         project.save();
+        
         let projectSuccess = `added rfp to project: ${projectId}`;
         return rfp
           .save()
