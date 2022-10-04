@@ -23,13 +23,24 @@ export const createProjectAction =
         }
     };
 
+export const placingProjectAction =
+    (payload: object) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setProjectId(payload));
+            dispatch(setProject(payload));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
 export const createRoomAction =
     (payload: RoomType) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
             const response = await axioscall.post('/create-room', payload);
-            console.log(response);
+            console.log(response, 'created room');
             dispatch(setRoom(response.data.room));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));

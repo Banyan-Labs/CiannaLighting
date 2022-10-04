@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
-import { useAppSelector } from '../../../../app/hooks';
-import { NewRoomModal } from '../../../NewRoomModal/NewRoomModal';
+import { useAppSelector } from '../../../../../app/hooks';
+import { NewRoomModal } from '../../../../NewRoomModal/NewRoomModal';
 
-const Rooms: FC = () => {
+const IdRooms: FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
 
@@ -37,4 +37,4 @@ const Rooms: FC = () => {
     );
 };
 
-export default Rooms;
+export default IdRooms;

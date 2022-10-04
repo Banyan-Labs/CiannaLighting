@@ -13,6 +13,7 @@ type Props = {
 
 export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
     const { projectId } = useAppSelector(({ project }) => project);
+    console.log(projectId);
     const { room } = useAppSelector(({ project }) => project);
     const [roomDetails, setRoomDetails] = useState({
         name: '',
