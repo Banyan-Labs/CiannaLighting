@@ -4,6 +4,7 @@ import {
     setProjectError,
     setRoom,
     setProjectId,
+    setAllProjects,
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -44,6 +45,18 @@ export const getUserProjects =
                 clientId: userId,
             });
             dispatch(setUserProjects(projects.data));
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+export const getAllProjects =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axioscall = await axiosPrivate();
+        try {
+            const projects = await axioscall.post('/get-projects');
+            dispatch(setAllProjects(projects.data));
         } catch (err) {
             console.log(err);
         }
