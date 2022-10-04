@@ -73,21 +73,97 @@
 .projects-table-dynamic-status {
     border-top: 1px solid black;
 }
+.projects-table-dynamic-status span {
+    border-radius: 0.2rem;
+    padding: 4px;
+}
+.projects-table-dynamic-status .statusColorNew {
+    color: darkblue;
+    background-color: lightblue;
+}
+.projects-table-dynamic-status .statusColorConstruction {
+    color: orange;
+    background-color: rgb(243, 243, 140);
+}
+.projects-table-dynamic-status .statusColorCompleted {
+    color: green;
+    background-color: lightgreen;
+}
+.projects-table-dynamic-status .statusColorHold {
+    color: darkred;
+    background-color: red;
+}
+.projects-table-dynamic-status .statusColorConfigure {
+    color: darkcyan;
+    background-color: lightcyan;
+}
+.projects-table-dynamic-status .statusColorRFP {
+    color: darkgray;
+    background-color: lightgray;
+}
+.projects-table-dynamic-status .statusColorInternalApproval {
+    color: darkgray;
+    background-color: lightgray;
+}
+.projects-table-dynamic-status .statusColorAwarded {
+    color: darkgray;
+    background-color: lightgray;
+}
+.projects-table-dynamic-status .statusColorCancelled {
+    color: rgb(226, 9, 9);
+    background-color: lightgray;
+}
 
 .projects-table-dynamic-dots {
     border-top: 1px solid black;
 }
 
-.projects-table-dynamic-dots:hover {
+.bs-three-dots-container {
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+}
+
+.bs-three-dots-container:hover {
+    border-radius: 50%;
+    background: rgb(219, 219, 219);
+}
+
+.align-modal-dots {
+    display: flex;
+    justify-content: center;
+}
+
+.project-mini-modal {
+    position: absolute;
+    background: black;
+    right: 60px;
+    color: rgb(194, 194, 194);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}
+.project-mini-modal div {
+    padding: 10px 25px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+.project-mini-modal p {
+    padding-left: 10px;
+    margin: 0;
+}
+.project-mini-modal .doc-type {
+    border-top: solid 1px silver;
+    font-weight: 300;
+    font-size: 13px;
+    opacity: 0.8;
 }
 
 tr {
     height: 25px;
-}
-
-tr:hover {
-    color: goldenrod;
 }
 
 .page-item {
@@ -97,6 +173,7 @@ tr:hover {
 }
 
 .page-link {
+    list-style: none;
     color: black;
     float: left;
     padding: 8px 16px;
