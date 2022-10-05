@@ -29,7 +29,7 @@ const login = async (req: Request, res: Response) => {
           );
 
           const refreshToken = jwt.sign(
-            { name: user.email },
+            { name: user.email, role },
             process.env.REFRESH_TOKEN_SECRET as string,
             { expiresIn: "30d" }
           );
@@ -121,6 +121,7 @@ const logOut = async (req: Request, res: Response) => {
   console.log(refreshToken);
 
   if (!cookies.jwt) return res.sendStatus(204);
+
   await User.findOne({ refreshToken })
     .select("+refreshToken")
     .then((user) => {
@@ -134,23 +135,15 @@ const logOut = async (req: Request, res: Response) => {
         return res.sendStatus(204);
       }
 
-      if (user) {
-        user.refreshToken = "";
-        user.save();
+      user.refreshToken = "";
+      user.save();
 
-        res.clearCookie("jwt", {
-          httpOnly: true,
-          sameSite: "none",
-          secure: true,
-        });
-        res.sendStatus(204);
-      }
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        message: error.message,
-        error,
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
       });
+      res.sendStatus(204);
     });
 };
 

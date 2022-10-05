@@ -5,6 +5,7 @@ import { checkServerIdentity } from "tls";
 import CatalogItem from "../model/CatalogItem";
 
 const createCatalogItem = async (req: Request, res: Response) => {
+  console.log(req.file);
   let {
     item_ID,
     employeeID,
@@ -95,35 +96,44 @@ const createCatalogItem = async (req: Request, res: Response) => {
 };
 
 const getCatalogItems = (req: Request, res: Response) => {
-  let check = Object.keys(req.body).filter(x=> x === 'designStyle' || x == "usePackages")
-  let workArray = Object.fromEntries(check.map(x=> [x, req.body[x]]))
+  let check = Object.keys(req.body).filter(
+    (x) => x === "designStyle" || x == "usePackages"
+  );
+  let workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
 
   CatalogItem.find()
     .then((items) => {
-      if(check.length){
-        let designCheck = check.indexOf('designStyle') > -1;
-        let useCheck = check.indexOf('usePackages') > -1 
-      items = items.filter(x=>{ 
-        let dz = designCheck ? workArray['designStyle'].every((v: string)=> x.designStyle.indexOf(v) > -1) : false
-        let uses = useCheck ? workArray['usePackages'].every((v: string)=> x.usePackages.indexOf(v) > -1) : false
-        if(check.length === 2){
-          if(dz == true && uses == true){
-            return x
-          }else{
-            return ''
+      if (check.length) {
+        let designCheck = check.indexOf("designStyle") > -1;
+        let useCheck = check.indexOf("usePackages") > -1;
+        items = items.filter((x) => {
+          let dz = designCheck
+            ? workArray["designStyle"].every(
+                (v: string) => x.designStyle.indexOf(v) > -1
+              )
+            : false;
+          let uses = useCheck
+            ? workArray["usePackages"].every(
+                (v: string) => x.usePackages.indexOf(v) > -1
+              )
+            : false;
+          if (check.length === 2) {
+            if (dz == true && uses == true) {
+              return x;
+            } else {
+              return "";
+            }
+          } else {
+            if (check.indexOf("designStyle") > -1 && dz == true) {
+              return x;
+            } else if (check.indexOf("usePackages") > -1 && uses == true) {
+              return x;
+            } else {
+              return "";
+            }
           }
-        }else{
-          if(check.indexOf('designStyle') > -1 && dz == true){
-            return x
-
-          }else if(check.indexOf('usePackages') > -1 && uses == true){
-            return x
-          }else{
-            return ''
-          }
-        }
-      })
-    }
+        });
+      }
       return res.status(200).json({
         items,
       });
