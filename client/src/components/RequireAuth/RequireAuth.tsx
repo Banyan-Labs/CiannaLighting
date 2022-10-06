@@ -1,10 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { getUserProjects } from '../../redux/actions/projectActions';
 
 const RequireAuth: FC<{ roles: string[] }> = ({ roles }) => {
     const location = useLocation();
+    const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await dispatch(getUserProjects(user._id));
+        };
+        fetchData();
+    }, [user._id]);
 
     return user.role && roles.includes(user.role) ? (
         <Outlet />

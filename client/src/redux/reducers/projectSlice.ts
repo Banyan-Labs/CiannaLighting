@@ -4,6 +4,7 @@ export interface ProjectStateType {
     userProjects: any[];
     allProjects: any[];
     project: ProjectType | null;
+    projectRooms: any[];
     room: RoomType | null;
     error: any;
     projectId: string;
@@ -32,6 +33,7 @@ const initialState: ProjectStateType = {
     userProjects: [],
     allProjects: [],
     project: null,
+    projectRooms: [],
     room: null,
     error: null,
     projectId: '',
@@ -47,6 +49,10 @@ export const projectSlice = createSlice({
             allProjects: action.payload.projects,
         }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
+        setProjectRooms: (state, action) => ({
+            ...state,
+            projectRooms: action.payload,
+        }),
         setProjectError: (state, action) => ({
             ...state,
             error: action.payload,
@@ -71,5 +77,6 @@ export const {
     setProjectId,
     setUserProjects,
     setAllProjects,
+    setProjectRooms,
 } = projectSlice.actions;
 export default projectSlice.reducer;

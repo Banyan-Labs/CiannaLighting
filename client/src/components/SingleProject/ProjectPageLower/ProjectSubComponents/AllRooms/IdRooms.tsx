@@ -1,38 +1,69 @@
-import React, { FC, useState } from 'react';
-import { RiAddLine } from 'react-icons/ri';
+import React, { FC, useCallback } from 'react';
 import { useAppSelector } from '../../../../../app/hooks';
-import { NewRoomModal } from '../../../../NewRoomModal/NewRoomModal';
+import { useNavigate } from 'react-router-dom';
+import './rooms.scss';
+import { FaChevronRight } from 'react-icons/fa';
 
 const IdRooms: FC = () => {
-    const [openModal, setOpenModal] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
+    const { projectRooms } = useAppSelector(({ project }) => project);
+    const navigate = useNavigate();
 
-    const handleAddRoom = (e: any) => {
-        e.preventDefault();
-        setOpenModal(true);
-    };
+    const projectRoute = useCallback(
+        (roomId: any) => {
+            const to = `/catalog/ + ?_id= ${user._id} + ${roomId}`;
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
+
+    const singleProject = projectRooms.map((room: any, index: any) => {
+        return (
+            <div
+                className="single-project"
+                style={{
+                    backgroundColor: 'rgb(242 242 242',
+                }}
+                onClick={() => {
+                    projectRoute(room._id);
+                }}
+                key={index}
+            >
+                <span style={{ color: 'black' }}>
+                    Lights: <strong>{room.lights.length}</strong>
+                </span>
+                <div className="card-divider" />
+                <h3 style={{ color: 'black' }}>{room.name}</h3>
+                <div className="room-details-block" key={index}>
+                    <span>
+                        View Details{' '}
+                        <FaChevronRight className="view-details-chevron" />
+                    </span>
+                </div>
+            </div>
+        );
+    });
 
     return (
         <>
-            <div>
-                <div className="add-room-button-container">
-                    <div className="add-room-button" onClick={handleAddRoom}>
-                        <RiAddLine className="add-sign" />
-                    </div>
-
-                    <p className="no-room-text">No rooms in this project</p>
+            <div className="your-rooms">
+                <div className="your-rooms-section">
+                    {singleProject}
+                    {singleProject.length == 0 ? (
+                        <div className="your-projects-none">
+                            <span>There are no rooms in this project.</span>
+                        </div>
+                    ) : singleProject.length <= 3 ? (
+                        <div className="your-projects-none other-none">
+                            <span style={{ fontSize: '14px' }}>
+                                No other rooms for this project
+                            </span>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
-                <p className="room-bottom-text">
-                    Create rooms to manage your project
-                </p>
             </div>
-            {openModal && (
-                <NewRoomModal
-                    openModal={openModal}
-                    closeModal={setOpenModal}
-                    user={user}
-                />
-            )}
         </>
     );
 };

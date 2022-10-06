@@ -19,6 +19,7 @@ type Link = {
 const Links: FC<{ links: Link[]; user: UserType }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
+    const { user } = useAppSelector(({ auth: user }) => user);
     const activeLocation = pathname.split('/')[1];
     return (
         <div className="navbar-links-container">
@@ -26,7 +27,7 @@ const Links: FC<{ links: Link[]; user: UserType }> = () => {
                 return (
                     <div key={link.href}>
                         <Link
-                            to={link.href}
+                            to={link.href + '?_id=' + user._id}
                             className={
                                 activeLocation === link.label.toLowerCase()
                                     ? 'active navbar-links'
