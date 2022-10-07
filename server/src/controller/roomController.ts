@@ -6,6 +6,7 @@ import Room from "../model/Room";
 import LightSelection from "../model/LightSelection";
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
+  console.log(req,"=============================== \n =====================", res)
   let { name, description, clientId, projectId } = req.body;
   const room = new Room({
     _id: new mongoose.Types.ObjectId(),
