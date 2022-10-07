@@ -33,7 +33,6 @@ export const authSlice = createSlice({
             localStorage.setItem('role', action.payload.user.role);
             return {
                 ...state,
-
                 user: action.payload.user,
             };
         },

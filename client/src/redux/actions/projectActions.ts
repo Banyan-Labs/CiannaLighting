@@ -5,6 +5,7 @@ import {
     setRoom,
     setProjectId,
     setAllProjects,
+    setProjectRooms,
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -23,14 +24,39 @@ export const createProjectAction =
         }
     };
 
+export const placingProjectAction =
+    (payload: object) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setProjectId(payload));
+            dispatch(setProject(payload));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
 export const createRoomAction =
     (payload: RoomType) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
             const response = await axioscall.post('/create-room', payload);
-            console.log(response);
+            // console.log(response, 'created room');
             dispatch(setRoom(response.data.room));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+export const getAllProjectRoomsAction =
+    (projectId: string) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axioscall = await axiosPrivate();
+        try {
+            const response = await axioscall.post('/get-rooms', {
+                projectId: projectId,
+            });
+            dispatch(setProjectRooms(response.data.rooms));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
