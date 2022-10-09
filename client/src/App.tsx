@@ -39,6 +39,7 @@ const App: FC = () => {
                                     path="/projects/all/:user"
                                     element={<AllUserProjects />}
                                 />
+
                                 <Route
                                     path={'/dashboard'}
                                     element={<Dashboard />}

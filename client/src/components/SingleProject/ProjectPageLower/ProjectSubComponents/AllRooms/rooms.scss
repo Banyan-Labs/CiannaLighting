@@ -63,6 +63,14 @@
     }
 }
 
+.cardRoom-divider {
+    align-self: center;
+    height: 0.5px;
+    width: 80%;
+    margin-top: 15px;
+    background-color: black;
+}
+
 // media queries small devices
 @media (max-width: 800px) {
     .add-room-button-container {
