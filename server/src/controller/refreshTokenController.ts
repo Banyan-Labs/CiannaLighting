@@ -9,10 +9,8 @@ export interface RefreshTokenType {
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
   console.log(cookies, "refresh controller");
-  if (!cookies?.jwt) return res.sendStatus(401); // best to write own error
+  if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
-
-  console.log(refreshToken, "refresh controller");
 
   User.findOne({ refreshToken })
     .then((user) => {

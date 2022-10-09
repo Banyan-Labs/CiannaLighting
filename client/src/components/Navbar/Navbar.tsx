@@ -6,7 +6,6 @@ import logo from '../../assets/ciana-lighting-logo.png';
 import { FaRegBell } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logoutAction } from '../../redux/actions/authActions';
-import { UserType } from '../../app/typescriptTypes';
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
@@ -16,7 +15,7 @@ type Link = {
     href: string;
 };
 
-const Links: FC<{ links: Link[]; user: UserType }> = ({ user }) => {
+const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -66,7 +65,7 @@ const Navbar: FC = () => {
 
                 <div className="navbar-vertical-divider" />
                 <ul>
-                    <Links user={user} links={links} />
+                    <Links links={links} />
                 </ul>
                 <div className="navbar-user-container">
                     <FaRegBell />
