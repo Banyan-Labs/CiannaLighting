@@ -30,7 +30,7 @@ const YourProjects: FC = () => {
 
     const [openModal, setOpenModal] = useState(false);
     const projectRoute = useCallback(() => {
-        const to = `/projects/${user.name}`;
+        const to = `/projects/ + ?_id= ${user._id}`;
         navigate(to);
     }, [user.name, navigate]);
 
@@ -64,7 +64,7 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id]);
-    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
+    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
 
     // displays the 4 most recent projects.
     const latestProjects = userProjects.slice(userProjects.length - 4);

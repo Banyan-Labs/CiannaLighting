@@ -1,6 +1,6 @@
 //Font
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
-$font-family: "Montserrat";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
+$font-family: 'Montserrat';
 
 //Dark Background Colors
 $primary-bg-dark: #101010;
@@ -36,45 +36,63 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
 
 //Mixins *in progress
 @mixin input-label {
-  font-size: 14px;
-  font-weight: bold;
-  color: $primary-bg-white-text;
-  line-height: 28px;
+    font-size: 14px;
+    font-weight: bold;
+    color: $primary-bg-white-text;
+    line-height: 28px;
 }
 
 @mixin input-field {
-  border: 1px solid $line-light;
-  border-radius: 5px;
-  padding: 15px 10px;
-  width: 95%;
-  margin-bottom: 25px;
+    border: 1px solid $line-light;
+    border-radius: 5px;
+    padding: 15px 10px;
+    width: 95%;
+    margin-bottom: 25px;
 }
 
 @mixin link-bg-white {
-  text-decoration: none;
-  font-size: 12px;
-  color: $primary-bg-white-text;
-  font-weight: bold;
-  line-height: 36px;
+    text-decoration: none;
+    font-size: 12px;
+    color: $primary-bg-white-text;
+    font-weight: bold;
+    line-height: 36px;
 }
 
 @mixin nav-link {
-  color: $primary-bg-dark-link;
-  text-decoration: none;
-  font-size: $nav-link-fs;
-  font-weight: 100;
+    color: $primary-bg-dark-link;
+    text-decoration: none;
+    font-size: $nav-link-fs;
+    font-weight: 100;
 }
 
 @mixin vertical-line {
-  height: 35px;
-  width: 1px;
-  background-color: $line-dark;
+    height: 35px;
+    width: 1px;
+    background-color: $line-dark;
 }
 
 @mixin button($bg-color, $text-color) {
-  background-color: $bg-color;
-  color: $text-color;
-  padding: 15px 50px;
-  border: none;
-  border-radius: 5px;
+    background-color: $bg-color;
+    color: $text-color;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+}
+
+@mixin media-sm {
+    @media screen and (max-width: 800px) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media screen and (max-width: 960px) {
+        @content;
+    }
+}
+
+@mixin media-xl {
+    @media screen and (max-width: 1600px) {
+        @content;
+    }
 }

@@ -19,6 +19,7 @@ type Link = {
 const Links: FC<{ links: Link[]; user: UserType }> = ({ user }) => {
     const location = useLocation();
     const pathname = location.pathname;
+    const { user } = useAppSelector(({ auth: user }) => user);
     const activeLocation = pathname.split('/')[1];
     return (
         <div className="navbar-links-container">
