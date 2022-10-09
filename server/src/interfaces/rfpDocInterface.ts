@@ -29,6 +29,6 @@ export default interface rfpDocInterface extends Document {
   submittals: RfpSection[];
   qualityStandards: RfpSection[];
   contactInfo: Contact[];
-  lights: String[]; //s3
-  attachments: String[]; //s3
+  images: String[]; //s3
+  pdf: String[]; //s3
 }

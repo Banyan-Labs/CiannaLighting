@@ -16,7 +16,7 @@ type Link = {
     href: string;
 };
 
-const Links: FC<{ links: Link[]; user: UserType }> = () => {
+const Links: FC<{ links: Link[]; user: UserType }> = ({ user }) => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
@@ -26,7 +26,7 @@ const Links: FC<{ links: Link[]; user: UserType }> = () => {
                 return (
                     <div key={link.href}>
                         <Link
-                            to={link.href}
+                            to={link.href + '?_id=' + user._id}
                             className={
                                 activeLocation === link.label.toLowerCase()
                                     ? 'active navbar-links'

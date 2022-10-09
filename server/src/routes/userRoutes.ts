@@ -8,6 +8,7 @@ import lightSelectionController from "../controller/lightSelectionController";
 import catalogController from "../controller/catalogController";
 import userController from "../controller/userController";
 import ROLES_LIST from "../../config/rolesList";
+import multiUpload from "../middleware/fileUpload";
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.use(verifyJWT);
 router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
 router
   .post("/find-user", userController.getUser)
-  .post('/find-light', catalogController.getLight)
+  .post("/find-light", catalogController.getLight)
   // Project Routes
   .post("/get-projects", projectController.getAllProjects)
   .post("/account-projects", projectController.getAccountProjects)
@@ -28,16 +29,16 @@ router
   .post("/create-room", roomController.createRoom)
   .delete("/delete-room", roomController.deleteRoom)
   // Light Selection Routes
-  .get('/get-lightSelections', lightSelectionController.getAllSelectedLights)
-  .post('/find-lightSelection', lightSelectionController.getSelectedLight)
-  .post('/create-lightSelection', lightSelectionController.lightSelected)
+  .get("/get-lightSelections", lightSelectionController.getAllSelectedLights)
+  .post("/find-lightSelection", lightSelectionController.getSelectedLight)
+  .post("/create-lightSelection", lightSelectionController.lightSelected)
   .delete(
-    '/delete-lightSelection',
+    "/delete-lightSelection",
     lightSelectionController.deleteSelectedLight
   )
   // Rfp Routes
   .get("/get-rfps", rfpController.getRFPS)
-  .post("/create-rfp", rfpController.createRfp)
+  .post("/create-rfp", multiUpload, rfpController.createRfp)
   .post("/account-rfps", rfpController.getAccountRFPS)
   .post("/find-rfp", rfpController.findRFP)
   .delete("/delete-rfp", rfpController.deleteRFP);

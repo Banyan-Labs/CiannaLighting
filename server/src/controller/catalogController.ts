@@ -1,11 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { xor } from "lodash";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { checkServerIdentity } from "tls";
+import { uploadFunc } from "../middleware/s3";
 import CatalogItem from "../model/CatalogItem";
 
 const createCatalogItem = async (req: Request, res: Response) => {
-  console.log(req.file);
   let {
     item_ID,
     employeeID,
@@ -37,11 +35,32 @@ const createCatalogItem = async (req: Request, res: Response) => {
     designStyle, //[]
     usePackages, //[]
     images, //[]//s3
-    PDF, //[]//s3
+    pdf, //[]//s3
     drawingFiles, //[]//s3
     costAdmin,
     partnerCodeAdmin,
   } = req.body;
+  const documents = Object.values(req.files as any);
+
+  const results = await uploadFunc(documents);
+  images = [];
+  pdf = [];
+  drawingFiles = [];
+  if (results?.length) {
+    for (let i = 0; i < results?.length; i++) {
+      for (let j = 0; j < results[i].length; j++) {
+        let singleDoc = await results[i][j];
+
+        if (singleDoc.field === "images") {
+          images.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === "drawingFiles") {
+          drawingFiles.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === "pdf") {
+          pdf.push(singleDoc.s3Upload.Location);
+        }
+      }
+    }
+  }
 
   const catalogItem = new CatalogItem({
     _id: new mongoose.Types.ObjectId(),
@@ -75,11 +94,12 @@ const createCatalogItem = async (req: Request, res: Response) => {
     designStyle, //[]
     usePackages, //[]
     images, //[]//s3
-    PDF, //[]//s3
+    pdf, //[]//s3
     drawingFiles, //[]//s3
     costAdmin,
     partnerCodeAdmin,
   });
+
   return await catalogItem
     .save()
     .then((item) => {

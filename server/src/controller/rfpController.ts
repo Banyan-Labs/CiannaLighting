@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import Project from "../model/Project";
+import { uploadFunc } from "../middleware/s3";
 import RFP from "../model/RFP";
 
 const createRfp = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,10 +15,27 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     submittals,
     qualityStandards,
     contactInfo,
-    lights,
-    attachments,
+    images,
+    pdf,
   } = req.body;
+  const documents = Object.values(req.files as any);
 
+  const results = await uploadFunc(documents);
+  images = [];
+  pdf = [];
+  if (results?.length) {
+    for (let i = 0; i < results?.length; i++) {
+      for (let j = 0; j < results[i].length; j++) {
+        let singleDoc = await results[i][j];
+
+        if (singleDoc.field === "images") {
+          images.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === "pdf") {
+          pdf.push(singleDoc.s3Upload.Location);
+        }
+      }
+    }
+  }
   const rfp = new RFP({
     _id: new mongoose.Types.ObjectId(),
     header,
@@ -29,8 +47,8 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     submittals,
     qualityStandards,
     contactInfo,
-    lights,
-    attachments,
+    images,
+    pdf,
   });
   let rfpAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
