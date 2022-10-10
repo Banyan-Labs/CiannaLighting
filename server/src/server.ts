@@ -24,6 +24,7 @@ router.use(cookieParser());
 router.use(cors(corsOptions)); // add any rules into the corsOptions file.
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
+router.use(express.static("src"));
 
 mongoose
   .connect(config.mongo.url, config.mongo.options)

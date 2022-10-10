@@ -16,17 +16,12 @@ const rfpSchema: Schema = new Schema(
     submittals: { type: Array<RfpSection>, required: true },
     qualityStandards: { type: Array<RfpSection>, required: true },
     contactInfo: { type: Array<Contact>, required: true },
-    lights: { type: Array<String>, required: true },
-    attachments: { type: Array<String>, required: true },
+    images: { type: Array<String>, required: true },
+    pdf: { type: Array<String>, required: true },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model<rfpDocInterface>(
-    "RFP", 
-    rfpSchema
-    );
-    
-    
+export default mongoose.model<rfpDocInterface>("RFP", rfpSchema);

@@ -9,10 +9,10 @@ import Room from "../model/Room";
 const createProject = async (req: Request, res: Response) => {
   let { _id, name, description, clientId, clientName, region, status, rooms } =
     req.body;
-  let newRooms: string[] = []
-  if(_id){
-    newRooms = await reCreate(_id, rooms)
-    console.log(rooms, newRooms, "roooooms ?")
+  let newRooms: string[] = [];
+  if (_id) {
+    newRooms = await reCreate(_id, rooms);
+    console.log(rooms, newRooms, "roooooms ?");
   }
   const project = new Project({
     _id: new mongoose.Types.ObjectId(),
@@ -25,7 +25,7 @@ const createProject = async (req: Request, res: Response) => {
     rfp: "",
     rooms: _id ? newRooms : [],
   });
-  
+
   return project
     .save()
     .then((project) => {
@@ -161,68 +161,68 @@ const deleteProject = async (req: Request, res: Response) => {
 };
 
 const reCreate = (project: string, rooms: string[]) => {
-  let newRooms:string[] = []
- 
-   rooms.forEach(async(roomID: string) => {
+  let newRooms: string[] = [];
+
+  rooms.forEach(async (roomID: string) => {
     console.log("room in rooms: ", roomID);
-    let reRun: string = ""
-    let newID = ""
+    let reRun: string = "";
+    let newID = "";
     // const checkRoom = async (trying: string) => {
     //   console.log("runningCheckRoom.....")
-    //   await 
-      Room.findOne({ _id: roomID })
-        .exec()
-        .then((room: any) => {
-          console.log(room, "room found")
-          let lights: string[] | [];
-          // if (room.lights.length) {
-          //   lights = handleLights(room.lights, roomID);
-          //   console.log(lights, "lights in recreate")
-          // } else {
-          //   lights = [];
-          // }
-          // _id: new mongoose.Types.ObjectId(),
-          // name,
-          // clientId,
-          // projectId,
-          // description,
-          // lights: [],
-          const newRoom = new Room({
-            _id: new mongoose.Types.ObjectId(),
-            name: room.name,
-            clientId: room.clientId, 
-            projectId: project,
-            description: room.description,
-            lights: /*lights*/[],
-          });
-          console.log(newRoom, "newroom??")
-          newRoom.save();
-          reRun = ""
-          newID = newRoom._id.toString();
-          console.log(newID, "newID right after reassigning")
-          newRooms.push(newID)
-        })
-        .catch((error) => {
-          console.log(error)
+    //   await
+    Room.findOne({ _id: roomID })
+      .exec()
+      .then((room: any) => {
+        console.log(room, "room found");
+        let lights: string[] | [];
+        // if (room.lights.length) {
+        //   lights = handleLights(room.lights, roomID);
+        //   console.log(lights, "lights in recreate")
+        // } else {
+        //   lights = [];
+        // }
+        // _id: new mongoose.Types.ObjectId(),
+        // name,
+        // clientId,
+        // projectId,
+        // description,
+        // lights: [],
+        const newRoom = new Room({
+          _id: new mongoose.Types.ObjectId(),
+          name: room.name,
+          clientId: room.clientId,
+          projectId: project,
+          description: room.description,
+          lights: /*lights*/ [],
         });
-        // console.log(newID, roomID, "inCheckRoom")
-        
-      // };
-      // console.log("beforeCheckRoom")
-      // while (newID == ""){
+        console.log(newRoom, "newroom??");
+        newRoom.save();
+        reRun = "";
+        newID = newRoom._id.toString();
+        console.log(newID, "newID right after reassigning");
+        newRooms.push(newID);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // console.log(newID, roomID, "inCheckRoom")
 
-      //   checkRoom(roomID);
-      //   console.log(newID)
-      // }
-      console.log(newID, roomID, "new => old")
+    // };
+    // console.log("beforeCheckRoom")
+    // while (newID == ""){
+
+    //   checkRoom(roomID);
+    //   console.log(newID)
+    // }
+    console.log(newID, roomID, "new => old");
     // console.log('afterCheckRoom')
     // while (reRun.length) {
     //   checkRoom(reRun);
     // }
-    return newID
+    return newID;
   });
-  console.log(newRooms, "what? new rooms? ")
-  return newRooms
+  console.log(newRooms, "what? new rooms? ");
+  return newRooms;
 };
 
 const handleLights = (lights: string[], roomID: string): string[] => {
@@ -231,10 +231,10 @@ const handleLights = (lights: string[], roomID: string): string[] => {
     let reRun: string = "";
     let newID = "";
     const checkLight = (trying: string) => {
-       LightSelection.findOne({ _id: trying })
+      LightSelection.findOne({ _id: trying })
         .exec()
         .then((lightSelection: any) => {
-          console.log(lightSelection._id, "lightSelections")
+          console.log(lightSelection._id, "lightSelections");
           const light = new LightSelection({
             ...lightSelection,
             _id: new mongoose.Types.ObjectId(),
@@ -242,23 +242,22 @@ const handleLights = (lights: string[], roomID: string): string[] => {
           });
           light.save();
           newID = light._id;
-          reRun = ""
-
+          reRun = "";
         })
         .catch(() => {
           reRun = trying;
         });
-        console.log(newID, lightID, "inCheckRoom")
+      console.log(newID, lightID, "inCheckRoom");
     };
     checkLight(lightID);
-    console.log(newID, lightID, "OUTACheckRoom")
+    console.log(newID, lightID, "OUTACheckRoom");
     while (reRun.length) {
       checkLight(reRun);
     }
 
     return newID;
   });
-  console.log(newLights, "newLights")
+  console.log(newLights, "newLights");
   return newLights;
 };
 

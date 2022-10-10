@@ -174,6 +174,7 @@ const YourProjects: FC = () => {
                     >
                         <FaPlus />
                     </button>
+
                     <span className="dashboard-new-project-sub-text">
                         New Project
                     </span>

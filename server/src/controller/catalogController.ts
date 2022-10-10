@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { xor } from "lodash";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { checkServerIdentity } from "tls";
+import { uploadFunc } from "../middleware/s3";
 import CatalogItem from "../model/CatalogItem";
 
 const createCatalogItem = async (req: Request, res: Response) => {
@@ -36,11 +35,32 @@ const createCatalogItem = async (req: Request, res: Response) => {
     designStyle, //[]
     usePackages, //[]
     images, //[]//s3
-    PDF, //[]//s3
+    pdf, //[]//s3
     drawingFiles, //[]//s3
     costAdmin,
     partnerCodeAdmin,
   } = req.body;
+  const documents = Object.values(req.files as any);
+
+  const results = await uploadFunc(documents);
+  images = [];
+  pdf = [];
+  drawingFiles = [];
+  if (results?.length) {
+    for (let i = 0; i < results?.length; i++) {
+      for (let j = 0; j < results[i].length; j++) {
+        let singleDoc = await results[i][j];
+
+        if (singleDoc.field === "images") {
+          images.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === "drawingFiles") {
+          drawingFiles.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === "pdf") {
+          pdf.push(singleDoc.s3Upload.Location);
+        }
+      }
+    }
+  }
 
   const catalogItem = new CatalogItem({
     _id: new mongoose.Types.ObjectId(),
@@ -74,11 +94,12 @@ const createCatalogItem = async (req: Request, res: Response) => {
     designStyle, //[]
     usePackages, //[]
     images, //[]//s3
-    PDF, //[]//s3
+    pdf, //[]//s3
     drawingFiles, //[]//s3
     costAdmin,
     partnerCodeAdmin,
   });
+
   return await catalogItem
     .save()
     .then((item) => {
@@ -95,35 +116,44 @@ const createCatalogItem = async (req: Request, res: Response) => {
 };
 
 const getCatalogItems = (req: Request, res: Response) => {
-  let check = Object.keys(req.body).filter(x=> x === 'designStyle' || x == "usePackages")
-  let workArray = Object.fromEntries(check.map(x=> [x, req.body[x]]))
+  let check = Object.keys(req.body).filter(
+    (x) => x === "designStyle" || x == "usePackages"
+  );
+  let workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
 
   CatalogItem.find()
     .then((items) => {
-      if(check.length){
-        let designCheck = check.indexOf('designStyle') > -1;
-        let useCheck = check.indexOf('usePackages') > -1 
-      items = items.filter(x=>{ 
-        let dz = designCheck ? workArray['designStyle'].every((v: string)=> x.designStyle.indexOf(v) > -1) : false
-        let uses = useCheck ? workArray['usePackages'].every((v: string)=> x.usePackages.indexOf(v) > -1) : false
-        if(check.length === 2){
-          if(dz == true && uses == true){
-            return x
-          }else{
-            return ''
+      if (check.length) {
+        let designCheck = check.indexOf("designStyle") > -1;
+        let useCheck = check.indexOf("usePackages") > -1;
+        items = items.filter((x) => {
+          let dz = designCheck
+            ? workArray["designStyle"].every(
+                (v: string) => x.designStyle.indexOf(v) > -1
+              )
+            : false;
+          let uses = useCheck
+            ? workArray["usePackages"].every(
+                (v: string) => x.usePackages.indexOf(v) > -1
+              )
+            : false;
+          if (check.length === 2) {
+            if (dz == true && uses == true) {
+              return x;
+            } else {
+              return "";
+            }
+          } else {
+            if (check.indexOf("designStyle") > -1 && dz == true) {
+              return x;
+            } else if (check.indexOf("usePackages") > -1 && uses == true) {
+              return x;
+            } else {
+              return "";
+            }
           }
-        }else{
-          if(check.indexOf('designStyle') > -1 && dz == true){
-            return x
-
-          }else if(check.indexOf('usePackages') > -1 && uses == true){
-            return x
-          }else{
-            return ''
-          }
-        }
-      })
-    }
+        });
+      }
       return res.status(200).json({
         items,
       });
