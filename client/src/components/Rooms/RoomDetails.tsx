@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
+import useParams from '../../app/utils';
 import './style/roomDetails.scss';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const RoomDetails: FC = () => {
+    console.log(useParams('_id'));
     return (
         <div className="room-details-container">
             <div className="room-details-summary">

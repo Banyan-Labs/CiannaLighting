@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
+
 import './rooms.scss';
 import { FaChevronRight } from 'react-icons/fa';
 
@@ -10,32 +11,32 @@ const IdRooms: FC = () => {
     const navigate = useNavigate();
 
     const projectRoute = useCallback(
-        (roomId: any) => {
-            const to = `/catalog/ + ?_id= ${user._id} + ${roomId}`;
+        (roomId: string, projId: string) => {
+            const to = `/createLight/ + ?_id= ${user._id},${roomId},${projId}`;
             navigate(to);
         },
         [user.name, navigate]
     );
 
-    const singleProject = projectRooms.map((room: any, index: any) => {
+    const singleProject = projectRooms?.map((room: any, index: any) => {
         return (
             <div
                 className="single-project"
                 style={{
-                    backgroundColor: 'rgb(242 242 242',
+                    backgroundColor: '#F2F2F2',
                 }}
                 onClick={() => {
-                    projectRoute(room._id);
+                    projectRoute(room?._id, room?.projectId);
                 }}
                 key={index}
             >
                 <span style={{ color: 'black' }}>
-                    Lights: <strong>{room.lights.length}</strong>
+                    Lights: <strong>{room.lights?.length}</strong>
                 </span>
-                <div className="card-divider" />
-                <h3 style={{ color: 'black' }}>{room.name}</h3>
+                <div style={{ color: 'black' }} className="cardRoom-divider" />
+                <h3 style={{ color: 'black' }}>{room?.name}</h3>
                 <div className="room-details-block" key={index}>
-                    <span>
+                    <span style={{ color: 'black' }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
                     </span>

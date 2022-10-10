@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { getUserProjects } from '../../../redux/actions/projectActions';
+import { getProject } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import {
     FaPlus,
@@ -29,10 +29,13 @@ const YourProjects: FC = () => {
     const dispatch = useAppDispatch();
 
     const [openModal, setOpenModal] = useState(false);
-    const projectRoute = useCallback(() => {
-        const to = `/projects/ + ?_id= ${user._id}`;
-        navigate(to);
-    }, [user.name, navigate]);
+    const projectRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id},${projId}`;
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
 
     const [newProjects, setNewProjects] = useState(0);
     const [onHoldProjects, setOnHoldProjects] = useState(0);
@@ -40,7 +43,6 @@ const YourProjects: FC = () => {
     const [completedProjects, setCompletedProjects] = useState(0);
 
     useEffect(() => {
-        dispatch(getUserProjects(user._id));
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
@@ -67,7 +69,9 @@ const YourProjects: FC = () => {
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
 
     // displays the 4 most recent projects.
-    const latestProjects = userProjects.slice(userProjects.length - 4);
+    const latestProjects = userProjects
+        .slice(userProjects.length - 4)
+        .reverse();
 
     const singleProject = latestProjects.map((project: any, index: any) => {
         const color =
@@ -76,7 +80,9 @@ const YourProjects: FC = () => {
                     ? index - (userProjects.length - (projectColors.length + 1))
                     : index
             ];
-        const changeProject = () => {
+
+        const changeProject = (prodId: string) => {
+            dispatch(getProject(prodId));
             dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
@@ -88,8 +94,8 @@ const YourProjects: FC = () => {
                     borderTop: '1px solid #3c3c3c',
                 }}
                 onClick={() => {
-                    projectRoute();
-                    changeProject();
+                    projectRoute(project._id);
+                    changeProject(project._id);
                 }}
                 key={index}
             >

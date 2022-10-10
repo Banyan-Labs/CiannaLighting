@@ -4,8 +4,8 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getUserProjects } from '../../redux/actions/projectActions';
 
 const RequireAuth: FC<{ roles: string[] }> = ({ roles }) => {
-    const location = useLocation();
     const dispatch = useAppDispatch();
+    const location = useLocation();
     const { user } = useAppSelector(({ auth: user }) => user);
 
     useEffect(() => {

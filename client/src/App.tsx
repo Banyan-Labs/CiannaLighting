@@ -12,6 +12,7 @@ import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage'
 import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
+import RoomDetails from './components/Rooms/RoomDetails';
 
 export interface AppProps {
     user: any;
@@ -39,6 +40,7 @@ const App: FC = () => {
                                     path="/projects/all/:user"
                                     element={<AllUserProjects />}
                                 />
+
                                 <Route
                                     path={'/dashboard'}
                                     element={<Dashboard />}
@@ -47,10 +49,12 @@ const App: FC = () => {
                                     path="/projects/:user"
                                     element={<Projects />}
                                 />
+                                <Route path="/catalog" element={<Catalog />} />
                                 <Route
-                                    path="/catalog/:user"
-                                    element={<Catalog />}
+                                    path="/createLight/:ids"
+                                    element={<RoomDetails />}
                                 />
+
                                 <Route
                                     path="/create-project/:user"
                                     element={<CreateProjectPage />}

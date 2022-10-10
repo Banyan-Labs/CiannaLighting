@@ -4,6 +4,7 @@ import * as data from './links.json';
 import './style/Navbar.scss';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { FaRegBell } from 'react-icons/fa';
+import useParams from '../../app/utils';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logoutAction } from '../../redux/actions/authActions';
 
@@ -18,15 +19,23 @@ type Link = {
 const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
-    const { user } = useAppSelector(({ auth: user }) => user);
+    const passingProj = useParams('_id');
+    const storedProjId = passingProj?.split(',').pop();
     const activeLocation = pathname.split('/')[1];
+    const { user } = useAppSelector(({ auth: user }) => user);
+    const { userProjects } = useAppSelector(({ project }) => project);
+    const latestProject = userProjects.slice(userProjects.length - 1);
+    const number = String(passingProj);
+    const defaultProjId = String(latestProject.map((p) => p._id));
+    const Id = number.length > 32 ? storedProjId : defaultProjId;
+
     return (
         <div className="navbar-links-container">
             {links.map((link: Link) => {
                 return (
                     <div key={link.href}>
                         <Link
-                            to={link.href + '?_id=' + user._id}
+                            to={link.href + '?_id=' + user._id + ',' + Id}
                             className={
                                 activeLocation === link.label.toLowerCase()
                                     ? 'active navbar-links'
