@@ -11,8 +11,8 @@ const IdRooms: FC = () => {
     const navigate = useNavigate();
 
     const projectRoute = useCallback(
-        (roomId: any) => {
-            const to = `/catalog/ + ?_id= ${user._id}`;
+        (roomId: string, projId: string) => {
+            const to = `/createLight/ + ?_id= ${user._id},${roomId},${projId}`;
             navigate(to);
         },
         [user.name, navigate]
@@ -23,10 +23,10 @@ const IdRooms: FC = () => {
             <div
                 className="single-project"
                 style={{
-                    backgroundColor: index % 2 == 0 ? '#c6ad7c' : '#aaaaaa',
+                    backgroundColor: 'rgb(175, 175, 175)',
                 }}
                 onClick={() => {
-                    projectRoute(room?._id);
+                    projectRoute(room?._id, room?.projectId);
                 }}
                 key={index}
             >

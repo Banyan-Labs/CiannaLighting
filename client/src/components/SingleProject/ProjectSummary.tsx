@@ -13,7 +13,7 @@ interface ProjectSummaryProps {
 const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
     const Color =
         Object.keys(dataHolding.setData().color).length === 0
-            ? '#c6ad7c'
+            ? '#AC92EB'
             : dataHolding.setData().color;
 
     const date = new Date(Date.parse(details?.createdAt)).toDateString();

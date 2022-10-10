@@ -66,31 +66,29 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id]);
-    // const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
+    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
 
     // displays the 4 most recent projects.
     const latestProjects = userProjects.slice(userProjects.length - 4);
 
     const singleProject = latestProjects.map((project: any, index: any) => {
-        // const color =
-        //     projectColors[
-        //         index > projectColors.length - 1
-        //             ? index - (userProjects.length - (projectColors.length + 1))
-        //             : index
-        //     ];
-
-        const color2 = index % 2 == 0 ? '#c6ad7c' : '#aaaaaa';
+        const color =
+            projectColors[
+                index > projectColors.length - 1
+                    ? index - (userProjects.length - (projectColors.length + 1))
+                    : index
+            ];
 
         const changeProject = (prodId: string) => {
             dispatch(getProject(prodId));
-            dataHolding.getData(project, color2);
+            dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
         return (
             <div
                 className="single-project"
                 style={{
-                    backgroundColor: color2,
+                    backgroundColor: color,
                     borderTop: '1px solid #3c3c3c',
                 }}
                 onClick={() => {

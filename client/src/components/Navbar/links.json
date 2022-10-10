@@ -10,7 +10,7 @@
         },
         {
             "label": "Catalog",
-            "href": "/catalog/:user"
+            "href": "/catalog"
         }
     ]
 }
