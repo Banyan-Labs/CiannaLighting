@@ -10,7 +10,7 @@ import Project from "../model/Project";
 import Room from "../model/Room";
 import createRoom from "./roomController";
 
-const createProject = (req: Request, res: Response) => {
+const createProject = async (req: Request, res: Response) => {
   let {
     _id,
     name,
@@ -50,18 +50,18 @@ const createProject = (req: Request, res: Response) => {
 
   console.log("_id then newProject_id in create project: ", _id, project._id);
 
-  return project
+  return await project
     .save()
-    .then((project) => {
+    .then(async(project) => {
       if (_id && create === "project") {
         if (project) {
           for (let i = 0; i < rooms.length; i++) {
-            Room.findOne({ _id: rooms[i] })
+            await Room.findOne({ _id: rooms[i] })
 
-              .then((foundRoom) => {
+              .then(async(foundRoom) => {
                 console.log(foundRoom, "FOUND ROOM line 61");
                 // if(foundRoom){
-                runRoom(foundRoom, project._id);
+                await runRoom(foundRoom, project._id);
                 // }
               })
               .catch((error) => {
