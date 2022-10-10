@@ -23,7 +23,7 @@ const IdRooms: FC = () => {
             <div
                 className="single-project"
                 style={{
-                    backgroundColor: 'rgb(175, 175, 175)',
+                    backgroundColor: '#F2F2F2',
                 }}
                 onClick={() => {
                     projectRoute(room?._id, room?.projectId);
