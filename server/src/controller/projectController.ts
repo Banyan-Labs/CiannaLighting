@@ -27,15 +27,15 @@ const createProject = (req: Request, res: Response) => {
    */
   let newRooms: string[] = [];
 
-  if (_id && create === "single") {
-    // reCreate(_id, [rooms[1]], clientId, 0);
-    // createRoom({...Request, bo })
+  // if (_id && create === "single") {
+  //   // reCreate(_id, [rooms[1]], clientId, 0);
+  //   // createRoom({...Request, bo })
 
-    console.log(rooms, "roooooms ?");
-    return res.json({
-      message: "ran single room copy",
-    });
-  }
+  //   console.log(rooms, "roooooms ?");
+  //   return res.json({
+  //     message: "ran single room copy",
+  //   });
+  // }
   const project = new Project({
     _id: new mongoose.Types.ObjectId(),
     name: name,
@@ -48,25 +48,28 @@ const createProject = (req: Request, res: Response) => {
     rooms: [],
   });
 
+  console.log("_id then newProject_id in create project: ", _id, project._id);
+
   return project
     .save()
     .then((project) => {
       if (_id && create === "project") {
-        if(project){
-        for (let i = 0; i < rooms.length; i++) {
-           Room.findOne({ _id: rooms[i]})
-            
-            .then((foundRoom) => {
-              console.log(foundRoom, "FOUND ROOM line 61");
-              // if(foundRoom){
-              runRoom(foundRoom, project._id);
-              // }
-            })
-            .catch((error) => {
-              console.log(error, "error rinding room line 65");
-            });
+        if (project) {
+          for (let i = 0; i < rooms.length; i++) {
+            Room.findOne({ _id: rooms[i] })
+
+              .then((foundRoom) => {
+                console.log(foundRoom, "FOUND ROOM line 61");
+                // if(foundRoom){
+                runRoom(foundRoom, project._id);
+                // }
+              })
+              .catch((error) => {
+                console.log(error, "error rinding room line 65");
+              });
+            console.log(project.rooms, "rooms in new project");
+          }
         }
-      }
         // reCreate(project._id, rooms, clientId, project.__v);
       }
       return res.status(201).json({
@@ -118,7 +121,7 @@ const getProject = async (req: Request, res: Response) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom =  (room: any, newProjectId: string) => {
+const runRoom = async (room: any, newProjectId: string) => {
   let { name, description, clientId, projectId, lights, _id } = room;
   console.log("lights in runRoom: ", lights);
 
@@ -130,75 +133,61 @@ const runRoom =  (room: any, newProjectId: string) => {
     description: description,
     lights: [],
   });
-  let roomAndProject =  Project.findOne({ _id: newProjectId })
-    .exec()
-    .then((project) => {
-      console.log(project, "project??");
-      if (project) {
-        project.rooms = [...project.rooms, newRoom._id];
-        let newProject = project.save();
-        return newProject.then(()=>{
-        console.log(project, "PROJECT FOUND AND UPDATED");
-        let projectSuccess = `added room to project: ${projectId}`;
-        console.log("preSave runRooms newRoom: ", newRoom)
-        let savedRoom = newRoom.save()
-        console.log("saved newRoom in runRooms: ", savedRoom)
-        return savedRoom
-          .then((room) => {
-            console.log("room success copy: ", room);
+  let roomAndProject = await Project.findOne({ _id: newProjectId });
+  // .exec()
+  // .then((project) => {
+  //   console.log(project, "project??");
+  if (roomAndProject) {
+    roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
+    roomAndProject.save();
+  }
+  //     let newProject = project.save();
+  //     return newProject
+  //       .then(() => {
+  //         console.log(project, "PROJECT FOUND AND UPDATED");
+  //         let projectSuccess = `added room to project: ${projectId}`;
+  //         console.log("preSave runRooms newRoom: ", newRoom);
+  //         let savedRoom = newRoom.save();
+  //         console.log("saved newRoom in runRooms: ", savedRoom);
+  //         return savedRoom.then((room) => {
+  //           console.log("room success csopy: ", room);
+  await newRoom.save().then(async(room) => {
+    if (room) {
+      for (let i = 0; i < lights.length; i++) {
+        console.log(lights.length, "LIGHTS LENGTH ///// I", i);
+       await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
+          console.log("light found: ", light, "\n", "room: ", room);
+          await runLights(light, room._id, room.projectId),
+            console.log("finished one light");
 
-            if (room){
-              for(let i = 0; i < lights.length; i++){
-                let newThing:any = {}
-                LightSelection.findOne({_id: lights[i]}).then((light)=>{ 
-                  console.log(light, " === light in lights")
-                  // if(light){
-                  runLights(light, room._id, newProjectId)
-                  // newThing = light
-                  // }
-                })
-                // console.log(newThing, "light after transfer")
-              }
-
-            }
-            // for (let light of lights) {
-            //    LightSelection.findOne({ _id: light })
-            //     .exec()
-            //     .then((foundLight) => {
-            //       console.log(foundLight, "FOUND LIGHT line 166");
-            //       if(foundLight){
-            //       runLights(foundLight, newRoom._id, newProjectId);
-            //       }
-            //     })
-            //     .catch((error) => {
-            //       console.log(error, "error rinding light line 170");
-            //     });
-            // }
-            return {
-              room,
-              message: projectSuccess,
-            };})
-          })
-          .catch((error) => {
-            console.log("room error message copy: ", error.message);
-            return {
-              message: error.message,
-              error,
-            };
-          });
+        });
       }
-    })
-    .catch((error) => {
-      return {
-        message: error.message,
-        error,
-      };
-    });
-  
+    }
+  });
+  //     (light) => {
+  //       console.log(light, " === light in lights");
+  //       console.log("room._id then newRoom._id: ", room._id, newRoom._id);
+  //       // if(light){
+  //       runLights(light, newRoom._id, newProjectId);
+  //       // newThing = light
+  //       // }
+  //       return light
+  //     }
+  //   ).catch((error)=>{
+  //     console.log("ERROR in the for loop for RunLights: ", error.message)
+  //     return {
+  //       message: error.message
+  //     }
+  //   })
+  //   // console.log(newThing, "light after transfer")
+  //   // }
+  //   return foundLight
+  // }
+
   return roomAndProject;
 };
 
-const runLights =  (
+const runLights = async (
   light: any,
   newRoomId: string,
   newProjectId: string
@@ -231,7 +220,7 @@ const runLights =  (
     lensMaterial: light.lensMaterial,
     glassOptions: light.glassOptions,
     acrylicOptions: light.acrylicOptions,
-    environment:light.environment,
+    environment: light.environment,
     safetyCert: light.safetyCert,
     projectVoltage: light.projectVoltage,
     socketType: light.socketType,
@@ -245,60 +234,102 @@ const runLights =  (
     clientId: light.clientId,
     quantity: light.quantity,
   });
-  console.log("light before logic: ",light," item_ID: ", item_ID, "newLight: ", newLight)
-  let lightAndRoom =  Room.findOne({ _id: newLight.roomId })
-    .exec()
-    .then((room) => {
-      console.log(room, "HIT ROOM IN LIGHTS")
-      if (room) {
-        room.lights = [...room.lights, newLight._id];
-        let savedRoom = room.save();
-        console.log("savedRoom: ",savedRoom)
-        return savedRoom
-              .then(()=>{
-                console.log("preSaveNew Light: ",newLight)
-                let roomSuccess = newLight.save()//`added light to room: ${newRoomId}`;
-                console.log("savedLight: ",roomSuccess)
-                return roomSuccess
-                      .then((light)=>{
-                        console.log("light success copy: ", light);
-                        return {
-                         message: "work"
-                        }
-                      }).catch((error) => {
-                        console.log("light copy error message: ", error.message);
-                        return error(500).json({
-                          message: error.message,
-                          error,
-                        });
-                      });
+  
+  let lightAndRoom = await Room.findOne({ _id: newRoomId });
+  console.log(
+    " item_ID: ",
+    item_ID,
+    "newLight: ",
+    newLight,
+    "lightAndRoom (found new Room): ",
+    lightAndRoom,
+    "lightAndRoom Lights: ",
+    lightAndRoom?.lights,
+    "newProject ID: ",
+    newProjectId
+  );
 
-              })
+  if (lightAndRoom) {
+    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
 
-        // return roomSuccess
-        //   .then((light) => {
-        //     console.log("light success copy: ", light);
-        //    return {
-        //     message: "work",
-        //     roomSuccess
-        //    }
-        //   })
-        //   .catch((error) => {
-        //     console.log("light copy error message: ", error.message);
-        //     return error(500).json({
-        //       message: error.message,
-        //       error,
-        //     });
-        //   });
-      }
-    })
-    .catch((error) => {
-      return {
-        message: error.message,
-        error,
-      };
-    });
-  return lightAndRoom;
+    return await lightAndRoom
+      .save()
+      .then((room) => {
+       newLight.save();
+        console.log("seuccessssssseeeerrrssss: ", room);
+
+      })
+      .catch((error) => {
+        console.log(
+          "error after saving new light ID to new room: ",
+          error.message
+        );
+      });
+  }
+
+  //   // console.log(lightAndRoom.lights, "roooms lights in run lights")
+  //   // console.log(lightAndRoom._id, "rooms _id in run lights")
+  //   // console.log(newLight._id, "new lights _id")
+  //   // return lightAndRoom
+  // }
+  // console.log(
+  //   newLight._id,
+  //   "/n",
+  //   lightAndRoom,
+  //   "/n new light id then POST updated room "
+  // );
+
+  // .exec()
+  // .then((room) => {
+  //   console.log(room, "HIT ROOM IN LIGHTS");
+  //   if (room) {
+  //     room.lights = [...room.lights, newLight._id];
+  //     let savedRoom = room.save();
+  //     console.log("savedRoom: ", savedRoom);
+  //     return savedRoom.then(() => {
+  //       console.log("preSaveNew Light: ", newLight);
+  //       let roomSuccess = newLight.save(); //`added light to room: ${newRoomId}`;
+  //       console.log("savedLight: ", roomSuccess);
+  //       return roomSuccess
+  //         .then((light) => {
+  //           console.log("light success copy: ", light);
+  //           return {
+  //             message: "work",
+  //           };
+  //         })
+  //         .catch((error) => {
+  //           console.log("light copy error message: ", error.message);
+  //           return error(500).json({
+  //             message: error.message,
+  //             error,
+  //           });
+  //         });
+  //     });
+
+  // return roomSuccess
+  //   .then((light) => {
+  //     console.log("light success copy: ", light);
+  //    return {
+  //     message: "work",
+  //     roomSuccess
+  //    }
+  //   })
+  //   .catch((error) => {
+  //     console.log("light copy error message: ", error.message);
+  //     return error(500).json({
+  //       message: error.message,
+  //       error,
+  //     });
+  //   });
+  //   }
+  // })
+  // .catch((error) => {
+  //   return {
+  //     message: error.message,
+  //     error,
+  //   };
+  // });
+  // return lightAndRoom;
 };
 
 const getAccountProjects = async (req: Request, res: Response) => {
