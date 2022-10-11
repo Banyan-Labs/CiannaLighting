@@ -40,6 +40,7 @@ const createProject = async (req: Request, res: Response) => {
       });
     });
 };
+
 const getProject = async (req: Request, res: Response) => {
   let keys = Object.keys(req.body).filter((key: string) => key != "_id");
   let parameters = Object.fromEntries(

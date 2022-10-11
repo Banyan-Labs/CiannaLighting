@@ -16,7 +16,7 @@ export const createProjectAction =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/create-project/', payload);
+            const response = await axiosPriv.post('/create-project', payload);
             dispatch(setProjectId(response.data.project));
             dispatch(setProject(response.data.project));
         } catch (error: any) {
@@ -44,7 +44,7 @@ export const getAllProjectRoomsAction =
             const response = await axioscall.post('/get-rooms', {
                 projectId: projectId,
             });
-            await dispatch(setProjectRooms(response.data.rooms));
+            dispatch(setProjectRooms(response.data.rooms));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

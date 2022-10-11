@@ -204,11 +204,7 @@ const YourProjects: FC = () => {
             </div>
             <DashboardNav />
             {openModal && (
-                <Modal
-                    openModal={openModal}
-                    closeModal={setOpenModal}
-                    user={user}
-                />
+                <Modal openModal={openModal} closeModal={setOpenModal} />
             )}
         </>
     );
