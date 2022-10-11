@@ -39,8 +39,8 @@ const Modal: FC<Props> = (props) => {
         name: '',
         clientId: user._id,
         clientName: user.name,
-        region: '',
-        status: '',
+        region: 'US west',
+        status: 'New',
         description: '',
     });
 
@@ -69,8 +69,8 @@ const Modal: FC<Props> = (props) => {
                 name: '',
                 clientId: user._id,
                 clientName: user.name,
-                region: 'New',
-                status: 'Africa',
+                region: '',
+                status: '',
                 description: '',
             });
             dataHolding.getData(projectDetails, '');
