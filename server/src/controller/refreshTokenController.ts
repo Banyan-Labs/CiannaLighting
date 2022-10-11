@@ -16,30 +16,28 @@ const refreshTokenController = (req: Request, res: Response) => {
     .then((user) => {
       if (!user) return res.sendStatus(401);
 
-      if (refreshToken) {
-        jwt.verify(
-          refreshToken,
-          process.env.REFRESH_TOKEN_SECRET as string,
-          (err: any, token: any) => {
-            if (err || user.email !== token.name) return res.sendStatus(403);
-            const role = user.role;
-            const accessToken = jwt.sign(
-              { name: user.email, role },
-              process.env.ACCESS_TOKEN_SECRET as string,
-              { expiresIn: "1500s" }
-            );
-            res.json({
-              accessToken,
-              user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-              },
-            });
-          }
-        );
-      }
+      jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET as string,
+        (err: any, token: any) => {
+          if (err || user.email !== token.name) return res.sendStatus(403);
+          const role = user.role;
+          const accessToken = jwt.sign(
+            { name: user.email, role },
+            process.env.ACCESS_TOKEN_SECRET as string,
+            { expiresIn: "3500s" }
+          );
+          res.json({
+            accessToken,
+            user: {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+            },
+          });
+        }
+      );
     })
     .catch((err) => console.log(err));
 };

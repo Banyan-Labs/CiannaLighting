@@ -28,12 +28,10 @@ export const authSlice = createSlice({
             user: action.payload.authUser,
         }),
         setAccessToken: (state, action) => {
-            console.log(action);
             localStorage.setItem('token', action.payload.accessToken);
             localStorage.setItem('role', action.payload.user.role);
             return {
                 ...state,
-
                 user: action.payload.user,
             };
         },

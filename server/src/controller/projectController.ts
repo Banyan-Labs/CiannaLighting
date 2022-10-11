@@ -1,14 +1,8 @@
-import { json } from "body-parser";
-import { Request, Response, NextFunction } from "express";
-import { request } from "http";
-import { Settings } from "http2";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
-import projectInterface from "../interfaces/projectInterface";
-import roomInterface from "../interfaces/roomInterface";
-import LightSelection from "../model/LightSelection";
+import LightSelection from "../model/LIghtSelection";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import createRoom from "./roomController";
 
 const createProject = async (req: Request, res: Response) => {
   let {
@@ -25,7 +19,6 @@ const createProject = async (req: Request, res: Response) => {
   /**
    * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
    */
-  let newRooms: string[] = [];
 
   if (_id && copy === "room") {
     Room.findOne({ _id: rooms[0] })
@@ -54,8 +47,6 @@ const createProject = async (req: Request, res: Response) => {
       rfp: "",
       rooms: [],
     });
-
-    console.log("_id then newProject_id in create project: ", _id, project._id);
 
     return await project
       .save()

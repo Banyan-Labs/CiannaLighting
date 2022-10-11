@@ -6,9 +6,9 @@ import { setUsers, setNewUser } from '../reducers/usersSlice';
 export const getAllUsers =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axios = await axiosPrivate();
+        const axiosPriv = await axiosPrivate();
 
-        const users = await axios.get('cmd/get-users');
+        const users = await axiosPriv.get('cmd/get-users');
         console.log(users);
         dispatch(setUsers(users.data));
     };

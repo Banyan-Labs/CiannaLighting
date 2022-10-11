@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface ProjectStateType {
     userProjects: any[];
+    allProjects: any[];
     project: ProjectType | null;
+    projectRooms: any[];
     room: RoomType | null;
     error: any;
     projectId: string;
@@ -29,7 +31,9 @@ export type RoomType = {
 
 const initialState: ProjectStateType = {
     userProjects: [],
+    allProjects: [],
     project: null,
+    projectRooms: [],
     room: null,
     error: null,
     projectId: '',
@@ -40,7 +44,15 @@ export const projectSlice = createSlice({
     initialState,
     reducers: {
         setProject: (state, action) => ({ ...state, project: action.payload }),
+        setAllProjects: (state, action) => ({
+            ...state,
+            allProjects: action.payload.projects,
+        }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
+        setProjectRooms: (state, action) => ({
+            ...state,
+            projectRooms: action.payload,
+        }),
         setProjectError: (state, action) => ({
             ...state,
             error: action.payload,
@@ -64,5 +76,7 @@ export const {
     setProjectError,
     setProjectId,
     setUserProjects,
+    setAllProjects,
+    setProjectRooms,
 } = projectSlice.actions;
 export default projectSlice.reducer;

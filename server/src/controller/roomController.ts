@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
-import { nextTick } from "process";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import LightSelection from "../model/LightSelection";
+import LightSelection from "../model/LIghtSelection";
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req,"=============================== \n =====================", res)
   let { name, description, clientId, projectId } = req.body;
   const room = new Room({
     _id: new mongoose.Types.ObjectId(),
@@ -22,7 +20,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
       if (project) {
         project.rooms = [...project.rooms, room._id];
         project.save();
-        console.log(project, "PROJECT FOUND AND UPDATED")
+        console.log(project, "PROJECT FOUND AND UPDATED");
         let projectSuccess = `added room to project: ${projectId}`;
         return room
           .save()
@@ -52,15 +50,29 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getAllRooms = (req: Request, res: Response) => {
-  Room.find()
-    .then((rooms) => {
-      return res.status(200).json({
-        rooms,
+  let { projectId } = req.body;
+  console.log(projectId);
+  if (projectId && projectId.length) {
+    Room.find({ projectId })
+      .then((rooms) => {
+        return res.status(200).json({
+          rooms,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
       });
-    })
-    .catch((error) => {
-      return res.status(500).json({ message: error.message, error });
-    });
+  } else {
+    Room.find()
+      .then((rooms) => {
+        return res.status(200).json({
+          rooms,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+  }
 };
 
 const getRoom = async (req: Request, res: Response) => {

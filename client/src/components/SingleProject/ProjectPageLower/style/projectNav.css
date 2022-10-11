@@ -83,18 +83,6 @@
     width: 70%;
 }
 
-.room-container {
-    display: flex;
-    align-items: center;
-    margin: 50px 50px 10px 0;
-}
-
-.room-bottom-text {
-    font-size: 12px;
-    margin-top: 10px;
-    margin-left: 40px;
-}
-
 .projects-active {
     color: #c6ad7c !important;
     position: relative;

@@ -1,8 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FC, FormEvent, useState } from 'react';
+import React, { FC, FormEvent, useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createRoomAction } from '../../redux/actions/projectActions';
+import {
+    createRoomAction,
+    getAllProjectRoomsAction,
+} from '../../redux/actions/projectActions';
 import './style/newRoomModal.css';
 
 type Props = {
@@ -19,9 +22,12 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
         description: '',
     });
     const [roomCreated, setRoomCreated] = useState<boolean>(false);
-    console.log(user, projectId);
 
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getAllProjectRoomsAction(projectId));
+    }, [room]);
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setRoomDetails({
@@ -32,7 +38,6 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('submitted');
         try {
             if (projectId) {
                 const newRoom = {
