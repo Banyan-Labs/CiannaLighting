@@ -1,7 +1,10 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createProjectAction } from '../../redux/actions/projectActions';
+import {
+    createProjectAction,
+    getUserProjects,
+} from '../../redux/actions/projectActions';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/modal.scss';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +23,6 @@ type ProjectType = {
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
-    user: any;
 };
 
 // Modal function for "New Project". Creates a modal window which allows
@@ -35,8 +37,8 @@ const Modal: FC<Props> = (props) => {
     const navigate = useNavigate();
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
         name: '',
-        clientId: props.user._id,
-        clientName: props.user.name,
+        clientId: user._id,
+        clientName: user.name,
         region: '',
         status: '',
         description: '',
@@ -65,12 +67,15 @@ const Modal: FC<Props> = (props) => {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({
                 name: '',
-                clientId: props.user.id,
-                clientName: props.user.name,
-                region: '',
-                status: '',
+                clientId: user._id,
+                clientName: user.name,
+                region: 'New',
+                status: 'Africa',
                 description: '',
             });
+            dataHolding.getData(projectDetails, '');
+            navigate(`/projects/${user.name}`);
+            dispatch(getUserProjects(user._id));
         } catch (err) {
             console.log('Error: ' + err);
         }
@@ -215,11 +220,6 @@ const Modal: FC<Props> = (props) => {
                             <button
                                 type="submit"
                                 className="new-project-modal-button"
-                                onClick={(e) => {
-                                    onSubmit(e);
-                                    dataHolding.getData(projectDetails, '');
-                                    navigate(`/projects/${user.name}`);
-                                }}
                             >
                                 Create Project
                             </button>

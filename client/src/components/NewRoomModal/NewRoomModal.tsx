@@ -117,7 +117,6 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                                     <button
                                         type="submit"
                                         className="new-room-modal-button"
-                                        onClick={(e) => onSubmit(e)}
                                     >
                                         Create Room
                                     </button>
