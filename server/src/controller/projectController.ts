@@ -23,7 +23,7 @@ const createProject = async (req: Request, res: Response) => {
   if (_id && copy === "room") {
     Room.findOne({ _id: rooms[0] })
       .then(async (foundRoom) => {
-        await runRoom(foundRoom, _id);
+        await runRoom(foundRoom, _id, clientId);
         return res.status(201).json({
           message: `copy of room ${rooms[0]}`,
         });
@@ -56,7 +56,7 @@ const createProject = async (req: Request, res: Response) => {
             for (let i = 0; i < rooms.length; i++) {
               await Room.findOne({ _id: rooms[i] })
                 .then(async (foundRoom) => {
-                  await runRoom(foundRoom, project._id);
+                  await runRoom(foundRoom, project._id, clientId);
                 })
                 .catch((error) => {
                   console.log(error, "error rinding room line 65");
@@ -120,8 +120,8 @@ const getProject = async (req: Request, res: Response) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string) => {
-  let { name, description, clientId, lights } = room;
+const runRoom = async (room: any, newProjectId: string, clientId: string) => {
+  let { name, description, lights } = room;
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
@@ -142,7 +142,7 @@ const runRoom = async (room: any, newProjectId: string) => {
     if (room) {
       for (let i = 0; i < lights.length; i++) {
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, room.projectId);
+          await runLights(light, room._id, room.projectId, clientId);
         });
       }
     }
@@ -154,7 +154,8 @@ const runRoom = async (room: any, newProjectId: string) => {
 const runLights = async (
   light: any,
   newRoomId: string,
-  newProjectId: string
+  newProjectId: string,
+  clientId: string
 ) => {
   const newLight = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
@@ -175,7 +176,7 @@ const runLights = async (
     roomName: light.roomName,
     roomId: newRoomId,
     projectId: newProjectId,
-    clientId: light.clientId,
+    clientId: clientId,
     quantity: light.quantity,
   });
 
