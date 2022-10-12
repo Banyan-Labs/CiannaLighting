@@ -46,16 +46,16 @@
     }
 }
 
-// project overview grid - not made responsive yet
+// project overview grid - not responsive yet (will change grid layout in media query for ipad and mobile)
 .overview-display {
-    margin: 0 25px 0 25px;
+    margin: 0 25px;
     position: relative;
     top: -50px;
     flex-basis: 100%;
     display: grid;
     color: #fff;
     grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
-    grid-template-rows: 24px 50px;
+    grid-template-rows: 20px 50px;
     grid-template-areas:
         'total_icon total_title total_title total_title . . . . .'
         'total_icon total_num . . . . . . .'
