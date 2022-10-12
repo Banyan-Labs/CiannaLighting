@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UserType } from '../../app/typescriptTypes';
 
-const initialState = {
-    users: {},
+export interface UsersStateType {
+    users: UserType[];
+}
+
+const initialState: UsersStateType = {
+    users: [],
 };
 
 export const getAllUsersSlice = createSlice({

@@ -27,7 +27,7 @@ const Links: FC<{ links: Link[] }> = () => {
     const latestProject = userProjects.slice(userProjects.length - 1);
     const number = String(passingProj);
     const defaultProjId = String(latestProject.map((p) => p._id));
-    const Id = number.length > 32 ? storedProjId : defaultProjId;
+    const Id = number.length > 32 ? storedProjId : defaultProjId; // Remember to give variables more specific names.
 
     return (
         <div className="navbar-links-container">

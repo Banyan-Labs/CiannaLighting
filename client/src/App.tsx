@@ -13,6 +13,7 @@ import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
 import RoomDetails from './components/Rooms/RoomDetails';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 export interface AppProps {
     user: any;
@@ -27,15 +28,20 @@ const App: FC = () => {
                         <Route path="/" element={<Navigate to="/login" />} />
                         <Route path="/login" element={<Login />} />
                         <Route element={<PersistLogin />}>
+                            {/* Admin Routes! */}
+                            <Route
+                                element={<RequireAuth roles={[ROLES.Cmd]} />} // this is how to restrict access on the frontend. The role you pass in is the allowed role
+                            >
+                                <Route
+                                    path="/cmd/dash/*"
+                                    element={<AdminDashboard />}
+                                />
+                            </Route>
                             <Route
                                 element={
                                     <RequireAuth roles={Object.values(ROLES)} />
                                 }
                             >
-                                {/* <Route
-                            path="/catalog"
-                            element={<Navigate to="/login" />}
-                        /> */}
                                 <Route
                                     path="/projects/all/:user"
                                     element={<AllUserProjects />}
@@ -66,8 +72,6 @@ const App: FC = () => {
                             </Route>
                         </Route>
                     </Route>
-
-                    {/* <Route path="*" element={<Navigate to="/" />} /> */}
                 </Routes>
             </BrowserRouter>
         </>

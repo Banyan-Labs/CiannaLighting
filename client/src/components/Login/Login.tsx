@@ -1,10 +1,9 @@
-import React, { FC, useState, FormEvent } from 'react';
+import React, { FC, useState, FormEvent, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { signInAction } from '../../redux/actions/authActions';
 import './style/login.scss';
-import { useEffect } from 'react';
 
 const Login: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
