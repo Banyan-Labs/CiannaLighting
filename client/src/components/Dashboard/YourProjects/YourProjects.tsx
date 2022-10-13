@@ -70,7 +70,11 @@ const YourProjects: FC = () => {
 
     // displays the 4 most recent projects.
     const latestProjects = userProjects
-        .slice(userProjects.length - 4)
+        .slice(
+            userProjects.length < 4
+                ? userProjects.length - 3
+                : userProjects.length - 4
+        )
         .reverse();
 
     const singleProject = latestProjects.map((project: any, index: any) => {
