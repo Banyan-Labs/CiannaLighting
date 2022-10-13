@@ -4,6 +4,7 @@ import projectInterface from "../interfaces/projectInterface";
 const projectSchema: Schema = new Schema(
   {
     _id: { type: mongoose.Types.ObjectId },
+    archived:{type: Boolean},
     name: { type: String, required: true },
     clientId: { type: String, required: true },
     clientName: { type: String, required: true },

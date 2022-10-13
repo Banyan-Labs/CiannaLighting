@@ -7,7 +7,12 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
-const AllProjects: FC = () => {
+
+type Props = {
+    renderedPage: string
+}
+
+const AllProjects: FC<Props> = ({renderedPage}) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
@@ -33,13 +38,13 @@ const AllProjects: FC = () => {
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const currentProjects = allProjects.slice(firstIndex, lastIndex);
-
+    const activeProjects = allProjects.filter((project)=> !project.archived).slice(firstIndex, lastIndex);
+    const archivedProjects = allProjects.filter((project)=> project.archived).slice(firstIndex, lastIndex);
+    const filteredProjects = renderedPage == "All Projects" ? activeProjects : archivedProjects;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
 
-    const allProjectsTableDisplay = currentProjects.map((project, index) => {
+    const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
             <tbody key={index}>
@@ -80,6 +85,7 @@ const AllProjects: FC = () => {
 
     return (
         <div className="all-projects-container">
+            
             <div>
                 <div className="form-bar-button-container">
                     <input
@@ -87,7 +93,7 @@ const AllProjects: FC = () => {
                         type="text"
                         placeholder="Search"
                         onChange={(e) => setFilterProjects(e.target.value)}
-                    />
+                        />
                     <FaSlidersH className="dashboard-all-projects-submit" />
                 </div>
                 <div>
@@ -126,6 +132,7 @@ const AllProjects: FC = () => {
                                 <Pagination
                                     totalProjects={allProjects.length}
                                     projectsPerPage={projectsPerPage}
+                                    currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
                                 {currentPage !== lastPage && (

@@ -38,6 +38,7 @@ const createProject = async (req: Request, res: Response) => {
   } else {
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
+      archived: false,
       name: name,
       clientId: clientId,
       clientName: clientName,
@@ -246,6 +247,7 @@ const getAllProjects = async (req: Request, res: Response) => {
 
 const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
+  console.log("project delete body: ",req.body)
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {
