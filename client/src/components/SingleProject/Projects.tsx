@@ -23,8 +23,8 @@ const Projects: FC = () => {
     const fetchData1 = async () => {
         const defaultProjId = String(latestProject.map((p) => p._id));
         number.length > 32
-            ? await dispatch(getProject(String(storedProjId)))
-            : await dispatch(getProject(defaultProjId));
+            ? await dispatch(getProject({"_id": storedProjId}))
+            : await dispatch(getProject({"_id": defaultProjId}));
     };
 
     useEffect(() => {

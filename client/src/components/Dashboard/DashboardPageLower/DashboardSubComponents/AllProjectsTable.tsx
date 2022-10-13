@@ -35,14 +35,20 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
         setProjectOptionsModal(false);
         setProjectIndex(null);
     };
+    // const filteredProjects = {
+    //     "All Projects": allProjects.filter(project=> !project.archived),
+    //     "archived": allProjects.filter(project=> project.archived)
+
+    // }
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
     const activeProjects = allProjects.filter((project)=> !project.archived).slice(firstIndex, lastIndex);
-    const archivedProjects = allProjects.filter((project)=> project.archived).slice(firstIndex, lastIndex);
+    const archivedProjects = allProjects.filter((project)=> project.archived == true).slice(firstIndex, lastIndex);
     const filteredProjects = renderedPage == "All Projects" ? activeProjects : archivedProjects;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
+    console.log(archivedProjects, "filteredProjects")
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');

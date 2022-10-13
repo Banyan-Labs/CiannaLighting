@@ -92,12 +92,16 @@ const getProject = async (req: Request, res: Response) => {
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
+      console.log(project, "PROJECT")
       console.log(`project: ${project?.name} retrieved`);
       if (project && keys.length) {
         keys.map((keyName: string) => {
           switch (keyName) {
             case "name":
               project.name = parameters["name"];
+              break;
+            case "archived":
+              project.archived = parameters["archived"];
               break;
             case "region":
               project.region = parameters["region"];
@@ -112,6 +116,7 @@ const getProject = async (req: Request, res: Response) => {
               null;
           }
         });
+        project.save();
       }
       return res.status(200).json({
         project,
