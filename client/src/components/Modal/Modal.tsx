@@ -39,7 +39,7 @@ const Modal: FC<Props> = (props) => {
         name: '',
         clientId: user._id,
         clientName: user.name,
-        region: 'US west',
+        region: 'Africa',
         status: 'New',
         description: '',
     });

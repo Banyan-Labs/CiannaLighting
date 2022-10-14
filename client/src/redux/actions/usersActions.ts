@@ -15,6 +15,7 @@ export const getAllUsers =
 export const createUserAction =
     (user: CreateUserType) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const response = await axios.post('users/create/user', user);
+        const axiosPriv = await axiosPrivate();
+        const response = await axiosPriv.post('cmd/create-user', user);
         dispatch(setNewUser(response.data.user));
     };

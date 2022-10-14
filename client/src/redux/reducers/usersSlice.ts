@@ -13,8 +13,15 @@ export const getAllUsersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        setUsers: (state, action) => ({ ...state, users: action.payload }),
-        setNewUser: (state, action) => ({ ...state, user: action.payload }),
+        setUsers: (state, action) => ({
+            ...state,
+            users: action.payload.users,
+        }),
+        setNewUser: (state, action) => ({
+            ...state,
+            user: action.payload,
+            users: [action.payload, ...state.users],
+        }),
     },
 });
 

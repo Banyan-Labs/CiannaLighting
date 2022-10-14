@@ -16,7 +16,7 @@ const Projects: FC = () => {
     const { projectId } = useAppSelector(({ project }) => project);
     const { project } = useAppSelector(({ project }) => project);
     const passingProj = useParams('_id');
-    const storedProjId = passingProj?.split(',').pop();
+    const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const number = String(passingProj);
 

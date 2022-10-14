@@ -7,7 +7,6 @@ import './styles/AdminDashboard.scss';
 
 const AdminDashboard: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const [activeLink, setActiveLink] = useState('');
     const location = useLocation();
 
     return (

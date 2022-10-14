@@ -26,10 +26,11 @@ export const axiosPrivate = async () => {
             const prevRequest = error?.config;
             if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
                 prevRequest.sent = true;
-                const newToken = await axiosAuth.get('refresh');
+                const newToken = await axiosAuth.get('rf/refresh');
                 prevRequest.headers['authorization'] = `Bearer ${newToken}`;
                 return axiosAuth(prevRequest);
             }
+            console.log(error);
             return error;
         }
     );
