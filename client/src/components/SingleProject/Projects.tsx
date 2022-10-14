@@ -15,16 +15,14 @@ const Projects: FC = () => {
     const { userProjects } = useAppSelector(({ project }) => project);
     const { projectId } = useAppSelector(({ project }) => project);
     const { project } = useAppSelector(({ project }) => project);
-    const passingProj = useParams('_id');
-    const storedProjId = passingProj?.split(',').pop();
+    const storedProjId = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
-    const number = String(passingProj);
+    const defaultProjId = latestProject.map((p) => p._id);
 
     const fetchData1 = async () => {
-        const defaultProjId = String(latestProject.map((p) => p._id));
-        number.length > 32
-            ? await dispatch(getProject({"_id": storedProjId}))
-            : await dispatch(getProject({"_id": defaultProjId}));
+        storedProjId
+            ? await dispatch(getProject(String(storedProjId)))
+            : await dispatch(getProject(String(defaultProjId)));
     };
 
     useEffect(() => {
@@ -32,7 +30,9 @@ const Projects: FC = () => {
     }, [userProjects]);
 
     const fetchData = async () => {
-        await dispatch(getAllProjectRoomsAction(String(storedProjId)));
+        storedProjId
+            ? await dispatch(getAllProjectRoomsAction(String(storedProjId)))
+            : await dispatch(getAllProjectRoomsAction(String(defaultProjId)));
     };
 
     useEffect(() => {

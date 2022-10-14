@@ -8,6 +8,8 @@ export interface ProjectStateType {
     room: RoomType | null;
     error: any;
     projectId: string;
+    roomId: string;
+    roomLights: [];
 }
 
 export type ProjectType = {
@@ -27,6 +29,7 @@ export type RoomType = {
     name: string;
     description: string;
     lights?: string[];
+    createdAt?: any;
 };
 
 const initialState: ProjectStateType = {
@@ -35,8 +38,10 @@ const initialState: ProjectStateType = {
     project: null,
     projectRooms: [],
     room: null,
+    roomId: '',
     error: null,
     projectId: '',
+    roomLights: [],
 };
 
 export const projectSlice = createSlice({
@@ -49,6 +54,7 @@ export const projectSlice = createSlice({
             allProjects: action.payload.projects,
         }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
+        setRoomId: (state, action) => ({ ...state, roomId: action.payload }),
         setProjectRooms: (state, action) => ({
             ...state,
             projectRooms: action.payload,
@@ -60,6 +66,10 @@ export const projectSlice = createSlice({
         setProjectId: (state, action) => ({
             ...state,
             projectId: action.payload._id,
+        }),
+        setRoomLights: (state, action) => ({
+            ...state,
+            roomLights: action.payload,
         }),
         resetRoom: (state) => ({ ...state, room: null }),
         resetProject: (state) => ({ ...state, project: null }),
@@ -78,5 +88,7 @@ export const {
     setUserProjects,
     setAllProjects,
     setProjectRooms,
+    setRoomId,
+    setRoomLights,
 } = projectSlice.actions;
 export default projectSlice.reducer;

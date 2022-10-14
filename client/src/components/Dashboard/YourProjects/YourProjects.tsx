@@ -1,7 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { getUserProjects } from '../../../redux/actions/projectActions';
+import {
+    getProject,
+    getUserProjects,
+} from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import {
     FaPlus,
@@ -29,10 +32,13 @@ const YourProjects: FC = () => {
     const dispatch = useAppDispatch();
 
     const [openModal, setOpenModal] = useState(false);
-    const projectRoute = useCallback(() => {
-        const to = `/projects/${user.name}`;
-        navigate(to);
-    }, [user.name, navigate]);
+    const projectRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
 
     const [newProjects, setNewProjects] = useState(0);
     const [onHoldProjects, setOnHoldProjects] = useState(0);
@@ -67,7 +73,10 @@ const YourProjects: FC = () => {
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     // displays the 4 most recent projects.
-    const latestProjects = userProjects.slice(userProjects.length - 4);
+    const latestProjects =
+        userProjects.length > 4
+            ? userProjects.slice(userProjects.length - 4).reverse()
+            : userProjects;
 
     const singleProject = latestProjects.map((project: any, index: any) => {
         const color =
@@ -76,10 +85,14 @@ const YourProjects: FC = () => {
                     ? index - (userProjects.length - (projectColors.length + 1))
                     : index
             ];
-        const changeProject = () => {
+
+        const changeProject = async (prodId: string) => {
+            await dispatch(getProject({ _id: prodId }));
             dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
+        console.log(date, 'DATE');
+        console.log(project);
         return (
             <div
                 className="single-project"
@@ -88,8 +101,8 @@ const YourProjects: FC = () => {
                     borderTop: '1px solid #3c3c3c',
                 }}
                 onClick={() => {
-                    projectRoute();
-                    changeProject();
+                    projectRoute(project._id);
+                    changeProject(project._id);
                 }}
                 key={index}
             >
