@@ -7,7 +7,11 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
-const AllProjects: FC = () => {
+type Props = {
+    renderedPage: string;
+};
+
+const AllProjects: FC<Props> = ({ renderedPage }) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
@@ -33,13 +37,19 @@ const AllProjects: FC = () => {
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const currentProjects = allProjects.slice(firstIndex, lastIndex);
-
+    const activeProjects = allProjects.filter((project) => !project.archived);
+    const archivedProjects = allProjects.filter(
+        (project) => project.archived == true
+    );
+    const filteredProjects =
+        renderedPage == 'All Projects'
+            ? activeProjects.slice(firstIndex, lastIndex)
+            : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
+    console.log(filteredProjects, 'filteredProj');
 
-    const allProjectsTableDisplay = currentProjects.map((project, index) => {
+    const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
             <tbody key={index}>
@@ -124,8 +134,13 @@ const AllProjects: FC = () => {
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={allProjects.length}
+                                    totalProjects={
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length
+                                            : archivedProjects.length
+                                    }
                                     projectsPerPage={projectsPerPage}
+                                    currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
                                 {currentPage !== lastPage && (

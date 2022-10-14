@@ -87,15 +87,28 @@ const lightSelected = async (
 };
 
 const getAllSelectedLights = (req: Request, res: Response) => {
-  LightSelection.find()
-    .then((lights) => {
-      return res.status(200).json({
-        lights,
+  let { roomId } = req.body;
+  if (roomId && roomId.length) {
+    LightSelection.find({ roomId })
+      .then((lights) => {
+        return res.status(200).json({
+          lights,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
       });
-    })
-    .catch((error) => {
-      return res.status(500).json({ message: error.message, error });
-    });
+  } else {
+    LightSelection.find()
+      .then((lights) => {
+        return res.status(200).json({
+          lights,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: error.message, error });
+      });
+  }
 };
 const getSelectedLight = async (req: Request, res: Response) => {
   let keys = Object.keys(req.body).filter((key: string) => key != "_id");

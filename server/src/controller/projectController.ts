@@ -33,11 +33,12 @@ const createProject = async (req: Request, res: Response) => {
         return res.status(500).json({
           message: error.message,
           error,
-        })
+        });
       });
   } else {
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
+      archived: false,
       name: name,
       clientId: clientId,
       clientName: clientName,
@@ -91,12 +92,16 @@ const getProject = async (req: Request, res: Response) => {
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
+      console.log(project, "PROJECT");
       console.log(`project: ${project?.name} retrieved`);
       if (project && keys.length) {
         keys.map((keyName: string) => {
           switch (keyName) {
             case "name":
               project.name = parameters["name"];
+              break;
+            case "archived":
+              project.archived = parameters["archived"];
               break;
             case "region":
               project.region = parameters["region"];
@@ -111,6 +116,7 @@ const getProject = async (req: Request, res: Response) => {
               null;
           }
         });
+        project.save();
       }
       return res.status(200).json({
         project,
@@ -246,6 +252,7 @@ const getAllProjects = async (req: Request, res: Response) => {
 
 const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
+  console.log("project delete body: ", req.body);
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {

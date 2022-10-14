@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import * as data from './links.json';
 import './style/Navbar.scss';
 import logo from '../../assets/ciana-lighting-logo.png';
@@ -20,14 +20,13 @@ const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const passingProj = useParams('_id');
-    const storedProjId = useParams('projectId');
+    const [storedProjId] = useParams('projectId');
     const activeLocation = pathname.split('/')[1];
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
     const latestProject = userProjects.slice(userProjects.length - 1);
-    const number = String(passingProj);
     const defaultProjId = String(latestProject.map((p) => p._id));
-    const Id = number.length > 32 ? storedProjId : defaultProjId; // Remember to give variables more specific names.
+    const Id = storedProjId ? storedProjId : defaultProjId;
 
     return (
         <div className="navbar-links-container">
@@ -57,7 +56,6 @@ const Links: FC<{ links: Link[] }> = () => {
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     const handleLogout = async (e: any) => {
         try {

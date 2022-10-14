@@ -4,6 +4,8 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { UserType } from '../../app/typescriptTypes';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import { getProject } from '../../redux/actions/projectActions';
+import { useAppDispatch } from '../../app/hooks';
 
 interface ProjectSummaryProps {
     user: UserType;
@@ -11,10 +13,24 @@ interface ProjectSummaryProps {
 }
 
 const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
+    const dispatch = useAppDispatch();
     const Color =
-        Object.keys(dataHolding.setData().color).length === 0
-            ? '#AC92EB'
-            : dataHolding.setData().color;
+        dataHolding.setData().color &&
+        Object.keys(dataHolding.setData().color).length > 0
+            ? dataHolding.setData().color
+            : '#AC92EB';
+
+    const archiveSet = async (e: any) => {
+        e.preventDefault();
+        try {
+            await dispatch(
+                getProject({ _id: details._id, archived: !details.archived })
+            );
+        } catch (error: any) {
+            console.log('Error archiving item: ', error.message);
+            alert('Can not archive project.');
+        }
+    };
 
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
     return (
@@ -42,7 +58,10 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                         <div></div>
                         <FaRegClone className="clone-icon" />
                         <div></div>
-                        <FaArchive className="archive-icon" />
+                        <FaArchive
+                            className="archive-icon"
+                            onClick={(e) => archiveSet(e)}
+                        />
                     </div>
                     <div className="project-summary-status">
                         <p className="status">Status: {details?.status}</p>
