@@ -11,6 +11,10 @@
         {
             "label": "Catalog",
             "href": "/catalog"
+        },
+        {
+            "label": "Admin",
+            "href": "/cmd/dash"
         }
     ]
 }

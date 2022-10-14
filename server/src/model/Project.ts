@@ -4,7 +4,7 @@ import projectInterface from "../interfaces/projectInterface";
 const projectSchema: Schema = new Schema(
   {
     _id: { type: mongoose.Types.ObjectId },
-    archived:{type: Boolean},
+    archived: { type: Boolean },
     name: { type: String, required: true },
     clientId: { type: String, required: true },
     clientName: { type: String, required: true },
@@ -19,7 +19,4 @@ const projectSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.model<projectInterface>(
-  "Project", 
-  projectSchema
-  );
+export default mongoose.model<projectInterface>("Project", projectSchema);

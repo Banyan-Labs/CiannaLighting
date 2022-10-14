@@ -29,9 +29,8 @@ const DashboardNav: FC = () => {
                     Archived
                 </a>
             </div>
-            
-                <AllProjects renderedPage={renderedPage}/>
-            
+
+            <AllProjects renderedPage={renderedPage} />
         </>
     );
 };

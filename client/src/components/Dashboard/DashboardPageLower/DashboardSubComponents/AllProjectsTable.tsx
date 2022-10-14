@@ -7,12 +7,11 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
-
 type Props = {
-    renderedPage: string
-}
+    renderedPage: string;
+};
 
-const AllProjects: FC<Props> = ({renderedPage}) => {
+const AllProjects: FC<Props> = ({ renderedPage }) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
@@ -38,12 +37,17 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const activeProjects = allProjects.filter((project)=> !project.archived);
-    const archivedProjects = allProjects.filter((project)=> project.archived == true);
-    const filteredProjects = renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
+    const activeProjects = allProjects.filter((project) => !project.archived);
+    const archivedProjects = allProjects.filter(
+        (project) => project.archived == true
+    );
+    const filteredProjects =
+        renderedPage == 'All Projects'
+            ? activeProjects.slice(firstIndex, lastIndex)
+            : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
-    console.log(filteredProjects, "filteredProj")
+    console.log(filteredProjects, 'filteredProj');
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
@@ -86,7 +90,6 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
 
     return (
         <div className="all-projects-container">
-            
             <div>
                 <div className="form-bar-button-container">
                     <input
@@ -94,7 +97,7 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
                         type="text"
                         placeholder="Search"
                         onChange={(e) => setFilterProjects(e.target.value)}
-                        />
+                    />
                     <FaSlidersH className="dashboard-all-projects-submit" />
                 </div>
                 <div>
@@ -131,7 +134,11 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={ renderedPage === "All Projects" ? activeProjects.length : archivedProjects.length}
+                                    totalProjects={
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length
+                                            : archivedProjects.length
+                                    }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
