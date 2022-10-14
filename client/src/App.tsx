@@ -12,7 +12,6 @@ import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage'
 import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
-import Details from './components/Rooms/Details';
 
 export interface AppProps {
     user: any;
@@ -50,10 +49,6 @@ const App: FC = () => {
                                     element={<Projects />}
                                 />
                                 <Route path="/catalog" element={<Catalog />} />
-                                <Route
-                                    path="/createLight/:user"
-                                    element={<Details />}
-                                />
 
                                 <Route
                                     path="/create-project/:user"
