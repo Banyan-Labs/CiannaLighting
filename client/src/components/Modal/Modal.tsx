@@ -23,6 +23,7 @@ type ProjectType = {
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
+    
 };
 
 // Modal function for "New Project". Creates a modal window which allows
@@ -73,9 +74,9 @@ const Modal: FC<Props> = (props) => {
                 status: '',
                 description: '',
             });
-            dataHolding.getData(projectDetails, '');
-            navigate(`/projects/${user.name}`);
+            navigate(`/projects/ + ?_id= ${user._id}`);
             dispatch(getUserProjects(user._id));
+            dataHolding.getData(projectDetails, '');
         } catch (err) {
             console.log('Error: ' + err);
         }
@@ -147,6 +148,7 @@ const Modal: FC<Props> = (props) => {
                                     id="status"
                                     name="status"
                                     onChange={(e) => handleSelection(e)}
+                                    required
                                 >
                                     {status.map(
                                         (
@@ -186,6 +188,7 @@ const Modal: FC<Props> = (props) => {
                                     id="region"
                                     name="region"
                                     onChange={(e) => handleSelection(e)}
+                                    required
                                 >
                                     {region.map(
                                         (
