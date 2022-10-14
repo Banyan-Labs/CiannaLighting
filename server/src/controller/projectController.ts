@@ -33,7 +33,7 @@ const createProject = async (req: Request, res: Response) => {
         return res.status(500).json({
           message: error.message,
           error,
-        })
+        });
       });
   } else {
     const project = new Project({

@@ -29,7 +29,7 @@ router
   .post("/create-room", roomController.createRoom)
   .delete("/delete-room", roomController.deleteRoom)
   // Light Selection Routes
-  .get("/get-lightSelections", lightSelectionController.getAllSelectedLights)
+  .post("/get-lightSelections", lightSelectionController.getAllSelectedLights)
   .post("/find-lightSelection", lightSelectionController.getSelectedLight)
   .post("/create-lightSelection", lightSelectionController.lightSelected)
   .delete(

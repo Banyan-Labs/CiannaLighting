@@ -12,18 +12,18 @@ const IdRooms: FC = () => {
 
     const projectRoute = useCallback(
         (roomId: string, projId: string) => {
-            const to = `/createLight/ + ?_id= ${user._id},${roomId},${projId}`;
+            const to = `/createLight/ ?_id= ${user._id}&roomId=${roomId}&projectId=${projId}`;
             navigate(to);
         },
         [user.name, navigate]
     );
 
-    const singleProject = projectRooms?.map((room: any, index: any) => {
+    const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
                 className="single-project"
                 style={{
-                    backgroundColor: '#F2F2F2',
+                    backgroundColor: 'rgb(242, 242, 242)',
                 }}
                 onClick={() => {
                     projectRoute(room?._id, room?.projectId);
@@ -49,12 +49,12 @@ const IdRooms: FC = () => {
         <>
             <div className="your-rooms">
                 <div className="your-rooms-section">
-                    {singleProject}
-                    {singleProject.length == 0 ? (
+                    {singleRoom}
+                    {singleRoom.length == 0 ? (
                         <div className="your-projects-none">
                             <span>There are no rooms in this project.</span>
                         </div>
-                    ) : singleProject.length <= 3 ? (
+                    ) : singleRoom.length <= 3 ? (
                         <div className="your-projects-none other-none">
                             <span style={{ fontSize: '14px' }}>
                                 No other rooms for this project

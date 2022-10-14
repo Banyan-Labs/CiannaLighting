@@ -1,7 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { getProject } from '../../../redux/actions/projectActions';
+import {
+    getProject,
+    getUserProjects,
+} from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import {
     FaPlus,
@@ -31,7 +34,7 @@ const YourProjects: FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id},${projId}`;
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
             navigate(to);
         },
         [user.name, navigate]
@@ -43,6 +46,7 @@ const YourProjects: FC = () => {
     const [completedProjects, setCompletedProjects] = useState(0);
 
     useEffect(() => {
+        dispatch(getUserProjects(user._id));
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
@@ -69,9 +73,10 @@ const YourProjects: FC = () => {
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
 
     // displays the 4 most recent projects.
-    const latestProjects = userProjects
-        .slice(userProjects.length - 4)
-        .reverse();
+    const latestProjects =
+        userProjects.length > 4
+            ? userProjects.slice(userProjects.length - 4).reverse()
+            : userProjects;
 
     const singleProject = latestProjects.map((project: any, index: any) => {
         const color =
