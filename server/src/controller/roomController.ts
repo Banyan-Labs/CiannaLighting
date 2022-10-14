@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
-import { nextTick } from "process";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import LightSelection from "../model/LightSelection";
+import LightSelection from "../model/LIghtSelection";
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
   let { name, description, clientId, projectId } = req.body;

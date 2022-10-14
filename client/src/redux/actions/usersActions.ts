@@ -9,7 +9,6 @@ export const getAllUsers =
         const axiosPriv = await axiosPrivate();
 
         const users = await axiosPriv.get('cmd/get-users');
-        console.log(users);
         dispatch(setUsers(users.data));
     };
 

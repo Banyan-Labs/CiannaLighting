@@ -61,7 +61,7 @@ export const getAllProjectRoomsAction =
             const response = await axioscall.post('/get-rooms', {
                 projectId: projectId,
             });
-            await dispatch(setProjectRooms(response.data.rooms));
+            dispatch(setProjectRooms(response.data.rooms));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

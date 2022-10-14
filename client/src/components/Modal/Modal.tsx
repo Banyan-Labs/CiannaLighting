@@ -23,7 +23,6 @@ type ProjectType = {
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
-    user: any;
 };
 
 // Modal function for "New Project". Creates a modal window which allows
@@ -38,9 +37,9 @@ const Modal: FC<Props> = (props) => {
     const navigate = useNavigate();
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
         name: '',
-        clientId: props.user._id,
-        clientName: props.user.name,
-        region: 'Africa',
+        clientId: user._id,
+        clientName: user.name,
+        region: 'US west',
         status: 'New',
         description: '',
     });
@@ -68,8 +67,8 @@ const Modal: FC<Props> = (props) => {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({
                 name: '',
-                clientId: props.user.id,
-                clientName: props.user.name,
+                clientId: user._id,
+                clientName: user.name,
                 region: '',
                 status: '',
                 description: '',
