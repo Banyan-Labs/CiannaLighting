@@ -17,8 +17,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
     const Color =
     dataHolding.setData().color && Object.keys(dataHolding.setData().color).length > 0
     ? dataHolding.setData().color : '#AC92EB';
-    console.log(Color, "COLOR")
-    console.log(details, "DETAILS from project summary")
+    
     const archiveSet = async(e: any) => {
         e.preventDefault()
         try{

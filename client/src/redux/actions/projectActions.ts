@@ -87,7 +87,6 @@ export const getProject =
         const axioscall = await axiosPrivate();
         try {
             const project = await axioscall.post('/find-project', payload);
-            console.log(project.data.project)
              dispatch(setProject(project.data.project));
              dispatch(setProjectId(project.data.project));
         } catch (err) {
