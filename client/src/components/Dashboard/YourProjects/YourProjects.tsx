@@ -70,7 +70,7 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id]);
-    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#AC92EB'];
+    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
     // displays the 4 most recent projects.
     const latestProjects =
@@ -86,11 +86,12 @@ const YourProjects: FC = () => {
                     : index
             ];
 
-        const changeProject = (prodId: string) => {
-            dispatch(getProject(prodId));
+        const changeProject = async (prodId: string) => {
+            await dispatch(getProject({ _id: prodId }));
             dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
+       
         return (
             <div
                 className="single-project"
@@ -184,7 +185,6 @@ const YourProjects: FC = () => {
                     >
                         <FaPlus />
                     </button>
-
                     <span className="dashboard-new-project-sub-text">
                         New Project
                     </span>

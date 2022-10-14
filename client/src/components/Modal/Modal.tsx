@@ -23,6 +23,7 @@ type ProjectType = {
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
+    
 };
 
 // Modal function for "New Project". Creates a modal window which allows
