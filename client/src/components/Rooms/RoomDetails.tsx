@@ -1,59 +1,158 @@
 import React, { FC } from 'react';
-import useParams from '../../app/utils';
 import './style/roomDetails.scss';
+import { BsChevronLeft } from 'react-icons/bs';
+import { useAppSelector } from '../../app/hooks';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import Default from '../../assets/stairway.jpeg';
 
 const RoomDetails: FC = () => {
-    console.log(useParams('_id'));
-    return (
-        <div className="room-details-container">
-            <div className="room-details-summary">
-                <div className="room-details-top">
-                    <div className="back-to-projects">
-                        <AiOutlineClose className="room-details-close-button" />
-                    </div>
-                    <div>
-                        <p className="room-details-project-name">
-                            Salt Lake Temple
-                            <FaCircle className="room-details-circle-icon" />
-                        </p>
-                    </div>
-                </div>
+    const { room, project, roomLights } = useAppSelector(
+        ({ project }) => project
+    );
+    const date = new Date(Date.parse(room?.createdAt)).toDateString();
 
-                <div className="room-details-room-name-bar">
-                    <div className="project-summary-name-and-date">
-                        <h3 className="project-summary-project-name">
-                            113 Baptistry
-                        </h3>
-                        <p className="project-summary-date">
-                            Created on August 2, 2022
-                        </p>
+    const Color =
+        Object.keys(dataHolding.setData().color).length === 0
+            ? '#AC92EB'
+            : dataHolding.setData().color;
+
+    const { user } = useAppSelector(({ auth: user }) => user);
+    const { projectId } = useAppSelector(({ project }) => project);
+
+    const singleRoom = roomLights.map((light: any, index: any) => {
+        return (
+            <div className="single-room-container d-flex row" key={index}>
+                <div className="first-light-section col-12 d-flex">
+                    <img className="lightImg" src={Default} alt={light.name} />
+                    <div className="d-flex row first-section-name">
+                        <div>
+                            <h4 className="m-0">{light.acrylicOptions}</h4>
+                            <p className="m-0">LLC</p>
+                        </div>
+                        <div className="d-flex align-items-end">
+                            <p className="m-0 edit-link"> Edit</p>
+                            <p className="m-0 remove-link">Remove</p>
+                        </div>
                     </div>
-                    <div className="project-summary-icons">
-                        <FaRegEdit className="edit-icon" />
-                        <div></div>
-                        <FaRegClone className="clone-icon" />
-                        <div></div>
-                        <FaRegTrashAlt className="trash-icon" />
+                    <p className="qty">
+                        Qty. <span>{light.quantity}</span>
+                    </p>
+                </div>
+                <div className="second-light-section col-12 d-flex">
+                    <div className="col-6 d-flex row second-left-section">
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Exterior Finish:</h5>
+                            <p className="m-0 col-6 d-flex">
+                                {light.exteriorFinish}
+                            </p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Interior Finish:</h5>
+                            <p className="m-0 col-6 d-flex">
+                                {light.interiorFinish}
+                            </p>
+                        </div>
+                        <div className="d-flex ">
+                            <h5 className="m-0 col-6">Environment:</h5>
+                            <p className="m-0 d-flex col-6">
+                                {light.environment}
+                            </p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Safety Cert:</h5>
+                            <p className="m-0">{light.safetyCert}</p>
+                        </div>
+                        <div className="d-flex ">
+                            <h5 className="m-0 col-6">Project Voltage:</h5>
+                            <p className="m-0">{light.projectVoltage}</p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Socket Type:</h5>
+                            <p className="m-0">{light.socketType}</p>
+                        </div>
+                        <div className="d-flex ">
+                            <h5 className="m-0 col-6">Mounting:</h5>
+                            <p className="m-0">{light.mounting}</p>
+                        </div>
+                    </div>
+                    <div className="col-6 d-flex row second-right-section">
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Lens Material:</h5>
+                            <p className="m-0">{light.lensMaterial}</p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Options:</h5>
+                            <p className="m-0">{light.glassOptions}</p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Crystal Type:</h5>
+                            <p className="m-0">{light.crystalType}</p>
+                        </div>
+                        <div className="d-flex">
+                            <h5 className="m-0 col-6">Options:</h5>
+                            <p className="m-0">
+                                {light.crystalPinType} <br />
+                                <span>{light.crystalPinColor}</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className="project-summary-text-container">
-                    <h4>Description:</h4>
-                    <p className="project-summary-description-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Corrupti aperiam repudiandae inventore pariatur saepe
-                        dolorum, quisquam corporis earum, tempore mollitia sint
-                        consequatur velit facilis laboriosam modi cupiditate
-                        natus. Animi, vero. Lorem ipsum dolor sit
+            </div>
+        );
+    });
+
+    return (
+        <div className="roomDetail-container m-0 container d-flex row col-12 col-lg-5">
+            <div className="col-12 d-flex row m-0">
+                <div className="back-to-project col-6">
+                    <Link to={`/projects/ + ?_id= ${user._id},${projectId}`}>
+                        <BsChevronLeft className="chevron-icon" /> Back to
+                        Project
+                    </Link>
+                </div>
+                <div className="col-6 d-flex justify-content-end">
+                    <p className="project-name">
+                        <span className="project-tag">Project</span> <br />
+                        {project?.name}
+                        <FaCircle
+                            style={{ color: String(Color) }}
+                            className="room-details-circle-icon"
+                        />
                     </p>
-                    <h4>Lights:</h4>
-                    <div className="room-description-light-divider"></div>
-                    <div className="room-description-light-container">
-                        <p className="room-description-no-lights">
-                            no lights in this room
-                        </p>
-                    </div>
+                </div>
+            </div>
+
+            <div className="col-12 m-0 d-flex ">
+                <div className="project-date ">
+                    <h3 className="">{room?.name}</h3>
+
+                    <p className="">Created: {date}</p>
+                </div>
+                <div className=" icon-container d-flex align-items-center justify-content-center">
+                    <FaRegEdit className="m-2 room-icons" />
+                    <FaRegClone className="m-2 room-icons" />
+                    <FaRegTrashAlt className="m-2 room-icons" />
+                </div>
+            </div>
+            <div className="">
+                <div className="description-container">
+                    <h4>Description:</h4>
+                    <p className="">{room?.description}</p>
+                </div>
+                <h4 className="light-number">
+                    Lights: <span>{room?.lights?.length}</span>
+                </h4>
+                <div className="room-description-light-divider"></div>
+                <div className="container-for-light-cards ">
+                    {room?.lights?.length != 0 ? (
+                        singleRoom
+                    ) : (
+                        <div className="container-no-lights d-flex justify-content-center align-items-center col-12">
+                            <p className="">No lights for this room.</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

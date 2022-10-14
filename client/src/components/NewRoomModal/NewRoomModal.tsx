@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FC, FormEvent, useState, useEffect } from 'react';
+import React, { FC, FormEvent, useState, useEffect, useCallback } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -7,6 +7,7 @@ import {
     getAllProjectRoomsAction,
 } from '../../redux/actions/projectActions';
 import './style/newRoomModal.css';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
@@ -15,8 +16,10 @@ type Props = {
 };
 
 export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
-    const { projectId } = useAppSelector(({ project }) => project);
-    const { room } = useAppSelector(({ project }) => project);
+    const { roomId, room, projectId } = useAppSelector(
+        ({ project }) => project
+    );
+    const navigate = useNavigate();
     const [roomDetails, setRoomDetails] = useState({
         name: '',
         description: '',
@@ -28,6 +31,14 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
     useEffect(() => {
         dispatch(getAllProjectRoomsAction(projectId));
     }, [room]);
+
+    const projectRoute = useCallback(
+        (roomId: string) => {
+            const to = `/createLight/ + ?_id= ${user._id}&roomId=${roomId}&projectId=${projectId}`;
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setRoomDetails({
@@ -117,7 +128,6 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                                     <button
                                         type="submit"
                                         className="new-room-modal-button"
-                                        onClick={(e) => onSubmit(e)}
                                     >
                                         Create Room
                                     </button>
@@ -143,7 +153,7 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                             <button
                                 type="submit"
                                 className="new-room-modal-button"
-                                onClick={() => closeModal(!openModal)}
+                                onClick={() => projectRoute(String(roomId))}
                             >
                                 Add lights
                             </button>

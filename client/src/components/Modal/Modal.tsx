@@ -1,7 +1,10 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createProjectAction } from '../../redux/actions/projectActions';
+import {
+    createProjectAction,
+    getUserProjects,
+} from '../../redux/actions/projectActions';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/modal.scss';
 import { useNavigate } from 'react-router-dom';
@@ -37,8 +40,8 @@ const Modal: FC<Props> = (props) => {
         name: '',
         clientId: props.user._id,
         clientName: props.user.name,
-        region: '',
-        status: '',
+        region: 'Africa',
+        status: 'New',
         description: '',
     });
 
@@ -71,6 +74,9 @@ const Modal: FC<Props> = (props) => {
                 status: '',
                 description: '',
             });
+            navigate(`/projects/ + ?_id= ${user._id}`);
+            dispatch(getUserProjects(user._id));
+            dataHolding.getData(projectDetails, '');
         } catch (err) {
             console.log('Error: ' + err);
         }
@@ -142,6 +148,7 @@ const Modal: FC<Props> = (props) => {
                                     id="status"
                                     name="status"
                                     onChange={(e) => handleSelection(e)}
+                                    required
                                 >
                                     {status.map(
                                         (
@@ -181,6 +188,7 @@ const Modal: FC<Props> = (props) => {
                                     id="region"
                                     name="region"
                                     onChange={(e) => handleSelection(e)}
+                                    required
                                 >
                                     {region.map(
                                         (
@@ -215,11 +223,6 @@ const Modal: FC<Props> = (props) => {
                             <button
                                 type="submit"
                                 className="new-project-modal-button"
-                                onClick={(e) => {
-                                    onSubmit(e);
-                                    dataHolding.getData(projectDetails, '');
-                                    navigate(`/projects/${user.name}`);
-                                }}
                             >
                                 Create Project
                             </button>
