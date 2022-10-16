@@ -15,7 +15,8 @@ const Projects: FC = () => {
     const { userProjects } = useAppSelector(({ project }) => project);
     const { projectId } = useAppSelector(({ project }) => project);
     const { project } = useAppSelector(({ project }) => project);
-    const storedProjId = useParams('projectId');
+    const passingProj = useParams('_id');
+    const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
 

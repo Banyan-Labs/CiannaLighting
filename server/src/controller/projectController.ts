@@ -92,7 +92,7 @@ const getProject = async (req: Request, res: Response) => {
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then((project) => {
-      console.log(project, "PROJECT")
+      console.log(project, "PROJECT");
       console.log(`project: ${project?.name} retrieved`);
       if (project && keys.length) {
         keys.map((keyName: string) => {
@@ -252,7 +252,7 @@ const getAllProjects = async (req: Request, res: Response) => {
 
 const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
-  console.log("project delete body: ",req.body)
+  console.log("project delete body: ", req.body);
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {

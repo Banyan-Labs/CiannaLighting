@@ -7,10 +7,10 @@ const Layout = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
 
     return (
-        <div>
+        <>
             {user._id && <Navbar />}
             <Outlet />
-        </div>
+        </>
     );
 };
 

@@ -7,7 +7,6 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
-
 type Props = {
     renderedPage: string
     currentPage: number
@@ -40,12 +39,17 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const activeProjects = allProjects.filter((project)=> !project.archived);
-    const archivedProjects = allProjects.filter((project)=> project.archived == true);
-    const filteredProjects = renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
+    const activeProjects = allProjects.filter((project) => !project.archived);
+    const archivedProjects = allProjects.filter(
+        (project) => project.archived == true
+    );
+    const filteredProjects =
+        renderedPage == 'All Projects'
+            ? activeProjects.slice(firstIndex, lastIndex)
+            : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
-    console.log(filteredProjects, "filteredProj")
+    console.log(filteredProjects, 'filteredProj');
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
@@ -88,7 +92,6 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
 
     return (
         <div className="all-projects-container">
-            
             <div>
                 <div className="form-bar-button-container">
                     <input
@@ -96,7 +99,7 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
                         type="text"
                         placeholder="Search"
                         onChange={(e) => setFilterProjects(e.target.value)}
-                        />
+                    />
                     <FaSlidersH className="dashboard-all-projects-submit" />
                 </div>
                 <div>

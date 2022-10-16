@@ -1,89 +1,88 @@
-@import "../../../../variables/variables.scss";
+@import '../../../../variables/variables.scss';
 
-#views{
-  margin-top: 8px;
-  
+#views {
+    margin-top: 8px;
 }
-#views:focus{
-  outline: none;
+#views:focus {
+    outline: none;
 }
 
 .dashboard-navbar-container {
-  width: 100%;
-  height: 30px;
-  background-color: $primary-bg-dark;
-  border-bottom: $line-height solid $line-dark;
-  display: flex;
-  align-items: center;
-  color: white;
+    width: 100%;
+    height: 30px;
+    background-color: $primary-bg-dark;
+    border-bottom: $line-height solid $line-dark;
+    display: flex;
+    align-items: center;
+    color: white;
 }
 .dashboard-navbar-links-container {
-  margin-right: 20px;
-  display: flex;
-  width: 300px;
-  justify-content: space-evenly;
-  margin-left: 100px;
+    margin-right: 20px;
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+    margin-left: 100px;
 }
 
 .dashboard-links {
-  margin-left: 25px;
-  font-size: 15px;
+    margin-left: 25px;
+    font-size: 15px;
 }
 .dashboard-links:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .lower-active {
-  color: $accent-gold !important;
-  padding-bottom: 20px;
-  transition: 0.3s ease-in-out;
+    color: $accent-gold !important;
+    padding-bottom: 20px;
+    transition: 0.3s ease-in-out;
 }
 
 .lower-active::before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 40%;
-  border-bottom: 4px solid $accent-gold;
-  transition: 0.3s ease-in-out;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 
 .not-active::before {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0%;
-  border-bottom: 4px solid $accent-gold;
-  transition: 0.3s ease-in-out;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 
 .lower-section-links a:hover::before {
-  cursor: pointer;
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  border-bottom: 4px solid $accent-gold;
-  transition: 0.3s ease-in-out;
+    cursor: pointer;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 
 .lower-section-links {
-  a {
-    text-decoration: none;
-    position: relative;
-    top: -50px;
-    left: 20px;
-    color: $primary-bg-dark-text;
-    padding-bottom: 10px;
-    margin-right: 25px;
-  }
-  a:hover {
-    cursor: pointer;
-  }
+    a {
+        text-decoration: none;
+        position: relative;
+        top: -50px;
+        left: 20px;
+        color: $primary-bg-dark-text;
+        padding-bottom: 10px;
+        margin-right: 25px;
+    }
+    a:hover {
+        cursor: pointer;
+    }
 }

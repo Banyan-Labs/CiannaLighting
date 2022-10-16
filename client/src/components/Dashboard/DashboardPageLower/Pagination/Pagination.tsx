@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import "../style/dashboardNav.scss"
+import '../style/dashboardNav.scss';
 
 interface Props {
     projectsPerPage: number;
@@ -12,7 +12,7 @@ const Pagination: FC<Props> = ({
     projectsPerPage,
     totalProjects,
     paginate,
-    currentPage
+    currentPage,
 }: Props) => {
     const [view, setView] = useState<number>(3);    
     const pageNumbers: number[] = []

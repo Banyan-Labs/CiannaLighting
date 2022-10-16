@@ -171,10 +171,13 @@ const testData = [
 ];
 export default testData;
 
-const rot13 = (str) =>{
-    let caps = Array(26).fill(65).map((x,i)=> x += i)
-    let lows = Array(26).fill(97).map((x,i)=> x+=i )
-    console.log(caps, lows, "arrays")
-
-}
-console.log(rot13)
+const rot13 = (str) => {
+    let caps = Array(26)
+        .fill(65)
+        .map((x, i) => (x += i));
+    let lows = Array(26)
+        .fill(97)
+        .map((x, i) => (x += i));
+    console.log(caps, lows, 'arrays');
+};
+console.log(rot13);

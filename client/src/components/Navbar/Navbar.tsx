@@ -19,7 +19,8 @@ type Link = {
 const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
-    const storedProjId = useParams('projectId');
+    const passingProj = useParams('_id');
+    const [storedProjId] = useParams('projectId');
     const activeLocation = pathname.split('/')[1];
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
@@ -33,13 +34,10 @@ const Links: FC<{ links: Link[] }> = () => {
                 return (
                     <div key={link.href}>
                         <Link
-                            to={
-                                link.href +
-                                '?_id=' +
-                                user._id +
-                                '&projectId=' +
-                                Id
-                            }
+                            to={{
+                                pathname: link.href,
+                                search: `?_id=${user._id}&projectId=${Id}`,
+                            }}
                             className={
                                 activeLocation === link.label.toLowerCase()
                                     ? 'active navbar-links'

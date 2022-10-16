@@ -91,7 +91,7 @@ const YourProjects: FC = () => {
             dataHolding.getData(project, color);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
-       
+
         return (
             <div
                 className="single-project"
