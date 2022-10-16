@@ -168,6 +168,19 @@ table {
     transition: background-color 0.3s;
     cursor: pointer;
 }
+.active-page{
+    text-decoration: underline;
+}
+.skip-link {
+    list-style: none;
+    color: black;
+    float: left;
+    padding: 8px 10px;
+    width: fit-content;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
 .pages-list {
     display: inline-flex;
 }

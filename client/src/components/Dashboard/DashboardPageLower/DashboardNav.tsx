@@ -3,7 +3,8 @@ import AllProjects from './DashboardSubComponents/AllProjectsTable';
 import './style/dashboardNav.scss';
 const DashboardNav: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');
-    return (
+    const  [currentPage, setCurrentPage] = useState(1);
+  return (
         <>
             <div className="lower-section-links">
                 <a
@@ -30,7 +31,7 @@ const DashboardNav: FC = () => {
                 </a>
             </div>
             
-                <AllProjects renderedPage={renderedPage}/>
+                <AllProjects renderedPage={renderedPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             
         </>
     );

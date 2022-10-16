@@ -10,9 +10,11 @@ import ProjectMiniModal from './ProjectMiniModal';
 
 type Props = {
     renderedPage: string
+    currentPage: number
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const AllProjects: FC<Props> = ({renderedPage}) => {
+const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
@@ -20,7 +22,7 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    
     const projectsPerPage = 5;
 
     useEffect(() => {
@@ -131,15 +133,16 @@ const AllProjects: FC<Props> = ({renderedPage}) => {
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={ renderedPage === "All Projects" ? activeProjects.length : archivedProjects.length}
+                                    totalProjects={ renderedPage === "All Projects" ? activeProjects.length-1 : archivedProjects.length-1}
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage && (
+                               
+                                {currentPage !== lastPage-1 && (
                                     <li
-                                        onClick={() =>
-                                            setCurrentPage(currentPage + 1)
+                                        onClick={() =>{console.log(currentPage, lastPage)
+                                            setCurrentPage(currentPage + 1)}
                                         }
                                         className="page-link"
                                     >
