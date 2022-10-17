@@ -130,7 +130,7 @@ const AllProjects: FC<Props> = ({
                     <div className="pages-list">
                         <nav>
                             {renderedPage == 'All Projects' ? (
-                                <div className="testing-something">
+                                <div className="table-showing">
                                     Showing{' '}
                                     {currentPage * projectsPerPage -
                                         (projectsPerPage - 1)}
@@ -145,7 +145,7 @@ const AllProjects: FC<Props> = ({
                                         archivedProjects.length}
                                 </div>
                             ) : (
-                                <div className="testing-something">
+                                <div className="table-showing">
                                     Showing{' '}
                                     {currentPage * projectsPerPage -
                                         (projectsPerPage - 1)}
