@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -19,6 +19,10 @@ import {
     AiOutlinePauseCircle,
     AiOutlineExclamationCircle,
 } from 'react-icons/ai';
+import {
+    IoIosArrowDropleftCircle,
+    IoIosArrowDroprightCircle,
+} from 'react-icons/io';
 
 import dataHolding from './projectDetails';
 
@@ -44,6 +48,12 @@ const YourProjects: FC = () => {
     const [onHoldProjects, setOnHoldProjects] = useState(0);
     const [canceledProjects, setCanceledProjects] = useState(0);
     const [completedProjects, setCompletedProjects] = useState(0);
+
+    // Scroll using arrows - Your Projects section
+    const ref = useRef<HTMLDivElement>(null);
+    const scroll = (scrollAmount: number) => {
+        ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
+    };
 
     useEffect(() => {
         dispatch(getUserProjects(user._id));
@@ -189,12 +199,23 @@ const YourProjects: FC = () => {
                         New Project
                     </span>
                     <div className="your-projects-icons">
-                        <FaChevronCircleLeft id="your-project-icons-left" />
+                        <IoIosArrowDropleftCircle
+                            id="your-project-icons-left"
+                            className="your-projects-buttons"
+                            onClick={() => {
+                                scroll(-200);
+                            }}
+                        />
 
-                        <FaChevronCircleRight />
+                        <IoIosArrowDroprightCircle
+                            className="your-projects-buttons"
+                            onClick={() => {
+                                scroll(200);
+                            }}
+                        />
                     </div>
 
-                    <div className="your-projects-section">
+                    <div className="your-projects-section" ref={ref}>
                         {singleProject}
                         {singleProject.length == 0 ? (
                             <div className="your-projects-none">
