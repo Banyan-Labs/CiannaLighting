@@ -178,7 +178,7 @@ const AllProjects: FC<Props> = ({
                                 {currentPage !== lastPage - 1 && (
                                     <li
                                         onClick={() => {
-                                            console.log(currentPage, lastPage);
+                                            // console.log(currentPage, lastPage);
                                             setCurrentPage(currentPage + 1);
                                         }}
                                         className="page-link"
