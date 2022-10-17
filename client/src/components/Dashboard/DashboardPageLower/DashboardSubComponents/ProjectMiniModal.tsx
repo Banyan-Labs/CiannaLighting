@@ -6,17 +6,17 @@ const ProjectMiniModal: FC = () => {
     const herro = 'hello';
     return (
         <div className="project-mini-modal">
-            <div>
+            <div className="project-mini-modal-link">
                 <FaRegCopy />
                 <p>Duplicate</p>
             </div>
-            <div>
+            <div className="project-mini-modal-link">
                 <FaRegEye /> <p>View</p>
             </div>
 
             <div className="doc-type">
                 <FaBan />
-                <p>Read Only</p>
+                <span>Read Only</span>
             </div>
         </div>
     );
