@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+.admin-dashboard-container {
+  padding-top: 100px;
+  display: flex;
+}
+
+.admin-sidebar-container {
+  background: #101010;
+  height: 100vh;
+  position: relative;
+  min-width: 100px;
+  top: 1px;
+  padding: 30px 65px 0 30px;
+}
+
+.sidebar-link-container {
+  padding: 10px;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #cbcbcb;
+}
+.sidebar-link:hover {
+  color: #c6ad7c;
+  text-decoration: underline;
+}
+
+.active-sidebar-link {
+  transform: scale(1.1);
+  color: #c6ad7c;
+}
+
+.admin-content-section {
+  padding: 30px 100px 50px 50px;
+  width: 100%;
+}/*# sourceMappingURL=AdminDashboard.css.map */

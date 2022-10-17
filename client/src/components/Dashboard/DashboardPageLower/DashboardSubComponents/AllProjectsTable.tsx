@@ -7,13 +7,19 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 
-type Props = {
-    renderedPage: string
-    currentPage: number
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
-const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => {
+type Props = {
+    renderedPage: string;
+    currentPage: number;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const AllProjects: FC<Props> = ({
+    renderedPage,
+    currentPage,
+    setCurrentPage,
+}) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
@@ -21,7 +27,7 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
-    
+
     const projectsPerPage = 5;
 
     useEffect(() => {
@@ -49,8 +55,7 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
             : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
-    console.log(filteredProjects, 'filteredProj');
-
+    // console.log(filteredProjects, 'filteredProj');
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
@@ -78,7 +83,7 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
                     >
                         <div className="align-modal-dots">
                             <span className="bs-three-dots-container">
-                                <BsThreeDots />
+                                <BsThreeDots className="project-table-dots" />
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
@@ -124,6 +129,28 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
                     </table>
                     <div className="pages-list">
                         <nav>
+                            {renderedPage == 'All Projects' ? (
+                                <div className="testing-something">
+                                    Showing {currentPage * 5 - 4}-
+                                    {currentPage * 5 >
+                                    allProjects.length - archivedProjects.length
+                                        ? allProjects.length -
+                                          archivedProjects.length
+                                        : currentPage * 5}{' '}
+                                    of{' '}
+                                    {allProjects.length -
+                                        archivedProjects.length}
+                                </div>
+                            ) : (
+                                <div className="testing-something">
+                                    Showing {currentPage * 5 - 4}-
+                                    {currentPage * 5 > archivedProjects.length
+                                        ? archivedProjects.length
+                                        : currentPage * 5}{' '}
+                                    of {archivedProjects.length}
+                                </div>
+                            )}
+
                             <ul className="pagination">
                                 {currentPage > 1 && (
                                     <li
@@ -132,24 +159,34 @@ const AllProjects: FC<Props> = ({renderedPage, currentPage, setCurrentPage}) => 
                                         }
                                         className="page-link"
                                     >
-                                        &lt;
+                                        <MdNavigateBefore
+                                            className="arrow-pagination"
+                                            id="arrow-pag-before"
+                                        />
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={ renderedPage === "All Projects" ? activeProjects.length-1 : archivedProjects.length-1}
+                                    totalProjects={
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length - 1
+                                            : archivedProjects.length - 1
+                                    }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                               
-                                {currentPage !== lastPage-1 && (
+                                {currentPage !== lastPage - 1 && (
                                     <li
-                                        onClick={() =>{console.log(currentPage, lastPage)
-                                            setCurrentPage(currentPage + 1)}
-                                        }
+                                        onClick={() => {
+                                            console.log(currentPage, lastPage);
+                                            setCurrentPage(currentPage + 1);
+                                        }}
                                         className="page-link"
                                     >
-                                        &gt;
+                                        <MdNavigateNext
+                                            className="arrow-pagination"
+                                            id="arrow-pag-next"
+                                        />
                                     </li>
                                 )}
                             </ul>
