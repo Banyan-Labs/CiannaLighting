@@ -131,22 +131,29 @@ const AllProjects: FC<Props> = ({
                         <nav>
                             {renderedPage == 'All Projects' ? (
                                 <div className="testing-something">
-                                    Showing {currentPage * 5 - 4}-
-                                    {currentPage * 5 >
+                                    Showing{' '}
+                                    {currentPage * projectsPerPage -
+                                        (projectsPerPage - 1)}
+                                    -
+                                    {currentPage * projectsPerPage >
                                     allProjects.length - archivedProjects.length
                                         ? allProjects.length -
                                           archivedProjects.length
-                                        : currentPage * 5}{' '}
+                                        : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {allProjects.length -
                                         archivedProjects.length}
                                 </div>
                             ) : (
                                 <div className="testing-something">
-                                    Showing {currentPage * 5 - 4}-
-                                    {currentPage * 5 > archivedProjects.length
+                                    Showing{' '}
+                                    {currentPage * projectsPerPage -
+                                        (projectsPerPage - 1)}
+                                    -
+                                    {currentPage * projectsPerPage >
+                                    archivedProjects.length
                                         ? archivedProjects.length
-                                        : currentPage * 5}{' '}
+                                        : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects.length}
                                 </div>
                             )}
