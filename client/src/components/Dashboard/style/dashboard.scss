@@ -186,9 +186,14 @@
         margin-left: auto;
         color: #3c3c3c;
         font-size: 20px;
+        position: relative;
+        top: 2px;
     }
     #your-project-icons-left {
         padding-right: 10px;
+    }
+    .your-projects-buttons {
+        font-size: 25px;
     }
     .your-projects-buttons:hover {
         cursor: pointer;

@@ -177,9 +177,14 @@
   margin-left: auto;
   color: #3c3c3c;
   font-size: 20px;
+  position: relative;
+  top: 2px;
 }
 .dashboard-your-projects #your-project-icons-left {
   padding-right: 10px;
+}
+.dashboard-your-projects .your-projects-buttons {
+  font-size: 25px;
 }
 .dashboard-your-projects .your-projects-buttons:hover {
   cursor: pointer;

@@ -19,6 +19,10 @@ import {
     AiOutlinePauseCircle,
     AiOutlineExclamationCircle,
 } from 'react-icons/ai';
+import {
+    IoIosArrowDropleftCircle,
+    IoIosArrowDroprightCircle,
+} from 'react-icons/io';
 
 import dataHolding from './projectDetails';
 
@@ -197,7 +201,7 @@ const YourProjects: FC = () => {
                         New Project
                     </span>
                     <div className="your-projects-icons">
-                        <FaChevronCircleLeft
+                        <IoIosArrowDropleftCircle
                             id="your-project-icons-left"
                             className="your-projects-buttons"
                             onClick={() => {
@@ -205,7 +209,7 @@ const YourProjects: FC = () => {
                             }}
                         />
 
-                        <FaChevronCircleRight
+                        <IoIosArrowDroprightCircle
                             className="your-projects-buttons"
                             onClick={() => {
                                 scroll(200);
