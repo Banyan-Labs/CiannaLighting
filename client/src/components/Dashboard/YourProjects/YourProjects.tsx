@@ -52,9 +52,7 @@ const YourProjects: FC = () => {
     // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
     const scroll = (scrollAmount: number) => {
-        if (ref.current) {
-            ref.current.scrollLeft += scrollAmount;
-        }
+        ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
     };
 
     useEffect(() => {
