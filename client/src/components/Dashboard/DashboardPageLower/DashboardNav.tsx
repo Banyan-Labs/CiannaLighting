@@ -3,13 +3,16 @@ import AllProjects from './DashboardSubComponents/AllProjectsTable';
 import './style/dashboardNav.scss';
 const DashboardNav: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');
-    const  [currentPage, setCurrentPage] = useState(1);
-  return (
+    const [currentPage, setCurrentPage] = useState(1);
+    return (
         <>
             <div className="lower-section-links">
                 <a
                     id="all-projects"
-                    onClick={() => setRenderedPage('All Projects')}
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('All Projects');
+                    }}
                     className={
                         renderedPage === 'All Projects'
                             ? 'lower-active'
@@ -20,7 +23,10 @@ const DashboardNav: FC = () => {
                 </a>
                 <a
                     id="archived"
-                    onClick={() => setRenderedPage('Archived')}
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('Archived');
+                    }}
                     className={
                         renderedPage === 'Archived'
                             ? 'lower-active'
@@ -30,9 +36,12 @@ const DashboardNav: FC = () => {
                     Archived
                 </a>
             </div>
-            
-                <AllProjects renderedPage={renderedPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-            
+
+            <AllProjects
+                renderedPage={renderedPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
         </>
     );
 };
