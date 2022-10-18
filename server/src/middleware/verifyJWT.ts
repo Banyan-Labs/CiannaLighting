@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-
-
 const jwt = require("jsonwebtoken");
-
 export interface TokenType {
   name: string;
   role: string;
