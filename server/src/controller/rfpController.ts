@@ -5,7 +5,7 @@ import { uploadFunc } from "../middleware/s3";
 import RFP from "../model/RFP";
 
 const createRfp = async (req: Request, res: Response, next: NextFunction) => {
-  let {
+  const {
     header,
     projectId,
     clientId,
@@ -15,9 +15,8 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     submittals,
     qualityStandards,
     contactInfo,
-    images,
-    pdf,
   } = req.body;
+  let {images, pdf} = req.body // []/s3
   const documents = Object.values(req.files as any);
 
   const results = await uploadFunc(documents);
@@ -26,7 +25,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
   if (results?.length) {
     for (let i = 0; i < results?.length; i++) {
       for (let j = 0; j < results[i].length; j++) {
-        let singleDoc = await results[i][j];
+        const singleDoc = await results[i][j];
 
         if (singleDoc.field === "images") {
           images.push(singleDoc.s3Upload.Location);
@@ -50,14 +49,14 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     images,
     pdf,
   });
-  let rfpAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+  const rfpAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
     .then((project) => {
       if (project) {
         project.rfp = rfp._id;
         project.save();
 
-        let projectSuccess = `added rfp to project: ${projectId}`;
+        const projectSuccess = `added rfp to project: ${projectId}`;
         return rfp
           .save()
           .then((rfp) => {
@@ -87,9 +86,9 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const findRFP = async (req: Request, res: Response) => {
-  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
-  let parameters = Object.fromEntries(
-    keys.map((key: String) => [key, req.body[key.toString()]])
+  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const parameters = Object.fromEntries(
+    keys.map((key: string) => [key, req.body[key.toString()]])
   );
   return await RFP.findOne({ _id: req.body._id })
     .exec()
@@ -140,7 +139,7 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
       if (project) {
         project.rfp = "";
         project.save();
-        let rfpRemoved = "rfp removed successfully from project";
+        const rfpRemoved = "rfp removed successfully from project";
         return await RFP.findByIdAndDelete({ _id: req.body._id })
           .then((rfp) => {
             return !rfp

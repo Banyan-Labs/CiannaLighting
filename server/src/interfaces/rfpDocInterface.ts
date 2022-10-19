@@ -1,34 +1,34 @@
 import { Document } from "mongoose";
 
 export interface Schedule {
-  date: String;
-  notes: String;
-  timeFrame: String;
+  date: string;
+  notes: string;
+  timeFrame: string;
 }
 
 export interface Contact {
-  name: String;
-  email: String;
-  phone: String;
-  subFields: String | String[] | RfpSection[];
+  name: string;
+  email: string;
+  phone: string;
+  subFields: string | string[] | RfpSection[];
 }
 
 export interface RfpSection {
-  header: String;
-  description: String;
-  subFields: RfpSection[] | String[] | Contact[];
+  header: string;
+  description: string;
+  subFields: RfpSection[] | string[] | Contact[];
 }
 
 export default interface rfpDocInterface extends Document {
-  header: String;
-  projectId: String;
-  clientId: String;
+  header: string;
+  projectId: string;
+  clientId: string;
   schedule: Schedule[];
-  scope: String;
+  scope: string;
   bid: RfpSection[];
   submittals: RfpSection[];
   qualityStandards: RfpSection[];
   contactInfo: Contact[];
-  images: String[]; //s3
-  pdf: String[]; //s3
+  images: string[]; //s3
+  pdf: string[]; //s3
 }

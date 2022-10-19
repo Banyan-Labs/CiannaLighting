@@ -16,8 +16,8 @@ const rfpSchema: Schema = new Schema(
     submittals: { type: Array<RfpSection>, required: true },
     qualityStandards: { type: Array<RfpSection>, required: true },
     contactInfo: { type: Array<Contact>, required: true },
-    images: { type: Array<String>, required: true },
-    pdf: { type: Array<String>, required: true },
+    images: { type: Array<string>, required: true },
+    pdf: { type: Array<string>, required: true },
   },
   {
     timestamps: true,
