@@ -1,12 +1,12 @@
-import { Request } from "express";
-import multer, { FileFilterCallback } from "multer";
-import path from "path";
+import { Request } from 'express';
+import multer, { FileFilterCallback } from 'multer';
+import path from 'path';
 
 const allowedMimeTypes = [
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-  "image/jpg",
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'image/jpg',
 ];
 
 const filetypes = /jpeg|jpg|png|gif|pdf/;
@@ -14,16 +14,16 @@ const filetypes = /jpeg|jpg|png|gif|pdf/;
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = async (
-  req: Request,
-  file: Express.Multer.File,
-  cb: FileFilterCallback
+    req: Request,
+    file: Express.Multer.File,
+    cb: FileFilterCallback
 ) => {
-  const extname = filetypes.test(path.extname(file.originalname).toString());
-  if (allowedMimeTypes.includes(file.mimetype) && extname) {
-    cb(null, true);
-  } else {
-    return cb(new Error("File type not supported"));
-  }
+    const extname = filetypes.test(path.extname(file.originalname).toString());
+    if (allowedMimeTypes.includes(file.mimetype) && extname) {
+        cb(null, true);
+    } else {
+        return cb(new Error('File type not supported'));
+    }
 };
 // app.post('/profile', function (req, res) {
 //   upload(req, res, function (err) {
@@ -40,14 +40,14 @@ const multerFilter = async (
 // })
 
 const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
+    storage: multerStorage,
+    fileFilter: multerFilter,
 });
 
 const multiUpload = upload.fields([
-  { name: "images", maxCount: 5 },
-  { name: "pdf", maxCount: 5 },
-  { name: "drawingFiles", maxCount: 5 },
+    { name: 'images', maxCount: 5 },
+    { name: 'pdf', maxCount: 5 },
+    { name: 'drawingFiles', maxCount: 5 },
 ]);
 
 export default multiUpload;
