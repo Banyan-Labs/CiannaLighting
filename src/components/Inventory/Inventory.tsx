@@ -31,7 +31,7 @@ interface CatalogType {
     acrylicOptions: string[];
     environment: string[];
     safetyCert: string[];
-    projecVoltage: string[];
+    projectVoltage: string[];
     socketType: string[];
     mounting: string[];
     crystalType: string[];
@@ -75,7 +75,7 @@ const Inventory: FC = () => {
         acrylicOptions: [], //[]
         environment: [], //[]
         safetyCert: [], //[]
-        projecVoltage: [], //[]
+        projectVoltage: [], //[]
         socketType: [], //[]
         mounting: [], //[]
         crystalType: [], //[]
@@ -98,6 +98,7 @@ const Inventory: FC = () => {
             ...itemDetails,
             [e.currentTarget.name]: e.currentTarget.value,
         });
+        console.log(itemDetails, "DEETS")
     };
     const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
         if (listValue.name != e.currentTarget.name) {
@@ -112,23 +113,24 @@ const Inventory: FC = () => {
             });
         }
     };
-    const listValSubmit = (e:any) => {
-        e.preventDefault()
-        const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType]
+    const listValSubmit = (e: any) => {
+        e.preventDefault();
+        const valueOfKey: any =
+            itemDetails[listValue.name as keyof CatalogType];
         setItemDetails({
             ...itemDetails,
             [listValue.name]: [...valueOfKey, listValue.value],
         });
         setListValue({
-            name:'',
-            value: ''
-        })
+            name: '',
+            value: '',
+        });
     };
 
-    const onSubmit =async (e: any) => {
-         const axiosPriv = axiosPrivate();
-         try{
-            (await axiosPriv).post("/create-light", itemDetails)
+    const onSubmit = async (e: any) => {
+        const axiosPriv = axiosPrivate();
+        try {
+            (await axiosPriv).post('/internal/create-light', itemDetails);
             setItemDetails({
                 employeeID: user._id,
                 item_ID: '',
@@ -154,7 +156,7 @@ const Inventory: FC = () => {
                 acrylicOptions: [], //[]
                 environment: [], //[]
                 safetyCert: [], //[]
-                projecVoltage: [], //[]
+                projectVoltage: [], //[]
                 socketType: [], //[]
                 mounting: [], //[]
                 crystalType: [], //[]
@@ -164,12 +166,12 @@ const Inventory: FC = () => {
                 pdf: [], //[]//s3
                 drawingFiles: [], //[]//s3
                 costAdmin: 0,
-                partnerCodeAdmin: '', 
-            })
-         }catch(error:any){
-            alert(error.messsge)
-            console.log("Error Message: ", error.message)
-         }
+                partnerCodeAdmin: '',
+            });
+        } catch (error: any) {
+            alert(error.messsge);
+            console.log('Error Message: ', error.message);
+        }
         return 'yo yo yo: ' + e.currentTarget.name;
     };
 
@@ -352,225 +354,384 @@ const Inventory: FC = () => {
                     onChange={(e) => handleFormInput(e)}
                     required
                 />
-                <label htmlFor="description">Exterior Finish</label>
+                <label htmlFor="exteriorFinish">Exterior Finish</label>
                 <input
                     className="list-input"
                     id="exteriorFinish"
                     placeholder="Exterior Finish"
                     type="text"
                     name="exteriorFinish"
-                    value={listValue.name == 'exteriorFinish' ? listValue.value : ''}
+                    value={
+                        listValue.name == 'exteriorFinish'
+                            ? listValue.value
+                            : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
-                    <button onClick={(e) => listValSubmit(e)}>Add Value</button>
+                <button onClick={(e) => listValSubmit(e)}>Add Value</button>
                 <input
                     className="body-input"
-                    id="exteriorFinish"
+                    id="exteriorFinishValues"
                     placeholder="Values go here"
                     type="text"
-                    name="exteriorFinish"
+                    name="exteriorFinishValues"
                     value={itemDetails.exteriorFinish}
-                    // onChange={(e) => handleArrayValue(e)}
-                    // required
+                    readOnly
+                    required
                 />
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Interior Finish</label>
+
+                <label htmlFor="interiorFinsish">Interior Finish</label>
                 <input
                     className="list-input"
                     id="interiorFinish"
                     placeholder="Interior Finish"
                     type="text"
                     name="interiorFinish"
-                    value={itemDetails.interiorFinish}
+                    value={
+                        listValue.name == 'interiorFinish'
+                            ? listValue.value
+                            : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Lens Material</label>
+                <input
+                    className="body-input"
+                    id="interiorFinishValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="exteriorFinishValues"
+                    value={itemDetails.interiorFinish}
+                    readOnly
+                    required
+                />
+                <label htmlFor="lensMaterial">Lens Material</label>
                 <input
                     className="list-input"
                     id="lensMaterial"
                     placeholder="Lens Material"
                     type="text"
                     name="lensMaterial"
-                    value={itemDetails.lensMaterial}
+                    value={
+                        listValue.name == 'lensMaterial' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Glass Options</label>
+                <input
+                    className="body-input"
+                    id="lensMaterialValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="lensMaterialValues"
+                    value={itemDetails.lensMaterial}
+                    readOnly
+                    required
+                />
+                <label htmlFor="glassOptions">Glass Options</label>
                 <input
                     className="list-input"
                     id="glassOptions"
                     placeholder="Glass Options"
                     type="text"
                     name="glassOptions"
-                    value={itemDetails.glassOptions}
+                    value={
+                        listValue.name == 'glassOptions' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Acrylic Options</label>
+                <input
+                    className="body-input"
+                    id="glassOptionsValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="glassOptionsValues"
+                    value={itemDetails.glassOptions}
+                    readOnly
+                    required
+                />
+                <label htmlFor="acrylicOptions">Acrylic Options</label>
                 <input
                     className="list-input"
                     id="acrylicOptions"
                     placeholder="Acrylic Options"
                     type="text"
                     name="acrylicOptions"
-                    value={itemDetails.acrylicOptions}
+                    value={
+                        listValue.name == 'acrylicOptions'
+                            ? listValue.value
+                            : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Environment</label>
+                <input
+                    className="body-input"
+                    id="acrylicOptionsValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="acrylicOptionsValues"
+                    value={itemDetails.acrylicOptions}
+                    readOnly
+                    required
+                />
+                <label htmlFor="environment">Environment</label>
                 <input
                     className="list-input"
                     id="environment"
                     placeholder="Environment"
                     type="text"
                     name="environment"
-                    value={itemDetails.environment}
+                    value={
+                        listValue.name == 'environment' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Safety Cert</label>
+                <input
+                    className="body-input"
+                    id="environmentValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="environmentValues"
+                    value={itemDetails.environment}
+                    readOnly
+                    required
+                />
+                <label htmlFor="safetyCert">Safety Cert</label>
                 <input
                     className="list-input"
                     id="safetyCert"
                     placeholder="Safety Certifications"
                     type="text"
                     name="safetyCert"
-                    value={itemDetails.safetyCert}
+                    value={
+                        listValue.name == 'safetyCert' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Project Voltage</label>
+                <input
+                    className="body-input"
+                    id="safetyCertValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="safetyCertValues"
+                    value={itemDetails.safetyCert}
+                    readOnly
+                    required
+                />
+                <label htmlFor="projectVoltage">Project Voltage</label>
                 <input
                     className="list-input"
-                    id="exteriorFinish"
+                    id="projectVoltage"
                     placeholder="Project Voltage"
                     type="text"
                     name="projectVoltage"
-                    value={itemDetails.projecVoltage}
+                    value={
+                        listValue.name == 'projectVoltage'
+                            ? listValue.value
+                            : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Socket Type</label>
+                <input
+                    className="body-input"
+                    id="projectVoltageValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="projectVoltageValues"
+                    value={itemDetails.projectVoltage}
+                    readOnly
+                    required
+                />
+                <label htmlFor="socketType">Socket Type</label>
                 <input
                     className="list-input"
                     id="socketType"
                     placeholder="Socket Types"
                     type="text"
                     name="socketType"
-                    value={itemDetails.socketType}
+                    value={
+                        listValue.name == 'socketType' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Mounting</label>
+                <input
+                    className="body-input"
+                    id="socketTypeValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="socketTypeValues"
+                    value={itemDetails.socketType}
+                    readOnly
+                    required
+                />
+                <label htmlFor="mounting">Mounting</label>
                 <input
                     className="list-input"
                     id="mounting"
                     placeholder="Mounting"
                     type="text"
                     name="mounting"
-                    value={itemDetails.mounting}
+                    value={listValue.name == 'mounting' ? listValue.value : ''}
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Crystal Types</label>
+                <input
+                    className="body-input"
+                    id="mountingValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="mountingValues"
+                    value={itemDetails.mounting}
+                    readOnly
+                    required
+                />
+                <label htmlFor="crystalType">Crystal Types</label>
                 <input
                     className="list-input"
                     id="crystalType"
                     placeholder="Crystal Types"
                     type="text"
                     name="crystalType"
-                    value={itemDetails.crystalType}
+                    value={
+                        listValue.name == 'crystalType' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Design Styles</label>
+                <input
+                    className="body-input"
+                    id="crystalTypeValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="crystalTypeValues"
+                    value={itemDetails.crystalType}
+                    readOnly
+                    required
+                />
+                <label htmlFor="designStyle">Design Styles</label>
                 <input
                     className="list-input"
                     id="designStyle"
                     placeholder="Design Styles"
                     type="text"
                     name="designStyle"
-                    value={itemDetails.designStyle}
+                    value={
+                        listValue.name == 'designStyle' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Use Packages</label>
+                <input
+                    className="body-input"
+                    id="designStyleValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="designStyleValues"
+                    value={itemDetails.designStyle}
+                    readOnly
+                    required
+                />
+                <label htmlFor="usePackages">Use Packages</label>
                 <input
                     className="list-input"
                     id="usePackages"
                     placeholder="Use Packages"
                     type="text"
                     name="usePackages"
-                    value={itemDetails.usePackages}
+                    value={
+                        listValue.name == 'usePackages' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Images</label>
+                <input
+                    className="body-input"
+                    id="usePackagesValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="usePackagesValues"
+                    value={itemDetails.usePackages}
+                    readOnly
+                    required
+                />
+                <label htmlFor="images">Images</label>
                 <input
                     className="list-input"
                     id="images"
                     placeholder="Upload Images"
-                    type="text"
+                    type="file"
+                    accept="image/png"
+                    multiple
                     name="images"
-                    value={itemDetails.images}
+                    value={listValue.name == 'images' ? listValue.value : ''}
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">PDF</label>
+                <input
+                    className="body-input"
+                    id="imagesValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="imagesValues"
+                    value={itemDetails.images}
+                    readOnly
+                    required
+                />
+                <label htmlFor="pdf">PDF</label>
                 <input
                     className="list-input"
                     id="pdf"
                     placeholder="Upload PDF's"
-                    type="text"
+                    type="file"
+                    accept="application/pdf"
+                    multiple
                     name="pdf"
-                    value={itemDetails.pdf}
+                    value={listValue.name == 'pdf' ? listValue.value : ''}
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Drawing Files</label>
+                <input
+                    className="body-input"
+                    id="pdfValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="pdfValues"
+                    value={itemDetails.pdf}
+                    readOnly
+                    required
+                />
+                <label htmlFor="drawingFiles">Drawing Files</label>
                 <input
                     className="list-input"
                     id="drawingFiles"
                     placeholder="Upload Drawing Files"
-                    type="text"
-                    name="price"
-                    value={itemDetails.drawingFiles}
+                    type="file"
+                    accept="application/pdf, image/png"
+                    multiple
+                    name="drawingFiles"
+                    value={
+                        listValue.name == 'drawingFiles' ? listValue.value : ''
+                    }
                     onChange={(e) => handleArrayValue(e)}
-                    required
                 />
                 <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                {/* mayyyyybe another div here (below) holding values */}
-                <label htmlFor="description">Cost</label>
+                <input
+                    className="body-input"
+                    id="drawingFilesValues"
+                    placeholder="Values go here"
+                    type="text"
+                    name="drawingFilesValues"
+                    value={itemDetails.drawingFiles}
+                    readOnly
+                    required
+                />
+                <label htmlFor="costAdmin">Cost</label>
                 <input
                     className="body-input"
                     id="costAdmin"
@@ -579,9 +740,8 @@ const Inventory: FC = () => {
                     name="costAdmin"
                     value={itemDetails.costAdmin}
                     onChange={(e) => handleFormInput(e)}
-                    required
                 />
-                <label htmlFor="description">Partner Code</label>
+                <label htmlFor="partnerCodeAdmin">Partner Code</label>
                 <input
                     className="body-input"
                     id="partnerCodeAdmin"
@@ -590,7 +750,6 @@ const Inventory: FC = () => {
                     name="partnerCodeAdmin"
                     value={itemDetails.partnerCodeAdmin}
                     onChange={(e) => handleFormInput(e)}
-                    required
                 />
 
                 <button onClick={(e) => onSubmit(e)}>submit</button>
