@@ -2,6 +2,8 @@ import { Document } from "mongoose";
 
 export default interface catalogInterface extends Document {
   item_ID: string;
+  itemName: string;
+  employeeID:string;
   itemDescription: string;
   bodyDiameter: string;
   bodyLength: string;

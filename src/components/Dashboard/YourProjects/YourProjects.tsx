@@ -8,8 +8,6 @@ import {
 import Modal from '../../Modal/Modal';
 import {
     FaPlus,
-    FaChevronCircleLeft,
-    FaChevronCircleRight,
     FaChevronRight,
 } from 'react-icons/fa';
 import { VscFileSubmodule } from 'react-icons/vsc';

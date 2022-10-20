@@ -75,7 +75,7 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const { _id, email, emailChange, password, passwordChange, name, update } =
+  const { _id, emailChange, password, passwordChange, name, update } =
     req.body;
   await User.findOne({ _id })
     .select("+password")
