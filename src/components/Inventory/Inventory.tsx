@@ -91,9 +91,15 @@ const Inventory: FC = () => {
         name: '',
         value: '',
     });
-    const [imgFiles, setImgfiles] = useState<any>();
-    const [pdfFiles, setPdfFiles] = useState<any>();
-    const [drawingFilesArray, setDrawingFilesArray] = useState<any>();
+    const [imgFiles, setImgfiles] = useState<any>([]);
+    const [pdfFiles, setPdfFiles] = useState<any>([]);
+    const [drawingFilesArray, setDrawingFilesArray] = useState<any>([]);
+    const [images, setImages] = useState<any>([]);
+    const [pdf, setPdf] = useState<any>([]);
+    const [drawingFiles, setDrawingFiles] = useState<any>([]);
+    const [imageName, setImageNames] = useState<any>([]);
+    const [pdfNames, setPdfNames] = useState<any>([]);
+    const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setItemDetails({
@@ -129,6 +135,7 @@ const Inventory: FC = () => {
     };
     const listValSubmit = (e: any) => {
         e.preventDefault();
+
         const valueOfKey: any =
             itemDetails[listValue.name as keyof CatalogType];
         setItemDetails({
@@ -141,39 +148,54 @@ const Inventory: FC = () => {
         });
     };
 
+    const listFileNames = (e: any) => {
+        e.preventDefault();
+        if (imgFiles.length) {
+            for (const key of Object.keys(imgFiles)) {
+                console.log(imgFiles[key]);
+                const objectUrl = URL.createObjectURL(imgFiles[key]);
+                setImageNames([...imageName, objectUrl]);
+                setImages([...images, imgFiles[key]]);
+            }
+        }
+        if (pdfFiles.length) {
+            for (const key of Object.keys(pdfFiles)) {
+                setPdf([...pdf, pdfFiles[key]]);
+                setPdfNames([...pdfNames, pdfFiles[key].name]);
+            }
+        }
+        if (drawingFilesArray.length) {
+            for (const key of Object.keys(drawingFilesArray)) {
+                const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
+                setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
+                setDrawingFilesNames([...drawingFilesNames, objectUrl]);
+            }
+        }
+    };
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const axiosPriv = axiosFileUpload();
         const fs = new FormData();
-
-        for (const key of Object.keys(imgFiles)) {
-            fs.append('images', imgFiles[key]);
-        }
-        for (const key of Object.keys(pdfFiles)) {
-            fs.append('pdf', imgFiles[key]);
-        }
-        for (const key of Object.keys(drawingFilesArray)) {
-            fs.append('drawingFiles', imgFiles[key]);
-        }
         for (const key of Object.keys(itemDetails)) {
             fs.append(key, itemDetails[key]);
         }
 
-        // if (itemDetails.images.length) {
-        //     for (let i = 0; i < itemDetails.images.length; i++) {
-        //         fs.append('images', itemDetails.images[i]);
-        //     }
-        // }
-        // if (itemDetails.pdf.length) {
-        //     for (let i = 0; i < itemDetails.pdf.length; i++) {
-        //         fs.append('pdf', itemDetails.pdf[i]);
-        //     }
-        // }
-        // if (itemDetails.drawingFiles.length) {
-        //     for (let i = 0; i < itemDetails.drawingFiles.length; i++) {
-        //         fs.append('drawingFiles', itemDetails.drawingFiles[i]);
-        //     }
-        // }
+        if (images.length) {
+            for (let i = 0; i < images.length; i++) {
+                fs.append('images', images[i]);
+            }
+        }
+        if (pdf.length) {
+            for (let i = 0; i < pdf.length; i++) {
+                fs.append('pdf', pdf[i]);
+            }
+        }
+        if (drawingFiles.length) {
+            for (let i = 0; i < drawingFiles.length; i++) {
+                fs.append('drawingFiles', drawingFiles[i]);
+            }
+        }
 
         try {
             (await axiosPriv).post('/internal/create-light', fs);
@@ -221,8 +243,20 @@ const Inventory: FC = () => {
         }
     };
 
+    console.log(images, 'images');
+    console.log(itemDetails, 'item deets');
+
     return (
         <div className="inventory-container">
+            {/* EXAMPLE ON HOW TO RENDER IMAGE */}
+            <img
+                src="https://ciana-first-bucket.s3.us-west-1.amazonaws.com/uploads/1666374047747-1666285594709-maybe.jpg"
+                alt=""
+            />
+            <img
+                src="https://ciana-first-bucket.s3.us-west-1.amazonaws.com/uploads/1666374047747-assignmentjtc.png"
+                alt=""
+            />
             <form className="inventory-form" onSubmit={onSubmit}>
                 <label htmlFor="name">Item ID</label>
                 <input
@@ -425,7 +459,6 @@ const Inventory: FC = () => {
                     readOnly
                     required
                 />
-
                 <label htmlFor="interiorFinsish">Interior Finish</label>
                 <input
                     className="list-input"
@@ -717,16 +750,14 @@ const Inventory: FC = () => {
                     name="images"
                     onChange={(e) => handleFileUpload(e)}
                 />
-                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button> // Was this for like some sort of image preview?
-                <input
-                    className="body-input"
-                    id="imagesValues"
-                    placeholder="Values go here"
-                    type="text"
-                    name="imagesValues"
-                    readOnly
-                    required
-                /> */}
+                <button onClick={(e) => listFileNames(e)}>Add Value</button>
+
+                <div>
+                    {imageName.map((url: any) => {
+                        console.log(url);
+                        return <img src={url} alt="" />;
+                    })}
+                </div>
                 <label htmlFor="pdf">PDF</label>
                 <input
                     className="list-input"
@@ -738,17 +769,17 @@ const Inventory: FC = () => {
                     name="pdf"
                     onChange={(e) => handleFileUpload(e)}
                 />
-                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button>
+                <button onClick={(e) => listFileNames(e)}>Add Value</button>
                 <input
                     className="body-input"
                     id="pdfValues"
                     placeholder="Values go here"
                     type="text"
                     name="pdfValues"
-                    value={itemDetails.pdf}
+                    value={pdf}
                     readOnly
                     required
-                /> */}
+                />
                 <label htmlFor="drawingFiles">Drawing Files</label>
                 <input
                     className="list-input"
@@ -760,17 +791,13 @@ const Inventory: FC = () => {
                     name="drawingFiles"
                     onChange={(e) => handleFileUpload(e)}
                 />
-                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button>
-                <input
-                    className="body-input"
-                    id="drawingFilesValues"
-                    placeholder="Values go here"
-                    type="text"
-                    name="drawingFilesValues"
-                    value={itemDetails.drawingFiles}
-                    readOnly
-                    required
-                /> */}
+                <button onClick={(e) => listFileNames(e)}>Add Value</button>
+                <div>
+                    {drawingFilesNames.map((url: any) => {
+                        console.log(url);
+                        return <img src={url} alt="" />;
+                    })}
+                </div>
                 <label htmlFor="costAdmin">Cost</label>
                 <input
                     className="body-input"
@@ -791,7 +818,6 @@ const Inventory: FC = () => {
                     value={itemDetails.partnerCodeAdmin}
                     onChange={(e) => handleFormInput(e)}
                 />
-
                 <button onClick={(e) => onSubmit(e)}>submit</button>
             </form>
         </div>
