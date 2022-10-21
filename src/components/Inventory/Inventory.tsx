@@ -753,9 +753,9 @@ const Inventory: FC = () => {
                 <button onClick={(e) => listFileNames(e)}>Add Value</button>
 
                 <div>
-                    {imageName.map((url: any) => {
+                    {imageName.map((url: any, index: number) => {
                         console.log(url);
-                        return <img src={url} alt="" />;
+                        return <img src={url} key={index} alt="" />;
                     })}
                 </div>
                 <label htmlFor="pdf">PDF</label>
@@ -793,9 +793,9 @@ const Inventory: FC = () => {
                 />
                 <button onClick={(e) => listFileNames(e)}>Add Value</button>
                 <div>
-                    {drawingFilesNames.map((url: any) => {
+                    {drawingFilesNames.map((url: any, index: number) => {
                         console.log(url);
-                        return <img src={url} alt="" />;
+                        return <img src={url} key={index} alt="" />;
                     })}
                 </div>
                 <label htmlFor="costAdmin">Cost</label>
