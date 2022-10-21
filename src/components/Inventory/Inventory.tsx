@@ -1,7 +1,7 @@
 import { ListOfRecursiveArraysOrValues } from 'lodash';
-import React, { FC, useState, FormEvent } from 'react';
+import React, { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { axiosPrivate } from '../../api/axios';
+import { axiosPrivate, axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
 // import catalogInterface from "../../../server/src/interfaces/catalogInterface"
@@ -37,9 +37,9 @@ interface CatalogType {
     crystalType: string[];
     designStyle: string[];
     usePackages: string[];
-    images: string[]; //s3
-    pdf: string[]; //s3
-    drawingFiles: string[]; //s3
+    // images: File[]; //s3
+    // pdf: string[]; //s3
+    // drawingFiles: string[]; //s3
     costAdmin: number;
     partnerCodeAdmin: string;
 }
@@ -50,7 +50,7 @@ type SetList = {
 
 const Inventory: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const [itemDetails, setItemDetails] = useState<CatalogType>({
+    const [itemDetails, setItemDetails] = useState<any>({
         employeeID: user._id,
         item_ID: '',
         itemName: '',
@@ -81,9 +81,9 @@ const Inventory: FC = () => {
         crystalType: [], //[]
         designStyle: [], //[]
         usePackages: [], //[]
-        images: [], //[]//s3
-        pdf: [], //[]//s3
-        drawingFiles: [], //[]//s3
+        // images: [], //[]//s3
+        // pdf: [], //[]//s3
+        // drawingFiles: [], //[]//s3
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
@@ -91,14 +91,16 @@ const Inventory: FC = () => {
         name: '',
         value: '',
     });
-    console.log(typeof itemDetails.images, 'type yo');
+    const [imgFiles, setImgfiles] = useState<any>();
+    const [pdfFiles, setPdfFiles] = useState<any>();
+    const [drawingFilesArray, setDrawingFilesArray] = useState<any>();
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setItemDetails({
             ...itemDetails,
             [e.currentTarget.name]: e.currentTarget.value,
         });
-        console.log(itemDetails, "DEETS")
+        console.log(itemDetails, 'DEETS');
     };
     const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
         if (listValue.name != e.currentTarget.name) {
@@ -111,6 +113,18 @@ const Inventory: FC = () => {
                 name: listValue.name,
                 value: e.currentTarget.value,
             });
+        }
+    };
+
+    const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.name === 'images') {
+            setImgfiles(e.target.files);
+        }
+        if (e.target.name === 'pdf') {
+            setPdfFiles(e.target.files);
+        }
+        if (e.target.name === 'drawingFiles') {
+            setDrawingFilesArray(e.target.files);
         }
     };
     const listValSubmit = (e: any) => {
@@ -128,9 +142,42 @@ const Inventory: FC = () => {
     };
 
     const onSubmit = async (e: any) => {
-        const axiosPriv = axiosPrivate();
+        e.preventDefault();
+        const axiosPriv = axiosFileUpload();
+        const fs = new FormData();
+
+        for (const key of Object.keys(imgFiles)) {
+            fs.append('images', imgFiles[key]);
+        }
+        for (const key of Object.keys(pdfFiles)) {
+            fs.append('pdf', imgFiles[key]);
+        }
+        for (const key of Object.keys(drawingFilesArray)) {
+            fs.append('drawingFiles', imgFiles[key]);
+        }
+        for (const key of Object.keys(itemDetails)) {
+            fs.append(key, itemDetails[key]);
+        }
+
+        // if (itemDetails.images.length) {
+        //     for (let i = 0; i < itemDetails.images.length; i++) {
+        //         fs.append('images', itemDetails.images[i]);
+        //     }
+        // }
+        // if (itemDetails.pdf.length) {
+        //     for (let i = 0; i < itemDetails.pdf.length; i++) {
+        //         fs.append('pdf', itemDetails.pdf[i]);
+        //     }
+        // }
+        // if (itemDetails.drawingFiles.length) {
+        //     for (let i = 0; i < itemDetails.drawingFiles.length; i++) {
+        //         fs.append('drawingFiles', itemDetails.drawingFiles[i]);
+        //     }
+        // }
+
         try {
-            (await axiosPriv).post('/internal/create-light', itemDetails);
+            (await axiosPriv).post('/internal/create-light', fs);
+
             setItemDetails({
                 employeeID: user._id,
                 item_ID: '',
@@ -162,9 +209,9 @@ const Inventory: FC = () => {
                 crystalType: [], //[]
                 designStyle: [], //[]
                 usePackages: [], //[]
-                images: [], //[]//s3
-                pdf: [], //[]//s3
-                drawingFiles: [], //[]//s3
+                // images: [], //[]//s3
+                // pdf: [], //[]//s3
+                // drawingFiles: [], //[]//s3
                 costAdmin: 0,
                 partnerCodeAdmin: '',
             });
@@ -172,7 +219,6 @@ const Inventory: FC = () => {
             alert(error.messsge);
             console.log('Error Message: ', error.message);
         }
-        return 'yo yo yo: ' + e.currentTarget.name;
     };
 
     return (
@@ -666,23 +712,21 @@ const Inventory: FC = () => {
                     id="images"
                     placeholder="Upload Images"
                     type="file"
-                    accept="image/png"
+                    accept="image/png, image/jpeg, image/jpg"
                     multiple
                     name="images"
-                    value={listValue.name == 'images' ? listValue.value : ''}
-                    onChange={(e) => handleArrayValue(e)}
+                    onChange={(e) => handleFileUpload(e)}
                 />
-                <button onClick={(e) => listValSubmit(e)}>Add Value</button>
+                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button> // Was this for like some sort of image preview?
                 <input
                     className="body-input"
                     id="imagesValues"
                     placeholder="Values go here"
                     type="text"
                     name="imagesValues"
-                    value={itemDetails.images}
                     readOnly
                     required
-                />
+                /> */}
                 <label htmlFor="pdf">PDF</label>
                 <input
                     className="list-input"
@@ -692,10 +736,9 @@ const Inventory: FC = () => {
                     accept="application/pdf"
                     multiple
                     name="pdf"
-                    value={listValue.name == 'pdf' ? listValue.value : ''}
-                    onChange={(e) => handleArrayValue(e)}
+                    onChange={(e) => handleFileUpload(e)}
                 />
-                <button onClick={(e) => listValSubmit(e)}>Add Value</button>
+                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button>
                 <input
                     className="body-input"
                     id="pdfValues"
@@ -705,22 +748,19 @@ const Inventory: FC = () => {
                     value={itemDetails.pdf}
                     readOnly
                     required
-                />
+                /> */}
                 <label htmlFor="drawingFiles">Drawing Files</label>
                 <input
                     className="list-input"
                     id="drawingFiles"
                     placeholder="Upload Drawing Files"
                     type="file"
-                    accept="application/pdf, image/png"
                     multiple
+                    accept="image/png, image/jpeg, image/jpg"
                     name="drawingFiles"
-                    value={
-                        listValue.name == 'drawingFiles' ? listValue.value : ''
-                    }
-                    onChange={(e) => handleArrayValue(e)}
+                    onChange={(e) => handleFileUpload(e)}
                 />
-                <button onClick={(e) => listValSubmit(e)}>Add Value</button>
+                {/* <button onClick={(e) => listValSubmit(e)}>Add Value</button>
                 <input
                     className="body-input"
                     id="drawingFilesValues"
@@ -730,7 +770,7 @@ const Inventory: FC = () => {
                     value={itemDetails.drawingFiles}
                     readOnly
                     required
-                />
+                /> */}
                 <label htmlFor="costAdmin">Cost</label>
                 <input
                     className="body-input"
