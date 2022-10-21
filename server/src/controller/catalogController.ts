@@ -6,6 +6,7 @@ import CatalogItem from "../model/CatalogItem";
 const createCatalogItem = async (req: Request, res: Response) => {
   const {
     item_ID,
+    itemName,
     employeeID,
     itemDescription,
     bodyDiameter,
@@ -38,12 +39,14 @@ const createCatalogItem = async (req: Request, res: Response) => {
     partnerCodeAdmin,
   } = req.body;
   let {images, pdf, drawingFiles}  = req.body //[]//s3
-  const documents = Object.values(req.files as any);
-
-  const results = await uploadFunc(documents);
   images = [];
   pdf = [];
   drawingFiles = [];
+  if(req.files){
+
+  const documents = Object.values(req.files as any);
+
+  const results = await uploadFunc(documents);
   if (results?.length) {
     for (let i = 0; i < results?.length; i++) {
       for (let j = 0; j < results[i].length; j++) {
@@ -58,11 +61,13 @@ const createCatalogItem = async (req: Request, res: Response) => {
         }
       }
     }
+    }
   }
 
   const catalogItem = new CatalogItem({
     _id: new mongoose.Types.ObjectId(),
     item_ID,
+    itemName,
     employeeID,
     itemDescription,
     bodyDiameter,
