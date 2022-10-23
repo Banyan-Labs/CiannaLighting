@@ -6,12 +6,16 @@ import {
     getUserProjects,
 } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
+// import {
+//     FaPlus,
+//     FaChevronRight,
+// } from 'react-icons/fa';
 import {
     FaPlus,
     FaChevronCircleLeft,
     FaChevronCircleRight,
-    FaChevronRight,
-} from 'react-icons/fa';
+    FaChevronRight
+} from 'react-icons/fa'
 import { VscFileSubmodule } from 'react-icons/vsc';
 import {
     AiOutlineCheckCircle,

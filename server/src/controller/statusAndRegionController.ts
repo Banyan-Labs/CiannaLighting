@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
+import { Request, Response } from "express";
 import statusAndRegion from "../model/statusAndRegion";
 
-const addInfo = (req: Request, res: Response, next: NextFunction) => {
-  let { label, value } = req.body;
+const addInfo = (req: Request, res: Response) => {
+  const { label, value } = req.body;
 
   const data = new statusAndRegion({
     label,
@@ -26,8 +25,8 @@ const addInfo = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const getData = async (req: Request, res: Response, next: NextFunction) => {
-  let { label } = req.body;
+const getData = async (req: Request, res: Response) => {
+  const { label } = req.body;
   await statusAndRegion
     .find({ label })
     .exec()
@@ -44,8 +43,8 @@ const getData = async (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-const deleteData = async (req: Request, res: Response, next: NextFunction) => {
-  let { label, value } = req.body;
+const deleteData = async (req: Request, res: Response) => {
+  const { label, value } = req.body;
 
   await statusAndRegion
     .findOneAndDelete({ label, value })

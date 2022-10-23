@@ -13,6 +13,9 @@ import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
 import Details from './components/Rooms/Details';
+// import RoomDetails from './components/Rooms/RoomDetails';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import Inventory from './components/Inventory/Inventory';
 
 export interface AppProps {
     user: any;
@@ -23,10 +26,24 @@ const App: FC = () => {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Layout />}>
+                    <Route  path="/" element={<Layout />}>
                         <Route path="/" element={<Navigate to="/login" />} />
                         <Route path="/login" element={<Login />} />
                         <Route element={<PersistLogin />}>
+                            {/* Admin Routes! */}
+                            <Route
+                                element={<RequireAuth roles={[ROLES.Cmd]} />} // this is how to restrict access on the frontend. The role you pass in is the allowed role
+                            >
+                            <Route
+                                        path="/cmd/inventory"
+                                        element={<Inventory />}
+                                    />
+                                <Route
+                                    path="/cmd/dash/*"
+                                    element={<AdminDashboard />}
+                                />
+                               
+                            </Route>
                             <Route
                                 element={
                                     <RequireAuth roles={Object.values(ROLES)} />
@@ -39,7 +56,7 @@ const App: FC = () => {
                                 <Route
                                     path="/projects/all/:user"
                                     element={<AllUserProjects />}
-                                />
+                                /> 
 
                                 <Route
                                     path={'/dashboard'}

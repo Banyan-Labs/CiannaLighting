@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
 import User from "../model/User";
 import bcrypt from "bcrypt";
 
 const createNewUser = async (
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
-  let { name, email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
 
   if (!name || !email || !password || !role)
     return res
@@ -56,7 +55,7 @@ const createNewUser = async (
     });
 };
 
-const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+const getAllUsers = (req: Request, res: Response) => {
   console.log("hit");
   User.find()
     .exec()

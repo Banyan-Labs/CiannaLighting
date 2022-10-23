@@ -58,9 +58,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
         interiorFinish: catalogItem.interiorFinish[0],
         environment: catalogItem.environment[0],
         safetyCert: catalogItem.safetyCert[0],
-        projectVoltage: catalogItem.projectVoltage[0]
-            ? catalogItem.projectVoltage[0]
-            : 'nothing is here',
+        projectVoltage: catalogItem.projectVoltage[0],
         socketType: catalogItem.socketType[0],
         lensMaterial: catalogItem.lensMaterial[0],
         glassOptions: catalogItem.glassOptions[0],

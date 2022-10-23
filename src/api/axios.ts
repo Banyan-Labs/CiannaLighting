@@ -10,6 +10,12 @@ const axiosAuth = axios.create({
     withCredentials: true,
 });
 
+const axiosFile = axios.create({
+    baseURL: 'http://localhost:1337/api',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials: true,
+});
+
 export const axiosPrivate = async () => {
     const token = localStorage.getItem('token');
     axiosAuth.interceptors.request.use(
@@ -35,4 +41,32 @@ export const axiosPrivate = async () => {
     );
 
     return axiosAuth;
+};
+
+export const axiosFileUpload = async () => {
+    const token = localStorage.getItem('token');
+    axiosFile.interceptors.request.use(
+        (config: any) => {
+            config.headers['authorization'] = `Bearer ${token}`;
+
+            return config;
+        },
+        (error) => Promise.reject(error)
+    );
+    axiosFile.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+            const prevRequest = error?.config;
+            if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
+                prevRequest.sent = true;
+                const newToken = await axiosFile.get('rf/refresh');
+                prevRequest.headers['authorization'] = `Bearer ${newToken}`;
+                return axiosFile(prevRequest);
+            }
+            console.log(error);
+            return error;
+        }
+    );
+
+    return axiosFile;
 };

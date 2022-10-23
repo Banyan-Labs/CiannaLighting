@@ -126,6 +126,7 @@ const AllProjects: FC = () => {
                                 <Pagination
                                     totalProjects={allProjects.length}
                                     projectsPerPage={projectsPerPage}
+                                    currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
                                 {currentPage !== lastPage && (

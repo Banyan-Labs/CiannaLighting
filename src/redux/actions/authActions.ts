@@ -10,11 +10,16 @@ type SignInType = {
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
+        try{
         const response = await axios.post('public/login/user', payload, {
             withCredentials: true,
         });
 
-        dispatch(setUser(response.data));
+         dispatch(setUser(response.data));
+    }catch(error: any){
+        console.log("Error message: ", error.message)
+    }
+
     };
 
 export const refreshToken =

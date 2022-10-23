@@ -8,7 +8,7 @@ const lightSelected = async (
   res: Response,
   next: NextFunction
 ) => {
-  let {
+  const {
     item_ID,
     exteriorFinish,
     interiorFinish,
@@ -52,13 +52,13 @@ const lightSelected = async (
     clientId,
     quantity,
   });
-  let lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
+  const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
     .then((room) => {
       if (room) {
         room.lights = [...room.lights, light._id];
         room.save();
-        let roomSuccess = `added light to room: ${roomId}`;
+        const roomSuccess = `added light to room: ${roomId}`;
         return light
           .save()
           .then((light) => {
@@ -87,7 +87,7 @@ const lightSelected = async (
 };
 
 const getAllSelectedLights = (req: Request, res: Response) => {
-  let { roomId } = req.body;
+  const { roomId } = req.body;
   if (roomId && roomId.length) {
     LightSelection.find({ roomId })
       .then((lights) => {
@@ -111,9 +111,9 @@ const getAllSelectedLights = (req: Request, res: Response) => {
   }
 };
 const getSelectedLight = async (req: Request, res: Response) => {
-  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
-  let parameters = Object.fromEntries(
-    keys.map((key: String) => [key, req.body[key.toString()]])
+  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const parameters = Object.fromEntries(
+    keys.map((key: string) => [key, req.body[key.toString()]])
   );
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
@@ -143,7 +143,7 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
         });
         room.save();
 
-        let lightRemoved = "light removed successfully from room";
+        const lightRemoved = "light removed successfully from room";
         return await LightSelection.findByIdAndDelete({ _id: req.body._id })
           .then((lightSelection) => {
             return !lightSelection

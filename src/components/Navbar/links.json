@@ -6,11 +6,20 @@
         },
         {
             "label": "Projects",
-            "href": "/projects/all"
+            "href": "/projects/+"
         },
         {
             "label": "Catalog",
             "href": "/catalog"
+        },
+        {
+            "label": "Admin",
+            "href": "/cmd/dash"
+        },
+        {
+            "label": "Inventory",
+            "href": "/cmd/inventory"
         }
+        
     ]
 }
