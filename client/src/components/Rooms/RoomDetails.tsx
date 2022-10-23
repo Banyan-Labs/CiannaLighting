@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import './style/roomDetails.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
@@ -11,6 +11,8 @@ const RoomDetails: FC = () => {
     const { room, project, roomLights } = useAppSelector(
         ({ project }) => project
     );
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
 
     const Color =
@@ -21,7 +23,7 @@ const RoomDetails: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
 
-    const singleRoom = roomLights.map((light: any, index: any) => {
+    const singleRoom = newLights?.map((light: any, index: any) => {
         return (
             <div className="single-room-container d-flex row" key={index}>
                 <div className="first-light-section col-12 d-flex">
@@ -40,7 +42,9 @@ const RoomDetails: FC = () => {
                         Qty. <span>{light.quantity}</span>
                     </p>
                 </div>
-                <div className="second-light-section col-12 d-flex">
+                <div
+                    className={`second-light-section col-12 d-flex collapse-content `}
+                >
                     <div className="col-6 d-flex row second-left-section">
                         <div className="d-flex">
                             <h5 className="m-0 col-6">Exterior Finish:</h5>
@@ -62,37 +66,37 @@ const RoomDetails: FC = () => {
                         </div>
                         <div className="d-flex">
                             <h5 className="m-0 col-6">Safety Cert:</h5>
-                            <p className="m-0">{light.safetyCert}</p>
+                            <p className="m-0 col-6">{light.safetyCert}</p>
                         </div>
                         <div className="d-flex ">
                             <h5 className="m-0 col-6">Project Voltage:</h5>
-                            <p className="m-0">{light.projectVoltage}</p>
+                            <p className="m-0 col-6">{light.projectVoltage}</p>
                         </div>
                         <div className="d-flex">
                             <h5 className="m-0 col-6">Socket Type:</h5>
-                            <p className="m-0">{light.socketType}</p>
+                            <p className="m-0 col-6">{light.socketType}</p>
                         </div>
                         <div className="d-flex ">
                             <h5 className="m-0 col-6">Mounting:</h5>
-                            <p className="m-0">{light.mounting}</p>
+                            <p className="m-0 col-6">{light.mounting}</p>
                         </div>
                     </div>
-                    <div className="col-6 d-flex row second-right-section">
-                        <div className="d-flex">
+                    <div className="col-7 d-flex row second-right-section ">
+                        <div className="d-flex justify-content-end right-section-inner">
                             <h5 className="m-0 col-6">Lens Material:</h5>
-                            <p className="m-0">{light.lensMaterial}</p>
+                            <p className="m-0 col-6">{light.lensMaterial}</p>
                         </div>
-                        <div className="d-flex">
+                        <div className="d-flex justify-content-end right-section-inner">
                             <h5 className="m-0 col-6">Options:</h5>
-                            <p className="m-0">{light.glassOptions}</p>
+                            <p className="m-0 col-6">{light.glassOptions}</p>
                         </div>
-                        <div className="d-flex">
+                        <div className="d-flex justify-content-end right-section-inner">
                             <h5 className="m-0 col-6">Crystal Type:</h5>
-                            <p className="m-0">{light.crystalType}</p>
+                            <p className="m-0 col-6">{light.crystalType}</p>
                         </div>
-                        <div className="d-flex">
+                        <div className="d-flex justify-content-end right-section-inner">
                             <h5 className="m-0 col-6">Options:</h5>
-                            <p className="m-0">
+                            <p className="m-0 col-6">
                                 {light.crystalPinType} <br />
                                 <span>{light.crystalPinColor}</span>
                             </p>
@@ -104,10 +108,15 @@ const RoomDetails: FC = () => {
     });
 
     return (
-        <div className="roomDetail-container m-0 container d-flex row col-12 col-lg-5">
+        <div
+            className="roomDetail-container m-0 container
+         d-flex row col-12 col-lg-5"
+        >
             <div className="col-12 d-flex row m-0">
                 <div className="back-to-project col-6">
-                    <Link to={`/projects/ + ?_id= ${user._id},${projectId}`}>
+                    <Link
+                        to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}
+                    >
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Project
                     </Link>
@@ -141,16 +150,36 @@ const RoomDetails: FC = () => {
                     <h4>Description:</h4>
                     <p className="">{room?.description}</p>
                 </div>
-                <h4 className="light-number">
-                    Lights: <span>{room?.lights?.length}</span>
-                </h4>
+                <div className="d-flex justify-content-between">
+                    <h4 className="light-number">
+                        Lights: <span>({roomLights?.length})</span>
+                    </h4>
+
+                    <h4
+                        className="collapse-button"
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                    >
+                        View Room Lights <span>{isCollapsed ? '-' : '+'} </span>
+                    </h4>
+                </div>
                 <div className="room-description-light-divider"></div>
-                <div className="container-for-light-cards ">
-                    {room?.lights?.length != 0 ? (
+
+                <div
+                    className={
+                        !isCollapsed
+                            ? 'container-for-light-cards-off '
+                            : 'container-for-light-cards'
+                    }
+                >
+                    {room?.lights?.length != 0 && isCollapsed === true ? (
                         singleRoom
                     ) : (
                         <div className="container-no-lights d-flex justify-content-center align-items-center col-12">
-                            <p className="">No lights for this room.</p>
+                            <p className="">
+                                {isCollapsed === false && roomLights.length > 0
+                                    ? 'Show Room Lights.'
+                                    : 'No lights for this room.'}
+                            </p>
                         </div>
                     )}
                 </div>

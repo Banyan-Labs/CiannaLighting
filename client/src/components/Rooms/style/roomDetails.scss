@@ -1,9 +1,9 @@
 @import '../../../variables/variables.scss';
+@import './lightDetails';
+@import './CatalogItem';
 .room-details-container {
     background-color: white;
-    width: 37.5%;
-    height: 500px;
-    //   border: 1px solid red;
+    padding: 0;
 }
 .room-details-top {
     display: inline-flex;
@@ -17,11 +17,6 @@
 }
 .room-details-project-name {
     font-size: 12px;
-    // align-self: flex-end;
-    // align-items: flex-end;
-    // align-content: flex-end;
-    // float: right;
-    // right: 0;
     padding-left: 300px;
 }
 .room-details-room-name-bar {
@@ -94,7 +89,8 @@
         font-weight: 400;
     }
     p {
-        margin-left: 120px;
+        padding-left: 120px;
+        padding-right: 30px;
         color: $primary-bg-white-sub-text;
     }
 }
@@ -131,8 +127,24 @@
     padding-left: 20px;
 }
 
+.collapse-button {
+    cursor: pointer;
+    font-weight: 500;
+    padding-right: 20px;
+    span {
+        font-size: 20px;
+        padding-left: 10px;
+    }
+}
+.container-for-light-cards-off {
+    min-height: 510px;
+    max-height: 510px;
+    overflow-y: scroll;
+}
+
 .container-for-light-cards {
-    max-height: 596px;
+    min-height: 510px;
+    max-height: 510px;
     overflow-y: scroll;
 
     .single-room-container {
@@ -202,19 +214,32 @@
 }
 
 .second-right-section {
-    background-color: lemonchiffon;
+    .right-section-inner {
+        padding-left: 50px;
+
+        p {
+            padding-left: 10px;
+        }
+    }
 }
 
 // ******** for the containers for each component
 .details-container {
-    padding-left: 0%;
-    padding-top: 100px;
+    padding-top: 100px !important;
 }
 
-.filter-container {
-    background-color: pink;
-}
+// ******** Media for Tablet ************************
 
-.lightDetail-container {
-    background-color: aqua;
+@include media-lg {
+    .container-for-light-cards {
+        min-height: 0px;
+        max-height: 280px;
+    }
+    .container-for-light-cards-off {
+        display: none;
+    }
+
+    .roomDetail-container {
+        border-right: none;
+    }
 }

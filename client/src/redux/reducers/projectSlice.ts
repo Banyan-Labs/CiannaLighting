@@ -10,6 +10,7 @@ export interface ProjectStateType {
     projectId: string;
     roomId: string;
     roomLights: [];
+    setAllCatalog: any;
 }
 
 export type ProjectType = {
@@ -21,6 +22,28 @@ export type ProjectType = {
     description: string;
     rfp?: string;
     rooms?: string[];
+};
+
+export type LightType = {
+    exteriorFinish: string;
+    interiorFinish: string;
+    environment: string;
+    safetyCert: string;
+    projectVoltage: string;
+    socketType: string;
+    lensMaterial: string;
+    glassOptions: string;
+    acrylicOptions: string;
+    crystalType: string;
+    crystalPinType: string;
+    crystalPinColor: string;
+    mounting: string;
+    item_ID: string;
+    roomName: string;
+    roomId: string;
+    projectId: string;
+    clientId: string;
+    quantity: number;
 };
 
 export type RoomType = {
@@ -42,6 +65,7 @@ const initialState: ProjectStateType = {
     error: null,
     projectId: '',
     roomLights: [],
+    setAllCatalog: [],
 };
 
 export const projectSlice = createSlice({
@@ -58,6 +82,10 @@ export const projectSlice = createSlice({
         setProjectRooms: (state, action) => ({
             ...state,
             projectRooms: action.payload,
+        }),
+        setCatalogLights: (state, action) => ({
+            ...state,
+            setAllCatalog: action.payload,
         }),
         setProjectError: (state, action) => ({
             ...state,
@@ -90,5 +118,6 @@ export const {
     setProjectRooms,
     setRoomId,
     setRoomLights,
+    setCatalogLights,
 } = projectSlice.actions;
 export default projectSlice.reducer;
