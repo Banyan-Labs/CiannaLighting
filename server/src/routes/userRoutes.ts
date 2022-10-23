@@ -22,12 +22,12 @@ router
   .post("/account-projects", projectController.getAccountProjects)
   .post("/find-project", projectController.getProject)
   .post("/create-project", projectController.createProject)
-  .delete("/delete-project", projectController.deleteProject)
+  .post("/delete-project", projectController.deleteProject)
   // Room Routes
   .post("/get-rooms", roomController.getAllRooms)
   .post("/find-room", roomController.getRoom)
   .post("/create-room", roomController.createRoom)
-  .delete("/delete-room", roomController.deleteRoom)
+  .post("/delete-room", roomController.deleteRoom)
   // Light Selection Routes
   .post("/get-lightSelections", lightSelectionController.getAllSelectedLights)
   .post("/find-lightSelection", lightSelectionController.getSelectedLight)
