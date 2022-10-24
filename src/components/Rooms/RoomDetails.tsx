@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState} from 'react';
 import './style/roomDetails.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
