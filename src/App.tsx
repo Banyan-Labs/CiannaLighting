@@ -15,6 +15,7 @@ import Unauthorized from './components/RequireAuth/Unauthorized';
 import RoomDetails from './components/Rooms/RoomDetails';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Inventory from './components/Inventory/Inventory';
+import Details from './components/Rooms/Details';
 
 export interface AppProps {
     user: any;
@@ -69,7 +70,7 @@ const App: FC = () => {
                                 />
                                 <Route
                                 path="/createLight/:user"
-                                element={<RoomDetails/>}
+                                element={<Details/>}
                                 />
                                 <Route
                                     path="/unauthorized"

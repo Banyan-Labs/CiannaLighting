@@ -41,6 +41,8 @@ export const createLight =
             const response = await axiosPriv.post('/create-lightSelection', {
                 light: light,
             });
+            // console.log(response)
+            console.log(response, "response from light")
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
