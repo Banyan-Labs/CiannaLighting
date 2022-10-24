@@ -92,7 +92,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                             ))}
                     </div>
                     {searchValue.length > 6 ? (
-                        <div className="pagination">
+                        <div className="pagination_">
                             <p className="text">
                                 {page}/{totalPages}
                             </p>

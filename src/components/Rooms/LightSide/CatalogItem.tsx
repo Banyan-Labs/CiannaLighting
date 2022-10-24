@@ -84,6 +84,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
         });
     };
 
+    console.log(storedRoomId, "storedRoomId")
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
