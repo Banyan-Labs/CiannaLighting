@@ -12,7 +12,7 @@ import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage'
 import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
-// import RoomDetails from './components/Rooms/RoomDetails';
+import RoomDetails from './components/Rooms/RoomDetails';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Inventory from './components/Inventory/Inventory';
 
@@ -66,6 +66,10 @@ const App: FC = () => {
                                 <Route
                                     path="/create-project/:user"
                                     element={<CreateProjectPage />}
+                                />
+                                <Route
+                                path="/createLight/:user"
+                                element={<RoomDetails/>}
                                 />
                                 <Route
                                     path="/unauthorized"

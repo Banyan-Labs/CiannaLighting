@@ -28,7 +28,7 @@ const lightSelected = async (
     projectId,
     clientId,
     quantity,
-  } = req.body;
+  } = req.body.light;
 
   const light = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
