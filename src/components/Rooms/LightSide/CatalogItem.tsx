@@ -1,6 +1,5 @@
 import React, { FC, useState, FormEvent } from 'react';
 import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
-import Default1 from '../../../assets/reception.jpeg';
 import Default2 from '../../../assets/celestial-room.jpeg';
 import useParams from '../../../app/utils';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
@@ -58,9 +57,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
         interiorFinish: catalogItem.interiorFinish[0],
         environment: catalogItem.environment[0],
         safetyCert: catalogItem.safetyCert[0],
-        projectVoltage: catalogItem.projectVoltage[0]
-            ? catalogItem.projectVoltage[0]
-            : 'nothing is here',
+        projectVoltage: catalogItem.environment[0],
         socketType: catalogItem.socketType[0],
         lensMaterial: catalogItem.lensMaterial[0],
         glassOptions: catalogItem.glassOptions[0],
@@ -84,7 +81,6 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
         });
     };
 
-    console.log(storedRoomId, "storedRoomId")
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
@@ -110,7 +106,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
                 clientId: String(userId),
                 quantity: count,
             });
-            await dispatch(getProject(String(storedProjId)));
+            await dispatch(getProject({_id: String(storedProjId)}));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
             await dispatch(getRoomLights(String(storedRoomId)));

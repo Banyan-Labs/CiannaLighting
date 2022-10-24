@@ -7,23 +7,18 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import useParams from '../../app/utils';
 import { getProject } from '../../redux/actions/projectActions';
-// import RoomDetails from "../Rooms/RoomDetails";
 
 const Projects: FC = () => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { userProjects } = useAppSelector(({ project }) => project);
-    const { projectId } = useAppSelector(({ project }) => project);
-    const { project } = useAppSelector(({ project }) => project);
-    const passingProj = useParams('_id');
+    const { userProjects, projectId, project  } = useAppSelector(({ project }) => project);
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
-
     const fetchData1 = async () => {
         storedProjId
-            ? await dispatch(getProject(String(storedProjId)))
-            : await dispatch(getProject(String(defaultProjId)));
+            ? await dispatch(getProject({ _id: String(storedProjId)}))
+            : await dispatch(getProject({ _id: String(defaultProjId)}))
     };
 
     useEffect(() => {
