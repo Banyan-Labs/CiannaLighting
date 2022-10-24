@@ -86,13 +86,13 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
 }
 
 @mixin media-lg {
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: 992px) {
         @content;
     }
 }
 
 @mixin media-xl {
-    @media screen and (max-width: 1600px) {
+    @media screen and (max-width: 1283px) {
         @content;
     }
 }
