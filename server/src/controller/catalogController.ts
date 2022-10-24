@@ -4,8 +4,9 @@ import { uploadFunc } from "../middleware/s3";
 import CatalogItem from "../model/CatalogItem";
 
 const createCatalogItem = async (req: Request, res: Response) => {
-  let {
+  const {
     item_ID,
+    itemName,
     employeeID,
     itemDescription,
     bodyDiameter,
@@ -34,22 +35,22 @@ const createCatalogItem = async (req: Request, res: Response) => {
     crystalType, //[]
     designStyle, //[]
     usePackages, //[]
-    images, //[]//s3
-    pdf, //[]//s3
-    drawingFiles, //[]//s3
     costAdmin,
     partnerCodeAdmin,
   } = req.body;
-  const documents = Object.values(req.files as any);
-
-  const results = await uploadFunc(documents);
+  let {images, pdf, drawingFiles}  = req.body //[]//s3
   images = [];
   pdf = [];
   drawingFiles = [];
+  if(req.files){
+
+  const documents = Object.values(req.files as any);
+
+  const results = await uploadFunc(documents);
   if (results?.length) {
     for (let i = 0; i < results?.length; i++) {
       for (let j = 0; j < results[i].length; j++) {
-        let singleDoc = await results[i][j];
+        const singleDoc = await results[i][j];
 
         if (singleDoc.field === "images") {
           images.push(singleDoc.s3Upload.Location);
@@ -60,11 +61,13 @@ const createCatalogItem = async (req: Request, res: Response) => {
         }
       }
     }
+    }
   }
 
   const catalogItem = new CatalogItem({
     _id: new mongoose.Types.ObjectId(),
     item_ID,
+    itemName,
     employeeID,
     itemDescription,
     bodyDiameter,
@@ -116,23 +119,23 @@ const createCatalogItem = async (req: Request, res: Response) => {
 };
 
 const getCatalogItems = (req: Request, res: Response) => {
-  let check = Object.keys(req.body).filter(
+  const check = Object.keys(req.body).filter(
     (x) => x === "designStyle" || x == "usePackages"
   );
-  let workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
+  const workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
 
   CatalogItem.find()
     .then((items) => {
       if (check.length) {
-        let designCheck = check.indexOf("designStyle") > -1;
-        let useCheck = check.indexOf("usePackages") > -1;
+        const designCheck = check.indexOf("designStyle") > -1;
+        const useCheck = check.indexOf("usePackages") > -1;
         items = items.filter((x) => {
-          let dz = designCheck
+          const dz = designCheck
             ? workArray["designStyle"].every(
                 (v: string) => x.designStyle.indexOf(v) > -1
               )
             : false;
-          let uses = useCheck
+          const uses = useCheck
             ? workArray["usePackages"].every(
                 (v: string) => x.usePackages.indexOf(v) > -1
               )
@@ -164,9 +167,9 @@ const getCatalogItems = (req: Request, res: Response) => {
 };
 
 const getLight = async (req: Request, res: Response) => {
-  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
-  let parameters = Object.fromEntries(
-    keys.map((key: String) => [key, req.body[key.toString()]])
+  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const parameters = Object.fromEntries(
+    keys.map((key: string) => [key, req.body[key.toString()]])
   );
   return await CatalogItem.findOne({ _id: req.body._id })
     .exec()

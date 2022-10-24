@@ -4,6 +4,7 @@ import catalogInterface from "../interfaces/catalogInterface";
 const catalogItemScema = new Schema({
   _id: { type: mongoose.Types.ObjectId },
   item_ID: { type: String, required: true },
+  itemName: { type: String, required: true },
   employeeID: { type: String, required: true },
   itemDescription: { type: String, required: true },
   bodyDiameter: { type: String, required: true },

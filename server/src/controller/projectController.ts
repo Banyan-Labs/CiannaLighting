@@ -5,7 +5,7 @@ import Project from "../model/Project";
 import Room from "../model/Room";
 
 const createProject = async (req: Request, res: Response) => {
-  let {
+  const {
     _id,
     name,
     description,
@@ -14,8 +14,7 @@ const createProject = async (req: Request, res: Response) => {
     region,
     status,
     rooms,
-    copy,
-  } = req.body;
+    copy } = req.body;
   /**
    * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
    */
@@ -84,9 +83,9 @@ const createProject = async (req: Request, res: Response) => {
 };
 
 const getProject = async (req: Request, res: Response) => {
-  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
-  let parameters = Object.fromEntries(
-    keys.map((key: String) => [key, req.body[key.toString()]])
+  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const parameters = Object.fromEntries(
+    keys.map((key: string) => [key, req.body[key.toString()]])
   );
 
   return await Project.findOne({ _id: req.body._id })
@@ -127,7 +126,7 @@ const getProject = async (req: Request, res: Response) => {
     });
 };
 const runRoom = async (room: any, newProjectId: string, clientId: string) => {
-  let { name, description, lights } = room;
+  const { name, description, lights } = room;
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
@@ -137,7 +136,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
     description: description,
     lights: [],
   });
-  let roomAndProject = await Project.findOne({ _id: newProjectId });
+  const roomAndProject = await Project.findOne({ _id: newProjectId });
 
   if (roomAndProject) {
     roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
@@ -186,7 +185,7 @@ const runLights = async (
     quantity: light.quantity,
   });
 
-  let lightAndRoom = await Room.findOne({ _id: newRoomId });
+  const lightAndRoom = await Room.findOne({ _id: newRoomId });
 
   if (lightAndRoom) {
     lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
@@ -220,10 +219,10 @@ const getAccountProjects = async (req: Request, res: Response) => {
 };
 
 const getAllProjects = async (req: Request, res: Response) => {
-  let check = Object.keys(req.body).filter(
+  const check = Object.keys(req.body).filter(
     (x) => x != "authEmail" && x != "authRole"
   );
-  let security = check.filter(
+  const security = check.filter(
     (x) => x === "status" || x === "region" || x === "clientId"
   );
 

@@ -5,7 +5,7 @@ import Room from "../model/Room";
 import LightSelection from "../model/LIghtSelection";
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
-  let { name, description, clientId, projectId } = req.body;
+  const { name, description, clientId, projectId } = req.body;
   const room = new Room({
     _id: new mongoose.Types.ObjectId(),
     name,
@@ -14,14 +14,14 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
     description,
     lights: [],
   });
-  let roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+ const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
     .then((project) => {
       if (project) {
         project.rooms = [...project.rooms, room._id];
         project.save();
         console.log(project, "PROJECT FOUND AND UPDATED");
-        let projectSuccess = `added room to project: ${projectId}`;
+        const projectSuccess = `added room to project: ${projectId}`;
         return room
           .save()
           .then((room) => {
@@ -50,7 +50,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getAllRooms = (req: Request, res: Response) => {
-  let { projectId } = req.body;
+  const { projectId } = req.body;
   console.log(projectId);
   if (projectId && projectId.length) {
     Room.find({ projectId })
@@ -76,9 +76,9 @@ const getAllRooms = (req: Request, res: Response) => {
 };
 
 const getRoom = async (req: Request, res: Response) => {
-  let keys = Object.keys(req.body).filter((key: string) => key != "_id");
-  let parameters = Object.fromEntries(
-    keys.map((key: String) => [key, req.body[key.toString()]])
+  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const parameters = Object.fromEntries(
+    keys.map((key: string) => [key, req.body[key.toString()]])
   );
   return await Room.findOne({ _id: req.body._id })
     .exec()
@@ -108,7 +108,7 @@ const deleteRoom = async (req: Request, res: Response) => {
         });
         project.save();
       }
-      let roomRemoved = "room removed successfully from project";
+      const roomRemoved = "room removed successfully from project";
       await LightSelection.deleteMany({ roomId: req.body._id })
         .exec()
         .then((res) => {
