@@ -22,11 +22,13 @@ const AllProjects: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
+    console.log(allProjects[0], 'weird')
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
+    // const [sortedData, setSortedData] = 
 
     const projectsPerPage = 5;
 
@@ -43,6 +45,7 @@ const AllProjects: FC<Props> = ({
         setProjectIndex(null);
     };
 
+
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
     const activeProjects = allProjects.filter((project) => !project.archived);
@@ -55,7 +58,7 @@ const AllProjects: FC<Props> = ({
             : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
-    // console.log(filteredProjects, 'filteredProj');
+    
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
@@ -111,14 +114,16 @@ const AllProjects: FC<Props> = ({
                     <table className="dashboard-all-projects-table">
                         <thead className="table-headers">
                             <tr className="rows">
-                                <td className="projects-table-name">Name</td>
+                                <td className="projects-table-name"> 
+                                {/* include the onclick on all three of these */}
+                                    Name
+                                    </td>
                                 <td className="projects-table-designer">
                                     Designer
                                 </td>
                                 <td className="projects-table-region">
                                     Region
                                 </td>
-                                {/* <td className="projects-table-contact">Contact</td> */}
                                 <td className="projects-table-status">
                                     Status
                                 </td>
@@ -184,8 +189,7 @@ const AllProjects: FC<Props> = ({
                                 />
                                 {currentPage !== lastPage - 1 && (
                                     <li
-                                        onClick={() => {
-                                            // console.log(currentPage, lastPage);
+                                        onClick={() => {                                            
                                             setCurrentPage(currentPage + 1);
                                         }}
                                         className="page-link"

@@ -28,7 +28,9 @@ export default interface catalogInterface extends Document {
   projecVoltage: string[];
   socketType: string[];
   mounting: string[];
-  crystalType: string[];
+  crystalType: string[];// add to model add some stuff
+  crystalPinType: string[];
+  crystalPinColor: string[];
   designStyle: string[];
   usePackages: string[];
   images: string[]; //s3
