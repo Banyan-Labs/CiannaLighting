@@ -22,7 +22,7 @@ const Details: FC = () => {
     const [catalogItem, setCatalogItem] = useState(null);
 
     const fetchData = async () => {
-        dispatch(getProject(String(storedProjId)));
+        dispatch(getProject({_id: String(storedProjId)}));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         dispatch(setTheRoom(String(storedRoomId)));
         dispatch(getRoomLights(String(storedRoomId)));

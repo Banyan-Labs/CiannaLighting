@@ -19,7 +19,6 @@ type Link = {
 const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
-    const passingProj = useParams('_id');
     const [storedProjId] = useParams('projectId');
     const activeLocation = pathname.split('/')[1];
     const { user } = useAppSelector(({ auth: user }) => user);
