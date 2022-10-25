@@ -31,6 +31,8 @@ const catalogItemScema = new Schema({
   socketType: { type: Array<string>, required: true },
   mounting: { type: Array<string>, required: true },
   crystalType: { type: Array<string>, required: true },
+  crystalPinType: { type: Array<string>, required: true },
+  crystalPinColor: { type: Array<string>, required: true },
   designStyle: { type: Array<string>, required: true },
   usePackages: { type: Array<string>, required: true },
   images: { type: Array<string>, required: true }, //s3
