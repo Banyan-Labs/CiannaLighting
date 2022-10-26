@@ -20,6 +20,7 @@ const Details: FC = () => {
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const [catalogItem, setCatalogItem] = useState(null);
+    const [editLight, setEditLight] = useState(null);
 
     const fetchData = async () => {
         dispatch(getProject({_id: String(storedProjId)}));
@@ -35,7 +36,7 @@ const Details: FC = () => {
 
     return (
         <div className="container-fluid details-container m-0 p-0 d-flex row">
-            <RoomDetails />
+            <RoomDetails setEditLight={setEditLight} />
             <LightDetails
                 catalogItem={catalogItem}
                 setCatalogItem={setCatalogItem}

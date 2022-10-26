@@ -6,12 +6,22 @@ import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import Default from '../../assets/stairway.jpeg';
+import {DeleteModal} from './LightSide/DeleteModal';
+import { useAppDispatch } from '../../app/hooks';
+import { getEditLight } from '../../redux/actions/lightActions';
 
-const RoomDetails: FC = () => {
+interface lightProps {
+    setEditLight: any;
+}
+
+const RoomDetails: FC<lightProps> = ({ setEditLight }) =>{
+    const [openModal, setOpenModal] = useState(false);
     const { room, project, roomLights } = useAppSelector(
         ({ project }) => project
     );
+    const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const [deleteLight, setDeleteLight] = useState('');
     const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
 
@@ -22,6 +32,18 @@ const RoomDetails: FC = () => {
 
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
+
+
+    const deleteLightFunc = (light: any ) => {
+      setDeleteLight(light)
+      setOpenModal(true);
+    }
+
+    const editLightFunc = async(light: any ) => {
+        console.log('hello')
+       await dispatch(getEditLight({_id: String(light._id)}))
+       setEditLight(light)
+      }
 
     const singleRoom = newLights?.map((light: any, index: any) => {
         return (
@@ -34,8 +56,8 @@ const RoomDetails: FC = () => {
                             <p className="m-0">LLC</p>
                         </div>
                         <div className="d-flex align-items-end">
-                            <p className="m-0 edit-link"> Edit</p>
-                            <p className="m-0 remove-link">Remove</p>
+                            <button className="m-0 edit-link" onClick={() => editLightFunc(light)}> Edit</button>
+                            <button  onClick={() => deleteLightFunc(light)} className="m-0 remove-link">Remove</button>
                         </div>
                     </div>
                     <p className="qty">
@@ -103,6 +125,7 @@ const RoomDetails: FC = () => {
                         </div>
                     </div>
                 </div>
+                
             </div>
         );
     });
@@ -181,9 +204,18 @@ const RoomDetails: FC = () => {
                                     : 'No lights for this room.'}
                             </p>
                         </div>
+                        
                     )}
                 </div>
             </div>
+            {openModal && (
+                <DeleteModal
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    light={deleteLight}
+                    setDeleteLight={setDeleteLight}
+                />
+            )}
         </div>
     );
 };

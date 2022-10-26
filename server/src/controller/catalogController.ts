@@ -33,6 +33,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
     socketType, //[]
     mounting, //[]
     crystalType, //[]
+    crystalPinType, //[]
+    crystalPinColor, //[]
     designStyle, //[]
     usePackages, //[]
     costAdmin,
@@ -94,6 +96,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
     socketType, //[]
     mounting, //[]
     crystalType, //[]
+    crystalPinType, //[]
+    crystalPinColor, //[]
     designStyle, //[]
     usePackages, //[]
     images, //[]//s3
@@ -179,6 +183,7 @@ const getLight = async (req: Request, res: Response) => {
       if (light && keys.length) {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
+          light.save();
         });
       }
       console.log(`Catalog Item: ${light?.item_ID} retrieved`);
