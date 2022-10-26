@@ -168,10 +168,12 @@ const getCatalogItems = (req: Request, res: Response) => {
 
 const getLight = async (req: Request, res: Response) => {
   const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const search = req.body.item_ID && req.body.item_ID.length ? {item_ID: req.body.item_ID} : { _id: req.body._id}
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
-  return await CatalogItem.findOne({ _id: req.body._id })
+  
+  return await CatalogItem.findOne(search)
     .exec()
     .then((light: any) => {
       if (light && keys.length) {

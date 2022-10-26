@@ -115,6 +115,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
+  console.log(parameters, "params object")
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
     .then((light: any) => {
@@ -122,6 +123,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
         });
+        light.save();
       }
       console.log(`light_selected:${light?.item_ID}`);
       return res.status(200).json({
