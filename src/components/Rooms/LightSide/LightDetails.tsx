@@ -7,9 +7,12 @@ import CatalogItem from './CatalogItem';
 interface catalogPros {
     setCatalogItem: any;
     catalogItem: any;
+    setEditLight: any;
+    editLight: any;
+    
 }
 
-const LightDetails: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
+const LightDetails: FC<catalogPros> = ({ setCatalogItem, catalogItem, setEditLight, editLight }) => {
     const [searchTerm, setSearchTerm] = useState('');
     // const [catalogItem, setCatalogItem] = useState(null);
 
@@ -38,6 +41,8 @@ const LightDetails: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
                     <CatalogItem
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}
+                        setEditLight={setEditLight}
+                        editLight={editLight}
                     />
                 </div>
             )}

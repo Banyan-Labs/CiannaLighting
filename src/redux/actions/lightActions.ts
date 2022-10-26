@@ -3,6 +3,7 @@ import {
     setRoomLights,
     setProjectError,
     setCatalogLights,
+    setCatalogConnect
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -61,11 +62,11 @@ export const createLight =
     export const getEditLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        console.log(payload)
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/find-lightSelection', payload);
+            const response = await axiosPriv.post('/find-light', payload);
             console.log(response)
+            dispatch(setCatalogConnect(response.data.light))
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

@@ -12,9 +12,10 @@ import { getEditLight } from '../../redux/actions/lightActions';
 
 interface lightProps {
     setEditLight: any;
+    setCatalogItem: any;
 }
 
-const RoomDetails: FC<lightProps> = ({ setEditLight }) =>{
+const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
     const [openModal, setOpenModal] = useState(false);
     const { room, project, roomLights } = useAppSelector(
         ({ project }) => project
@@ -31,19 +32,26 @@ const RoomDetails: FC<lightProps> = ({ setEditLight }) =>{
             : dataHolding.setData().color;
 
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { projectId } = useAppSelector(({ project }) => project);
-
+    const { projectId, catalogConnectLight } = useAppSelector(({ project }) => project);
+   
 
     const deleteLightFunc = (light: any ) => {
       setDeleteLight(light)
       setOpenModal(true);
     }
 
-    const editLightFunc = async(light: any ) => {
-        console.log('hello')
-       await dispatch(getEditLight({_id: String(light._id)}))
+    const setTheData = async(light:any) => {
+         setCatalogItem(catalogConnectLight)
+       console.log(catalogConnectLight)
        setEditLight(light)
+    }
+
+    const editLightFunc = async(light: any, callBack:any) => {
+      await dispatch(getEditLight({ "item_ID":String(light.item_ID) }))
+       callBack(light)
       }
+
+      
 
     const singleRoom = newLights?.map((light: any, index: any) => {
         return (
@@ -56,7 +64,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight }) =>{
                             <p className="m-0">LLC</p>
                         </div>
                         <div className="d-flex align-items-end">
-                            <button className="m-0 edit-link" onClick={() => editLightFunc(light)}> Edit</button>
+                            <button className="m-0 edit-link" onClick={() => editLightFunc(light, setTheData)}> Edit</button>
                             <button  onClick={() => deleteLightFunc(light)} className="m-0 remove-link">Remove</button>
                         </div>
                     </div>

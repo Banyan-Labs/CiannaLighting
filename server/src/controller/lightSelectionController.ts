@@ -136,7 +136,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async (req: Request, res: Response) => {
-  console.log(req.body, 'hello', req.body.roomId)
+  // console.log(req.body, 'hello', req.body.roomId)
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {
@@ -145,7 +145,6 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
           return String(id) !== req.body._id ? id : "";
         });
         room.save();
-
         const lightRemoved = "light removed successfully from room";
         return await LightSelection.findByIdAndDelete({ _id: req.body._id })
           .then((lightSelection) => {

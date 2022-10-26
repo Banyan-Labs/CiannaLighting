@@ -17,6 +17,8 @@ import Pictures from './Pictures';
 interface catalogPros {
     setCatalogItem: any;
     catalogItem: any;
+    editLight: any;
+    setEditLight: any;
 }
 
 type LightType = {
@@ -41,7 +43,7 @@ type LightType = {
     quantity: number;
 };
 
-const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem }) => {
+const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, setEditLight }) => {
     const dispatch = useAppDispatch();
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');

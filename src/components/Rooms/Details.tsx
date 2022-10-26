@@ -36,10 +36,12 @@ const Details: FC = () => {
 
     return (
         <div className="container-fluid details-container m-0 p-0 d-flex row">
-            <RoomDetails setEditLight={setEditLight} />
+            <RoomDetails setEditLight={setEditLight} setCatalogItem={setCatalogItem} />
             <LightDetails
                 catalogItem={catalogItem}
                 setCatalogItem={setCatalogItem}
+                setEditLight={setEditLight}
+                editLight={editLight}
             />
             <Filter catalogItem={catalogItem} />
         </div>
