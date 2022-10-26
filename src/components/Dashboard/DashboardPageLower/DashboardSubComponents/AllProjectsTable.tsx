@@ -1,41 +1,54 @@
-import React, { FC, useEffect, useState } from 'react';
-import { FaSlidersH } from 'react-icons/fa';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
 import { getAllProjects } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
+import { ProjectType } from '../DashboardNav';
+
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
 type Props = {
     renderedPage: string;
     currentPage: number;
+    sortDirection:number, 
+    currentSort:string,
+    sortedData: ProjectType[], 
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setSortedData:React.Dispatch<React.SetStateAction<ProjectType[]>>
+    setSortDirection:React.Dispatch<React.SetStateAction<number>>,
+    setCurrentSort:React.Dispatch<React.SetStateAction<string>>
 };
+
 
 const AllProjects: FC<Props> = ({
     renderedPage,
     currentPage,
     setCurrentPage,
+    sortDirection,
+    currentSort,
+    sortedData,
+    setSortedData,
+    setSortDirection,
+    setCurrentSort
+    
 }) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
-    console.log(allProjects[0], 'weird')
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
-    const [projectIndex, setProjectIndex] = useState<number | null>(null);
-    // const [sortedData, setSortedData] = 
-
+    const [projectIndex, setProjectIndex] = useState<number | null>(null);    
     const projectsPerPage = 5;
-
+    
     useEffect(() => {
         dispatch(getAllProjects());
     }, []);
-
+    
     const onMouseOver = (index: number | null) => {
         setProjectOptionsModal(true);
         setProjectIndex(index);
@@ -44,20 +57,85 @@ const AllProjects: FC<Props> = ({
         setProjectOptionsModal(false);
         setProjectIndex(null);
     };
+    const triggerDirection = (field: string) =>{
+        if(field == currentSort){
+        if(sortDirection == 0){
+            setSortDirection(1);
+            setUpSortTrigger(field, 1);
+        }else if(sortDirection == 1){
+            setSortDirection(2);
+            setUpSortTrigger(field, 2);
+        }else{
+            setSortDirection(0);
+            setUpSortTrigger(field, 0);
+        }
+    }else{
+        setSortDirection(1);
+        setUpSortTrigger(field, 1);
+    }
+
+    }
+    const setUpSortTrigger = (field: string, direction: number) =>{
+        let utilizedData:any = []
+        console.log("direction: ", sortDirection)
+        if(renderedPage == "All Projects"){
+            utilizedData = activeProjects
+
+        }else{
+            utilizedData = archivedProjects
+        }
+        const sorted: any ={ 
+            0: utilizedData,
+            1: utilizedData.slice().sort((a:any, b:any)=> {
+                if (a[field] < b[field]) {
+                return -1;
+              }
+              if (a[String(field)] > b[String(field)]) {
+                return 1;
+              }
+              return 0;
+            }),
+            2: utilizedData.slice().sort((a:any,b:any)=>{
+                if (b[String(field)] < a[String(field)]) {
+                return -1;
+              }
+              if (b[String(field)] > a[(field)]) {
+                return 1;
+              }
+              return 0;
+            })
+        }
+        setSortedData(sorted[direction]);
+        setCurrentSort(field);
+        
+    }
 
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
     const activeProjects = allProjects.filter((project) => !project.archived);
+    console.log( "Direction: ",sortDirection)
     const archivedProjects = allProjects.filter(
         (project) => project.archived == true
     );
-    const filteredProjects =
-        renderedPage == 'All Projects'
-            ? activeProjects.slice(firstIndex, lastIndex)
-            : archivedProjects.slice(firstIndex, lastIndex);
+    
+    const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
+    const sortDisplay = (field: string) =>{
+        const directionCall: any = {
+            0: "",
+            1: <FaChevronUp className='sort-chevron'/>,
+            2: <FaChevronDown className='sort-chevron'/>
+        }
+        if(field == currentSort){
+            console.log("F, CS, SD: ",field, currentSort, sortDirection)
+            return directionCall[sortDirection]
+        }else{
+            return directionCall[0]
+        }
+        
+    }
     
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
@@ -73,7 +151,6 @@ const AllProjects: FC<Props> = ({
                     <td className="projects-table-dynamic-region">
                         {project.region}
                     </td>
-                    {/* <td className="projects-table-dynamic-contact">{project.contact}</td> */}
                     <td className="projects-table-dynamic-status">
                         <span className={`statusColor${statusNoSpace}`}>
                             {project.status}
@@ -114,18 +191,17 @@ const AllProjects: FC<Props> = ({
                     <table className="dashboard-all-projects-table">
                         <thead className="table-headers">
                             <tr className="rows">
-                                <td className="projects-table-name"> 
-                                {/* include the onclick on all three of these */}
-                                    Name
+                                <td className="projects-table-name" onClick={()=> triggerDirection('name')}> 
+                                    Name {sortDisplay('name')}
                                     </td>
-                                <td className="projects-table-designer">
-                                    Designer
+                                <td className="projects-table-designer" onClick={()=> triggerDirection('clientName')}>
+                                    Designer {sortDisplay('clientName')}
                                 </td>
-                                <td className="projects-table-region">
-                                    Region
+                                <td className="projects-table-region" onClick={()=> triggerDirection('region')}>
+                                    Region {sortDisplay('region')}
                                 </td>
-                                <td className="projects-table-status">
-                                    Status
+                                <td className="projects-table-status" onClick={()=> triggerDirection('status')}>
+                                    Status {sortDisplay('status')}
                                 </td>
                                 <td className="projects-table-dots"> </td>
                             </tr>

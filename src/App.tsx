@@ -9,10 +9,8 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import Projects from './components/SingleProject/Projects';
 import CreateProjectPage from './components/CreateProjectPage/CreateProjectPage';
-import AllUserProjects from './components/AllUserProjects/AllUserProjects';
 import PersistLogin from './components/PersistLogin/PersistLogin';
 import Unauthorized from './components/RequireAuth/Unauthorized';
-import RoomDetails from './components/Rooms/RoomDetails';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Inventory from './components/Inventory/Inventory';
 import Details from './components/Rooms/Details';
@@ -49,10 +47,6 @@ const App: FC = () => {
                                     <RequireAuth roles={Object.values(ROLES)} />
                                 }
                             >
-                                {/* <Route
-                                    path="/projects/all/:user"
-                                    element={<AllUserProjects />}
-                                /> */}
 
                                 <Route
                                     path={'/dashboard'}
