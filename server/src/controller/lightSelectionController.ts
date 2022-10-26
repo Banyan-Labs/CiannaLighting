@@ -121,6 +121,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
       if (light && keys.length) {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
+          light.save();
         });
       }
       console.log(`light_selected:${light?.item_ID}`);
@@ -134,6 +135,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async (req: Request, res: Response) => {
+  console.log(req.body, 'hello', req.body.roomId)
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {

@@ -166,17 +166,33 @@
 
                 .edit-link {
                     text-decoration: underline;
-                    padding-right: 20px;
+                    padding-right:15px;
+                    font-size: 16px !important;
                     color: $accent-gold;
                     font-weight: 500;
                     cursor: pointer;
+                    border: none;
+                    background: none;
+                    transition: all 0.2s ease-in-out;
+                    &:hover{
+                        transition: all 0.2s ease-in-out;
+                        color: black;
+                    }
                 }
 
                 .remove-link {
                     text-decoration: underline;
                     font-weight: 500;
                     cursor: pointer;
+                    font-size: 16px !important;
                     color: $primary-bg-white-sub-text;
+                    border: none;
+                    background: none;
+                    transition: all 0.2s ease-in-out;
+                    &:hover{
+                        transition: all 0.2s ease-in-out;
+                        color: black;
+                    }
                 }
             }
 
@@ -221,6 +237,14 @@
             padding-left: 10px;
         }
     }
+}
+
+.delete-Modal-container{
+height: 100%;
+
+.delete-modal-button{
+background-color: red !important;
+}
 }
 
 // ******** for the containers for each component
