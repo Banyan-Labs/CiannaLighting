@@ -122,7 +122,6 @@ const getSelectedLight = async (req: Request, res: Response) => {
       if (light && keys.length) {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
-          light.save();
         });
         light.save();
       }

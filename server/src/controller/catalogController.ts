@@ -183,8 +183,8 @@ const getLight = async (req: Request, res: Response) => {
       if (light && keys.length) {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
-          light.save();
         });
+        light.save();
       }
       console.log(`Catalog Item: ${light?.item_ID} retrieved`);
       return res.status(200).json({
