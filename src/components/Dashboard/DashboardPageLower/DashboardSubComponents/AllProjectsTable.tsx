@@ -41,19 +41,15 @@ const AllProjects: FC<Props> = ({
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const [sortedData, setSortedData] = useState<ProjectType[]>([])
-    const [sortDirection, setSortDirection] = useState<number>(0)
+    const [sortDirection, setSortDirection] = useState<number>(1)
     const [currentSort, setCurrentSort] = useState<string>("")
     // setSortedData(allProjects)
     
 
     const projectsPerPage = 5;
-    // const isInitialMount = useRef(true);
+    
     useEffect(() => {
         dispatch(getAllProjects());
-        // if(isInitialMount.current && allProjects.length){
-        //     isInitialMount.current = false
-        //     setSortedData(allProjects)
-        // }
     }, []);
     
    
@@ -66,7 +62,8 @@ const AllProjects: FC<Props> = ({
         setProjectOptionsModal(false);
         setProjectIndex(null);
     };
-    const triggerDirection = () =>{
+    const triggerDirection = (field: string) =>{
+        // if (field == currentSort || currentSort.length == 0){
         if(sortDirection == 0){
             setSortDirection(1);
         }else if(sortDirection == 1){
@@ -74,16 +71,15 @@ const AllProjects: FC<Props> = ({
         }else{
             setSortDirection(0);
         }
+    // }else{
+    //     setSortDirection(0)
+    // }
     }
     const setUpSortTrigger = (e:any,field: string) =>{
-        e.preventDefault()
-        console.log(activeProjects.sort((a:any,b:any)=> a.name-b.name))
-        console.log(sortDirection, "direction")
-        console.log(currentSort, "currentSort")
-        console.log(sortedData, 'sortedData')
-        triggerDirection()
+        // e.preventDefault()
+        triggerDirection(field)
         let utilizedData:any = []
-        
+        console.log("direction: ", sortDirection)
         if(renderedPage == "All Projects"){
             utilizedData = activeProjects
 
@@ -93,8 +89,8 @@ const AllProjects: FC<Props> = ({
         
         // const copyProjects: ProjectType[] = filteredProjects.slice()
         const sorted: any ={ 
-            0: utilizedData,
-            1: utilizedData.sort((a:any, b:any)=> {
+            2: utilizedData,
+            0: utilizedData.slice().sort((a:any, b:any)=> {
                 if (a[field] < b[field]) {
                 return -1;
               }
@@ -103,7 +99,7 @@ const AllProjects: FC<Props> = ({
               }
               return 0;
             }),
-            2: utilizedData.sort((a:any,b:any)=>{
+            1: utilizedData.slice().sort((a:any,b:any)=>{
                 if (b[String(field)] < a[String(field)]) {
                 return -1;
               }
@@ -113,40 +109,22 @@ const AllProjects: FC<Props> = ({
               return 0;
             })
         }
-        setSortedData(sorted[sortDirection])
+        console.log(sorted[sortDirection], "keyed sort")
+        
+        setSortedData(sorted[sortDirection]);
         setCurrentSort(field);
-        console.log("\n\n")
-        console.log(sortDirection, "POST direction")
-        console.log(currentSort, "POST currentSort")
-        console.log(sortedData, 'POST sortedData')
+        
     }
 
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
     const activeProjects = allProjects.filter((project) => !project.archived);
-    console.log(activeProjects.slice().sort((a,b)=>{
-        if (a["name"] < b["name"]) {
-        return -1;
-      }
-      if (a["name"] > b["name"]) {
-        return 1;
-      }
-      return 0;
-    }), 'a-b')
+    console.log( "Direction: ",sortDirection)
     const archivedProjects = allProjects.filter(
         (project) => project.archived == true
     );
-    console.log(activeProjects.slice().sort((a,b)=>{
-        if (b["name"] < a["name"]) {
-        return -1;
-      }
-      if (b["name"] > a["name"]) {
-        return 1;
-      }
-      return 0;
-    }), 'b-a')
-    const sortCheck = sortedData.length ? sortedData : activeProjects
+    
     const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(allProjects.length / projectsPerPage);
@@ -157,6 +135,7 @@ const AllProjects: FC<Props> = ({
             2: <FaChevronDown className='sort-chevron'/>
         }
         if(field == currentSort){
+            console.log("F, CS, SD: ",field, currentSort, sortDirection)
             return directionCall[sortDirection]
         }else{
             return directionCall[0]
@@ -223,8 +202,8 @@ const AllProjects: FC<Props> = ({
                                 {/* include the onclick on all three of these */}
                                     Name {sortDisplay('name')}
                                     </td>
-                                <td className="projects-table-designer" onClick={(e)=> setUpSortTrigger(e,'designer')}>
-                                    Designer {sortDisplay('designer')}
+                                <td className="projects-table-designer" onClick={(e)=> setUpSortTrigger(e,'clientName')}>
+                                    Designer {sortDisplay('clientName')}
                                 </td>
                                 <td className="projects-table-region" onClick={(e)=> setUpSortTrigger(e,'region')}>
                                     Region {sortDisplay('region')}
