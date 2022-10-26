@@ -41,7 +41,7 @@ const AllProjects: FC<Props> = ({
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const [sortedData, setSortedData] = useState<ProjectType[]>([])
-    const [sortDirection, setSortDirection] = useState<number>(1)
+    const [sortDirection, setSortDirection] = useState<number>(0)
     const [currentSort, setCurrentSort] = useState<string>("")
     // setSortedData(allProjects)
     
@@ -63,7 +63,7 @@ const AllProjects: FC<Props> = ({
         setProjectIndex(null);
     };
     const triggerDirection = (field: string) =>{
-        // if (field == currentSort || currentSort.length == 0){
+        if(field == currentSort){
         if(sortDirection == 0){
             setSortDirection(1);
         }else if(sortDirection == 1){
@@ -71,9 +71,10 @@ const AllProjects: FC<Props> = ({
         }else{
             setSortDirection(0);
         }
-    // }else{
-    //     setSortDirection(0)
-    // }
+    }else{
+        setSortDirection(1)
+    }
+
     }
     const setUpSortTrigger = (e:any,field: string) =>{
         // e.preventDefault()
