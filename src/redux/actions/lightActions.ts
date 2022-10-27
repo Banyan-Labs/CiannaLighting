@@ -3,6 +3,7 @@ import {
     setRoomLights,
     setProjectError,
     setCatalogLights,
+    setCatalogConnect
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -38,12 +39,48 @@ export const createLight =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/create-lightSelection', {
+             await axiosPriv.post('/create-lightSelection', {
                 light: light,
             });
-            // console.log(response)
-            console.log(response, "response from light")
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
+
+
+    export const deleteLight =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+             await axiosPriv.post('/delete-lightSelection', payload);
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+    export const getEditLight =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        console.log(payload)
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/find-light', payload);
+            dispatch(setCatalogConnect(response.data.light))
+            return response.data.light
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+    export const theEditLight =
+    (payload: any, lightId: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/find-lightSelection', {...payload, _id:lightId});
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+

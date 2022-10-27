@@ -32,7 +32,7 @@ router
   .post("/get-lightSelections", lightSelectionController.getAllSelectedLights)
   .post("/find-lightSelection", lightSelectionController.getSelectedLight)
   .post("/create-lightSelection", lightSelectionController.lightSelected)
-  .delete(
+  .post(
     "/delete-lightSelection",
     lightSelectionController.deleteSelectedLight
   )

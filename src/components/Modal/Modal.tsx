@@ -74,7 +74,7 @@ const Modal: FC<Props> = (props) => {
                 description: '',
             });
             navigate(`/projects/ + ?_id= ${user._id}`);
-            dispatch(getUserProjects(user._id));
+           await dispatch(getUserProjects(user._id));
             dataHolding.getData(projectDetails, '');
         } catch (err) {
             console.log('Error: ' + err);
