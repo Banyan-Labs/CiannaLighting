@@ -62,11 +62,23 @@ export const createLight =
     export const getEditLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
+        console.log(payload)
         const axiosPriv = await axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-light', payload);
-            console.log(response)
             dispatch(setCatalogConnect(response.data.light))
+            return response.data.light
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+    export const theEditLight =
+    (payload: any, lightId: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/find-lightSelection', {...payload, _id:lightId});
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

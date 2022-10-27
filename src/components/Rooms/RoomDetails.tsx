@@ -40,15 +40,15 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
       setOpenModal(true);
     }
 
-    const setTheData = async(light:any) => {
-         setCatalogItem(catalogConnectLight)
-       console.log(catalogConnectLight)
+    const setTheData = async(light:any, response:any) => {
+       await setCatalogItem(response)
        setEditLight(light)
     }
 
-    const editLightFunc = async(light: any, callBack:any) => {
-      await dispatch(getEditLight({ "item_ID":String(light.item_ID) }))
-       callBack(light)
+    const editLightFunc = async(light: any) => {
+        const response = await dispatch(getEditLight({ "item_ID":String(light.item_ID) }))
+        console.log(response)
+       setTheData(light, response)
       }
 
       
@@ -64,7 +64,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                             <p className="m-0">LLC</p>
                         </div>
                         <div className="d-flex align-items-end">
-                            <button className="m-0 edit-link" onClick={() => editLightFunc(light, setTheData)}> Edit</button>
+                            <button className="m-0 edit-link" onClick={() => editLightFunc(light)}> Edit</button>
                             <button  onClick={() => deleteLightFunc(light)} className="m-0 remove-link">Remove</button>
                         </div>
                     </div>
