@@ -102,6 +102,18 @@ export const getAllProjects =
         const axioscall = await axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects');
+            console.log("Projects: ",projects)
+            dispatch(setAllProjects(projects.data));
+        } catch (err) {
+            console.log(err);
+        }
+    };
+export const getFilteredProjects =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axioscall = await axiosPrivate();
+        try {
+            const projects = await axioscall.post('/get-projects', payload);
             dispatch(setAllProjects(projects.data));
         } catch (err) {
             console.log(err);

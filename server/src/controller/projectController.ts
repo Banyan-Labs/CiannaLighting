@@ -223,8 +223,9 @@ const getAllProjects = async (req: Request, res: Response) => {
     (x) => x != "authEmail" && x != "authRole"
   );
   const security = check.filter(
-    (x) => x === "status" || x === "region" || x === "clientId"
+    (x) => x === "status" || x === "region" || x === "clientName"
   );
+  console.log("payload proj filter: ",req.body)
 
   if (security.length && check.length === security.length) {
     await Project.find({ ...req.body })

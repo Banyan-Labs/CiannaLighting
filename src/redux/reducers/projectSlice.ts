@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export interface ProjectStateType {
     userProjects: any[];
     allProjects: any[];
+    filterQueryProjects: any[];
     project: ProjectType | null;
     projectRooms: any[];
     room: RoomType | null;
@@ -58,6 +59,7 @@ export type RoomType = {
 const initialState: ProjectStateType = {
     userProjects: [],
     allProjects: [],
+    filterQueryProjects: [],
     project: null,
     projectRooms: [],
     room: null,
@@ -76,6 +78,10 @@ export const projectSlice = createSlice({
         setAllProjects: (state, action) => ({
             ...state,
             allProjects: action.payload.projects,
+        }),
+        setFilteredProjects: (state, action) => ({
+            ...state,
+            filteredProjects: action.payload.projects,
         }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
         setRoomId: (state, action) => ({ ...state, roomId: action.payload }),

@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import axios from '../../api/axios';
 import { setUser, logout, setAccessToken } from '../reducers/authSlice';
+import {getAllProjects} from "./projectActions"
 
 type SignInType = {
     email: string;
@@ -14,6 +15,7 @@ export const signInAction =
         const response = await axios.post('public/login/user', payload, {
             withCredentials: true,
         });
+        getAllProjects()
 
          dispatch(setUser(response.data));
     }catch(error: any){
