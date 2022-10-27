@@ -88,6 +88,11 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
         const reFormat = [defVal, ...arr.filter((x: any)=> x !== defVal)]
         return reFormat
     }
+
+   const returnToNull = () => {
+        setEditLight(null)
+        setCatalogItem(null)
+    }
     
    
     const onSubmit = async (e: any) => {
@@ -279,7 +284,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
             <div className="col-7 d-flex row justify-content-between container-type-back align-content-start m-0">
                 <p className="type-catalog-item m-0 col-6">Traditional</p>
                 <p
-                    onClick={() => setCatalogItem(null) && setEditLight(null)}
+                    onClick={() => returnToNull()}
                     className="catalog-back m-0 col-6"
                 >
                     <BsChevronLeft className="chevron-icon" /> Back to Catalog
