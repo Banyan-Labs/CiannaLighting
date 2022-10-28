@@ -99,7 +99,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
 
                 <div>
                     <div className="new-room-modal-title">
-                        <h3 className="modal-title">New Room</h3>
+                        <h3 className="modal-title">Filters</h3>
                     </div>
                     <div className="new-room-modal-body">
                         <form onSubmit={onSubmit} id="filter-form">
