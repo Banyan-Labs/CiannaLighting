@@ -1,16 +1,16 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
-import { getAllProjects } from '../../../../redux/actions/projectActions';
+import { getAllProjects, getFilteredProjects } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { ProjectType } from '../DashboardNav';
-import { ViewModal } from './ViewModal';
-
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { FilterModal } from '../../../FilterModal/FilterParams';
+import {ViewModal} from './ViewModal';
 
 type Props = {
     renderedPage: string;
@@ -38,18 +38,21 @@ const AllProjects: FC<Props> = ({
     
 }) => {
     const dispatch = useAppDispatch();
-    const { allProjects } = useAppSelector(({ project }) => project);
-    const [openModal, setOpenModal] = useState(false);
+    // const { allProjects } = useAppSelector(({ project }) => project);
+    const [openModal2, setOpenModal2] = useState(false);
     const [projectModal, setProjectModal] = useState(null);
+    const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);    
     const projectsPerPage = 5;
-    
+    const [openModal, setOpenModal] = useState(false);
+   console.log("FQP: ",filterQueryProjects)
     useEffect(() => {
         dispatch(getAllProjects());
+        
     }, []);
     
     const onMouseOver = (index: number | null) => {
@@ -116,15 +119,15 @@ const AllProjects: FC<Props> = ({
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
-    const activeProjects = allProjects.filter((project) => !project.archived);
-    console.log( "Direction: ",sortDirection)
-    const archivedProjects = allProjects.filter(
+    const reduxData = filterQueryProjects.length ? filterQueryProjects.slice() : allProjects.slice()
+    const activeProjects = reduxData.filter((project) => !project.archived);
+    const archivedProjects = reduxData.filter(
         (project) => project.archived == true
     );
     
     const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const lastPage = Math.ceil(allProjects.length / projectsPerPage);
+    const lastPage = Math.ceil(reduxData.length / projectsPerPage);
     const sortDisplay = (field: string) =>{
         const directionCall: any = {
             0: "",
@@ -132,7 +135,6 @@ const AllProjects: FC<Props> = ({
             2: <FaChevronDown className='sort-chevron'/>
         }
         if(field == currentSort){
-            console.log("F, CS, SD: ",field, currentSort, sortDirection)
             return directionCall[sortDirection]
         }else{
             return directionCall[0]
@@ -182,13 +184,14 @@ const AllProjects: FC<Props> = ({
         <div className="all-projects-container">
             <div>
                 <div className="form-bar-button-container">
+                    <button onClick={()=> dispatch(getFilteredProjects({"clientName": "David Carlen"}))}>tester</button>
                     <input
                         className="dashboard-all-projects-search-bar"
                         type="text"
                         placeholder="Search"
                         onChange={(e) => setFilterProjects(e.target.value)}
                     />
-                    <FaSlidersH className="dashboard-all-projects-submit" />
+                    <FaSlidersH className="dashboard-all-projects-submit" onClick={()=>setOpenModal(true)} />
                 </div>
                 <div>
                     <table className="dashboard-all-projects-table">
@@ -220,12 +223,12 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    allProjects.length - archivedProjects.length
-                                        ? allProjects.length -
+                                    reduxData.length - archivedProjects.length
+                                        ? reduxData.length -
                                           archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
-                                    {allProjects.length -
+                                    {reduxData.length -
                                         archivedProjects.length}
                                 </div>
                             ) : (
@@ -286,12 +289,13 @@ const AllProjects: FC<Props> = ({
             </div>
             {openModal && (
                     <ViewModal
-                        openModal={openModal}
-                        closeModal={setOpenModal}
+                        openModal={openModal2}
+                        closeModal={setOpenModal2}
                         projectModal={projectModal}
                         setProjectModal={setProjectModal}
                     /> 
                 )}
+                <FilterModal  openModal={openModal} closeModal={setOpenModal} />
         </div>
     );
 };

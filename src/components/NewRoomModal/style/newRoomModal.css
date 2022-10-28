@@ -4,6 +4,7 @@
     height: 100vh;
     position: absolute;
     top: 0;
+    left:0;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -13,7 +14,7 @@
     top: 150px;
     left: 30%;
     width: 450px;
-    height: 370px;
+    min-height: 370px;
     margin: 1rem auto;
     padding: 1rem 5rem;
     border-radius: 5px;
@@ -116,6 +117,15 @@ label {
     background-color: #528dea;
     color: white;
     padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#reset-button{
+    background-color: #ccd2dd;
+    color: black;
+    padding: 15px 50px;
+    width: 42%;
     border: none;
     border-radius: 5px;
     cursor: pointer;

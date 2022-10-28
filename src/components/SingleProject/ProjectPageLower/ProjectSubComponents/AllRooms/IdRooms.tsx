@@ -3,7 +3,7 @@ import { useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 
 import './rooms.scss';
-import { FaChevronRight } from 'react-icons/fa';
+import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 
 const IdRooms: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -36,6 +36,8 @@ const IdRooms: FC = () => {
                 <div style={{ color: 'black' }} className="cardRoom-divider" />
                 <h3 style={{ color: 'black' }}>{room?.name}</h3>
                 <div className="room-details-block" key={index}>
+                    <FaRegClone className="clone-icon" />
+                    {/* include copy room stuff here ^^^^ */}
                     <span style={{ color: 'black' }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
