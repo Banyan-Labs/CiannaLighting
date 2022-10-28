@@ -120,3 +120,33 @@ export const getFilteredProjects =
             console.log(err);
         }
     };
+
+    export const viewProjectRooms =
+    (projectId: string) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axioscall = await axiosPrivate();
+        try {
+            const response = await axioscall.post('/get-rooms', {
+                projectId: projectId,
+            });
+            return response.data.rooms
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+
+    export const viewRoomLights =
+    (roomId: string) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/get-lightSelections', {
+                roomId: roomId,
+            });
+            console.log(response)
+           return  response.data.lights
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
