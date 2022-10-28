@@ -6,7 +6,14 @@ top: 0;
 left:0;
 background-color: rgba(0, 0, 0, 0.4);
 }
-
+.reset-button{
+    background-color: #acbeda;
+    color: white;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .filter-modal-container {
 position: absolute;
 top: 150px;

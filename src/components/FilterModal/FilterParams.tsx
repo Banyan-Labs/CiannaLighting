@@ -1,17 +1,14 @@
-import React, { FC, FormEvent, useState, useEffect, useCallback } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
     getFilteredProjects
 } from '../../redux/actions/projectActions';
-// import './style/newRoomModal.css';
-
-import { useNavigate } from 'react-router-dom';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
-    // user: any;
+    
 };
 
 export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
@@ -22,7 +19,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
         region: '',
     });
     const [submittalForm, setSubmittalForm] = useState<any>({});
-    console.log("All Projects: ",allProjects)
+
     const filterInfo = allProjects
         .slice()
         .map((project) => [project.clientName, project.status, project.region]);
@@ -38,23 +35,8 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
         .slice()
         .map((project) => project[2])
         .filter((x, c, r) => c === r.lastIndexOf(x))];
-    console.log('Designers: ', designers);
-    console.log('Status: ', statuses);
-    console.log('Regions: ', regions);
-
+ 
     const dispatch = useAppDispatch();
-
-    // useEffect(() => {
-    //     dispatch(getAllProjectRoomsAction(projectId));
-    // }, [room]);
-
-    // const projectRoute = useCallback(
-    //     (roomId: string) => {
-    //         const to = `/createLight/ + ?_id= ${user._id}&roomId=${roomId}&projectId=${projectId}`;
-    //         navigate(to);
-    //     },
-    //     [user.name, navigate]
-    // );
 
     const handleFormInput = (e: FormEvent<HTMLSelectElement>) => {
         setFormDetails({
@@ -69,14 +51,10 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                 [e.currentTarget.name]: e.currentTarget.value,
             });
         }
-        console.log('formDetails: ', formDetails);
-        console.log('submittalForm: ', submittalForm);
     };
-    console.log('formDetailsOUTSIDE: ', formDetails);
-    console.log('submittalFormOUTSIDE: ', submittalForm);
+    
 
     const clearForm = () =>{
-        // e.preventDefault()
         setFormDetails({
             clientName: '',
             status: '',
@@ -97,8 +75,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
     const onSubmit = async (e:any) => {
         e.preventDefault()
         try {
-            const done = await dispatch(getFilteredProjects(submittalForm))
-            console.log("DONE YO",done)
+            await dispatch(getFilteredProjects(submittalForm))
                 clearForm()
                 closeModal(!openModal)
         } catch (err) {
@@ -208,7 +185,8 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                             </select>
                             <div className="new-room-modal-footer">
                                 <button
-                                    className="new-room-modal-button"
+                                    id="reset-button"
+                                    className="reset-button"
                                     onClick={()=> clearForm()}
                                     type="reset"
                                 >

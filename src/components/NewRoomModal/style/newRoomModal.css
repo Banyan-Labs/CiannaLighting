@@ -120,6 +120,15 @@ label {
     border-radius: 5px;
     cursor: pointer;
 }
+#reset-button{
+    background-color: #ccd2dd;
+    color: black;
+    padding: 15px 50px;
+    width: 42%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 .skip-lights-container {
     position: absolute;
