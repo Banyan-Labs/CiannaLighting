@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { ProjectType } from '../DashboardNav';
+import { ViewModal } from './ViewModal';
 
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
@@ -38,6 +39,8 @@ const AllProjects: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch();
     const { allProjects } = useAppSelector(({ project }) => project);
+    const [openModal, setOpenModal] = useState(false);
+    const [projectModal, setProjectModal] = useState(null);
     const [filterProjects, setFilterProjects] = useState('');
     filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
@@ -167,7 +170,7 @@ const AllProjects: FC<Props> = ({
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
-                            <ProjectMiniModal />
+                            <ProjectMiniModal setOpenModal={setOpenModal} setProjectModal={setProjectModal} project={project} />
                         )}
                     </td>
                 </tr>
@@ -281,6 +284,14 @@ const AllProjects: FC<Props> = ({
                     </div>
                 </div>
             </div>
+            {openModal && (
+                    <ViewModal
+                        openModal={openModal}
+                        closeModal={setOpenModal}
+                        projectModal={projectModal}
+                        setProjectModal={setProjectModal}
+                    /> 
+                )}
         </div>
     );
 };
