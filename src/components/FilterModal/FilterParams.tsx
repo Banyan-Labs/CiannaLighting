@@ -16,14 +16,13 @@ type Props = {
 
 export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
     const { allProjects } = useAppSelector(({ project }) => project);
-    console.log(allProjects);
-    const navigate = useNavigate();
     const [formDetails, setFormDetails] = useState({
         clientName: '',
         status: '',
         region: '',
     });
     const [submittalForm, setSubmittalForm] = useState<any>({});
+    console.log("All Projects: ",allProjects)
     const filterInfo = allProjects
         .slice()
         .map((project) => [project.clientName, project.status, project.region]);
@@ -76,42 +75,38 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
     console.log('formDetailsOUTSIDE: ', formDetails);
     console.log('submittalFormOUTSIDE: ', submittalForm);
 
-    const clearForm = (e:any) =>{
-        e.preventDefault()
+    const clearForm = () =>{
+        // e.preventDefault()
         setFormDetails({
             clientName: '',
             status: '',
             region: '',
         })
         setSubmittalForm({})
+        const designers = document.getElementById('clientName') as HTMLSelectElement | null;
+        designers ? designers.selectedIndex = 0 : designers
+
+        const statuses = document.getElementById('status') as HTMLSelectElement | null;
+        statuses ? statuses.selectedIndex = 0 : statuses
+        
+        const regions = document.getElementById('region') as HTMLSelectElement | null;
+        regions ? regions.selectedIndex = 0 : regions; 
+        
     }
 
-    const onSubmit = async (e: any) => {
-        e.preventDefault();
-        // try {
-        //     if (projectId) {
-        //         const newRoom = {
-        //             clientId: user._id,
-        //             projectId: projectId,
-        //             name: roomDetails.name,
-        //             description: roomDetails.description,
-        //         };
-        //         dispatch(createRoomAction(newRoom));
-        //         setRoomCreated(!roomCreated);
-        //     }
-        //     setRoomDetails({
-        //         name: '',
-        //         description: '',
-        //     });
-        // } catch (err) {
-        //     console.log('Error: ' + err);
-        // }
+    const onSubmit = async (e:any) => {
+        e.preventDefault()
+        try {
+            const done = await dispatch(getFilteredProjects(submittalForm))
+            console.log("DONE YO",done)
+                clearForm()
+                closeModal(!openModal)
+        } catch (err) {
+            console.log('Error in submit: ' + err);
+        }
     };
 
     return (
-        // <div>
-        //     yo
-        // </div>
         <div className="new-room-modal-background">
             <div className="new-room-modal-container">
                 <div className="modal-title-close-btn">
@@ -130,7 +125,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                         <h3 className="modal-title">New Room</h3>
                     </div>
                     <div className="new-room-modal-body">
-                        <form onSubmit={onSubmit}>
+                        <form onSubmit={onSubmit} id="filter-form">
                             <label
                                 className="new-room-modal-labels"
                                 htmlFor="clientName"
@@ -142,7 +137,6 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                 name="clientName"
                                 className="new-room-modal-inputs"
                                 onChange={(e) => handleFormInput(e)}
-                                required
                             >
                                 {designers.map(
                                     (designer: string, index: number) => {
@@ -165,16 +159,16 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                 Status
                             </label>
                             <select
-                                id="clientName"
+                                id="status"
                                 name="status"
                                 className="new-room-modal-inputs"
                                 onChange={(e) => handleFormInput(e)}
-                                required
                             >
                                 {statuses.map(
                                     (status: string, index: number) => {
                                         return (
                                             <option
+                                            defaultValue={"None"}
                                                 key={index}
                                                 value={status == 'Select a status..' ? '' : status}
                                             >
@@ -196,21 +190,10 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                 name="region"
                                 className="new-room-modal-inputs"
                                 onChange={(e) => handleFormInput(e)}
-                                required
                             >
                                 {regions.map(
                                     (region: string, index: number) => {
-                                        if (region === 'Select from regions..') {
-                                            return (
-                                                <option
-                                                    defaultValue={region}
-                                                    key={index}
-                                                    value={region}
-                                                >
-                                                    {region}
-                                                </option>
-                                            );
-                                        }
+                                        
                                         return (
                                             <option
                                                 key={index}
@@ -226,9 +209,11 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                             <div className="new-room-modal-footer">
                                 <button
                                     className="new-room-modal-button"
-                                    onClick={(e)=> clearForm(e)}
+                                    onClick={()=> clearForm()}
+                                    type="reset"
                                 >
                                     Reset
+                                    
                                 </button>
                                 <button
                                     type="submit"
@@ -240,8 +225,6 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                         </form>
                     </div>
                 </div>
-
-                {/* hiiiiiiii!!!! */}
             </div>
         </div>
     );

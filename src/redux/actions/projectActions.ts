@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+
 import {
     setProject,
     setProjectError,
@@ -6,6 +7,7 @@ import {
     setRoomId,
     setProjectId,
     setAllProjects,
+    setFilteredProjects,
     setProjectRooms,
     setUserProjects,
 } from '../reducers/projectSlice';
@@ -114,7 +116,8 @@ export const getFilteredProjects =
         const axioscall = await axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects', payload);
-            dispatch(setAllProjects(projects.data));
+            console.log("Filtered Projects: ",projects)
+            dispatch(setFilteredProjects(projects.data));
         } catch (err) {
             console.log(err);
         }

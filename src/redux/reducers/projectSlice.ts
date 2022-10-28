@@ -81,7 +81,7 @@ export const projectSlice = createSlice({
         }),
         setFilteredProjects: (state, action) => ({
             ...state,
-            filteredProjects: action.payload.projects,
+            filterQueryProjects: action.payload.projects,
         }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
         setRoomId: (state, action) => ({ ...state, roomId: action.payload }),
@@ -121,6 +121,7 @@ export const {
     setProjectId,
     setUserProjects,
     setAllProjects,
+    setFilteredProjects,
     setProjectRooms,
     setRoomId,
     setRoomLights,

@@ -45,9 +45,10 @@ const AllProjects: FC<Props> = ({
     const [projectIndex, setProjectIndex] = useState<number | null>(null);    
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
-    
+   console.log("FQP: ",filterQueryProjects)
     useEffect(() => {
         dispatch(getAllProjects());
+        
     }, []);
     
     const onMouseOver = (index: number | null) => {

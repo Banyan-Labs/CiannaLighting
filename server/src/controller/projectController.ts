@@ -225,11 +225,13 @@ const getAllProjects = async (req: Request, res: Response) => {
   const security = check.filter(
     (x) => x === "status" || x === "region" || x === "clientName"
   );
-  console.log("payload proj filter: ",req.body)
+  const workingUpdate = Object.fromEntries(security.map((x) => [x, req.body[x]]));
+  console.log("payload proj filter: ",{...workingUpdate})
 
   if (security.length && check.length === security.length) {
-    await Project.find({ ...req.body })
+    await Project.find({ ...workingUpdate })
       .then((projects) => {
+        console.log(projects)
         return res.status(200).json({
           projects,
         });
