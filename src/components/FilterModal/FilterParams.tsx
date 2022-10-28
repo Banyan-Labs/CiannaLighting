@@ -197,7 +197,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                     type="submit"
                                     className="new-room-modal-button"
                                 >
-                                    Create Room
+                                    Apply Filters
                                 </button>
                             </div>
                         </form>
