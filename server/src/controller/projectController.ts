@@ -223,12 +223,15 @@ const getAllProjects = async (req: Request, res: Response) => {
     (x) => x != "authEmail" && x != "authRole"
   );
   const security = check.filter(
-    (x) => x === "status" || x === "region" || x === "clientId"
+    (x) => x === "status" || x === "region" || x === "clientName"
   );
+  const workingUpdate = Object.fromEntries(security.map((x) => [x, req.body[x]]));
+  console.log("payload proj filter: ",{...workingUpdate})
 
   if (security.length && check.length === security.length) {
-    await Project.find({ ...req.body })
+    await Project.find({ ...workingUpdate })
       .then((projects) => {
+        console.log(projects)
         return res.status(200).json({
           projects,
         });
