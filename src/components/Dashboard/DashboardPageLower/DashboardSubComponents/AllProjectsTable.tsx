@@ -38,16 +38,19 @@ const AllProjects: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch();
     const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
-    const [filterProjects, setFilterProjects] = useState('');
-    filterProjects;
+    // const [filterProjects, setFilterProjects] = useState('');
+    // filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);    
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
+    const [parsedData, setParsedData] = useState<ProjectType[]>([])
    console.log("FQP: ",filterQueryProjects)
+   const dave = "Dav"
     useEffect(() => {
         dispatch(getAllProjects());
+        console.log("regex: ",new RegExp(dave, 'g').test("sdfgDav"))
         
     }, []);
     
@@ -111,15 +114,54 @@ const AllProjects: FC<Props> = ({
         setCurrentSort(field);
         
     }
+    
 
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
+
+    const searchFilter = (e: any, data: any) =>{
+        const searchValue: string = e.currentTarget.value.toLowerCase();
+        if(searchValue === ""){
+            setParsedData(data)
+            return data
+        }else{
+            const searchData = data.filter((item:ProjectType)=>{
+                const searchItem = {
+                    clientName: item.clientName,
+                    name: item.name,
+                    status: item.status,
+                    region: item.region
+                }
+                const itemVals: any = Object.values(searchItem);
+                console.log("ItemVals: ",itemVals);
+                let doesMatch = false;
+                itemVals.map((item: string)=>{ 
+                    const regCheck = new RegExp(searchValue, 'g').test(item.toLowerCase())
+                    console.log("RegCheck: ", regCheck)
+                     if(regCheck){
+                        doesMatch = true
+                     }}
+                    );
+                console.log("Does Match: ",doesMatch)
+                if(Boolean(doesMatch) === true){
+                    return item
+                }else{
+                    return ""
+                }
+
+            })
+            setParsedData(searchData)
+            console.log("Parsed Data: ",parsedData)
+            return searchData
+        }
+    }
+
     const reduxData = filterQueryProjects.length ? filterQueryProjects.slice() : allProjects.slice()
-    const activeProjects = reduxData.filter((project) => !project.archived);
-    const archivedProjects = reduxData.filter(
+    const activeProjects = (parsedData.length ? parsedData : reduxData).filter((project) => !project.archived);
+    const archivedProjects = (parsedData.length ? parsedData : reduxData).filter(
         (project) => project.archived == true
-    );
+    )
     
     const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -180,12 +222,11 @@ const AllProjects: FC<Props> = ({
         <div className="all-projects-container">
             <div>
                 <div className="form-bar-button-container">
-                    <button onClick={()=> dispatch(getFilteredProjects({"clientName": "David Carlen"}))}>tester</button>
                     <input
                         className="dashboard-all-projects-search-bar"
                         type="text"
                         placeholder="Search"
-                        onChange={(e) => setFilterProjects(e.target.value)}
+                        onChange={(e) => searchFilter(e, reduxData)}
                     />
                     <FaSlidersH className="dashboard-all-projects-submit" onClick={()=>setOpenModal(true)} />
                 </div>
@@ -224,7 +265,7 @@ const AllProjects: FC<Props> = ({
                                           archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
-                                    {reduxData.length -
+                                    {(parsedData.length? parsedData.length : reduxData.length) -
                                         archivedProjects.length}
                                 </div>
                             ) : (
