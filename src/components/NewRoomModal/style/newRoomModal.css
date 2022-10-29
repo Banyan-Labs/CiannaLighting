@@ -2,21 +2,23 @@
 .new-room-modal-background {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
+    z-index: 99;
     top: 0;
-    left:0;
+    left: 0;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
 .new-room-modal-container {
-    z-index: 20;
     position: absolute;
-    top: 150px;
-    left: 30%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99 !important;
     width: 450px;
     min-height: 370px;
     margin: 1rem auto;
-    padding: 1rem 5rem;
+    padding: 2rem 5rem;
     border-radius: 5px;
     background-color: white;
 }
@@ -121,7 +123,7 @@ label {
     border-radius: 5px;
     cursor: pointer;
 }
-#reset-button{
+#reset-button {
     background-color: #ccd2dd;
     color: black;
     padding: 15px 50px;
