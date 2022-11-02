@@ -43,6 +43,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
             const response = await axiosPriv.post("/create-project", payload);
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
+            alert(`Copy of ${project.name} created in your dashboard.`)
             console.log("copyProject response: ", response);
         }catch(error){
             console.log("Error in copyProject: ",error);
