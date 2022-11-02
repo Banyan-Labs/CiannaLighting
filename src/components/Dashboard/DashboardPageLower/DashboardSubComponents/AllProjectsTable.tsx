@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from 'react';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
-import { getAllProjects, getFilteredProjects } from '../../../../redux/actions/projectActions';
+import { getAllProjects } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { ProjectType } from '../DashboardNav';
+
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
@@ -47,10 +48,11 @@ const AllProjects: FC<Props> = ({
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([])
    console.log("FQP: ",filterQueryProjects)
-   const dave = "Dav"
+   const dave = "dav"
     useEffect(() => {
         dispatch(getAllProjects());
-        console.log("regex: ",new RegExp(dave, 'g').test("sdfgDav"))
+        console.log("regex: ",/^[A-Za-z0-9 ]+$/.test(dave) )
+        
         
     }, []);
     
@@ -88,6 +90,7 @@ const AllProjects: FC<Props> = ({
 
         }else{
             utilizedData = archivedProjects
+            return
         }
         const sorted: any ={ 
             0: utilizedData,
@@ -114,6 +117,7 @@ const AllProjects: FC<Props> = ({
         setCurrentSort(field);
         
     }
+
     
 
 
@@ -122,6 +126,14 @@ const AllProjects: FC<Props> = ({
 
     const searchFilter = (e: any, data: any) =>{
         const searchValue: string = e.currentTarget.value.toLowerCase();
+        const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue)
+        try{
+            checkSearchVal
+        }catch(error: any){
+            alert("Please no special characters.")
+            console.log("error in searchfield: ", error.message)
+        } 
+        if (checkSearchVal && searchValue.length ){
         if(searchValue === ""){
             setParsedData(data)
             return data
@@ -134,16 +146,13 @@ const AllProjects: FC<Props> = ({
                     region: item.region
                 }
                 const itemVals: any = Object.values(searchItem);
-                console.log("ItemVals: ",itemVals);
                 let doesMatch = false;
                 itemVals.map((item: string)=>{ 
                     const regCheck = new RegExp(searchValue, 'g').test(item.toLowerCase())
-                    console.log("RegCheck: ", regCheck)
                      if(regCheck){
                         doesMatch = true
                      }}
                     );
-                console.log("Does Match: ",doesMatch)
                 if(Boolean(doesMatch) === true){
                     return item
                 }else{
@@ -152,8 +161,10 @@ const AllProjects: FC<Props> = ({
 
             })
             setParsedData(searchData)
-            console.log("Parsed Data: ",parsedData)
             return searchData
+        }
+    }else{
+            alert('Please no special characters.')
         }
     }
 
@@ -177,6 +188,7 @@ const AllProjects: FC<Props> = ({
         }else{
             return directionCall[0]
         }
+        
         
     }
     

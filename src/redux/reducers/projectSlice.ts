@@ -16,6 +16,7 @@ export interface ProjectStateType {
 }
 
 export type ProjectType = {
+    _id?: string;
     name: string;
     clientId: string;
     clientName: string;
@@ -49,6 +50,7 @@ export type LightType = {
 };
 
 export type RoomType = {
+    _id?: string;
     clientId: string;
     projectId?: string;
     name: string;

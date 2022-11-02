@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
+import ReactTooltip from "react-tooltip"
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { UserType } from '../../app/typescriptTypes';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
-import { getProject } from '../../redux/actions/projectActions';
+import { getProject, getAllProjects, getUserProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch } from '../../app/hooks';
+import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
+import { axiosPrivate } from '../../api/axios';
 
 interface ProjectSummaryProps {
     user: UserType;
@@ -32,6 +35,21 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
         }
     };
 
+    const copyOfProject = async (e: any, project: ProjectType) =>{
+        e.preventDefault();
+        const axiosPriv = await axiosPrivate();
+        const payload = {...project, copy: "project"};
+        try{
+            const response = await axiosPriv.post("/create-project", payload);
+            dispatch(getUserProjects(details.clientId));
+            dispatch(getAllProjects());
+            console.log("copyProject response: ", response);
+        }catch(error){
+            console.log("Error in copyProject: ",error);
+        }
+
+    }
+
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
     return (
         <div className="project-summary-container">
@@ -54,11 +72,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
                     <div className="project-summary-icons">
-                        <FaRegEdit className="edit-icon" />
+                        <FaRegEdit className="edit-icon"/>
                         <div></div>
-                        <FaRegClone className="clone-icon" />
+                        <FaRegClone  data-for="copy" data-tip="Copy Project" className="clone-icon" onClick={(e)=> copyOfProject(e, details)} />
+                        <ReactTooltip id="copy"/>
                         <div></div>
                         <FaArchive
+                        
                             className="archive-icon"
                             onClick={(e) => archiveSet(e)}
                         />
