@@ -1,17 +1,19 @@
 import axios from 'axios';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 export default axios.create({
-    baseURL: 'http://localhost:1337/api',
+    baseURL: BACKEND_URL,
 });
 
 const axiosAuth = axios.create({
-    baseURL: 'http://localhost:1337/api',
+    baseURL: BACKEND_URL,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 });
 
 const axiosFile = axios.create({
-    baseURL: 'http://localhost:1337/api',
+    baseURL: BACKEND_URL,
     headers: { 'Content-Type': 'multipart/form-data' },
     withCredentials: true,
 });
