@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from 'react';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import './style/allProjects.scss';
-import { getAllProjects, getFilteredProjects } from '../../../../redux/actions/projectActions';
+import { getAllProjects } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { ProjectType } from '../DashboardNav';
+
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
@@ -38,16 +39,20 @@ const AllProjects: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch();
     const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
-    const [filterProjects, setFilterProjects] = useState('');
-    filterProjects;
+    // const [filterProjects, setFilterProjects] = useState('');
+    // filterProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);    
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
+    const [parsedData, setParsedData] = useState<ProjectType[]>([])
    console.log("FQP: ",filterQueryProjects)
+   const dave = "dav"
     useEffect(() => {
         dispatch(getAllProjects());
+        console.log("regex: ",/^[A-Za-z0-9 ]+$/.test(dave) )
+        
         
     }, []);
     
@@ -85,6 +90,7 @@ const AllProjects: FC<Props> = ({
 
         }else{
             utilizedData = archivedProjects
+            return
         }
         const sorted: any ={ 
             0: utilizedData,
@@ -112,14 +118,61 @@ const AllProjects: FC<Props> = ({
         
     }
 
+    
+
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
+
+    const searchFilter = (e: any, data: any) =>{
+        const searchValue: string = e.currentTarget.value.toLowerCase();
+        const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue)
+        try{
+            checkSearchVal
+        }catch(error: any){
+            alert("Please no special characters.")
+            console.log("error in searchfield: ", error.message)
+        } 
+        if (checkSearchVal && searchValue.length ){
+        if(searchValue === ""){
+            setParsedData(data)
+            return data
+        }else{
+            const searchData = data.filter((item:ProjectType)=>{
+                const searchItem = {
+                    clientName: item.clientName,
+                    name: item.name,
+                    status: item.status,
+                    region: item.region
+                }
+                const itemVals: any = Object.values(searchItem);
+                let doesMatch = false;
+                itemVals.map((item: string)=>{ 
+                    const regCheck = new RegExp(searchValue, 'g').test(item.toLowerCase())
+                     if(regCheck){
+                        doesMatch = true
+                     }}
+                    );
+                if(Boolean(doesMatch) === true){
+                    return item
+                }else{
+                    return ""
+                }
+
+            })
+            setParsedData(searchData)
+            return searchData
+        }
+    }else{
+            alert('Please no special characters.')
+        }
+    }
+
     const reduxData = filterQueryProjects.length ? filterQueryProjects.slice() : allProjects.slice()
-    const activeProjects = reduxData.filter((project) => !project.archived);
-    const archivedProjects = reduxData.filter(
+    const activeProjects = (parsedData.length ? parsedData : reduxData).filter((project) => !project.archived);
+    const archivedProjects = (parsedData.length ? parsedData : reduxData).filter(
         (project) => project.archived == true
-    );
+    )
     
     const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -135,6 +188,7 @@ const AllProjects: FC<Props> = ({
         }else{
             return directionCall[0]
         }
+        
         
     }
     
@@ -180,12 +234,11 @@ const AllProjects: FC<Props> = ({
         <div className="all-projects-container">
             <div>
                 <div className="form-bar-button-container">
-                    <button onClick={()=> dispatch(getFilteredProjects({"clientName": "David Carlen"}))}>tester</button>
                     <input
                         className="dashboard-all-projects-search-bar"
                         type="text"
                         placeholder="Search"
-                        onChange={(e) => setFilterProjects(e.target.value)}
+                        onChange={(e) => searchFilter(e, reduxData)}
                     />
                     <FaSlidersH className="dashboard-all-projects-submit" onClick={()=>setOpenModal(true)} />
                 </div>
@@ -224,7 +277,7 @@ const AllProjects: FC<Props> = ({
                                           archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
-                                    {reduxData.length -
+                                    {(parsedData.length? parsedData.length : reduxData.length) -
                                         archivedProjects.length}
                                 </div>
                             ) : (

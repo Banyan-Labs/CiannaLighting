@@ -15,9 +15,7 @@ const createProject = async (req: Request, res: Response) => {
     status,
     rooms,
     copy } = req.body;
-  /**
-   * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
-   */
+  
 
   if (_id && copy === "room") {
     Room.findOne({ _id: rooms[0] })
@@ -38,7 +36,7 @@ const createProject = async (req: Request, res: Response) => {
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
-      name: name,
+      name: copy === "project" ? `Copy of ${name}` : name,
       clientId: clientId,
       clientName: clientName,
       region: region,
@@ -130,7 +128,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: name,
+    name: `Copy of ${name}`,
     clientId: clientId,
     projectId: newProjectId,
     description: description,

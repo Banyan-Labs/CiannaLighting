@@ -1,14 +1,22 @@
 import React, { FC, useCallback } from 'react';
-import { useAppSelector } from '../../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
+import { axiosPrivate } from '../../../../../api/axios';
 
 import './rooms.scss';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
+import ReactTooltip from 'react-tooltip';
+import { RoomType } from '../../../../../redux/reducers/projectSlice';
+import { getAllProjectRoomsAction} from '../../../../../redux/actions/projectActions';
+
+
+// check(room).map((lights: LightType)=> dave sucks)
 
 const IdRooms: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { projectRooms } = useAppSelector(({ project }) => project);
+    const { project ,projectRooms }= useAppSelector(({ project }) => project);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch()
 
     const projectRoute = useCallback(
         (roomId: string, projId: string) => {
@@ -18,6 +26,24 @@ const IdRooms: FC = () => {
         [user.name, navigate]
     );
 
+
+    const copyRoom = async (e:any, room: RoomType) =>{
+        e.preventDefault();
+        const axiosPriv = await axiosPrivate();
+        const projectId: string  = project?._id ?? "";
+        const copyRoom = [room._id]
+        const payload = {_id: projectId, rooms: copyRoom, copy: "room", clientId: room.clientId }
+
+        try {
+            const response = await axiosPriv.post('/create-project', payload);
+            console.log("copyRoom Response: ",response)
+            dispatch(getAllProjectRoomsAction(projectId))
+ 
+        } catch (error: any) {
+            console.log("Error: ",error)
+        }
+    }
+
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
@@ -25,9 +51,7 @@ const IdRooms: FC = () => {
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
-                onClick={() => {
-                    projectRoute(room?._id, room?.projectId);
-                }}
+                
                 key={index}
             >
                 <span style={{ color: 'black' }}>
@@ -36,9 +60,12 @@ const IdRooms: FC = () => {
                 <div style={{ color: 'black' }} className="cardRoom-divider" />
                 <h3 style={{ color: 'black' }}>{room?.name}</h3>
                 <div className="room-details-block" key={index}>
-                    <FaRegClone className="clone-icon" />
+                    <FaRegClone data-for="new-room" data-tip="Copy Room" className="clone-icon" onClick={(e)=> copyRoom(e,room)} />
+                    <ReactTooltip id="new-room"/>
                     {/* include copy room stuff here ^^^^ */}
-                    <span style={{ color: 'black' }}>
+                    <span style={{ color: 'black' }} onClick={() => {
+                    projectRoute(room?._id, room?.projectId);
+                }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
                     </span>
