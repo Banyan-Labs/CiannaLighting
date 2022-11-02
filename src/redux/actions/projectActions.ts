@@ -138,13 +138,12 @@ export const getFilteredProjects =
 
     export const viewRoomLights =
     (roomId: string) =>
-    async (dispatch: Dispatch): Promise<void> => {
+    async (dispatch: Dispatch): Promise<any> => {
         const axiosPriv = await axiosPrivate();
         try {
             const response = await axiosPriv.post('/get-lightSelections', {
                 roomId: roomId,
             });
-            console.log(response)
            return  response.data.lights
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));

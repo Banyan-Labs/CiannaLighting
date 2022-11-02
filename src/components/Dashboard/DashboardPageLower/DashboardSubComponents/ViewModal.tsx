@@ -30,13 +30,17 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
         setRooms
     }, [])
 
-    const fetchRoomLight = async (roomId: any) => {
-        const response = await dispatch(viewRoomLights(roomId));
-        console.log(response);
-        await setRoomLight(response)
+    const awaitData = async (roomId:any) => {
+       const response = await dispatch(viewRoomLights(roomId))
+       setRoomLight(response)
+       
+    }
+    const fetchRoomLight = (roomId: string) => {
+       awaitData(roomId);
+       return awaitData
     }
     const date = new Date(Date.parse(projectModal?.createdAt)).toDateString();
-    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (
         <div className="project-modal-background">
@@ -72,23 +76,78 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
                             </div>) : 
                                 (
                                     <div>
-                                        {rooms.length > 0 ? rooms.map(
+                                        {rooms?.length > 0 ? rooms.map(
                                             (r: any, index = r.indexOf(r)) => {
+                                                 
+                                                    
+                                            const bool = roomLight ?  roomLight.map((m:any) => m.roomId === r._id ? true : false) : '';
+                                           
+                                                
                                                 return (
                                                     <div className='d-flex row' key={index}>
-                                                        <h4 className='col-12'>{r?.name}</h4>
-                                                        <h4 className='col-3'>Created</h4>
-                                                        <span className='col-9'>{new Date(Date.parse(r?.createdAt)).toDateString()}</span>
-                                                        <h4 className='col-3'>Description</h4>
-                                                        <span className='col-9'>{r?.description}</span>
+                                                        <h4 className='col-12 name-room'>{r?.name}</h4>
+                                                        <h4 className='col-3 created-tag'>Created</h4>
+                                                        <span className='col-9 created-tag-span'>{new Date(Date.parse(r?.createdAt)).toDateString()}</span>
+                                                        <h4 className='col-3 created-tag'>Description</h4>
+                                                        <span className='col-9 created-tag-span'>{r?.description}</span>
                                                         {r?.lights.length > 0 ? (
-                                                            <div className='d-flex justify-content-between'>
-                                                            <h4>Lights({r?.lights.length})</h4>
-                                                            <button onClick={() => fetchRoomLight(String(r._id))}>{isCollapsed ? '-' : '+'} 
-                                                            </button>
+                                                            <div>
+                                                            <div className={isCollapsed ? 'd-flex justify-content-between btn-view-container' : 'd-flex justify-content-between btn-view-container-none'}>
+                                                            <h4 className='created-tag'>Lights({r?.lights.length})</h4>
+                                                            <button className='btn-view-lights' onClick={() =>{
+                                                               fetchRoomLight(String(r._id))
+                                                              setIsCollapsed(!isCollapsed)
+                                                            }
+                                                            }>{isCollapsed &&  bool[0] === true ? '-' : '+'} 
+                                                            </button> 
+                                                            </div>
+                                                            <div className={isCollapsed ? 'd-flex row light-view-container' : 'd-none'}>
+                                                            { roomLight !== null ? roomLight?.map(
+                                                           (l: any, index = l.indexOf(l)) => {
+                                                                 return ( 
+                                                                       <div className={l.roomId === r._id ? 'inner-light-container' : 'd-none' } key={index}>
+                                                                        <div className='d-flex justify-content-between align-items-start'>
+                                                                            <div className='d-flex row'>
+                                                                         <h4 className='m-0 name-tag'>Name</h4>
+                                                                         <h5 className=''>{l?.item_ID}</h5>
+                                                                         </div>
+                                                                         <p className='m-0 name-tag'>Qty. {l?.quantity}</p>
+                                                                         </div>
+                                                                         <div className='d-flex justify-content-between row'>
+                                                                            <div className='col-6 d-flex align-content-start row '>
+                                                                             <h5 className='col-6 m-0'>Exterior Finish:</h5>
+                                                                             <p className='col-6'>{l.exteriorFinish}</p>
+                                                                             <h5 className='col-6 m-0'>Interior Finish:</h5>
+                                                                             <p className='col-6'>{l.interiorFinish}</p>
+                                                                             <h5 className='col-6 m-0'>Environment:</h5>
+                                                                             <p className='col-6 m-0'>{l.environment}</p>
+                                                                             <h5 className='col-6 m-0'>Safety Cert:</h5>
+                                                                             <p className='col-6 m-0'>{l.safetyCert}</p>
+                                                                             <h5 className='col-6 m-0'>Project Voltage:</h5>
+                                                                             <p className='col-6'>{l.projectVoltage}</p>
+                                                                             <h5 className='col-6 m-0'>Socket Type:</h5>
+                                                                             <p className='col-6'>{l.socketType}</p>
+                                                                             <h5 className='col-6 m-0'>Mounting:</h5>
+                                                                             <p className='col-6'>{l.mounting}</p>
+                                                                            </div>
+                                                                            <div className='col-6 d-flex row'>
+                                                                            <h5 className='col-6 m-0'>Lens Material:</h5>
+                                                                             <p className='col-6'>{l.lensMaterial}</p>
+                                                                             <h5 className='col-6'>Options:</h5>
+                                                                             <p className='col-6'>{l.acrylicOptions}</p>
+                                                                             <h5 className='col-6 m-0'>Crystal Type:</h5>
+                                                                             <p className='col-6'>{l.crystalType}</p>
+                                                                             <h5 className='col-6'>Options:</h5>
+                                                                             <p className='col-6'>{l.crystalPinColor} <br /> {l.crystalPinType} </p>
+                                                                            </div>
+                                                                         </div>
+                                                                         </div>
+                                                                     )
+                                            }) : ''}</div>
+                                                           
                                                             </div>
                                                         ) : (
-                                                            <h4>No Lights In this room</h4>
+                                                            <h4 className='no-lights'>No Lights In this room</h4>
                                                         )
                                                         }
                                                     </div>
@@ -96,7 +155,7 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
                                             }
                                         ) :
                                             (
-                                                <h4>no rooms in this project</h4>
+                                                <h4 className='no-rooms'>no rooms in this project</h4>
                                             )
                                         }
 
