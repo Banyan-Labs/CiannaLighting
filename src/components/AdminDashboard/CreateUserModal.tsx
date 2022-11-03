@@ -2,7 +2,7 @@ import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes, FaQuestionCircle } from 'react-icons/fa';
 import { AiOutlineReload } from 'react-icons/ai';
 import { generatePassword } from '../../app/generatePassword';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import {
     createUserAction,
     getAllUsers,
