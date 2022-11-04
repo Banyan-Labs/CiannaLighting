@@ -30,7 +30,7 @@ const App: FC = () => {
                         <Route element={<PersistLogin />}>
                             {/* Admin Routes! */}
                             <Route
-                                element={<RequireAuth roles={[ROLES.Cmd]} />} // this is how to restrict access on the frontend. The role you pass in is the allowed role
+                                element={<RequireAuth roles={[ROLES.Cmd, ROLES.Int]} />} // this is how to restrict access on the frontend. The role you pass in is the allowed role
                             >
                             <Route
                                         path="/cmd/inventory"
