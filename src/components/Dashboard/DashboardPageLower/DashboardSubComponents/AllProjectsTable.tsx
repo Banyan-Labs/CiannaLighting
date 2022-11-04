@@ -11,6 +11,7 @@ import { ProjectType } from '../DashboardNav';
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
+import {ViewModal} from './ViewModal';
 
 type Props = {
     renderedPage: string;
@@ -38,6 +39,8 @@ const AllProjects: FC<Props> = ({
     
 }) => {
     const dispatch = useAppDispatch();
+    const [openModal2, setOpenModal2] = useState(false);
+    const [projectModal, setProjectModal] = useState(null);
     const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
     // const [filterProjects, setFilterProjects] = useState('');
     // filterProjects;
@@ -222,7 +225,7 @@ const AllProjects: FC<Props> = ({
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
-                            <ProjectMiniModal />
+                            <ProjectMiniModal setOpenModal={setOpenModal2} setProjectModal={setProjectModal} project={project} />
                         )}
                     </td>
                 </tr>
@@ -336,9 +339,17 @@ const AllProjects: FC<Props> = ({
                     </div>
                 </div>
             </div>
-            {openModal && (
+            {openModal2 && (
+                    <ViewModal
+                        openModal={openModal2}
+                        closeModal={setOpenModal2}
+                        projectModal={projectModal}
+                        setProjectModal={setProjectModal}
+                    /> 
+                )}
+                {openModal && 
                 <FilterModal  openModal={openModal} closeModal={setOpenModal} />
-            )}
+                }
         </div>
     );
 };

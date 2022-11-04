@@ -32,7 +32,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
             : dataHolding.setData().color;
 
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { projectId, catalogConnectLight } = useAppSelector(({ project }) => project);
+    const { projectId } = useAppSelector(({ project }) => project);
    
 
     const deleteLightFunc = (light: any ) => {
@@ -47,7 +47,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
 
     const editLightFunc = async(light: any) => {
         const response = await dispatch(getEditLight({ "item_ID":String(light.item_ID) }))
-        console.log(response)
+        // console.log(response)
        setTheData(light, response)
       }
 

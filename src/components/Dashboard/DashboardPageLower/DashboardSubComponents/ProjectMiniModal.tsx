@@ -2,15 +2,25 @@ import React, { FC } from 'react';
 import './style/allProjects.scss';
 import { FaRegCopy, FaRegEye, FaBan } from 'react-icons/fa';
 
-const ProjectMiniModal: FC = () => {
-    const herro = 'hello';
+interface projectProps {
+    setOpenModal: any;
+    setProjectModal: any;
+    project: any
+}
+
+const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, project }) => {
     return (
         <div className="project-mini-modal">
             <div className="project-mini-modal-link">
                 <FaRegCopy />
                 <p>Duplicate</p>
             </div>
-            <div className="project-mini-modal-link">
+            <div onClick={() => {
+                setOpenModal(true)
+                setProjectModal(project)
+            }
+            }
+                className="project-mini-modal-link">
                 <FaRegEye /> <p>View</p>
             </div>
 
