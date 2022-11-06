@@ -40,6 +40,7 @@ const AllProjects: FC<Props> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
+    const [deleteProject, setDeleteProject] = useState(false);
     const [projectModal, setProjectModal] = useState(null);
     const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
     // const [filterProjects, setFilterProjects] = useState('');
@@ -225,7 +226,7 @@ const AllProjects: FC<Props> = ({
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
-                            <ProjectMiniModal setOpenModal={setOpenModal2} setProjectModal={setProjectModal} project={project} />
+                            <ProjectMiniModal setOpenModal={setOpenModal2} setProjectModal={setProjectModal} project={project} setDeleteProject={setDeleteProject} />
                         )}
                     </td>
                 </tr>
@@ -345,6 +346,8 @@ const AllProjects: FC<Props> = ({
                         closeModal={setOpenModal2}
                         projectModal={projectModal}
                         setProjectModal={setProjectModal}
+                        deleteProject={deleteProject}
+                        setDeleteProject={setDeleteProject}
                     /> 
                 )}
                 {openModal && 

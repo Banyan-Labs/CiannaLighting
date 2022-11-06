@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import './style/allProjects.scss';
 import { useAppDispatch } from '../../../../app/hooks';
-import { viewProjectRooms, viewRoomLights } from '../../../../redux/actions/projectActions';
+import { viewProjectRooms, viewRoomLights, deleteThisProject, getAllProjects } from '../../../../redux/actions/projectActions';
 
 
 
@@ -13,9 +13,11 @@ type Props = {
     openModal: boolean;
     setProjectModal: any;
     projectModal: any;
+    deleteProject: any;
+    setDeleteProject: any;
 };
 
-export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setProjectModal }) => {
+export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setProjectModal, setDeleteProject, deleteProject }) => {
     const [tabProject, setTabProject] = useState(true);
     const [rooms, setRooms] = useState<any>(null);
     const [roomLight, setRoomLight] = useState<any>(null);
@@ -42,6 +44,15 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
     const date = new Date(Date.parse(projectModal?.createdAt)).toDateString();
     const [isCollapsed, setIsCollapsed] = useState(false);
 
+     const deleteTheProject = async () => {
+        await dispatch(deleteThisProject({_id: projectModal._id}))
+        await dispatch(getAllProjects())
+        closeModal(!openModal);
+        setProjectModal(null);
+        setDeleteProject(false);
+
+     }
+
     return (
         <div className="project-modal-background">
             <div className="project-modal-container">
@@ -50,6 +61,7 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
                         onClick={() => {
                             closeModal(!openModal);
                             setProjectModal(null);
+                            setDeleteProject(false);
                         }}
                     >
                         {' '}
@@ -73,6 +85,12 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
                                 <span className='col-8'>{projectModal?.region}</span>
                                 <h5 className='col-4'>Description </h5>
                                 <span className='col-8'>{projectModal?.description}</span>
+                                {deleteProject === true ? (
+                                    <div onClick={() => deleteTheProject()} className='col-12 d-flex justify-content-end align-items-start'>
+                                        <p className='confirm-delete'>*Confirm Delete*</p>
+                                   <button className=' delete-modal-button'>Delete Project</button>
+                                   </div>
+                                ) : ''}
                             </div>) : 
                                 (
                                     <div>
@@ -168,19 +186,3 @@ export const ViewModal: FC<Props> = ({ closeModal, openModal, projectModal, setP
         </div>
     );
 };
-
-
-// :
-// (
-//     <div>
-//          <button onClick={() => setRoomLight(null)}>Back to Project</button>
-//         {roomLight?.map(
-//             (l: any, index = l.indexOf(l)) => {
-//                 return (
-//                     <div key={index}>
-                       
-//                         <h4>{l?.exteriorFinish}</h4>
-//                         </div>
-//                 )}) }
-//     </div>
-// )

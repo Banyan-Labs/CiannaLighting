@@ -149,3 +149,15 @@ export const getFilteredProjects =
             dispatch(setProjectError(error.response.data));
         }
     };
+
+    export const deleteThisProject =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const projects = await axiosPriv.post('/delete-project', payload);
+            console.log(projects)
+        } catch (err) {
+            console.log(err);
+        }
+    };

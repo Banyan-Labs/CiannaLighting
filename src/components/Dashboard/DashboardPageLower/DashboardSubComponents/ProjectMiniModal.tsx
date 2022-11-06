@@ -1,14 +1,17 @@
 import React, { FC } from 'react';
 import './style/allProjects.scss';
-import { FaRegCopy, FaRegEye, FaBan } from 'react-icons/fa';
+import { FaRegCopy, FaRegEye, FaBan, FaTrash} from 'react-icons/fa';
+import { ROLES } from '../../../../app/constants'; 
 
 interface projectProps {
     setOpenModal: any;
     setProjectModal: any;
-    project: any
+    project: any;
+    setDeleteProject: any;
 }
 
-const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, project }) => {
+const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, project, setDeleteProject }) => {
+    console.log(ROLES.Cmd)
     return (
         <div className="project-mini-modal">
             <div className="project-mini-modal-link">
@@ -28,6 +31,20 @@ const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, pro
                 <FaBan />
                 <span>Read Only</span>
             </div>
+            {ROLES.Cmd === '6677'  ? 
+            (
+            <div onClick={() => {
+                setOpenModal(true)
+                setProjectModal(project)
+                setDeleteProject(true);
+            }
+            } className="project-mini-modal-link" >
+                <FaTrash />
+                <p>Delete Project</p>
+            </div>
+            )
+            : ''}
+
         </div>
     );
 };

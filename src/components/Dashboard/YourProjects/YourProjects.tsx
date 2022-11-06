@@ -32,8 +32,11 @@ const YourProjects: FC = () => {
     const { userProjects } = useAppSelector(({ project }) => project);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
+    
     const [openModal, setOpenModal] = useState(false);
+    const [editProject, setEditProject] = useState(false);
+    
+
     const projectRoute = useCallback(
         (projId: string) => {
             const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
@@ -227,7 +230,8 @@ const YourProjects: FC = () => {
             </div>
             <DashboardNav />
             {openModal && (
-                <Modal openModal={openModal} closeModal={setOpenModal} />
+                <Modal openModal={openModal} closeModal={setOpenModal} editProject={editProject}
+                setEditProject={setEditProject} />
             )}
         </>
     );
