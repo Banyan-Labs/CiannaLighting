@@ -26,30 +26,52 @@ const Settings: FC = () => {
             console.log('region: ', regionCall);
             setStatus(statusCall.data.data);
             setRegion(regionCall.data.data);
+            setNewStatus('');
+            setNewRegion('');
         } catch (error: any) {
             console.log('error sr: ', error.message);
         }
     };
-    const handleChange = (e:any, section:string) =>{
-        if(section == 'status'){
-            setNewStatus(e.currentTarget.value)
-        }else if (section == 'region'){
-            setNewRegion(e.currentTarget.value)
+    const handleChange = (e: any, section: string) => {
+        if (section == 'status') {
+            setNewStatus(e.currentTarget.value);
+        } else if (section == 'region') {
+            setNewRegion(e.currentTarget.value);
         }
-        console.log(e)
-        console.log("statusChange: ", newStatus)
-        console.log("regionChange: ", newRegion)
-    }
-    const handleSubmit = async (e:any,section: string) =>{
-        const submitVal = section === 'status' ? newStatus : section === 'region' ? newRegion : ''
+    };
+    const handleSubmit = async (e: any, section: string) => {
+        e.preventDefault();
+        const submitVal =
+            section === 'status'
+                ? newStatus
+                : section === 'region'
+                ? newRegion
+                : '';
         const axiosPriv = await axiosPrivate();
         try {
-            const submitted = await axiosPriv.post("/internal/new-sr", {"label": section, "value":submitVal});
-            console.log("submitted: ", submitted)
-        }catch (error: any) {
+            const submitted = await axiosPriv.post('/internal/new-sr', {
+                label: section,
+                value: submitVal,
+            });
+            console.log('submitted: ', submitted);
+        } catch (error: any) {
             console.log('error submitNew: ', error.message);
         }
-        setSections()
+        setSections();   
+    };
+    const removeSR = async (e: any, section: string, value: string) => {
+        e.preventDefault();
+        const axiosPriv = await axiosPrivate();
+        try {
+            const submitted = await axiosPriv.post('/internal/delete-sr', {
+                label: section,
+                value: value,
+            });
+            console.log('submitted delete: ', submitted);
+        } catch (error: any) {
+            console.log('error submitNew: ', error.message);
+        }
+        setSections();
     }
 
     /**
@@ -60,6 +82,13 @@ const Settings: FC = () => {
     }, []);
     return (
         <div style={{ marginTop: '100px' }}>
+            <input
+                type="text"
+                placeholder="Add to status here..."
+                value={newStatus}
+                onChange={(e) => handleChange(e, 'status')}
+            ></input>
+            <button onClick={(e) => handleSubmit(e, 'status')}>submit</button>
             <table className="users-table">
                 <thead>
                     <tr className="users-table-headers">
@@ -77,7 +106,7 @@ const Settings: FC = () => {
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">
-                                    <button className="user-options-button">
+                                    <button className="user-options-button" onClick={(e)=> removeSR(e,'status', label)}>
                                         <AiOutlineCloseCircle />
                                     </button>
                                 </td>
@@ -95,8 +124,9 @@ const Settings: FC = () => {
                 type="text"
                 placeholder="Add to region here..."
                 value={newRegion}
-                onChange={(e)=> handleChange(e, 'region')}
-            ></input><button onClick={(e)=> handleSubmit(e, 'region')}>submit</button>
+                onChange={(e) => handleChange(e, 'region')}
+            ></input>
+            <button onClick={(e) => handleSubmit(e, 'region')}>submit</button>
             <table className="users-table">
                 <thead>
                     <tr className="users-table-headers">
@@ -114,7 +144,7 @@ const Settings: FC = () => {
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">
-                                    <button className="user-options-button">
+                                    <button className="user-options-button" onClick={(e)=> removeSR(e,'region', label)}>
                                         <AiOutlineCloseCircle />
                                     </button>
                                 </td>
