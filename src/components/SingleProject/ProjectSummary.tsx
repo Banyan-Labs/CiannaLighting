@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import ReactTooltip from "react-tooltip"
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -9,7 +9,8 @@ import { getProject, getAllProjects, getUserProjects } from '../../redux/actions
 import { useAppDispatch } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
-
+import Modal from '../Modal/Modal'
+import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 interface ProjectSummaryProps {
     user: UserType;
     details: any;
@@ -17,6 +18,8 @@ interface ProjectSummaryProps {
 
 const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
     const dispatch = useAppDispatch();
+    const [openModal, setOpenModal] = useState(false);
+    const [editProject, setEditProject] = useState(false);
     const Color =
         dataHolding.setData().color &&
         Object.keys(dataHolding.setData().color).length > 0
@@ -34,6 +37,11 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
             alert('Can not archive project.');
         }
     };
+
+    useEffect(() => {
+        dispatch(getAllStatus());
+        dispatch(getAllRegions());
+    }, []);
 
     const copyOfProject = async (e: any, project: ProjectType) =>{
         e.preventDefault();
@@ -56,7 +64,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
         <div className="project-summary-container">
             <div className="projects-summary">
                 <div className="back-to-projects">
-                    <Link to={`/projects/all/${user}`}>
+                    <Link to={`/dashboard`}>
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Projects
                     </Link>
@@ -73,13 +81,16 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
                     <div className="project-summary-icons">
-                        <FaRegEdit className="edit-icon"/>
+                        <FaRegEdit onClick={() => {setOpenModal(true); setEditProject(true)}} className="edit-icon" data-for="edit" data-tip="Edit Room" />
                         <div></div>
                         <FaRegClone  data-for="copy" data-tip="Copy Project" className="clone-icon" onClick={(e)=> copyOfProject(e, details)} />
+
                         <ReactTooltip id="copy"/>
+                        <ReactTooltip id="edit"/>
+                        <ReactTooltip id="archive"/>
                         <div></div>
                         <FaArchive
-                        
+                            data-for="archive" data-tip={details?.archived === true ? 'Restore' : 'Archive'}
                             className="archive-icon"
                             onClick={(e) => archiveSet(e)}
                         />
@@ -95,6 +106,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
                     </p>
                 </div>
             </div>
+            {openModal && (
+                <Modal
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    editProject={editProject}
+                    setEditProject={setEditProject}
+                />
+            )}
         </div>
     );
 };

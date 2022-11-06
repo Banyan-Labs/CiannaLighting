@@ -214,3 +214,18 @@ border-bottom: none;
         font-size: 14px;
         color: $primary-bg-white-sub-text;
     }
+
+    .confirm-delete{
+     color: $primary-bg-white-sub-text;
+     margin-right: 10px;
+    }
+
+    .delete-modal-button{
+        cursor: pointer;
+     background-color: red;
+     margin-top: 10px;
+     color: white;
+     padding: 8px 15px 8px 15px;
+     border-radius: .2rem;
+     border: none;
+    }
