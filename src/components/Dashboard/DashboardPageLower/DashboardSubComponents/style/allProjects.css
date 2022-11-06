@@ -195,6 +195,21 @@
   color: #949494;
 }
 
+.confirm-delete {
+  color: #949494;
+  margin-right: 10px;
+}
+
+.delete-modal-button {
+  cursor: pointer;
+  background-color: red;
+  margin-top: 10px;
+  color: white;
+  padding: 8px 15px 8px 15px;
+  border-radius: 0.2rem;
+  border: none;
+}
+
 .all-projects-container {
   margin-right: 1%;
   margin-left: 1%;

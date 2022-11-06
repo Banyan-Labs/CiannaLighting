@@ -1,6 +1,7 @@
 import React, { FC, useState} from 'react';
 import './style/roomDetails.scss';
 import { BsChevronLeft } from 'react-icons/bs';
+import ReactTooltip from "react-tooltip"
 import { useAppSelector } from '../../app/hooks';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,8 @@ import Default from '../../assets/stairway.jpeg';
 import {DeleteModal} from './LightSide/DeleteModal';
 import { useAppDispatch } from '../../app/hooks';
 import { getEditLight } from '../../redux/actions/lightActions';
+import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { axiosPrivate } from '../../api/axios';
 
 interface lightProps {
     setEditLight: any;
@@ -20,9 +23,12 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
     const { room, project, roomLights } = useAppSelector(
         ({ project }) => project
     );
+    
     const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [deleteLight, setDeleteLight] = useState('');
+    const [deleteRoom, setDeleteRoom] = useState(false);
+    const [editRoom, setEditRoom] = useState(false);
     const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
 
@@ -50,6 +56,23 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
         // console.log(response)
        setTheData(light, response)
       }
+
+      const copyRoom = async (e:any) =>{
+        e.preventDefault();
+        const axiosPriv = await axiosPrivate();
+        const projectId: string  = project?._id ?? "";
+        const copyRoom = [room?._id]
+        const payload = {_id: projectId, rooms: copyRoom, copy: "room", clientId: room?.clientId }
+
+        try {
+            const response = await axiosPriv.post('/create-project', payload);
+            console.log("copyRoom Response: ",response)
+            dispatch(getAllProjectRoomsAction(projectId))
+ 
+        } catch (error: any) {
+            console.log("Error: ",error)
+        }
+    }
 
       
 
@@ -165,15 +188,24 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
             </div>
 
             <div className="col-12 m-0 d-flex ">
-                <div className="project-date ">
-                    <h3 className="">{room?.name}</h3>
-
+                <div className="project-date d-flex row">
+                    <h3 className="m-0">{room?.name}</h3>
                     <p className="">Created: {date}</p>
                 </div>
                 <div className=" icon-container d-flex align-items-center justify-content-center">
-                    <FaRegEdit className="m-2 room-icons" />
-                    <FaRegClone className="m-2 room-icons" />
-                    <FaRegTrashAlt className="m-2 room-icons" />
+                    <FaRegEdit data-for="edit" data-tip="Edit Room" className="m-2 room-icons" onClick={() => {
+                     setOpenModal(true)
+                     setEditRoom(true)
+                    }} />
+                    <FaRegClone data-for="copy" data-tip="Copy Room" className="m-2 room-icons" onClick={(e)=> copyRoom(e)} />
+                    <FaRegTrashAlt onClick={() => {
+                     setOpenModal(true)
+                     setDeleteRoom(true)
+                    }} 
+                    data-for="delete" data-tip="Delete Room" className="m-2 room-icons" />
+                    <ReactTooltip id="edit"/>
+                        <ReactTooltip id="copy"/>
+                        <ReactTooltip id="delete"/>
                 </div>
             </div>
             <div className="">
@@ -222,6 +254,11 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                     closeModal={setOpenModal}
                     light={deleteLight}
                     setDeleteLight={setDeleteLight}
+                    deleteRoom={deleteRoom}
+                    setDeleteRoom={setDeleteRoom}
+                    room={room}
+                    editRoom={editRoom}
+                    setEditRoom={setEditRoom}
                 />
             )}
         </div>
