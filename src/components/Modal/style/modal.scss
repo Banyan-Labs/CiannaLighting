@@ -8,6 +8,7 @@
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
 // === Main container ===
@@ -23,6 +24,7 @@
     border-radius: 5px;
     background-color: white;
     color: $primary-bg-dark;
+    z-index: 1;
 }
 
 // === Close modal ---> "X" button ===

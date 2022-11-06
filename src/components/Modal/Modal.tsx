@@ -3,6 +3,7 @@ import { FaTimes } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
     createProjectAction,
+    getProject,
     getUserProjects,
 } from '../../redux/actions/projectActions';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
@@ -23,6 +24,8 @@ type ProjectType = {
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
+    editProject: boolean;
+    setEditProject: any;
 };
 
 // Modal function for "New Project". Creates a modal window which allows
@@ -30,18 +33,18 @@ type Props = {
 const Modal: FC<Props> = (props) => {
     const { status } = useAppSelector(({ filter: status }) => status);
     const { region } = useAppSelector(({ filter: region }) => region);
-
     const { user } = useAppSelector(({ auth: user }) => user);
+    const { project } = useAppSelector(({ project: project }) => project);
     const closeModal = props.closeModal;
     const openModal = props.openModal;
     const navigate = useNavigate();
     const [projectDetails, setProjectDetails] = useState<ProjectType>({
-        name: '',
+        name: props.editProject ? String(project?.name) : '',
         clientId: user._id,
         clientName: user.name,
-        region: 'Africa',
-        status: 'New',
-        description: '',
+        region: props.editProject ? String(project?.region) : 'Africa',
+        status: props.editProject ? String(project?.status) : 'New',
+        description: props.editProject ? String(project?.description) : '',
     });
 
     const dispatch = useAppDispatch();
@@ -60,11 +63,20 @@ const Modal: FC<Props> = (props) => {
         });
     };
 
+    const editFormat = (arr: any, defVal: any) =>{
+        const reFormat = [defVal, ...arr.filter((x: any)=> x !== defVal)]
+        
+        return reFormat
+    }
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         console.log('submitted');
         try {
-            dispatch(createProjectAction(projectDetails));
+           !props.editProject ? dispatch(createProjectAction(projectDetails)) : dispatch(getProject({
+            ...projectDetails,
+            _id: project?._id,
+           }))
             setProjectDetails({
                 name: '',
                 clientId: user._id,
@@ -73,9 +85,13 @@ const Modal: FC<Props> = (props) => {
                 status: '',
                 description: '',
             });
-            navigate(`/projects/ + ?_id= ${user._id}`);
+           !props.editProject ? navigate(`/projects/ + ?_id= ${user._id}`) : navigate(`/projects/ + ?_id= ${user._id}&projectId=${project?._id}`)
            await dispatch(getUserProjects(user._id));
             dataHolding.getData(projectDetails, '');
+           if (props.editProject) {
+               closeModal(false)
+               props.setEditProject(false)
+           }
         } catch (err) {
             console.log('Error: ' + err);
         }
@@ -88,6 +104,7 @@ const Modal: FC<Props> = (props) => {
                     <button
                         onClick={() => {
                             closeModal(!openModal);
+                            props.setEditProject(false)
                         }}
                     >
                         {' '}
@@ -95,7 +112,7 @@ const Modal: FC<Props> = (props) => {
                     </button>
                 </div>
                 <div className="new-project-modal-title">
-                    <h3 className="modal-title">New Project</h3>
+                    <h3 className="modal-title">{props.editProject === true ? `Edit ${project?.name}` : 'New Project' }</h3>
                 </div>
                 <div className="new-project-modal-body">
                     <form onSubmit={onSubmit}>
@@ -110,7 +127,7 @@ const Modal: FC<Props> = (props) => {
                             name="name"
                             id="name"
                             className="new-project-modal-inputs"
-                            placeholder="Ex. 113 Baptistry"
+                            placeholder= {props.editProject ? project?.name : "Ex. 113 Baptistry" }
                             value={projectDetails.name}
                             onChange={(e) => handleFormInput(e)}
                             required
@@ -126,7 +143,7 @@ const Modal: FC<Props> = (props) => {
                             id="description"
                             type="text"
                             className="new-project-modal-inputs"
-                            placeholder="Description of the project..."
+                            placeholder={props.editProject ? project?.description : "Description of the project..." }
                             value={projectDetails.description}
                             onChange={(e) => handleFormInput(e)}
                             required
@@ -149,32 +166,23 @@ const Modal: FC<Props> = (props) => {
                                     onChange={(e) => handleSelection(e)}
                                     required
                                 >
-                                    {status.map(
-                                        (
-                                            status: string,
-                                            index = status.indexOf(status)
-                                        ) => {
-                                            if (status === 'Choose Status') {
-                                                return (
-                                                    <option
-                                                        defaultValue={status}
-                                                        key={index}
-                                                        value={status}
-                                                    >
-                                                        {status}
-                                                    </option>
-                                                );
-                                            }
-                                            return (
-                                                <option
-                                                    key={index}
-                                                    value={status}
-                                                >
-                                                    {status}
-                                                </option>
-                                            );
-                                        }
-                                    )}
+                                    {!props.editProject ? status.map(
+                                    (status: string, index = status.indexOf(status)) => {
+                                        return (
+                                            <option key={index} value={status}>
+                                                {status}
+                                            </option>
+                                        );
+                                    }
+                                ): editFormat(status, project?.status)?.map(
+                                    (status: string, index = status.indexOf(status)) => {
+                                        return (
+                                            <option key={index} value={status}>
+                                                {status}
+                                            </option>
+                                        );
+                                    }
+                                )}
                                 </select>
                             </div>
                             <br />
@@ -189,32 +197,23 @@ const Modal: FC<Props> = (props) => {
                                     onChange={(e) => handleSelection(e)}
                                     required
                                 >
-                                    {region.map(
-                                        (
-                                            region: string,
-                                            index = region.indexOf(region)
-                                        ) => {
-                                            if (region === 'Choose Region') {
-                                                return (
-                                                    <option
-                                                        defaultValue={region}
-                                                        key={index}
-                                                        value={region}
-                                                    >
-                                                        {region}
-                                                    </option>
-                                                );
-                                            }
-                                            return (
-                                                <option
-                                                    key={index}
-                                                    value={region}
-                                                >
-                                                    {region}
-                                                </option>
-                                            );
-                                        }
-                                    )}
+                                    {!props.editProject ? region.map(
+                                    (region: string, index = region.indexOf(region)) => {
+                                        return (
+                                            <option key={index} value={region}>
+                                                {region}
+                                            </option>
+                                        );
+                                    }
+                                ): editFormat(region, project?.region)?.map(
+                                    (region: string, index = region.indexOf(region)) => {
+                                        return (
+                                            <option key={index} value={region}>
+                                                {region}
+                                            </option>
+                                        );
+                                    }
+                                )}
                                 </select>
                             </div>
                         </div>
@@ -223,7 +222,7 @@ const Modal: FC<Props> = (props) => {
                                 type="submit"
                                 className="new-project-modal-button"
                             >
-                                Create Project
+                               {props.editProject ? 'Edit Project' : 'Create Project'}
                             </button>
                         </div>
                     </form>
