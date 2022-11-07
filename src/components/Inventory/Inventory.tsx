@@ -300,8 +300,6 @@ const Inventory: FC = () => {
                             Measurements
                         </label>
                         <div className="tab-content">
-                            {/* Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Ipsum, reiciendis! */}
                             <label htmlFor="region">Body Diameter</label>
                             <br />
                             <input
