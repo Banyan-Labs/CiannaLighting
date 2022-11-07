@@ -1,5 +1,5 @@
 export const adminLinks = [
-    { text: 'Users', link: '/cmd/dash' },
-    { text: 'Catalog', link: '/cmd/dash/catalog' },
+    { text: 'Catalog', link: '/cmd/dash' },
     { text: 'Settings', link: '/cmd/dash/settings' },
+    { text: 'Users', link: '/cmd/dash/users' },
 ];

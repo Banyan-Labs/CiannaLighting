@@ -51,6 +51,9 @@
         justify-content: flex-start;
     }
 }
+.remove-td{
+    padding-left: 30px;
+}
 
 .user-options-button {
     height: 25px;
@@ -82,5 +85,8 @@
     }
     .button-td {
         justify-content: flex-end;
+    }
+    .remove-button-td{
+        justify-content: center;
     }
 }

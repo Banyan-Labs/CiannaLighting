@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link, useLocation } from 'react-router-dom';
+import { logoutAction } from '../../redux/actions/authActions';
+import { ROLES } from '../../app/constants';
+import { FaRegBell } from 'react-icons/fa';
+import logo from '../../assets/ciana-lighting-logo.png';
+import useParams from '../../app/utils';
 import * as data from './links.json';
 import './style/Navbar.scss';
-import logo from '../../assets/ciana-lighting-logo.png';
-import { FaRegBell } from 'react-icons/fa';
-import useParams from '../../app/utils';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { logoutAction } from '../../redux/actions/authActions';
 
 const links = JSON.parse(JSON.stringify(data)).links;
 
@@ -17,37 +18,42 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[] }> = () => {
-    const location = useLocation();
-    const pathname = location.pathname;
     const [storedProjId] = useParams('projectId');
-    const activeLocation = pathname.split('/')[1];
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
+    const location = useLocation();
+    const pathname = location.pathname;
+    const activeLocation = pathname.split('/')[1];
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = String(latestProject.map((p) => p._id));
     const Id = storedProjId ? storedProjId : defaultProjId;
 
     return (
         <div className="navbar-links-container">
-            {links.map((link: Link) => {
-                return (
-                    <div key={link.href}>
-                        <Link
-                            to={{
-                                pathname: link.href,
-                                search: `?_id=${user._id}&projectId=${Id}`,
-                            }}
-                            className={
-                                activeLocation === link.label.toLowerCase()
-                                    ? 'active navbar-links'
-                                    : 'navbar-links'
-                            }
-                        >
-                            {link.label}
-                        </Link>
-                    </div>
-                );
-            })}
+            {links
+                .slice()
+                .filter((link: Link) =>
+                    link.label === 'Admin' && user.role != ROLES.Cmd ? '' : link
+                )
+                .map((link: Link) => {
+                    return (
+                        <div key={link.href}>
+                            <Link
+                                to={{
+                                    pathname: link.href,
+                                    search: `?_id=${user._id}&projectId=${Id}`,
+                                }}
+                                className={
+                                    activeLocation === link.label.toLowerCase()
+                                        ? 'active navbar-links'
+                                        : 'navbar-links'
+                                }
+                            >
+                                {link.label}
+                            </Link>
+                        </div>
+                    );
+                })}
         </div>
     );
 };

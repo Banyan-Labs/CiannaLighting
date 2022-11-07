@@ -2,6 +2,9 @@
 .users-table-title {
   margin-top: 10px;
 }
+.remove-td{
+  padding-left: 30px;
+}
 .users-table-title h1 {
   margin: 0px;
 }
@@ -81,4 +84,7 @@
 }
 .user-table-row .button-td {
   justify-content: flex-end;
+}
+.user-table-row .remove-button-td {
+  justify-content: center;
 }/*# sourceMappingURL=UsersTable.css.map */

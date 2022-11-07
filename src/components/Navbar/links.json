@@ -15,11 +15,6 @@
         {
             "label": "Admin",
             "href": "/cmd/dash"
-        },
-        {
-            "label": "Inventory",
-            "href": "/cmd/inventory"
         }
-        
     ]
 }

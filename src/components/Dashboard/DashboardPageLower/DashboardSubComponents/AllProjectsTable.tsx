@@ -11,6 +11,7 @@ import { ProjectType } from '../DashboardNav';
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
+import {ViewModal} from './ViewModal';
 
 type Props = {
     renderedPage: string;
@@ -38,6 +39,9 @@ const AllProjects: FC<Props> = ({
     
 }) => {
     const dispatch = useAppDispatch();
+    const [openModal2, setOpenModal2] = useState(false);
+    const [deleteProject, setDeleteProject] = useState(false);
+    const [projectModal, setProjectModal] = useState(null);
     const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
     // const [filterProjects, setFilterProjects] = useState('');
     // filterProjects;
@@ -133,11 +137,10 @@ const AllProjects: FC<Props> = ({
             alert("Please no special characters.")
             console.log("error in searchfield: ", error.message)
         } 
-        if (checkSearchVal && searchValue.length ){
         if(searchValue === ""){
             setParsedData(data)
             return data
-        }else{
+        }else if (checkSearchVal && searchValue.length ){
             const searchData = data.filter((item:ProjectType)=>{
                 const searchItem = {
                     clientName: item.clientName,
@@ -162,7 +165,7 @@ const AllProjects: FC<Props> = ({
             })
             setParsedData(searchData)
             return searchData
-        }
+        
     }else{
             alert('Please no special characters.')
         }
@@ -222,7 +225,7 @@ const AllProjects: FC<Props> = ({
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
-                            <ProjectMiniModal />
+                            <ProjectMiniModal setOpenModal={setOpenModal2} setProjectModal={setProjectModal} project={project} setDeleteProject={setDeleteProject} />
                         )}
                     </td>
                 </tr>
@@ -336,9 +339,19 @@ const AllProjects: FC<Props> = ({
                     </div>
                 </div>
             </div>
-            {openModal && (
+            {openModal2 && (
+                    <ViewModal
+                        openModal={openModal2}
+                        closeModal={setOpenModal2}
+                        projectModal={projectModal}
+                        setProjectModal={setProjectModal}
+                        deleteProject={deleteProject}
+                        setDeleteProject={setDeleteProject}
+                    /> 
+                )}
+                {openModal && 
                 <FilterModal  openModal={openModal} closeModal={setOpenModal} />
-            )}
+                }
         </div>
     );
 };

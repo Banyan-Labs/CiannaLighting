@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
+.project-modal-background {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.project-modal-container {
+    z-index: 20;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    min-height: 400px;
+    max-height: 400px;
+    margin: 1rem auto;
+    padding: 1rem 5rem;
+    border-radius: 5px;
+    background-color: white;
+    overflow: scroll;
+}
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.project-modal-close-btn button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+}
+
+.project-modal-close-btn button:hover {
+    color: #101010;
+    cursor: pointer;
+}
+
+.modal-title {
+    color: black;
+    text-align: center;
+}
+
+
+
+.new-project-modal-button:hover {
+    background-color: #345c9c;
+}
+
+.new-room-modal-labels {
+    font-weight: bold;
+}
+
+.new-room-name {
+    border-bottom: #cbcbcb;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.max-text-span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.max-text {
+    position: relative;
+    top: -20px;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #101010;
+}
+
+
+
+.hr {
+    background-color: #cbcbcb;
+    height: 1px;
+    width: 70%;
+}
+
+.next-step-label {
+    font-size: 11px;
+}
+
+.project-modal-container .new-room-modal-footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.project-modal-container .new-room-modal-footer button {
+    background-color: #528dea;
+    color: white;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+// view page 
+
+.project-modal-inner-container{
+    
+    }
+    
+
+.button-display-view-container{
+ border-bottom: 1px solid $primary-bg-white-sub-text;
+
+ button{
+    font-size: 18px;
+    padding-bottom: 20px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+ }
+
+ .btn-right{
+   margin-left: 60px;
+ }
+
+ .viewActive{
+    color: $accent-gold;
+    font-weight: 600;
+border-bottom: 1.5px solid $accent-gold !important;
+ }
+}
+
+.no-lights{
+    display: flex;
+  font-size: 14px;
+  justify-content: center;
+  color: $primary-bg-white-sub-text;
+  border-bottom: 1px solid $primary-bg-white-sub-text;
+  padding-bottom: 10px;
+}
+
+.no-rooms{
+    display: flex;
+    justify-content: center;
+    color: $primary-bg-white-sub-text;
+}
+
+.light-view-container{
+ width: 100%;
+ max-height: 200px;
+ overflow: scroll;
+ 
+ padding-bottom: 10px;
+ h5{
+    font-size: 13px;
+ }
+ p{
+    padding-left: 30px;
+    color: $primary-bg-white-sub-text;
+    font-size: 14px;
+ }
+}
+
+.inner-light-container{
+   border-bottom: 1px solid $primary-bg-white-sub-text;
+
+   .name-tag{
+    padding-top: 10px;
+   }
+}
+
+.project-view-container{ 
+    padding-top: 20px;
+span{
+    font-size: 16px;
+    color: $primary-bg-white-sub-text ;
+}
+
+}
+
+
+.btn-view-container-none{
+border-bottom: none;
+}
+.btn-view-container-none{
+    border-bottom: 1px solid $primary-bg-white-sub-text ;
+}
+
+.btn-view-lights{
+ background-color: white;
+ border: none;
+ padding: none;
+ font-size: 30px;
+ cursor: pointer;
+}
+
+.name-room{
+    padding-top: 20px !important;
+    font-size: 15px;
+    }
+
+    .created-tag{
+     font-size: 15px;
+    }
+
+    .created-tag-span{
+        font-size: 14px;
+        color: $primary-bg-white-sub-text;
+    }
+
+    .confirm-delete{
+     color: $primary-bg-white-sub-text;
+     margin-right: 10px;
+    }
+
+    .delete-modal-button{
+        cursor: pointer;
+     background-color: red;
+     margin-top: 10px;
+     color: white;
+     padding: 8px 15px 8px 15px;
+     border-radius: .2rem;
+     border: none;
+    }
