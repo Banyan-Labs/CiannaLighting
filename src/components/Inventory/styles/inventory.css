@@ -94,4 +94,5 @@ input:checked ~ .tab-content {
   width: 50%;
   align-self: center;
   margin-top: 25px;
+  cursor: pointer;
 }/*# sourceMappingURL=inventory.css.map */
