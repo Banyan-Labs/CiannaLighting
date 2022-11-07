@@ -137,11 +137,10 @@ const AllProjects: FC<Props> = ({
             alert("Please no special characters.")
             console.log("error in searchfield: ", error.message)
         } 
-        if (checkSearchVal && searchValue.length ){
         if(searchValue === ""){
             setParsedData(data)
             return data
-        }else{
+        }else if (checkSearchVal && searchValue.length ){
             const searchData = data.filter((item:ProjectType)=>{
                 const searchItem = {
                     clientName: item.clientName,
@@ -166,7 +165,7 @@ const AllProjects: FC<Props> = ({
             })
             setParsedData(searchData)
             return searchData
-        }
+        
     }else{
             alert('Please no special characters.')
         }

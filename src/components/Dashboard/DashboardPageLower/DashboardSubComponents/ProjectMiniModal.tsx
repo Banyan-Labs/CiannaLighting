@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useAppSelector } from '../../../../app/hooks';
 import './style/allProjects.scss';
 import { FaRegCopy, FaRegEye, FaBan, FaTrash} from 'react-icons/fa';
 import { ROLES } from '../../../../app/constants'; 
@@ -11,6 +12,7 @@ interface projectProps {
 }
 
 const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, project, setDeleteProject }) => {
+    const { user } = useAppSelector(({ auth: user }) => user);
     console.log(ROLES.Cmd)
     return (
         <div className="project-mini-modal">
@@ -31,7 +33,7 @@ const ProjectMiniModal: FC<projectProps> = ({ setOpenModal, setProjectModal, pro
                 <FaBan />
                 <span>Read Only</span>
             </div>
-            {ROLES.Cmd === '6677'  ? 
+            {user.role === ROLES.Cmd  ? 
             (
             <div onClick={() => {
                 setOpenModal(true)
