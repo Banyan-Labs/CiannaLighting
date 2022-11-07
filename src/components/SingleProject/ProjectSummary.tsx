@@ -3,7 +3,6 @@ import ReactTooltip from 'react-tooltip';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { UserType } from '../../app/typescriptTypes';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import {
     getProject,
@@ -16,11 +15,10 @@ import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 interface ProjectSummaryProps {
-    user: UserType;
     details: any;
 }
 
-const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
+const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const dispatch = useAppDispatch();
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
@@ -56,7 +54,6 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ user, details }) => {
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
             alert(`Copy of ${project.name} created in your dashboard.`);
-            console.log('copyProject response: ', response);
         } catch (error) {
             console.log('Error in copyProject: ', error);
         }

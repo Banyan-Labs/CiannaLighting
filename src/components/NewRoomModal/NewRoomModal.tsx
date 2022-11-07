@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, FormEvent, useState, useEffect, useCallback } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
     createRoomAction,
     getAllProjectRoomsAction,
 } from '../../redux/actions/projectActions';
 import './style/newRoomModal.css';
-import { useNavigate } from 'react-router-dom';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;

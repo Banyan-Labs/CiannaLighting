@@ -1,14 +1,14 @@
 import React, { FC, FormEvent, useState } from 'react';
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
     createProjectAction,
     getProject,
     getUserProjects,
 } from '../../redux/actions/projectActions';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import './style/modal.scss';
-import { useNavigate } from 'react-router-dom';
 
 type ProjectType = {
     name: string;

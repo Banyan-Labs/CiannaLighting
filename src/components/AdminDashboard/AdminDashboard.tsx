@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import Settings from './Settings';
 import Inventory from '../Inventory/Inventory';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-import { adminLinks } from './links';
 import UsersTable from './UsersTable';
-import './styles/AdminDashboard.scss';
-import { ROLES } from '../../app/constants';
 import RequireAuth from '../RequireAuth/RequireAuth';
+import { ROLES } from '../../app/constants';
+import { adminLinks } from './links';
+import { useAppSelector } from '../../app/hooks';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
+import './styles/AdminDashboard.scss';
 
 const AdminDashboard: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);

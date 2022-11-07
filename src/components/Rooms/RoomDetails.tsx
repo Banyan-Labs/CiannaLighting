@@ -1,29 +1,29 @@
-import React, { FC, useState} from 'react';
-import './style/roomDetails.scss';
-import { BsChevronLeft } from 'react-icons/bs';
-import ReactTooltip from "react-tooltip"
-import { useAppSelector } from '../../app/hooks';
-import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import React, { FC, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
 import Default from '../../assets/stairway.jpeg';
-import {DeleteModal} from './LightSide/DeleteModal';
-import { useAppDispatch } from '../../app/hooks';
-import { getEditLight } from '../../redux/actions/lightActions';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import { Link } from 'react-router-dom';
+import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
+import { getEditLight } from '../../redux/actions/lightActions';
+import { BsChevronLeft } from 'react-icons/bs';
+import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
+import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import './style/roomDetails.scss';
 
 interface lightProps {
     setEditLight: any;
     setCatalogItem: any;
 }
 
-const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
+const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const [openModal, setOpenModal] = useState(false);
     const { room, project, roomLights } = useAppSelector(
         ({ project }) => project
     );
-    
+
     const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [deleteLight, setDeleteLight] = useState('');
@@ -39,42 +39,45 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
 
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
-   
 
-    const deleteLightFunc = (light: any ) => {
-      setDeleteLight(light)
-      setOpenModal(true);
-    }
+    const deleteLightFunc = (light: any) => {
+        setDeleteLight(light);
+        setOpenModal(true);
+    };
 
-    const setTheData = async(light:any, response:any) => {
-       await setCatalogItem(response)
-       setEditLight(light)
-    }
+    const setTheData = async (light: any, response: any) => {
+        await setCatalogItem(response);
+        setEditLight(light);
+    };
 
-    const editLightFunc = async(light: any) => {
-        const response = await dispatch(getEditLight({ "item_ID":String(light.item_ID) }))
+    const editLightFunc = async (light: any) => {
+        const response = await dispatch(
+            getEditLight({ item_ID: String(light.item_ID) })
+        );
         // console.log(response)
-       setTheData(light, response)
-      }
+        setTheData(light, response);
+    };
 
-      const copyRoom = async (e:any) =>{
+    const copyRoom = async (e: any) => {
         e.preventDefault();
         const axiosPriv = await axiosPrivate();
-        const projectId: string  = project?._id ?? "";
-        const copyRoom = [room?._id]
-        const payload = {_id: projectId, rooms: copyRoom, copy: "room", clientId: room?.clientId }
+        const projectId: string = project?._id ?? '';
+        const copyRoom = [room?._id];
+        const payload = {
+            _id: projectId,
+            rooms: copyRoom,
+            copy: 'room',
+            clientId: room?.clientId,
+        };
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            console.log("copyRoom Response: ",response)
-            dispatch(getAllProjectRoomsAction(projectId))
- 
+            console.log('copyRoom Response: ', response);
+            dispatch(getAllProjectRoomsAction(projectId));
         } catch (error: any) {
-            console.log("Error: ",error)
+            console.log('Error: ', error);
         }
-    }
-
-      
+    };
 
     const singleRoom = newLights?.map((light: any, index: any) => {
         return (
@@ -87,8 +90,19 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                             <p className="m-0">LLC</p>
                         </div>
                         <div className="d-flex align-items-end">
-                            <button className="m-0 edit-link" onClick={() => editLightFunc(light)}> Edit</button>
-                            <button  onClick={() => deleteLightFunc(light)} className="m-0 remove-link">Remove</button>
+                            <button
+                                className="m-0 edit-link"
+                                onClick={() => editLightFunc(light)}
+                            >
+                                {' '}
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => deleteLightFunc(light)}
+                                className="m-0 remove-link"
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
                     <p className="qty">
@@ -156,7 +170,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                         </div>
                     </div>
                 </div>
-                
             </div>
         );
     });
@@ -193,19 +206,33 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                     <p className="">Created: {date}</p>
                 </div>
                 <div className=" icon-container d-flex align-items-center justify-content-center">
-                    <FaRegEdit data-for="edit" data-tip="Edit Room" className="m-2 room-icons" onClick={() => {
-                     setOpenModal(true)
-                     setEditRoom(true)
-                    }} />
-                    <FaRegClone data-for="copy" data-tip="Copy Room" className="m-2 room-icons" onClick={(e)=> copyRoom(e)} />
-                    <FaRegTrashAlt onClick={() => {
-                     setOpenModal(true)
-                     setDeleteRoom(true)
-                    }} 
-                    data-for="delete" data-tip="Delete Room" className="m-2 room-icons" />
-                    <ReactTooltip id="edit"/>
-                        <ReactTooltip id="copy"/>
-                        <ReactTooltip id="delete"/>
+                    <FaRegEdit
+                        data-for="edit"
+                        data-tip="Edit Room"
+                        className="m-2 room-icons"
+                        onClick={() => {
+                            setOpenModal(true);
+                            setEditRoom(true);
+                        }}
+                    />
+                    <FaRegClone
+                        data-for="copy"
+                        data-tip="Copy Room"
+                        className="m-2 room-icons"
+                        onClick={(e) => copyRoom(e)}
+                    />
+                    <FaRegTrashAlt
+                        onClick={() => {
+                            setOpenModal(true);
+                            setDeleteRoom(true);
+                        }}
+                        data-for="delete"
+                        data-tip="Delete Room"
+                        className="m-2 room-icons"
+                    />
+                    <ReactTooltip id="edit" />
+                    <ReactTooltip id="copy" />
+                    <ReactTooltip id="delete" />
                 </div>
             </div>
             <div className="">
@@ -244,7 +271,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) =>{
                                     : 'No lights for this room.'}
                             </p>
                         </div>
-                        
                     )}
                 </div>
             </div>

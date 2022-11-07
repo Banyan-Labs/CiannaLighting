@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 
@@ -61,7 +61,7 @@ const usePackages = usePackagesData.map((usePackage, index) => {
 
 const Catalog: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    
+
     return (
         <>
             {Object.keys(user).length === 0 ? (

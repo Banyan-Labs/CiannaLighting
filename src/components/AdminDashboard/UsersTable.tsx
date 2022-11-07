@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { FaPlus } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
-import './styles/UsersTable.scss';
-import { getAllUsers } from '../../redux/actions/usersActions';
+import CreateUserModal from './CreateUserModal';
 import useParams from '../../app/utils';
 import { ROLES } from '../../app/constants';
-import CreateUserModal from './CreateUserModal';
+import { FaPlus } from 'react-icons/fa';
+import { BsThreeDots } from 'react-icons/bs';
+import { getAllUsers } from '../../redux/actions/usersActions';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import './styles/UsersTable.scss';
 
 const UsersTable: FC = () => {
     const { users } = useAppSelector(({ users: users }) => users);

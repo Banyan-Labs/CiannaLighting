@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-
 import {
     setProject,
     setProjectError,
@@ -51,7 +50,7 @@ export const setTheRoom =
             dispatch(setRoomId(response.data.room._id));
             dispatch(setRoom(response.data.room));
         } catch (error: any) {
-            dispatch(setProjectError(error.response.data));
+            dispatch(setProjectError(error.message));
         }
     };
 
@@ -96,17 +95,12 @@ export const getProject =
         }
     };
 
-   
-
-    
-
 export const getAllProjects =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects');
-            console.log("Projects: ",projects)
             dispatch(setAllProjects(projects.data));
         } catch (err) {
             console.log(err);
@@ -118,14 +112,14 @@ export const getFilteredProjects =
         const axioscall = await axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects', payload);
-            console.log("Filtered Projects: ",projects)
             dispatch(setFilteredProjects(projects.data));
+            return projects.data;
         } catch (err) {
             console.log(err);
         }
     };
 
-    export const viewProjectRooms =
+export const viewProjectRooms =
     (projectId: string) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
@@ -133,14 +127,13 @@ export const getFilteredProjects =
             const response = await axioscall.post('/get-rooms', {
                 projectId: projectId,
             });
-            return response.data.rooms
+            return response.data.rooms;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
 
-
-    export const viewRoomLights =
+export const viewRoomLights =
     (roomId: string) =>
     async (dispatch: Dispatch): Promise<any> => {
         const axiosPriv = await axiosPrivate();
@@ -148,38 +141,33 @@ export const getFilteredProjects =
             const response = await axiosPriv.post('/get-lightSelections', {
                 roomId: roomId,
             });
-           return  response.data.lights
+            return response.data.lights;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
 
-    export const deleteThisProject =
-    (payload: any) =>
-    async () => {
-        const axiosPriv = await axiosPrivate();
-        try {
-            const projects = await axiosPriv.post('/delete-project', payload);
-            console.log(projects)
-        } catch (err) {
-            console.log(err);
-        }
-    };
+export const deleteThisProject = (payload: any) => async () => {
+    const axiosPriv = await axiosPrivate();
+    try {
+        const projects = await axiosPriv.post('/delete-project', payload);
+        return projects.data;
+    } catch (err) {
+        console.log(err);
+    }
+};
 
-    export const deleteThisRoom =
-    (payload: any) =>
-    async () => {
-        const axiosPriv = await axiosPrivate();
-        try {
-            const room = await axiosPriv.post('/delete-room', payload);
-            console.log(room)
-        } catch (err) {
-            console.log(err);
-        }
-    };
+export const deleteThisRoom = (payload: any) => async () => {
+    const axiosPriv = await axiosPrivate();
+    try {
+        const room = await axiosPriv.post('/delete-room', payload);
+        return room.data;
+    } catch (err) {
+        console.log(err);
+    }
+};
 
-
-    export const editThisRoom =
+export const editThisRoom =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();

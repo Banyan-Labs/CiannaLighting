@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import usePagination from './usePagination';
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import { getCatalogItems } from '../../../redux/actions/lightActions';
 import Default from '../../../assets/stairway.jpeg';
+import { getCatalogItems } from '../../../redux/actions/lightActions';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 
 interface searchBarProps {
     searchTerm: string;
