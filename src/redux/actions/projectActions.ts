@@ -96,6 +96,10 @@ export const getProject =
         }
     };
 
+   
+
+    
+
 export const getAllProjects =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -152,12 +156,38 @@ export const getFilteredProjects =
 
     export const deleteThisProject =
     (payload: any) =>
-    async (dispatch: Dispatch): Promise<void> => {
+    async () => {
         const axiosPriv = await axiosPrivate();
         try {
             const projects = await axiosPriv.post('/delete-project', payload);
             console.log(projects)
         } catch (err) {
             console.log(err);
+        }
+    };
+
+    export const deleteThisRoom =
+    (payload: any) =>
+    async () => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const room = await axiosPriv.post('/delete-room', payload);
+            console.log(room)
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
+    export const editThisRoom =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/find-room', payload);
+            dispatch(setRoomId(response.data.room._id));
+            dispatch(setRoom(response.data.room));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
         }
     };
