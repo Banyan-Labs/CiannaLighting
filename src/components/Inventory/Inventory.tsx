@@ -1000,7 +1000,7 @@ const Inventory: FC = () => {
                 </div>
 
                 <button id="inventory-btn" onClick={(e) => onSubmit(e)}>
-                    submit
+                    Submit
                 </button>
             </form>
         </div>
