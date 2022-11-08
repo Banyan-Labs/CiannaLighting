@@ -3,7 +3,7 @@ import {
     setRoomLights,
     setProjectError,
     setCatalogLights,
-    setCatalogConnect
+    setCatalogConnect,
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -39,7 +39,7 @@ export const createLight =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-             await axiosPriv.post('/create-lightSelection', {
+            await axiosPriv.post('/create-lightSelection', {
                 light: light,
             });
         } catch (error: any) {
@@ -47,40 +47,42 @@ export const createLight =
         }
     };
 
-
-    export const deleteLight =
+export const deleteLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-             await axiosPriv.post('/delete-lightSelection', payload);
+            await axiosPriv.post('/delete-lightSelection', payload);
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
 
-    export const getEditLight =
+export const getEditLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        console.log(payload)
+        console.log(payload);
         const axiosPriv = await axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-light', payload);
-            dispatch(setCatalogConnect(response.data.light))
-            return response.data.light
+            dispatch(setCatalogConnect(response.data.light));
+            return response.data.light;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
 
-    export const theEditLight =
+export const theEditLight =
     (payload: any, lightId: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/find-lightSelection', {...payload, _id:lightId});
+            const response = await axiosPriv.post('/find-lightSelection', {
+                ...payload,
+                _id: lightId,
+            });
+            return response.data
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
     };
-

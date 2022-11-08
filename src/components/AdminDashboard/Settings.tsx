@@ -1,11 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import axios, { axiosPrivate } from '../../api/axios';
+import { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-
-type SnR = {
-    label: string;
-    value: string;
-};
 
 const Settings: FC = () => {
     const [status, setStatus] = useState<string[]>([]);
@@ -22,8 +17,6 @@ const Settings: FC = () => {
             const regionCall = await axiosPriv.post('/public/s_r', {
                 label: 'region',
             });
-            console.log('status: ', statusCall);
-            console.log('region: ', regionCall);
             setStatus(statusCall.data.data);
             setRegion(regionCall.data.data);
             setNewStatus('');
@@ -57,7 +50,7 @@ const Settings: FC = () => {
         } catch (error: any) {
             console.log('error submitNew: ', error.message);
         }
-        setSections();   
+        setSections();
     };
     const removeSR = async (e: any, section: string, value: string) => {
         e.preventDefault();
@@ -72,7 +65,7 @@ const Settings: FC = () => {
             console.log('error submitNew: ', error.message);
         }
         setSections();
-    }
+    };
 
     /**
      * /public/s_r
@@ -106,7 +99,12 @@ const Settings: FC = () => {
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">
-                                    <button className="user-options-button" onClick={(e)=> removeSR(e,'status', label)}>
+                                    <button
+                                        className="user-options-button"
+                                        onClick={(e) =>
+                                            removeSR(e, 'status', label)
+                                        }
+                                    >
                                         <AiOutlineCloseCircle />
                                     </button>
                                 </td>
@@ -144,7 +142,12 @@ const Settings: FC = () => {
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">
-                                    <button className="user-options-button" onClick={(e)=> removeSR(e,'region', label)}>
+                                    <button
+                                        className="user-options-button"
+                                        onClick={(e) =>
+                                            removeSR(e, 'region', label)
+                                        }
+                                    >
                                         <AiOutlineCloseCircle />
                                     </button>
                                 </td>

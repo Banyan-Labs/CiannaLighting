@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { RiAddLine } from 'react-icons/ri';
-import { useAppSelector } from '../../../../app/hooks';
-import { NewRoomModal } from '../../../NewRoomModal/NewRoomModal';
 import IdRooms from './AllRooms/IdRooms';
+import { RiAddLine } from 'react-icons/ri';
+import { NewRoomModal } from '../../../NewRoomModal/NewRoomModal';
+import { useAppSelector } from '../../../../app/hooks';
 
 const Rooms: FC = () => {
     const [openModal, setOpenModal] = useState(false);

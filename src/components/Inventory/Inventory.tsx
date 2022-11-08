@@ -1,10 +1,7 @@
-import { ListOfRecursiveArraysOrValues } from 'lodash';
-import React, { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { axiosPrivate, axiosFileUpload } from '../../api/axios';
+import React, { FC, useState, FormEvent, ChangeEvent } from 'react';
+import { axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
-// import catalogInterface from "../../../server/src/interfaces/catalogInterface"
 
 interface CatalogType {
     item_ID: string;
@@ -300,8 +297,6 @@ const Inventory: FC = () => {
                             Measurements
                         </label>
                         <div className="tab-content">
-                            {/* Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Ipsum, reiciendis! */}
                             <label htmlFor="region">Body Diameter</label>
                             <br />
                             <input
@@ -1000,7 +995,7 @@ const Inventory: FC = () => {
                 </div>
 
                 <button id="inventory-btn" onClick={(e) => onSubmit(e)}>
-                    submit
+                    Submit
                 </button>
             </form>
         </div>

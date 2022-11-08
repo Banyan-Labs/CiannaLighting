@@ -6,8 +6,8 @@
 
 .admin-sidebar-container {
   background: #101010;
-  height: 100vh;
   position: relative;
+  min-height: 100vh;
   min-width: 100px;
   top: 1px;
   padding: 30px 65px 0 30px;

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import './style/roomDetails.scss';
 import { FaSlidersH } from 'react-icons/fa';
+import './style/roomDetails.scss';
 
 interface catalogPros {
     catalogItem: any;

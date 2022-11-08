@@ -8,7 +8,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // align-items: center;
 }
 .inventory-form {
     display: flex;
@@ -19,7 +18,6 @@
 .tabs {
     border-radius: 8px;
     overflow: hidden;
-    // box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
 .tab {
     width: 100%;
@@ -92,4 +90,5 @@ input:checked {
     width: 50%;
     align-self: center;
     margin-top: 25px;
+    cursor: pointer;
 }

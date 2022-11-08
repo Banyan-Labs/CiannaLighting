@@ -36,9 +36,8 @@ const IdRooms: FC = () => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            console.log("copyRoom Response: ",response)
             dispatch(getAllProjectRoomsAction(projectId))
- 
+            return response.data
         } catch (error: any) {
             console.log("Error: ",error)
         }
