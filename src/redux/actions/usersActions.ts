@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import axios, { axiosPrivate } from '../../api/axios';
+import { axiosPrivate } from '../../api/axios';
 import { CreateUserType } from '../../app/typescriptTypes';
 import { setUsers, setNewUser } from '../reducers/usersSlice';
 

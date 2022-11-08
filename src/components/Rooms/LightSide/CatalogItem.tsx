@@ -1,12 +1,12 @@
 import React, { FC, useState, FormEvent } from 'react';
-import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
-import Default2 from '../../../assets/celestial-room.jpeg';
 import useParams from '../../../app/utils';
+import Default2 from '../../../assets/celestial-room.jpeg';
+import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
     createLight,
     getRoomLights,
-    theEditLight
+    theEditLight,
 } from '../../../redux/actions/lightActions';
 import {
     getProject,
@@ -44,7 +44,12 @@ type LightType = {
     quantity: number;
 };
 
-const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, setEditLight }) => {
+const CatalogItem: FC<catalogPros> = ({
+    setCatalogItem,
+    catalogItem,
+    editLight,
+    setEditLight,
+}) => {
     const dispatch = useAppDispatch();
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
@@ -53,22 +58,61 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
 
     const { room } = useAppSelector(({ project }) => project);
-    const [count, setCount] = useState<number>(editLight !== null ? editLight?.quantity : 1);
+    const [count, setCount] = useState<number>(
+        editLight !== null ? editLight?.quantity : 1
+    );
 
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
-        exteriorFinish: editLight !== null ? editLight?.exteriorFinish : catalogItem.exteriorFinish[0],
-        interiorFinish: editLight !== null ? editLight?.interiorFinish : catalogItem.interiorFinish[0],
-        environment: editLight !== null ? editLight?.environment : catalogItem.environment[0],
-        safetyCert: editLight !== null ? editLight?.safetyCert : catalogItem.safetyCert[0],
-        projectVoltage: editLight !== null ? editLight?.projectVoltage : catalogItem.environment[0], // change when you go to production
-        socketType: editLight !== null ? editLight?.socketType : catalogItem.socketType[0],
-        lensMaterial: editLight !== null ? editLight?.lensMaterial : catalogItem.lensMaterial[0],
-        glassOptions: editLight !== null ? editLight?.glassOptions : catalogItem.glassOptions[0],
-        acrylicOptions: editLight !== null ? editLight?.acrylicOptions : catalogItem.acrylicOptions[0],
-        crystalType: editLight !== null ? editLight?.crystalType : catalogItem.crystalType[0],
-        crystalPinType: editLight !== null ? editLight?.crystalType : catalogItem.crystalType[0], // change when you go to production
-        crystalPinColor: editLight !== null ? editLight?.exteriorFinish : catalogItem.crystalType[0], // change when you go to production
-        mounting: editLight !== null ? editLight?.mounting : catalogItem.mounting[0],
+        exteriorFinish:
+            editLight !== null
+                ? editLight?.exteriorFinish
+                : catalogItem.exteriorFinish[0],
+        interiorFinish:
+            editLight !== null
+                ? editLight?.interiorFinish
+                : catalogItem.interiorFinish[0],
+        environment:
+            editLight !== null
+                ? editLight?.environment
+                : catalogItem.environment[0],
+        safetyCert:
+            editLight !== null
+                ? editLight?.safetyCert
+                : catalogItem.safetyCert[0],
+        projectVoltage:
+            editLight !== null
+                ? editLight?.projectVoltage
+                : catalogItem.environment[0], // change when you go to production
+        socketType:
+            editLight !== null
+                ? editLight?.socketType
+                : catalogItem.socketType[0],
+        lensMaterial:
+            editLight !== null
+                ? editLight?.lensMaterial
+                : catalogItem.lensMaterial[0],
+        glassOptions:
+            editLight !== null
+                ? editLight?.glassOptions
+                : catalogItem.glassOptions[0],
+        acrylicOptions:
+            editLight !== null
+                ? editLight?.acrylicOptions
+                : catalogItem.acrylicOptions[0],
+        crystalType:
+            editLight !== null
+                ? editLight?.crystalType
+                : catalogItem.crystalType[0],
+        crystalPinType:
+            editLight !== null
+                ? editLight?.crystalType
+                : catalogItem.crystalType[0], // change when you go to production
+        crystalPinColor:
+            editLight !== null
+                ? editLight?.exteriorFinish
+                : catalogItem.crystalType[0], // change when you go to production
+        mounting:
+            editLight !== null ? editLight?.mounting : catalogItem.mounting[0],
         item_ID: editLight !== null ? editLight?.item_ID : catalogItem.item_ID,
         roomName: String(room?.name),
         roomId: String(storedRoomId),
@@ -84,25 +128,24 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
         });
     };
 
-    const editFormat = (arr: any, defVal: any) =>{
-        const reFormat = [defVal, ...arr.filter((x: any)=> x !== defVal)]
-        return reFormat
-    }
+    const editFormat = (arr: any, defVal: any) => {
+        const reFormat = [defVal, ...arr.filter((x: any) => x !== defVal)];
+        return reFormat;
+    };
 
-   const returnToNull = () => {
-        setEditLight(null)
-        setCatalogItem(null)
-    }
-    
-   
+    const returnToNull = () => {
+        setEditLight(null);
+        setCatalogItem(null);
+    };
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-              if (editLight === null){
+            if (editLight === null) {
                 dispatch(createLight(catalogDetails));
-              } else {
-                dispatch(theEditLight(catalogDetails,editLight._id))
-              }
+            } else {
+                dispatch(theEditLight(catalogDetails, editLight._id));
+            }
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0],
                 interiorFinish: catalogItem.interiorFinish[0],
@@ -124,7 +167,7 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                 clientId: String(userId),
                 quantity: count,
             });
-            await dispatch(getProject({_id: String(storedProjId)}));
+            await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
             await dispatch(getRoomLights(String(storedRoomId)));
@@ -289,8 +332,14 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                 >
                     <BsChevronLeft className="chevron-icon" /> Back to Catalog
                 </p>
-                {editLight !== null ? (<h5 className='d-flex justify-content-end'>Edit Light in {editLight?.roomName}</h5>) : ''}
-                
+                {editLight !== null ? (
+                    <h5 className="d-flex justify-content-end">
+                        Edit Light in {editLight?.roomName}
+                    </h5>
+                ) : (
+                    ''
+                )}
+
                 <div className="col-12 d-flex justify-content-start p-0 name-id-catalog row">
                     <h2 className="">
                         Acrylic Pendant <br />{' '}
@@ -317,23 +366,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 "
                             >
-                                {!editLight ? catalogItem.exteriorFinish.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.exteriorFinish,editLight.exteriorFinish).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.exteriorFinish.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.exteriorFinish,
+                                          editLight.exteriorFinish
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -351,23 +417,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                  {!editLight ? catalogItem.interiorFinish.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.interiorFinish,editLight.interiorFinish).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.interiorFinish.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.interiorFinish,
+                                          editLight.interiorFinish
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -384,23 +467,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 "
                             >
-                                 {!editLight ? catalogItem.environment.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.environment,editLight.environment).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.environment.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.environment,
+                                          editLight.environment
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -418,23 +518,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                  {!editLight ? catalogItem.safetyCert.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.safetyCert,editLight.safetyCert).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.safetyCert.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.safetyCert,
+                                          editLight.safetyCert
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -452,23 +569,42 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                  {!editLight ? catalogItem.exteriorFinish.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                            // change this line for production
-                                            <option key={index} value={ef}>
-                                                {ef} 
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.exteriorFinish,editLight.projectVoltage).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                           // change this line for production
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.exteriorFinish.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  // change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.exteriorFinish,
+                                          editLight.projectVoltage
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  // change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -485,23 +621,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                  {!editLight ? catalogItem.socketType.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.socketType,editLight.socketType).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.socketType.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.socketType,
+                                          editLight.socketType
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -519,23 +672,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                {!editLight ? catalogItem.mounting.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.mounting,editLight.mounting).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.mounting.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.mounting,
+                                          editLight.mounting
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                     </div>
@@ -555,23 +725,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                 {!editLight ? catalogItem.lensMaterial.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.lensMaterial,editLight.lensMaterial).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.lensMaterial.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.lensMaterial,
+                                          editLight.lensMaterial
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex options-container">
@@ -589,23 +776,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 options-select"
                             >
-                                 {!editLight ? catalogItem.acrylicOptions.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.glassOptions,editLight.glassOptions).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.acrylicOptions.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.glassOptions,
+                                          editLight.glassOptions
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex options-container">
@@ -623,23 +827,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 options-select"
                             >
-                                  {!editLight ? catalogItem.acrylicOptions.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.acrylicOptions,editLight.acrylicOptions).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.acrylicOptions.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.acrylicOptions,
+                                          editLight.acrylicOptions
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex select-container">
@@ -657,23 +878,40 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6"
                             >
-                                 {!editLight ? catalogItem.crystalType.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.crystalType,editLight.crystalType).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.crystalType.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.crystalType,
+                                          editLight.crystalType
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex options-container">
@@ -690,23 +928,42 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 options-select"
                             >
-                                {!editLight ? catalogItem.exteriorFinish.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                         //change this line for production 
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.exteriorFinish,editLight.crystalPinType).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                           //change this line for production 
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.exteriorFinish.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  //change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.exteriorFinish,
+                                          editLight.crystalPinType
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  //change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                         <div className="d-flex options-container">
@@ -724,23 +981,42 @@ const CatalogItem: FC<catalogPros> = ({ setCatalogItem, catalogItem, editLight, 
                                 required
                                 className="col-6 options-select"
                             >
-                                  {!editLight ? catalogItem.exteriorFinish.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                   //change this line for production 
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                ): editFormat(catalogItem.exteriorFinish,editLight.crystalPinColor).map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return (                                  //change this line for production 
-                                            <option key={index} value={ef}>
-                                                {ef}
-                                            </option>
-                                        );
-                                    }
-                                )}
+                                {!editLight
+                                    ? catalogItem.exteriorFinish.map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  //change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )
+                                    : editFormat(
+                                          catalogItem.exteriorFinish,
+                                          editLight.crystalPinColor
+                                      ).map(
+                                          (
+                                              ef: string,
+                                              index = ef.indexOf(ef)
+                                          ) => {
+                                              return (
+                                                  //change this line for production
+                                                  <option
+                                                      key={index}
+                                                      value={ef}
+                                                  >
+                                                      {ef}
+                                                  </option>
+                                              );
+                                          }
+                                      )}
                             </select>
                         </div>
                     </div>

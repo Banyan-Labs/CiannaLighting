@@ -1,15 +1,12 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
     getProject,
     getUserProjects,
 } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
-import {
-    FaPlus,
-    FaChevronRight,
-} from 'react-icons/fa';
+import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import { VscFileSubmodule } from 'react-icons/vsc';
 import {
     AiOutlineCheckCircle,
@@ -32,10 +29,9 @@ const YourProjects: FC = () => {
     const { userProjects } = useAppSelector(({ project }) => project);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    
+
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
-    
 
     const projectRoute = useCallback(
         (projId: string) => {
@@ -230,8 +226,12 @@ const YourProjects: FC = () => {
             </div>
             <DashboardNav />
             {openModal && (
-                <Modal openModal={openModal} closeModal={setOpenModal} editProject={editProject}
-                setEditProject={setEditProject} />
+                <Modal
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    editProject={editProject}
+                    setEditProject={setEditProject}
+                />
             )}
         </>
     );

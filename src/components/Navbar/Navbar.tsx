@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Link, useLocation } from 'react-router-dom';
-import { logoutAction } from '../../redux/actions/authActions';
-import { ROLES } from '../../app/constants';
-import { FaRegBell } from 'react-icons/fa';
+import * as data from './links.json';
 import logo from '../../assets/ciana-lighting-logo.png';
 import useParams from '../../app/utils';
-import * as data from './links.json';
+import { ROLES } from '../../app/constants';
+import { FaRegBell } from 'react-icons/fa';
+import { logoutAction } from '../../redux/actions/authActions';
+import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './style/Navbar.scss';
 
 const links = JSON.parse(JSON.stringify(data)).links;

@@ -1,10 +1,7 @@
-import { ListOfRecursiveArraysOrValues } from 'lodash';
-import React, { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { axiosPrivate, axiosFileUpload } from '../../api/axios';
+import React, { FC, useState, FormEvent, ChangeEvent } from 'react';
+import { axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
-// import catalogInterface from "../../../server/src/interfaces/catalogInterface"
 
 interface CatalogType {
     item_ID: string;

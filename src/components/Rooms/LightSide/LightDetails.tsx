@@ -9,10 +9,14 @@ interface catalogPros {
     catalogItem: any;
     setEditLight: any;
     editLight: any;
-    
 }
 
-const LightDetails: FC<catalogPros> = ({ setCatalogItem, catalogItem, setEditLight, editLight }) => {
+const LightDetails: FC<catalogPros> = ({
+    setCatalogItem,
+    catalogItem,
+    setEditLight,
+    editLight,
+}) => {
     const [searchTerm, setSearchTerm] = useState('');
     // const [catalogItem, setCatalogItem] = useState(null);
 

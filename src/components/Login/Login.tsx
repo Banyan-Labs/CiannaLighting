@@ -1,9 +1,9 @@
 import React, { FC, useState, FormEvent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/ciana-lighting-logo.png';
 import { ROLES } from '../../app/constants';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useNavigate } from 'react-router-dom';
 import { signInAction } from '../../redux/actions/authActions';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './style/login.scss';
 
 const Login: FC = () => {
@@ -11,7 +11,7 @@ const Login: FC = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const dashRoles = [ROLES.Cmd, ROLES.User]
+    const dashRoles = [ROLES.Cmd, ROLES.User];
 
     const [userFields, setUserFields] = useState({
         email: '',
@@ -41,8 +41,10 @@ const Login: FC = () => {
     };
 
     useEffect(() => {
-        if (user._id && dashRoles.includes(user.role)) navigate(`/dashboard?_id=${user._id}`);
-        else if (user._id && !dashRoles.includes(user.role)) navigate(`/cmd/dash?_id=${user._id}`)
+        if (user._id && dashRoles.includes(user.role))
+            navigate(`/dashboard?_id=${user._id}`);
+        else if (user._id && !dashRoles.includes(user.role))
+            navigate(`/cmd/dash?_id=${user._id}`);
     }, [user._id]);
 
     return (

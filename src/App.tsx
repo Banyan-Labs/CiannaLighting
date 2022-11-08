@@ -24,30 +24,32 @@ const App: FC = () => {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route  path="/" element={<Layout />}>
+                    <Route path="/" element={<Layout />}>
                         <Route path="/" element={<Navigate to="/login" />} />
                         <Route path="/login" element={<Login />} />
                         <Route element={<PersistLogin />}>
                             {/* Admin Routes! */}
                             <Route
-                                element={<RequireAuth roles={[ROLES.Cmd, ROLES.Int]} />} // this is how to restrict access on the frontend. The role you pass in is the allowed role
-                            >
-                            <Route
-                                        path="/cmd/inventory"
-                                        element={<Inventory />}
+                                element={
+                                    <RequireAuth
+                                        roles={[ROLES.Cmd, ROLES.Int]}
                                     />
+                                } // this is how to restrict access on the frontend. The role you pass in is the allowed role
+                            >
+                                <Route
+                                    path="/cmd/inventory"
+                                    element={<Inventory />}
+                                />
                                 <Route
                                     path="/cmd/dash/*"
                                     element={<AdminDashboard />}
                                 />
-                               
                             </Route>
                             <Route
                                 element={
                                     <RequireAuth roles={Object.values(ROLES)} />
                                 }
                             >
-
                                 <Route
                                     path={'/dashboard'}
                                     element={<Dashboard />}
@@ -63,8 +65,8 @@ const App: FC = () => {
                                     element={<CreateProjectPage />}
                                 />
                                 <Route
-                                path="/createLight/:user"
-                                element={<Details/>}
+                                    path="/createLight/:user"
+                                    element={<Details />}
                                 />
                                 <Route
                                     path="/unauthorized"
