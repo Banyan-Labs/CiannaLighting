@@ -1,30 +1,28 @@
 import React, { FC, useEffect, useState } from 'react';
-import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
-import './style/allProjects.scss';
-import { getAllProjects } from '../../../../redux/actions/projectActions';
-import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
+import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
-
+import { getAllProjects } from '../../../../redux/actions/projectActions';
+import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import './style/allProjects.scss';
 
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
-import {ViewModal} from './ViewModal';
+import { ViewModal } from './ViewModal';
 
 type Props = {
     renderedPage: string;
     currentPage: number;
-    sortDirection:number, 
-    currentSort:string,
-    sortedData: ProjectType[], 
+    sortDirection: number;
+    currentSort: string;
+    sortedData: ProjectType[];
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-    setSortedData:React.Dispatch<React.SetStateAction<ProjectType[]>>
-    setSortDirection:React.Dispatch<React.SetStateAction<number>>,
-    setCurrentSort:React.Dispatch<React.SetStateAction<string>>
+    setSortedData: React.Dispatch<React.SetStateAction<ProjectType[]>>;
+    setSortDirection: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
 };
-
 
 const AllProjects: FC<Props> = ({
     renderedPage,
@@ -35,31 +33,25 @@ const AllProjects: FC<Props> = ({
     sortedData,
     setSortedData,
     setSortDirection,
-    setCurrentSort
-    
+    setCurrentSort,
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
     const [deleteProject, setDeleteProject] = useState(false);
     const [projectModal, setProjectModal] = useState(null);
-    const { allProjects, filterQueryProjects } = useAppSelector(({ project }) => project);
-    // const [filterProjects, setFilterProjects] = useState('');
-    // filterProjects;
+    const { allProjects, filterQueryProjects } = useAppSelector(
+        ({ project }) => project
+    );
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
-    const [projectIndex, setProjectIndex] = useState<number | null>(null);    
+    const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
-    const [parsedData, setParsedData] = useState<ProjectType[]>([])
-   console.log("FQP: ",filterQueryProjects)
-   const dave = "dav"
+    const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     useEffect(() => {
         dispatch(getAllProjects());
-        console.log("regex: ",/^[A-Za-z0-9 ]+$/.test(dave) )
-        
-        
     }, []);
-    
+
     const onMouseOver = (index: number | null) => {
         setProjectOptionsModal(true);
         setProjectIndex(index);
@@ -68,134 +60,133 @@ const AllProjects: FC<Props> = ({
         setProjectOptionsModal(false);
         setProjectIndex(null);
     };
-    const triggerDirection = (field: string) =>{
-        if(field == currentSort){
-        if(sortDirection == 0){
+    const triggerDirection = (field: string) => {
+        if (field == currentSort) {
+            if (sortDirection == 0) {
+                setSortDirection(1);
+                setUpSortTrigger(field, 1);
+            } else if (sortDirection == 1) {
+                setSortDirection(2);
+                setUpSortTrigger(field, 2);
+            } else {
+                setSortDirection(0);
+                setUpSortTrigger(field, 0);
+            }
+        } else {
             setSortDirection(1);
             setUpSortTrigger(field, 1);
-        }else if(sortDirection == 1){
-            setSortDirection(2);
-            setUpSortTrigger(field, 2);
-        }else{
-            setSortDirection(0);
-            setUpSortTrigger(field, 0);
         }
-    }else{
-        setSortDirection(1);
-        setUpSortTrigger(field, 1);
-    }
-
-    }
-    const setUpSortTrigger = (field: string, direction: number) =>{
-        let utilizedData:any = []
-        console.log("direction: ", sortDirection)
-        if(renderedPage == "All Projects"){
-            utilizedData = activeProjects
-
-        }else{
-            utilizedData = archivedProjects
-            return
+    };
+    const setUpSortTrigger = (field: string, direction: number) => {
+        let utilizedData: any = [];
+        console.log('direction: ', sortDirection);
+        if (renderedPage == 'All Projects') {
+            utilizedData = activeProjects;
+        } else {
+            utilizedData = archivedProjects;
+            return;
         }
-        const sorted: any ={ 
+        const sorted: any = {
             0: utilizedData,
-            1: utilizedData.slice().sort((a:any, b:any)=> {
+            1: utilizedData.slice().sort((a: any, b: any) => {
                 if (a[field] < b[field]) {
-                return -1;
-              }
-              if (a[String(field)] > b[String(field)]) {
-                return 1;
-              }
-              return 0;
+                    return -1;
+                }
+                if (a[String(field)] > b[String(field)]) {
+                    return 1;
+                }
+                return 0;
             }),
-            2: utilizedData.slice().sort((a:any,b:any)=>{
+            2: utilizedData.slice().sort((a: any, b: any) => {
                 if (b[String(field)] < a[String(field)]) {
-                return -1;
-              }
-              if (b[String(field)] > a[(field)]) {
-                return 1;
-              }
-              return 0;
-            })
-        }
+                    return -1;
+                }
+                if (b[String(field)] > a[field]) {
+                    return 1;
+                }
+                return 0;
+            }),
+        };
         setSortedData(sorted[direction]);
         setCurrentSort(field);
-        
-    }
-
-    
-
+    };
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
 
-    const searchFilter = (e: any, data: any) =>{
+    const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
-        const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue)
-        try{
-            checkSearchVal
-        }catch(error: any){
-            alert("Please no special characters.")
-            console.log("error in searchfield: ", error.message)
-        } 
-        if (checkSearchVal && searchValue.length ){
-        if(searchValue === ""){
-            setParsedData(data)
-            return data
-        }else{
-            const searchData = data.filter((item:ProjectType)=>{
+        const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
+        try {
+            checkSearchVal;
+        } catch (error: any) {
+            alert('Please no special characters.');
+            console.log('error in searchfield: ', error.message);
+        }
+        if (searchValue === '') {
+            setParsedData(data);
+            return data;
+        } else if (checkSearchVal && searchValue.length) {
+            const searchData = data.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
                     name: item.name,
                     status: item.status,
-                    region: item.region
-                }
+                    region: item.region,
+                };
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
-                itemVals.map((item: string)=>{ 
-                    const regCheck = new RegExp(searchValue, 'g').test(item.toLowerCase())
-                     if(regCheck){
-                        doesMatch = true
-                     }}
+                itemVals.map((item: string) => {
+                    const regCheck = new RegExp(searchValue, 'g').test(
+                        item.toLowerCase()
                     );
-                if(Boolean(doesMatch) === true){
-                    return item
-                }else{
-                    return ""
+                    if (regCheck) {
+                        doesMatch = true;
+                    }
+                });
+                if (Boolean(doesMatch) === true) {
+                    return item;
+                } else {
+                    return '';
                 }
-
-            })
-            setParsedData(searchData)
-            return searchData
+            });
+            setParsedData(searchData);
+            return searchData;
+        } else {
+            alert('Please no special characters.');
         }
-    }else{
-            alert('Please no special characters.')
-        }
-    }
+    };
 
-    const reduxData = filterQueryProjects.length ? filterQueryProjects.slice() : allProjects.slice()
-    const activeProjects = (parsedData.length ? parsedData : reduxData).filter((project) => !project.archived);
-    const archivedProjects = (parsedData.length ? parsedData : reduxData).filter(
-        (project) => project.archived == true
-    )
-    
-    const filteredProjects = sortedData.length ? sortedData.slice(firstIndex, lastIndex) : renderedPage == "All Projects" ? activeProjects.slice(firstIndex, lastIndex) : archivedProjects.slice(firstIndex, lastIndex);
+    const reduxData = filterQueryProjects.length
+        ? filterQueryProjects.slice()
+        : allProjects.slice();
+    const activeProjects = (parsedData.length ? parsedData : reduxData).filter(
+        (project) => !project.archived
+    );
+    const archivedProjects = (
+        parsedData.length ? parsedData : reduxData
+    ).filter((project) => project.archived == true);
+
+    const filteredProjects = sortedData.length
+        ? sortedData.slice(firstIndex, lastIndex)
+        : renderedPage == 'All Projects'
+        ? activeProjects.slice(firstIndex, lastIndex)
+        : archivedProjects.slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData.length / projectsPerPage);
-    const sortDisplay = (field: string) =>{
+    const sortDisplay = (field: string) => {
         const directionCall: any = {
-            0: "",
-            1: <FaChevronUp className='sort-chevron'/>,
-            2: <FaChevronDown className='sort-chevron'/>
+            0: '',
+            1: <FaChevronUp className="sort-chevron" />,
+            2: <FaChevronDown className="sort-chevron" />,
+        };
+        if (field == currentSort) {
+            return directionCall[sortDirection];
+        } else {
+            return directionCall[0];
         }
-        if(field == currentSort){
-            return directionCall[sortDirection]
-        }else{
-            return directionCall[0]
-        }
-        
-        
-    }
-    
+    };
+
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
@@ -226,7 +217,12 @@ const AllProjects: FC<Props> = ({
                             </span>
                         </div>
                         {projectOptionsModal && projectIndex === index && (
-                            <ProjectMiniModal setOpenModal={setOpenModal2} setProjectModal={setProjectModal} project={project} setDeleteProject={setDeleteProject} />
+                            <ProjectMiniModal
+                                setOpenModal={setOpenModal2}
+                                setProjectModal={setProjectModal}
+                                project={project}
+                                setDeleteProject={setDeleteProject}
+                            />
                         )}
                     </td>
                 </tr>
@@ -244,22 +240,39 @@ const AllProjects: FC<Props> = ({
                         placeholder="Search"
                         onChange={(e) => searchFilter(e, reduxData)}
                     />
-                    <FaSlidersH className="dashboard-all-projects-submit" onClick={()=>setOpenModal(true)} />
+                    <FaSlidersH
+                        className="dashboard-all-projects-submit"
+                        onClick={() => setOpenModal(true)}
+                    />
                 </div>
                 <div>
                     <table className="dashboard-all-projects-table">
                         <thead className="table-headers">
                             <tr className="rows">
-                                <td className="projects-table-name" onClick={()=> triggerDirection('name')}> 
+                                <td
+                                    className="projects-table-name"
+                                    onClick={() => triggerDirection('name')}
+                                >
                                     Name {sortDisplay('name')}
-                                    </td>
-                                <td className="projects-table-designer" onClick={()=> triggerDirection('clientName')}>
+                                </td>
+                                <td
+                                    className="projects-table-designer"
+                                    onClick={() =>
+                                        triggerDirection('clientName')
+                                    }
+                                >
                                     Designer {sortDisplay('clientName')}
                                 </td>
-                                <td className="projects-table-region" onClick={()=> triggerDirection('region')}>
+                                <td
+                                    className="projects-table-region"
+                                    onClick={() => triggerDirection('region')}
+                                >
                                     Region {sortDisplay('region')}
                                 </td>
-                                <td className="projects-table-status" onClick={()=> triggerDirection('status')}>
+                                <td
+                                    className="projects-table-status"
+                                    onClick={() => triggerDirection('status')}
+                                >
                                     Status {sortDisplay('status')}
                                 </td>
                                 <td className="projects-table-dots"> </td>
@@ -281,7 +294,9 @@ const AllProjects: FC<Props> = ({
                                           archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
-                                    {(parsedData.length? parsedData.length : reduxData.length) -
+                                    {(parsedData.length
+                                        ? parsedData.length
+                                        : reduxData.length) -
                                         archivedProjects.length}
                                 </div>
                             ) : (
@@ -324,7 +339,7 @@ const AllProjects: FC<Props> = ({
                                 />
                                 {currentPage !== lastPage - 1 && (
                                     <li
-                                        onClick={() => {                                            
+                                        onClick={() => {
                                             setCurrentPage(currentPage + 1);
                                         }}
                                         className="page-link"
@@ -341,18 +356,18 @@ const AllProjects: FC<Props> = ({
                 </div>
             </div>
             {openModal2 && (
-                    <ViewModal
-                        openModal={openModal2}
-                        closeModal={setOpenModal2}
-                        projectModal={projectModal}
-                        setProjectModal={setProjectModal}
-                        deleteProject={deleteProject}
-                        setDeleteProject={setDeleteProject}
-                    /> 
-                )}
-                {openModal && 
-                <FilterModal  openModal={openModal} closeModal={setOpenModal} />
-                }
+                <ViewModal
+                    openModal={openModal2}
+                    closeModal={setOpenModal2}
+                    projectModal={projectModal}
+                    setProjectModal={setProjectModal}
+                    deleteProject={deleteProject}
+                    setDeleteProject={setDeleteProject}
+                />
+            )}
+            {openModal && (
+                <FilterModal openModal={openModal} closeModal={setOpenModal} />
+            )}
         </div>
     );
 };

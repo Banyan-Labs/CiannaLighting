@@ -1,14 +1,11 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-    getFilteredProjects
-} from '../../redux/actions/projectActions';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
-    
 };
 
 export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
@@ -23,19 +20,28 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
     const filterInfo = allProjects
         .slice()
         .map((project) => [project.clientName, project.status, project.region]);
-    const designers = ['Select from designers..', ...filterInfo
-        .slice()
-        .map((project) => project[0])
-        .filter((x, c, r) => c === r.lastIndexOf(x))];
-    const statuses = ['Select a status..', ...filterInfo
-        .slice()
-        .map((project) => project[1])
-        .filter((x, c, r) => c === r.lastIndexOf(x))];
-    const regions = ['Select from regions..', ...filterInfo
-        .slice()
-        .map((project) => project[2])
-        .filter((x, c, r) => c === r.lastIndexOf(x))];
- 
+    const designers = [
+        'Select from designers..',
+        ...filterInfo
+            .slice()
+            .map((project) => project[0])
+            .filter((x, c, r) => c === r.lastIndexOf(x)),
+    ];
+    const statuses = [
+        'Select a status..',
+        ...filterInfo
+            .slice()
+            .map((project) => project[1])
+            .filter((x, c, r) => c === r.lastIndexOf(x)),
+    ];
+    const regions = [
+        'Select from regions..',
+        ...filterInfo
+            .slice()
+            .map((project) => project[2])
+            .filter((x, c, r) => c === r.lastIndexOf(x)),
+    ];
+
     const dispatch = useAppDispatch();
 
     const handleFormInput = (e: FormEvent<HTMLSelectElement>) => {
@@ -52,32 +58,36 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
             });
         }
     };
-    
 
-    const clearForm = () =>{
+    const clearForm = () => {
         setFormDetails({
             clientName: '',
             status: '',
             region: '',
-        })
-        setSubmittalForm({})
-        const designers = document.getElementById('clientName') as HTMLSelectElement | null;
-        designers ? designers.selectedIndex = 0 : designers
+        });
+        setSubmittalForm({});
+        const designers = document.getElementById(
+            'clientName'
+        ) as HTMLSelectElement | null;
+        designers ? (designers.selectedIndex = 0) : designers;
 
-        const statuses = document.getElementById('status') as HTMLSelectElement | null;
-        statuses ? statuses.selectedIndex = 0 : statuses
-        
-        const regions = document.getElementById('region') as HTMLSelectElement | null;
-        regions ? regions.selectedIndex = 0 : regions; 
-        
-    }
+        const statuses = document.getElementById(
+            'status'
+        ) as HTMLSelectElement | null;
+        statuses ? (statuses.selectedIndex = 0) : statuses;
 
-    const onSubmit = async (e:any) => {
-        e.preventDefault()
+        const regions = document.getElementById(
+            'region'
+        ) as HTMLSelectElement | null;
+        regions ? (regions.selectedIndex = 0) : regions;
+    };
+
+    const onSubmit = async (e: any) => {
+        e.preventDefault();
         try {
-            await dispatch(getFilteredProjects(submittalForm))
-                clearForm()
-                closeModal(!openModal)
+            await dispatch(getFilteredProjects(submittalForm));
+            clearForm();
+            closeModal(!openModal);
         } catch (err) {
             console.log('Error in submit: ' + err);
         }
@@ -120,14 +130,18 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                         return (
                                             <option
                                                 key={index}
-                                                value={designer == 'Select from designers..' ? '' : designer}
+                                                value={
+                                                    designer ==
+                                                    'Select from designers..'
+                                                        ? ''
+                                                        : designer
+                                                }
                                             >
                                                 {designer}
                                             </option>
                                         );
                                     }
                                 )}
-                                
                             </select>
                             <label
                                 className="new-room-modal-labels"
@@ -145,16 +159,20 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                                     (status: string, index: number) => {
                                         return (
                                             <option
-                                            defaultValue={"None"}
+                                                defaultValue={'None'}
                                                 key={index}
-                                                value={status == 'Select a status..' ? '' : status}
+                                                value={
+                                                    status ==
+                                                    'Select a status..'
+                                                        ? ''
+                                                        : status
+                                                }
                                             >
                                                 {status}
                                             </option>
                                         );
                                     }
                                 )}
-                                
                             </select>
                             <label
                                 className="new-room-modal-labels"
@@ -170,28 +188,30 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
                             >
                                 {regions.map(
                                     (region: string, index: number) => {
-                                        
                                         return (
                                             <option
                                                 key={index}
-                                                value={region == 'Select from regions..' ? '' : region}
+                                                value={
+                                                    region ==
+                                                    'Select from regions..'
+                                                        ? ''
+                                                        : region
+                                                }
                                             >
                                                 {region}
                                             </option>
                                         );
                                     }
                                 )}
-                                
                             </select>
                             <div className="new-room-modal-footer">
                                 <button
                                     id="reset-button"
                                     className="reset-button"
-                                    onClick={()=> clearForm()}
+                                    onClick={() => clearForm()}
                                     type="reset"
                                 >
                                     Reset
-                                    
                                 </button>
                                 <button
                                     type="submit"

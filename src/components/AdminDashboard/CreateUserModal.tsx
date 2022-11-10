@@ -1,14 +1,14 @@
 import React, { FC, FormEvent, useState } from 'react';
-import { FaTimes, FaQuestionCircle } from 'react-icons/fa';
+import { ROLES } from '../../app/constants';
 import { AiOutlineReload } from 'react-icons/ai';
-import { generatePassword } from '../../app/generatePassword';
 import { useAppDispatch } from '../../app/hooks';
+import { CreateUserType } from '../../app/typescriptTypes';
+import { generatePassword } from '../../app/generatePassword';
 import {
     createUserAction,
     getAllUsers,
 } from '../../redux/actions/usersActions';
-import { CreateUserType } from '../../app/typescriptTypes';
-import { ROLES } from '../../app/constants';
+import { FaTimes, FaQuestionCircle } from 'react-icons/fa';
 import './styles/CreateUserModal.scss';
 
 type Props = {
