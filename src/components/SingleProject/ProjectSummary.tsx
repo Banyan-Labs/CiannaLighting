@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
+import { FaRegEdit, FaRegClone, FaCircle, FaArchive} from 'react-icons/fa';
+import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
@@ -9,7 +10,7 @@ import {
     getAllProjects,
     getUserProjects,
 } from '../../redux/actions/projectActions';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch} from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
@@ -22,6 +23,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const dispatch = useAppDispatch();
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
+ 
     const Color =
         dataHolding.setData().color &&
         Object.keys(dataHolding.setData().color).length > 0
@@ -34,6 +36,9 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
             await dispatch(
                 getProject({ _id: details._id, archived: !details.archived })
             );
+            details?.archived === true
+            ? alert('This project was restored')
+            : alert('This project was archived')
         } catch (error: any) {
             console.log('Error archiving item: ', error.message);
             alert('Can not archive project.');
@@ -97,12 +102,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                             className="clone-icon"
                             onClick={(e) => copyOfProject(e, details)}
                         />
-
-                        <ReactTooltip id="copy" />
-                        <ReactTooltip id="edit" />
-                        <ReactTooltip id="archive" />
-                        <div></div>
-                        <FaArchive
+                         <FaArchive
                             data-for="archive"
                             data-tip={
                                 details?.archived === true
@@ -112,6 +112,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                             className="archive-icon"
                             onClick={(e) => archiveSet(e)}
                         />
+                         
+                         <RiArchiveDrawerFill  data-for="ab"  data-tip={`${details?.name} is archived`}className={details?.archived ? 'archive-icon archive-show-option' : 'd-none'} /> 
+                        
+                        <ReactTooltip id="ab" />
+                        <ReactTooltip id="copy" />
+                        <ReactTooltip id="edit" />
+                        <ReactTooltip id="archive" />
+                        
                     </div>
                     <div className="project-summary-status">
                         <p className="status">Status: {details?.status}</p>
