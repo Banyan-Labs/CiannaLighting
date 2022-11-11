@@ -20,10 +20,10 @@ interface ProjectSummaryProps {
 }
 
 const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
-    const dispatch = useAppDispatch();
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
- 
+    const dispatch = useAppDispatch();
+    // const statusOfArchive = details.archived ?  'Restor' : 'Archiv' 
     const Color =
         dataHolding.setData().color &&
         Object.keys(dataHolding.setData().color).length > 0
@@ -34,7 +34,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
         e.preventDefault();
         try {
             await dispatch(
-                getProject({ _id: details._id, archived: !details.archived })
+                getProject({ _id: details._id, archived: !details.archived, activity: details.archived ?  'Restor' : 'Archiv'})
             );
             details?.archived === true
             ? alert('This project was restored')
@@ -59,6 +59,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
             alert(`Copy of ${project.name} created in your dashboard.`);
+            return response.data
         } catch (error) {
             console.log('Error in copyProject: ', error);
         }
