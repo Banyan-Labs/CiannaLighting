@@ -2,9 +2,6 @@
 .users-table-title {
   margin-top: 10px;
 }
-.remove-td{
-  padding-left: 30px;
-}
 .users-table-title h1 {
   margin: 0px;
 }
@@ -51,6 +48,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.remove-td {
+  padding-left: 30px;
 }
 
 .user-options-button {

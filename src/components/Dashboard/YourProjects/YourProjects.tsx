@@ -5,6 +5,7 @@ import {
     getProject,
     getUserProjects,
 } from '../../../redux/actions/projectActions';
+import ReactTooltip from 'react-tooltip';
 import Modal from '../../Modal/Modal';
 import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import { VscFileSubmodule } from 'react-icons/vsc';
@@ -18,6 +19,7 @@ import {
     IoIosArrowDropleftCircle,
     IoIosArrowDroprightCircle,
 } from 'react-icons/io';
+import { RiArchiveDrawerFill } from 'react-icons/ri';
 
 import dataHolding from './projectDetails';
 
@@ -115,9 +117,16 @@ const YourProjects: FC = () => {
                 <span>
                     Created: <strong>{date}</strong>
                 </span>
+                <div className='d-flex align-items-end justify-content-between'>
                 <span>
                     Status: <strong>{project.status}</strong>
                 </span>
+
+                <RiArchiveDrawerFill  data-for="ab"  data-tip={`${project?.name} is archived`}className={project?.archived ? 'archive-icon archive-show-option' : 'd-none'} /> 
+
+                <ReactTooltip id="ab" />
+
+                </div>
                 <div className="card-divider" />
                 <h3>{project.name}</h3>
                 <div className="view-details-block" key={index}>
