@@ -72,10 +72,11 @@ const Modal: FC<Props> = (props) => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         console.log('submitted');
+        console.log("DEETS: ", projectDetails)
         try {
             !props.editProject
                 ? dispatch(createProjectAction(projectDetails))
-                : dispatch(
+                : await dispatch(
                       getProject({
                           ...projectDetails,
                           _id: project?._id,

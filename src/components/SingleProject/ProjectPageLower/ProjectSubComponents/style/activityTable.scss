@@ -1,0 +1,32 @@
+.activity-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    width: 90%;
+}
+.activity-head{
+    width: fit-content;
+    background: black;
+    padding: 10px;
+    margin-left: 3px;
+    border-radius: 50px;
+    color: white;
+}
+.activity-label{
+    font-size: larger;
+    margin-top: 5%
+}
+
+.activity-table{
+    margin-bottom: -50px;
+    width: 100%
+}
+.activity-date{
+    text-align: end;
+}
+.activity-pagination{
+    width: fit-content;
+    align-self: flex-end;
+    margin-right: -40px;
+}
