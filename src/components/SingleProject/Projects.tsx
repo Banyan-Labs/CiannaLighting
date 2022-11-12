@@ -41,7 +41,7 @@ const Projects: FC = () => {
             <div className="projects-top-half">
                 <ProjectSummary details={project} />
                 {/* <RoomDetails /> */}
-                <ProjectAttachments />
+                <ProjectAttachments details={project}/>
             </div>
             <div>
                 <ProjectsNav />

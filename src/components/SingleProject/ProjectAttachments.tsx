@@ -2,7 +2,12 @@ import React, { FC } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 
-const ProjectAttachments: FC = () => {
+
+interface ProjectSummaryProps {
+    details: any;
+}
+
+const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
     const testAttachmentData = [
         {
             id: 1,
@@ -13,14 +18,9 @@ const ProjectAttachments: FC = () => {
             id: 2,
             fileName: '23.16 Prepare to be irradiated',
             fileSize: '1MB',
-        },
-        {
-            id: 3,
-            fileName: '123.456 Coruscating incandescence',
-            fileSize: '456MB',
-        },
+        }
     ];
-    const userAttachments = testAttachmentData.map((file, index) => {
+    const userAttachments = details?.rfp.length > 0 ?  details?.rfp.map((file:any, index:any) => {
         return (
             <tbody key={index}>
                 <tr className="attachments-dynamic-row">
@@ -32,7 +32,7 @@ const ProjectAttachments: FC = () => {
                 </tr>
             </tbody>
         );
-    });
+    }) : '';
     return (
         <div className="project-attachments-container">
             <div className="project-attachments-top-bar">
