@@ -15,8 +15,16 @@ export interface ProjectStateType {
     catalogConnectLight: any[] | null;
 }
 
+type Activity = {
+    createUpdate: string;
+    rooms: string[];
+    archiveRestore: string[];
+    status: string[]
+}
+
 export type ProjectType = {
     _id?: string;
+    archived?: boolean;
     name: string;
     clientId: string;
     clientName: string;
@@ -25,6 +33,7 @@ export type ProjectType = {
     description: string;
     rfp?: string;
     rooms?: string[];
+    activity?: Activity;
 };
 
 export type LightType = {
