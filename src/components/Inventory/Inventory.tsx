@@ -194,6 +194,7 @@ const Inventory: FC = () => {
             }
         }
 
+        console.log("FS:",fs)
         try {
             (await axiosPriv).post('/internal/create-light', fs);
 
@@ -902,7 +903,8 @@ const Inventory: FC = () => {
                             <div>
                                 {imageName.map((url: any, index: number) => {
                                     console.log(url);
-                                    return <img src={url} key={index} alt="" />;
+                                    // return <img src={url} key={index} alt="" />;
+                                    return url
                                 })}
                             </div>
                             <br />
