@@ -79,21 +79,11 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id, userProjects.length]);
-    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568'];
 
-    // displays the 4 most recent projects.
-    const latestProjects =
-        userProjects.length > 4
-            ? userProjects.slice(userProjects.length - 4).reverse()
-            : userProjects;
+    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#1C1C1C'];
 
-    const singleProject = latestProjects.map((project: any, index: any) => {
-        const color =
-            projectColors[
-                index > projectColors.length - 1
-                    ? index - (userProjects.length - (projectColors.length + 1))
-                    : index
-            ];
+    const singleProject = userProjects.map((project: any, index: any) => {
+        const color = projectColors[index % projectColors.length];
 
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
@@ -117,15 +107,22 @@ const YourProjects: FC = () => {
                 <span>
                     Created: <strong>{date}</strong>
                 </span>
-                <div className='d-flex align-items-end justify-content-between'>
-                <span>
-                    Status: <strong>{project.status}</strong>
-                </span>
+                <div className="d-flex align-items-end justify-content-between">
+                    <span>
+                        Status: <strong>{project.status}</strong>
+                    </span>
 
-                <RiArchiveDrawerFill  data-for="ab"  data-tip={`${project?.name} is archived`}className={project?.archived ? 'archive-icon archive-show-option' : 'd-none'} /> 
+                    <RiArchiveDrawerFill
+                        data-for="ab"
+                        data-tip={`${project?.name} is archived`}
+                        className={
+                            project?.archived
+                                ? 'archive-icon archive-show-option'
+                                : 'd-none'
+                        }
+                    />
 
-                <ReactTooltip id="ab" />
-
+                    <ReactTooltip id="ab" />
                 </div>
                 <div className="card-divider" />
                 <h3>{project.name}</h3>
