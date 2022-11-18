@@ -170,8 +170,8 @@ const AllProjects: FC<Props> = ({
     const filteredProjects = sortedData.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-        ? activeProjects.slice(firstIndex, lastIndex)
-        : archivedProjects.slice(firstIndex, lastIndex);
+        ? activeProjects.reverse().slice(firstIndex, lastIndex)
+        : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData.length / projectsPerPage);
     const sortDisplay = (field: string) => {
