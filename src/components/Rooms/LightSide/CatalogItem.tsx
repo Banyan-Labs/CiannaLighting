@@ -143,6 +143,12 @@ const CatalogItem: FC<catalogPros> = ({
         try {
             if (editLight === null) {
                 dispatch(createLight(catalogDetails));
+                /**
+                 * !!!! catalogItem is being called (catalogItem.images... .pdf .... .drawingFiles) !!!!!
+                 * create something here that triggers a new redux action that does the following
+                 * 1) sets project attachments value of some type to true that will conditionally call a route (new-attachments if false / get-attachments if true)
+                 * 2) sets an attacments value into redux, passing (drawing files to an images portion, and pdf to a pdf portion, see ProjectAttachments component for mor component for more)
+                 */
             } else {
                 dispatch(theEditLight(catalogDetails, editLight._id));
             }
