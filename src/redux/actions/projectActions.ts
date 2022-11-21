@@ -9,9 +9,10 @@ import {
     setFilteredProjects,
     setProjectRooms,
     setUserProjects,
+    setProjectAttach
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
+import { axiosPrivate, axiosFileUpload } from '../../api/axios';
 
 export const createProjectAction =
     (payload: ProjectType) =>
@@ -31,6 +32,7 @@ export const createRoomAction =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            console.log(payload)
             const response = await axiosPriv.post('/create-room', payload);
             dispatch(setRoomId(response.data.room._id));
             dispatch(setRoom(response.data.room));
@@ -87,9 +89,9 @@ export const getProject =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
-            console.log("payload get proj: ",payload)
+            // console.log("payload get proj: ",payload)
             const project = await axioscall.post('/find-project', payload);
-            console.log("foundproj: ",project)
+            // console.log("foundproj: ",project)
             if(project){
             dispatch(setProject(project.data.project));
             dispatch(setProjectId(project.data.project));
@@ -179,6 +181,37 @@ export const editThisRoom =
             const response = await axiosPriv.post('/find-room', payload);
             dispatch(setRoomId(response.data.room._id));
             dispatch(setRoom(response.data.room));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+    export const getProjectAttach =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosFileUpload();
+        try {
+            const response = await axiosPriv.post('/get-attachments', payload);
+            
+            if (response.status === 201) {
+                dispatch(setProjectAttach(null))
+            }else 
+            dispatch(setProjectAttach(response.data.proj))
+             console.log(response, 'Creating')
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };
+
+    export const addProjectAttach =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosFileUpload();
+        try {
+            const response = await axiosPriv.post('/new-attachments', payload);
+            dispatch(setProjectAttach(response.data.attachments))
+            console.log(response)
+             console.log(response.data.attachments , 'Adding')
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

@@ -123,7 +123,13 @@
     background-color: $primary-bg-dark;
     width: 100%;
     color: white;
-    height: 35vh;
+    min-height: 35vh;
+    overflow-y: scroll;
+}
+.title-attachments{
+    color: black;
+    text-align: center;
+    margin-top: 40px;
 }
 .project-attachments-top-bar {
     margin-left: 15px;
@@ -159,6 +165,10 @@
     margin-left: 10%;
     border-bottom: 1px solid rgb(39, 39, 40);
     margin-right: 10%;
+}
+
+.type-file{
+ cursor: pointer;
 }
 
 .attachments-file-name {

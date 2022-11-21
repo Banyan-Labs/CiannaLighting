@@ -3,7 +3,7 @@ import useParams from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
 import ProjectAttachments from './ProjectAttachments';
-import { getProject } from '../../redux/actions/projectActions';
+import { getProject, getProjectAttach } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import './style/projects.scss';
@@ -13,13 +13,19 @@ const Projects: FC = () => {
     const { userProjects, projectId, project } = useAppSelector(
         ({ project }) => project
     );
+    const userId = useParams('_id');
     const [storedProjId] = useParams('projectId');
+    
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
     const fetchData1 = async () => {
         storedProjId
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
+
+            storedProjId
+            ? await dispatch(getProjectAttach({"projId": String(storedProjId), "clientId": userId, "edit": ''}))
+            : await await dispatch(getProjectAttach({"projId": String(defaultProjId), "clientId": userId, "edit": ''}))
     };
 
     useEffect(() => {
@@ -30,6 +36,7 @@ const Projects: FC = () => {
         storedProjId
             ? await dispatch(getAllProjectRoomsAction(String(storedProjId)))
             : await dispatch(getAllProjectRoomsAction(String(defaultProjId)));
+            
     };
 
     useEffect(() => {

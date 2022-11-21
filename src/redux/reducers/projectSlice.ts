@@ -6,6 +6,7 @@ export interface ProjectStateType {
     filterQueryProjects: any[];
     project: ProjectType | null;
     projectRooms: any[];
+    projectAttach: any;
     room: RoomType | null;
     error: any;
     projectId: string;
@@ -80,7 +81,8 @@ const initialState: ProjectStateType = {
     projectId: '',
     roomLights: [],
     setAllCatalog: [],
-    catalogConnectLight: null
+    catalogConnectLight: null,
+    projectAttach: []
 };
 
 export const projectSlice = createSlice({
@@ -101,6 +103,10 @@ export const projectSlice = createSlice({
         setProjectRooms: (state, action) => ({
             ...state,
             projectRooms: action.payload,
+        }),
+        setProjectAttach: (state, action) => ({
+            ...state,
+            projectAttach: action.payload,
         }),
         setCatalogLights: (state, action) => ({
             ...state,
@@ -143,6 +149,7 @@ export const {
     setRoomId,
     setRoomLights,
     setCatalogLights,
-    setCatalogConnect
+    setCatalogConnect,
+    setProjectAttach
 } = projectSlice.actions;
 export default projectSlice.reducer;
