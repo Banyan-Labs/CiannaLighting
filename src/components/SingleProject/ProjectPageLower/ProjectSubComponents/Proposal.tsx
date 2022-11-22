@@ -66,6 +66,7 @@ const Proposal: FC = () => {
     return (
         <div className="proposal-container">
            <form>
+            
             <input type="text" placeholder='...'/>
            </form>
         </div>
