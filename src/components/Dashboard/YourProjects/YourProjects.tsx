@@ -83,6 +83,7 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects.length]);
 
+    // Change these colors using the color pallet owen sent 
     const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#1C1C1C'];
 
     const singleProject = userProjects.map((project: any, index: any) => {
