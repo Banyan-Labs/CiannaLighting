@@ -107,7 +107,8 @@ export const ModalAttachments: FC<Props> = ({
               fs.append('edit', 'add')
             dispatch(getProjectAttach(fs))
          }
-          
+         if (pdf.length | images.length)
+          closeModal(!openModal)
          
         }
         catch (error: any) {
