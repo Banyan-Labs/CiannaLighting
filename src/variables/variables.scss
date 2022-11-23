@@ -1,19 +1,34 @@
 //Font
-@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
-$font-family: 'Montserrat';
+// @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
+// @import url() ;
+
+@font-face {
+    font-family: "sweet-heavy";
+    src: url('../../public/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: "sweet-medium";
+    src: url('../../public/fonts/SweetSansProMedium.woff') format('woff');
+}
+@font-face {
+    font-family: "sweet-thin";
+    src: url('../../public/fonts/SweetSansProThin.woff') format('woff');
+}
+
+$font-family: 'sweet-heavy';
 
 //Dark Background Colors
-$primary-bg-dark: #101010;
-$primary-bg-dark-title: #f2f2f2;
-$primary-bg-dark-text: #cbcbcb;
-$primary-bg-dark-link: #cbcbcb;
-$primary-bg-dark-link-hover: #f2f2f2;
-$primary-bg-dark-link-active: #f2f2f2;
-$primary-bg-dark-button-text: #f2f2f2;
+$primary-bg-dark: #ecebe7;
+$primary-bg-dark-title: #3f3c39;
+$primary-bg-dark-text: #949494;
+$primary-bg-dark-link: #949494;
+$primary-bg-dark-link-hover: #3f3c39;
+$primary-bg-dark-link-active: #3f3c39;
+$primary-bg-dark-button-text: #3f3c39;
 
 //White Background Colors
-$primary-bg-white: #f2f2f2;
-$primary-bg-white-text: #101010;
+$primary-bg-white: #f7f6f4;
+$primary-bg-white-text: #3f3c39;
 $primary-bg-white-sub-text: #949494;
 
 //Accent Colors
