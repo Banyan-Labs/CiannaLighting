@@ -1,4 +1,31 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+.project-details-attachment h3 {
+  color: black;
+}
+.project-details-attachment p {
+  color: #949494;
+}
+
+.img-container-attach {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.img-container-attach img {
+  height: 200px;
+  width: 300px;
+}
+
+.btn-attach-add {
+  border: none;
+  background-color: #c6ad7c;
+  padding: 8px 12px 8px 12px;
+  border-radius: 0.2rem;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
 .projects-top-half {
   display: flex;
 }

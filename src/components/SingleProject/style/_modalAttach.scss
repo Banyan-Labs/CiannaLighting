@@ -1,0 +1,30 @@
+.project-details-attachment{
+
+h3{
+    color: black;
+}
+
+p{
+    color: $primary-bg-white-sub-text;
+}
+}
+
+.img-container-attach{
+    margin-top: 10px;
+ display: flex;
+ justify-content: center;
+  img{
+    height: 200px;
+    width: 300px;
+  }
+}
+
+.btn-attach-add{
+ border: none;
+ background-color: $accent-gold;
+ padding: 8px 12px 8px 12px;
+ border-radius: .2rem;
+ color: white;
+ cursor: pointer;
+ margin-left: 10px;
+}

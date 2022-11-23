@@ -1,26 +1,18 @@
-import React, { FC } from 'react';
+import React, { FC, useState, } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
+import {ModalAttachments} from './ModalAttachments.tsx';
 
-const ProjectAttachments: FC = () => {
-    const testAttachmentData = [
-        {
-            id: 1,
-            fileName: '22.2022 Incredibly illuminating file',
-            fileSize: '6.1MB',
-        },
-        {
-            id: 2,
-            fileName: '23.16 Prepare to be irradiated',
-            fileSize: '1MB',
-        },
-        {
-            id: 3,
-            fileName: '123.456 Coruscating incandescence',
-            fileSize: '456MB',
-        },
-    ];
-    const userAttachments = testAttachmentData.map((file, index) => {
+
+interface ProjectSummaryProps {
+    details: any;
+}
+
+const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
+    const [openModal, setOpenModal] = useState(false);
+
+    
+    const userAttachments = details?.rfp.length > 0 ?  details?.rfp.map((file:any, index:any) => {
         return (
             <tbody key={index}>
                 <tr className="attachments-dynamic-row">
@@ -32,12 +24,14 @@ const ProjectAttachments: FC = () => {
                 </tr>
             </tbody>
         );
-    });
+    }) : '';
     return (
         <div className="project-attachments-container">
             <div className="project-attachments-top-bar">
                 <h3 className="project-attachment">Attachments</h3>
-                <FaPaperclip className="paperclip-icon" />
+                <FaPaperclip  onClick={() => {
+                                setOpenModal(true);
+                            }} className="paperclip-icon" />
                 <p className="attach-file-text">Attach file</p>
             </div>
             <div className="project-attachments-table-container">
@@ -56,6 +50,13 @@ const ProjectAttachments: FC = () => {
             <div className="project-attachments-view-all">
                 <p>View All</p>
             </div>
+            {openModal && (
+                <ModalAttachments
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    project={details}
+                />
+            )}
         </div>
     );
 };
