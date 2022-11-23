@@ -3,7 +3,7 @@ import React, { FC, useState, FormEvent, ChangeEvent  } from 'react';
 import useParams from '../../app/utils';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector  } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
     getRoomLights,
 } from '../../redux/actions/lightActions';
@@ -29,7 +29,7 @@ export const ModalAttachments: FC<Props> = ({
     attachDelete,
     setAttachDelete
 }) => {
-    const projId = useParams('projectId');
+    const projId = useAppSelector(({project})=> project);
     const storedRoomId = useParams('roomId');
     const { projectAttach } = useAppSelector(
         ({ project }) => project
@@ -55,7 +55,7 @@ export const ModalAttachments: FC<Props> = ({
         if (e.target.name === 'pdf') {
             setPdfFiles(e.target.files);
         }
-        console.log(pdfFiles, pdf, pdfNames, imgFiles, images, imageName)
+        console.log(pdfFiles, pdf, pdfNames,'\n', imgFiles, images, imageName)
     };
 
     const listFileNames1 = (e: any) => {
@@ -86,20 +86,31 @@ export const ModalAttachments: FC<Props> = ({
         e.preventDefault();
         const fs = new FormData();
 
+        console.log("imgs, pdf",images, pdf)
+        fs.append('projId', project._id)
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
                 fs.append('images', images[i]);
+                console.log("imgs: ", images[i])
+                console.log("fs: ",fs)
             }
+            console.log("fsIMG : ",fs)
         }
         if (pdf.length) {
             for (let i = 0; i < pdf.length; i++) {
                 fs.append('pdf', pdf[i]);
+                console.log("pdf: ", pdf)
+                console.log("pdfI: ", pdf[i])
+                console.log("fspdf: ", fs)
             }
+            console.log("fs pdf: ",fs, pdf)
         }
              fs.append('projId', String(projId))
              fs.append('clientId', String(userId))
             
-            
+             
+            //  fs.append('edit', 'add')
+             console.log("imgfiles, imgs, fs: ",imgFiles, images, fs)
         try {
          if (projectAttach === null) {
             dispatch(addProjectAttach(fs)) 

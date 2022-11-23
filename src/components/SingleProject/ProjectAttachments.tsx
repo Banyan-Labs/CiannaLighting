@@ -16,7 +16,7 @@ const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
     );
     const [type, setType] = useState(true);
     const Images = projectAttach?.images
-    const PDF = projectAttach.pdf
+    const PDF = projectAttach?.pdf
     
     const userAttachments = Images?.length > 0 ?  Images?.map((file:any, index:any) => {
         

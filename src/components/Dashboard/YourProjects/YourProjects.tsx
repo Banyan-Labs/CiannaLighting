@@ -29,6 +29,7 @@ import DashboardNav from '../DashboardPageLower/DashboardNav';
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
+    
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -47,6 +48,7 @@ const YourProjects: FC = () => {
     const [onHoldProjects, setOnHoldProjects] = useState(0);
     const [canceledProjects, setCanceledProjects] = useState(0);
     const [completedProjects, setCompletedProjects] = useState(0);
+    
 
     // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
@@ -56,6 +58,7 @@ const YourProjects: FC = () => {
 
     useEffect(() => {
         dispatch(getUserProjects(user._id));
+        
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
@@ -134,7 +137,7 @@ const YourProjects: FC = () => {
                 </div>
             </div>
         );
-    });
+    }).reverse();
 
     return (
         <>

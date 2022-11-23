@@ -76,6 +76,8 @@ const Inventory: FC = () => {
         socketType: [], //[]
         mounting: [], //[]
         crystalType: [], //[]
+        crystalPinType: [], //[]
+        crystalPinColor: [], //[]
         designStyle: [], //[]
         usePackages: [], //[]
         // images: [], //[]//s3
@@ -90,13 +92,18 @@ const Inventory: FC = () => {
     });
     const [imgFiles, setImgfiles] = useState<any>([]);
     const [pdfFiles, setPdfFiles] = useState<any>([]);
+    const [specFiles, setSpecFiles] = useState<any>([]);
     const [drawingFilesArray, setDrawingFilesArray] = useState<any>([]);
     const [images, setImages] = useState<any>([]);
     const [pdf, setPdf] = useState<any>([]);
+    const [specs, setSpecs] = useState<any>([]);
     const [drawingFiles, setDrawingFiles] = useState<any>([]);
     const [imageName, setImageNames] = useState<any>([]);
     const [pdfNames, setPdfNames] = useState<any>([]);
+    const [specNames, setSpecNames] = useState<any>([]);
     const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
+    const [viewablePDF, setViewablePDF] = useState<any>([])
+    const [viewableSpecs, setViewableSpecs] = useState<any>([])
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setItemDetails({
@@ -126,6 +133,9 @@ const Inventory: FC = () => {
         if (e.target.name === 'pdf') {
             setPdfFiles(e.target.files);
         }
+        if (e.target.name === 'specs') {
+            setSpecFiles(e.target.files);
+        }
         if (e.target.name === 'drawingFiles') {
             setDrawingFilesArray(e.target.files);
         }
@@ -145,9 +155,10 @@ const Inventory: FC = () => {
         });
     };
 
-    const listFileNames = (e: any) => {
+    const listFileNames = (e: any, name:string) => {
         e.preventDefault();
-        if (imgFiles.length) {
+
+        if ( name === 'images' &&  imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
                 console.log(imgFiles[key]);
                 const objectUrl = URL.createObjectURL(imgFiles[key]);
@@ -155,13 +166,23 @@ const Inventory: FC = () => {
                 setImages([...images, imgFiles[key]]);
             }
         }
-        if (pdfFiles.length) {
+        if (name === 'pdf' && pdfFiles.length) {
             for (const key of Object.keys(pdfFiles)) {
+                const objectUrl = URL.createObjectURL(pdfFiles[key]);
+                setViewablePDF([...viewablePDF, objectUrl]) 
                 setPdf([...pdf, pdfFiles[key]]);
-                setPdfNames([...pdfNames, pdfFiles[key].name]);
+                setPdfNames([...pdfNames, pdfFiles.name]);
             }
         }
-        if (drawingFilesArray.length) {
+        if (name === 'specs' && specFiles.length) {
+            for (const key of Object.keys(specFiles)) {
+                const objectUrl = URL.createObjectURL(specFiles[key]);
+                setViewableSpecs([...viewableSpecs, objectUrl])
+                setSpecs([...specs, specFiles[key]]);
+                setSpecNames([...specNames, specFiles[key].name]);
+            }
+        }
+        if (name === 'drawingFiles' && drawingFilesArray.length) {
             for (const key of Object.keys(drawingFilesArray)) {
                 const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
                 setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
@@ -188,12 +209,18 @@ const Inventory: FC = () => {
                 fs.append('pdf', pdf[i]);
             }
         }
+        if (specs.length) {
+            for (let i = 0; i < specs.length; i++) {
+                fs.append('specs', specs[i]);
+            }
+        }
         if (drawingFiles.length) {
             for (let i = 0; i < drawingFiles.length; i++) {
                 fs.append('drawingFiles', drawingFiles[i]);
             }
         }
 
+        console.log("FS:",fs)
         try {
             (await axiosPriv).post('/internal/create-light', fs);
 
@@ -260,7 +287,7 @@ const Inventory: FC = () => {
             <form className="inventory-form" onSubmit={onSubmit}>
                 <div className="tabs">
                     <div className="tab">
-                        <input type="checkbox" id="chck1" checked />
+                        <input type="checkbox" id="chck1" defaultChecked />
                         <label className="tab-label" htmlFor="chck1">
                             Details
                         </label>
@@ -622,6 +649,64 @@ const Inventory: FC = () => {
                             readOnly
                             required
                         />
+                        <br />
+                        <label htmlFor="crystalType">Crystal Pin Types</label>
+                        <br />
+                        <input
+                            className="list-input"
+                            id="crystalPinType"
+                            placeholder="Crystal Pin Types"
+                            type="text"
+                            name="crystalPinType"
+                            value={
+                                listValue.name == 'crystalPinType'
+                                    ? listValue.value
+                                    : ''
+                            }
+                            onChange={(e) => handleArrayValue(e)}
+                        />
+                        <button onClick={(e) => listValSubmit(e)}>
+                            Add Value
+                        </button>
+                        <input
+                            className="body-input"
+                            id="crystalPinTypeValues"
+                            placeholder="Values go here"
+                            type="text"
+                            name="crystalPinTypeValues"
+                            value={itemDetails.crystalPinType}
+                            readOnly
+                            required
+                        />
+                        <br />
+                        <label htmlFor="crystalType">Crystal Pin Colors</label>
+                        <br />
+                        <input
+                            className="list-input"
+                            id="crystalPinColor"
+                            placeholder="Crystal Pin Colors"
+                            type="text"
+                            name="crystalPinColor"
+                            value={
+                                listValue.name == 'crystalPinColor'
+                                    ? listValue.value
+                                    : ''
+                            }
+                            onChange={(e) => handleArrayValue(e)}
+                        />
+                        <button onClick={(e) => listValSubmit(e)}>
+                            Add Value
+                        </button>
+                        <input
+                            className="body-input"
+                            id="crystalPinColorValues"
+                            placeholder="Values go here"
+                            type="text"
+                            name="crystalPinColorValues"
+                            value={itemDetails.crystalPinColor}
+                            readOnly
+                            required
+                        />
                     </div>
                 </div>
                 <div className="tab">
@@ -898,13 +983,13 @@ const Inventory: FC = () => {
                             name="images"
                             onChange={(e) => handleFileUpload(e)}
                         />
-                        <button onClick={(e) => listFileNames(e)}>
+                        <button onClick={(e) => listFileNames(e, 'images')}>
                             Add Value
                         </button>
 
                         <div>
                             {imageName.map((url: any, index: number) => {
-                                console.log(url);
+                                console.log("img url: ", url);
                                 return <img src={url} key={index} alt="" />;
                             })}
                         </div>
@@ -921,19 +1006,39 @@ const Inventory: FC = () => {
                             name="pdf"
                             onChange={(e) => handleFileUpload(e)}
                         />
-                        <button onClick={(e) => listFileNames(e)}>
+                        <button onClick={(e) => listFileNames(e, 'pdf')}>
                             Add Value
                         </button>
+                        <div>
+                            {viewablePDF.map(
+                                (url: any, index: number) => {
+                                    console.log("url pdf: ", url);
+                                    return <embed src={url} key={index} height="500px" width="200px" />;
+                                }
+                            )}
+                        </div>
+                        <br />
                         <input
-                            className="body-input"
-                            id="pdfValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="pdfValues"
-                            value={pdf}
-                            readOnly
-                            required
+                            className="list-input"
+                            id="specs"
+                            placeholder="Upload Spec File(s)"
+                            type="file"
+                            accept="application/pdf"
+                            multiple
+                            name="specs"
+                            onChange={(e) => handleFileUpload(e)}
                         />
+                        <button onClick={(e) => listFileNames(e, 'specs')}>
+                            Add Value
+                        </button>
+                        <div>
+                            {viewableSpecs.map(
+                                (url: any, index: number) => {
+                                    console.log("url SPECS: ", url);
+                                    return <embed src={url} key={index} height="500px" width="200px" />;
+                                }
+                            )}
+                        </div>
                         <br />
                         <label htmlFor="drawingFiles">Drawing Files</label>
                         <br />
@@ -947,7 +1052,7 @@ const Inventory: FC = () => {
                             name="drawingFiles"
                             onChange={(e) => handleFileUpload(e)}
                         />
-                        <button onClick={(e) => listFileNames(e)}>
+                        <button onClick={(e) => listFileNames(e, 'drawingFiles')}>
                             Add Value
                         </button>
                         <div>

@@ -9,6 +9,7 @@
     box-shadow: $box-shadow;
     display: flex;
     align-items: center;
+    
     img {
         margin-top: 10px;
         height: 150px;
@@ -43,7 +44,7 @@
 
 .navbar-links {
     @include nav-link;
-    color: $primary-bg-dark-link;
+    color: $primary-bg-dark-title;
 }
 
 .navbar-user-container {
@@ -58,10 +59,15 @@
     }
     .navbar-user-hi {
         font-weight: 100;
+        
+    }
+    .navbar-user-name{
+        color: $accent-gold;
     }
     .navbar-user-role {
         font-size: 12px;
         font-weight: 100;
+        
     }
 }
 
