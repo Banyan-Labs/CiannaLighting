@@ -190,6 +190,7 @@ const Inventory: FC = () => {
             }
         }
     };
+    console.log("itemdeets: ", itemDetails)
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
