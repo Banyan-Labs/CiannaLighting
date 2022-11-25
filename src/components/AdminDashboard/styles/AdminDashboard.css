@@ -1,11 +1,22 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .admin-dashboard-container {
   padding-top: 100px;
   display: flex;
 }
 
 .admin-sidebar-container {
-  background: #101010;
+  background: #ecebe7;
   position: relative;
   min-height: 100vh;
   min-width: 100px;
@@ -19,16 +30,16 @@
 
 .sidebar-link {
   text-decoration: none;
-  color: #cbcbcb;
+  color: #949494;
 }
 .sidebar-link:hover {
-  color: #c6ad7c;
+  color: #c09d5b;
   text-decoration: underline;
 }
 
 .active-sidebar-link {
   transform: scale(1.1);
-  color: #c6ad7c;
+  color: #c09d5b;
 }
 
 .admin-content-section {

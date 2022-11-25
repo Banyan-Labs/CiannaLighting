@@ -86,3 +86,17 @@ export const theEditLight =
             dispatch(setProjectError(error.response.data));
         }
     };
+
+    export const filterCatalogItems =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        console.log(payload)
+        try {
+            const response = await axiosPriv.post('/public/get-catalog', payload);
+            console.log(response, 'response')
+            dispatch(setCatalogLights(response.data.items));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };

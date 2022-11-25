@@ -1,0 +1,98 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.proposal-container {
+  padding: 5%;
+}
+
+.editor-label {
+  color: #c09d5b;
+  background-color: black;
+  border: 2px inset #c09d5b;
+  border-radius: 2rem;
+  padding: 10px 20px 10px 20px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.schedule-input {
+  display: flex;
+  align-items: baseline;
+  padding-left: 4%;
+}
+.schedule-input .extra-marg {
+  margin-left: 5%;
+}
+.schedule-input .input-container {
+  display: flex;
+  width: 25%;
+  flex-direction: row;
+}
+.schedule-input .input-container .input-label {
+  width: 107px;
+  text-align: center;
+  background: black;
+  padding: 10px 10px 0px 10px;
+  font-size: 0.8rem;
+  border-left: 2px inset #c6ad7c;
+  border-top: 2px inset #c6ad7c;
+  border-bottom: 2px inset #c6ad7c;
+  border-radius: 5px 2px 2px 5px;
+  color: white;
+}
+.schedule-input .input-container .date-pick-container {
+  width: 270px;
+}
+.schedule-input .input-container .date-pick-container .date-picker {
+  height: 38px;
+  width: 95%;
+  border-right: 2px inset #c6ad7c;
+  border-top: 2px inset #c6ad7c;
+  border-bottom: 2px inset #c6ad7c;
+  border-radius: 3px 2rem 2rem 3px;
+}
+.schedule-input .input-container textarea {
+  height: 37px;
+  border-right: 2px inset #c6ad7c;
+  border-top: 2px inset #c6ad7c;
+  border-bottom: 2px inset #c6ad7c;
+  border-radius: 3px 2rem 2rem 3px;
+  resize: none;
+  padding: 2px;
+}
+.schedule-input .input-container .duration {
+  height: 38px;
+  width: 260px;
+  border-radius: 3px 2rem 2rem 3px;
+  border-right: 2px inset #c6ad7c;
+  border-top: 2px inset #c6ad7c;
+  border-bottom: 2px inset #c6ad7c;
+}
+.schedule-input .schedule-add {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10px 20px 10px 20px;
+  margin-left: 2%;
+  color: white;
+  background-color: #c09d5b;
+  font-weight: 500;
+  border-radius: 2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.schedule-input .schedule-add:hover {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+}/*# sourceMappingURL=proposal.css.map */

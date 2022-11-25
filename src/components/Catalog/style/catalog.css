@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 html,
 body {
   height: 100%;
@@ -13,7 +24,7 @@ body {
 }
 .catalog-container .catalog-main-container {
   margin-top: 100px;
-  background-color: #101010;
+  background-color: #ecebe7;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -22,7 +33,7 @@ body {
 .catalog-container .catalog-main-container .catalog-use-packages {
   padding: 0 50px;
   flex: 3;
-  color: #cbcbcb;
+  color: #949494;
 }
 .catalog-container .catalog-main-container .catalog-use-packages span {
   position: relative;
@@ -32,7 +43,7 @@ body {
 .use-package-image {
   height: 200px;
   width: 220px;
-  border: 0.25px solid #3c3c3c;
+  border: 0.25px solid #c09d5b;
   margin: 50px 0 10px 0;
 }
 

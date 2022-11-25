@@ -40,7 +40,8 @@
 
 .pagination_ .text {
     opacity: 0.6;
-    font-size: 1.5rem;
+    font-size: 14px;
+    text-align: center;
 }
 
 .page {
@@ -59,6 +60,7 @@
 .page.active,
 .page:hover {
     color: #c6ad7c;
+    padding-bottom: 0 !important;
 }
 
 .page.disabled {
@@ -68,6 +70,7 @@
 }
 
 .item {
+    height: 332px;
     margin: 10px;
     margin-top: 40px;
     width: calc(85% / 3);
@@ -79,7 +82,8 @@
             transition: all 0.2s ease-in-out;
             opacity: 0.4;
         }
-        background-color: rgb(233, 225, 214);
+        background-color: $primary-bg-dark;
+        height: fit-content;
     }
     .item-bottom-sections {
         border-radius: 0.3rem;
@@ -87,12 +91,17 @@
         border-bottom: solid 1px #ada9a9ab;
         border-right: solid 1px #ada9a9ab;
         border-left: solid 1px #ada9a9ab;
+        min-height: 100px;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
         h4 {
             text-align: center;
             font-weight: 500;
+            font-size: 14px;
         }
         span {
             color: $primary-bg-white-sub-text;
+            font-size: 12px;
         }
     }
 }

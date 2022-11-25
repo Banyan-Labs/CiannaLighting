@@ -1,15 +1,26 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .dashboard-container {
   display: flex;
   height: 100%;
   width: 100%;
   padding-bottom: 45px;
   padding-top: 100px;
-  background-color: #101010;
+  background-color: #ecebe7;
   box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
 }
 .dashboard-container h4 {
-  color: #f2f2f2;
+  color: #3f3c39;
   font-size: 20px;
 }
 .dashboard-container a:hover {
@@ -27,7 +38,7 @@
 }
 
 .dashboard-new-project-sub-text {
-  color: #cbcbcb;
+  color: #949494;
   font-size: 12px;
   position: relative;
   top: -3px;
@@ -157,14 +168,14 @@
   width: 60%;
   margin: 0 20px 0 0;
   overflow-x: scroll;
-  border-bottom: 1px solid #3c3c3c;
+  border-bottom: 1px solid #c09d5b;
 }
 .dashboard-your-projects h4 {
   padding: 5px 25px 0 0;
 }
 .dashboard-your-projects button {
   background-color: transparent;
-  color: #cbcbcb;
+  color: #949494;
   font-size: 16px;
   border: none;
   margin-left: 20px;
@@ -194,7 +205,7 @@
 .overview-vertical-divider {
   height: 35px;
   width: 1px;
-  background-color: #3c3c3c;
+  background-color: #c09d5b;
   position: relative;
   top: 10px;
 }
@@ -202,7 +213,7 @@
 .dashboard-vertical-divider {
   height: 35px;
   width: 1px;
-  background-color: #3c3c3c;
+  background-color: #c09d5b;
   position: relative;
   top: 10px;
 }
@@ -279,7 +290,7 @@
 .archive-icon {
   margin-right: 25px;
   font-size: 1.2em;
-  color: white !important;
+  color: #949494;
 }
 
 .archive-icon:hover {

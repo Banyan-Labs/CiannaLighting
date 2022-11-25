@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .room-container {
   position: relative;
   display: flex;
@@ -19,7 +30,7 @@
   align-items: center;
   width: 85%;
   overflow-x: scroll;
-  border-bottom: 1px solid #cbcbcb;
+  border-bottom: 1px solid #949494;
   margin-top: 1rem;
 }
 

@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .project-modal-background {
   position: absolute;
   width: 100vw;
@@ -115,9 +126,9 @@
   margin-left: 60px;
 }
 .button-display-view-container .viewActive {
-  color: #c6ad7c;
+  color: #c09d5b;
   font-weight: 600;
-  border-bottom: 1.5px solid #c6ad7c !important;
+  border-bottom: 1.5px solid #c09d5b !important;
 }
 
 .no-lights {
@@ -421,7 +432,7 @@ table {
 
 .active-page {
   font-weight: bold;
-  border-bottom: 3px solid #c6ad7c;
+  border-bottom: 3px solid #c09d5b;
 }
 
 .skip-link {

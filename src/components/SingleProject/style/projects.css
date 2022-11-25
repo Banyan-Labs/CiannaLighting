@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .project-details-attachment h3 {
   color: black;
 }
@@ -18,7 +29,7 @@
 
 .btn-attach-add {
   border: none;
-  background-color: #c6ad7c;
+  background-color: #c09d5b;
   padding: 8px 12px 8px 12px;
   border-radius: 0.2rem;
   color: white;
@@ -32,10 +43,10 @@
 
 .project-summary-container {
   margin-top: 100px;
-  background-color: #101010;
-  color: white;
+  background-color: #ecebe7;
+  color: #949494;
   width: 100%;
-  border-right: 1px #3c3c3c solid;
+  border-right: 1px #c09d5b solid;
 }
 
 .back-to-projects {
@@ -101,7 +112,7 @@
 .archive-icon {
   margin-left: 15px;
   font-size: 1.2em;
-  color: #acacac;
+  color: #949494;
 }
 
 .archive-icon:hover {
@@ -111,7 +122,7 @@
 .clone-icon {
   margin-left: 15px;
   font-size: 1.2em;
-  color: #acacac;
+  color: #949494;
 }
 
 .clone-icon:hover {
@@ -121,7 +132,7 @@
 .edit-icon {
   margin-left: 0px;
   font-size: 1.2em;
-  color: #acacac;
+  color: #949494;
 }
 
 .edit-icon:hover {
@@ -149,9 +160,9 @@
 
 .project-attachments-container {
   padding-top: 140px;
-  background-color: #101010;
+  background-color: #ecebe7;
   width: 100%;
-  color: white;
+  color: #949494;
   height: 35vh;
 }
 
@@ -164,6 +175,7 @@
 .project-attachment {
   padding-right: 20px;
   border-right: 0.1px solid rgb(48, 47, 47);
+  color: #949494;
 }
 
 .paperclip-icon {
@@ -189,6 +201,7 @@
   margin-left: 10%;
   border-bottom: 1px solid rgb(39, 39, 40);
   margin-right: 10%;
+  color: #949494;
 }
 
 .attachments-file-name {
