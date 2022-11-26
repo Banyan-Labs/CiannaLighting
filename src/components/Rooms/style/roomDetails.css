@@ -155,8 +155,10 @@
 }
 
 .container-filter {
-  background-color: black;
+  background-color: #ecebe7;
   position: relative;
+  border-left: #c09d5b 1px solid;
+  border-top: #c09d5b 1px solid;
 }
 
 .top-filter {
@@ -167,7 +169,7 @@
 }
 .top-filter h3 {
   padding-left: 10px;
-  color: white;
+  color: black;
 }
 
 .dashboard-all-projects-submit {
@@ -188,11 +190,11 @@
 }
 .filter-form-container p {
   padding-top: 5px;
-  color: white;
+  color: #949494;
 }
 
 .design-container h5 {
-  color: white;
+  color: #c09d5b;
   padding-top: 20px !important;
 }
 

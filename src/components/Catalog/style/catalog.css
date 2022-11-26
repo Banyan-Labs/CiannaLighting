@@ -10,17 +10,11 @@
   font-family: "sweet-thin";
   src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
 }
-html,
-body {
-  height: 100%;
-  margin: 0;
-}
-
 .catalog-container {
   display: flex;
   flex-flow: row;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 .catalog-container .catalog-main-container {
   margin-top: 100px;

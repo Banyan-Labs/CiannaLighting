@@ -144,8 +144,10 @@
 
 // Filter ***************************
 .container-filter {
-    background-color: black;
+    background-color: $primary-bg-dark;
     position: relative;
+    border-left: $accent-gold 1px solid;
+    border-top: $accent-gold 1px solid;
 }
 
 .top-filter {
@@ -153,7 +155,7 @@
     padding-top: 30px !important;
     h3 {
         padding-left: 10px;
-        color: white;
+        color: black;
     }
 }
 
@@ -173,12 +175,12 @@
 
     p {
         padding-top: 5px;
-        color: white;
+        color: $primary-bg-white-sub-text;
     }
 }
 .design-container {
     h5 {
-        color: white;
+        color: $accent-gold;
         padding-top: 20px !important;
     }
 }

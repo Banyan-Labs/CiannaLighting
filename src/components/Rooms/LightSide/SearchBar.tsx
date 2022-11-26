@@ -15,7 +15,7 @@ const SearchBar: FC<searchBarProps> = ({ setSearchTerm }) => {
                 type="text"
                 id="header-search"
                 className="input-light-search"
-                placeholder="Search product name or number"
+                placeholder="Search product"
                 onChange={(event) => {
                     setSearchTerm(event.target.value);
                 }}
