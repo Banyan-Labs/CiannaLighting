@@ -30,6 +30,7 @@ const Cards: FC<catalogPros> = ({
     const { setAllCatalog } = useAppSelector(
         ({ project }) => project
     );
+    console.log(setAllCatalog)
     const projectsPerPage = 4;
     const designsFound: any = [];
     const reduxData =  setAllCatalog?.slice();
@@ -135,12 +136,12 @@ const Cards: FC<catalogPros> = ({
                                     </li>
                                 )}
                                 <Pagination
-                                    totalProjects={reduxData.length - 1}
+                                    totalProjects={reduxData ? reduxData.length - 1 : 0}
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage - 1 && (
+                                {currentPage < lastPage  && (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);
