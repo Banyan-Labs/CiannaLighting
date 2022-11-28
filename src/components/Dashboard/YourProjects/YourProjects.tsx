@@ -29,7 +29,7 @@ import DashboardNav from '../DashboardPageLower/DashboardNav';
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
-    
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -48,7 +48,6 @@ const YourProjects: FC = () => {
     const [onHoldProjects, setOnHoldProjects] = useState(0);
     const [canceledProjects, setCanceledProjects] = useState(0);
     const [completedProjects, setCompletedProjects] = useState(0);
-    
 
     // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
@@ -58,7 +57,7 @@ const YourProjects: FC = () => {
 
     useEffect(() => {
         dispatch(getUserProjects(user._id));
-        
+
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
@@ -83,61 +82,63 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects.length]);
 
-    const projectColors = ['#AC92EB', '#4FC1E8', '#A0D568', '#1C1C1C'];
+    // Change these colors using the color pallet owen sent
+    const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
 
-    const singleProject = userProjects.map((project: any, index: any) => {
-        const color = projectColors[index % projectColors.length];
+    const singleProject = userProjects
+        .map((project: any, index: any) => {
+            const color = projectColors[index % projectColors.length];
 
-        const changeProject = async (prodId: string) => {
-            await dispatch(getProject({ _id: prodId }));
-            dataHolding.getData(project, color);
-        };
-        const date = new Date(Date.parse(project.createdAt)).toDateString();
+            const changeProject = async (prodId: string) => {
+                await dispatch(getProject({ _id: prodId }));
+                dataHolding.getData(project, color);
+            };
+            const date = new Date(Date.parse(project.createdAt)).toDateString();
 
-        return (
-            <div
-                className="single-project"
-                style={{
-                    backgroundColor: color,
-                    borderTop: '1px solid #3c3c3c',
-                }}
-                onClick={() => {
-                    projectRoute(project._id);
-                    changeProject(project._id);
-                }}
-                key={index}
-            >
-                <span>
-                    Created: <strong>{date}</strong>
-                </span>
-                <div className="d-flex align-items-end justify-content-between">
+            return (
+                <div
+                    className="single-project"
+                    style={{
+                        backgroundColor: color,
+                    }}
+                    onClick={() => {
+                        projectRoute(project._id);
+                        changeProject(project._id);
+                    }}
+                    key={index}
+                >
                     <span>
-                        Status: <strong>{project.status}</strong>
+                        Created: <strong>{date}</strong>
                     </span>
+                    <div className="d-flex align-items-end justify-content-between">
+                        <span>
+                            Status: <strong>{project.status}</strong>
+                        </span>
 
-                    <RiArchiveDrawerFill
-                        data-for="ab"
-                        data-tip={`${project?.name} is archived`}
-                        className={
-                            project?.archived
-                                ? 'archive-icon archive-show-option'
-                                : 'd-none'
-                        }
-                    />
+                        <RiArchiveDrawerFill
+                            data-for="ab"
+                            data-tip={`${project?.name} is archived`}
+                            className={
+                                project?.archived
+                                    ? 'archive-icon archive-show-option'
+                                    : 'd-none'
+                            }
+                        />
 
-                    <ReactTooltip id="ab" />
+                        <ReactTooltip id="ab" />
+                    </div>
+                    <div className="card-divider" />
+                    <h3>{project.name}</h3>
+                    <div className="view-details-block" key={index}>
+                        <span>
+                            View Details{' '}
+                            <FaChevronRight className="view-details-chevron" />
+                        </span>
+                    </div>
                 </div>
-                <div className="card-divider" />
-                <h3>{project.name}</h3>
-                <div className="view-details-block" key={index}>
-                    <span>
-                        View Details{' '}
-                        <FaChevronRight className="view-details-chevron" />
-                    </span>
-                </div>
-            </div>
-        );
-    }).reverse();
+            );
+        })
+        .reverse();
 
     return (
         <>
