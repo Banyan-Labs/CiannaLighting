@@ -74,4 +74,11 @@
 ::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+.single-view-container {
+  margin-top: 100px;
+}
+.single-view-container h1 {
+  color: pink !important;
 }/*# sourceMappingURL=catalog.css.map */

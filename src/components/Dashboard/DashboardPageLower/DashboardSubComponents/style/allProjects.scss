@@ -69,21 +69,23 @@
         font-size: 10px;
         font-weight: bold;
     }
+
+    
     .statusColorNew {
-        color: rgb(6, 6, 185);
-        background-color: rgb(144, 216, 240);
+        color: #a3837a;
+        background-color: #a3837aa1;
     }
     .statusColorConstruction {
-        color: rgb(160, 160, 3);
-        background-color: rgb(243, 243, 140);
+        color: #d3b9b8;
+        background-color: #d3b9b8a1;
     }
     .statusColorCompleted {
-        color: darkgreen;
-        background-color: lightgreen;
+        color: #9b8384;
+        background-color: #9b8384a4;
     }
     .statusColorHold {
-        color: rgb(185, 5, 5);
-        background-color: rgb(238, 145, 145);
+        color: #d1beae;
+        background-color: #d1beaeb6;
     }
     .statusColorConfigure {
         color: darkcyan;

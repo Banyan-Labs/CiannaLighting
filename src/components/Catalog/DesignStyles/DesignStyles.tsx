@@ -4,10 +4,10 @@ import { useAppDispatch } from '../../../app/hooks';
 import { filterCatalogItems } from '../../../redux/actions/lightActions';
 
 const designStylesData = [
-    'art-deco',
-    'western',
-    'native',
-    'Contemporary',
+    'Art-deco',
+    'Western',
+    'Native',
+    'Asian',
     'Transitional',
     'Traditional'
 ];
@@ -24,8 +24,8 @@ const DesignStyles: FC<catalogPros> = ({ catalogType, setCatalogType, setRenderP
 const dispatch = useAppDispatch();
 
   const fetchData1 = async (e: any) => {
-      const value = e.currentTarget.value
-            console.log(e.currentTarget.value)
+      const value = e.currentTarget.value.toLowerCase();
+           
         dispatch(filterCatalogItems({
             "designStyle": [value] }))
         };

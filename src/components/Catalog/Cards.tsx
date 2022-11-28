@@ -32,10 +32,13 @@ const Cards: FC<catalogPros> = ({
     );
     const projectsPerPage = 4;
     const designsFound: any = [];
-    const reduxData =  setAllCatalog.slice();
+    const reduxData =  setAllCatalog?.slice();
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData.length / projectsPerPage);
-    const useDesigns = setAllCatalog?.map((design, index) => {
+    const lastIndex = currentPage * projectsPerPage;
+    const firstIndex = lastIndex - projectsPerPage;
+    const sortedData = reduxData?.slice(firstIndex, lastIndex)
+    const useDesigns = sortedData?.map((design, index) => {
 
         const allReceived = renderPage === 'designStyle' ? design?.designStyle.map((type: any) => {
             if (!designsFound.includes(type)) {
@@ -104,13 +107,13 @@ const Cards: FC<catalogPros> = ({
                         {useDesigns}
                         <div className="pages-list">
                         <nav className='page-list-catalog d-flex justify-content-between'>
-                            {setAllCatalog ? (
+                            {sortedData ? (
                                 <div className="table-showing2">
                                     Showing{' '}
                                     {currentPage}
                                     
                                     {currentPage * projectsPerPage >
-                                    reduxData.length -  currentPage * projectsPerPage}{' '}
+                                    sortedData.length -  currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     { lastPage }
                                 </div>

@@ -1,10 +1,5 @@
 @import "../../../variables/variables.scss";
 
-// html,
-// body {
-//   height: 100%;
-//   margin: 0;
-// }
 .catalog-container {
   display: flex;
   flex-flow: row;
@@ -73,4 +68,14 @@
 ::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+
+
+.single-view-container{
+  margin-top: 100px;
+
+h1{
+  color: pink !important;
+}
 }

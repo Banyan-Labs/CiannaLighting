@@ -294,20 +294,20 @@
   font-weight: bold;
 }
 .projects-table-dynamic-status .statusColorNew {
-  color: rgb(6, 6, 185);
-  background-color: rgb(144, 216, 240);
+  color: #a3837a;
+  background-color: rgba(163, 131, 122, 0.631372549);
 }
 .projects-table-dynamic-status .statusColorConstruction {
-  color: rgb(160, 160, 3);
-  background-color: rgb(243, 243, 140);
+  color: #d3b9b8;
+  background-color: rgba(211, 185, 184, 0.631372549);
 }
 .projects-table-dynamic-status .statusColorCompleted {
-  color: darkgreen;
-  background-color: lightgreen;
+  color: #9b8384;
+  background-color: rgba(155, 131, 132, 0.6431372549);
 }
 .projects-table-dynamic-status .statusColorHold {
-  color: rgb(185, 5, 5);
-  background-color: rgb(238, 145, 145);
+  color: #d1beae;
+  background-color: rgba(209, 190, 174, 0.7137254902);
 }
 .projects-table-dynamic-status .statusColorConfigure {
   color: darkcyan;

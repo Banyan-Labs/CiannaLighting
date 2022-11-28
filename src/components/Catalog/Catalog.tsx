@@ -7,6 +7,7 @@ import { filterCatalogItems } from '../../redux/actions/lightActions';
 import DesignStyles from './DesignStyles/DesignStyles';
 
 import './style/catalog.scss';
+import SingleView from './SingleView';
 
 const usePackagesData = [
     {
@@ -26,11 +27,11 @@ const usePackagesData = [
         img: '/hallway.jpeg',
     },
     {
-        name: 'forier',
+        name: 'Forier',
         img: '/reception.jpeg',
     },
     {
-        name: 'ball-room',
+        name: 'Ball-room',
         img: '/stairway.jpeg',
     }
 ];
@@ -46,8 +47,7 @@ const Catalog: FC = () => {
     const dispatch = useAppDispatch();
 
   const fetchData1 = async (e: any) => {
-      const value = e.currentTarget.value
-            console.log(e.currentTarget.value)
+      const value = e.currentTarget.value.toLowerCase();
 
         dispatch(filterCatalogItems({
             "usePackages": [value] }))
@@ -77,9 +77,7 @@ const Catalog: FC = () => {
         });
     return (
         <>
-            {Object.keys(user).length === 0 ? (
-                <Navigate to="/login" />
-            ) : (
+            {catalogItem === null ? (
                 <>
                     <div className="catalog-container">
                         <div className="catalog-main-container">
@@ -107,6 +105,17 @@ const Catalog: FC = () => {
                     </div>
                     
                 </>
+            ) : (
+                <div className='d-flex'>
+                <SingleView 
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                 catalogItem={catalogItem}
+                 setCatalogItem={setCatalogItem}
+                 setRenderPage={setRenderPage}
+                  renderPage={renderPage}
+                />
+                </div>
             )}
         </>
     );
