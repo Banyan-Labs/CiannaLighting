@@ -4,6 +4,7 @@ import {
     setProjectError,
     setCatalogLights,
     setCatalogConnect,
+    setAttachments
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -33,6 +34,30 @@ export const getCatalogItems =
             dispatch(setProjectError(error.response.data));
         }
     };
+
+export const setSpecFile = (payload: any, newAttach: boolean) => 
+async (dispatch: Dispatch) =>{
+    const axiosPriv = await axiosPrivate();
+    console.log("pay&status:", payload, newAttach)
+    try{
+        const response = (endpoint: string) =>{
+            return axiosPriv.post(endpoint, payload)
+        }
+        if(newAttach === true){
+           const answer =  await response('/new-attachments')
+           console.log("Answer in success 1: ",answer)
+            dispatch(setAttachments(answer.data.pdf))
+        }else{
+            const answer =  await response('/get-attachments')
+            console.log("Answer in success2: ",answer)
+            dispatch(setAttachments(answer.data.proj.pdf))
+        }
+    }catch(error: any){
+        dispatch(setProjectError(error.reponse.data))
+    }
+
+
+}
 
 export const createLight =
     (light: LightType) =>

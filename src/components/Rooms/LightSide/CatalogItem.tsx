@@ -7,6 +7,7 @@ import {
     createLight,
     getRoomLights,
     theEditLight,
+    setSpecFile
 } from '../../../redux/actions/lightActions';
 import {
     getProject,
@@ -57,7 +58,7 @@ const CatalogItem: FC<catalogPros> = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
 
-    const { room } = useAppSelector(({ project }) => project);
+    const { room, attachments, projectId } = useAppSelector(({ project }) => project);
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
     );
@@ -137,12 +138,20 @@ const CatalogItem: FC<catalogPros> = ({
         setEditLight(null);
         setCatalogItem(null);
     };
-
+    console.log("CATALOGitem: ", catalogItem)
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
             if (editLight === null) {
                 dispatch(createLight(catalogDetails));
+                console.log("ItemSpecs!: ", catalogItem.specs)
+                if(catalogItem.specs.length){
+                    if(attachments.length){
+                        dispatch(setSpecFile({"projId": projectId, "pdf": [...catalogItem.specs, ...attachments], "edit": "add"},false))
+                    }else{
+                        dispatch(setSpecFile({"projId": projectId, "pdf": catalogItem.specs}, true))
+                    }
+                }
                 /**
                  * !!!! catalogItem is being called (catalogItem.images... .pdf .... .drawingFiles) !!!!!
                  * create something here that triggers a new redux action that does the following

@@ -25,6 +25,7 @@ import dataHolding from './projectDetails';
 
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
+import { setSpecFile } from '../../../redux/actions/lightActions';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -91,6 +92,7 @@ const YourProjects: FC = () => {
 
             const changeProject = async (prodId: string) => {
                 await dispatch(getProject({ _id: prodId }));
+                await dispatch(setSpecFile({"projId": prodId, "edit": ""}, false))
                 dataHolding.getData(project, color);
             };
             const date = new Date(Date.parse(project.createdAt)).toDateString();
