@@ -30,9 +30,10 @@ export const refreshToken =
             const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
+            console.log("Respnse in RefreshToken: ",response)
             dispatch(setAccessToken(response.data));
         } catch (error) {
-            console.log(error);
+            console.log("Error in refreshToken: ",error);
             throw error;
         }
     };
