@@ -1,28 +1,169 @@
 @import '../../../variables/variables.scss';
 
-.body-input {
+$gray: #9b9b9b;
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
     width: 50%;
-    margin-bottom: 20px;
 }
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    margin: 10px 0;
+    border: 0;
+    border-bottom: 2px solid $gray;
+    outline: 0;
+    font-size: 14px;
+    color: $primary-bg-dark-text;
+    padding: 7px 0;
+    background: transparent;
+
+    &::placeholder {
+        color: transparent;
+    }
+
+    &:placeholder-shown ~ .form__label {
+        font-size: 14px;
+        cursor: text;
+        top: 20px;
+    }
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 14px;
+    color: $gray;
+}
+
+.form__field:focus {
+    ~ .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 12px;
+        color: #c09d5b;
+        font-weight: 700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-color: $line-light;
+}
+
+.form__field {
+    &:required,
+    &:invalid {
+        box-shadow: none;
+    }
+}
+
+.list__group {
+    position: relative;
+    padding: 15px 0 0;
+    width: 20%;
+}
+
+.add__materials {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.images__label {
+    width: 100px;
+}
+
+.new-material-button {
+    background: $accent-gold;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 25px;
+    margin: 0 15px;
+    min-width: 140px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    cursor: pointer;
+}
+
+.list-input::file-selector-button {
+    background: $accent-gold;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    padding: 6px 25px;
+    min-width: 140px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add__btn {
+    background: $primary-bg-dark-title;
+    border: none;
+    border-radius: 3px 0 0 3px;
+    padding: 7px 5px;
+    margin-left: 15px;
+    color: $accent-gold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.material__list {
+    font-family: inherit;
+    width: 50%;
+    margin-top: 11px;
+    border: 0;
+    border-bottom: 2px solid $gray;
+    outline: 0;
+    background: transparent;
+    font-size: 14px;
+    color: $primary-bg-dark-text;
+    padding: 7px 0;
+    text-align: center;
+}
+
+.imgAttachment {
+    height: 250px;
+    width: 400px;
+    margin: 25px 10px;
+}
+
+.choose__files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .inventory-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
 .inventory-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
 }
 
 .tabs {
-    border-radius: 0 8px 0 0 ;
+    border-radius: 0 8px 0 0;
     overflow: hidden;
 }
 .tab {
     width: 100%;
-    color: $primary-bg-dark-text ;
+    color: $primary-bg-dark-text;
     overflow: hidden;
     &-label {
         display: flex;
@@ -88,7 +229,7 @@ input:checked {
 }
 
 #inventory-btn {
-    @include button(#528dea, #fff);
+    @include button($accent-gold, #fff);
     width: 50%;
     align-self: center;
     margin-top: 25px;
