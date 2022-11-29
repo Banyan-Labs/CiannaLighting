@@ -114,8 +114,6 @@ const Inventory: FC = () => {
         console.log('hello', itemDetails, 'DEETS');
     };
     const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
-        console.log('hi');
-
         if (listValue.name != e.currentTarget.name) {
             setListValue({
                 name: e.currentTarget.name,
@@ -611,7 +609,7 @@ const Inventory: FC = () => {
                                 id="interiorFinishValues"
                                 className="material__list"
                             >
-                                {itemDetails.lensMaterial.length
+                                {itemDetails.interiorFinish.length
                                     ? itemDetails.interiorFinish.join(', ')
                                     : 'Interior Finishes'}
                             </span>
