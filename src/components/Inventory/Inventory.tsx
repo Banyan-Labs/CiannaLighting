@@ -2,6 +2,7 @@ import React, { FC, useState, FormEvent, ChangeEvent } from 'react';
 import { axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
+import { FaPlus } from 'react-icons/fa';
 
 interface CatalogType {
     item_ID: string;
@@ -102,17 +103,19 @@ const Inventory: FC = () => {
     const [pdfNames, setPdfNames] = useState<any>([]);
     const [specNames, setSpecNames] = useState<any>([]);
     const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
-    const [viewablePDF, setViewablePDF] = useState<any>([])
-    const [viewableSpecs, setViewableSpecs] = useState<any>([])
+    const [viewablePDF, setViewablePDF] = useState<any>([]);
+    const [viewableSpecs, setViewableSpecs] = useState<any>([]);
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
         setItemDetails({
             ...itemDetails,
             [e.currentTarget.name]: e.currentTarget.value,
         });
-        console.log(itemDetails, 'DEETS');
+        console.log('hello', itemDetails, 'DEETS');
     };
     const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
+        console.log('hi');
+
         if (listValue.name != e.currentTarget.name) {
             setListValue({
                 name: e.currentTarget.name,
@@ -155,10 +158,10 @@ const Inventory: FC = () => {
         });
     };
 
-    const listFileNames = (e: any, name:string) => {
+    const listFileNames = (e: any, name: string) => {
         e.preventDefault();
 
-        if ( name === 'images' &&  imgFiles.length) {
+        if (name === 'images' && imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
                 console.log(imgFiles[key]);
                 const objectUrl = URL.createObjectURL(imgFiles[key]);
@@ -169,7 +172,7 @@ const Inventory: FC = () => {
         if (name === 'pdf' && pdfFiles.length) {
             for (const key of Object.keys(pdfFiles)) {
                 const objectUrl = URL.createObjectURL(pdfFiles[key]);
-                setViewablePDF([...viewablePDF, objectUrl]) 
+                setViewablePDF([...viewablePDF, objectUrl]);
                 setPdf([...pdf, pdfFiles[key]]);
                 setPdfNames([...pdfNames, pdfFiles.name]);
             }
@@ -177,7 +180,7 @@ const Inventory: FC = () => {
         if (name === 'specs' && specFiles.length) {
             for (const key of Object.keys(specFiles)) {
                 const objectUrl = URL.createObjectURL(specFiles[key]);
-                setViewableSpecs([...viewableSpecs, objectUrl])
+                setViewableSpecs([...viewableSpecs, objectUrl]);
                 setSpecs([...specs, specFiles[key]]);
                 setSpecNames([...specNames, specFiles[key].name]);
             }
@@ -220,7 +223,7 @@ const Inventory: FC = () => {
             }
         }
 
-        console.log("FS:",fs)
+        console.log('FS:', fs);
         try {
             (await axiosPriv).post('/internal/create-light', fs);
 
@@ -292,44 +295,57 @@ const Inventory: FC = () => {
                             Details
                         </label>
                         <div className="tab-content">
-                            <label htmlFor="name">Item ID</label>
-                            <br />
-                            <input
-                                className="body-input"
-                                id="item_ID"
-                                type="text"
-                                name="item_ID"
-                                value={itemDetails.item_ID}
-                                onChange={(e) => handleFormInput(e)}
-                                placeholder="Item ID"
-                                required
-                            />
-                            <br />
-                            <label htmlFor="name">Item Name</label>
-                            <br />
-                            <input
-                                className="body-input"
-                                id="itemName"
-                                type="text"
-                                name="itemName"
-                                value={itemDetails.itemName}
-                                onChange={(e) => handleFormInput(e)}
-                                placeholder="Item Name"
-                                required
-                            />
-                            <br />
-                            <label htmlFor="description">Description</label>
-                            <br />
-                            <input
-                                className="body-input"
-                                id="itemDescription"
-                                placeholder="Description"
-                                type="text"
-                                name="itemDescription"
-                                value={itemDetails.itemDescription}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
+                            <div className="form__group field">
+                                <input
+                                    className="form__field"
+                                    type="input"
+                                    id="item_ID"
+                                    name="item_ID"
+                                    value={itemDetails.item_ID}
+                                    onChange={(e) => handleFormInput(e)}
+                                    placeholder="Item ID"
+                                    required
+                                />
+                                <label htmlFor="name" className="form__label">
+                                    Item ID
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    className="form__field"
+                                    type="input"
+                                    id="itemName"
+                                    name="itemName"
+                                    value={itemDetails.itemName}
+                                    onChange={(e) => handleFormInput(e)}
+                                    placeholder="Item Name"
+                                    required
+                                />
+                                <label
+                                    htmlFor="itemName"
+                                    className="form__label"
+                                >
+                                    Item Name
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    className="form__field"
+                                    type="text"
+                                    id="itemDescription"
+                                    name="itemDescription"
+                                    value={itemDetails.itemDescription}
+                                    onChange={(e) => handleFormInput(e)}
+                                    placeholder="Description"
+                                    required
+                                />
+                                <label
+                                    htmlFor="itemName"
+                                    className="form__label"
+                                >
+                                    Item Name
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -339,122 +355,165 @@ const Inventory: FC = () => {
                         Measurements
                     </label>
                     <div className="tab-content">
-                        <label htmlFor="region">Body Diameter</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="bodyDiameter"
-                            placeholder="Body Diameter"
-                            type="text"
-                            name="bodyDiameter"
-                            value={itemDetails.bodyDiameter}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Body Length</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="bodyLength"
-                            placeholder="Body Length"
-                            type="text"
-                            name="bodyLength"
-                            value={itemDetails.bodyLength}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Body Width</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="bodyWidth"
-                            placeholder="bodyWidth"
-                            type="text"
-                            name="bodyWidth"
-                            value={itemDetails.bodyWidth}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Body Height</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="bodyHeight"
-                            placeholder="Body Height"
-                            type="text"
-                            name="bodyHeight"
-                            value={itemDetails.bodyHeight}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Fixture Height</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="fixtureOverallHeight"
-                            placeholder="Fixture Overall Height"
-                            type="text"
-                            name="fixtureOverallHeight"
-                            value={itemDetails.fixtureOverallHeight}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Sconce Height</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="sconceHeight"
-                            placeholder="Sconce Height"
-                            type="text"
-                            name="sconceHeight"
-                            value={itemDetails.sconceHeight}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Sconce Width</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="sconceWidth"
-                            placeholder="Sconce Width"
-                            type="text"
-                            name="sconceWidth"
-                            value={itemDetails.sconceWidth}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Sconce Extension</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="sconceExtension"
-                            placeholder="Sconce Extension"
-                            type="text"
-                            name="sconceExtension"
-                            value={itemDetails.sconceExtension}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="description">Estimated Weight</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="estimatedWeight"
-                            placeholder="Estimated Weight"
-                            type="number"
-                            name="estimatedWeight"
-                            value={itemDetails.estimatedWeight}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="bodyDiameter"
+                                placeholder="Body Diameter"
+                                type="text"
+                                name="bodyDiameter"
+                                value={itemDetails.bodyDiameter}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label htmlFor="region" className="form__label">
+                                Body Diameter
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="bodyLength"
+                                placeholder="Body Length"
+                                type="text"
+                                name="bodyLength"
+                                value={itemDetails.bodyLength}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Body Length
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="bodyWidth"
+                                placeholder="bodyWidth"
+                                type="text"
+                                name="bodyWidth"
+                                value={itemDetails.bodyWidth}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Body Width
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="bodyHeight"
+                                placeholder="Body Height"
+                                type="text"
+                                name="bodyHeight"
+                                value={itemDetails.bodyHeight}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Body Height
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="fixtureOverallHeight"
+                                placeholder="Fixture Overall Height"
+                                type="text"
+                                name="fixtureOverallHeight"
+                                value={itemDetails.fixtureOverallHeight}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Fixture Height
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="sconceHeight"
+                                placeholder="Sconce Height"
+                                type="text"
+                                name="sconceHeight"
+                                value={itemDetails.sconceHeight}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Sconce Height
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="sconceWidth"
+                                placeholder="Sconce Width"
+                                type="text"
+                                name="sconceWidth"
+                                value={itemDetails.sconceWidth}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Sconce Width
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="sconceExtension"
+                                placeholder="Sconce Extension"
+                                type="text"
+                                name="sconceExtension"
+                                value={itemDetails.sconceExtension}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Sconce Extension
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="estimatedWeight"
+                                placeholder="Estimated Weight"
+                                type="number"
+                                name="estimatedWeight"
+                                value={itemDetails.estimatedWeight || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Estimated Weight
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div className="tab">
@@ -463,250 +522,328 @@ const Inventory: FC = () => {
                         Material Options
                     </label>
                     <div className="tab-content">
-                        <label htmlFor="description">Material</label>
-                        <br />
-                        <input
-                            className="body-input"
-                            id="material"
-                            placeholder="Material"
-                            type="text"
-                            name="material"
-                            value={itemDetails.material}
-                            onChange={(e) => handleFormInput(e)}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="exteriorFinish">Exterior Finish</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="exteriorFinish"
-                            placeholder="Exterior Finish"
-                            type="text"
-                            name="exteriorFinish"
-                            value={
-                                listValue.name == 'exteriorFinish'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="exteriorFinishValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="exteriorFinishValues"
-                            value={itemDetails.exteriorFinish}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="interiorFinish">Interior Finish</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="interiorFinish"
-                            placeholder="Interior Finish"
-                            type="text"
-                            name="interiorFinish"
-                            value={
-                                listValue.name == 'interiorFinish'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="interiorFinishValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="exteriorFinishValues"
-                            value={itemDetails.interiorFinish}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="lensMaterial">Lens Material</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="lensMaterial"
-                            placeholder="Lens Material"
-                            type="text"
-                            name="lensMaterial"
-                            value={
-                                listValue.name == 'lensMaterial'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="lensMaterialValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="lensMaterialValues"
-                            value={itemDetails.lensMaterial}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="glassOptions">Glass Options</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="glassOptions"
-                            placeholder="Glass Options"
-                            type="text"
-                            name="glassOptions"
-                            value={
-                                listValue.name == 'glassOptions'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="glassOptionsValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="glassOptionsValues"
-                            value={itemDetails.glassOptions}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="acrylicOptions">Acrylic Options</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="acrylicOptions"
-                            placeholder="Acrylic Options"
-                            type="text"
-                            name="acrylicOptions"
-                            value={
-                                listValue.name == 'acrylicOptions'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="acrylicOptionsValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="acrylicOptionsValues"
-                            value={itemDetails.acrylicOptions}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="crystalType">Crystal Types</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="crystalType"
-                            placeholder="Crystal Types"
-                            type="text"
-                            name="crystalType"
-                            value={
-                                listValue.name == 'crystalType'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="crystalTypeValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="crystalTypeValues"
-                            value={itemDetails.crystalType}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="crystalType">Crystal Pin Types</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="crystalPinType"
-                            placeholder="Crystal Pin Types"
-                            type="text"
-                            name="crystalPinType"
-                            value={
-                                listValue.name == 'crystalPinType'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="crystalPinTypeValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="crystalPinTypeValues"
-                            value={itemDetails.crystalPinType}
-                            readOnly
-                            required
-                        />
-                        <br />
-                        <label htmlFor="crystalType">Crystal Pin Colors</label>
-                        <br />
-                        <input
-                            className="list-input"
-                            id="crystalPinColor"
-                            placeholder="Crystal Pin Colors"
-                            type="text"
-                            name="crystalPinColor"
-                            value={
-                                listValue.name == 'crystalPinColor'
-                                    ? listValue.value
-                                    : ''
-                            }
-                            onChange={(e) => handleArrayValue(e)}
-                        />
-                        <button onClick={(e) => listValSubmit(e)}>
-                            Add Value
-                        </button>
-                        <input
-                            className="body-input"
-                            id="crystalPinColorValues"
-                            placeholder="Values go here"
-                            type="text"
-                            name="crystalPinColorValues"
-                            value={itemDetails.crystalPinColor}
-                            readOnly
-                            required
-                        />
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="material"
+                                placeholder="Material"
+                                type="text"
+                                name="material"
+                                value={itemDetails.material}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Material
+                            </label>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="exteriorFinish"
+                                    placeholder="Exterior Finish"
+                                    type="text"
+                                    name="exteriorFinish"
+                                    value={
+                                        listValue.name == 'exteriorFinish'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    htmlFor="exteriorFinish"
+                                    className="form__label"
+                                >
+                                    Exterior Finish
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="exteriorFinishValues"
+                                className="material__list"
+                            >
+                                {itemDetails.exteriorFinish.length
+                                    ? itemDetails.exteriorFinish.join(', ')
+                                    : 'Exterior Finishes'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="interiorFinish"
+                                    placeholder="Interior Finish"
+                                    type="text"
+                                    name="interiorFinish"
+                                    value={
+                                        listValue.name == 'interiorFinish'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    htmlFor="interiorFinish"
+                                    className="form__label"
+                                >
+                                    Interior Finish
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="interiorFinishValues"
+                                className="material__list"
+                            >
+                                {itemDetails.lensMaterial.length
+                                    ? itemDetails.interiorFinish.join(', ')
+                                    : 'Interior Finishes'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="lensMaterial"
+                                    placeholder="Lens Material"
+                                    type="text"
+                                    name="lensMaterial"
+                                    value={
+                                        listValue.name == 'lensMaterial'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    htmlFor="lensMaterial"
+                                    className="form__label"
+                                >
+                                    Lens Material
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="lensMaterialValues"
+                                className="material__list"
+                            >
+                                {itemDetails.lensMaterial.length
+                                    ? itemDetails.lensMaterial.join(', ')
+                                    : 'Lens Materials'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="glassOptions"
+                                    placeholder="Glass Options"
+                                    type="text"
+                                    name="glassOptions"
+                                    value={
+                                        listValue.name == 'glassOptions'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    htmlFor="glassOptions"
+                                    className="form__label"
+                                >
+                                    Glass Options
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="glassOptionsValues"
+                                className="material__list"
+                            >
+                                {itemDetails.glassOptions.length
+                                    ? itemDetails.glassOptions.join(', ')
+                                    : 'Glass Options'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="acrylicOptions"
+                                    placeholder="Acrylic Options"
+                                    type="text"
+                                    name="acrylicOptions"
+                                    value={
+                                        listValue.name == 'acrylicOptions'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    htmlFor="acrylicOptions"
+                                    className="form__label"
+                                >
+                                    Acrylic Options
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="acrylicOptionsValues"
+                                className="material__list"
+                            >
+                                {itemDetails.acrylicOptions.length
+                                    ? itemDetails.acrylicOptions.join(', ')
+                                    : 'Acrylic Options'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="crystalType"
+                                    placeholder="Crystal Types"
+                                    type="text"
+                                    name="crystalType"
+                                    value={
+                                        listValue.name == 'crystalType'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="crystalType"
+                                >
+                                    Crystal Types
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="acrylicOptionsValues"
+                                className="material__list"
+                            >
+                                {itemDetails.crystalType.length
+                                    ? itemDetails.crystalType.join(', ')
+                                    : 'Crystal Types'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="crystalPinType"
+                                    placeholder="Crystal Pin Types"
+                                    type="text"
+                                    name="crystalPinType"
+                                    value={
+                                        listValue.name == 'crystalPinType'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="crystalPinType"
+                                >
+                                    Crystal Pin Types
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="acrylicOptionsValues"
+                                className="material__list"
+                            >
+                                {itemDetails.crystalPinType.length
+                                    ? itemDetails.crystalPinType.join(', ')
+                                    : 'Crystal Pin Types'}
+                            </span>
+                        </div>
+                        <div className="add__materials">
+                            <div className="list__group field">
+                                <input
+                                    className="form__field"
+                                    id="crystalPinColor"
+                                    placeholder="Crystal Pin Colors"
+                                    type="text"
+                                    name="crystalPinColor"
+                                    value={
+                                        listValue.name == 'crystalPinColor'
+                                            ? listValue.value
+                                            : ''
+                                    }
+                                    onChange={(e) => handleArrayValue(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="crystalPinColor"
+                                >
+                                    Crystal Pin Colors
+                                </label>
+                            </div>
+                            <button
+                                className="new-material-button"
+                                onClick={(e) => listValSubmit(e)}
+                            >
+                                <FaPlus />
+                                Add Value
+                            </button>
+                            <span
+                                id="acrylicOptionsValues"
+                                className="material__list"
+                            >
+                                {itemDetails.crystalPinColor.length
+                                    ? itemDetails.crystalPinColor.join(', ')
+                                    : 'Crystal Pin Colors'}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div className="tab">
@@ -989,7 +1126,7 @@ const Inventory: FC = () => {
 
                         <div>
                             {imageName.map((url: any, index: number) => {
-                                console.log("img url: ", url);
+                                console.log('img url: ', url);
                                 return <img src={url} key={index} alt="" />;
                             })}
                         </div>
@@ -1010,12 +1147,17 @@ const Inventory: FC = () => {
                             Add Value
                         </button>
                         <div>
-                            {viewablePDF.map(
-                                (url: any, index: number) => {
-                                    console.log("url pdf: ", url);
-                                    return <embed src={url} key={index} height="500px" width="200px" />;
-                                }
-                            )}
+                            {viewablePDF.map((url: any, index: number) => {
+                                console.log('url pdf: ', url);
+                                return (
+                                    <embed
+                                        src={url}
+                                        key={index}
+                                        height="500px"
+                                        width="200px"
+                                    />
+                                );
+                            })}
                         </div>
                         <br />
                         <input
@@ -1032,12 +1174,17 @@ const Inventory: FC = () => {
                             Add Value
                         </button>
                         <div>
-                            {viewableSpecs.map(
-                                (url: any, index: number) => {
-                                    console.log("url SPECS: ", url);
-                                    return <embed src={url} key={index} height="500px" width="200px" />;
-                                }
-                            )}
+                            {viewableSpecs.map((url: any, index: number) => {
+                                console.log('url SPECS: ', url);
+                                return (
+                                    <embed
+                                        src={url}
+                                        key={index}
+                                        height="500px"
+                                        width="200px"
+                                    />
+                                );
+                            })}
                         </div>
                         <br />
                         <label htmlFor="drawingFiles">Drawing Files</label>
@@ -1052,7 +1199,9 @@ const Inventory: FC = () => {
                             name="drawingFiles"
                             onChange={(e) => handleFileUpload(e)}
                         />
-                        <button onClick={(e) => listFileNames(e, 'drawingFiles')}>
+                        <button
+                            onClick={(e) => listFileNames(e, 'drawingFiles')}
+                        >
                             Add Value
                         </button>
                         <div>
