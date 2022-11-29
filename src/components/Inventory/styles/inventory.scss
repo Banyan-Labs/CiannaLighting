@@ -54,7 +54,7 @@ $gray: #9b9b9b;
     border-width: 3px;
     border-color: $line-light;
 }
-/* reset input */
+
 .form__field {
     &:required,
     &:invalid {
@@ -73,7 +73,6 @@ $gray: #9b9b9b;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    // height: 100px;
 }
 
 .images__label {
