@@ -14,7 +14,7 @@ $gray: #9b9b9b;
     border: 0;
     border-bottom: 2px solid $gray;
     outline: 0;
-    font-size: 1rem;
+    font-size: 14px;
     color: $primary-bg-dark-text;
     padding: 7px 0;
     background: transparent;
@@ -24,7 +24,7 @@ $gray: #9b9b9b;
     }
 
     &:placeholder-shown ~ .form__label {
-        font-size: 1rem;
+        font-size: 14px;
         cursor: text;
         top: 20px;
     }
@@ -35,7 +35,7 @@ $gray: #9b9b9b;
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
+    font-size: 14px;
     color: $gray;
 }
 
@@ -45,7 +45,7 @@ $gray: #9b9b9b;
         top: 0;
         display: block;
         transition: 0.2s;
-        font-size: 0.85rem;
+        font-size: 12px;
         color: #c09d5b;
         font-weight: 700;
     }
@@ -73,6 +73,11 @@ $gray: #9b9b9b;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    // height: 100px;
+}
+
+.images__label {
+    width: 100px;
 }
 
 .new-material-button {
@@ -90,15 +95,55 @@ $gray: #9b9b9b;
     cursor: pointer;
 }
 
+.list-input::file-selector-button {
+    background: $accent-gold;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    padding: 6px 25px;
+    min-width: 140px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add__btn {
+    background: $primary-bg-dark-title;
+    border: none;
+    border-radius: 3px 0 0 3px;
+    padding: 7px 5px;
+    margin-left: 15px;
+    color: $accent-gold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 .material__list {
     font-family: inherit;
     width: 50%;
     margin-top: 11px;
+    border: 0;
     border-bottom: 2px solid $gray;
-    font-size: 1rem;
+    outline: 0;
+    background: transparent;
+    font-size: 14px;
     color: $primary-bg-dark-text;
     padding: 7px 0;
     text-align: center;
+}
+
+.imgAttachment {
+    height: 250px;
+    width: 400px;
+    margin: 25px 10px;
+}
+
+.choose__files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .inventory-container {
@@ -106,6 +151,7 @@ $gray: #9b9b9b;
     flex-direction: column;
     justify-content: center;
 }
+
 .inventory-form {
     display: flex;
     flex-direction: column;
@@ -184,7 +230,7 @@ input:checked {
 }
 
 #inventory-btn {
-    @include button(#528dea, #fff);
+    @include button($accent-gold, #fff);
     width: 50%;
     align-self: center;
     margin-top: 25px;
