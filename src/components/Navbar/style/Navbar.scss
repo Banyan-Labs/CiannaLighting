@@ -9,11 +9,14 @@
     box-shadow: $box-shadow;
     display: flex;
     align-items: center;
-    
+
     img {
-        margin-top: 10px;
-        height: 150px;
-        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+        height: 66%;
+        margin-top: 20px;
     }
     button {
         border: none;
@@ -33,6 +36,8 @@
 .logo-container {
     display: flex;
     align-self: center;
+    width: 150px;
+    height: 125px;
 }
 
 .navbar-links-container {
@@ -59,15 +64,13 @@
     }
     .navbar-user-hi {
         font-weight: 100;
-        
     }
-    .navbar-user-name{
+    .navbar-user-name {
         color: $accent-gold;
     }
     .navbar-user-role {
         font-size: 12px;
         font-weight: 100;
-        
     }
 }
 
