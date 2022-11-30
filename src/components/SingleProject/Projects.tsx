@@ -7,6 +7,7 @@ import { getProject } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import './style/projects.scss';
+import { setSpecFile } from '../../redux/actions/lightActions';
 
 const Projects: FC = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Projects: FC = () => {
         storedProjId
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
+        await dispatch(setSpecFile({projId: storedProjId, edit: ""}, false))
     };
 
     useEffect(() => {

@@ -11,9 +11,7 @@ const Rooms: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
 
-    useEffect(()=>{
-        dispatch(setSpecFile({"projId": projectId, "edit": ""}, false))
-    },[])
+   
 
     const handleAddRoom = (e: any) => {
         e.preventDefault();

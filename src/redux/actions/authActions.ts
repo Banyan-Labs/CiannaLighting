@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
 import { setUser, logout, setAccessToken } from '../reducers/authSlice';
 
+
 type SignInType = {
     email: string;
     password: string;
@@ -12,12 +13,12 @@ export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
+            getAllProjects();
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
-            getAllProjects();
 
-            dispatch(setUser(response.data));
+             dispatch(setUser(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }

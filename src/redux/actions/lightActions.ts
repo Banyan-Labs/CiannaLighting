@@ -6,7 +6,7 @@ import {
     setCatalogConnect,
     setAttachments
 } from '../reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
+import axios, { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
 
 export const getRoomLights =
@@ -44,18 +44,34 @@ async (dispatch: Dispatch) =>{
             return axiosPriv.post(endpoint, payload)
         }
         if(newAttach === true){
-           const answer =  await response('/new-attachments')
-           console.log("Answer in success 1: ",answer)
-            dispatch(setAttachments(answer.data.pdf))
-        }else{
-            const answer =  await response('/get-attachments')
-            console.log("Answer in success2: ",answer)
+            const answer =  await response('/new-attachments')
+            console.log("Answer in success 1: ",answer)
             dispatch(setAttachments(answer.data.proj.pdf))
+        }else{
+            dispatch(setAttachments([]))
+            const answer =  await response('/get-attachments')
+            if(answer){
+                dispatch(setAttachments(answer.data.proj.pdf))
+            }else{  
+                    dispatch(setAttachments([]))
+            }
         }
+    
     }catch(error: any){
-        dispatch(setProjectError(error.reponse.data))
+        console.log("ERROR IN SPECS: ", error)
+        dispatch(setProjectError(error.reponse))
     }
+}
+export const deleteSpecFile = (payload: any) =>
+async (dispatch: Dispatch)=>{
+    const axiosPriv = await axiosPrivate();
+    try{
+        const response = await axiosPriv.post('/delete-attachments', payload)
+        dispatch(setAttachments(response.data.projectAttach))
 
+    }catch(error:any){
+        dispatch(setProjectError(error.response));
+    }
 
 }
 

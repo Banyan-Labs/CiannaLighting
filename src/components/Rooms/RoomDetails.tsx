@@ -5,7 +5,7 @@ import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
-import { getEditLight } from '../../redux/actions/lightActions';
+import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
@@ -44,6 +44,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         setDeleteLight(light);
         setOpenModal(true);
     };
+    // const deleteAttachment = () => 
 
     const setTheData = async (light: any, response: any) => {
         await setCatalogItem(response);
@@ -225,6 +226,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         onClick={() => {
                             setOpenModal(true);
                             setDeleteRoom(true);
+                            //delete attachment
                         }}
                         data-for="delete"
                         data-tip="Delete Room"
