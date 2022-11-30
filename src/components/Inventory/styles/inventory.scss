@@ -1,6 +1,6 @@
 @import '../../../variables/variables.scss';
 
-$gray: #9b9b9b;
+// $line-gray: #9b9b9b;
 .form__group {
     position: relative;
     padding: 15px 0 0;
@@ -12,7 +12,7 @@ $gray: #9b9b9b;
     width: 100%;
     margin: 10px 0;
     border: 0;
-    border-bottom: 2px solid $gray;
+    border-bottom: 2px solid $line-gray;
     outline: 0;
     font-size: 14px;
     color: $primary-bg-dark-text;
@@ -36,7 +36,7 @@ $gray: #9b9b9b;
     display: block;
     transition: 0.2s;
     font-size: 14px;
-    color: $gray;
+    color: $line-gray;
 }
 
 .form__field:focus {
@@ -124,7 +124,7 @@ $gray: #9b9b9b;
     width: 50%;
     margin-top: 11px;
     border: 0;
-    border-bottom: 2px solid $gray;
+    border-bottom: 2px solid $line-gray;
     outline: 0;
     background: transparent;
     font-size: 14px;
