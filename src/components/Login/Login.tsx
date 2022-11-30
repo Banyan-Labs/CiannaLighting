@@ -1,5 +1,5 @@
 import React, { FC, useState, FormEvent, useEffect } from 'react';
-import logo from '../../assets/ciana-lighting-logo.png';
+import logo from '../../assets/ciana-lds-logo.png';
 import { ROLES } from '../../app/constants';
 import { useNavigate } from 'react-router-dom';
 import { signInAction } from '../../redux/actions/authActions';
@@ -51,7 +51,11 @@ const Login: FC = () => {
         <>
             <div className="login-container">
                 <div className="login-bg-dark">
-                    <img src={logo} alt="ciana lighting logo" />
+                    <img
+                        // style={{ border: '2px solid red' }}
+                        src={logo}
+                        alt="ciana lighting logo"
+                    />
                 </div>
                 <div className="login-gold-accent" />
 

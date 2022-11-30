@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FaPlus } from 'react-icons/fa';
 
 const Settings: FC = () => {
     const [status, setStatus] = useState<string[]>([]);
@@ -75,13 +76,27 @@ const Settings: FC = () => {
     }, []);
     return (
         <div style={{ marginTop: '100px' }}>
-            <input
-                type="text"
-                placeholder="Add to status here..."
-                value={newStatus}
-                onChange={(e) => handleChange(e, 'status')}
-            ></input>
-            <button onClick={(e) => handleSubmit(e, 'status')}>submit</button>
+            <div className="add__materials">
+                <div className="list__group field">
+                    <input
+                        className="form__field"
+                        placeholder="Add to status"
+                        type="text"
+                        value={newStatus}
+                        onChange={(e) => handleChange(e, 'status')}
+                    />
+                    <label htmlFor="description" className="form__label">
+                        Add to status
+                    </label>
+                </div>
+                <button
+                    className="new-material-button"
+                    onClick={(e) => handleSubmit(e, 'status')}
+                >
+                    <FaPlus />
+                    Submit
+                </button>
+            </div>
             <table className="users-table">
                 <thead>
                     <tr className="users-table-headers">
@@ -118,13 +133,27 @@ const Settings: FC = () => {
             <br></br>
             <br></br>
             <br></br>
-            <input
-                type="text"
-                placeholder="Add to region here..."
-                value={newRegion}
-                onChange={(e) => handleChange(e, 'region')}
-            ></input>
-            <button onClick={(e) => handleSubmit(e, 'region')}>submit</button>
+            <div className="add__materials">
+                <div className="list__group field">
+                    <input
+                        className="form__field"
+                        placeholder="Add to region"
+                        type="text"
+                        value={newRegion}
+                        onChange={(e) => handleChange(e, 'region')}
+                    />
+                    <label htmlFor="description" className="form__label">
+                        Add to region
+                    </label>
+                </div>
+                <button
+                    className="new-material-button"
+                    onClick={(e) => handleSubmit(e, 'status')}
+                >
+                    <FaPlus />
+                    Submit
+                </button>
+            </div>
             <table className="users-table">
                 <thead>
                     <tr className="users-table-headers">

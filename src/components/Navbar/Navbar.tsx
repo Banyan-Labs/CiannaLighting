@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import * as data from './links.json';
-import logo from '../../assets/ciana-lighting-logo.png';
+import logo from '../../assets/ciana-logo-black.png';
 import useParams from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { FaRegBell } from 'react-icons/fa';
