@@ -3,15 +3,15 @@
 // @import url() ;
 
 @font-face {
-    font-family: "sweet-heavy";
+    font-family: 'sweet-heavy';
     src: url('../../public/fonts/SweetSansProHeavy.woff') format('woff');
 }
 @font-face {
-    font-family: "sweet-medium";
+    font-family: 'sweet-medium';
     src: url('../../public/fonts/SweetSansProMedium.woff') format('woff');
 }
 @font-face {
-    font-family: "sweet-thin";
+    font-family: 'sweet-thin';
     src: url('../../public/fonts/SweetSansProThin.woff') format('woff');
 }
 
@@ -38,6 +38,7 @@ $accent-gold: #c09d5b;
 $line-height: 0.5px;
 $line-dark: #c09d5b;
 $line-light: #c09d5b;
+$line-gray: #949494;
 
 //Font sizes
 $nav-link-fs: 14px;
