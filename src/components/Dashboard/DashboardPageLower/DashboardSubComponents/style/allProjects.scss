@@ -86,32 +86,32 @@
     }
 
     .statusColorNew {
-        color: $primary-bg-white-text;
-        background-color: #06c054;
+        background-color: #edd0b1;
     }
 
     .statusColorConstruction {
-        background-color: #fff000;
+        background-color: #d3b9b8;
     }
 
     .statusColorCompleted {
-        background-color: lightgreen;
+        background-color: #9b8384;
     }
 
     .statusColorHold {
-        background-color: #008cba;
+        background-color: #d1beae;
     }
 
     .statusColorConfigure {
-        background-color: #e325b0d8;
+        background-color: $primary-bg-dark-title;
+        color: $primary-bg-white;
     }
 
     .statusColorRFP {
-        background-color: lightgray;
+        background-color: $primary-bg-dark-link;
     }
 
     .statusColorInternalApproval {
-        background-color: #faa200;
+        background-color: #df911a;
     }
 
     .statusColorAwarded {
@@ -119,7 +119,7 @@
     }
 
     .statusColorCanceled {
-        background-color: #ee0c0c;
+        background-color: #dc9665;
     }
 }
 

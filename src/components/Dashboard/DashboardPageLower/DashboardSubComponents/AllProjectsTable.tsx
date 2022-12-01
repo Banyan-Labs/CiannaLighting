@@ -229,23 +229,9 @@ const AllProjects: FC<Props> = ({
             </tbody>
         );
     });
-    const iconStyle = { background: '#3f3c39' };
     return (
         <div className="all-projects-container">
             <div>
-                {/* <div className="form-bar-button-container">
-                    <input
-                        className="dashboard-all-projects-search-bar"
-                        type="text"
-                        placeholder="Search"
-                        onChange={(e) => searchFilter(e, reduxData)}
-                    />
-                    <FaSlidersH
-                        className="dashboard-all-projects-submit"
-                        onClick={() => setOpenModal(true)}
-                        style={{ background: '#3f3c39', color: '#c09d5b' }}
-                    />
-                </div> */}
                 <div className="form-bar-button-container">
                     <div className="list__group">
                         <input
