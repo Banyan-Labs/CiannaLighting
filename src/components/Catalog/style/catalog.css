@@ -77,8 +77,32 @@
 }
 
 .single-view-container {
+  width: 100%;
   margin-top: 100px;
 }
 .single-view-container h1 {
   color: pink !important;
+}
+.single-view-container .catalog-back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.single-view-container .chevron-icon-catalog {
+  cursor: pointer;
+  padding-top: 2px;
+}
+
+.main-img-catalog-container {
+  padding-left: 20px;
+}
+.main-img-catalog-container img {
+  width: 100%;
+  min-width: 400px;
+  max-width: 500px;
+  border-radius: 0.2rem;
+  height: 500px;
+  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
 }/*# sourceMappingURL=catalog.css.map */
