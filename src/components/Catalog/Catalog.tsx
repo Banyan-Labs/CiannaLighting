@@ -108,12 +108,8 @@ const Catalog: FC = () => {
             ) : (
                 <div className='d-flex'>
                 <SingleView 
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
                  catalogItem={catalogItem}
                  setCatalogItem={setCatalogItem}
-                 setRenderPage={setRenderPage}
-                  renderPage={renderPage}
                 />
                 </div>
             )}

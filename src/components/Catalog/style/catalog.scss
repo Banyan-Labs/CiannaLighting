@@ -96,7 +96,7 @@ margin-left: 10px;
 
 
 .main-img-catalog-container{
-  padding-left: 20px;
+  padding-left: 10px;
 img{
   width: 100%;
   min-width: 400px;
@@ -106,7 +106,48 @@ img{
   
   box-shadow: $box-shadow;
 }
+}
 
+.main-right-tab-container{
+  width: 100%;
+}
+
+// *********** TABS STYLE *****************
+
+.tabs {  
+  display: flex; 
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.tab {  
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: $primary-bg-dark; 
+  padding: 2em 0;  
+  border: none;
+  cursor: pointer;
+}
+.tab:not(:last-child) {
+  border-right: 1px solid $accent-gold;  
+}
+.tab.active {
+  background: $line-gray;
+  font-weight: bold;
+  color: white;
+}
+.panels{
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.panel {
+  display: none;
+  background-color: #eaeaea;
+  padding: 10px;
+  height: 410px;
+}
+.panel.active {
+  display: block;
 }
 
 
