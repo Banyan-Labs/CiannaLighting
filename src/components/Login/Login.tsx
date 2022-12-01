@@ -51,11 +51,7 @@ const Login: FC = () => {
         <>
             <div className="login-container">
                 <div className="login-bg-dark">
-                    <img
-                        // style={{ border: '2px solid red' }}
-                        src={logo}
-                        alt="ciana lighting logo"
-                    />
+                    <img src={logo} alt="ciana lighting logo" />
                 </div>
                 <div className="login-gold-accent" />
 
