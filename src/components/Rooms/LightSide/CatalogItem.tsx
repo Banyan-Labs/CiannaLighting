@@ -1,4 +1,4 @@
-import React, { FC, useState, FormEvent } from 'react';
+import React, { FC, useState, FormEvent, useEffect } from 'react';
 import useParams from '../../../app/utils';
 import Default2 from '../../../assets/celestial-room.jpeg';
 import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
@@ -7,7 +7,7 @@ import {
     createLight,
     getRoomLights,
     theEditLight,
-    setSpecFile
+    setSpecFile,
 } from '../../../redux/actions/lightActions';
 import {
     getProject,
@@ -57,12 +57,15 @@ const CatalogItem: FC<catalogPros> = ({
     const userId = useParams('_id');
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
-
-    const { room, attachments, projectId } = useAppSelector(({ project }) => project);
+    
+    const { room, attachments, projectId, roomLights, roomId } = useAppSelector(
+        ({ project }) => project
+        );
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
-    );
-
+        );
+            
+    const lightID = userId + catalogItem._id + roomId;
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
         exteriorFinish:
             editLight !== null
@@ -138,18 +141,36 @@ const CatalogItem: FC<catalogPros> = ({
         setEditLight(null);
         setCatalogItem(null);
     };
-    console.log("CATALOGitem: ", catalogItem)
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
             if (editLight === null) {
-                dispatch(createLight(catalogDetails));
-                console.log("ItemSpecs!: ", catalogItem.specs)
-                if(catalogItem.specs.length){
-                    if(attachments.length){
-                        dispatch(setSpecFile({"projId": projectId, "pdf": [...catalogItem.specs, ...attachments], "edit": "add"},false))
-                    }else{
-                        dispatch(setSpecFile({"projId": projectId, "pdf": catalogItem.specs}, true))
+                console.log('pre:', roomLights[roomLights.length - 1]);
+
+                console.log('post: ', roomLights[roomLights.length - 1]);
+                console.log('ItemSpecs!: ', catalogItem.specs);
+
+                if (catalogItem.specs.length) {
+                    if (attachments.length) {
+                        dispatch(
+                            setSpecFile(
+                                {
+                                    projId: projectId,
+                                    pdf: catalogItem.specs,
+                                    images: [{"lightId": lightID, "attachments": catalogItem.specs}],
+                                    edit: 'add',
+                                },
+                                false
+                            )
+                        );
+                    } else {
+                        dispatch(
+                            setSpecFile(
+                                { projId: projectId, pdf: catalogItem.specs },
+                                true
+                            )
+                        );
                     }
                 }
                 /**
@@ -160,6 +181,7 @@ const CatalogItem: FC<catalogPros> = ({
                  */
             } else {
                 dispatch(theEditLight(catalogDetails, editLight._id));
+
             }
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0],
@@ -182,6 +204,7 @@ const CatalogItem: FC<catalogPros> = ({
                 clientId: String(userId),
                 quantity: count,
             });
+            await dispatch(createLight(catalogDetails));
             await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));

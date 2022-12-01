@@ -43,8 +43,15 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
         setOpenModal(true);
+        
+        ////////
     };
-    // const deleteAttachment = () => 
+    const deleteAttachments = async(lights: any) =>{
+        const runDispatch = lights.map((light:any)=>`${light.clientId}${light.item_ID}${light.roomId}`)
+        
+           await  dispatch(deleteSpecFile({projId: projectId, images: runDispatch}))
+        
+    }
 
     const setTheData = async (light: any, response: any) => {
         await setCatalogItem(response);
@@ -226,6 +233,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         onClick={() => {
                             setOpenModal(true);
                             setDeleteRoom(true);
+                            
                             //delete attachment
                         }}
                         data-for="delete"
@@ -281,6 +289,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     openModal={openModal}
                     closeModal={setOpenModal}
                     light={deleteLight}
+                    deleteAttachments={deleteAttachments}
                     setDeleteLight={setDeleteLight}
                     deleteRoom={deleteRoom}
                     setDeleteRoom={setDeleteRoom}

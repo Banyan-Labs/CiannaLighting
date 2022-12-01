@@ -14,7 +14,7 @@ const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
     const {attachments} = useAppSelector(({project})=> project)
 
     
-    const userAttachments =  attachments.map((file:any, index:any) => {
+    const userAttachments =  attachments ?  attachments.map((file:any, index:any) => {
         return (
             <tbody key={index}>
                 <tr className="attachments-dynamic-row">
@@ -26,7 +26,7 @@ const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
                 </tr>
             </tbody>
         );
-    });
+    }) : [];
     return (
         <div className="project-attachments-container">
             <div className="project-attachments-top-bar">
