@@ -4,110 +4,123 @@
 .all-projects-container {
     margin-right: 1%;
     margin-left: 1%;
+    // margin-top: 2vh;
     width: 97%;
 }
+
+.dashboard-all-projects {
+    min-height: 37vh;
+}
+
 .form-bar-button-container {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 15px;
     margin-top: -15px;
-    width: 99.5%;
-    border-bottom: 1px solid rgb(211, 211, 211);
-    padding: 5px;
 }
 
-.dashboard-all-projects-search-bar {
-    background-color: rgb(252, 247, 247);
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    margin-left: 15px;
-    width: 200px;
-}
-
-.dashboard-all-projects-submit {
-    background-color: black;
-    padding: 5px 15px 5px 15px;
-    color: white;
-    margin-left: 5px;
-    border-radius: 5px;
-    font-weight: 300;
-}
 .dashboard-all-projects-submit:hover {
     cursor: pointer;
 }
+
 // ~~~~~~~~~~~~~~~TABLE SECTION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .dashboard-all-projects-table {
     width: 100%;
-    border-bottom: 1px solid #292929;
+    color: $primary-bg-dark-title;
 }
+
 .table-headers {
-    font-size: 10px;
+    font-size: $primary-text-fs;
+    border-bottom: 2px solid $primary-bg-dark-title;
 }
+
 .projects-table-dynamic-row {
-    border-top: 1px solid #cbcbcb;
-    font-size: 12px;
+    border-bottom: 1px solid $line-gray;
+    font-size: $table-header-fs;
     width: 100%;
+    height: 6vh;
 }
+
 .projects-table-dynamic-name {
     text-align: left;
     margin-left: 15px;
-    font-size: 13px;
+    font-size: $table-header-fs;
     text-indent: 20px;
 }
 
 .projects-table-name {
     padding-left: 20px;
+    width: 40%;
+}
+
+.projects-table-designer {
+    width: 20%;
+}
+
+.projects-table-region {
+    width: 15%;
+}
+
+.projects-table-status {
+    width: 20%;
 }
 
 .projects-table-dots {
-    border-bottom: 1px solid #292929;
+    width: 15%;
 }
 
 .projects-table-dynamic-status {
     span {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
         border-radius: 0.5rem;
-        padding: 1px 5px;
-        font-size: 10px;
+        padding: 2px 6px;
+        font-size: 11px;
         font-weight: bold;
+        width: 100px;
+        color: $primary-bg-dark-button-text;
     }
+
     .statusColorNew {
-        color: rgb(6, 6, 185);
-        background-color: rgb(144, 216, 240);
+        background-color: #a3837a;
     }
+
     .statusColorConstruction {
-        color: rgb(160, 160, 3);
-        background-color: rgb(243, 243, 140);
+        background-color: #d3b9b8;
     }
+
     .statusColorCompleted {
-        color: darkgreen;
-        background-color: lightgreen;
+        background-color: #9b8384;
     }
+
     .statusColorHold {
-        color: rgb(185, 5, 5);
-        background-color: rgb(238, 145, 145);
+        background-color: #d1beae;
     }
+
     .statusColorConfigure {
-        color: darkcyan;
-        background-color: rgb(185, 250, 250);
+        background-color: #e5dcd1;
     }
+
     .statusColorRFP {
-        color: rgb(107, 103, 103);
-        background-color: lightgray;
+        background-color: #c09d5b;
     }
+
     .statusColorInternalApproval {
-        color: rgb(127, 45, 168);
-        background-color: rgb(226, 149, 224);
+        background-color: #3f3c39;
+        color: $primary-bg-white;
     }
+
     .statusColorAwarded {
-        color: rgb(41, 41, 160);
-        background-color: rgb(184, 184, 247);
+        background-color: #949494;
     }
+
     .statusColorCanceled {
-        color: rgb(156, 123, 62);
-        background-color: rgb(235, 201, 140);
+        background-color: #ecebe7;
     }
-}
-.projects-table-dynamic-dots {
-    border-top: 1px solid #cbcbcb;
 }
 
 .bs-three-dots-container {
@@ -118,6 +131,7 @@
     font-size: 18px;
     color: #9b9b9b;
 }
+
 .bs-three-dots-container:hover {
     border-radius: 50%;
     background: #f2f2f2;
@@ -182,6 +196,7 @@ table {
     position: absolute;
     right: 0;
 }
+
 .table-showing {
     width: fit-content;
     position: absolute;
@@ -194,6 +209,7 @@ table {
     display: inline;
     margin-left: 10px;
 }
+
 .page-link {
     list-style: none;
     color: black;
@@ -203,10 +219,12 @@ table {
     transition: background-color 0.3s;
     cursor: pointer;
 }
+
 .active-page {
     font-weight: bold;
     border-bottom: 3px solid $accent-gold;
 }
+
 .skip-link {
     list-style: none;
     color: black;
@@ -218,10 +236,13 @@ table {
     cursor: pointer;
     word-spacing: 5px;
 }
+
 .pages-list {
     font-size: 14px;
     width: 100%;
+    border: 1px solid $primary-bg-dark-title;
 }
+
 .page-link:hover {
     background-color: rgba(235, 235, 235, 0.548);
 }
