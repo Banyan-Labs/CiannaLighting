@@ -191,7 +191,10 @@ const AllProjects: FC<Props> = ({
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
             <tbody key={index}>
-                <tr className="projects-table-dynamic-row">
+                <tr
+                    className="projects-table-dynamic-row"
+                    style={index > 3 ? { borderBottom: 'none' } : {}}
+                >
                     <th className="projects-table-dynamic-name">
                         {project.name}
                     </th>

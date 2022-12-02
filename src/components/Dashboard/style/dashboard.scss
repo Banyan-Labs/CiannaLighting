@@ -53,7 +53,8 @@
     top: -50px;
     flex-basis: 100%;
     display: grid;
-    color: #fff;
+    color: $primary-bg-dark-title;
+    // color: #fff;
     grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
     grid-template-rows: 20px 50px;
     grid-template-areas:
@@ -73,11 +74,11 @@
     color: #9b9b9b;
     position: relative;
     top: 5px;
-    font-size: 12px;
+    font-size: $sub-text-fs;
 }
 
 .overview-num-main {
-    font-weight: bolder;
+    font-family: $font-family;
     font-size: 20px;
 }
 
@@ -166,7 +167,6 @@
     width: 60%;
     margin: 0 20px 0 0;
     overflow-x: scroll;
-    // border-bottom: 1px solid $line-dark;
     h4 {
         padding: 5px 25px 0 0;
     }
@@ -184,7 +184,7 @@
 
     .your-projects-icons {
         margin-left: auto;
-        color: #3c3c3c;
+        color: $primary-bg-dark-link-hover;
         font-size: 20px;
         position: relative;
         top: 2px;
@@ -197,7 +197,8 @@
     }
     .your-projects-buttons:hover {
         cursor: pointer;
-        color: #ffffff67;
+        // color: #ffffff67;
+        color: rgba(63, 60, 57, 0.219);
     }
 }
 

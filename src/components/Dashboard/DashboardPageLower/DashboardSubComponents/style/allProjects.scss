@@ -4,8 +4,8 @@
 .all-projects-container {
     margin-right: 1%;
     margin-left: 1%;
-    // margin-top: 2vh;
     width: 97%;
+    border-bottom: 2px solid $primary-bg-dark-title;
 }
 
 .dashboard-all-projects {
@@ -34,13 +34,14 @@
 .table-headers {
     font-size: $primary-text-fs;
     border-bottom: 2px solid $primary-bg-dark-title;
+    height: 6.17vh;
 }
 
 .projects-table-dynamic-row {
     border-bottom: 1px solid $line-gray;
     font-size: $table-header-fs;
     width: 100%;
-    height: 6vh;
+    height: 6.17vh;
 }
 
 .projects-table-dynamic-name {
@@ -86,40 +87,40 @@
     }
 
     .statusColorNew {
-        background-color: #a3837a;
+        background-color: $accent-pink-shade-granite;
     }
 
     .statusColorConstruction {
-        background-color: #d3b9b8;
+        background-color: $accent-pink-shade-granite;
     }
 
     .statusColorCompleted {
-        background-color: #9b8384;
+        background-color: $accent-empress;
     }
 
     .statusColorHold {
-        background-color: #d1beae;
+        background-color: $accent-grayish-orange;
     }
 
     .statusColorConfigure {
-        background-color: #e5dcd1;
+        background-color: $accent-light-grayish-orange;
     }
 
     .statusColorRFP {
-        background-color: #c09d5b;
+        background-color: $accent-dark-gray;
     }
 
     .statusColorInternalApproval {
-        background-color: #3f3c39;
+        background-color: $accent-dark-orange;
         color: $primary-bg-white;
     }
 
     .statusColorAwarded {
-        background-color: #949494;
+        background-color: $accent-gold;
     }
 
     .statusColorCanceled {
-        background-color: #ecebe7;
+        background-color: $accent-light-grayish-yellow;
     }
 }
 
@@ -187,9 +188,9 @@ table {
     border-collapse: collapse;
 }
 
-.rows {
-    border-bottom: 1px solid #292929;
-}
+// .rows {
+//     border-bottom: 1px solid #292929;
+// }
 
 //Showing items blank of blank
 .pagination {
@@ -240,7 +241,7 @@ table {
 .pages-list {
     font-size: 14px;
     width: 100%;
-    border: 1px solid $primary-bg-dark-title;
+    // border: 1px solid $primary-bg-dark-title;
 }
 
 .page-link:hover {

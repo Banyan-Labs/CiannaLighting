@@ -293,7 +293,7 @@ const Inventory: FC = () => {
                             Details
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="form__group">
                                 <input
                                     className="form__field"
                                     type="input"
@@ -308,7 +308,7 @@ const Inventory: FC = () => {
                                     Item ID
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="form__group">
                                 <input
                                     className="form__field"
                                     type="input"
@@ -326,7 +326,7 @@ const Inventory: FC = () => {
                                     Item Name
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="form__group">
                                 <input
                                     className="form__field"
                                     type="text"
@@ -338,10 +338,10 @@ const Inventory: FC = () => {
                                     required
                                 />
                                 <label
-                                    htmlFor="itemName"
+                                    htmlFor="itemDescription"
                                     className="form__label"
                                 >
-                                    Item Name
+                                    Item Description
                                 </label>
                             </div>
                         </div>
@@ -353,7 +353,7 @@ const Inventory: FC = () => {
                         Measurements
                     </label>
                     <div className="tab-content">
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="bodyDiameter"
@@ -364,11 +364,14 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label htmlFor="region" className="form__label">
+                            <label
+                                htmlFor="bodyDiameter"
+                                className="form__label"
+                            >
                                 Body Diameter
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="bodyLength"
@@ -379,14 +382,11 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyLength" className="form__label">
                                 Body Length
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="bodyWidth"
@@ -397,14 +397,11 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyWidth" className="form__label">
                                 Body Width
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="bodyHeight"
@@ -415,14 +412,11 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyHeight" className="form__label">
                                 Body Height
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="fixtureOverallHeight"
@@ -434,13 +428,13 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="fixtureOverallHeight"
                                 className="form__label"
                             >
                                 Fixture Height
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="sconceHeight"
@@ -452,13 +446,13 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceHeight"
                                 className="form__label"
                             >
                                 Sconce Height
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="sconceWidth"
@@ -470,13 +464,13 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceWidth"
                                 className="form__label"
                             >
                                 Sconce Width
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="sconceExtension"
@@ -488,13 +482,13 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceExtension"
                                 className="form__label"
                             >
                                 Sconce Extension
                             </label>
                         </div>
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="estimatedWeight"
@@ -506,7 +500,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="estimatedWeight"
                                 className="form__label"
                             >
                                 Estimated Weight
@@ -520,7 +514,7 @@ const Inventory: FC = () => {
                         Material Options
                     </label>
                     <div className="tab-content">
-                        <div className="form__group field">
+                        <div className="form__group">
                             <input
                                 className="form__field"
                                 id="material"
@@ -531,15 +525,12 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="material" className="form__label">
                                 Material
                             </label>
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="exteriorFinish"
@@ -579,7 +570,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="interiorFinish"
@@ -619,7 +610,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="lensMaterial"
@@ -659,7 +650,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="glassOptions"
@@ -699,7 +690,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="acrylicOptions"
@@ -739,7 +730,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="crystalType"
@@ -779,7 +770,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="crystalPinType"
@@ -819,7 +810,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="crystalPinColor"
@@ -881,7 +872,7 @@ const Inventory: FC = () => {
                                 className="form__label"
                                 htmlFor="description"
                             >
-                                Price
+                                Socket Quantity
                             </label>
                         </div>
                         <div className="form__group field">
@@ -921,7 +912,7 @@ const Inventory: FC = () => {
                             </label>
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="environment"
@@ -961,7 +952,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="safetyCert"
@@ -1001,7 +992,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="projectVoltage"
@@ -1041,7 +1032,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="socketType"
@@ -1081,7 +1072,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="mounting"
@@ -1129,7 +1120,7 @@ const Inventory: FC = () => {
                     </label>
                     <div className="tab-content">
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="designStyle"
@@ -1169,7 +1160,7 @@ const Inventory: FC = () => {
                             />
                         </div>
                         <div className="add__materials">
-                            <div className="list__group field">
+                            <div className="list__group">
                                 <input
                                     className="form__field"
                                     id="usePackages"
