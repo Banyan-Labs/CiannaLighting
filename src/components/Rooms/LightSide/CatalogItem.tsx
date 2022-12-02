@@ -8,6 +8,7 @@ import {
     getRoomLights,
     theEditLight,
     setSpecFile,
+    deleteSpecFile
 } from '../../../redux/actions/lightActions';
 import {
     getProject,
@@ -57,7 +58,7 @@ const CatalogItem: FC<catalogPros> = ({
     const userId = useParams('_id');
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
-    
+    const { user } = useAppSelector(({ auth: user }) => user);
     const { room, attachments, projectId, roomLights, roomId } = useAppSelector(
         ({ project }) => project
         );
@@ -65,7 +66,8 @@ const CatalogItem: FC<catalogPros> = ({
         editLight !== null ? editLight?.quantity : 1
         );
             
-    const lightID = userId + catalogItem._id + roomId;
+    const lightID = user._id + catalogItem.item_ID + roomId;
+   
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
         exteriorFinish:
             editLight !== null
@@ -167,7 +169,7 @@ const CatalogItem: FC<catalogPros> = ({
                     } else {
                         dispatch(
                             setSpecFile(
-                                { projId: projectId, pdf: catalogItem.specs },
+                                { projId: projectId, pdf: catalogItem.specs, images: [{"lightId": lightID, "attachments": catalogItem.specs, edit: 'add'}] },
                                 true
                             )
                         );

@@ -47,7 +47,7 @@ export const setSpecFile =
                 const answer = await response('/new-attachments');
                 console.log('Answer in success 1: ', answer);
                 if (answer) {
-                    dispatch(setAttachments(answer.data.proj.pdf));
+                    dispatch(setAttachments(answer.data.attachments.pdf));
                 }
             } else {
                 dispatch(setAttachments([]));
@@ -66,9 +66,11 @@ export const setSpecFile =
     };
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
     const axiosPriv = await axiosPrivate();
+    console.log("payload in deletespecs~~~~~~~~~~~: ",payload)
     try {
         const response = await axiosPriv.post('/delete-attachments', payload);
-        dispatch(setAttachments(response.data.projectAttach));
+        console.log("check delete/specs: ",response)
+        dispatch(setAttachments(response.data.projectAttach.pdf));
     } catch (error: any) {
         dispatch(setProjectError(error.response));
     }
@@ -92,7 +94,9 @@ export const deleteLight =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            await axiosPriv.post('/delete-lightSelection', payload);
+            console.log("payloadDELETE:", payload)
+            const response = await axiosPriv.post('/delete-lightSelection', payload);
+            console.log("successDELETE: ",response)
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

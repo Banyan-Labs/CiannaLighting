@@ -47,11 +47,13 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         ////////
     };
     const deleteAttachments = async(lights: any) =>{
-        const runDispatch = lights.map((light:any)=>`${light.clientId}${light.item_ID}${light.roomId}`)
+        const runDispatch = lights.map((light:any)=>`${user._id}${light.item_ID}${light.roomId}`)
         
            await  dispatch(deleteSpecFile({projId: projectId, images: runDispatch}))
         
     }
+    // 63489992a489d04fef5912fa637d6b6bd72c492477042d7c6388e7018fa48e317ef2cda8
+    // 63489992a489d04fef5912faTST-9996388e7018fa48e317ef2cda8
 
     const setTheData = async (light: any, response: any) => {
         await setCatalogItem(response);
@@ -65,7 +67,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         // console.log(response)
         setTheData(light, response);
     };
-
     const copyRoom = async (e: any) => {
         e.preventDefault();
         const axiosPriv = await axiosPrivate();
