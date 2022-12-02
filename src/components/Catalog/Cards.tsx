@@ -30,7 +30,6 @@ const Cards: FC<catalogPros> = ({
     const { setAllCatalog } = useAppSelector(
         ({ project }) => project
     );
-    console.log(setAllCatalog)
     const projectsPerPage = 4;
     const designsFound: any = [];
     const reduxData =  setAllCatalog?.slice();

@@ -99,9 +99,11 @@
   padding-left: 10px;
 }
 .main-img-catalog-container img {
-  width: 100%;
-  min-width: 400px;
-  max-width: 500px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 300px;
+  max-width: 500;
   border-radius: 0.2rem;
   height: 500px;
   box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
@@ -131,7 +133,7 @@
   border-right: 1px solid #c09d5b;
 }
 
-.tab.active {
+.tab.active2 {
   background: #949494;
   font-weight: bold;
   color: white;
@@ -147,8 +149,85 @@
   background-color: #eaeaea;
   padding: 10px;
   height: 410px;
+  overflow-y: scroll;
+  border-top: 1px solid #c09d5b;
 }
 
-.panel.active {
-  display: block;
+.panel.active2 {
+  display: flex;
+}
+
+.catalog-details-left-container {
+  margin-right: 0px;
+}
+.catalog-details-left-container h4 {
+  margin-top: 10px !important;
+  margin-right: 40px !important;
+}
+.catalog-details-left-container h4 span {
+  color: #949494;
+}
+.catalog-details-left-container .span-description {
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.catalog-details-right-container {
+  border-left: 1px solid #c09d5b;
+}
+.catalog-details-right-container h4 {
+  text-align: center;
+  margin-top: 10px !important;
+}
+.catalog-details-right-container span {
+  color: #949494;
+  text-align: center;
+}
+
+.design-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.options-main-container {
+  width: 100%;
+}
+
+.options-bottom-container {
+  height: 50%;
+  overflow-y: scroll;
+  text-align: center;
+  border-top: 1px solid #c09d5b;
+}
+.options-bottom-container h4 {
+  margin-top: 10px !important;
+}
+.options-bottom-container span {
+  color: #949494;
+}
+
+.options-top-container {
+  text-align: center;
+  height: 50%;
+  overflow-y: scroll;
+}
+.options-top-container span {
+  color: #949494;
+}
+
+.specifications-main-container p {
+  font-size: 14px !important;
+}
+
+.img-item-details {
+  max-width: 250px;
+  height: 250px !important;
+  width: 100%;
+  border-radius: 0.2rem;
+  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
+}
+
+.pictures-slide-catalog {
+  display: flex;
+  justify-content: center;
 }/*# sourceMappingURL=catalog.css.map */

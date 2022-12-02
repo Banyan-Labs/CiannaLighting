@@ -230,57 +230,69 @@ const AllProjects: FC<Props> = ({
             </tbody>
         );
     });
-
     return (
         <div className="all-projects-container">
             <div>
                 <div className="form-bar-button-container">
-                    <input
-                        className="dashboard-all-projects-search-bar"
-                        type="text"
-                        placeholder="Search"
-                        onChange={(e) => searchFilter(e, reduxData)}
-                    />
+                    <div className="list__group">
+                        <input
+                            className="form__field"
+                            type="text"
+                            placeholder="Search"
+                            onChange={(e) => searchFilter(e, reduxData)}
+                        />
+                        <label htmlFor="description" className="form__label">
+                            Search
+                        </label>
+                    </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={() => setOpenModal(true)}
+                        style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                 </div>
                 <div>
-                    <table className="dashboard-all-projects-table">
-                        <thead className="table-headers">
-                            <tr className="rows">
-                                <td
-                                    className="projects-table-name"
-                                    onClick={() => triggerDirection('name')}
-                                >
-                                    Name {sortDisplay('name')}
-                                </td>
-                                <td
-                                    className="projects-table-designer"
-                                    onClick={() =>
-                                        triggerDirection('clientName')
-                                    }
-                                >
-                                    Designer {sortDisplay('clientName')}
-                                </td>
-                                <td
-                                    className="projects-table-region"
-                                    onClick={() => triggerDirection('region')}
-                                >
-                                    Region {sortDisplay('region')}
-                                </td>
-                                <td
-                                    className="projects-table-status"
-                                    onClick={() => triggerDirection('status')}
-                                >
-                                    Status {sortDisplay('status')}
-                                </td>
-                                <td className="projects-table-dots"> </td>
-                            </tr>
-                        </thead>
-                        {allProjectsTableDisplay}
-                    </table>
+                    <div className="dashboard-all-projects">
+                        <table className="dashboard-all-projects-table">
+                            <thead className="table-headers">
+                                <tr className="rows">
+                                    <td
+                                        className="projects-table-name"
+                                        onClick={() => triggerDirection('name')}
+                                    >
+                                        Name {sortDisplay('name')}
+                                    </td>
+                                    <td
+                                        className="projects-table-designer"
+                                        onClick={() =>
+                                            triggerDirection('clientName')
+                                        }
+                                    >
+                                        Designer {sortDisplay('clientName')}
+                                    </td>
+                                    <td
+                                        className="projects-table-region"
+                                        onClick={() =>
+                                            triggerDirection('region')
+                                        }
+                                    >
+                                        Region {sortDisplay('region')}
+                                    </td>
+                                    <td
+                                        className="projects-table-status"
+                                        onClick={() =>
+                                            triggerDirection('status')
+                                        }
+                                    >
+                                        Status {sortDisplay('status')}
+                                    </td>
+                                    <td className="projects-table-dots"> </td>
+                                </tr>
+                            </thead>
+                            {allProjectsTableDisplay}
+                        </table>
+                    </div>
+
                     <div className="pages-list">
                         <nav>
                             {renderedPage == 'All Projects' ? (

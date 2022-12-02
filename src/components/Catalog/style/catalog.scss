@@ -98,9 +98,9 @@ margin-left: 10px;
 .main-img-catalog-container{
   padding-left: 10px;
 img{
-  width: 100%;
-  min-width: 400px;
-  max-width: 500px;
+  width: fit-content;
+  min-width: 300px;
+  max-width: 500;
   border-radius: .2rem;
   height: 500px;
   
@@ -131,7 +131,7 @@ img{
 .tab:not(:last-child) {
   border-right: 1px solid $accent-gold;  
 }
-.tab.active {
+.tab.active2 {
   background: $line-gray;
   font-weight: bold;
   color: white;
@@ -145,9 +145,92 @@ img{
   background-color: #eaeaea;
   padding: 10px;
   height: 410px;
+  overflow-y: scroll;
+  border-top: 1px solid $accent-gold;
 }
-.panel.active {
-  display: block;
+.panel.active2 {
+  display: flex;
 }
 
+
+.catalog-details-left-container{
+  margin-right: 0px;
+  h4{
+    margin-top: 10px !important;
+    margin-right: 40px !important ;
+    span{
+      color: $primary-bg-dark-text;
+    }
+  }
+
+  .span-description{
+    margin-top: 20px;
+  margin-left: 50px;
+  }
+}
+
+.catalog-details-right-container{
+  border-left: 1px solid $accent-gold;
+h4{
+  text-align: center;
+  margin-top: 10px !important;
+}
+span{
+  color: $primary-bg-dark-text;
+  text-align: center;
+}
+}
+
+.design-holder{
+ display: flex; 
+ flex-direction: column;
+}
+
+.options-main-container{
+  width: 100%;
+}
+
+.options-bottom-container{
+height: 50%;
+overflow-y: scroll;
+text-align: center;
+border-top:1px solid $accent-gold;
+h4{
+  margin-top: 10px !important;
+}
+span{
+  color: $primary-bg-dark-text;
+}
+}
+
+.options-top-container{
+ 
+  text-align: center;
+  height: 50%;
+overflow-y: scroll;
+span{
+  color: $primary-bg-dark-text;
+}
+}
+
+
+.specifications-main-container{
+ p{
+  font-size: 14px !important;
+ }
+}
+
+
+.img-item-details{
+  max-width: 250px;
+  height: 250px !important;
+  width: calc(100% / 1);
+  border-radius: .2rem;
+  box-shadow: $box-shadow;
+}
+
+.pictures-slide-catalog{
+  display: flex;
+  justify-content: center;
+}
 

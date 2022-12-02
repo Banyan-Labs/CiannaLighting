@@ -57,7 +57,6 @@ const DashboardNav: FC = () => {
                     Archived
                 </a>
             </div>
-
             <AllProjects
                 renderedPage={renderedPage}
                 currentPage={currentPage}
