@@ -5,7 +5,7 @@ import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
-import { getEditLight } from '../../redux/actions/lightActions';
+import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
@@ -43,7 +43,20 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
         setOpenModal(true);
+
+        ////////
     };
+    const deleteAttachments = async (lights: any) => {
+        const runDispatch = lights.map(
+            (light: any) => `${user._id}${light.item_ID}${light.roomId}`
+        );
+
+        await dispatch(
+            deleteSpecFile({ projId: projectId, images: runDispatch })
+        );
+    };
+    // 63489992a489d04fef5912fa637d6b6bd72c492477042d7c6388e7018fa48e317ef2cda8
+    // 63489992a489d04fef5912faTST-9996388e7018fa48e317ef2cda8
 
     const setTheData = async (light: any, response: any) => {
         await setCatalogItem(response);
@@ -57,7 +70,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         // console.log(response)
         setTheData(light, response);
     };
-
     const copyRoom = async (e: any) => {
         e.preventDefault();
         const axiosPriv = await axiosPrivate();
@@ -244,7 +256,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <h4 className="light-number">
                         Lights: <span>({roomLights?.length})</span>
                     </h4>
-
                     <h4
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -253,7 +264,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </h4>
                 </div>
                 <div className="room-description-light-divider"></div>
-
                 <div
                     className={
                         !isCollapsed
@@ -279,6 +289,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     openModal={openModal}
                     closeModal={setOpenModal}
                     light={deleteLight}
+                    deleteAttachments={deleteAttachments}
                     setDeleteLight={setDeleteLight}
                     deleteRoom={deleteRoom}
                     setDeleteRoom={setDeleteRoom}

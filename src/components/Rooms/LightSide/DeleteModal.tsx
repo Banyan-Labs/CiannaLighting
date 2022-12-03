@@ -3,7 +3,7 @@ import React, { FC, useState, FormEvent } from 'react';
 import useParams from '../../../app/utils';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import {
     deleteLight,
     getRoomLights,
@@ -27,6 +27,7 @@ type Props = {
     room: any;
     editRoom: any;
     setEditRoom: any;
+    deleteAttachments: any;
 };
 
 export const DeleteModal: FC<Props> = ({
@@ -39,32 +40,43 @@ export const DeleteModal: FC<Props> = ({
     room,
     editRoom,
     setEditRoom,
+    deleteAttachments
 }) => {
+    const {roomLights} = useAppSelector(({project})=> project)
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
     const onSubmit1 = async () => {
+        const nonRoom = async(light: any) =>{
+            await deleteAttachments([light]);
+            await dispatch(
+                deleteLight({
+                    roomId: String(storedRoomId),
+                    _id: String(light._id),
+                })
+            )
+        }
+        const nonLight = async() =>{     
+                await deleteAttachments(roomLights);
+                await dispatch(
+                    deleteThisRoom({
+                        _id: String(storedRoomId),
+                        projectId: String(storedProjId),
+                    })
+                );
+        }
         try {
             !deleteRoom
-                ? await dispatch(
-                      deleteLight({
-                          roomId: String(storedRoomId),
-                          _id: String(light._id),
-                      })
-                  )
-                : await dispatch(
-                      deleteThisRoom({
-                          _id: String(storedRoomId),
-                          projectId: String(storedProjId),
-                      })
-                  );
+                ? await nonRoom(light)
+                
+                : await nonLight();
             navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
         } catch (err) {
             console.log('Error: ' + err);
         }
+        
         await dispatch(getProject({ _id: String(storedProjId) }));
         dispatch(setTheRoom(String(storedRoomId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
@@ -124,8 +136,8 @@ export const DeleteModal: FC<Props> = ({
                     <div className="delete-Modal-container">
                         <h4>
                             {deleteRoom
-                                ? `Delete ${room?.name}`
-                                : `Delete ${light?.item_ID} From ${room?.name}`}
+                                ? `Delete ${room.name}`
+                                : `Delete ${light.item_ID} From ${room.name}`}
                         </h4>
                         <button
                             onClick={onSubmit1}

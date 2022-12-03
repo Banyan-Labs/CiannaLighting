@@ -7,22 +7,20 @@ type SignInType = {
     email: string;
     password: string;
 };
-
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
+            getAllProjects();
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
-            getAllProjects();
 
             dispatch(setUser(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }
     };
-
 export const refreshToken =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -30,13 +28,13 @@ export const refreshToken =
             const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
+            console.log('Respnse in RefreshToken: ', response);
             dispatch(setAccessToken(response.data));
         } catch (error) {
-            console.log(error);
+            console.log('Error in refreshToken: ', error);
             throw error;
         }
     };
-
 export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {
