@@ -150,6 +150,7 @@ const Inventory: FC = () => {
             ...itemDetails,
             [listValue.name]: [...valueOfKey, listValue.value],
         });
+        console.log("valofkeyyyyy: ",itemDetails[listValue.name])
         setListValue({
             name: '',
             value: '',
@@ -158,7 +159,7 @@ const Inventory: FC = () => {
 
     const listFileNames = (e: any, name: string) => {
         e.preventDefault();
-
+        console.log(itemDetails.interiorFinish)
         if (name === 'images' && imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
                 console.log(imgFiles[key]);
@@ -222,7 +223,7 @@ const Inventory: FC = () => {
             }
         }
 
-        console.log('FS:', fs);
+        console.log('FS:', {...fs});
         try {
             (await axiosPriv).post('/internal/create-light', fs);
 
@@ -1288,7 +1289,7 @@ const Inventory: FC = () => {
                         <br />
                         <div className="add__materials">
                             <label className="images__label" htmlFor="pdf">
-                                PDF
+                                SPECS
                             </label>
                             <button
                                 className="add__btn"

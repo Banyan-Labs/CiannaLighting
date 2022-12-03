@@ -2,7 +2,7 @@ import React, { FC, useState, } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import {ModalAttachments} from './ModalAttachments.tsx';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 
 
 interface ProjectSummaryProps {

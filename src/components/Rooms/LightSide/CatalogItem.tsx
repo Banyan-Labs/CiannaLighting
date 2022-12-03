@@ -1,4 +1,4 @@
-import React, { FC, useState, FormEvent, useEffect } from 'react';
+import React, { FC, useState, FormEvent } from 'react';
 import useParams from '../../../app/utils';
 import Default2 from '../../../assets/celestial-room.jpeg';
 import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
@@ -8,7 +8,6 @@ import {
     getRoomLights,
     theEditLight,
     setSpecFile,
-    deleteSpecFile
 } from '../../../redux/actions/lightActions';
 import {
     getProject,
@@ -61,13 +60,13 @@ const CatalogItem: FC<catalogPros> = ({
     const { user } = useAppSelector(({ auth: user }) => user);
     const { room, attachments, projectId, roomLights, roomId } = useAppSelector(
         ({ project }) => project
-        );
+    );
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
-        );
-            
+    );
+
     const lightID = user._id + catalogItem.item_ID + roomId;
-   
+
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
         exteriorFinish:
             editLight !== null
@@ -135,7 +134,7 @@ const CatalogItem: FC<catalogPros> = ({
     };
 
     const editFormat = (arr: any, defVal: any) => {
-        const reFormat = [defVal, ...arr.filter((x: any) => x !== defVal)];
+        const reFormat = [defVal, ...arr[0].split(',').filter((x: any) => x !== defVal)];
         return reFormat;
     };
 
@@ -160,7 +159,12 @@ const CatalogItem: FC<catalogPros> = ({
                                 {
                                     projId: projectId,
                                     pdf: catalogItem.specs,
-                                    images: [{"lightId": lightID, "attachments": catalogItem.specs}],
+                                    images: [
+                                        {
+                                            lightId: lightID,
+                                            attachments: catalogItem.specs,
+                                        },
+                                    ],
                                     edit: 'add',
                                 },
                                 false
@@ -169,21 +173,24 @@ const CatalogItem: FC<catalogPros> = ({
                     } else {
                         dispatch(
                             setSpecFile(
-                                { projId: projectId, pdf: catalogItem.specs, images: [{"lightId": lightID, "attachments": catalogItem.specs, edit: 'add'}] },
+                                {
+                                    projId: projectId,
+                                    pdf: catalogItem.specs,
+                                    images: [
+                                        {
+                                            lightId: lightID,
+                                            attachments: catalogItem.specs,
+                                            edit: 'add',
+                                        },
+                                    ],
+                                },
                                 true
                             )
                         );
                     }
                 }
-                /**
-                 * !!!! catalogItem is being called (catalogItem.images... .pdf .... .drawingFiles) !!!!!
-                 * create something here that triggers a new redux action that does the following
-                 * 1) sets project attachments value of some type to true that will conditionally call a route (new-attachments if false / get-attachments if true)
-                 * 2) sets an attacments value into redux, passing (drawing files to an images portion, and pdf to a pdf portion, see ProjectAttachments component for mor component for more)
-                 */
             } else {
                 dispatch(theEditLight(catalogDetails, editLight._id));
-
             }
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0],
@@ -240,7 +247,7 @@ const CatalogItem: FC<catalogPros> = ({
                         }
                     >
                         <div className=" col-12 d-flex row m-0 ">
-                            {catalogItem?.usePackages.map(
+                            {catalogItem?.usePackages[0].split(',').map(
                                 (p: any, index = p.indexOf(p)) => {
                                     return (
                                         <p
@@ -407,7 +414,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 "
                             >
                                 {!editLight
-                                    ? catalogItem.exteriorFinish.map(
+                                    ? catalogItem.exteriorFinish[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -458,7 +465,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.interiorFinish.map(
+                                    ? catalogItem.interiorFinish[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -508,7 +515,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 "
                             >
                                 {!editLight
-                                    ? catalogItem.environment.map(
+                                    ? catalogItem.environment[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -559,7 +566,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.safetyCert.map(
+                                    ? catalogItem.safetyCert[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -610,7 +617,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.exteriorFinish.map(
+                                    ? catalogItem.exteriorFinish[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -662,7 +669,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.socketType.map(
+                                    ? catalogItem.socketType[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -713,7 +720,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.mounting.map(
+                                    ? catalogItem.mounting[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -766,7 +773,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.lensMaterial.map(
+                                    ? catalogItem.lensMaterial[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -817,7 +824,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 options-select"
                             >
                                 {!editLight
-                                    ? catalogItem.acrylicOptions.map(
+                                    ? catalogItem.acrylicOptions[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -868,7 +875,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 options-select"
                             >
                                 {!editLight
-                                    ? catalogItem.acrylicOptions.map(
+                                    ? catalogItem.acrylicOptions[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -919,7 +926,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6"
                             >
                                 {!editLight
-                                    ? catalogItem.crystalType.map(
+                                    ? catalogItem.crystalType[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -969,7 +976,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 options-select"
                             >
                                 {!editLight
-                                    ? catalogItem.exteriorFinish.map(
+                                    ? catalogItem.exteriorFinish[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)
@@ -1022,7 +1029,7 @@ const CatalogItem: FC<catalogPros> = ({
                                 className="col-6 options-select"
                             >
                                 {!editLight
-                                    ? catalogItem.exteriorFinish.map(
+                                    ? catalogItem.exteriorFinish[0].split(',').map(
                                           (
                                               ef: string,
                                               index = ef.indexOf(ef)

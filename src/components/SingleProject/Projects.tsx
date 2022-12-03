@@ -21,7 +21,7 @@ const Projects: FC = () => {
         storedProjId
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
-        await dispatch(setSpecFile({projId: storedProjId, edit: ""}, false))
+        await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
     };
 
     useEffect(() => {
@@ -42,8 +42,7 @@ const Projects: FC = () => {
         <>
             <div className="projects-top-half">
                 <ProjectSummary details={project} />
-                {/* <RoomDetails /> */}
-                <ProjectAttachments details={project}/>
+                <ProjectAttachments details={project} />
             </div>
             <div>
                 <ProjectsNav />

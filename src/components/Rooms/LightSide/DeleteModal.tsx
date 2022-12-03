@@ -48,7 +48,6 @@ export const DeleteModal: FC<Props> = ({
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-console.log("LIGHT / ROOM: ", light , "/", room)
     const onSubmit1 = async () => {
         const nonRoom = async(light: any) =>{
             await deleteAttachments([light]);
@@ -59,8 +58,7 @@ console.log("LIGHT / ROOM: ", light , "/", room)
                 })
             )
         }
-        const nonLight = async() =>{
-            
+        const nonLight = async() =>{     
                 await deleteAttachments(roomLights);
                 await dispatch(
                     deleteThisRoom({

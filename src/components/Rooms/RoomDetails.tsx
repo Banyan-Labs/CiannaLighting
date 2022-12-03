@@ -43,15 +43,18 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
         setOpenModal(true);
-        
+
         ////////
     };
-    const deleteAttachments = async(lights: any) =>{
-        const runDispatch = lights.map((light:any)=>`${user._id}${light.item_ID}${light.roomId}`)
-        
-           await  dispatch(deleteSpecFile({projId: projectId, images: runDispatch}))
-        
-    }
+    const deleteAttachments = async (lights: any) => {
+        const runDispatch = lights.map(
+            (light: any) => `${user._id}${light.item_ID}${light.roomId}`
+        );
+
+        await dispatch(
+            deleteSpecFile({ projId: projectId, images: runDispatch })
+        );
+    };
     // 63489992a489d04fef5912fa637d6b6bd72c492477042d7c6388e7018fa48e317ef2cda8
     // 63489992a489d04fef5912faTST-9996388e7018fa48e317ef2cda8
 
@@ -234,8 +237,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         onClick={() => {
                             setOpenModal(true);
                             setDeleteRoom(true);
-                            
-                            //delete attachment
                         }}
                         data-for="delete"
                         data-tip="Delete Room"
@@ -255,7 +256,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <h4 className="light-number">
                         Lights: <span>({roomLights?.length})</span>
                     </h4>
-
                     <h4
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -264,7 +264,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </h4>
                 </div>
                 <div className="room-description-light-divider"></div>
-
                 <div
                     className={
                         !isCollapsed

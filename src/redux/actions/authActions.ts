@@ -3,12 +3,10 @@ import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
 import { setUser, logout, setAccessToken } from '../reducers/authSlice';
 
-
 type SignInType = {
     email: string;
     password: string;
 };
-
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -18,12 +16,11 @@ export const signInAction =
                 withCredentials: true,
             });
 
-             dispatch(setUser(response.data));
+            dispatch(setUser(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }
     };
-
 export const refreshToken =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -31,14 +28,13 @@ export const refreshToken =
             const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
-            console.log("Respnse in RefreshToken: ",response)
+            console.log('Respnse in RefreshToken: ', response);
             dispatch(setAccessToken(response.data));
         } catch (error) {
-            console.log("Error in refreshToken: ",error);
+            console.log('Error in refreshToken: ', error);
             throw error;
         }
     };
-
 export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {

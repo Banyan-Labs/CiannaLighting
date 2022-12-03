@@ -1,18 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import IdRooms from './AllRooms/IdRooms';
 import { RiAddLine } from 'react-icons/ri';
 import { NewRoomModal } from '../../../NewRoomModal/NewRoomModal';
-import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
-import { setSpecFile } from '../../../../redux/actions/lightActions';
+import { useAppSelector } from '../../../../app/hooks';
 
 const Rooms: FC = () => {
-    const dispatch = useAppDispatch()
     const [openModal, setOpenModal] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { projectId } = useAppSelector(({ project }) => project);
-
-   
-
     const handleAddRoom = (e: any) => {
         e.preventDefault();
         setOpenModal(true);
