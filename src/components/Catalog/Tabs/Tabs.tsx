@@ -103,6 +103,42 @@ const Tabs: FC<catalogPros> = ({
                     /> 
                 </div>
                 <div className={`panel ${checkActive(4, "active2")}`}>
+                <div className="d-flex row align-content-start m-0">
+                <h4 className='m-0'>
+                    Drawing Files:
+                </h4>
+                {Item?.drawingFiles.map(
+                    (
+                        ef: string,
+                        index = ef.indexOf(ef)
+                    ) => {
+                        return (
+                            <a key={index} href={ef}>
+                                {ef}
+                                </a>
+                        );
+                    }
+                )}
+            </div>
+            <div className="d-flex row align-content-start m-0">
+                <h4 className='m-0'>
+                    PDF:
+                </h4>
+                {Item?.PDF.map(
+                    
+                    (
+                        ef: string,
+                        index = ef.indexOf(ef)
+                    ) =>
+                    { 
+                        return (
+                            <a key={index} href={ef}>
+                                {ef}
+                                </a>
+                        );
+                    }
+                )}
+            </div>
                 </div>
             </div>
         </>

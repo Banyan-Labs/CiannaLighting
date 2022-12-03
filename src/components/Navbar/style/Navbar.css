@@ -21,9 +21,12 @@
   align-items: center;
 }
 .navbar-container img {
-  margin-top: 10px;
-  height: 150px;
-  width: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 66%;
+  margin-top: 20px;
 }
 .navbar-container button {
   border: none;
@@ -42,6 +45,8 @@
 .logo-container {
   display: flex;
   align-self: center;
+  width: 150px;
+  height: 125px;
 }
 
 .navbar-links-container {

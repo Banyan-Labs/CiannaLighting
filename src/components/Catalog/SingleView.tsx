@@ -31,7 +31,9 @@ const SingleView: FC<catalogPros> = ({
              </div>
           </div>
           <div className='col-12'>
-             <Pictures />
+             <Pictures
+             catalogItem={catalogItem}
+             />
              </div>
         </div>
     );

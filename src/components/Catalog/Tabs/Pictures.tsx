@@ -9,8 +9,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import  useWindowDimensions  from './WindowW';
 
-const Pictures: FC = () => {
+interface catalogPros {
+    catalogItem: any;
+}
+
+const Pictures: FC<catalogPros> = ({
+    catalogItem,
+}) => {
     const { width } = useWindowDimensions();
+    const Images = catalogItem?.images;
     return (
         <>
             <Swiper
@@ -26,8 +33,24 @@ const Pictures: FC = () => {
                 navigation={true}
                 modules={[Navigation, Pagination]}
             >
-                {Data
-                    ? Data.map((p, i) => {
+
+                {/* use this code when you go live  */}
+
+                {/* {Images
+                    ? Images?.map((p: any, i:any) => {
+                          return (
+                              <SwiperSlide className="pictures-slide-catalog" key={i}>
+                                  <img
+                                      className="img-item-details"
+                                      src={p}
+                                      alt={p}
+                                  />
+                              </SwiperSlide>
+                          );
+                      })
+                    : ''} */}
+                    {Data
+                    ? Data?.map((p: any, i:any) => {
                           return (
                               <SwiperSlide className="pictures-slide-catalog" key={i}>
                                   <img

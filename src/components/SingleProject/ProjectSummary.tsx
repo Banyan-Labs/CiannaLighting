@@ -17,9 +17,10 @@ import Modal from '../Modal/Modal';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 interface ProjectSummaryProps {
     details: any;
+    setYourProject: any;
 }
 
-const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
+const ProjectSummary: FC<ProjectSummaryProps> = ({ details, setYourProject }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const dispatch = useAppDispatch();
@@ -70,10 +71,10 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
         <div className="project-summary-container">
             <div className="projects-summary">
                 <div className="back-to-projects">
-                    <Link to={`/dashboard`}>
+                    <button className='back-to-all-projects' onClick={() => setYourProject(false)}>
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Projects
-                    </Link>
+                    </button>
                 </div>
                 <div className="project-summary-top-bar">
                     <div className="project-summary-name-and-date">

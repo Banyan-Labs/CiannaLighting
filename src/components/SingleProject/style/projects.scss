@@ -1,5 +1,6 @@
 @import '../../../variables/variables.scss';
 @import './modalAttach';
+@import './projectView';
 
 .projects-top-half {
     display: flex;
@@ -29,8 +30,17 @@
         position: relative;
         z-index: 2;
     }
-    a:hover {
-        color: #ffffffab;
+
+    .back-to-all-projects{
+        transition: all 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+    background-color: $primary-bg-dark;
+
+    &:hover{
+        transition: all 0.2s ease-in-out;
+        color: $primary-bg-dark-text;
+    }
     }
 }
 .back-to-projects:hover {
