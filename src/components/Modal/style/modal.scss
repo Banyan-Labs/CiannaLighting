@@ -44,7 +44,6 @@
 
 // === Modal Title ===
 .modal-title {
-    // color: pink;
     color: $primary-bg-dark-title;
     text-align: center;
 }
@@ -58,10 +57,6 @@ label {
     @include input-field;
 }
 
-.new-project-modal-button:hover {
-    background-color: #345c9c;
-}
-
 .new-projects-dropdowns-container {
     position: relative;
     top: -20px;
@@ -72,17 +67,18 @@ label {
 }
 
 .new-projects-dropdowns-container select {
-    border: 1px solid rgb(194, 194, 194);
+    border: 1px solid $primary-bg-light-grey;
     border-radius: 5px;
     margin: 0.2rem 0;
     padding: 10px 15px;
     font-size: 14px;
-    color: grey;
+    color: $primary-bg-light-grey;
     transition: all 400ms ease;
 }
 
 .new-project-modal-labels {
     font-weight: bold;
+    color: $primary-bg-dark-title;
 }
 
 .max-text-span {
@@ -107,6 +103,12 @@ label {
 }
 
 .new-project-modal-container .new-project-modal-footer button {
-    @include button(#528dea, white);
+    @include button($accent-gold, white);
     cursor: pointer;
+}
+
+.new-project-modal-container .new-project-modal-footer button:hover {
+    @include button(rgba(192, 157, 91, 0.7), white);
+    cursor: pointer;
+    transition: all 600ms ease;
 }

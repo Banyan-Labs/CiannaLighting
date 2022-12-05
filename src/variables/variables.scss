@@ -27,6 +27,7 @@ $primary-bg-dark-link: #949494;
 $primary-bg-dark-link-hover: #3f3c39;
 $primary-bg-dark-link-active: #3f3c39;
 $primary-bg-dark-button-text: #3f3c39;
+$primary-bg-light-grey: #9b9b9b;
 
 //White Background Colors
 $primary-bg-white: #f7f6f4;
@@ -74,6 +75,7 @@ $box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
     padding: 15px 10px;
     width: 95%;
     margin-bottom: 25px;
+    color: $primary-bg-light-grey;
 }
 
 @mixin link-bg-white {

@@ -82,7 +82,6 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects.length]);
 
-    // Change these colors using the color pallet owen sent
     const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
 
     const singleProject = userProjects

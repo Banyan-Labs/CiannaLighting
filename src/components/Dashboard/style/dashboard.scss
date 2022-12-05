@@ -67,11 +67,11 @@
 .overview-icon-main {
     width: 40px;
     height: auto;
-    color: #9b9b9b;
+    color: $primary-bg-light-grey;
 }
 
 .overview-label-main {
-    color: #9b9b9b;
+    color: $primary-bg-light-grey;
     position: relative;
     top: 5px;
     font-size: $sub-text-fs;
@@ -85,11 +85,11 @@
 .overview-icon {
     width: 30px;
     height: auto;
-    color: #9b9b9b;
+    color: $primary-bg-light-grey;
 }
 
 .overview-label {
-    color: #9b9b9b;
+    color: $primary-bg-light-grey;
     font-size: 12px;
 }
 
@@ -197,7 +197,6 @@
     }
     .your-projects-buttons:hover {
         cursor: pointer;
-        // color: #ffffff67;
         color: rgba(63, 60, 57, 0.219);
     }
 }

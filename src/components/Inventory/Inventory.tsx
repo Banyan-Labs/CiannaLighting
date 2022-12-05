@@ -870,7 +870,7 @@ const Inventory: FC = () => {
                             />
                             <label
                                 className="form__label"
-                                htmlFor="description"
+                                htmlFor="socketQuantity"
                             >
                                 Socket Quantity
                             </label>
@@ -888,7 +888,7 @@ const Inventory: FC = () => {
                             />
                             <label
                                 className="form__label"
-                                htmlFor="description"
+                                htmlFor="powerInWatts"
                             >
                                 Power in Watts
                             </label>
@@ -904,10 +904,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="description"
-                            >
+                            <label className="form__label" htmlFor="price">
                                 Price
                             </label>
                         </div>
