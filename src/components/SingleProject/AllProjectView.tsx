@@ -1,16 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
-import Pagination from '../Pagination/Pagination';
+import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
-import { ProjectType } from '../DashboardNav';
-import { getAllProjects } from '../../../../redux/actions/projectActions';
-import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
+import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
+import { getAllProjects } from '../../redux/actions/projectActions';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import './style/allProjects.scss';
-
+import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-import { FilterModal } from '../../../FilterModal/FilterParams';
-import { ViewModal } from './ViewModal';
+import { FilterModal } from '../FilterModal/FilterParams';
+import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 
 type Props = {
     renderedPage: string;
@@ -22,9 +21,10 @@ type Props = {
     setSortedData: React.Dispatch<React.SetStateAction<ProjectType[]>>;
     setSortDirection: React.Dispatch<React.SetStateAction<number>>;
     setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
+    yourProject: any,
 };
 
-const AllProjects: FC<Props> = ({
+const AllProjectView: FC<Props> = ({
     renderedPage,
     currentPage,
     setCurrentPage,
@@ -34,18 +34,21 @@ const AllProjects: FC<Props> = ({
     setSortedData,
     setSortDirection,
     setCurrentSort,
+    yourProject,
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
     const [deleteProject, setDeleteProject] = useState(false);
     const [projectModal, setProjectModal] = useState(null);
-    const { allProjects, filterQueryProjects } = useAppSelector(
+    const { userProjects, allProjects, filterQueryProjects } = useAppSelector(
         ({ project }) => project
     );
+    const [typeOfProject, setTypeOfProject] = useState('yourProjects');
+    const filterThis = typeOfProject === 'yourProjects' ? userProjects : allProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
-    const projectsPerPage = 5;
+    const projectsPerPage = 12;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     useEffect(() => {
@@ -160,7 +163,7 @@ const AllProjects: FC<Props> = ({
 
     const reduxData = filterQueryProjects.length
         ? filterQueryProjects.slice()
-        : allProjects.slice();
+        : filterThis.slice();
     const activeProjects = (parsedData.length ? parsedData : reduxData).filter(
         (project) => !project.archived
     );
@@ -223,6 +226,9 @@ const AllProjects: FC<Props> = ({
                                 setProjectModal={setProjectModal}
                                 project={project}
                                 setDeleteProject={setDeleteProject}
+                                typeOfProject={typeOfProject}
+                                setTypeOfProject={setTypeOfProject}
+                                yourProject={yourProject}
                             />
                         )}
                     </td>
@@ -244,12 +250,21 @@ const AllProjects: FC<Props> = ({
                         <label htmlFor="description" className="form__label">
                             Search
                         </label>
+                        
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={() => setOpenModal(true)}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
+                    <div className='button-filter-container d-flex justify-content-end'>
+                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={() => setTypeOfProject('allProjects')}>
+                           All Projects
+                        </button>
+                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={() => setTypeOfProject('yourProjects')}>
+                            Your Projects
+                        </button>
+                        </div>
                 </div>
                 <div>
                     <div className="dashboard-all-projects">
@@ -384,4 +399,4 @@ const AllProjects: FC<Props> = ({
         </div>
     );
 };
-export default AllProjects;
+export default AllProjectView;

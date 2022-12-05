@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .new-project-modal-background {
   width: 100vw;
   height: 100vh;
@@ -20,7 +31,7 @@
   padding: 1rem 5rem;
   border-radius: 5px;
   background-color: white;
-  color: #101010;
+  color: #ecebe7;
   z-index: 1;
 }
 
@@ -33,7 +44,7 @@
 }
 
 .modal-title-close-btn button:hover {
-  color: #101010;
+  color: #3f3c39;
   cursor: pointer;
 }
 
@@ -47,7 +58,7 @@ label {
 }
 
 .new-project-modal-inputs {
-  border: 1px solid #cbcbcb;
+  border: 1px solid #c09d5b;
   border-radius: 5px;
   padding: 15px 10px;
   width: 95%;
@@ -93,7 +104,7 @@ label {
   margin-right: 5px;
   font-weight: 500;
   font-size: 12px;
-  color: #101010;
+  color: #ecebe7;
 }
 
 .new-project-modal-container .new-project-modal-footer {

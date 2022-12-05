@@ -126,3 +126,15 @@ export const theEditLight =
             dispatch(setProjectError(error.response.data));
         }
     };
+
+    export const filterCatalogItems =
+    (payload: any) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        const axiosPriv = await axiosPrivate();
+        try {
+            const response = await axiosPriv.post('/public/get-catalog', payload);
+            dispatch(setCatalogLights(response.data.items));
+        } catch (error: any) {
+            dispatch(setProjectError(error.response.data));
+        }
+    };

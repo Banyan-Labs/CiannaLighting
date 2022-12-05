@@ -1,19 +1,24 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
-html,
-body {
-  height: 100%;
-  margin: 0;
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
 }
-
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .catalog-container {
   display: flex;
   flex-flow: row;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 .catalog-container .catalog-main-container {
   margin-top: 100px;
-  background-color: #101010;
+  background-color: #ecebe7;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -22,7 +27,7 @@ body {
 .catalog-container .catalog-main-container .catalog-use-packages {
   padding: 0 50px;
   flex: 3;
-  color: #cbcbcb;
+  color: #949494;
 }
 .catalog-container .catalog-main-container .catalog-use-packages span {
   position: relative;
@@ -32,7 +37,7 @@ body {
 .use-package-image {
   height: 200px;
   width: 220px;
-  border: 0.25px solid #3c3c3c;
+  border: 0.25px solid #c09d5b;
   margin: 50px 0 10px 0;
 }
 
@@ -69,4 +74,160 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+.single-view-container {
+  width: 100%;
+  margin-top: 100px;
+}
+.single-view-container h1 {
+  color: pink !important;
+}
+.single-view-container .catalog-back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.single-view-container .chevron-icon-catalog {
+  cursor: pointer;
+  padding-top: 2px;
+}
+
+.main-img-catalog-container {
+  padding-left: 10px;
+}
+.main-img-catalog-container img {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 300px;
+  max-width: 500;
+  border-radius: 0.2rem;
+  height: 500px;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+}
+
+.main-right-tab-container {
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.tab {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #ecebe7;
+  padding: 2em 0;
+  border: none;
+  cursor: pointer;
+}
+
+.tab:not(:last-child) {
+  border-right: 1px solid #c09d5b;
+}
+
+.tab.active2 {
+  background: #949494;
+  font-weight: bold;
+  color: white;
+}
+
+.panels {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.panel {
+  display: none;
+  background-color: #eaeaea;
+  padding: 10px;
+  height: 410px;
+  overflow-y: scroll;
+  border-top: 1px solid #c09d5b;
+}
+
+.panel.active2 {
+  display: flex;
+}
+
+.catalog-details-left-container {
+  margin-right: 0px;
+}
+.catalog-details-left-container h4 {
+  margin-top: 10px !important;
+  margin-right: 40px !important;
+}
+.catalog-details-left-container h4 span {
+  color: #949494;
+}
+.catalog-details-left-container .span-description {
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.catalog-details-right-container {
+  border-left: 1px solid #c09d5b;
+}
+.catalog-details-right-container h4 {
+  text-align: center;
+  margin-top: 10px !important;
+}
+.catalog-details-right-container span {
+  color: #949494;
+  text-align: center;
+}
+
+.design-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.options-main-container {
+  width: 100%;
+}
+
+.options-bottom-container {
+  height: 50%;
+  overflow-y: scroll;
+  text-align: center;
+  border-top: 1px solid #c09d5b;
+}
+.options-bottom-container h4 {
+  margin-top: 10px !important;
+}
+.options-bottom-container span {
+  color: #949494;
+}
+
+.options-top-container {
+  text-align: center;
+  height: 50%;
+  overflow-y: scroll;
+}
+.options-top-container span {
+  color: #949494;
+}
+
+.specifications-main-container p {
+  font-size: 14px !important;
+}
+
+.img-item-details {
+  max-width: 250px;
+  height: 250px !important;
+  width: 100%;
+  border-radius: 0.2rem;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+}
+
+.pictures-slide-catalog {
+  display: flex;
+  justify-content: center;
 }/*# sourceMappingURL=catalog.css.map */

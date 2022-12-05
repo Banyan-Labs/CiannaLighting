@@ -26,6 +26,7 @@ import dataHolding from './projectDetails';
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setSpecFile } from '../../../redux/actions/lightActions';
+import { setTheYourProjects } from '../../../redux/actions/projectActions';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -101,7 +102,8 @@ const YourProjects: FC = () => {
                     style={{
                         backgroundColor: color,
                     }}
-                    onClick={() => {
+                    onClick={async() => {
+                        await dispatch(setTheYourProjects(true))
                         projectRoute(project._id);
                         changeProject(project._id);
                     }}

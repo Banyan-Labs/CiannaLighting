@@ -10,15 +10,19 @@ interface searchBarProps {
 }
 const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
     const { setAllCatalog } = useAppSelector(({ project }) => project);
+
     const searchValue = setAllCatalog.filter((val: any) => {
         if (searchTerm === '') {
             return val;
         } else if (
             val.item_ID.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+           
         ) {
+            
             return val;
         }
     });
+    
 
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
@@ -36,6 +40,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         contentPerPage: 6,
         count: searchValue.length,
     });
+
     useEffect(() => {
         (async () => {
             try {
@@ -58,6 +63,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     <div className="items d-flex flex-wrap justify-content-center">
                         {setAllCatalog
                             .filter((val: any) => {
+                                
                                 if (searchTerm === '') {
                                     return val;
                                 } else if (
@@ -66,9 +72,11 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                         .includes(
                                             searchTerm.toLocaleLowerCase()
                                         )
-                                ) {
+                                )
+                                {
                                     return val;
                                 }
+                                else (page > 1 ? setPage(1) : '')
                             })
                             .slice(firstContentIndex, lastContentIndex)
                             .map((el: any, index: any) => (
@@ -94,7 +102,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     {searchValue.length > 6 ? (
                         <div className="pagination_">
                             <p className="text">
-                                {page}/{totalPages}
+                                Showing {page}/{totalPages}
                             </p>
                             <button
                                 onClick={prevPage}

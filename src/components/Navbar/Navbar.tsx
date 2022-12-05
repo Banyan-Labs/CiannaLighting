@@ -5,6 +5,7 @@ import useParams from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { FaRegBell } from 'react-icons/fa';
 import { logoutAction } from '../../redux/actions/authActions';
+import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './style/Navbar.scss';
@@ -18,6 +19,7 @@ type Link = {
 };
 
 const Links: FC<{ links: Link[] }> = () => {
+    const dispatch = useAppDispatch();
     const [storedProjId] = useParams('projectId');
     const { user } = useAppSelector(({ auth: user }) => user);
     const { userProjects } = useAppSelector(({ project }) => project);
@@ -38,7 +40,7 @@ const Links: FC<{ links: Link[] }> = () => {
                 .map((link: Link) => {
                     return (
                         <div key={link.href}>
-                            <Link
+                            <Link onClick={() => dispatch(setTheYourProjects(false))}
                                 to={{
                                     pathname: link.href,
                                     search: `?_id=${user._id}&projectId=${Id}`,

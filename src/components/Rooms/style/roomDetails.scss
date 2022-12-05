@@ -147,6 +147,7 @@
     overflow-y: scroll;
 
     .single-room-container {
+        background-color: $primary-bg-dark;
         position: relative;
         padding-top: 20px;
         margin-right: 20px;
@@ -198,7 +199,7 @@
             .qty {
                 position: absolute;
                 font-weight: 600;
-                right: -15px;
+                right: 0px;
                 top: 0px;
                 padding-right: 10px;
                 font-size: 13px;

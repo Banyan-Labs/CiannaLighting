@@ -1,10 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
-
+import Cards from './Cards';
+import { useAppDispatch } from '../../app/hooks';
+import { filterCatalogItems } from '../../redux/actions/lightActions';
 import DesignStyles from './DesignStyles/DesignStyles';
 
 import './style/catalog.scss';
+import SingleView from './SingleView';
 
 const usePackagesData = [
     {
@@ -24,53 +27,61 @@ const usePackagesData = [
         img: '/hallway.jpeg',
     },
     {
-        name: 'Reception',
+        name: 'Forier',
         img: '/reception.jpeg',
     },
     {
-        name: 'Stairway',
+        name: 'Ball-room',
         img: '/stairway.jpeg',
-    },
-    {
-        name: 'Testing',
-        img: '',
-    },
-    {
-        name: 'Testing',
-        img: '',
-    },
+    }
 ];
 
-const usePackages = usePackagesData.map((usePackage, index) => {
-    return (
-        <div className="use-package-container" key={index}>
-            <div
-                className="use-package-image"
-                style={{
-                    backgroundImage: `url(/images${usePackage.img})`,
-                    backgroundPosition: 'top',
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                }}
-                key={usePackage.name}
-            />
-            {usePackage.name}
-        </div>
-    );
-});
+
 
 const Catalog: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
+    const [catalogItem, setCatalogItem] = useState(null);
+    const [catalogType, setCatalogType] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [renderPage, setRenderPage] = useState('');
+    const dispatch = useAppDispatch();
 
+  const fetchData1 = async (e: any) => {
+      const value = e.currentTarget.value.toLowerCase();
+
+        dispatch(filterCatalogItems({
+            "usePackages": [value] }))
+        };
+
+        const usePackages = usePackagesData.map((usePackage, index) => {
+            return (
+                <div className="use-package-container" key={index}>
+                   
+                    <button 
+                    key={usePackage.name}
+                    style={{
+                        backgroundImage: `url(/images${usePackage.img})`,
+                        backgroundPosition: 'top',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        cursor: 'pointer'
+                    }} className='use-package-image' value={usePackage.name} onClick={(e) => {
+                    fetchData1(e);
+                    setCatalogType(usePackage.name)
+                    setRenderPage('usePackages')
+                } } ></button>
+                       
+                    {usePackage.name}
+                </div>
+            );
+        });
     return (
         <>
-            {Object.keys(user).length === 0 ? (
-                <Navigate to="/login" />
-            ) : (
+            {catalogItem === null ? (
                 <>
                     <div className="catalog-container">
                         <div className="catalog-main-container">
-                            <DesignStyles />
+                            <DesignStyles catalogType={catalogType} setCatalogType={setCatalogType} setRenderPage={setRenderPage} renderPage={renderPage} />
 
                             <div className="catalog-use-packages">
                                 <span>Use Packages</span>
@@ -78,9 +89,29 @@ const Catalog: FC = () => {
                                     {usePackages}
                                 </div>
                             </div>
+                            
+                            <Cards
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                             catalogItem={catalogItem}
+                             setCatalogItem={setCatalogItem}
+                             catalogType={catalogType}
+                             setRenderPage={setRenderPage}
+                              renderPage={renderPage}
+                               />
+                             
                         </div>
+                        
                     </div>
+                    
                 </>
+            ) : (
+                <div className='d-flex'>
+                <SingleView 
+                 catalogItem={catalogItem}
+                 setCatalogItem={setCatalogItem}
+                />
+                </div>
             )}
         </>
     );

@@ -9,6 +9,7 @@ import {
     setFilteredProjects,
     setProjectRooms,
     setUserProjects,
+    setYourProjects
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -80,6 +81,12 @@ export const getUserProjects =
         } catch (err) {
             console.log(err);
         }
+    };
+
+    export const setTheYourProjects =
+    (payload: boolean) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        await dispatch(setYourProjects(payload));
     };
 
 export const getProject =

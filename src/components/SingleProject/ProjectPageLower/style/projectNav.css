@@ -1,4 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
 .projects-navbar-container {
   position: relative;
   top: -10px;
@@ -6,9 +17,9 @@
   height: 10px;
   display: flex;
   align-items: center;
-  color: white;
+  color: #949494;
   font-weight: 100;
-  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
 }
 
 .projects-navbar-links-container {
@@ -20,11 +31,11 @@
 }
 
 .projects-navbar-links {
-  color: #cbcbcb;
+  color: #949494;
   text-decoration: none;
   font-size: 14px;
   font-weight: 100;
-  color: #cbcbcb;
+  color: #949494;
   margin-left: 45px;
   font-weight: 100;
 }
@@ -83,7 +94,7 @@
 }
 
 .projects-active {
-  color: #c6ad7c !important;
+  color: #c09d5b !important;
   position: relative;
   top: -28px;
   font-weight: 400;
@@ -96,7 +107,7 @@
   position: relative;
   top: 30px;
   width: 40%;
-  border-bottom: 4px solid #c6ad7c;
+  border-bottom: 4px solid #c09d5b;
   transition: 0.2s ease-in-out;
 }
 
@@ -104,6 +115,6 @@
   content: "";
   display: block;
   width: 0%;
-  border-bottom: 4px solid #c6ad7c;
+  border-bottom: 4px solid #c09d5b;
   transition: 0.2s ease-in-out;
 }/*# sourceMappingURL=projectNav.css.map */

@@ -3,14 +3,14 @@ import ReactTooltip from 'react-tooltip';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive} from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import {
     getProject,
     getAllProjects,
     getUserProjects,
+    setTheYourProjects
 } from '../../redux/actions/projectActions';
-import { useAppDispatch} from '../../app/hooks';
+import { useAppDispatch, useAppSelector} from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
@@ -70,10 +70,10 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
         <div className="project-summary-container">
             <div className="projects-summary">
                 <div className="back-to-projects">
-                    <Link to={`/dashboard`}>
+                    <button className='back-to-all-projects' onClick={() => dispatch(setTheYourProjects(false))}>
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Projects
-                    </Link>
+                    </button>
                 </div>
                 <div className="project-summary-top-bar">
                     <div className="project-summary-name-and-date">
