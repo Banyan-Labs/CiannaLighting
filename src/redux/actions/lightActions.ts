@@ -45,12 +45,14 @@ export const setSpecFile =
             };
             if (newAttach === true) {
                 const answer = await response('/new-attachments');
+                console.log("responseAttachNEW: ",answer)
                 if (answer) {
                     dispatch(setAttachments(answer.data.attachments.pdf));
                 }
             } else {
                 dispatch(setAttachments([]));
                 const answer = await response('/get-attachments');
+                console.log("responseAttach: ",answer)
                 if (answer) {
                     dispatch(setAttachments(answer.data.proj.pdf));
                 } else {
@@ -65,7 +67,8 @@ export const setSpecFile =
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
     const axiosPriv = await axiosPrivate();    
     try {
-        const response = await axiosPriv.post('/delete-attachments', payload);        
+        const response = await axiosPriv.post('/delete-attachments', payload); 
+        console.log("resp DELETE at: ", response)       
         dispatch(setAttachments(response.data.projectAttach.pdf));
     } catch (error: any) {
         dispatch(setProjectError(error.response));
