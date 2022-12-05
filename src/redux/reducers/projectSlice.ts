@@ -12,7 +12,9 @@ export interface ProjectStateType {
     roomId: string;
     roomLights: [];
     setAllCatalog: any[];
+    attachments: any[];
     catalogConnectLight: any[] | null;
+    yourProjects: boolean;
 }
 
 type Activity = {
@@ -80,7 +82,9 @@ const initialState: ProjectStateType = {
     projectId: '',
     roomLights: [],
     setAllCatalog: [],
-    catalogConnectLight: null
+    attachments: [],
+    catalogConnectLight: null,
+    yourProjects: true
 };
 
 export const projectSlice = createSlice({
@@ -88,6 +92,7 @@ export const projectSlice = createSlice({
     initialState,
     reducers: {
         setProject: (state, action) => ({ ...state, project: action.payload }),
+        setAttachments: (state, action) => ({...state, attachments: action.payload}),
         setAllProjects: (state, action) => ({
             ...state,
             allProjects: action.payload.projects,
@@ -105,6 +110,10 @@ export const projectSlice = createSlice({
         setCatalogLights: (state, action) => ({
             ...state,
             setAllCatalog: action.payload,
+        }),
+        setYourProjects: (state, action) => ({
+            ...state,
+            yourProjects: action.payload,
         }),
         setCatalogConnect: (state, action) => ({
             ...state,
@@ -133,6 +142,7 @@ export const projectSlice = createSlice({
 
 export const {
     setProject,
+    setAttachments,
     setRoom,
     setProjectError,
     setProjectId,
@@ -143,6 +153,7 @@ export const {
     setRoomId,
     setRoomLights,
     setCatalogLights,
-    setCatalogConnect
+    setCatalogConnect,
+    setYourProjects
 } = projectSlice.actions;
 export default projectSlice.reducer;

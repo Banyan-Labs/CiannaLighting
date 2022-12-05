@@ -106,7 +106,7 @@
   max-width: 500;
   border-radius: 0.2rem;
   height: 500px;
-  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
 }
 
 .main-right-tab-container {
@@ -224,7 +224,7 @@
   height: 250px !important;
   width: 100%;
   border-radius: 0.2rem;
-  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
 }
 
 .pictures-slide-catalog {

@@ -22,7 +22,6 @@ type Props = {
     setSortDirection: React.Dispatch<React.SetStateAction<number>>;
     setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
     yourProject: any,
-    setYourProject: any
 };
 
 const AllProjectView: FC<Props> = ({
@@ -36,7 +35,6 @@ const AllProjectView: FC<Props> = ({
     setSortDirection,
     setCurrentSort,
     yourProject,
-    setYourProject
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
@@ -231,7 +229,6 @@ const AllProjectView: FC<Props> = ({
                                 typeOfProject={typeOfProject}
                                 setTypeOfProject={setTypeOfProject}
                                 yourProject={yourProject}
-                                setYourProject={setYourProject}
                             />
                         )}
                     </td>
@@ -261,10 +258,10 @@ const AllProjectView: FC<Props> = ({
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                     <div className='button-filter-container d-flex justify-content-end'>
-                        <button onClick={() => setTypeOfProject('allProjects')}>
+                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={() => setTypeOfProject('allProjects')}>
                            All Projects
                         </button>
-                        <button onClick={() => setTypeOfProject('yourProjects')}>
+                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={() => setTypeOfProject('yourProjects')}>
                             Your Projects
                         </button>
                         </div>

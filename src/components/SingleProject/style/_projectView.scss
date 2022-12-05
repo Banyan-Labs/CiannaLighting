@@ -17,3 +17,30 @@
         cursor: pointer;
     }
 }
+
+.all-project-button{
+    transition: all 0.2s ease-in-out;
+    background-color: $accent-gold;
+    border: 1px $line-dark solid;
+    padding: 12px 8px 12px 8px;
+    color: white;
+}
+
+.your-projects-button{
+    transition: all 0.2s ease-in-out;
+    background-color: $accent-gold;
+    border: 1px $line-dark solid;
+    padding: 12px 8px 12px 8px;
+    color: white;
+}
+
+.type-project-btn{
+    transition: all 0.2s ease-in-out;
+ border: none;
+ background-color:  $primary-bg-dark ;
+  &:hover{
+    transition: all 0.2s ease-in-out;
+    background-color: $primary-bg-dark-text;
+    color: white;
+  }
+}

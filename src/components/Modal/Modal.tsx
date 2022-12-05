@@ -7,6 +7,7 @@ import {
     createProjectAction,
     getProject,
     getUserProjects,
+    setTheYourProjects
 } from '../../redux/actions/projectActions';
 import './style/modal.scss';
 
@@ -96,6 +97,7 @@ const Modal: FC<Props> = (props) => {
                       `/projects/ + ?_id= ${user._id}&projectId=${project?._id}`
                   );
             await dispatch(getUserProjects(user._id));
+            await dispatch(setTheYourProjects(true));
             dataHolding.getData(projectDetails, '');
             if (props.editProject) {
                 closeModal(false);

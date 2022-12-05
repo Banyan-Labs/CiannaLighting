@@ -25,6 +25,8 @@ import dataHolding from './projectDetails';
 
 import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
+import { setSpecFile } from '../../../redux/actions/lightActions';
+import { setTheYourProjects } from '../../../redux/actions/projectActions';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -57,12 +59,10 @@ const YourProjects: FC = () => {
 
     useEffect(() => {
         dispatch(getUserProjects(user._id));
-
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
         let completedProjectsNumber = 0;
-
         if (userProjects.length != 0) {
             userProjects.map((project) => {
                 if (project.status == 'New') {
@@ -82,15 +82,16 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects.length]);
 
-    // Change these colors using the color pallet owen sent
     const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
-
     const singleProject = userProjects
         .map((project: any, index: any) => {
             const color = projectColors[index % projectColors.length];
 
             const changeProject = async (prodId: string) => {
                 await dispatch(getProject({ _id: prodId }));
+                await dispatch(
+                    setSpecFile({ projId: prodId, edit: '' }, false)
+                );
                 dataHolding.getData(project, color);
             };
             const date = new Date(Date.parse(project.createdAt)).toDateString();
@@ -101,7 +102,8 @@ const YourProjects: FC = () => {
                     style={{
                         backgroundColor: color,
                     }}
-                    onClick={() => {
+                    onClick={async() => {
+                        await dispatch(setTheYourProjects(true))
                         projectRoute(project._id);
                         changeProject(project._id);
                     }}

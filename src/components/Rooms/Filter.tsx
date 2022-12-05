@@ -18,7 +18,7 @@ const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
            asian: '', 
            artDeco: '', 
            colonial: '', 
-           contemporary: '', 
+           western: '', 
            traditional: '', 
            transitional: '', 
     });
@@ -28,7 +28,7 @@ const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
          bridesRoom: '',
          celestialRoom: '',
          hallway: '',
-         stairWay: '',
+         forier: '',
  });
 
     const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
@@ -49,10 +49,10 @@ const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
     e.preventDefault();
     
     const designs = Object.values(designDetails).filter(
-        (x) => x
+        (x:any) => x.toLowerCase()
       );
       const packages = Object.values(packageDetails).filter(
-        (x) => x
+        (x:any) => x.toLowerCase()
       );
 
       
@@ -67,9 +67,9 @@ const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
         
         setDesignDetails({
             asian: '', 
-            artDeco: 'art-deco', 
+            artDeco: '', 
             colonial: '', 
-            contemporary: '', 
+            western: '', 
             traditional: '', 
             transitional: '',
         });
@@ -78,7 +78,7 @@ const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
          bridesRoom: '',
          celestialRoom: '',
          hallway: '',
-         stairWay: '',
+         forier: '',
         });
 
         
@@ -144,11 +144,11 @@ for (let i=0; i<inputs.length; i++)  {
                             <input
                                 className="m-1"
                                 type="checkBox"
-                                name="contemporary"
+                                name="western"
                                 id="designStyles"
                                 onChange={(e) => handleDesignInput(e)}
                             />
-                            <p className="m-1">Contemporary</p>
+                            <p className="m-1">Western</p>
                         </div>
                         <div className="d-flex m-0">
                             <input
@@ -218,11 +218,11 @@ for (let i=0; i<inputs.length; i++)  {
                                 <input
                                     className="m-1"
                                     type="checkBox"
-                                    name="stairWay"
+                                    name="forier"
                                     id="usePackages"
                                     onChange={(e) => handlePackagesInput(e)}
                                 />
-                                <p className="m-1">StairWay</p>
+                                <p className="m-1">Forier</p>
                             </div>
                         </div>
                     </div>

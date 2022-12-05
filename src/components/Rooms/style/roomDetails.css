@@ -646,7 +646,7 @@
   color: #949494;
 }
 .container-for-light-cards .single-room-container .lightImg {
-  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 3px 6px, rgba(0, 0, 0, 0.231372549) 0px 3px 6px;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
   height: 85px;
   border-radius: 0.2rem;
 }

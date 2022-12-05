@@ -7,7 +7,6 @@ import { useAppSelector } from '../../../../app/hooks';
 const Rooms: FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
-
     const handleAddRoom = (e: any) => {
         e.preventDefault();
         setOpenModal(true);

@@ -20,6 +20,7 @@ export type ProjectType = {
     rfp?: string;
     rooms?: string[];
 };
+import { setSpecFile } from '../../redux/actions/lightActions';
 
 const Projects: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');
@@ -28,10 +29,10 @@ const Projects: FC = () => {
     const [sortDirection, setSortDirection] = useState<number>(0);
     const [currentSort, setCurrentSort] = useState<string>('');
     const dispatch = useAppDispatch();
-    const { userProjects, projectId, project } = useAppSelector(
+    const { userProjects, projectId, project, yourProjects } = useAppSelector(
         ({ project }) => project
     );
-    const [yourProject, setYourProject] = useState(false);
+   
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
@@ -39,6 +40,7 @@ const Projects: FC = () => {
         storedProjId
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
+        await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
     };
 
     useEffect(() => {
@@ -57,11 +59,12 @@ const Projects: FC = () => {
 
     return (
         <>
-        {yourProject === true ? 
+        {yourProjects === true ? 
             (
                 <>
             <div className="projects-top-half">
-                <ProjectSummary details={project} setYourProject={setYourProject} />
+                <ProjectSummary details={project}  />
+                <ProjectAttachments details={project} />
                 {/* <RoomDetails /> */}
                 <ProjectAttachments details={project}/>
             </div>
@@ -83,8 +86,8 @@ const Projects: FC = () => {
                 setSortDirection={setSortDirection}
                 currentSort={currentSort}
                 setCurrentSort={setCurrentSort}
-                yourProject={yourProject}
-                 setYourProject={setYourProject}
+                yourProject={yourProjects}
+                 
                  />
                  </div>
                </div>

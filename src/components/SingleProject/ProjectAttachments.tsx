@@ -2,6 +2,7 @@ import React, { FC, useState, } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import {ModalAttachments} from './ModalAttachments.tsx';
+import { useAppSelector } from '../../app/hooks';
 
 
 interface ProjectSummaryProps {
@@ -10,21 +11,22 @@ interface ProjectSummaryProps {
 
 const ProjectAttachments:  FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
+    const {attachments} = useAppSelector(({project})=> project)
 
     
-    const userAttachments = details?.rfp.length > 0 ?  details?.rfp.map((file:any, index:any) => {
+    const userAttachments =  attachments ?  attachments.map((file:any, index:any) => {
         return (
             <tbody key={index}>
                 <tr className="attachments-dynamic-row">
-                    <td className="file-file-name">{file.fileName}</td>
-                    <td className="file-file-size">{file.fileSize}</td>
+                    <td className="file-file-name">{file}</td>
+                    <td className="file-file-size"></td>
                     <td className="file-file-remove">
                         <FaTrashAlt />
                     </td>
                 </tr>
             </tbody>
         );
-    }) : '';
+    }) : [];
     return (
         <div className="project-attachments-container">
             <div className="project-attachments-top-bar">

@@ -56,6 +56,33 @@
   cursor: pointer;
 }
 
+.all-project-button {
+  transition: all 0.2s ease-in-out;
+  background-color: #c09d5b;
+  border: 1px #c09d5b solid;
+  padding: 12px 8px 12px 8px;
+  color: white;
+}
+
+.your-projects-button {
+  transition: all 0.2s ease-in-out;
+  background-color: #c09d5b;
+  border: 1px #c09d5b solid;
+  padding: 12px 8px 12px 8px;
+  color: white;
+}
+
+.type-project-btn {
+  transition: all 0.2s ease-in-out;
+  border: none;
+  background-color: #ecebe7;
+}
+.type-project-btn:hover {
+  transition: all 0.2s ease-in-out;
+  background-color: #949494;
+  color: white;
+}
+
 .projects-top-half {
   display: flex;
 }

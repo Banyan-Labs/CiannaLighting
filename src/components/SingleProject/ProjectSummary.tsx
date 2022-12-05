@@ -3,24 +3,23 @@ import ReactTooltip from 'react-tooltip';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive} from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import {
     getProject,
     getAllProjects,
     getUserProjects,
+    setTheYourProjects
 } from '../../redux/actions/projectActions';
-import { useAppDispatch} from '../../app/hooks';
+import { useAppDispatch, useAppSelector} from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 interface ProjectSummaryProps {
     details: any;
-    setYourProject: any;
 }
 
-const ProjectSummary: FC<ProjectSummaryProps> = ({ details, setYourProject }) => {
+const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const dispatch = useAppDispatch();
@@ -71,7 +70,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details, setYourProject }) =>
         <div className="project-summary-container">
             <div className="projects-summary">
                 <div className="back-to-projects">
-                    <button className='back-to-all-projects' onClick={() => setYourProject(false)}>
+                    <button className='back-to-all-projects' onClick={() => dispatch(setTheYourProjects(false))}>
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Projects
                     </button>

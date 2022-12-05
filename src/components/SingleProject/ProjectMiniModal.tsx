@@ -7,6 +7,7 @@ import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
 import {
     getProject,
+    setTheYourProjects
 } from '../../redux/actions/projectActions';
 
 interface projectProps {
@@ -17,7 +18,6 @@ interface projectProps {
     setTypeOfProject: any;
     typeOfProject: any;
     yourProject: any;
-    setYourProject: any;
 }
 
 const ProjectMiniModal: FC<projectProps> = ({
@@ -26,16 +26,13 @@ const ProjectMiniModal: FC<projectProps> = ({
     project,
     setDeleteProject,
     typeOfProject,
-    setYourProject,
 }) => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
-    const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
-    const color = projectColors[project.length % projectColors.length];
 
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
-            dataHolding.getData(project, color);
+            dataHolding.getData(project, "#d3b9b8");
         };
 
     const goToProject = () =>
@@ -45,7 +42,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div 
             onClick={async() => {
                await changeProject(project._id);
-                setYourProject(true);
+                await dispatch(setTheYourProjects(true));
             }}
             className="project-mini-modal-link"
         > 
@@ -66,7 +63,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div 
             onClick={project?.clientId === user?._id ? async() => {
                 await changeProject(project._id);
-                 setYourProject(true);
+                await dispatch(setTheYourProjects(true));
              } : () => {
                 setOpenModal(true);
                 setProjectModal(project);
