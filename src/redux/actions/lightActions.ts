@@ -65,7 +65,8 @@ export const setSpecFile =
         }
     };
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
-    const axiosPriv = await axiosPrivate();    
+    const axiosPriv = await axiosPrivate(); 
+    console.log("Payload DELETE: ", payload)   
     try {
         const response = await axiosPriv.post('/delete-attachments', payload); 
         console.log("resp DELETE at: ", response)       
