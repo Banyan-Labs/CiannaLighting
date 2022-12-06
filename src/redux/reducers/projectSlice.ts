@@ -84,7 +84,7 @@ const initialState: ProjectStateType = {
     setAllCatalog: [],
     attachments: [],
     catalogConnectLight: null,
-    yourProjects: true
+    yourProjects: false
 };
 
 export const projectSlice = createSlice({

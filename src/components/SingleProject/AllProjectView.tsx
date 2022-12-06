@@ -3,7 +3,7 @@ import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getAllProjects } from '../../redux/actions/projectActions';
+import { getAllProjects, getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
@@ -51,6 +51,8 @@ const AllProjectView: FC<Props> = ({
     const projectsPerPage = 12;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
+
+
     useEffect(() => {
         dispatch(getAllProjects());
     }, []);
@@ -164,6 +166,7 @@ const AllProjectView: FC<Props> = ({
     const reduxData = filterQueryProjects.length
         ? filterQueryProjects.slice()
         : filterThis.slice();
+        console.log(reduxData)
     const activeProjects = (parsedData.length ? parsedData : reduxData).filter(
         (project) => !project.archived
     );
@@ -177,7 +180,7 @@ const AllProjectView: FC<Props> = ({
         ? activeProjects.reverse().slice(firstIndex, lastIndex)
         : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const lastPage = Math.ceil(reduxData.length / projectsPerPage);
+    const lastPage = Math.ceil(typeOfProject === 'yourProjects' ? userProjects.length : allProjects.length / projectsPerPage);
     const sortDisplay = (field: string) => {
         const directionCall: any = {
             0: '',
@@ -242,12 +245,20 @@ const AllProjectView: FC<Props> = ({
                 <div className="form-bar-button-container">
                     <div className="list__group">
                         <input
-                            className="form__field"
+                            className="form__field1"
                             type="text"
                             placeholder="Search"
-                            onChange={(e) => searchFilter(e, reduxData)}
+                            onChange={(e) => {
+                                if(typeOfProject === 'yourProjects') {
+                                    searchFilter(e, userProjects)
+                                } if (typeOfProject === 'allProjects'){
+                                   searchFilter(e, allProjects) 
+                                }
+                                else searchFilter(e, reduxData)
+                            }
+                            }
                         />
-                        <label htmlFor="description" className="form__label">
+                        <label htmlFor="description" className="form__label1">
                             Search
                         </label>
                         
@@ -258,10 +269,16 @@ const AllProjectView: FC<Props> = ({
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                     <div className='button-filter-container d-flex justify-content-end'>
-                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={() => setTypeOfProject('allProjects')}>
+                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={async() => {
+                            await setParsedData([])
+                            await setTypeOfProject('allProjects')}
+                        } >
                            All Projects
                         </button>
-                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={() => setTypeOfProject('yourProjects')}>
+                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={async() => {
+                            await setParsedData([])
+                            await setTypeOfProject('yourProjects')
+                        } }>
                             Your Projects
                         </button>
                         </div>
@@ -304,7 +321,7 @@ const AllProjectView: FC<Props> = ({
                                     <td className="projects-table-dots"> </td>
                                 </tr>
                             </thead>
-                            {allProjectsTableDisplay}
+                            { allProjectsTableDisplay}
                         </table>
                     </div>
 
