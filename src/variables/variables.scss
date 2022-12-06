@@ -16,6 +16,8 @@
 }
 
 $font-family: 'sweet-heavy';
+$font-family-medium: 'sweet-medium';
+$font-family-thin: 'sweet-thin';
 
 //Dark Background Colors
 $primary-bg-dark: #ecebe7;
@@ -25,6 +27,7 @@ $primary-bg-dark-link: #949494;
 $primary-bg-dark-link-hover: #3f3c39;
 $primary-bg-dark-link-active: #3f3c39;
 $primary-bg-dark-button-text: #3f3c39;
+$primary-bg-light-grey: #9b9b9b;
 
 //White Background Colors
 $primary-bg-white: #f7f6f4;
@@ -33,6 +36,14 @@ $primary-bg-white-sub-text: #949494;
 
 //Accent Colors
 $accent-gold: #c09d5b;
+$accent-pink-shade-granite: #a3837a;
+$accent-grayish-red: #d3b9b8;
+$accent-empress: #9b8384;
+$accent-grayish-orange: #d1beae;
+$accent-light-grayish-orange: #e5dcd1;
+$accent-dark-orange: #3f3c39;
+$accent-dark-gray: #949494;
+$accent-light-grayish-yellow: #ecebe7;
 
 //Line details and horizontal line colors
 $line-height: 0.5px;
@@ -64,6 +75,7 @@ $box-shadow: #3f3c3929 0px 3px 6px, #3f3c393b 0px 3px 6px;
     padding: 15px 10px;
     width: 95%;
     margin-bottom: 25px;
+    color: $primary-bg-light-grey;
 }
 
 @mixin link-bg-white {
