@@ -46,62 +46,9 @@ const Proposal: FC = () => {
         setDescription('');
         setDuration('');
     }
-    console.log('quillValue: ', value);
-    const modules = {
-        toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [
-                { list: 'ordered' },
-                { list: 'bullet' },
-                { indent: '-1' },
-                { indent: '+1' },
-            ],
-            ['link', 'image'],
-            ['clean'],
-        ],
-    };
-    /**
-     * <tbody>
-                    {filteredUsers.map((user) => (
-                        <tr key={user._id} className="user-table-row">
-                            <th>{user.name}</th>
-                            <td>{user.email}</td>
-                            <td>
-                                {Object.entries(ROLES).map((role) => {
-                                    if (role[1] === user.role) {
-                                        if (role[0] === 'Cmd') {
-                                            return 'Admin';
-                                        } else if (role[0] === 'Int') {
-                                            return 'Employee';
-                                        } else {
-                                            return role[0];
-                                        }
-                                    }
-                                })}
-                            </td>
-                            <td className="button-td">
-                                <button className="user-options-button">
-                                    <BsThreeDots />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-     */
     console.log('Day: ', startDate);
     return (
         <div className="proposal-container">
-            <div> 
-                <h2 className='editor-label'> Request Header</h2>
-            <ReactQuill
-                theme="snow"
-                value={header}
-                onChange={setHeader}
-                modules={modules}
-            />
-            <div className="ql-editor" dangerouslySetInnerHTML={{__html: header}}></div>
-            </div>
             <div>
             <h2 className='editor-label'>Schedule Input</h2>
             <div className="schedule-input">
@@ -193,16 +140,7 @@ const Proposal: FC = () => {
                 </tbody>
             </table>
             </div>
-            <div>
-                <h2 className='editor-label'>Request Body</h2>
-            <ReactQuill
-                theme="snow"
-                value={value}
-                onChange={setValue}
-                modules={modules}
-            />
-            <div className="ql-editor" dangerouslySetInnerHTML={{__html: value}}></div>
-            </div>
+
             <div>
             <h2 className='editor-label'>Attachments</h2>
             </div>
