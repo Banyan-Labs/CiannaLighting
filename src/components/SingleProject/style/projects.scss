@@ -4,6 +4,8 @@
 
 .projects-top-half {
     display: flex;
+    flex-direction: row;
+    height: 450px;
 }
 //   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-summary-container {
@@ -70,7 +72,7 @@
 }
 
 .project-summary-date {
-    font-size: 14px;
+    font-size: $sub-text-fs;
     margin-top: -15px;
     color: #808080;
 }
@@ -131,7 +133,6 @@
     background-color: $primary-bg-dark;
     width: 100%;
     color: $primary-bg-dark-link;
-    height: 35vh;
 }
 .project-attachments-top-bar {
     margin-left: 15px;
@@ -141,7 +142,6 @@
 
 .project-attachment {
     padding-right: 20px;
-    border-right: 0.1px solid rgb(48, 47, 47);
     color: $primary-bg-dark-link;
 }
 
@@ -169,34 +169,46 @@
     border-bottom: 1px solid rgb(39, 39, 40);
     margin-right: 10%;
     color: $primary-bg-dark-text;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 200px;
 }
 
 .attachments-file-name {
     width: 400px;
-    font-size: 10px;
+    font-size: $small-text;
     text-align: left;
+    border-bottom: 1px solid rgb(39, 39, 40);
 }
 
 .attachments-file-size {
     width: 100px;
-    font-size: 10px;
+    font-size: $small-text;
     text-align: left;
 }
 
 .attachments-table {
-    border-top: 1px solid rgb(39, 39, 40);
     border-bottom: 1px solid rgb(39, 39, 40);
     width: 100%;
+    thead {
+        top: 0;
+        z-index: 2;
+        position: sticky;
+        background: rgb(236, 235, 231);
+        border-bottom: 2px solid $primary-bg-dark-title;
+    }
 }
 
 .attachments-dynamic-row:hover {
-    background-color: rgb(38, 39, 39);
+    background-color: $primary-bg-dark-title;
+    transition: 200ms ease;
 }
 
 .file-file-name {
-    font-size: 14px;
+    font-size: $sub-text-fs;
     border-top: 1px solid rgb(39, 39, 40);
     font-weight: 200;
+    padding: 15px;
 }
 
 .file-file-size {
