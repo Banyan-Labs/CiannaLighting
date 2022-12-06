@@ -32,7 +32,7 @@ const Projects: FC = () => {
     const { userProjects, projectId, project, yourProjects } = useAppSelector(
         ({ project }) => project
     );
-   
+
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
@@ -59,38 +59,33 @@ const Projects: FC = () => {
 
     return (
         <>
-        {yourProjects === true ? 
-            (
+            {yourProjects === true ? (
                 <>
-            <div className="projects-top-half">
-                <ProjectSummary details={project}  />
-                <ProjectAttachments details={project} />
-                {/* <RoomDetails /> */}
-                <ProjectAttachments details={project}/>
-            </div>
-            <div>
-                <ProjectsNav />
-            </div>
-           </>
-            ) :
-                (
-               <div className='projects-bottom-half'> 
-               <div className='all-project-view-main-container'>
-                <AllProjectView
-                renderedPage={renderedPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                sortedData={sortedData}
-                setSortedData={setSortedData}
-                sortDirection={sortDirection}
-                setSortDirection={setSortDirection}
-                currentSort={currentSort}
-                setCurrentSort={setCurrentSort}
-                yourProject={yourProjects}
-                 
-                 />
-                 </div>
-               </div>
+                    <div className="projects-top-half">
+                        <ProjectSummary details={project} />
+                        <ProjectAttachments details={project} />
+                    </div>
+                    <div>
+                        <ProjectsNav />
+                    </div>
+                </>
+            ) : (
+                <div className="projects-bottom-half">
+                    <div className="all-project-view-main-container">
+                        <AllProjectView
+                            renderedPage={renderedPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            sortedData={sortedData}
+                            setSortedData={setSortedData}
+                            sortDirection={sortDirection}
+                            setSortDirection={setSortDirection}
+                            currentSort={currentSort}
+                            setCurrentSort={setCurrentSort}
+                            yourProject={yourProjects}
+                        />
+                    </div>
+                </div>
             )}
         </>
     );

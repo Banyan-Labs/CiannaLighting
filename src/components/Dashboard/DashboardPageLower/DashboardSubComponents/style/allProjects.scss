@@ -130,12 +130,12 @@
     justify-content: center;
     padding: 6px;
     font-size: 18px;
-    color: #9b9b9b;
+    color: $primary-bg-light-grey;
 }
 
 .bs-three-dots-container:hover {
     border-radius: 50%;
-    background: #f2f2f2;
+    background: $primary-bg-lt-grey;
 }
 
 .align-modal-dots {
@@ -146,9 +146,9 @@
 .project-mini-modal {
     position: absolute;
     z-index: 1;
-    background: #292929;
+    background: $primary-bg-dark-title;
     right: 60px;
-    color: rgb(194, 194, 194);
+    color: $primary-bg-white;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
@@ -166,16 +166,16 @@
     p {
         padding-left: 10px;
         margin: 0;
-        font-size: 14px;
-        color: #fff;
+        font-size: $sub-text-fs;
+        color: $primary-bg-white;
     }
     span {
         padding-left: 10px;
     }
     .doc-type {
-        border-top: solid 1px #4a4a4a;
+        border-top: solid 1px $primary-bg-dark-text;
         font-weight: 300;
-        font-size: 13px;
+        font-size: $med-text;
         opacity: 0.8;
     }
 }
@@ -198,6 +198,7 @@ table {
     width: fit-content;
     position: absolute;
     margin-top: 20px;
+    color: $primary-bg-dark-title;
 }
 
 // ~~~~~~~~~~~~~~~~~`PAGINATION LINKS~~~~~~~~~~~~~~
@@ -209,7 +210,7 @@ table {
 
 .page-link {
     list-style: none;
-    color: black;
+    color: $primary-bg-dark-title;
     float: left;
     padding: 4px;
     text-decoration: none;
@@ -224,7 +225,7 @@ table {
 
 .skip-link {
     list-style: none;
-    color: black;
+    color: $primary-bg-dark-title;
     float: left;
     padding: 4px;
     width: fit-content;
@@ -235,21 +236,17 @@ table {
 }
 
 .pages-list {
-    font-size: 14px;
+    font-size: $sub-text-fs;
     width: 100%;
 }
 
 .page-link:hover {
-    background-color: rgba(235, 235, 235, 0.548);
+    background-color: $primary-bg-lt-grey;
 }
 
 .arrow-pagination {
     position: relative;
     top: 2px;
-
-    .arrow-pagination:hover {
-        background-color: rgba(218, 218, 218, 0.548);
-    }
 }
 
 #arrow-pag-before {

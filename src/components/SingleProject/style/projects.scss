@@ -31,16 +31,16 @@
         z-index: 2;
     }
 
-    .back-to-all-projects{
+    .back-to-all-projects {
         transition: all 0.2s ease-in-out;
-    border: none;
-    cursor: pointer;
-    background-color: $primary-bg-dark;
+        border: none;
+        cursor: pointer;
+        background-color: $primary-bg-dark;
 
-    &:hover{
-        transition: all 0.2s ease-in-out;
-        color: $primary-bg-dark-text;
-    }
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-text;
+        }
     }
 }
 .back-to-projects:hover {
@@ -94,7 +94,7 @@
 .clone-icon {
     margin-left: 15px;
     font-size: 1.2em;
-    color: $primary-bg-dark-text;;
+    color: $primary-bg-dark-text;
 }
 .clone-icon:hover {
     cursor: pointer;
@@ -117,15 +117,13 @@
 }
 
 .project-summary-text-container {
-    margin-left: 4.5em;
-    font-size: 14px;
+    margin: 0 2em;
+    font-size: $sub-text-fs;
 }
 
 .project-summary-description-text {
-    margin-left: 80px;
-    margin-right: 20px;
     font-weight: 100;
-    font-size: 12px;
+    font-size: $small-text;
 }
 // Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-attachments-container {

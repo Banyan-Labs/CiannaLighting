@@ -7,7 +7,7 @@ import {
     createProjectAction,
     getProject,
     getUserProjects,
-    setTheYourProjects
+    setTheYourProjects,
 } from '../../redux/actions/projectActions';
 import './style/modal.scss';
 
@@ -123,7 +123,7 @@ const Modal: FC<Props> = (props) => {
                     </button>
                 </div>
                 <div className="new-project-modal-title">
-                    <h3 className="modal-title">
+                    <h3 className="modal-title-new-project">
                         {props.editProject === true
                             ? `Edit ${project?.name}`
                             : 'New Project'}
