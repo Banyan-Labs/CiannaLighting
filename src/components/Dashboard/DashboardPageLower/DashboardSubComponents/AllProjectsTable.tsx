@@ -117,7 +117,7 @@ const AllProjects: FC<Props> = ({
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        console.log(checkSearchVal)
+        console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
