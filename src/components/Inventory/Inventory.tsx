@@ -242,8 +242,12 @@ const Inventory: FC = () => {
                 sconceExtension: '',
                 material: '',
                 socketQuantity: 0,
-                powerInWatts: 0,
                 estimatedWeight: 0,
+                lampType: '',
+                lampColor: '',
+                numberOfLamps: 0,
+                wattsPerLamp: 0,
+                powerInWatts: 0,
                 price: 0,
                 exteriorFinish: [], //[]
                 interiorFinish: [], //[]
@@ -519,6 +523,119 @@ const Inventory: FC = () => {
                 <div className="tab">
                     <input type="checkbox" id="chck3" />
                     <label className="tab-label" htmlFor="chck3">
+                        Lamp Options
+                    </label>
+                    <div className="tab-content">
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="lampType"
+                                placeholder="Lamp Type"
+                                type="text"
+                                name="lampType"
+                                value={itemDetails.lampType || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label className="form__label" htmlFor="lampType">
+                                Lamp Type
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="lampColor"
+                                placeholder="Lamp Color"
+                                type="text"
+                                name="lampColor"
+                                value={itemDetails.lampColor}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                className="form__label"
+                                htmlFor="lampColor"
+                            >
+                                Lamp Color
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="numberOfLamps"
+                                placeholder="Number of Lamps"
+                                type="number"
+                                name="numberOfLamps"
+                                value={itemDetails.numberOfLamps || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                className="form__label"
+                                htmlFor="numberOfLamps"
+                            >
+                                Number of Lamps
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="wattsPerLamp"
+                                placeholder="Watts per Lamp"
+                                type="number"
+                                name="wattsPerLamp"
+                                value={itemDetails.wattsPerLamp || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                className="form__label"
+                                htmlFor="wattsPerLamp"
+                            >
+                                Watts Per Lamp
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="powerInWatts"
+                                placeholder="Power in Watts"
+                                type="number"
+                                name="powerInWatts"
+                                value={itemDetails.powerInWatts || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                className="form__label"
+                                htmlFor="powerInWatts"
+                            >
+                                Power in Watts
+                            </label>
+                        </div>
+                        <div className="form__group field">
+                            <input
+                                className="form__field"
+                                id="lumens"
+                                placeholder="Lumens"
+                                type="number"
+                                name="lumens"
+                                value={itemDetails.lumens || ''}
+                                onChange={(e) => handleFormInput(e)}
+                                required
+                            />
+                            <label
+                                className="form__label"
+                                htmlFor="lumens"
+                            >
+                                Lumens
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div className="tab">
+                    <input type="checkbox" id="chck4" />
+                    <label className="tab-label" htmlFor="chck4">
                         Material Options
                     </label>
                     <div className="tab-content">
@@ -863,8 +980,8 @@ const Inventory: FC = () => {
                     </div>
                 </div>
                 <div className="tab">
-                    <input type="checkbox" id="chck4" />
-                    <label className="tab-label" htmlFor="chck4">
+                    <input type="checkbox" id="chck5" />
+                    <label className="tab-label" htmlFor="chck5">
                         Other Options
                     </label>
                     <div className="tab-content">
@@ -884,24 +1001,6 @@ const Inventory: FC = () => {
                                 htmlFor="description"
                             >
                                 Price
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input
-                                className="form__field"
-                                id="powerInWatts"
-                                placeholder="Power in Watts"
-                                type="number"
-                                name="powerInWatts"
-                                value={itemDetails.powerInWatts || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="description"
-                            >
-                                Power in Watts
                             </label>
                         </div>
                         <div className="form__group field">
@@ -1125,8 +1224,8 @@ const Inventory: FC = () => {
                     </div>
                 </div>
                 <div className="tab">
-                    <input type="checkbox" id="chck5" />
-                    <label className="tab-label" htmlFor="chck5">
+                    <input type="checkbox" id="chck6" />
+                    <label className="tab-label" htmlFor="chck6">
                         Design Styles & Use Packages
                     </label>
                     <div className="tab-content">
@@ -1213,8 +1312,8 @@ const Inventory: FC = () => {
                     </div>
                 </div>
                 <div className="tab">
-                    <input type="checkbox" id="chck6" />
-                    <label className="tab-label" htmlFor="chck6">
+                    <input type="checkbox" id="chck7" />
+                    <label className="tab-label" htmlFor="chck7">
                         Images & Attachments
                     </label>
                     <div className="tab-content">
@@ -1365,8 +1464,8 @@ const Inventory: FC = () => {
                     </div>
                 </div>
                 <div className="tab">
-                    <input type="checkbox" id="chck7" />
-                    <label className="tab-label" htmlFor="chck7">
+                    <input type="checkbox" id="chck8" />
+                    <label className="tab-label" htmlFor="chck8">
                         Admin Options
                     </label>
                     <div className="tab-content">
