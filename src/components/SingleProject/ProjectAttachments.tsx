@@ -2,7 +2,9 @@ import React, { FC, useState } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import { ModalAttachments } from './ModalAttachments.tsx';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { deleteSpecFile } from '../../redux/actions/lightActions';
+import { LightType } from '../../redux/reducers/projectSlice';
 
 interface ProjectSummaryProps {
     details: any;
@@ -10,7 +12,18 @@ interface ProjectSummaryProps {
 
 const ProjectAttachments: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
-    const { attachments } = useAppSelector(({ project }) => project);
+
+    const { project, attachments } = useAppSelector(({ project }) => project);
+
+    const dispatch = useAppDispatch();
+
+    const deleteAttachments = async (attachment: string) => {
+        if (project) {
+            await dispatch(
+                deleteSpecFile({ projId: project._id, item: attachment })
+            );
+        }
+    };
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
@@ -19,9 +32,10 @@ const ProjectAttachments: FC<ProjectSummaryProps> = ({ details }) => {
                   <tbody key={index}>
                       <tr className="attachments-dynamic-row">
                           <td className="file-file-name">{fileName}</td>
-                          <td className="file-file-size"></td>
                           <td className="file-file-remove">
-                              <FaTrashAlt />
+                              <FaTrashAlt
+                                  onClick={() => deleteAttachments(file)}
+                              />
                           </td>
                       </tr>
                   </tbody>
@@ -38,8 +52,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = ({ details }) => {
                     <thead>
                         <tr>
                             <th className="attachments-file-name">File name</th>
-                            <th className="attachments-file-size">File size</th>
-                            <th></th>
+                            <th className="attachments-file-remove">Remove</th>
                         </tr>
                     </thead>
                     {userAttachments}

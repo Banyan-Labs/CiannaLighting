@@ -164,27 +164,26 @@
 }
 
 .project-attachments-table-container {
-    height: 65%;
     margin-left: 10%;
     border-bottom: 1px solid rgb(39, 39, 40);
     margin-right: 10%;
-    color: $primary-bg-dark-text;
+    color: $primary-bg-dark-title;
     overflow: hidden;
     overflow-y: scroll;
-    height: 200px;
+    max-height: 200px;
 }
 
 .attachments-file-name {
-    width: 400px;
-    font-size: $small-text;
+    width: 80%;
+    font-size: $med-text;
     text-align: left;
     border-bottom: 1px solid rgb(39, 39, 40);
 }
 
-.attachments-file-size {
-    width: 100px;
-    font-size: $small-text;
-    text-align: left;
+.attachments-file-remove {
+    width: 20%;
+    font-size: $med-text;
+    text-align: center;
 }
 
 .attachments-table {
@@ -200,7 +199,6 @@
 }
 
 .attachments-dynamic-row:hover {
-    background-color: $primary-bg-dark-title;
     transition: 200ms ease;
 }
 
@@ -209,17 +207,11 @@
     border-top: 1px solid rgb(39, 39, 40);
     font-weight: 200;
     padding: 15px;
-}
-
-.file-file-size {
-    font-size: 12px;
-    margin-right: 15px;
-    border-top: 1px solid rgb(39, 39, 40);
-    font-weight: 200;
+    font-size: $small-text;
 }
 
 .file-file-remove {
-    font-size: 12px;
+    font-size: $small-text;
     border-top: 1px solid rgb(39, 39, 40);
     text-align: center;
 }
@@ -232,7 +224,7 @@
 .project-attachments-view-all {
     float: right;
     margin-right: 10%;
-    font-size: 12px;
+    font-size: $small-text;
 }
 
 .project-attachments-view-all:hover {
