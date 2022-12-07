@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
@@ -6,6 +7,7 @@ import { getAllProjects, getFilteredProjects } from '../../redux/actions/project
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 
@@ -24,6 +26,8 @@ type Props = {
 
 const AllProjectView: FC<Props> = ({
     renderedPage,
+    currentPage,
+    setCurrentPage,
     sortDirection,
     currentSort,
     sortedData,
@@ -44,13 +48,13 @@ const AllProjectView: FC<Props> = ({
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
+    const projectsPerPage = 11;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-
     const [inputValue, setInputValue] = useState("");
 
     // Input Field handler
-    const handleUserInput = (e: any) => {
+    const handleUserInput = (e:any) => {
       setInputValue(e.currentTarget.value);
     };
   
@@ -58,6 +62,7 @@ const AllProjectView: FC<Props> = ({
     const resetInputField = () => {
       setInputValue("");
     };
+
 
     useEffect(() => {
         dispatch(getAllProjects());
@@ -122,6 +127,8 @@ const AllProjectView: FC<Props> = ({
         setCurrentSort(field);
     };
 
+    const lastIndex = currentPage * projectsPerPage;
+    const firstIndex = lastIndex - projectsPerPage;
 
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
@@ -178,10 +185,12 @@ const AllProjectView: FC<Props> = ({
     ).filter((project) => project.archived == true);
 
     const filteredProjects = sortedData.length
-        ? sortedData
+        ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-        ? activeProjects.reverse()
-        : archivedProjects.reverse()
+        ? activeProjects.reverse().slice(firstIndex, lastIndex)
+        : archivedProjects.reverse().slice(firstIndex, lastIndex);
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    const lastPage = Math.ceil(typeOfProject === 'yourProjects' ? userProjects.length : allProjects.length / projectsPerPage);
     const sortDisplay = (field: string) => {
         const directionCall: any = {
             0: '',
@@ -280,7 +289,7 @@ const AllProjectView: FC<Props> = ({
                            All Projects
                         </button>
                         <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={async() => {
-                            await resetInputField()
+                           await resetInputField()
                             await setParsedData([])
                             await setTypeOfProject('yourProjects')
                         } }>
@@ -328,6 +337,80 @@ const AllProjectView: FC<Props> = ({
                             </thead>
                             { allProjectsTableDisplay}
                         </table>
+                    </div>
+
+                    <div className="pages-list">
+                        <nav>
+                            {renderedPage == 'All Projects' ? (
+                                <div className="table-showing">
+                                    Showing{' '}
+                                    {currentPage * projectsPerPage -
+                                        (projectsPerPage - 1)}
+                                    -
+                                    {currentPage * projectsPerPage >
+                                    reduxData.length - archivedProjects.length
+                                        ? reduxData.length -
+                                          archivedProjects.length
+                                        : currentPage * projectsPerPage}{' '}
+                                    of{' '}
+                                    {(parsedData.length
+                                        ? parsedData.length
+                                        : reduxData.length) -
+                                        archivedProjects.length}
+                                </div>
+                            ) : (
+                                <div className="table-showing">
+                                    Showing{' '}
+                                    {currentPage * projectsPerPage -
+                                        (projectsPerPage - 1)}
+                                    -
+                                    {currentPage * projectsPerPage >
+                                    archivedProjects.length
+                                        ? archivedProjects.length
+                                        : currentPage * projectsPerPage}{' '}
+                                    of {archivedProjects.length}
+                                </div>
+                            )}
+
+                            <ul className="pagination">
+                                {currentPage > 1 && (
+                                    <li
+                                        onClick={() =>
+                                            setCurrentPage(currentPage - 1)
+                                        }
+                                        className="page-link"
+                                    >
+                                        <MdNavigateBefore
+                                            className="arrow-pagination"
+                                            id="arrow-pag-before"
+                                        />
+                                    </li>
+                                )}
+                                <Pagination
+                                    totalProjects={
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length - 1
+                                            : archivedProjects.length - 1
+                                    }
+                                    projectsPerPage={projectsPerPage}
+                                    currentPage={currentPage}
+                                    paginate={(page: number) => paginate(page)}
+                                />
+                                {currentPage !== lastPage - 1 && (
+                                    <li
+                                        onClick={() => {
+                                            setCurrentPage(currentPage + 1);
+                                        }}
+                                        className="page-link"
+                                    >
+                                        <MdNavigateNext
+                                            className="arrow-pagination"
+                                            id="arrow-pag-next"
+                                        />
+                                    </li>
+                                )}
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
