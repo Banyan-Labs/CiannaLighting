@@ -21,7 +21,7 @@ type Props = {
     setSortedData: React.Dispatch<React.SetStateAction<ProjectType[]>>;
     setSortDirection: React.Dispatch<React.SetStateAction<number>>;
     setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
-    yourProject: any,
+    yourProject: any;
 };
 
 const AllProjectView: FC<Props> = ({
@@ -44,7 +44,8 @@ const AllProjectView: FC<Props> = ({
         ({ project }) => project
     );
     const [typeOfProject, setTypeOfProject] = useState('yourProjects');
-    const filterThis = typeOfProject === 'yourProjects' ? userProjects : allProjects;
+    const filterThis =
+        typeOfProject === 'yourProjects' ? userProjects : allProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
@@ -120,7 +121,7 @@ const AllProjectView: FC<Props> = ({
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        console.log(checkSearchVal)
+        console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -239,7 +240,7 @@ const AllProjectView: FC<Props> = ({
     return (
         <div className="all-projects-container">
             <div>
-                <div className="form-bar-button-container">
+                <div className="form-bar-button-container projects__bar">
                     <div className="list__group">
                         <input
                             className="form__field"
@@ -250,26 +251,39 @@ const AllProjectView: FC<Props> = ({
                         <label htmlFor="description" className="form__label">
                             Search
                         </label>
-                        
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={() => setOpenModal(true)}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
-                    <div className='button-filter-container d-flex justify-content-end'>
-                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={() => setTypeOfProject('allProjects')}>
-                           All Projects
+                    <div className="button-filter-container d-flex justify-content-end">
+                        <button
+                            className={
+                                typeOfProject === 'allProjects'
+                                    ? 'all-project-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={() => setTypeOfProject('allProjects')}
+                        >
+                            All Projects
                         </button>
-                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={() => setTypeOfProject('yourProjects')}>
+                        <button
+                            className={
+                                typeOfProject === 'yourProjects'
+                                    ? 'your-projects-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={() => setTypeOfProject('yourProjects')}
+                        >
                             Your Projects
                         </button>
-                        </div>
+                    </div>
                 </div>
                 <div>
-                    <div className="dashboard-all-projects">
-                        <table className="dashboard-all-projects-table">
-                            <thead className="table-headers">
+                    <div className="all__projects">
+                        <table className="dashboard-all-projects-table projects__table">
+                            <thead className="table-headers projects-table">
                                 <tr className="rows">
                                     <td
                                         className="projects-table-name"
