@@ -63,9 +63,9 @@ export const setSpecFile =
         }
     };
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
-    const axiosPriv = await axiosPrivate();    
+    const axiosPriv = await axiosPrivate();
     try {
-        const response = await axiosPriv.post('/delete-attachments', payload);        
+        const response = await axiosPriv.post('/delete-attachments', payload);
         dispatch(setAttachments(response.data.projectAttach.pdf));
     } catch (error: any) {
         dispatch(setProjectError(error.response));
@@ -90,9 +90,12 @@ export const deleteLight =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            console.log("payloadDELETE:", payload)
-            const response = await axiosPriv.post('/delete-lightSelection', payload);
-            console.log("successDELETE: ",response)
+            console.log('payloadDELETE:', payload);
+            const response = await axiosPriv.post(
+                '/delete-lightSelection',
+                payload
+            );
+            console.log('successDELETE: ', response);
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -127,12 +130,15 @@ export const theEditLight =
         }
     };
 
-    export const filterCatalogItems =
+export const filterCatalogItems =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/public/get-catalog', payload);
+            const response = await axiosPriv.post(
+                '/public/get-catalog',
+                payload
+            );
             dispatch(setCatalogLights(response.data.items));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
