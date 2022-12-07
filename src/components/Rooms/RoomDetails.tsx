@@ -43,8 +43,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
         setOpenModal(true);
-
-        ////////
     };
     const deleteAttachments = async (lights: any) => {
         const runDispatch = lights.map(
@@ -70,6 +68,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         // console.log(response)
         setTheData(light, response);
     };
+
     const copyRoom = async (e: any) => {
         e.preventDefault();
         const axiosPriv = await axiosPrivate();
@@ -98,6 +97,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <img className="lightImg" src={Default} alt={light.name} />
                     <div className="d-flex row first-section-name">
                         <div>
+                            <h3>{light.item_ID}</h3>
                             <h4 className="m-0">{light.acrylicOptions}</h4>
                             <p className="m-0">LLC</p>
                         </div>
@@ -256,6 +256,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <h4 className="light-number">
                         Lights: <span>({roomLights?.length})</span>
                     </h4>
+
                     <h4
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -264,6 +265,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </h4>
                 </div>
                 <div className="room-description-light-divider"></div>
+
                 <div
                     className={
                         !isCollapsed
