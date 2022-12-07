@@ -333,9 +333,39 @@ const CatalogItem: FC<catalogPros> = ({
                                 </p>
                             </div>
                             <div className="d-flex spec-container justify-content-between p-0 m-0">
+                                <p className="p-0 m-0">Lamp Type</p>
+                                <p className="p-0 m-0 number-spec">
+                                    {catalogItem.lampType}
+                                </p>
+                            </div>
+                            <div className="d-flex spec-container justify-content-between p-0 m-0">
+                                <p className="p-0 m-0">Lamp Color</p>
+                                <p className="p-0 m-0 number-spec">
+                                    {catalogItem.lampColor}
+                                </p>
+                            </div>
+                            <div className="d-flex spec-container justify-content-between p-0 m-0">
+                                <p className="p-0 m-0">Number Of Lamps</p>
+                                <p className="p-0 m-0 number-spec">
+                                    {catalogItem.numberOfLamps}
+                                </p>
+                            </div>
+                            <div className="d-flex spec-container justify-content-between p-0 m-0">
+                                <p className="p-0 m-0">Watts Per Lamp</p>
+                                <p className="p-0 m-0 number-spec">
+                                    {catalogItem.wattsPerLamp}
+                                </p>
+                            </div>
+                            <div className="d-flex spec-container justify-content-between p-0 m-0">
                                 <p className="p-0 m-0">Power In Watts</p>
                                 <p className="p-0 m-0 number-spec">
                                     {catalogItem.powerInWatts}
+                                </p>
+                            </div>
+                            <div className="d-flex spec-container justify-content-between p-0 m-0">
+                                <p className="p-0 m-0">Lumens</p>
+                                <p className="p-0 m-0 number-spec">
+                                    {catalogItem.lumens}
                                 </p>
                             </div>
                             <div className="d-flex spec-container justify-content-between p-0 m-0">
@@ -347,7 +377,7 @@ const CatalogItem: FC<catalogPros> = ({
                             <div className="d-flex spec-container justify-content-between p-0 m-0">
                                 <p className="p-0 m-0">Price</p>
                                 <p className="p-0 m-0 number-spec">
-                                    {catalogItem.price}$
+                                    ${catalogItem.price}
                                 </p>
                             </div>
                             <div className="d-flex spec-container justify-content-between p-0 m-0">
