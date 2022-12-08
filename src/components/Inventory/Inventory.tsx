@@ -552,10 +552,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="lampColor"
-                            >
+                            <label className="form__label" htmlFor="lampColor">
                                 Lamp Color
                             </label>
                         </div>
@@ -624,10 +621,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="lumens"
-                            >
+                            <label className="form__label" htmlFor="lumens">
                                 Lumens
                             </label>
                         </div>
@@ -1441,7 +1435,7 @@ const Inventory: FC = () => {
                                 placeholder="Upload Drawing Files"
                                 type="file"
                                 multiple
-                                accept="image/png, image/jpeg, image/jpg"
+                                accept="application/pdf"
                                 name="drawingFiles"
                                 onChange={(e) => handleFileUpload(e)}
                             />
@@ -1451,10 +1445,9 @@ const Inventory: FC = () => {
                                 (url: any, index: number) => {
                                     console.log(url);
                                     return (
-                                        <img
+                                        <embed
                                             src={url}
                                             key={index}
-                                            alt=""
                                             className="imgAttachment"
                                         />
                                     );
