@@ -29,7 +29,7 @@ export const refreshToken =
                 withCredentials: true,
             });
             console.log('Respnse in RefreshToken: ', response);
-            dispatch(setAccessToken(response.data));
+            await dispatch(setAccessToken(response.data));
         } catch (error) {
             console.log('Error in refreshToken: ', error);
             throw error;

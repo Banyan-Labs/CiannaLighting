@@ -1,8 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useAppSelector } from '../../app/hooks';
-
-import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import './style/catalog.scss';
 
 import '../Dashboard/DashboardPageLower/style/dashboardNav.scss';
@@ -19,26 +16,18 @@ interface catalogPros {
 }
 
 const Cards: FC<catalogPros> = ({ 
-    catalogItem,
      setCatalogItem,
       catalogType,
-      currentPage,
-      setCurrentPage,
       setRenderPage, 
     renderPage
      }) => {
     const { setAllCatalog } = useAppSelector(
         ({ project }) => project
     );
-    const projectsPerPage = 4;
     const designsFound: any = [];
     const reduxData =  setAllCatalog?.slice();
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const lastPage = Math.ceil(reduxData.length / projectsPerPage);
-    const lastIndex = currentPage * projectsPerPage;
-    const firstIndex = lastIndex - projectsPerPage;
-    const sortedData = reduxData?.slice(firstIndex, lastIndex)
-    const useDesigns = sortedData?.map((design, index) => {
+    
+    const useDesigns = reduxData?.map((design, index) => {
 
         const allReceived = renderPage === 'designStyle' ? design?.designStyle.map((type: any) => {
             if (!designsFound.includes(type)) {
@@ -53,9 +42,6 @@ const Cards: FC<catalogPros> = ({
            if(renderPage === ''){
              return setRenderPage('')
            } else { allReceived }
-        
-            
-        
         
         return (
             <div className="filter-catalog-container" key={index}>
@@ -105,57 +91,7 @@ const Cards: FC<catalogPros> = ({
                             </div>
                             </div>
                         {useDesigns}
-                        <div className="pages-list">
-                        <nav className='page-list-catalog d-flex justify-content-between'>
-                            {sortedData ? (
-                                <div className="table-showing2">
-                                    Showing{' '}
-                                    {currentPage}
-                                    
-                                    {currentPage * projectsPerPage >
-                                    sortedData.length -  currentPage * projectsPerPage}{' '}
-                                    of{' '}
-                                    { lastPage }
-                                </div>
-                            ) : ''
-                            }
-
-                            <ul className="pagination">
-                                {currentPage > 1 && (
-                                    <li
-                                        onClick={() =>
-                                            setCurrentPage(currentPage - 1)
-                                        }
-                                        className="page-link"
-                                    >
-                                        <MdNavigateBefore
-                                            className="arrow-pagination"
-                                            id="arrow-pag-before"
-                                        />
-                                    </li>
-                                )}
-                                <Pagination
-                                    totalProjects={reduxData ? reduxData.length - 1 : 0}
-                                    projectsPerPage={projectsPerPage}
-                                    currentPage={currentPage}
-                                    paginate={(page: number) => paginate(page)}
-                                />
-                                {currentPage < lastPage  && (
-                                    <li
-                                        onClick={() => {
-                                            setCurrentPage(currentPage + 1);
-                                        }}
-                                        className="page-link"
-                                    >
-                                        <MdNavigateNext
-                                            className="arrow-pagination"
-                                            id="arrow-pag-next"
-                                        />
-                                    </li>
-                                )}
-                            </ul>
-                        </nav>
-                    </div>
+                       
                     </div>
                 </>
             ) : ''}

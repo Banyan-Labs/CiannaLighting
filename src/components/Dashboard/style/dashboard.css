@@ -61,7 +61,7 @@
   top: -50px;
   flex-basis: 100%;
   display: grid;
-  color: #fff;
+  color: #3f3c39;
   grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
   grid-template-rows: 20px 50px;
   grid-template-areas: "total_icon total_title total_title total_title . . . . ." "total_icon total_num . . . . . . ." ". new_icon new_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title" ". new_icon new_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num";
@@ -77,11 +77,11 @@
   color: #9b9b9b;
   position: relative;
   top: 5px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .overview-num-main {
-  font-weight: bolder;
+  font-family: "sweet-heavy";
   font-size: 20px;
 }
 
@@ -185,7 +185,7 @@
 }
 .dashboard-your-projects .your-projects-icons {
   margin-left: auto;
-  color: #3c3c3c;
+  color: #3f3c39;
   font-size: 20px;
   position: relative;
   top: 2px;
@@ -198,7 +198,7 @@
 }
 .dashboard-your-projects .your-projects-buttons:hover {
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.4039215686);
+  color: rgba(63, 60, 57, 0.219);
 }
 
 .overview-vertical-divider {

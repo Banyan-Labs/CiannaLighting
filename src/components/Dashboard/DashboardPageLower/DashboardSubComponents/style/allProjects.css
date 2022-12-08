@@ -225,6 +225,7 @@
   margin-right: 1%;
   margin-left: 1%;
   width: 97%;
+  border-bottom: 2px solid #3f3c39;
 }
 
 .dashboard-all-projects {
@@ -240,6 +241,10 @@
   margin-top: -15px;
 }
 
+.projects__bar {
+  margin: 1vh 0 3vh 0;
+}
+
 .dashboard-all-projects-submit:hover {
   cursor: pointer;
 }
@@ -252,13 +257,33 @@
 .table-headers {
   font-size: 16px;
   border-bottom: 2px solid #3f3c39;
+  height: 6.17vh;
+}
+
+.all__projects {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 65vh;
+}
+
+.projects__table thead {
+  top: 0;
+  z-index: 2;
+  position: -webkit-sticky;
+  position: sticky;
+  background: white;
+  border-bottom: 2px solid #3f3c39;
 }
 
 .projects-table-dynamic-row {
   border-bottom: 1px solid #949494;
   font-size: 14px;
   width: 100%;
-  height: 6vh;
+  height: 6.17vh;
+}
+
+.projects-table-dynamic-row:hover {
+  background: #949494;
 }
 
 .projects-table-dynamic-name {
@@ -305,7 +330,7 @@
   background-color: #a3837a;
 }
 .projects-table-dynamic-status .statusColorConstruction {
-  background-color: #d3b9b8;
+  background-color: #a3837a;
 }
 .projects-table-dynamic-status .statusColorCompleted {
   background-color: #9b8384;
@@ -317,14 +342,14 @@
   background-color: #e5dcd1;
 }
 .projects-table-dynamic-status .statusColorRFP {
-  background-color: #c09d5b;
+  background-color: #949494;
 }
 .projects-table-dynamic-status .statusColorInternalApproval {
   background-color: #3f3c39;
   color: #f7f6f4;
 }
 .projects-table-dynamic-status .statusColorAwarded {
-  background-color: #949494;
+  background-color: #c09d5b;
 }
 .projects-table-dynamic-status .statusColorCanceled {
   background-color: #ecebe7;
@@ -352,9 +377,9 @@
 .project-mini-modal {
   position: absolute;
   z-index: 1;
-  background: #292929;
+  background: #3f3c39;
   right: 60px;
-  color: rgb(194, 194, 194);
+  color: #f7f6f4;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -373,13 +398,13 @@
   padding-left: 10px;
   margin: 0;
   font-size: 14px;
-  color: #fff;
+  color: #f7f6f4;
 }
 .project-mini-modal span {
   padding-left: 10px;
 }
 .project-mini-modal .doc-type {
-  border-top: solid 1px #4a4a4a;
+  border-top: solid 1px #949494;
   font-weight: 300;
   font-size: 13px;
   opacity: 0.8;
@@ -393,10 +418,6 @@ table {
   border-collapse: collapse;
 }
 
-.rows {
-  border-bottom: 1px solid #292929;
-}
-
 .pagination {
   position: absolute;
   right: 0;
@@ -408,6 +429,7 @@ table {
   width: fit-content;
   position: absolute;
   margin-top: 20px;
+  color: #3f3c39;
 }
 
 .page-item {
@@ -418,7 +440,7 @@ table {
 
 .page-link {
   list-style: none;
-  color: black;
+  color: #3f3c39;
   float: left;
   padding: 4px;
   text-decoration: none;
@@ -433,7 +455,7 @@ table {
 
 .skip-link {
   list-style: none;
-  color: black;
+  color: #3f3c39;
   float: left;
   padding: 4px;
   width: -webkit-fit-content;
@@ -448,19 +470,15 @@ table {
 .pages-list {
   font-size: 14px;
   width: 100%;
-  border: 1px solid #3f3c39;
 }
 
 .page-link:hover {
-  background-color: rgba(235, 235, 235, 0.548);
+  background-color: #f2f2f2;
 }
 
 .arrow-pagination {
   position: relative;
   top: 2px;
-}
-.arrow-pagination .arrow-pagination:hover {
-  background-color: rgba(218, 218, 218, 0.548);
 }
 
 #arrow-pag-before {

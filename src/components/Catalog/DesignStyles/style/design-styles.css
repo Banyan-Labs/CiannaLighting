@@ -39,9 +39,12 @@
   font-weight: 100;
 }
 .catalog-design-styles-buttons .design-style-button:hover {
+  transition: 600ms ease;
   cursor: pointer;
   background-color: #c09d5b;
   font-weight: bold;
+  color: #f7f6f4;
+  border: 1px solid #3f3c39;
 }
 
 .catalog-design-styles-divider {

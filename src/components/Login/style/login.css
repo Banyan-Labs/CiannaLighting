@@ -59,6 +59,7 @@
   padding: 15px 10px;
   width: 95%;
   margin-bottom: 25px;
+  color: #9b9b9b;
 }
 .login-form-container input::-moz-placeholder {
   color: #949494;
@@ -89,6 +90,7 @@
   padding: 15px 50px;
   border: none;
   border-radius: 5px;
+  transition: 600ms ease;
   font-weight: bold;
 }
 .login-form-container div button:hover {
