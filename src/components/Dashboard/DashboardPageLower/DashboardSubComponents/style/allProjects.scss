@@ -21,6 +21,10 @@
     margin-top: -15px;
 }
 
+.projects__bar {
+    margin: 1vh 0 3vh 0;
+}
+
 .dashboard-all-projects-submit:hover {
     cursor: pointer;
 }
@@ -37,11 +41,31 @@
     height: 6.17vh;
 }
 
+.all__projects {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 65vh;
+}
+
+.projects__table {
+    thead {
+        top: 0;
+        z-index: 2;
+        position: sticky;
+        background: white;
+        border-bottom: 2px solid $primary-bg-dark-title;
+    }
+}
+
 .projects-table-dynamic-row {
     border-bottom: 1px solid $line-gray;
     font-size: $table-header-fs;
     width: 100%;
     height: 6.17vh;
+}
+
+.projects-table-dynamic-row:hover {
+    background: $accent-dark-gray;
 }
 
 .projects-table-dynamic-name {
