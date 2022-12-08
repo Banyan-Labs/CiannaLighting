@@ -107,6 +107,7 @@
   padding: 15px 50px;
   border: none;
   border-radius: 5px;
+  transition: 600ms ease;
   cursor: pointer;
 }
 

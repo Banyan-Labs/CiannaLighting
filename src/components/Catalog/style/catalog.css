@@ -113,13 +113,13 @@
   width: 100%;
 }
 
-.tabs {
+.tabs__catalog {
   display: flex;
   padding-right: 10px;
   padding-left: 10px;
 }
 
-.tab {
+.tab__catalog {
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -129,22 +129,22 @@
   cursor: pointer;
 }
 
-.tab:not(:last-child) {
+.tab__catalog:not(:last-child) {
   border-right: 1px solid #c09d5b;
 }
 
-.tab.active2 {
+.tab__catalog.active2 {
   background: #949494;
   font-weight: bold;
   color: white;
 }
 
-.panels {
+.panels__catalog {
   padding-right: 10px;
   padding-left: 10px;
 }
 
-.panel {
+.panel__catalog {
   display: none;
   background-color: #eaeaea;
   padding: 10px;
@@ -153,7 +153,7 @@
   border-top: 1px solid #c09d5b;
 }
 
-.panel.active2 {
+.panel__catalog.active2 {
   display: flex;
 }
 

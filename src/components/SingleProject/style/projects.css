@@ -42,8 +42,7 @@
 }
 
 .all-project-view-main-container {
-  margin-top: 100px;
-  background-color: #ecebe7;
+  margin-top: 140px;
   color: #949494;
   width: 100%;
   border-right: 1px #c09d5b solid;
@@ -60,16 +59,18 @@
   transition: all 0.2s ease-in-out;
   background-color: #c09d5b;
   border: 1px #c09d5b solid;
-  padding: 12px 8px 12px 8px;
-  color: white;
+  padding: 12px 16px 12px 16px;
+  border-radius: 5px;
+  color: #f7f6f4;
 }
 
 .your-projects-button {
   transition: all 0.2s ease-in-out;
   background-color: #c09d5b;
   border: 1px #c09d5b solid;
-  padding: 12px 8px 12px 8px;
-  color: white;
+  padding: 12px 16px 12px 16px;
+  border-radius: 5px;
+  color: #f7f6f4;
 }
 
 .type-project-btn {
@@ -147,6 +148,8 @@
 
 .projects-top-half {
   display: flex;
+  flex-direction: row;
+  height: 450px;
 }
 
 .project-summary-container {
@@ -262,13 +265,11 @@
 }
 
 .project-summary-text-container {
-  margin-left: 4.5em;
+  margin: 0 2em;
   font-size: 14px;
 }
 
 .project-summary-description-text {
-  margin-left: 80px;
-  margin-right: 20px;
   font-weight: 100;
   font-size: 12px;
 }
@@ -278,7 +279,6 @@
   background-color: #ecebe7;
   width: 100%;
   color: #949494;
-  height: 35vh;
 }
 
 .project-attachments-top-bar {
@@ -289,7 +289,6 @@
 
 .project-attachment {
   padding-right: 20px;
-  border-right: 0.1px solid rgb(48, 47, 47);
   color: #949494;
 }
 
@@ -312,46 +311,51 @@
 }
 
 .project-attachments-table-container {
-  height: 65%;
   margin-left: 10%;
   border-bottom: 1px solid rgb(39, 39, 40);
   margin-right: 10%;
-  color: #949494;
+  color: #3f3c39;
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 200px;
 }
 
 .attachments-file-name {
-  width: 400px;
-  font-size: 10px;
+  width: 80%;
+  font-size: 13px;
   text-align: left;
+  border-bottom: 1px solid rgb(39, 39, 40);
 }
 
-.attachments-file-size {
-  width: 100px;
-  font-size: 10px;
-  text-align: left;
+.attachments-file-remove {
+  width: 20%;
+  font-size: 13px;
+  text-align: center;
 }
 
 .attachments-table {
-  border-top: 1px solid rgb(39, 39, 40);
   border-bottom: 1px solid rgb(39, 39, 40);
   width: 100%;
 }
+.attachments-table thead {
+  top: 0;
+  z-index: 2;
+  position: -webkit-sticky;
+  position: sticky;
+  background: rgb(236, 235, 231);
+  border-bottom: 2px solid #3f3c39;
+}
 
 .attachments-dynamic-row:hover {
-  background-color: rgb(38, 39, 39);
+  transition: 200ms ease;
 }
 
 .file-file-name {
   font-size: 14px;
   border-top: 1px solid rgb(39, 39, 40);
   font-weight: 200;
-}
-
-.file-file-size {
+  padding: 15px;
   font-size: 12px;
-  margin-right: 15px;
-  border-top: 1px solid rgb(39, 39, 40);
-  font-weight: 200;
 }
 
 .file-file-remove {
