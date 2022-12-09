@@ -305,7 +305,7 @@ const Inventory: FC = () => {
                                     type="input"
                                     id="item_ID"
                                     name="item_ID"
-                                    value={itemDetails.item_ID}
+                                    value={itemDetails.item_ID || ''}
                                     onChange={(e) => handleFormInput(e)}
                                     placeholder="Item ID"
                                     required
@@ -320,7 +320,7 @@ const Inventory: FC = () => {
                                     type="input"
                                     id="itemName"
                                     name="itemName"
-                                    value={itemDetails.itemName}
+                                    value={itemDetails.itemName || ''}
                                     onChange={(e) => handleFormInput(e)}
                                     placeholder="Item Name"
                                     required
@@ -338,7 +338,7 @@ const Inventory: FC = () => {
                                     type="text"
                                     id="itemDescription"
                                     name="itemDescription"
-                                    value={itemDetails.itemDescription}
+                                    value={itemDetails.itemDescription || ''}
                                     onChange={(e) => handleFormInput(e)}
                                     placeholder="Description"
                                     required
@@ -366,7 +366,7 @@ const Inventory: FC = () => {
                                 placeholder="Body Diameter"
                                 type="text"
                                 name="bodyDiameter"
-                                value={itemDetails.bodyDiameter}
+                                value={itemDetails.bodyDiameter || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -381,7 +381,7 @@ const Inventory: FC = () => {
                                 placeholder="Body Length"
                                 type="text"
                                 name="bodyLength"
-                                value={itemDetails.bodyLength}
+                                value={itemDetails.bodyLength || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -396,7 +396,7 @@ const Inventory: FC = () => {
                                 placeholder="bodyWidth"
                                 type="text"
                                 name="bodyWidth"
-                                value={itemDetails.bodyWidth}
+                                value={itemDetails.bodyWidth || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -411,7 +411,7 @@ const Inventory: FC = () => {
                                 placeholder="Body Height"
                                 type="text"
                                 name="bodyHeight"
-                                value={itemDetails.bodyHeight}
+                                value={itemDetails.bodyHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -426,7 +426,7 @@ const Inventory: FC = () => {
                                 placeholder="Fixture Overall Height"
                                 type="text"
                                 name="fixtureOverallHeight"
-                                value={itemDetails.fixtureOverallHeight}
+                                value={itemDetails.fixtureOverallHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -444,7 +444,7 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Height"
                                 type="text"
                                 name="sconceHeight"
-                                value={itemDetails.sconceHeight}
+                                value={itemDetails.sconceHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -462,7 +462,7 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Width"
                                 type="text"
                                 name="sconceWidth"
-                                value={itemDetails.sconceWidth}
+                                value={itemDetails.sconceWidth || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -480,7 +480,7 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Extension"
                                 type="text"
                                 name="sconceExtension"
-                                value={itemDetails.sconceExtension}
+                                value={itemDetails.sconceExtension || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -539,7 +539,7 @@ const Inventory: FC = () => {
                                 placeholder="Lamp Color"
                                 type="text"
                                 name="lampColor"
-                                value={itemDetails.lampColor}
+                                value={itemDetails.lampColor || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -631,7 +631,7 @@ const Inventory: FC = () => {
                                 placeholder="Material"
                                 type="text"
                                 name="material"
-                                value={itemDetails.material}
+                                value={itemDetails.material || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -674,7 +674,7 @@ const Inventory: FC = () => {
                                 placeholder="Exterior Finishes"
                                 type="text"
                                 name="exteriorFinishValues"
-                                value={itemDetails.exteriorFinish}
+                                value={itemDetails.exteriorFinish || ''}
                                 readOnly
                                 required
                             />
@@ -714,7 +714,7 @@ const Inventory: FC = () => {
                                 placeholder="Interior Finishes"
                                 type="text"
                                 name="interiorFinishValues"
-                                value={itemDetails.interiorFinish}
+                                value={itemDetails.interiorFinish || ''}
                                 readOnly
                                 required
                             />
@@ -754,7 +754,7 @@ const Inventory: FC = () => {
                                 placeholder="Lens Materiales"
                                 type="text"
                                 name="lensMaterialValues"
-                                value={itemDetails.lensMaterial}
+                                value={itemDetails.lensMaterial || ''}
                                 readOnly
                                 required
                             />
@@ -794,7 +794,7 @@ const Inventory: FC = () => {
                                 placeholder="Glass Options"
                                 type="text"
                                 name="glassOptionsValues"
-                                value={itemDetails.glassOptions}
+                                value={itemDetails.glassOptions || ''}
                                 readOnly
                                 required
                             />
@@ -834,7 +834,7 @@ const Inventory: FC = () => {
                                 placeholder="Acrylic Options"
                                 type="text"
                                 name="acrylicOptionsValues"
-                                value={itemDetails.acrylicOptions}
+                                value={itemDetails.acrylicOptions || ''}
                                 readOnly
                                 required
                             />
@@ -874,7 +874,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Types"
                                 type="text"
                                 name="crystalTypeValues"
-                                value={itemDetails.crystalType}
+                                value={itemDetails.crystalType || ''}
                                 readOnly
                                 required
                             />
@@ -914,7 +914,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Pin Types"
                                 type="text"
                                 name="crystalPinTypeValues"
-                                value={itemDetails.crystalPinType}
+                                value={itemDetails.crystalPinType || ''}
                                 readOnly
                                 required
                             />
@@ -954,7 +954,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Pin Colors"
                                 type="text"
                                 name="crystalPinColorValues"
-                                value={itemDetails.crystalPinColor}
+                                value={itemDetails.crystalPinColor || ''}
                                 readOnly
                                 required
                             />
@@ -982,7 +982,7 @@ const Inventory: FC = () => {
                                 className="form__label"
                                 htmlFor="socketQuantity"
                             >
-                                Price
+                                Socket Quantity
                             </label>
                         </div>
                         <div className="form__group field">
@@ -1035,7 +1035,7 @@ const Inventory: FC = () => {
                                 placeholder="Environments"
                                 type="text"
                                 name="environmentValues"
-                                value={itemDetails.environment}
+                                value={itemDetails.environment || ''}
                                 readOnly
                                 required
                             />
@@ -1075,7 +1075,7 @@ const Inventory: FC = () => {
                                 placeholder="Safety Certs"
                                 type="text"
                                 name="safetyCertValues"
-                                value={itemDetails.safetyCert}
+                                value={itemDetails.safetyCert || ''}
                                 readOnly
                                 required
                             />
@@ -1115,7 +1115,7 @@ const Inventory: FC = () => {
                                 placeholder="Project Voltages"
                                 type="text"
                                 name="projectVoltageValues"
-                                value={itemDetails.projectVoltage}
+                                value={itemDetails.projectVoltage || ''}
                                 readOnly
                                 required
                             />
@@ -1155,7 +1155,7 @@ const Inventory: FC = () => {
                                 placeholder="Socket Types"
                                 type="text"
                                 name="socketTypeValues"
-                                value={itemDetails.socketType}
+                                value={itemDetails.socketType || ''}
                                 readOnly
                                 required
                             />
@@ -1195,7 +1195,7 @@ const Inventory: FC = () => {
                                 placeholder="Mountings"
                                 type="text"
                                 name="mountingValues"
-                                value={itemDetails.mounting}
+                                value={itemDetails.mounting || ''}
                                 readOnly
                                 required
                             />
@@ -1243,7 +1243,7 @@ const Inventory: FC = () => {
                                 placeholder="Design Styles"
                                 type="text"
                                 name="designStyleValues"
-                                value={itemDetails.designStyle}
+                                value={itemDetails.designStyle || ''}
                                 readOnly
                                 required
                             />
@@ -1283,7 +1283,7 @@ const Inventory: FC = () => {
                                 placeholder="Use Packages"
                                 type="text"
                                 name="usePackagesValues"
-                                value={itemDetails.usePackages}
+                                value={itemDetails.usePackages || ''}
                                 readOnly
                                 required
                             />
@@ -1475,7 +1475,7 @@ const Inventory: FC = () => {
                                 placeholder="Partner Code"
                                 type="text"
                                 name="partnerCodeAdmin"
-                                value={itemDetails.partnerCodeAdmin}
+                                value={itemDetails.partnerCodeAdmin || ''}
                                 onChange={(e) => handleFormInput(e)}
                             />
                             <label
