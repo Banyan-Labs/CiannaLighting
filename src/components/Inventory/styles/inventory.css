@@ -243,7 +243,8 @@
 #chck4,
 #chck5,
 #chck6,
-#chck7 {
+#chck7,
+#chck8 {
   display: none;
 }
 
@@ -264,6 +265,7 @@ input:checked ~ .tab-content {
   padding: 15px 50px;
   border: none;
   border-radius: 5px;
+  transition: 600ms ease;
   width: 50%;
   align-self: center;
   margin-top: 25px;

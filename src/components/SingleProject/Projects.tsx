@@ -33,7 +33,7 @@ const Projects: FC = () => {
     const { userProjects, projectId, project, yourProjects } = useAppSelector(
         ({ project }) => project
     );
-   
+
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects.slice(userProjects.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
@@ -60,8 +60,7 @@ const Projects: FC = () => {
 
     return (
         <>
-        {yourProjects === true ? 
-            (
+            {yourProjects === true ? (
                 <>
             <div className="projects-top-half">
                 <ProjectSummary details={project}  />

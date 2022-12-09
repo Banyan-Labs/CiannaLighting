@@ -289,7 +289,7 @@ const AllProjects: FC<Props> = ({
                                     >
                                         Status {sortDisplay('status')}
                                     </td>
-                                    <td className="projects-table-dots"> </td>
+                                    <td className="projects-table-dots"></td>
                                 </tr>
                             </thead>
                             {allProjectsTableDisplay}

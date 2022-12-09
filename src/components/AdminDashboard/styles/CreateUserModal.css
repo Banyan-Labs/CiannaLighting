@@ -67,6 +67,7 @@
   padding: 15px 10px;
   width: 95%;
   margin-bottom: 25px;
+  color: #9b9b9b;
 }
 
 .new-user-modal-button {
@@ -106,6 +107,7 @@
   padding: 15px 50px;
   border: none;
   border-radius: 5px;
+  transition: 600ms ease;
   cursor: pointer;
 }
 

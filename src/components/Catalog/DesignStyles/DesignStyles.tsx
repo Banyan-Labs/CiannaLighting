@@ -9,45 +9,57 @@ const designStylesData = [
     'Native',
     'Asian',
     'Transitional',
-    'Traditional'
+    'Traditional',
 ];
 
 interface catalogPros {
     catalogType: any;
     setCatalogType: any;
-    setRenderPage:any; 
-    renderPage:any
+    setRenderPage: any;
+    renderPage: any;
 }
 
+const DesignStyles: FC<catalogPros> = ({
+    catalogType,
+    setCatalogType,
+    setRenderPage,
+    renderPage,
+}) => {
+    const dispatch = useAppDispatch();
 
-const DesignStyles: FC<catalogPros> = ({ catalogType, setCatalogType, setRenderPage, renderPage }) => {
-const dispatch = useAppDispatch();
+    const fetchData1 = async (e: any) => {
+        const value = e.currentTarget.value.toLowerCase();
 
-  const fetchData1 = async (e: any) => {
-      const value = e.currentTarget.value.toLowerCase();
-           
-        dispatch(filterCatalogItems({
-            "designStyle": [value] }))
-        };
+        dispatch(
+            filterCatalogItems({
+                designStyle: [value],
+            })
+        );
+    };
 
     const designStyles = designStylesData.map((style) => {
-        
         return (
             <div className="design-style-buttons-container" key={style}>
-                <button onClick={(e) => {
-                    fetchData1(e);
-                    setCatalogType(style);
-                    setRenderPage("designStyle")
-                } } value={style} className="design-style-button">{style}</button>
+                <button
+                    onClick={(e) => {
+                        fetchData1(e);
+                        setCatalogType(style);
+                        setRenderPage('designStyle');
+                    }}
+                    value={style}
+                    className="design-style-button"
+                >
+                    {style}
+                </button>
             </div>
         );
     });
-    
+
     return (
         <>
             <div className="catalog-design-styles">
                 <span>Design Styles</span>
-                <div  className="catalog-design-styles-buttons">
+                <div className="catalog-design-styles-buttons">
                     {designStyles}
                 </div>
                 <div className="catalog-design-styles-divider" />

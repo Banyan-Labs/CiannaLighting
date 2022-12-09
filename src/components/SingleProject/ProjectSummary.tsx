@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { FaRegEdit, FaRegClone, FaCircle, FaArchive} from 'react-icons/fa';
+import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
@@ -8,9 +8,9 @@ import {
     getProject,
     getAllProjects,
     getUserProjects,
-    setTheYourProjects
+    setTheYourProjects,
 } from '../../redux/actions/projectActions';
-import { useAppDispatch, useAppSelector} from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
@@ -23,7 +23,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const dispatch = useAppDispatch();
-    // const statusOfArchive = details.archived ?  'Restor' : 'Archiv' 
+    // const statusOfArchive = details.archived ?  'Restor' : 'Archiv'
     const Color =
         dataHolding.setData().color &&
         Object.keys(dataHolding.setData().color).length > 0
@@ -34,11 +34,15 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
         e.preventDefault();
         try {
             await dispatch(
-                getProject({ _id: details._id, archived: !details.archived, activity: details.archived ?  'Restor' : 'Archiv'})
+                getProject({
+                    _id: details._id,
+                    archived: !details.archived,
+                    activity: details.archived ? 'Restor' : 'Archiv',
+                })
             );
             details?.archived === true
-            ? alert('This project was restored')
-            : alert('This project was archived')
+                ? alert('This project was restored')
+                : alert('This project was archived');
         } catch (error: any) {
             console.log('Error archiving item: ', error.message);
             alert('Can not archive project.');
@@ -59,7 +63,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
             alert(`Copy of ${project.name} created in your dashboard.`);
-            return response.data
+            return response.data;
         } catch (error) {
             console.log('Error in copyProject: ', error);
         }
@@ -70,7 +74,10 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
         <div className="project-summary-container">
             <div className="projects-summary">
                 <div className="back-to-projects">
-                    <button className='back-to-all-projects' onClick={() => dispatch(setTheYourProjects(false))}>
+                    <button
+                        className="back-to-all-projects"
+                        onClick={() => dispatch(setTheYourProjects(false))}
+                    >
                         <BsChevronLeft className="chevron-icon" /> Back to
                         Projects
                     </button>
@@ -103,7 +110,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                             className="clone-icon"
                             onClick={(e) => copyOfProject(e, details)}
                         />
-                         <FaArchive
+                        <FaArchive
                             data-for="archive"
                             data-tip={
                                 details?.archived === true
@@ -113,14 +120,21 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                             className="archive-icon"
                             onClick={(e) => archiveSet(e)}
                         />
-                         
-                         <RiArchiveDrawerFill  data-for="ab"  data-tip={`${details?.name} is archived`}className={details?.archived ? 'archive-icon archive-show-option' : 'd-none'} /> 
-                        
+
+                        <RiArchiveDrawerFill
+                            data-for="ab"
+                            data-tip={`${details?.name} is archived`}
+                            className={
+                                details?.archived
+                                    ? 'archive-icon archive-show-option'
+                                    : 'd-none'
+                            }
+                        />
+
                         <ReactTooltip id="ab" />
                         <ReactTooltip id="copy" />
                         <ReactTooltip id="edit" />
                         <ReactTooltip id="archive" />
-                        
                     </div>
                     <div className="project-summary-status">
                         <p className="status">Status: {details?.status}</p>

@@ -28,6 +28,7 @@ $primary-bg-dark-link-hover: #3f3c39;
 $primary-bg-dark-link-active: #3f3c39;
 $primary-bg-dark-button-text: #3f3c39;
 $primary-bg-light-grey: #9b9b9b;
+$primary-bg-lt-grey: #f2f2f2;
 
 //White Background Colors
 $primary-bg-white: #f7f6f4;
@@ -57,6 +58,8 @@ $primary-title-fs: 20px;
 $primary-text-fs: 16px;
 $sub-text-fs: 14px;
 $table-header-fs: 14px;
+$small-text: 12px;
+$med-text: 13px;
 
 //Box Shadow
 $box-shadow: #3f3c3929 0px 3px 6px, #3f3c393b 0px 3px 6px;
@@ -105,6 +108,7 @@ $box-shadow: #3f3c3929 0px 3px 6px, #3f3c393b 0px 3px 6px;
     padding: 15px 50px;
     border: none;
     border-radius: 5px;
+    transition: 600ms ease;
 }
 
 @mixin media-sm {
