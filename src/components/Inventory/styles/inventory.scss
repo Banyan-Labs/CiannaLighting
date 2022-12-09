@@ -165,6 +165,8 @@
     width: 100%;
     color: $primary-bg-dark-text;
     overflow: hidden;
+    // overflow-y: scroll;
+    // max-height: 80vh;
     &-label {
         display: flex;
         justify-content: space-between;
@@ -202,6 +204,12 @@
             background: darken($primary-bg-dark, 10%);
         }
     }
+}
+
+.image__container {
+    overflow-y: scroll;
+    max-height: 75vh;
+    padding: 20px 0;
 }
 
 #chck1,

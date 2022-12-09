@@ -344,10 +344,10 @@ const Inventory: FC = () => {
                                     required
                                 />
                                 <label
-                                    htmlFor="itemName"
+                                    htmlFor="itemDescription"
                                     className="form__label"
                                 >
-                                    Item Name
+                                    Item Description
                                 </label>
                             </div>
                         </div>
@@ -385,10 +385,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyLength" className="form__label">
                                 Body Length
                             </label>
                         </div>
@@ -403,10 +400,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyWidth" className="form__label">
                                 Body Width
                             </label>
                         </div>
@@ -421,10 +415,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyHeight" className="form__label">
                                 Body Height
                             </label>
                         </div>
@@ -440,7 +431,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="fixtureOverallHeight"
                                 className="form__label"
                             >
                                 Fixture Height
@@ -458,7 +449,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceHeight"
                                 className="form__label"
                             >
                                 Sconce Height
@@ -476,7 +467,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceWidth"
                                 className="form__label"
                             >
                                 Sconce Width
@@ -494,7 +485,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceExtension"
                                 className="form__label"
                             >
                                 Sconce Extension
@@ -512,7 +503,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="estimatedWeight"
                                 className="form__label"
                             >
                                 Estimated Weight
@@ -644,10 +635,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="material" className="form__label">
                                 Material
                             </label>
                         </div>
@@ -992,7 +980,7 @@ const Inventory: FC = () => {
                             />
                             <label
                                 className="form__label"
-                                htmlFor="description"
+                                htmlFor="socketQuantity"
                             >
                                 Price
                             </label>
@@ -1008,10 +996,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="description"
-                            >
+                            <label className="form__label" htmlFor="price">
                                 Price
                             </label>
                         </div>
@@ -1311,139 +1296,69 @@ const Inventory: FC = () => {
                         Images & Attachments
                     </label>
                     <div className="tab-content">
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="images">
-                                Images
-                            </label>
-                            <button
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'images')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input
-                                className="list-input"
-                                id="images"
-                                placeholder="Upload Images"
-                                type="file"
-                                accept="image/png, image/jpeg, image/jpg"
-                                multiple
-                                name="images"
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {imageName.map((url: any, index: number) => {
-                                console.log('img url: ', url);
-                                return (
-                                    <img
-                                        src={url}
-                                        key={index}
-                                        alt=""
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="pdf">
-                                PDF
-                            </label>
-                            <button
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'pdf')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input
-                                className="list-input"
-                                id="pdf"
-                                placeholder="Upload PDF's"
-                                type="file"
-                                accept="application/pdf"
-                                multiple
-                                name="pdf"
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {viewablePDF.map((url: any, index: number) => {
-                                console.log('url pdf: ', url);
-                                return (
-                                    <embed
-                                        src={url}
-                                        key={index}
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="pdf">
-                                SPECS
-                            </label>
-                            <button
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'specs')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input
-                                className="list-input"
-                                id="specs"
-                                placeholder="Upload Spec File(s)"
-                                type="file"
-                                accept="application/pdf"
-                                multiple
-                                name="specs"
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {viewableSpecs.map((url: any, index: number) => {
-                                console.log('url SPECS: ', url);
-                                return (
-                                    <embed
-                                        src={url}
-                                        key={index}
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label
-                                className="images__label"
-                                htmlFor="drawingFiles"
-                            >
-                                Drawing Files
-                            </label>
-                            <button
-                                className="add__btn"
-                                onClick={(e) =>
-                                    listFileNames(e, 'drawingFiles')
-                                }
-                            >
-                                <FaPlus />
-                            </button>
-                            <input
-                                className="list-input"
-                                id="drawingFiles"
-                                placeholder="Upload Drawing Files"
-                                type="file"
-                                multiple
-                                accept="application/pdf"
-                                name="drawingFiles"
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {drawingFilesNames.map(
-                                (url: any, index: number) => {
-                                    console.log(url);
+                        <div className="image__container">
+                            <div className="add__materials">
+                                <label
+                                    className="images__label"
+                                    htmlFor="images"
+                                >
+                                    Images
+                                </label>
+                                <button
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'images')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    className="list-input"
+                                    id="images"
+                                    placeholder="Upload Images"
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg"
+                                    multiple
+                                    name="images"
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {imageName.map((url: any, index: number) => {
+                                    console.log('img url: ', url);
+                                    return (
+                                        <img
+                                            src={url}
+                                            key={index}
+                                            alt=""
+                                            className="imgAttachment"
+                                        />
+                                    );
+                                })}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label className="images__label" htmlFor="pdf">
+                                    PDF
+                                </label>
+                                <button
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'pdf')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    className="list-input"
+                                    id="pdf"
+                                    placeholder="Upload PDF's"
+                                    type="file"
+                                    accept="application/pdf"
+                                    multiple
+                                    name="pdf"
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {viewablePDF.map((url: any, index: number) => {
+                                    console.log('url pdf: ', url);
                                     return (
                                         <embed
                                             src={url}
@@ -1451,8 +1366,85 @@ const Inventory: FC = () => {
                                             className="imgAttachment"
                                         />
                                     );
-                                }
-                            )}
+                                })}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label className="images__label" htmlFor="pdf">
+                                    SPECS
+                                </label>
+                                <button
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'specs')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    className="list-input"
+                                    id="specs"
+                                    placeholder="Upload Spec File(s)"
+                                    type="file"
+                                    accept="application/pdf"
+                                    multiple
+                                    name="specs"
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {viewableSpecs.map(
+                                    (url: any, index: number) => {
+                                        console.log('url SPECS: ', url);
+                                        return (
+                                            <embed
+                                                src={url}
+                                                key={index}
+                                                className="imgAttachment"
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label
+                                    className="images__label"
+                                    htmlFor="drawingFiles"
+                                >
+                                    Drawing Files
+                                </label>
+                                <button
+                                    className="add__btn"
+                                    onClick={(e) =>
+                                        listFileNames(e, 'drawingFiles')
+                                    }
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    className="list-input"
+                                    id="drawingFiles"
+                                    placeholder="Upload Drawing Files"
+                                    type="file"
+                                    multiple
+                                    accept="application/pdf"
+                                    name="drawingFiles"
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {drawingFilesNames.map(
+                                    (url: any, index: number) => {
+                                        console.log(url);
+                                        return (
+                                            <embed
+                                                src={url}
+                                                key={index}
+                                                className="imgAttachment"
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
