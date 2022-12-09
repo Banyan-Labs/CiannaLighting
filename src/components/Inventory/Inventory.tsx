@@ -347,7 +347,7 @@ const Inventory: FC = () => {
                                     htmlFor="itemName"
                                     className="form__label"
                                 >
-                                    Item Name
+                                    Description 
                                 </label>
                             </div>
                         </div>
@@ -1000,7 +1000,7 @@ const Inventory: FC = () => {
                                 className="form__label"
                                 htmlFor="description"
                             >
-                                Price
+                                Socket Quantity
                             </label>
                         </div>
                         <div className="form__group field">
@@ -1441,7 +1441,7 @@ const Inventory: FC = () => {
                                 placeholder="Upload Drawing Files"
                                 type="file"
                                 multiple
-                                accept="image/png, image/jpeg, image/jpg"
+                                accept="application/pdf"
                                 name="drawingFiles"
                                 onChange={(e) => handleFileUpload(e)}
                             />
@@ -1451,10 +1451,9 @@ const Inventory: FC = () => {
                                 (url: any, index: number) => {
                                     console.log(url);
                                     return (
-                                        <img
+                                        <embed
                                             src={url}
                                             key={index}
-                                            alt=""
                                             className="imgAttachment"
                                         />
                                     );
