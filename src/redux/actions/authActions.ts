@@ -1,12 +1,21 @@
 import axios from '../../api/axios';
+import axiosAuth from '../../api/axios'
 import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
-import { setUser, logout, setAccessToken } from '../reducers/authSlice';
+import { setUser, logout, setAccessToken, setLogs } from '../reducers/authSlice';
 
 type SignInType = {
     email: string;
     password: string;
 };
+
+type userLogType = {
+    name: string;
+    userId: string;
+    ipAddress: string;
+    role: string;
+};
+
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -15,12 +24,39 @@ export const signInAction =
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
+            const res = await axios.get('https://geolocation-db.com/json/');
+            console.log(res.data, response);
 
+            const log: userLogType = {
+                userId: response.data.user._id,
+                name: response.data.user.name,
+                role: response.data.user.role,
+                ipAddress: res.data.IPv4,
+            };
+            console.log(log);
+            await axios.post('public/create-log', log, {
+                withCredentials: true,
+            });
             dispatch(setUser(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }
     };
+
+    export const getAllLogs =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const response = await axiosAuth.post('cmd/getAllLogs', {
+                withCredentials: true,
+            });
+            console.log(response, 'hello')
+            dispatch(setLogs(response.data));
+        } catch (error: any) {
+            console.log('Error message: ', error.message);
+        }
+    };
+
 export const refreshToken =
     () =>
     async (dispatch: Dispatch): Promise<void> => {

@@ -4,11 +4,14 @@ import { UserType } from '../../app/typescriptTypes';
 export interface AuthStateType {
     user: UserType;
     error: any;
+    logs: any[];
 }
+
 
 const initialState: AuthStateType = {
     user: { _id: '', name: '', email: '', role: '' },
     error: null,
+    logs: []
 };
 
 export const authSlice = createSlice({
@@ -21,6 +24,12 @@ export const authSlice = createSlice({
             return {
                 ...state,
                 user: action.payload.user,
+            };
+        },
+        setLogs: (state, action) => {
+            return {
+                ...state,
+                logs: action.payload.logs,
             };
         },
         setUserOnRefresh: (state, action) => ({
@@ -44,6 +53,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const { setUser, setError, logout, setAccessToken, setUserOnRefresh } =
+export const { setUser, setError, logout, setAccessToken, setUserOnRefresh, setLogs } =
     authSlice.actions;
 export default authSlice.reducer;
