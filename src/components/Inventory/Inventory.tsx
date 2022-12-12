@@ -552,10 +552,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="lampColor"
-                            >
+                            <label className="form__label" htmlFor="lampColor">
                                 Lamp Color
                             </label>
                         </div>
@@ -624,10 +621,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="lumens"
-                            >
+                            <label className="form__label" htmlFor="lumens">
                                 Lumens
                             </label>
                         </div>
