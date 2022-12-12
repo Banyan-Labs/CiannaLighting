@@ -1,8 +1,8 @@
 import axios from '../../api/axios';
-import axiosAuth from '../../api/axios'
 import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
 import { setUser, logout, setAccessToken, setLogs } from '../reducers/authSlice';
+import { axiosPrivate } from '../../api/axios';
 
 type SignInType = {
     email: string;
@@ -47,7 +47,8 @@ export const signInAction =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const response = await axiosAuth.post('cmd/getAllLogs', {
+            const axiosPriv = await axiosPrivate();
+            const response = await axiosPriv.post('cmd/getAllLogs', {
                 withCredentials: true,
             });
             console.log(response, 'hello')

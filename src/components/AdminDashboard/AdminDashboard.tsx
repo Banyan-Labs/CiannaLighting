@@ -45,9 +45,9 @@ const AdminDashboard: FC = () => {
 
                     <Route element={<RequireAuth roles={[ROLES.Cmd]} />}>
                         <Route path="/users" element={<UsersTable />} />
+                    <Route path="/activity" element={<Activity />} />   
                     </Route>
                     <Route path="/settings" element={<Settings />} />
-                    <Route path="/activity" element={<Activity />} />
                 </Routes>
             </div>
         </div>
