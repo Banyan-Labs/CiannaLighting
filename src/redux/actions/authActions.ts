@@ -72,6 +72,22 @@ export const refreshToken =
             throw error;
         }
     };
+
+    export const deleteTheLog =
+    (_id: string) =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            const axiosPriv = await axiosPrivate();
+            const response = await axiosPriv.post('cmd/deleteLog', {_id}, {
+                withCredentials: true,
+            });
+            console.log('delete log', response);
+            
+        } catch (error) {
+            console.log('Error in refreshToken: ', error);
+            throw error;
+        }
+    };
 export const logoutAction =
     (email: string) =>
     async (dispatch: Dispatch): Promise<void> => {

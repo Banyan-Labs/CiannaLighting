@@ -1,29 +1,32 @@
 import React, { FC, useEffect } from 'react';
 import './styles/AdminDashboard.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getAllLogs } from '../../redux/actions/authActions';
+import { deleteTheLog, getAllLogs } from '../../redux/actions/authActions';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 const Activity: FC = () => {
     const { logs } = useAppSelector(({ auth: user }) => user);
     const dispatch = useAppDispatch();
 
-    const allUserLogs = logs?.map((project, index) => {
-
+    const allUserLogs = logs?.map((log, index) => {
+        const deleteLog = async(_id: string) => {
+           await dispatch(deleteTheLog(_id))
+           await dispatch(getAllLogs())
+        };
         return (
             <tbody key={index}>
                 <tr className="projects-table-dynamic-row">
                     <th className="projects-table-dynamic-name">
-                        {project.name}
+                        {log.name}
                     </th>
                     <td className="projects-table-dynamic-designer">
-                        {project.ipAddress}
+                        {log.ipAddress}
                     </td>
                     <td className="projects-table-dynamic-region">
-                        {project.role}
+                        {log.role}
                     </td>
                     <td className="projects-table-dynamic-region">
-                    <FaRegTrashAlt
+                    <FaRegTrashAlt onClick={()=> deleteLog(log?._id)}
                     />
                     </td>
                 </tr>
