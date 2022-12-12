@@ -145,6 +145,15 @@ const CatalogItem: FC<catalogPros> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        const rfpPass = {
+            description: catalogItem.description,
+            lampType: catalogItem.lampType, 
+            lampColor: catalogItem.lampColor,
+            wattsPer:  catalogItem.wattsPerLamp,
+            totalWatts: catalogItem.wattsPerLamp * count,
+            numberOfLamps: catalogItem.numberOfLamps,
+            totalLumens: catalogItem.powerInWatts, 
+        }
         try {
             if (editLight === null) {
                 console.log('pre:', roomLights[roomLights.length - 1]);
@@ -190,7 +199,7 @@ const CatalogItem: FC<catalogPros> = ({
                     }
                 }
             } else {
-                dispatch(theEditLight(catalogDetails, editLight._id));
+                dispatch(theEditLight({...catalogDetails, ...rfpPass}, editLight._id));
             }
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0],
@@ -213,7 +222,7 @@ const CatalogItem: FC<catalogPros> = ({
                 clientId: String(userId),
                 quantity: count,
             });
-            await dispatch(createLight(catalogDetails));
+            await dispatch(createLight({...catalogDetails, ...rfpPass}));
             await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
