@@ -25,7 +25,7 @@ export const signInAction =
                 withCredentials: true,
             });
             const res = await axios.get('https://geolocation-db.com/json/');
-            console.log(res.data, response);
+            // console.log(res.data, response);
 
             const log: userLogType = {
                 userId: response.data.user._id,
@@ -33,7 +33,7 @@ export const signInAction =
                 role: response.data.user.role,
                 ipAddress: res.data.IPv4,
             };
-            console.log(log);
+            // console.log(log);
             await axios.post('public/create-log', log, {
                 withCredentials: true,
             });
@@ -51,7 +51,7 @@ export const signInAction =
             const response = await axiosPriv.post('cmd/getAllLogs', {
                 withCredentials: true,
             });
-            console.log(response, 'hello')
+            // console.log(response, 'hello')
             dispatch(setLogs(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
@@ -81,7 +81,7 @@ export const refreshToken =
             const response = await axiosPriv.post('cmd/deleteLog', {_id}, {
                 withCredentials: true,
             });
-            console.log('delete log', response);
+            // console.log('delete log', response);
             
         } catch (error) {
             console.log('Error in refreshToken: ', error);
