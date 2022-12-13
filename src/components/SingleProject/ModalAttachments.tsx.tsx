@@ -1,18 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FC, useState, FormEvent, ChangeEvent  } from 'react';
+import React, { FC, useState, ChangeEvent  } from 'react';
 import useParams from '../../app/utils';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-    getRoomLights,
-} from '../../redux/actions/lightActions';
-import {
-    getProject,
-    getAllProjectRoomsAction,
-} from '../../redux/actions/projectActions';
 import '../NewRoomModal/style/newRoomModal.css';
-import { axiosFileUpload, axiosPrivate } from '../../api/axios';
+import { axiosFileUpload } from '../../api/axios';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
@@ -26,11 +19,6 @@ export const ModalAttachments: FC<Props> = ({
     openModal,
     project,
 }) => {
-    const projId = useAppSelector(({project})=> project);
-    const storedRoomId = useParams('roomId');
-    const userId = useParams('_id');
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const [imgFiles, setImgfiles] = useState<any>([]);
     const [pdfFiles, setPdfFiles] = useState<any>([]);
     const [drawingFilesArray, setDrawingFilesArray] = useState<any>([]);

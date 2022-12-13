@@ -45,4 +45,30 @@
 .admin-content-section {
   padding: 30px 100px 50px 50px;
   width: 100%;
+}
+
+.log-table {
+  text-align: center;
+}
+
+.log-name {
+  padding-left: 50px;
+}
+
+.delete-log {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.delete-log:hover {
+  transition: all 0.2s ease-in-out;
+  color: red;
+}
+
+#log-table-container {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+#log-table-container:hover {
+  transition: all 0.2s ease-in-out;
+  background-color: #ecebe7;
 }/*# sourceMappingURL=AdminDashboard.css.map */
