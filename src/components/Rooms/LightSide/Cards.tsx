@@ -54,9 +54,9 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         <>
             <div
                 className="lightCard d-flex row flex-wrap"
-                style={{
-                    border: '2px solid purple',
-                }}
+                // style={{
+                //     border: '2px solid purple',
+                // }}
             >
                 {loading ? (
                     <h2>Loading...</h2>

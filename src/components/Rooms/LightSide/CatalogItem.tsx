@@ -233,7 +233,7 @@ const CatalogItem: FC<catalogPros> = ({
         <form
             onSubmit={onSubmit}
             className="d-flex catalog-container container-fluid row"
-            style={{ border: '2px solid yellow' }}
+            // style={{ border: '2px solid yellow' }}
         >
             <div className="col-5 item-img-container d-flex row justify-content-between container-type-back align-content-start m-0">
                 <img className="col-12 p-0" src={Default2} alt="" />
