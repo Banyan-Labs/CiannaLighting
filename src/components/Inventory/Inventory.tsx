@@ -3,6 +3,7 @@ import { axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
 import { FaPlus } from 'react-icons/fa';
+import { FaMinus } from 'react-icons/fa';
 
 interface CatalogType {
     item_ID: string;
@@ -87,6 +88,8 @@ const Inventory: FC = () => {
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
+    console.log('**', itemDetails);
+
     const [listValue, setListValue] = useState<SetList>({
         name: '',
         value: '',
@@ -113,6 +116,7 @@ const Inventory: FC = () => {
         });
         console.log('hello', itemDetails, 'DEETS');
     };
+
     const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
         if (listValue.name != e.currentTarget.name) {
             setListValue({
@@ -141,11 +145,12 @@ const Inventory: FC = () => {
             setDrawingFilesArray(e.target.files);
         }
     };
+
     const listValSubmit = (e: any) => {
         e.preventDefault();
-
         const valueOfKey: any =
             itemDetails[listValue.name as keyof CatalogType];
+
         setItemDetails({
             ...itemDetails,
             [listValue.name]: [...valueOfKey, listValue.value],
@@ -154,6 +159,14 @@ const Inventory: FC = () => {
         setListValue({
             name: '',
             value: '',
+        });
+    };
+
+    const removeItem = (e: any, item: any) => {
+        e.preventDefault();
+        setItemDetails({
+            ...itemDetails,
+            [item]: itemDetails[item].slice(0, -1),
         });
     };
 
@@ -260,6 +273,8 @@ const Inventory: FC = () => {
                 socketType: [], //[]
                 mounting: [], //[]
                 crystalType: [], //[]
+                crystalPinType: [], //[]
+                crystalPinColor: [], //[]
                 designStyle: [], //[]
                 usePackages: [], //[]
                 // images: [], //[]//s3
@@ -268,12 +283,21 @@ const Inventory: FC = () => {
                 costAdmin: 0,
                 partnerCodeAdmin: '',
             });
+
+            setImageNames([]);
+            setViewablePDF([]);
+            setViewableSpecs([]);
+            setDrawingFilesNames([]);
+
+            const checked = document.querySelectorAll('input[type=checkbox]');
+            checked.forEach((item: any, index: number) => {
+                if (index > 0 && item.checked) item.checked = false;
+            });
         } catch (error: any) {
             alert(error.messsge);
             console.log('Error Message: ', error.message);
         }
     };
-
     console.log(images, 'images');
     console.log(itemDetails, 'item deets');
 
@@ -320,7 +344,7 @@ const Inventory: FC = () => {
                                     type="input"
                                     id="itemName"
                                     name="itemName"
-                                    value={itemDetails.itemName}
+                                    value={itemDetails.itemName || ''}
                                     onChange={(e) => handleFormInput(e)}
                                     placeholder="Item Name"
                                     required
@@ -338,7 +362,7 @@ const Inventory: FC = () => {
                                     type="text"
                                     id="itemDescription"
                                     name="itemDescription"
-                                    value={itemDetails.itemDescription}
+                                    value={itemDetails.itemDescription || ''}
                                     onChange={(e) => handleFormInput(e)}
                                     placeholder="Description"
                                     required
@@ -347,7 +371,7 @@ const Inventory: FC = () => {
                                     htmlFor="itemName"
                                     className="form__label"
                                 >
-                                    Item Name
+                                    Item Description
                                 </label>
                             </div>
                         </div>
@@ -366,11 +390,14 @@ const Inventory: FC = () => {
                                 placeholder="Body Diameter"
                                 type="text"
                                 name="bodyDiameter"
-                                value={itemDetails.bodyDiameter}
+                                value={itemDetails.bodyDiameter || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label htmlFor="region" className="form__label">
+                            <label
+                                htmlFor="bodyDiameter"
+                                className="form__label"
+                            >
                                 Body Diameter
                             </label>
                         </div>
@@ -381,14 +408,11 @@ const Inventory: FC = () => {
                                 placeholder="Body Length"
                                 type="text"
                                 name="bodyLength"
-                                value={itemDetails.bodyLength}
+                                value={itemDetails.bodyLength || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyLength" className="form__label">
                                 Body Length
                             </label>
                         </div>
@@ -399,14 +423,11 @@ const Inventory: FC = () => {
                                 placeholder="bodyWidth"
                                 type="text"
                                 name="bodyWidth"
-                                value={itemDetails.bodyWidth}
+                                value={itemDetails.bodyWidth || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyWidth" className="form__label">
                                 Body Width
                             </label>
                         </div>
@@ -417,14 +438,11 @@ const Inventory: FC = () => {
                                 placeholder="Body Height"
                                 type="text"
                                 name="bodyHeight"
-                                value={itemDetails.bodyHeight}
+                                value={itemDetails.bodyHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
+                            <label htmlFor="bodyHeight" className="form__label">
                                 Body Height
                             </label>
                         </div>
@@ -435,12 +453,12 @@ const Inventory: FC = () => {
                                 placeholder="Fixture Overall Height"
                                 type="text"
                                 name="fixtureOverallHeight"
-                                value={itemDetails.fixtureOverallHeight}
+                                value={itemDetails.fixtureOverallHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="fixtureOverallHeight"
                                 className="form__label"
                             >
                                 Fixture Height
@@ -453,12 +471,12 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Height"
                                 type="text"
                                 name="sconceHeight"
-                                value={itemDetails.sconceHeight}
+                                value={itemDetails.sconceHeight || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceHeight"
                                 className="form__label"
                             >
                                 Sconce Height
@@ -471,12 +489,12 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Width"
                                 type="text"
                                 name="sconceWidth"
-                                value={itemDetails.sconceWidth}
+                                value={itemDetails.sconceWidth || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceWidth"
                                 className="form__label"
                             >
                                 Sconce Width
@@ -489,12 +507,12 @@ const Inventory: FC = () => {
                                 placeholder="Sconce Extension"
                                 type="text"
                                 name="sconceExtension"
-                                value={itemDetails.sconceExtension}
+                                value={itemDetails.sconceExtension || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="sconceExtension"
                                 className="form__label"
                             >
                                 Sconce Extension
@@ -512,7 +530,7 @@ const Inventory: FC = () => {
                                 required
                             />
                             <label
-                                htmlFor="description"
+                                htmlFor="estimatedWeight"
                                 className="form__label"
                             >
                                 Estimated Weight
@@ -548,7 +566,7 @@ const Inventory: FC = () => {
                                 placeholder="Lamp Color"
                                 type="text"
                                 name="lampColor"
-                                value={itemDetails.lampColor}
+                                value={itemDetails.lampColor || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -640,7 +658,7 @@ const Inventory: FC = () => {
                                 placeholder="Material"
                                 type="text"
                                 name="material"
-                                value={itemDetails.material}
+                                value={itemDetails.material || ''}
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
@@ -678,7 +696,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'exteriorFinish')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -686,7 +710,7 @@ const Inventory: FC = () => {
                                 placeholder="Exterior Finishes"
                                 type="text"
                                 name="exteriorFinishValues"
-                                value={itemDetails.exteriorFinish}
+                                value={itemDetails.exteriorFinish || ''}
                                 readOnly
                                 required
                             />
@@ -718,7 +742,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'interiorFinish')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -726,7 +756,7 @@ const Inventory: FC = () => {
                                 placeholder="Interior Finishes"
                                 type="text"
                                 name="interiorFinishValues"
-                                value={itemDetails.interiorFinish}
+                                value={itemDetails.interiorFinish || ''}
                                 readOnly
                                 required
                             />
@@ -758,7 +788,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'lensMaterial')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -766,7 +802,7 @@ const Inventory: FC = () => {
                                 placeholder="Lens Materiales"
                                 type="text"
                                 name="lensMaterialValues"
-                                value={itemDetails.lensMaterial}
+                                value={itemDetails.lensMaterial || ''}
                                 readOnly
                                 required
                             />
@@ -798,7 +834,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'lensMaterial')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -806,7 +848,7 @@ const Inventory: FC = () => {
                                 placeholder="Glass Options"
                                 type="text"
                                 name="glassOptionsValues"
-                                value={itemDetails.glassOptions}
+                                value={itemDetails.glassOptions || ''}
                                 readOnly
                                 required
                             />
@@ -838,7 +880,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'acrylicOptions')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -846,7 +894,7 @@ const Inventory: FC = () => {
                                 placeholder="Acrylic Options"
                                 type="text"
                                 name="acrylicOptionsValues"
-                                value={itemDetails.acrylicOptions}
+                                value={itemDetails.acrylicOptions || ''}
                                 readOnly
                                 required
                             />
@@ -878,7 +926,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'crystalType')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -886,7 +940,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Types"
                                 type="text"
                                 name="crystalTypeValues"
-                                value={itemDetails.crystalType}
+                                value={itemDetails.crystalType || ''}
                                 readOnly
                                 required
                             />
@@ -918,7 +972,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'crystalPinType')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -926,7 +986,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Pin Types"
                                 type="text"
                                 name="crystalPinTypeValues"
-                                value={itemDetails.crystalPinType}
+                                value={itemDetails.crystalPinType || ''}
                                 readOnly
                                 required
                             />
@@ -958,7 +1018,15 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) =>
+                                    removeItem(e, 'crystalPinColor')
+                                }
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -966,7 +1034,7 @@ const Inventory: FC = () => {
                                 placeholder="Crystal Pin Colors"
                                 type="text"
                                 name="crystalPinColorValues"
-                                value={itemDetails.crystalPinColor}
+                                value={itemDetails.crystalPinColor || ''}
                                 readOnly
                                 required
                             />
@@ -992,9 +1060,9 @@ const Inventory: FC = () => {
                             />
                             <label
                                 className="form__label"
-                                htmlFor="description"
+                                htmlFor="socketQuantity"
                             >
-                                Price
+                                Socket Quantity
                             </label>
                         </div>
                         <div className="form__group field">
@@ -1008,10 +1076,7 @@ const Inventory: FC = () => {
                                 onChange={(e) => handleFormInput(e)}
                                 required
                             />
-                            <label
-                                className="form__label"
-                                htmlFor="description"
-                            >
+                            <label className="form__label" htmlFor="price">
                                 Price
                             </label>
                         </div>
@@ -1042,7 +1107,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'environment')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -1050,7 +1121,7 @@ const Inventory: FC = () => {
                                 placeholder="Environments"
                                 type="text"
                                 name="environmentValues"
-                                value={itemDetails.environment}
+                                value={itemDetails.environment || ''}
                                 readOnly
                                 required
                             />
@@ -1082,7 +1153,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'safetyCert')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -1090,7 +1167,7 @@ const Inventory: FC = () => {
                                 placeholder="Safety Certs"
                                 type="text"
                                 name="safetyCertValues"
-                                value={itemDetails.safetyCert}
+                                value={itemDetails.safetyCert || ''}
                                 readOnly
                                 required
                             />
@@ -1122,7 +1199,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'projectVoltage')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -1130,7 +1213,7 @@ const Inventory: FC = () => {
                                 placeholder="Project Voltages"
                                 type="text"
                                 name="projectVoltageValues"
-                                value={itemDetails.projectVoltage}
+                                value={itemDetails.projectVoltage || ''}
                                 readOnly
                                 required
                             />
@@ -1162,7 +1245,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'socketType')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -1170,7 +1259,7 @@ const Inventory: FC = () => {
                                 placeholder="Socket Types"
                                 type="text"
                                 name="socketTypeValues"
-                                value={itemDetails.socketType}
+                                value={itemDetails.socketType || ''}
                                 readOnly
                                 required
                             />
@@ -1202,7 +1291,13 @@ const Inventory: FC = () => {
                                 onClick={(e) => listValSubmit(e)}
                             >
                                 <FaPlus />
-                                Add Value
+                                Value
+                            </button>
+                            <button
+                                onClick={(e) => removeItem(e, 'mounting')}
+                                className="delete-material-button"
+                            >
+                                <FaMinus />
                             </button>
                             <input
                                 className="material__list"
@@ -1210,7 +1305,7 @@ const Inventory: FC = () => {
                                 placeholder="Mountings"
                                 type="text"
                                 name="mountingValues"
-                                value={itemDetails.mounting}
+                                value={itemDetails.mounting || ''}
                                 readOnly
                                 required
                             />
@@ -1258,7 +1353,7 @@ const Inventory: FC = () => {
                                 placeholder="Design Styles"
                                 type="text"
                                 name="designStyleValues"
-                                value={itemDetails.designStyle}
+                                value={itemDetails.designStyle || ''}
                                 readOnly
                                 required
                             />
@@ -1298,7 +1393,7 @@ const Inventory: FC = () => {
                                 placeholder="Use Packages"
                                 type="text"
                                 name="usePackagesValues"
-                                value={itemDetails.usePackages}
+                                value={itemDetails.usePackages || ''}
                                 readOnly
                                 required
                             />
@@ -1329,6 +1424,7 @@ const Inventory: FC = () => {
                                 accept="image/png, image/jpeg, image/jpg"
                                 multiple
                                 name="images"
+                                key={imageName || ''}
                                 onChange={(e) => handleFileUpload(e)}
                             />
                         </div>
@@ -1364,6 +1460,7 @@ const Inventory: FC = () => {
                                 accept="application/pdf"
                                 multiple
                                 name="pdf"
+                                key={viewablePDF || ''}
                                 onChange={(e) => handleFileUpload(e)}
                             />
                         </div>
@@ -1398,6 +1495,7 @@ const Inventory: FC = () => {
                                 accept="application/pdf"
                                 multiple
                                 name="specs"
+                                key={viewableSpecs || ''}
                                 onChange={(e) => handleFileUpload(e)}
                             />
                         </div>
@@ -1437,6 +1535,7 @@ const Inventory: FC = () => {
                                 multiple
                                 accept="application/pdf"
                                 name="drawingFiles"
+                                key={drawingFilesNames || ''}
                                 onChange={(e) => handleFileUpload(e)}
                             />
                         </div>
@@ -1483,7 +1582,7 @@ const Inventory: FC = () => {
                                 placeholder="Partner Code"
                                 type="text"
                                 name="partnerCodeAdmin"
-                                value={itemDetails.partnerCodeAdmin}
+                                value={itemDetails.partnerCodeAdmin || ''}
                                 onChange={(e) => handleFormInput(e)}
                             />
                             <label
@@ -1496,9 +1595,7 @@ const Inventory: FC = () => {
                     </div>
                 </div>
 
-                <button id="inventory-btn" onClick={(e) => onSubmit(e)}>
-                    Submit
-                </button>
+                <button id="inventory-btn">Submit</button>
             </form>
         </div>
     );

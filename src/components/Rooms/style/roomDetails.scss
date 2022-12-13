@@ -51,6 +51,8 @@
 
 .roomDetail-container {
     border-right: 1px solid #ada9a9ab;
+    // border: 2px solid red;
+    height: 90vh;
 }
 
 .project-date {
@@ -166,7 +168,7 @@
 
                 .edit-link {
                     text-decoration: underline;
-                    padding-right:15px;
+                    padding-right: 15px;
                     font-size: 16px !important;
                     color: $accent-gold;
                     font-weight: 500;
@@ -174,7 +176,7 @@
                     border: none;
                     background: none;
                     transition: all 0.2s ease-in-out;
-                    &:hover{
+                    &:hover {
                         transition: all 0.2s ease-in-out;
                         color: black;
                     }
@@ -189,7 +191,7 @@
                     border: none;
                     background: none;
                     transition: all 0.2s ease-in-out;
-                    &:hover{
+                    &:hover {
                         transition: all 0.2s ease-in-out;
                         color: black;
                     }
@@ -239,27 +241,58 @@
     }
 }
 
-.delete-Modal-container{
+.delete-Modal-container {
     min-height: 300px;
     text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-   justify-content: center;
-.delete-modal-button{
-background-color: red !important;
-padding: 10px 12px 10px 12px;
-width: 50%;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .delete-modal-button {
+        background-color: red !important;
+        padding: 10px 12px 10px 12px;
+        width: 50%;
+    }
 }
 
-.room-icons{
-cursor: pointer;
+.room-icons {
+    cursor: pointer;
 }
 
 // ******** for the containers for each component
 .details-container {
     padding-top: 100px !important;
+}
+
+// ******** Filter Componet *********
+.container-filter {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 100px;
+}
+
+.filter-lights-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-bar-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    cursor: pointer;
 }
 
 // ******** Media for Tablet ************************
@@ -275,5 +308,6 @@ cursor: pointer;
 
     .roomDetail-container {
         border-right: none;
+        height: 45vh;
     }
 }
