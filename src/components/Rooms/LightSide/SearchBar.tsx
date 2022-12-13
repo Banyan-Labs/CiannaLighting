@@ -7,9 +7,9 @@ interface searchBarProps {
 
 const SearchBar: FC<searchBarProps> = ({ setSearchTerm }) => {
     return (
-        <div className="col-6 d-flex form-input-search m-0">
+        <div className="col-6 d-flex form-input-search m-0 justify-content-end">
             <button className="button-search">
-                <BiSearchAlt2 className=" icon-search" />
+                <BiSearchAlt2 className="icon-search" />
             </button>
             <input
                 type="text"

@@ -21,6 +21,7 @@ const Details: FC = () => {
     const storedRoomId = useParams('roomId');
     const [catalogItem, setCatalogItem] = useState(null);
     const [editLight, setEditLight] = useState(null);
+    const [filterBar, setFilterBar] = useState<boolean>(false);
 
     const fetchData = async () => {
         dispatch(getProject({ _id: String(storedProjId) }));
@@ -35,19 +36,35 @@ const Details: FC = () => {
     }, []);
 
     return (
-        <div className="container-fluid details-container m-0 p-0 d-flex row">
-            <RoomDetails
-                setEditLight={setEditLight}
-                setCatalogItem={setCatalogItem}
-            />
-            <LightDetails
+        <>
+            {filterBar && (
+                <div
+                    className="filter-bar-background"
+                    onClick={() =>
+                        filterBar ? setFilterBar(!filterBar) : null
+                    }
+                ></div>
+            )}
+            <div className="container-fluid details-container m-0 p-0 col-lg-12 d-flex row">
+                <RoomDetails
+                    setEditLight={setEditLight}
+                    setCatalogItem={setCatalogItem}
+                />
+                <LightDetails
+                    catalogItem={catalogItem}
+                    setCatalogItem={setCatalogItem}
+                    setEditLight={setEditLight}
+                    editLight={editLight}
+                    filterBar={filterBar}
+                    setFilterBar={setFilterBar}
+                />
+            </div>
+            <Filter
                 catalogItem={catalogItem}
-                setCatalogItem={setCatalogItem}
-                setEditLight={setEditLight}
-                editLight={editLight}
+                filterBar={filterBar}
+                setFilterBar={setFilterBar}
             />
-            <Filter catalogItem={catalogItem} />
-        </div>
+        </>
     );
 };
 

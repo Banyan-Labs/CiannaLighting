@@ -187,10 +187,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     });
 
     return (
-        <div
-            className="roomDetail-container m-0 container
-         d-flex row col-12 col-lg-5"
-        >
+        <div className="roomDetail-container m-0 mr-0 container d-flex row col-12 col-lg-7">
             <div className="col-12 d-flex row m-0">
                 <div className="back-to-project col-6">
                     <Link

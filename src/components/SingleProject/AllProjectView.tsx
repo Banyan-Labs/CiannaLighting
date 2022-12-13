@@ -3,7 +3,10 @@ import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getAllProjects, getFilteredProjects } from '../../redux/actions/projectActions';
+import {
+    getAllProjects,
+    getFilteredProjects,
+} from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
@@ -21,7 +24,7 @@ type Props = {
     setSortedData: React.Dispatch<React.SetStateAction<ProjectType[]>>;
     setSortDirection: React.Dispatch<React.SetStateAction<number>>;
     setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
-    yourProject: any,
+    yourProject: any;
 };
 
 const AllProjectView: FC<Props> = ({
@@ -44,25 +47,25 @@ const AllProjectView: FC<Props> = ({
         ({ project }) => project
     );
     const [typeOfProject, setTypeOfProject] = useState('yourProjects');
-    const filterThis = typeOfProject === 'yourProjects' ? userProjects : allProjects;
+    const filterThis =
+        typeOfProject === 'yourProjects' ? userProjects : allProjects;
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const projectsPerPage = 11;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState('');
 
     // Input Field handler
-    const handleUserInput = (e:any) => {
-      setInputValue(e.currentTarget.value);
-    };
-  
-    // Reset Input Field handler
-    const resetInputField = () => {
-      setInputValue("");
+    const handleUserInput = (e: any) => {
+        setInputValue(e.currentTarget.value);
     };
 
+    // Reset Input Field handler
+    const resetInputField = () => {
+        setInputValue('');
+    };
 
     useEffect(() => {
         dispatch(getAllProjects());
@@ -133,7 +136,7 @@ const AllProjectView: FC<Props> = ({
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        console.log(checkSearchVal)
+        console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -190,7 +193,11 @@ const AllProjectView: FC<Props> = ({
         ? activeProjects.reverse().slice(firstIndex, lastIndex)
         : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const lastPage = Math.ceil(typeOfProject === 'yourProjects' ? userProjects.length : allProjects.length / projectsPerPage);
+    const lastPage = Math.ceil(
+        typeOfProject === 'yourProjects'
+            ? userProjects.length
+            : allProjects.length / projectsPerPage
+    );
     const sortDisplay = (field: string) => {
         const directionCall: any = {
             0: '',
@@ -260,42 +267,54 @@ const AllProjectView: FC<Props> = ({
                             value={inputValue}
                             placeholder="Search"
                             onChange={(e) => {
-                                handleUserInput(e)
-                                if(typeOfProject === 'yourProjects') {
-                                    searchFilter(e, userProjects)
-                                } if (typeOfProject === 'allProjects'){
-                                   searchFilter(e, allProjects) 
+                                handleUserInput(e);
+                                if (typeOfProject === 'yourProjects') {
+                                    searchFilter(e, userProjects);
                                 }
-                                else searchFilter(e, reduxData)
-                            }
-                            }
+                                if (typeOfProject === 'allProjects') {
+                                    searchFilter(e, allProjects);
+                                } else searchFilter(e, reduxData);
+                            }}
                         />
                         <label htmlFor="description" className="form__label1">
                             Search
                         </label>
-                        
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={() => setOpenModal(true)}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
-                    <div className='button-filter-container d-flex justify-content-end'>
-                        <button className={typeOfProject === 'allProjects' ? 'all-project-button' : 'type-project-btn'} onClick={async() => {
-                            await resetInputField()
-                            await setParsedData([])
-                            await setTypeOfProject('allProjects')}
-                        } >
-                           All Projects
+                    <div className="button-filter-container d-flex justify-content-end">
+                        <button
+                            className={
+                                typeOfProject === 'allProjects'
+                                    ? 'all-project-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={async () => {
+                                await resetInputField();
+                                await setParsedData([]);
+                                await setTypeOfProject('allProjects');
+                            }}
+                        >
+                            All Projects
                         </button>
-                        <button className={typeOfProject === 'yourProjects' ? 'your-projects-button' : 'type-project-btn'} onClick={async() => {
-                           await resetInputField()
-                            await setParsedData([])
-                            await setTypeOfProject('yourProjects')
-                        } }>
+                        <button
+                            className={
+                                typeOfProject === 'yourProjects'
+                                    ? 'your-projects-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={async () => {
+                                await resetInputField();
+                                await setParsedData([]);
+                                await setTypeOfProject('yourProjects');
+                            }}
+                        >
                             Your Projects
                         </button>
-                        </div>
+                    </div>
                 </div>
                 <div>
                     <div className="dashboard-all-projects">
@@ -335,7 +354,7 @@ const AllProjectView: FC<Props> = ({
                                     <td className="projects-table-dots"> </td>
                                 </tr>
                             </thead>
-                            { allProjectsTableDisplay}
+                            {allProjectsTableDisplay}
                         </table>
                     </div>
 
