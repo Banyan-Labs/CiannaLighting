@@ -51,7 +51,6 @@
 
 .roomDetail-container {
     border-right: 1px solid #ada9a9ab;
-    // border: 2px solid red;
     height: 90vh;
 }
 
@@ -85,13 +84,20 @@
 }
 
 .description-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // border: 2px solid blue;
     h4 {
         margin-left: 20px;
         font-weight: 400;
     }
+
     p {
-        padding-left: 120px;
-        padding-right: 30px;
+        padding-left: 10px;
+        // padding-left: 120px;
+        // padding-right: 30px;
+        // padding-top: 5px;
         color: $primary-bg-white-sub-text;
     }
 }
@@ -138,6 +144,8 @@
     }
 }
 .container-for-light-cards-off {
+    // min-height: 50vh;
+    // max-height: 50vh;
     min-height: 510px;
     max-height: 510px;
     overflow-y: scroll;
@@ -155,7 +163,7 @@
         margin-right: 20px;
         margin-left: 20px;
         padding-bottom: 20px;
-        border-bottom: solid 1px #ada9a9ab;
+        border-bottom: solid 1px $primary-bg-light-grey;
 
         // **** the top part of the light card *****
         .first-light-section {
@@ -166,35 +174,41 @@
                     color: $primary-bg-white-sub-text;
                 }
 
-                .edit-link {
-                    text-decoration: underline;
-                    padding-right: 15px;
-                    font-size: 16px !important;
-                    color: $accent-gold;
-                    font-weight: 500;
-                    cursor: pointer;
-                    border: none;
-                    background: none;
-                    transition: all 0.2s ease-in-out;
-                    &:hover {
-                        transition: all 0.2s ease-in-out;
-                        color: black;
-                    }
-                }
+                // .edit-link {
+                //     text-decoration: underline;
+                //     padding-right: 15px;
+                //     font-size: 16px !important;
+                //     color: $accent-gold;
+                //     font-weight: 500;
+                //     cursor: pointer;
+                //     border: none;
+                //     background: none;
+                //     transition: all 0.2s ease-in-out;
+                //     &:hover {
+                //         transition: all 0.2s ease-in-out;
+                //         color: $primary-bg-dark-title;
+                //     }
+                // }
 
-                .remove-link {
-                    text-decoration: underline;
-                    font-weight: 500;
-                    cursor: pointer;
-                    font-size: 16px !important;
-                    color: $primary-bg-white-sub-text;
-                    border: none;
-                    background: none;
-                    transition: all 0.2s ease-in-out;
-                    &:hover {
-                        transition: all 0.2s ease-in-out;
-                        color: black;
-                    }
+                // .remove-link {
+                //     text-decoration: underline;
+                //     font-weight: 500;
+                //     cursor: pointer;
+                //     font-size: 16px !important;
+                //     color: $primary-bg-white-sub-text;
+                //     border: none;
+                //     background: none;
+                //     transition: all 0.2s ease-in-out;
+                //     &:hover {
+                //         transition: all 0.2s ease-in-out;
+                //         color: $primary-bg-dark-title;
+                //     }
+                // }
+                h3 {
+                    color: $primary-bg-dark-title;
+                }
+                h4 {
+                    color: $primary-bg-dark-title;
                 }
             }
 
@@ -214,30 +228,56 @@
         }
         .lightImg {
             box-shadow: $box-shadow;
-            height: 85px;
+            // height: 85px;
+            height: 120px;
             border-radius: 0.2rem;
+        }
+    }
+
+    .edit-link {
+        text-decoration: underline;
+        padding-right: 15px;
+        font-size: 16px !important;
+        color: $accent-gold;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        background: none;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-title;
+        }
+    }
+
+    .remove-link {
+        text-decoration: underline;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 16px !important;
+        color: $primary-bg-white-sub-text;
+        border: none;
+        background: none;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-title;
         }
     }
 }
 
 // ********* The Bottom Part Of The Light Card *********
-.second-light-section {
-    padding-top: 30px;
-
-    .second-left-section {
-        p {
-            padding-left: 25px;
-        }
+.second-left-section {
+    font-size: $primary-text-fs;
+    h5:nth-child(2) {
+        color: gray;
     }
 }
 
 .second-right-section {
-    .right-section-inner {
-        padding-left: 50px;
-
-        p {
-            padding-left: 10px;
-        }
+    font-size: $primary-text-fs;
+    h5:nth-child(2) {
+        color: gray;
     }
 }
 
@@ -299,9 +339,12 @@
 
 @include media-lg {
     .container-for-light-cards {
-        min-height: 0px;
-        max-height: 280px;
+        min-height: 25vh;
+        max-height: 25vh;
+        overflow-y: scroll;
+        padding: 5px;
     }
+
     .container-for-light-cards-off {
         display: none;
     }
@@ -309,5 +352,8 @@
     .roomDetail-container {
         border-right: none;
         height: 45vh;
+    }
+    .details-container {
+        height: 100vh;
     }
 }

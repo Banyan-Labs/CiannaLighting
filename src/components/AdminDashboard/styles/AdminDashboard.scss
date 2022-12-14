@@ -8,14 +8,15 @@
 .admin-sidebar-container {
     background: $primary-bg-dark;
     position: relative;
-    min-height: 100vh;
     min-width: 100px;
     top: 1px;
     padding: 30px 65px 0 30px;
 }
+
 .sidebar-link-container {
     padding: 10px;
 }
+
 .sidebar-link {
     text-decoration: none;
     color: $primary-bg-dark-link;
@@ -24,6 +25,7 @@
         text-decoration: underline;
     }
 }
+
 .active-sidebar-link {
     transform: scale(1.1);
     color: $accent-gold;

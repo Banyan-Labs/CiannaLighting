@@ -4,7 +4,6 @@
 
 .all-project-view-main-container {
     margin-top: 140px;
-    // background-color: $primary-bg-dark;
     color: $primary-bg-dark-text;
     width: 100%;
     border-right: 1px $line-dark solid;
@@ -21,7 +20,6 @@
     transition: all 0.2s ease-in-out;
     background-color: $accent-gold;
     border: 1px $line-dark solid;
-    // padding: 12px 8px 12px 8px;
     padding: 12px 16px 12px 16px;
     border-radius: 5px;
     color: $primary-bg-white;
@@ -38,59 +36,13 @@
 
 .type-project-btn {
     transition: all 0.2s ease-in-out;
- border: none;
- background-color:  $primary-bg-dark ;
-  &:hover{
-    transition: all 0.2s ease-in-out;
-    background-color: $primary-bg-dark-text;
-    color: white;
-  }
-}
-
-.form__field1 {
-    font-family: inherit;
-    width: 100%;
-    margin: 10px 0;
-    border: 0;
-    border-bottom: 2px solid $line-gray;
-    outline: 0;
-    font-size: 14px;
-    color: $primary-bg-dark-text;
-    padding: 7px 0;
-    background: transparent;
-
-    &::placeholder {
-        color: transparent;
+    border: none;
+    background-color: $primary-bg-dark;
+    padding: 12px 8px 12px 8px;
+    border-radius: 5px;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark-text;
+        color: $primary-bg-white;
     }
-
-    &:placeholder-shown ~ .form__label1 {
-        font-size: 14px;
-        cursor: text;
-        top: 20px;
-    }
-}
-
-.form__field1:focus {
-    ~ .form__label1 {
-        position: absolute;
-        top: 20px;
-        display: block;
-        transition: 0.2s;
-        font-size: 12px;
-        color: #c09d5b;
-        font-weight: 700;
-    }
-    padding-bottom: 6px;
-    font-weight: 700;
-    border-width: 3px;
-    border-color: $line-light;
-}
-
-.form__label1 {
-    position: absolute;
-    top: 20px;
-    display: block;
-    transition: 0.2s;
-    font-size: 14px;
-    color: $line-gray;
 }
