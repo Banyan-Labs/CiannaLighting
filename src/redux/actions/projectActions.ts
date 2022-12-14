@@ -1,5 +1,7 @@
 import { Dispatch } from 'redux';
 import {
+    setProposals,
+    setRfp,
     setProject,
     setProjectError,
     setRoom,
@@ -20,8 +22,15 @@ export const createProjectAction =
         const axiosPriv = await axiosPrivate();
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            dispatch(setProjectId(response.data.project));
-            dispatch(setProject(response.data.project));
+            if(response){
+                dispatch(setProjectId(response.data.project));
+                dispatch(setProject(response.data.project));
+                const getRfp = await axiosPriv.post('/get-rfps', {projectId: response.data.project._id})
+                if(getRfp){
+                    console.log("RFP RESPONSE: ", getRfp.data)
+                    dispatch(setRfp(getRfp.data.rfp[0]))
+                }
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -100,6 +109,18 @@ export const getProject =
             if(project){
             dispatch(setProject(project.data.project));
             dispatch(setProjectId(project.data.project));
+                const proposalSet = await axioscall.post('/get-proposals',{
+                    projectId: project.data.project._id
+                })
+                if(proposalSet){
+                    console.log("PROPOSAL STUFF: ", proposalSet)
+                    dispatch(setProposals(proposalSet.data.proposal))
+                    const getRfp = await axioscall.post('/get-rfps', {projectId: project.data.project._id})
+                    if(getRfp){
+                        console.log("RFP RESPONSE in createLight: ", getRfp.data)
+                        dispatch(setRfp(getRfp.data.rfp[0]))
+                    }
+                }
             }
         } catch (err) {
             console.log(err);
@@ -190,3 +211,4 @@ export const editThisRoom =
             dispatch(setProjectError(error.response.data));
         }
     };
+
