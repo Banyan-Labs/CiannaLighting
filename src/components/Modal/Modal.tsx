@@ -76,7 +76,7 @@ const Modal: FC<Props> = (props) => {
         console.log('DEETS: ', projectDetails);
         try {
             !props.editProject
-                ? dispatch(createProjectAction(projectDetails))
+                ? await dispatch(createProjectAction(projectDetails))
                 : await dispatch(
                       getProject({
                           ...projectDetails,

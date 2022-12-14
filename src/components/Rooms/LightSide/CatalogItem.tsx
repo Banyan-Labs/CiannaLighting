@@ -58,7 +58,7 @@ const CatalogItem: FC<catalogPros> = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomLights, roomId } = useAppSelector(
+    const { room, attachments, projectId, roomLights, roomId, proposal} = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -71,53 +71,53 @@ const CatalogItem: FC<catalogPros> = ({
         exteriorFinish:
             editLight !== null
                 ? editLight?.exteriorFinish
-                : catalogItem.exteriorFinish[0],
+                : catalogItem.exteriorFinish[0].split(',')[0],
         interiorFinish:
             editLight !== null
                 ? editLight?.interiorFinish
-                : catalogItem.interiorFinish[0],
+                : catalogItem.interiorFinish[0].split(',')[0],
         environment:
             editLight !== null
                 ? editLight?.environment
-                : catalogItem.environment[0],
+                : catalogItem.environment[0].split(',')[0],
         safetyCert:
             editLight !== null
                 ? editLight?.safetyCert
-                : catalogItem.safetyCert[0],
+                : catalogItem.safetyCert[0].split(',')[0],
         projectVoltage:
             editLight !== null
                 ? editLight?.projectVoltage
-                : catalogItem.environment[0], // change when you go to production
+                : catalogItem.environment[0].split(',')[0], // change when you go to production
         socketType:
             editLight !== null
                 ? editLight?.socketType
-                : catalogItem.socketType[0],
+                : catalogItem.socketType[0].split(',')[0],
         lensMaterial:
             editLight !== null
                 ? editLight?.lensMaterial
-                : catalogItem.lensMaterial[0],
+                : catalogItem.lensMaterial[0].split(',')[0],
         glassOptions:
             editLight !== null
                 ? editLight?.glassOptions
-                : catalogItem.glassOptions[0],
+                : catalogItem.glassOptions[0].split(',')[0],
         acrylicOptions:
             editLight !== null
                 ? editLight?.acrylicOptions
-                : catalogItem.acrylicOptions[0],
+                : catalogItem.acrylicOptions[0].split(',')[0],
         crystalType:
             editLight !== null
                 ? editLight?.crystalType
-                : catalogItem.crystalType[0],
+                : catalogItem.crystalType[0].split(',')[0],
         crystalPinType:
             editLight !== null
                 ? editLight?.crystalType
-                : catalogItem.crystalType[0], // change when you go to production
+                : catalogItem.crystalType[0].split(',')[0], // change when you go to production
         crystalPinColor:
             editLight !== null
                 ? editLight?.exteriorFinish
-                : catalogItem.crystalType[0], // change when you go to production
+                : catalogItem.crystalType[0].split(',')[0], // change when you go to production
         mounting:
-            editLight !== null ? editLight?.mounting : catalogItem.mounting[0],
+            editLight !== null ? editLight?.mounting : catalogItem.mounting[0].split(',')[0],
         item_ID: editLight !== null ? editLight?.item_ID : catalogItem.item_ID,
         roomName: String(room?.name),
         roomId: String(storedRoomId),
@@ -145,11 +145,15 @@ const CatalogItem: FC<catalogPros> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        const propCheck = proposal.filter((item:any)=> item.sub ? '' : item).find((item:any)=> item.itemID == catalogDetails.item_ID );
+        const propID = propCheck ? propCheck._id : '';
         const rfpPass = {
-            description: catalogItem.description,
+            propID: propID,
+            description: catalogItem.itemDescription,
             lampType: catalogItem.lampType, 
             lampColor: catalogItem.lampColor,
             wattsPer:  catalogItem.wattsPerLamp,
+            price: catalogItem.price,
             totalWatts: catalogItem.wattsPerLamp * count,
             numberOfLamps: catalogItem.numberOfLamps,
             totalLumens: catalogItem.powerInWatts, 
@@ -201,20 +205,21 @@ const CatalogItem: FC<catalogPros> = ({
             } else {
                 dispatch(theEditLight({...catalogDetails, ...rfpPass}, editLight._id));
             }
+            await dispatch(createLight({...catalogDetails, ...rfpPass}));
             setCatalogDetails({
-                exteriorFinish: catalogItem.exteriorFinish[0],
-                interiorFinish: catalogItem.interiorFinish[0],
-                environment: catalogItem.environment[0],
-                safetyCert: catalogItem.safetyCert[0],
-                projectVoltage: catalogItem.crystalType[0],
-                socketType: catalogItem.socketType[0],
-                lensMaterial: catalogItem.lensMaterial[0],
-                glassOptions: catalogItem.glassOptions[0],
-                acrylicOptions: catalogItem.acrylicOptions[0],
-                crystalType: catalogItem.crystalType[0],
-                crystalPinType: catalogItem.crystalType[0],
-                crystalPinColor: catalogItem.crystalType[0],
-                mounting: catalogItem.mounting[0],
+                exteriorFinish: catalogItem.exteriorFinish[0].split(',')[0],
+                interiorFinish: catalogItem.interiorFinish[0].split(',')[0],
+                environment: catalogItem.environment[0].split(',')[0],
+                safetyCert: catalogItem.safetyCert[0].split(',')[0],
+                projectVoltage: catalogItem.crystalType[0].split(',')[0],
+                socketType: catalogItem.socketType[0].split(',')[0],
+                lensMaterial: catalogItem.lensMaterial[0].split(',')[0],
+                glassOptions: catalogItem.glassOptions[0].split(',')[0],
+                acrylicOptions: catalogItem.acrylicOptions[0].split(',')[0],
+                crystalType: catalogItem.crystalType[0].split(',')[0],
+                crystalPinType: catalogItem.crystalType[0].split(',')[0],
+                crystalPinColor: catalogItem.crystalType[0].split(',')[0],
+                mounting: catalogItem.mounting[0].split(',')[0],
                 item_ID: catalogItem.item_ID,
                 roomName: String(room?.name),
                 roomId: String(storedRoomId),
@@ -222,7 +227,6 @@ const CatalogItem: FC<catalogPros> = ({
                 clientId: String(userId),
                 quantity: count,
             });
-            await dispatch(createLight({...catalogDetails, ...rfpPass}));
             await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
@@ -428,7 +432,7 @@ const CatalogItem: FC<catalogPros> = ({
 
                 <div className="col-12 d-flex justify-content-start p-0 name-id-catalog row">
                     <h2 className="">
-                        Acrylic Pendant <br />{' '}
+                        {catalogItem.name} <br />{' '}
                         <span>{catalogItem.item_ID}</span>
                     </h2>
                     <p>{catalogItem.itemDescription}</p>
