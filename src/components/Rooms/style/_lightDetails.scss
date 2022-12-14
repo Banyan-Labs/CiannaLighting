@@ -1,7 +1,6 @@
 .lightDetail-container {
     padding-top: 20px;
     height: 90vh;
-    // border: 2px solid blue;
 }
 
 // ******** top of the container **********
@@ -38,7 +37,6 @@
     justify-content: center;
     gap: 1rem;
     margin: 1rem 0;
-    // border: 2px solid blue;
     position: relative;
     bottom: 0px;
 }
@@ -139,7 +137,7 @@
 
 .lightCard {
     min-height: 67.5vh;
-    max-height: 67.5vh;
+    max-height: 72.5vh;
     overflow-y: scroll;
 }
 
@@ -233,7 +231,7 @@
         height: 47vh;
     }
     .lightCard {
-        max-height: 30vh;
-        min-height: 30vh;
+        max-height: 35vh;
+        min-height: 35vh;
     }
 }

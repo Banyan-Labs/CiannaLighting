@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import usePagination from './usePagination';
-import Default from '../../../assets/stairway.jpeg';
 import { getCatalogItems } from '../../../redux/actions/lightActions';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 
@@ -52,19 +51,14 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
 
     return (
         <>
-            <div
-                className="lightCard d-flex row flex-wrap"
-                // style={{
-                //     border: '2px solid purple',
-                // }}
-            >
+            <div className="lightCard d-flex row flex-wrap m-0 p-0">
                 {loading ? (
                     <h2>Loading...</h2>
                 ) : error ? (
                     <h2>Error fetching users</h2>
                 ) : (
                     <>
-                        <div className="items d-flex flex-wrap justify-content-center">
+                        <div className="items d-flex m-0 p-0 flex-wrap justify-content-center">
                             {setAllCatalog
                                 .filter((val: any) => {
                                     if (searchTerm === '') {
@@ -81,6 +75,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                 })
                                 .slice(firstContentIndex, lastContentIndex)
                                 .map((el: any, index: any) => (
+                                    // console.log('~~el~~', el),
                                     <div
                                         className="item d-flex row align-content-start"
                                         key={index}
@@ -88,10 +83,13 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                             setCatalogItem(el);
                                         }}
                                     >
-                                        <img src={Default} />
+                                        <img src={el.images[0]} />
                                         <div className="item-bottom-sections">
-                                            <h4 className="">
-                                                Acrylic Pendant <br />{' '}
+                                            <h4
+                                                className=""
+                                                style={{ minHeight: '75px' }}
+                                            >
+                                                {el.itemName} <br />{' '}
                                                 <span>{el.item_ID}</span>
                                             </h4>
                                         </div>

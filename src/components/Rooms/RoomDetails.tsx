@@ -24,6 +24,8 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         ({ project }) => project
     );
 
+    console.log('~~roomLights~~', roomLights);
+
     const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [deleteLight, setDeleteLight] = useState('');
@@ -91,94 +93,129 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     };
 
     const singleRoom = newLights?.map((light: any, index: any) => {
+        // console.log('~~light~~', light);
         return (
             <div className="single-room-container d-flex row" key={index}>
-                <div className="first-light-section col-12 d-flex">
+                <div className="first-light-section d-flex mb-2">
                     <img className="lightImg" src={Default} alt={light.name} />
                     <div className="d-flex row first-section-name">
-                        <div>
+                        <div className="">
                             <h3>{light.item_ID}</h3>
                             <h4 className="m-0">{light.acrylicOptions}</h4>
                             <p className="m-0">LLC</p>
                         </div>
-                        <div className="d-flex align-items-end">
-                            <button
-                                className="m-0 edit-link"
-                                onClick={() => editLightFunc(light)}
-                            >
-                                {' '}
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => deleteLightFunc(light)}
-                                className="m-0 remove-link"
-                            >
-                                Remove
-                            </button>
-                        </div>
+                    </div>
+                    <div className="d-flex col-6 align-items-center ms-auto">
+                        <button
+                            className="m-0 edit-link"
+                            onClick={() => editLightFunc(light)}
+                        >
+                            {' '}
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => deleteLightFunc(light)}
+                            className="m-0 remove-link"
+                        >
+                            Remove
+                        </button>
                     </div>
                     <p className="qty">
                         Qty. <span>{light.quantity}</span>
                     </p>
                 </div>
-                <div
-                    className={`second-light-section col-12 d-flex collapse-content `}
-                >
-                    <div className="col-6 d-flex row second-left-section">
-                        <div className="d-flex">
-                            <h5 className="m-0 col-6">Exterior Finish:</h5>
-                            <p className="m-0 col-6 d-flex">
+                <div className={`  col-12 d-flex collapse-content `}>
+                    <div className="col-7 d-flex row second-left-section">
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Exterior Finish:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
                                 {light.exteriorFinish}
-                            </p>
+                            </h5>
                         </div>
-                        <div className="d-flex">
-                            <h5 className="m-0 col-6">Interior Finish:</h5>
-                            <p className="m-0 col-6 d-flex">
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Interior Finish:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
                                 {light.interiorFinish}
-                            </p>
+                            </h5>
                         </div>
-                        <div className="d-flex ">
-                            <h5 className="m-0 col-6">Environment:</h5>
-                            <p className="m-0 d-flex col-6">
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Environment:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
                                 {light.environment}
-                            </p>
+                            </h5>
                         </div>
-                        <div className="d-flex">
-                            <h5 className="m-0 col-6">Safety Cert:</h5>
-                            <p className="m-0 col-6">{light.safetyCert}</p>
+                        <div className="d-flex py-1 ">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Safety Cert:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.safetyCert}
+                            </h5>
                         </div>
-                        <div className="d-flex ">
-                            <h5 className="m-0 col-6">Project Voltage:</h5>
-                            <p className="m-0 col-6">{light.projectVoltage}</p>
-                        </div>
-                        <div className="d-flex">
-                            <h5 className="m-0 col-6">Socket Type:</h5>
-                            <p className="m-0 col-6">{light.socketType}</p>
-                        </div>
-                        <div className="d-flex ">
-                            <h5 className="m-0 col-6">Mounting:</h5>
-                            <p className="m-0 col-6">{light.mounting}</p>
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Project Voltage:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.projectVoltage}
+                            </h5>
                         </div>
                     </div>
-                    <div className="col-7 d-flex row second-right-section ">
-                        <div className="d-flex justify-content-end right-section-inner">
-                            <h5 className="m-0 col-6">Lens Material:</h5>
-                            <p className="m-0 col-6">{light.lensMaterial}</p>
+                    <div className="col-5 d-flex row second-right-section ">
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Socket Type:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.socketType}
+                            </h5>
                         </div>
-                        <div className="d-flex justify-content-end right-section-inner">
-                            <h5 className="m-0 col-6">Options:</h5>
-                            <p className="m-0 col-6">{light.glassOptions}</p>
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Mounting:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.mounting}
+                            </h5>
                         </div>
-                        <div className="d-flex justify-content-end right-section-inner">
-                            <h5 className="m-0 col-6">Crystal Type:</h5>
-                            <p className="m-0 col-6">{light.crystalType}</p>
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Lens Material:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.lensMaterial}
+                            </h5>
                         </div>
-                        <div className="d-flex justify-content-end right-section-inner">
-                            <h5 className="m-0 col-6">Options:</h5>
-                            <p className="m-0 col-6">
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Options:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.glassOptions}
+                            </h5>
+                        </div>
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Crystal Type:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
+                                {light.crystalType}
+                            </h5>
+                        </div>
+                        <div className="d-flex py-1">
+                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
+                                Options:
+                            </h5>
+                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
                                 {light.crystalPinType} <br />
                                 <span>{light.crystalPinColor}</span>
-                            </p>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -209,7 +246,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 </div>
             </div>
 
-            <div className="col-12 m-0 d-flex ">
+            <div className="col-12 m-0 d-flex">
                 <div className="project-date d-flex row">
                     <h3 className="m-0">{room?.name}</h3>
                     <p className="">Created: {date}</p>
@@ -261,7 +298,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         View Room Lights <span>{isCollapsed ? '-' : '+'} </span>
                     </h4>
                 </div>
-                <div className="room-description-light-divider"></div>
+                {/* <div className="room-description-light-divider"></div> */}
 
                 <div
                     className={
