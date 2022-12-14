@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Settings from './Settings';
+import Activity from './Activity';
 import Inventory from '../Inventory/Inventory';
 import UsersTable from './UsersTable';
 import RequireAuth from '../RequireAuth/RequireAuth';
@@ -44,6 +45,7 @@ const AdminDashboard: FC = () => {
 
                     <Route element={<RequireAuth roles={[ROLES.Cmd]} />}>
                         <Route path="/users" element={<UsersTable />} />
+                    <Route path="/activity" element={<Activity />} />   
                     </Route>
                     <Route path="/settings" element={<Settings />} />
                 </Routes>

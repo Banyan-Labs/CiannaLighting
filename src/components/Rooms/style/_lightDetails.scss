@@ -1,5 +1,7 @@
 .lightDetail-container {
     padding-top: 20px;
+    height: 90vh;
+    // border: 2px solid blue;
 }
 
 // ******** top of the container **********
@@ -36,6 +38,9 @@
     justify-content: center;
     gap: 1rem;
     margin: 1rem 0;
+    // border: 2px solid blue;
+    position: relative;
+    bottom: 0px;
 }
 
 .pagination_ .text {
@@ -133,8 +138,8 @@
 }
 
 .lightCard {
-    min-height: 740px;
-    max-height: 740px;
+    min-height: 67.5vh;
+    max-height: 67.5vh;
     overflow-y: scroll;
 }
 
@@ -160,9 +165,9 @@
 }
 
 .dashboard-all-projects-submit {
-    background-color: black;
+    background-color: $primary-bg-dark-link-hover;
     padding: 5px 15px 5px 15px;
-    color: white;
+    color: #c09d5b;
     margin-left: 5px;
     font-size: 20px;
     border-radius: 5px;
@@ -207,9 +212,6 @@
         }
     }
 }
-// .input-container-filter{
-
-// }
 
 // media Queries
 
@@ -226,5 +228,12 @@
         margin: 15px;
         margin-top: 10px;
         width: calc(80% / 3);
+    }
+    .lightDetail-container {
+        height: 47vh;
+    }
+    .lightCard {
+        max-height: 30vh;
+        min-height: 30vh;
     }
 }

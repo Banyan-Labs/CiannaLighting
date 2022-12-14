@@ -2,111 +2,118 @@ import React, { FC, useState, FormEvent } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
 import './style/roomDetails.scss';
 import { useAppDispatch } from '../../app/hooks';
-import {
-    filterCatalogItems
-} from '../../redux/actions/lightActions';
+import { filterCatalogItems } from '../../redux/actions/lightActions';
 
 interface catalogPros {
     catalogItem: any;
+    filterBar: any;
+    setFilterBar: any;
 }
 
-
-const DetailsFilter: FC<catalogPros> = ({ catalogItem }) => {
+const DetailsFilter: FC<catalogPros> = ({
+    catalogItem,
+    filterBar,
+    setFilterBar,
+}) => {
     const dispatch = useAppDispatch();
-    
+
     const [designDetails, setDesignDetails] = useState<any>({
-           asian: '', 
-           artDeco: '', 
-           colonial: '', 
-           western: '', 
-           traditional: '', 
-           transitional: '', 
+        asian: '',
+        artDeco: '',
+        colonial: '',
+        western: '',
+        traditional: '',
+        transitional: '',
     });
 
     const [packageDetails, setPackageDetails] = useState<any>({
-         baptistry: '',
-         bridesRoom: '',
-         celestialRoom: '',
-         hallway: '',
-         forier: '',
- });
+        baptistry: '',
+        bridesRoom: '',
+        celestialRoom: '',
+        hallway: '',
+        forier: '',
+    });
 
     const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
         setDesignDetails({
             ...designDetails,
-                [e.currentTarget.name]:  e.currentTarget.checked === true ? e.currentTarget.name : '',
+            [e.currentTarget.name]:
+                e.currentTarget.checked === true ? e.currentTarget.name : '',
         });
     };
     const handlePackagesInput = (e: FormEvent<HTMLInputElement>) => {
         setPackageDetails({
             ...packageDetails,
-                [e.currentTarget.name]: e.currentTarget.checked === true ? e.currentTarget.name : '',
+            [e.currentTarget.name]:
+                e.currentTarget.checked === true ? e.currentTarget.name : '',
         });
     };
 
-    
- const onSubmit = async (e: any) => {
-    e.preventDefault();
-    
-    const designs = Object.values(designDetails).filter(
-        (x:any) => x.toLowerCase()
-      );
-      const packages = Object.values(packageDetails).filter(
-        (x:any) => x.toLowerCase()
-      );
+    const onSubmit = async (e: any) => {
+        e.preventDefault();
 
-      
+        const designs = Object.values(designDetails).filter((x: any) =>
+            x.toLowerCase()
+        );
+        const packages = Object.values(packageDetails).filter((x: any) =>
+            x.toLowerCase()
+        );
 
-     console.log(designs, packages)
-    
-    try {
-        
-        dispatch(filterCatalogItems({
-            "designStyle": designs, 
-            "usePackages": packages }))
-        
-        setDesignDetails({
-            asian: '', 
-            artDeco: '', 
-            colonial: '', 
-            western: '', 
-            traditional: '', 
-            transitional: '',
-        });
-        setPackageDetails({
-            baptistry: '',
-         bridesRoom: '',
-         celestialRoom: '',
-         hallway: '',
-         forier: '',
-        });
+        console.log(designs, packages);
 
-        
-    } catch (err) {
-        console.log('Error: ' + err);
-    }
-const inputs = document.getElementsByTagName('input');
-for (let i=0; i<inputs.length; i++)  {
-  if (inputs[i].type == 'checkbox')   {
-    inputs[i].checked = false;
-  }
-}
-};
-     
+        try {
+            dispatch(
+                filterCatalogItems({
+                    designStyle: designs,
+                    usePackages: packages,
+                })
+            );
+
+            setDesignDetails({
+                asian: '',
+                artDeco: '',
+                colonial: '',
+                western: '',
+                traditional: '',
+                transitional: '',
+            });
+            setPackageDetails({
+                baptistry: '',
+                bridesRoom: '',
+                celestialRoom: '',
+                hallway: '',
+                forier: '',
+            });
+        } catch (err) {
+            console.log('Error: ' + err);
+        }
+        const inputs = document.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == 'checkbox') {
+                inputs[i].checked = false;
+            }
+        }
+        setFilterBar(!filterBar);
+    };
+
     return (
         <div
             className={
-                catalogItem === null
-                    ? 'container-filter container col-md-2 d-flex row m-0 p-0 align-content-start'
+                filterBar === true
+                    ? 'container-filter container col-md-4 col-lg-3 col-xl-2 d-flex row m-0 p-0 align-content-start'
                     : 'd-none'
             }
         >
-            <div className="d-flex col-12 top-filter m-0 p-0 justify-content-between align-items-center">
-                <h3 className="m-0">Filters</h3>
-                <FaSlidersH className="dashboard-all-projects-submit" />
+            <div className="d-flex col-12 top-filter m-0 p-0 justify-content-center align-items-center">
+                <h3 className="m-0" style={{ color: '#3f3c39' }}>
+                    Filters
+                </h3>
             </div>
-            
-            <form onSubmit={onSubmit} className="filter-form-container row m-0 col-12 d-flex ">
+
+            <form
+                onSubmit={onSubmit}
+                className="filter-form-container row m-0 col-12 d-flex "
+            >
                 <div className="design-container d-flex row m-0 p-0">
                     <h5 className="m-0 p-0">Design Styles</h5>
                     <div className="input-container-filter">
