@@ -5,7 +5,7 @@ import {
     setCatalogLights,
     setCatalogConnect,
     setAttachments,
-    setProposals
+    setProposals,
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -82,15 +82,15 @@ export const createLight =
                 light: light,
             });
             const proposal = await axiosPriv.post('/update-rfp', {
-                light: light
-            })
-            if(proposal){
-                const proposalSet = await axiosPriv.post('/get-proposals',{
-                    projectId: light.projectId
-                })
-                if(proposalSet){
-                    console.log("PROPOSAL STUFF: ", proposalSet)
-                    dispatch(setProposals(proposalSet.data.proposal))
+                light: light,
+            });
+            if (proposal) {
+                const proposalSet = await axiosPriv.post('/get-proposals', {
+                    projectId: light.projectId,
+                });
+                if (proposalSet) {
+                    console.log('PROPOSAL STUFF: ', proposalSet);
+                    dispatch(setProposals(proposalSet.data.proposal));
                 }
             }
         } catch (error: any) {

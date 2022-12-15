@@ -108,13 +108,13 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                     </div>
                     <div className="d-flex row align-content-start m-0">
                         <h4 className="m-0">PDF:</h4>
-                        {Item?.PDF.map((ef: string, index = ef.indexOf(ef)) => {
+                        {/* {Item?.PDF.map((ef: string, index = ef.indexOf(ef)) => {
                             return (
                                 <a key={index} href={ef}>
                                     {ef}
                                 </a>
                             );
-                        })}
+                        })} */}
                     </div>
                 </div>
             </div>

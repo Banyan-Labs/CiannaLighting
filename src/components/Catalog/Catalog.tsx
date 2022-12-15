@@ -46,7 +46,6 @@ const Catalog: FC = () => {
 
     const fetchData1 = async (e: any) => {
         const value = e.currentTarget.value.toLowerCase();
-
         dispatch(
             filterCatalogItems({
                 usePackages: [value],
@@ -75,10 +74,12 @@ const Catalog: FC = () => {
                     }}
                 ></button>
 
-                {usePackage.name}
+                <p style={{ fontSize: '14px' }}>{usePackage.name}</p>
             </div>
         );
     });
+
+    console.log('~~~catalogItem~~~', catalogItem);
     return (
         <>
             {catalogItem === null ? (
@@ -112,7 +113,7 @@ const Catalog: FC = () => {
                     </div>
                 </>
             ) : (
-                <div className="d-flex">
+                <div className="d-flex col-12">
                     <SingleView
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}

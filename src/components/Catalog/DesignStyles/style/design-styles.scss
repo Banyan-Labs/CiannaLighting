@@ -62,9 +62,14 @@
 
 .main-catalog-filter-container {
     h4 {
-        color: $primary-bg-dark-text;
+        color: $primary-bg-dark-title;
         margin-top: 20px;
         padding: 0 50px;
+    }
+
+    b {
+        color: $primary-bg-dark-text;
+        margin-left: 15px;
     }
 
     h5 {
@@ -73,18 +78,22 @@
         margin: 0px;
     }
 
+    li {
+        font-size: $sub-text-fs;
+    }
+
     .all-pulled-types {
-        width: 50%;
-        padding: 0 50px;
         color: $accent-gold;
-        span {
-            margin-left: 10px;
-        }
+    }
+    .cards-container {
+        height: 55vh;
+        overflow-y: scroll;
     }
 }
 
 .filter-catalog-container {
-    margin-top: 20px;
+    height: 300px;
+    margin-bottom: 3rem;
 }
 
 .table-showing {
@@ -94,16 +103,20 @@
 }
 
 .catalog-item {
-    height: 400px;
-    margin: 10px;
     width: 300px;
-    margin-top: 20px;
     cursor: pointer;
+    border-radius: 0.3rem;
+    box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
+    border-bottom: solid 1px #ada9a9ab;
+    border-right: solid 1px #ada9a9ab;
+    border-left: solid 1px #ada9a9ab;
 
     img {
-        height: 300px;
         border-top-left-radius: 0.2rem;
         border-top-right-radius: 0.2rem;
+        width: 100%;
+        padding: 0px;
+        height: 220px;
     }
 
     &:hover {
@@ -116,11 +129,8 @@
         height: fit-content;
     }
     .item-bottom-sections {
+        background: $primary-bg-white;
         border-radius: 0.3rem;
-        box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
-        border-bottom: solid 1px #ada9a9ab;
-        border-right: solid 1px #ada9a9ab;
-        border-left: solid 1px #ada9a9ab;
         min-height: 100px;
         overflow-y: scroll;
         h4 {
