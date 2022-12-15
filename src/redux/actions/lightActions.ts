@@ -137,6 +137,9 @@ export const theEditLight =
                 ...payload,
                 _id: lightId,
             });
+            /**
+             * need to set up the rfp & proposal dispatches here
+             *  */ 
             return response.data;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
@@ -148,10 +151,12 @@ export const filterCatalogItems =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            console.log("cataPAY: ", payload)
             const response = await axiosPriv.post(
                 '/public/get-catalog',
                 payload
             );
+            console.log("respCAT: ", response)
             dispatch(setCatalogLights(response.data.items));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));

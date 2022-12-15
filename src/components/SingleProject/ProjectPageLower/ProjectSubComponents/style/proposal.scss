@@ -1,8 +1,100 @@
 @import '../../../../../variables/variables.scss';
 .proposal-container {
-    padding: 5%;
+    margin: 1%;
+    border: 3px solid black;
+    border-radius: 2px;
 }
-.editor-label{
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 2%;
+    border-bottom: 2px solid black;
+}
+.table-contain {
+    padding: 5% 2%;
+    .table-border {
+        border: 1px solid;
+        .table-labels {
+            display: flex;
+            flex-direction: column;
+            .mini-header {
+                h3 {
+                    text-align: center;
+                }
+            }
+            .head-labels {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                border-top: 2px solid;
+                h4{
+                    margin: 0;
+                    height: 30px;
+                    padding-top: 15px
+                }
+                .label-details {
+                    width: 50%;
+                    text-align: center;
+                }
+                .label-lamps {
+                    width: 40%;
+                    text-align: center;
+                    border-left: 2px solid;
+                }
+                .label-price {
+                    width: 10%;
+                    text-align: center;
+                    border-left: 2px solid;
+                }
+            }
+        }
+        table{
+            width: 100%;
+        }
+        th{
+            font-size: smaller;
+            font-family: $font-family-medium;
+            text-align: center;
+            
+        }
+        td{
+            font-size:x-small;
+            font-family: $font-family-thin;
+            text-align: center;
+            
+        }
+        .cell{
+            border-top: 1px solid;
+            border-left: 1px solid;
+        }
+        .f-c{
+            border-left: none;
+        }
+        .five{
+            width: 5%;
+        }
+        .ten{
+            width: 10%;
+        }
+        .fifteen{
+            width: 15%;
+        }
+        .twenty{
+            width: 17.5%;
+        }
+        .six{
+            width: 6.4%;
+        }
+        .list{
+            text-align: start !important;
+        }
+        .bold{
+            font-family: $font-family;
+            // font-size: smaller;
+        }
+    }
+}
+.editor-label {
     color: $accent-gold;
     background-color: black;
     border: 2px inset $accent-gold;
@@ -21,7 +113,6 @@
     padding-left: 4%;
     .extra-marg {
         margin-left: 5%;
-    
     }
     .input-container {
         display: flex;
