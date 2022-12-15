@@ -1,210 +1,107 @@
 import React, { FC, useState } from 'react';
-import ReactQuill from 'react-quill';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useAppSelector } from '../../../../app/hooks';
 import './style/proposal.scss';
-// import DatePicker, { DayValue, DayRange, Day } from 'react-modern-calendar-datepicker'
-// import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import 'react-quill/dist/quill.snow.css';
 
-interface Schedule {
-    date: Date | null;
-    description: string;
-    duration: string;
-}
 
 const Proposal: FC = () => {
-    const [header, setHeader] = useState<string>('')
-    const [startDate, setStartDate] = useState(new Date());
-    const [description, setDescription] = useState<string>('');
-    const [duration, setDuration] = useState<string>('');
-    const [schedule, setSchedule] = useState<Schedule[]>([]);
-    const [value, setValue] = useState<string>(''); // this is the RTF
-
-    const setSection = (e: any): void => {
-        const val = e.currentTarget.value;
-        const name = e.currentTarget.name;
-        if (name == 'description') {
-            setDescription(val);
-        } else if (name == 'duration') {
-            setDuration(val);
-        }
-    };
-
-    const addToSchedule = (e: any): void =>{
-        e.preventDefault()
-        const section: Schedule = {
-            date: startDate,
-            description: description,
-            duration: duration
-        }
-        setSchedule([
-            section,
-            ...schedule
+    const { rfp, proposal } = useAppSelector(({ project }) => project);
+    const header = rfp?.header.split(', ');
+    const base = proposal.filter((item) => item.sub.length == 0);
+    const children = proposal.filter((item) => item.sub.length > 0);
+    const displayChildren = Object.fromEntries(
+        base.map((item) => [
+            item._id,
+            children.filter((child) => child.sub === item._id),
         ])
-        setStartDate(new Date());
-        setDescription('');
-        setDuration('');
-    }
-    console.log('quillValue: ', value);
-    const modules = {
-        toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [
-                { list: 'ordered' },
-                { list: 'bullet' },
-                { indent: '-1' },
-                { indent: '+1' },
-            ],
-            ['link', 'image'],
-            ['clean'],
-        ],
+    );
+    const finalDisplay = base.map((item)=> [item, displayChildren[item._id]].flat())
+    const ltrs = Array(52).fill('').map((_, index)=> index <= 25 ? String.fromCharCode(index + 65): String.fromCharCode(index + 71));
+    const tableRows = () => {
+        return finalDisplay.map((item, indexTop)=>{
+        
+        return item.map((prop, index) => {
+
+            return (
+                <tr key={indexTop + '/' + index}>
+                    <td className={index == 0 ? "cell f-c bold": "cell f-c"}>{item.length > 1 ? `${prop.itemID} - ${ltrs[index]}` :prop.itemID}</td>
+                    <td className={index == 0 ? "cell bold": "cell"}>{prop.lightQuantity}</td>
+                    <td className="cell">
+                        <ol>
+                            {prop.rooms.map((room:any, index:number) => {
+                                return <li className='list' key={index + room.name}>{room.name + ' ( ' + (room.lightNumber || room.roomLights) + ' )'}</li>;
+                            })}
+                        </ol>
+                    </td>
+                    <td className="cell">{prop.description}</td>
+                    <td className="cell">
+                        <ul>
+                        {Object.entries(prop.finishes).map((item:any, index:number)=>{
+                            return <li className='list' key={index + item[0]}>
+                                {item[0]}:  {item[1]}
+                            </li>
+                        })}
+                        </ul>
+                    </td>
+                    <td className="cell">{prop.lampType}</td>
+                    <td className="cell">{prop.lampColor}</td>
+                    <td className="cell">{prop.wattsPer}</td>
+                    <td className="cell">{prop.totalWatts}</td>
+                    <td className="cell">
+                        {prop.numberOfLamps * prop.lightQuantity}
+                    </td>
+                    <td className="cell">{prop.totalLumens}</td>
+                    <td className="cell">{prop.price}</td>
+                    <td className="cell l-c">
+                        {prop.price * prop.lightQuantity}
+                    </td>
+                </tr>
+            );
+        });
+    }).flat()
     };
-    /**
-     * <tbody>
-                    {filteredUsers.map((user) => (
-                        <tr key={user._id} className="user-table-row">
-                            <th>{user.name}</th>
-                            <td>{user.email}</td>
-                            <td>
-                                {Object.entries(ROLES).map((role) => {
-                                    if (role[1] === user.role) {
-                                        if (role[0] === 'Cmd') {
-                                            return 'Admin';
-                                        } else if (role[0] === 'Int') {
-                                            return 'Employee';
-                                        } else {
-                                            return role[0];
-                                        }
-                                    }
-                                })}
-                            </td>
-                            <td className="button-td">
-                                <button className="user-options-button">
-                                    <BsThreeDots />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-     */
-    console.log('Day: ', startDate);
     return (
         <div className="proposal-container">
-            <div> 
-                <h2 className='editor-label'> Request Header</h2>
-            <ReactQuill
-                theme="snow"
-                value={header}
-                onChange={setHeader}
-                modules={modules}
-            />
-            <div className="ql-editor" dangerouslySetInnerHTML={{__html: header}}></div>
+            <div className="header-section">
+                <h1>{header ? header[0].toUpperCase() : '...loading'}</h1>
+                <h1>{header ? header[1].toUpperCase() : '....'}</h1>
             </div>
-            <div>
-            <h2 className='editor-label'>Schedule Input</h2>
-            <div className="schedule-input">
-                <div className="input-container">
-                    <div className="input-label">START DATE</div>
-                    <div className="date-pick-container">
-                        <DatePicker
-                            selected={startDate}
-                            onChange={(date: Date) => setStartDate(date)}
-                            popperClassName="some-custom-class"
-                            popperPlacement="top-end"
-                            popperModifiers={[
-                                {
-                                    name: 'offset',
-                                    options: {
-                                        offset: [5, 10],
-                                    },
-                                },
-                                {
-                                    name: 'preventOverflow',
-                                    options: {
-                                        rootBoundary: 'viewport',
-                                        tether: false,
-                                        altAxis: true,
-                                    },
-                                },
-                            ]}
-                            className="date-picker"
-                        />
+            <div className="table-contain">
+                <div className="table-border">
+                    <div className="table-labels">
+                        <div className="mini-header">
+                            <h3>Lighting Schedule</h3>
+                        </div>
+                        <div className="head-labels">
+                            <h4 className="label-details">
+                                Information Details
+                            </h4>
+                            <h4 className="label-lamps">Lamps</h4>
+                            <h4 className="label-price">Pricing</h4>
+                        </div>
                     </div>
-                </div>
-                <div className="input-container extra-marg">
-                    <div className="input-label">DESCRIPTION</div>
-                    <textarea
-                        className="decription"
-                        value={description}
-                        rows={2}
-                        cols={49}
-                        wrap="soft"
-                        maxLength={250}
-                        name="description"
-                        onChange={(e) => setSection(e)}
-                    ></textarea>
-                </div>
-                <div className="input-container extra-marg">
-                    <div className="input-label">DURATION</div>
-                    <input
-                        className="duration"
-                        name="duration"
-                        type="text"
-                        value={duration}
-                        onChange={(e) => setSection(e)}
-                    ></input>
-                </div>
-                <button className="schedule-add" onClick={(e)=> addToSchedule(e)}>ADD</button>
-            </div>
-            <table className="users-table">
-                <thead>
-                    <tr className="users-table-headers">
-                        <td>Date</td>
-                        <td>Description</td>
-                        <td>Duration</td>
-                        {/* <td></td> */}
-                    </tr>
-                </thead>
-                <tbody>
-                    {schedule.map((cell, index) => {
-                        const date = cell.date
-                            ?.toISOString()
-                            .split('T')[0]
-                            .split('-');
-                        const formatDate = date
-                            ? [date[1], date[2], date[0]].join('/')
-                            : '';
-
-                        return (
-                            <tr key={index} className="user-table-row">
-                                <th>{formatDate}</th>
-                                <td>{cell.description}</td>
-                                <td>{cell.duration}</td>
-                                {/* <td className="button-td">
-                                <button className="user-options-button">
-                                    <BsThreeDots />
-                                </button>
-                            </td> */}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th className="cell f-c five">ID</th>
+                                <th className="cell q-c five">
+                                    Preliminary Quantity
+                                </th>
+                                <th className="cell fifteen">Rooms</th>
+                                <th className="cell five">Description</th>
+                                <th className="cell twenty">Finishes</th>
+                                <th className="cell six">Lamp Type</th>
+                                <th className="cell six">Lamp Color</th>
+                                <th className="cell six">Watts Per</th>
+                                <th className="cell six">Total Watts</th>
+                                <th className="cell six">Total Lamps</th>
+                                <th className="cell six">Lumens</th>
+                                <th className="cell five">Price Per</th>
+                                <th className="cell five l-c">Total</th>
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            </div>
-            <div>
-                <h2 className='editor-label'>Request Body</h2>
-            <ReactQuill
-                theme="snow"
-                value={value}
-                onChange={setValue}
-                modules={modules}
-            />
-            <div className="ql-editor" dangerouslySetInnerHTML={{__html: value}}></div>
-            </div>
-            <div>
-            <h2 className='editor-label'>Attachments</h2>
+                        </thead>
+                        <tbody>{tableRows()}</tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

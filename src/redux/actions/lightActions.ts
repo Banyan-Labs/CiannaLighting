@@ -5,7 +5,8 @@ import {
     setCatalogLights,
     setCatalogConnect,
     setAttachments,
-    setProposals
+    setProposals,
+    setRfp
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -91,6 +92,11 @@ export const createLight =
                 if(proposalSet){
                     console.log("PROPOSAL STUFF: ", proposalSet)
                     dispatch(setProposals(proposalSet.data.proposal))
+                    const getRfp = await axiosPriv.post('/get-rfps', {projectId: light.projectId})
+                    if(getRfp){
+                        console.log("RFP RESPONSE in createLight: ", getRfp.data)
+                        dispatch(setRfp(getRfp.data.rfp[0]))
+                    }
                 }
             }
         } catch (error: any) {
@@ -137,6 +143,9 @@ export const theEditLight =
                 ...payload,
                 _id: lightId,
             });
+            /**
+             * need to set up the rfp & proposal dispatches here
+             *  */ 
             return response.data;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
@@ -148,10 +157,12 @@ export const filterCatalogItems =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            console.log("cataPAY: ", payload)
             const response = await axiosPriv.post(
                 '/public/get-catalog',
                 payload
             );
+            console.log("respCAT: ", response)
             dispatch(setCatalogLights(response.data.items));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
