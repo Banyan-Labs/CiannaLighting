@@ -75,7 +75,6 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                 })
                                 .slice(firstContentIndex, lastContentIndex)
                                 .map((el: any, index: any) => (
-                                    // console.log('~~el~~', el),
                                     <div
                                         className="item d-flex row align-content-start"
                                         key={index}

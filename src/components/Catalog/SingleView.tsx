@@ -12,6 +12,7 @@ import Pictures from './Tabs/Pictures';
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     return (
         <div className="single-view-container">
+            Hello
             <p className="catalog-back" onClick={() => setCatalogItem(null)}>
                 <BsChevronLeft
                     onClick={() => setCatalogItem(null)}
