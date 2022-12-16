@@ -104,10 +104,13 @@
   .pdf-page {
     // max-width: 20px;
     // height: 100px; 
-    margin: 0 10px;
+    margin: 10px 10px 0px 0px ;
     // box-shadow: 10px green;
     // border: 1px solid red;
   }
   @media print {
-    @page { size: landscape; }
+    @page { 
+        size: landscape; 
+        // margin: 50px 0 0 0 ;
+    }
   }

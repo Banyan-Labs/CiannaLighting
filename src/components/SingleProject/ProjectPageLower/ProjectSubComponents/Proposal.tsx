@@ -114,14 +114,25 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
         return <Document key={index}file={url}onLoadSuccess={onDocumentLoadSuccess}
         onLoadError={console.error} className="pdf-document">
              
-          <Page
+          {/* <Page
             className="pdf-page"
             pageNumber={pageNumber}
             renderAnnotationLayer={false}
             renderTextLayer={false}
             // scale={1.0}
             width={1400}
+          /> */}
+         { Array.from(new Array(numPages), (el, index) => (
+          <Page
+            key={`page_${index + 1}`}
+            className="pdf-page"
+            renderAnnotationLayer={false}
+            renderTextLayer={false}
+            pageNumber={index + 1}
+            scale={1.0}
+            width={1400}
           />
+        ))}
        
         </Document>
         
