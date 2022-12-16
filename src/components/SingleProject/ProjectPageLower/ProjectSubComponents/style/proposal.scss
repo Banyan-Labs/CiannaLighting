@@ -94,88 +94,20 @@
         }
     }
 }
-.editor-label {
-    color: $accent-gold;
-    background-color: black;
-    border: 2px inset $accent-gold;
-    border-radius: 2rem;
-    padding: 10px 20px 10px 20px;
-    width: fit-content;
-}
-
-.schedule-input {
+.pdf-document {
     display: flex;
-    // justify-content: space-evenly;
-    align-items: baseline;
-    // width:100%;
-    // border: 2px solid blue;
-    // padding-right: 20%;
-    padding-left: 4%;
-    .extra-marg {
-        margin-left: 5%;
-    }
-    .input-container {
-        display: flex;
-        width: 25%;
-        flex-direction: row;
-
-        .input-label {
-            width: 107px;
-            text-align: center;
-            background: black;
-            padding: 10px 10px 0px 10px;
-            font-size: 0.8rem;
-            border-left: 2px inset #c6ad7c;
-            border-top: 2px inset #c6ad7c;
-            border-bottom: 2px inset #c6ad7c;
-            border-radius: 5px 2px 2px 5px;
-            color: white;
-        }
-        .date-pick-container {
-            width: 270px;
-            .date-picker {
-                height: 38px;
-                width: 95%;
-                border-right: 2px inset #c6ad7c;
-                border-top: 2px inset #c6ad7c;
-                border-bottom: 2px inset #c6ad7c;
-                border-radius: 3px 2rem 2rem 3px;
-                // border: none;
-            }
-        }
-        textarea {
-            height: 37px;
-            border-right: 2px inset #c6ad7c;
-            border-top: 2px inset #c6ad7c;
-            border-bottom: 2px inset #c6ad7c;
-            border-radius: 3px 2rem 2rem 3px;
-            resize: none;
-            padding: 2px;
-            // border: none;
-        }
-        .duration {
-            height: 38px;
-            width: 260px;
-            border-radius: 3px 2rem 2rem 3px;
-            border-right: 2px inset #c6ad7c;
-            border-top: 2px inset #c6ad7c;
-            border-bottom: 2px inset #c6ad7c;
-        }
-    }
-    .schedule-add {
-        height: fit-content;
-        padding: 10px 20px 10px 20px;
-        margin-left: 2%;
-        color: white;
-        background-color: $accent-gold;
-        font-weight: 500;
-        border-radius: 2rem;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            opacity: 0.8;
-        }
-    }
-}
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pdf-page {
+    // max-width: 20px;
+    // height: 100px; 
+    margin: 0 10px;
+    // box-shadow: 10px green;
+    // border: 1px solid red;
+  }
+  @media print {
+    @page { size: landscape; }
+  }
