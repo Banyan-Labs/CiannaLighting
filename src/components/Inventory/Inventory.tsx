@@ -315,18 +315,28 @@ const Inventory: FC = () => {
             <h1>Catalog Items</h1>
             <p className="mb-4">Add an item to the catalog.</p>
             <div className="inventory_form_container">
-                <form className="inventory-form" onSubmit={onSubmit}>
+                <form
+                    className="inventory-form"
+                    tabIndex={-1}
+                    onSubmit={onSubmit}
+                >
                     <div className="tabs">
                         <div className="tab">
-                            <input type="checkbox" id="chck1" defaultChecked />
+                            <input
+                                tabIndex={-1}
+                                type="checkbox"
+                                id="chck1"
+                                defaultChecked
+                            />
                             <label className="tab-label" htmlFor="chck1">
                                 Details
                             </label>
                             <div className="tab-content">
                                 <div className="form__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
-                                        type="input"
+                                        type="input tabIndex={-1}"
                                         id="item_ID"
                                         name="item_ID"
                                         value={itemDetails.item_ID}
@@ -343,8 +353,9 @@ const Inventory: FC = () => {
                                 </div>
                                 <div className="form__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
-                                        type="input"
+                                        type="input tabIndex={-1}"
                                         id="itemName"
                                         name="itemName"
                                         value={itemDetails.itemName || ''}
@@ -361,6 +372,7 @@ const Inventory: FC = () => {
                                 </div>
                                 <div className="form__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         type="text"
                                         id="itemDescription"
@@ -383,13 +395,14 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck2" />
+                        <input tabIndex={-1} type="checkbox" id="chck2" />
                         <label className="tab-label" htmlFor="chck2">
                             Measurements
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="bodyDiameter"
                                     placeholder="Body Diameter"
@@ -408,6 +421,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="bodyLength"
                                     placeholder="Body Length"
@@ -426,6 +440,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="bodyWidth"
                                     placeholder="bodyWidth"
@@ -444,6 +459,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="bodyHeight"
                                     placeholder="Body Height"
@@ -462,6 +478,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="fixtureOverallHeight"
                                     placeholder="Fixture Overall Height"
@@ -482,6 +499,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="sconceHeight"
                                     placeholder="Sconce Height"
@@ -500,6 +518,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="sconceWidth"
                                     placeholder="Sconce Width"
@@ -518,6 +537,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="sconceExtension"
                                     placeholder="Sconce Extension"
@@ -536,6 +556,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="estimatedWeight"
                                     placeholder="Estimated Weight"
@@ -555,13 +576,14 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck3" />
+                        <input tabIndex={-1} type="checkbox" id="chck3" />
                         <label className="tab-label" htmlFor="chck3">
                             Lamp Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="lampType"
                                     placeholder="Lamp Type"
@@ -580,6 +602,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="lampColor"
                                     placeholder="Lamp Color"
@@ -598,6 +621,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="numberOfLamps"
                                     placeholder="Number of Lamps"
@@ -616,6 +640,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="wattsPerLamp"
                                     placeholder="Watts per Lamp"
@@ -634,6 +659,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="powerInWatts"
                                     placeholder="Power in Watts"
@@ -652,6 +678,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
@@ -668,13 +695,14 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck4" />
+                        <input tabIndex={-1} type="checkbox" id="chck4" />
                         <label className="tab-label" htmlFor="chck4">
                             Material Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="material"
                                     placeholder="Material"
@@ -694,6 +722,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="exteriorFinish"
                                         placeholder="Exterior Finish"
@@ -714,6 +743,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -721,6 +751,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'exteriorFinish')
                                     }
@@ -729,6 +760,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="exteriorFinishValues"
                                     placeholder="Exterior Finishes"
@@ -742,6 +774,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="interiorFinish"
                                         placeholder="Interior Finish"
@@ -762,6 +795,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -769,6 +803,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'interiorFinish')
                                     }
@@ -777,6 +812,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="interiorFinishValues"
                                     placeholder="Interior Finishes"
@@ -790,6 +826,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="lensMaterial"
                                         placeholder="Lens Material"
@@ -810,6 +847,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -817,6 +855,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'lensMaterial')
                                     }
@@ -825,6 +864,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="lensMaterialValues"
                                     placeholder="Lens Materiales"
@@ -838,6 +878,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="glassOptions"
                                         placeholder="Glass Options"
@@ -858,6 +899,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -865,6 +907,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'lensMaterial')
                                     }
@@ -873,6 +916,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="glassOptionsValues"
                                     placeholder="Glass Options"
@@ -886,6 +930,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="acrylicOptions"
                                         placeholder="Acrylic Options"
@@ -906,6 +951,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -913,6 +959,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'acrylicOptions')
                                     }
@@ -921,6 +968,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="acrylicOptionsValues"
                                     placeholder="Acrylic Options"
@@ -934,6 +982,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="crystalType"
                                         placeholder="Crystal Types"
@@ -954,6 +1003,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -961,6 +1011,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'crystalType')
                                     }
@@ -969,6 +1020,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="crystalTypeValues"
                                     placeholder="Crystal Types"
@@ -982,6 +1034,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="crystalPinType"
                                         placeholder="Crystal Pin Types"
@@ -1002,6 +1055,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1009,6 +1063,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'crystalPinType')
                                     }
@@ -1017,6 +1072,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="crystalPinTypeValues"
                                     placeholder="Crystal Pin Types"
@@ -1030,6 +1086,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="crystalPinColor"
                                         placeholder="Crystal Pin Colors"
@@ -1050,6 +1107,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1057,6 +1115,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'crystalPinColor')
                                     }
@@ -1065,6 +1124,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="crystalPinColorValues"
                                     placeholder="Crystal Pin Colors"
@@ -1078,13 +1138,14 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck5" />
+                        <input tabIndex={-1} type="checkbox" id="chck5" />
                         <label className="tab-label" htmlFor="chck5">
                             Other Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="socketQuantity"
                                     placeholder="Socket Quantity"
@@ -1103,6 +1164,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="price"
                                     placeholder="Price"
@@ -1119,6 +1181,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="environment"
                                         placeholder="Environment"
@@ -1139,6 +1202,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1146,6 +1210,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'environment')
                                     }
@@ -1154,6 +1219,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="environmentValues"
                                     placeholder="Environments"
@@ -1167,6 +1233,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="safetyCert"
                                         placeholder="Safety Certifications"
@@ -1187,6 +1254,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1194,12 +1262,14 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) => removeItem(e, 'safetyCert')}
                                     className="delete-material-button"
                                 >
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="safetyCertValues"
                                     placeholder="Safety Certs"
@@ -1213,6 +1283,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="projectVoltage"
                                         placeholder="Project Voltage"
@@ -1233,6 +1304,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1240,6 +1312,7 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'projectVoltage')
                                     }
@@ -1248,6 +1321,7 @@ const Inventory: FC = () => {
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="projectVoltageValues"
                                     placeholder="Project Voltages"
@@ -1261,6 +1335,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="socketType"
                                         placeholder="Socket Types"
@@ -1281,6 +1356,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1288,12 +1364,14 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) => removeItem(e, 'socketType')}
                                     className="delete-material-button"
                                 >
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="socketTypeValues"
                                     placeholder="Socket Types"
@@ -1307,6 +1385,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="mounting"
                                         placeholder="Mounting"
@@ -1327,6 +1406,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1334,12 +1414,14 @@ const Inventory: FC = () => {
                                     Value
                                 </button>
                                 <button
+                                    tabIndex={-1}
                                     onClick={(e) => removeItem(e, 'mounting')}
                                     className="delete-material-button"
                                 >
                                     <FaMinus />
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="mountingValues"
                                     placeholder="Mountings"
@@ -1353,7 +1435,7 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck6" />
+                        <input tabIndex={-1} type="checkbox" id="chck6" />
                         <label className="tab-label" htmlFor="chck6">
                             Design Styles & Use Packages
                         </label>
@@ -1361,6 +1443,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="designStyle"
                                         placeholder="Design Styles"
@@ -1381,6 +1464,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1388,6 +1472,7 @@ const Inventory: FC = () => {
                                     Add Value
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="designStyleValues"
                                     placeholder="Design Styles"
@@ -1401,6 +1486,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
+                                        tabIndex={-1}
                                         className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
@@ -1421,6 +1507,7 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <button
+                                    tabIndex={-1}
                                     className="new-material-button"
                                     onClick={(e) => listValSubmit(e)}
                                 >
@@ -1428,6 +1515,7 @@ const Inventory: FC = () => {
                                     Add Value
                                 </button>
                                 <input
+                                    tabIndex={-1}
                                     className="material__list"
                                     id="usePackagesValues"
                                     placeholder="Use Packages"
@@ -1441,7 +1529,7 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck7" />
+                        <input tabIndex={-1} type="checkbox" id="chck7" />
                         <label className="tab-label" htmlFor="chck7">
                             Images & Attachments
                         </label>
@@ -1454,13 +1542,15 @@ const Inventory: FC = () => {
                                     Images
                                 </label>
                                 <button
+                                    tabIndex={-1}
                                     className="add__btn"
                                     onClick={(e) => listFileNames(e, 'images')}
                                 >
                                     <FaPlus />
                                 </button>
                                 <input
-                                    className="list-input"
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
                                     id="images"
                                     placeholder="Upload Images"
                                     type="file"
@@ -1490,13 +1580,15 @@ const Inventory: FC = () => {
                                     PDF
                                 </label>
                                 <button
+                                    tabIndex={-1}
                                     className="add__btn"
                                     onClick={(e) => listFileNames(e, 'pdf')}
                                 >
                                     <FaPlus />
                                 </button>
                                 <input
-                                    className="list-input"
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
                                     id="pdf"
                                     placeholder="Upload PDF's"
                                     type="file"
@@ -1525,13 +1617,15 @@ const Inventory: FC = () => {
                                     SPECS
                                 </label>
                                 <button
+                                    tabIndex={-1}
                                     className="add__btn"
                                     onClick={(e) => listFileNames(e, 'specs')}
                                 >
                                     <FaPlus />
                                 </button>
                                 <input
-                                    className="list-input"
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
                                     id="specs"
                                     placeholder="Upload Spec File(s)"
                                     type="file"
@@ -1565,6 +1659,7 @@ const Inventory: FC = () => {
                                     Drawing Files
                                 </label>
                                 <button
+                                    tabIndex={-1}
                                     className="add__btn"
                                     onClick={(e) =>
                                         listFileNames(e, 'drawingFiles')
@@ -1573,7 +1668,8 @@ const Inventory: FC = () => {
                                     <FaPlus />
                                 </button>
                                 <input
-                                    className="list-input"
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
                                     id="drawingFiles"
                                     placeholder="Upload Drawing Files"
                                     type="file"
@@ -1601,13 +1697,14 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input type="checkbox" id="chck8" />
+                        <input tabIndex={-1} type="checkbox" id="chck8" />
                         <label className="tab-label" htmlFor="chck8">
                             Admin Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
@@ -1625,6 +1722,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
+                                    tabIndex={-1}
                                     className="form__field"
                                     id="partnerCodeAdmin"
                                     placeholder="Partner Code"
