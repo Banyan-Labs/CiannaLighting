@@ -139,11 +139,12 @@ export const getAllProjects =
         }
     };
 export const getFilteredProjects =
-    (payload: any) =>
+    (payload: any, extraFilter: any) =>
     async (dispatch: Dispatch): Promise<void> => {
+        console.log(payload, extraFilter)
         const axioscall = await axiosPrivate();
         try {
-            const projects = await axioscall.post('/get-projects', payload);
+            const projects = await axioscall.post('/get-projects', {...payload, ...extraFilter});
             dispatch(setFilteredProjects(projects.data));
             return projects.data;
         } catch (err) {

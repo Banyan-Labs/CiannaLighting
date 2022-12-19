@@ -444,7 +444,7 @@ const AllProjectView: FC<Props> = ({
                 />
             )}
             {openModal && (
-                <FilterModal openModal={openModal} closeModal={setOpenModal} />
+        <FilterModal openModal={openModal} closeModal={setOpenModal} typeOfProject={typeOfProject}  />
             )}
         </div>
     );

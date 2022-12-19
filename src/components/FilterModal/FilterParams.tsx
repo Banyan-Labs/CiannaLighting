@@ -2,20 +2,27 @@ import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import YourProjects from '../Dashboard/YourProjects/YourProjects';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
+    typeOfProject: string;
 };
 
-export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
+export const FilterModal: FC<Props> = ({ closeModal, openModal, typeOfProject }) => {
     const { allProjects } = useAppSelector(({ project }) => project);
+    const { user } = useAppSelector(({ auth }) => auth);
+    // console.log(typeOfProject)
     const [formDetails, setFormDetails] = useState({
         clientName: '',
         status: '',
         region: '',
+    }); 
+    
+    const [submittalForm, setSubmittalForm] = useState<any>({
+        
     });
-    const [submittalForm, setSubmittalForm] = useState<any>({});
 
     const filterInfo = allProjects
         .slice()
@@ -65,7 +72,9 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
             status: '',
             region: '',
         });
-        setSubmittalForm({});
+        setSubmittalForm({
+            
+        });
         const designers = document.getElementById(
             'clientName'
         ) as HTMLSelectElement | null;
@@ -85,7 +94,7 @@ export const FilterModal: FC<Props> = ({ closeModal, openModal }) => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await dispatch(getFilteredProjects(submittalForm));
+            await dispatch(getFilteredProjects(submittalForm, {clientId: user._id, type: typeOfProject}));
             clearForm();
             closeModal(!openModal);
         } catch (err) {
