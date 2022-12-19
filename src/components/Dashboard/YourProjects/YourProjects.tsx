@@ -144,21 +144,12 @@ const YourProjects: FC = () => {
 
     return (
         <>
-            <div
-                className="dashboard-container"
-                // style={{ border: '2px solid red' }}
-            >
-                <div
-                    className="dashboard-project-overview"
-                    // style={{ border: '2px solid green' }}
-                >
+            <div className="dashboard-container">
+                <div className="dashboard-project-overview">
                     <h4>Project Overview</h4>
                     <div className="overview-vertical-divider" />
                     {/* Grid for project overview */}
-                    <div
-                        className="overview-display"
-                        // style={{ border: '2px solid yellow', width: '' }}
-                    >
+                    <div className="overview-display">
                         {/* Total Projects */}
                         <VscFileSubmodule className="overview-total overview-icon-main" />
                         <div className="overview-total-title overview-label-main">
@@ -202,10 +193,7 @@ const YourProjects: FC = () => {
                     </div>
                 </div>
 
-                <div
-                    className="dashboard-your-projects"
-                    // style={{ border: '2px solid blue' }}
-                >
+                <div className="dashboard-your-projects">
                     <h4>Your Projects</h4>
                     <div className="dashboard-vertical-divider" />
                     <button

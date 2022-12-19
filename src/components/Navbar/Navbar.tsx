@@ -78,10 +78,7 @@ const Navbar: FC = () => {
 
     return (
         <>
-            <nav
-                className="navbar-container"
-                // style={{ border: '2px solid red' }}
-            >
+            <nav className="navbar-container">
                 <div className="logo-container">
                     <img src={logo} alt="Ciana Logo" />
                 </div>
@@ -90,10 +87,7 @@ const Navbar: FC = () => {
                 <ul>
                     <Links links={links} />
                 </ul>
-                <div
-                    className="navbar-user-container"
-                    // style={{ border: '2px solid blue' }}
-                >
+                <div className="navbar-user-container">
                     <FaRegBell />
                     <div>
                         <span className="navbar-user-hi">Hi, </span>

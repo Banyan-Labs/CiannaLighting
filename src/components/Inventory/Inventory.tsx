@@ -314,12 +314,7 @@ const Inventory: FC = () => {
             /> */}
             <h1>Catalog Items</h1>
             <p className="mb-4">Add an item to the catalog.</p>
-            <div
-                style={{
-                    height: '75vh',
-                    overflowY: 'auto',
-                }}
-            >
+            <div className="inventory_form_container">
                 <form className="inventory-form" onSubmit={onSubmit}>
                     <div className="tabs">
                         <div className="tab">

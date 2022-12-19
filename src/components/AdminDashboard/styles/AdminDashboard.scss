@@ -4,19 +4,12 @@
     padding-top: 100px;
     display: flex;
     height: 100vh;
-    // padding: 100px;
-    // overflow-y: scroll;
-    // border: 2px solid red;
 }
 
 .admin-sidebar-container {
     background: $primary-bg-dark;
     position: relative;
     min-width: 100px;
-
-    // height: 100vh;
-    // min-height: 100%;
-
     top: 1px;
     padding: 30px 65px 0 30px;
 }
@@ -37,14 +30,6 @@
 .active-sidebar-link {
     transform: scale(1.1);
     color: $accent-gold;
-}
-
-.admin-content-section {
-    // padding: 30px 0px 50px 50px;
-    // padding: 30px 100px 50px 50px;
-    // width: 75%;
-    // max-height: 75vh;
-    // overflow-y: scroll;
 }
 
 .log-table {

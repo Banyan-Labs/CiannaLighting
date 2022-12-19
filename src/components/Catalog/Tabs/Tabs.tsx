@@ -10,7 +10,6 @@ interface catalogPros {
 
 const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     const Item = catalogItem;
-    console.log('Item', Item);
     const [activeIndex, setActiveIndex] = useState(1);
     const handleClick = (index: any) => setActiveIndex(index);
     const checkActive = (index: any, className: any) =>

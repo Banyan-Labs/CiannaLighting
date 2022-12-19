@@ -44,14 +44,11 @@ const Cards: FC<catalogPros> = ({
             allReceived;
         }
 
-        // console.log('****design****', design);
-
         return (
             <div
                 className="filter-catalog-container"
                 key={index}
                 onClick={() => {
-                    // console.log('design', design);
                     setCatalogItem(design);
                 }}
             >

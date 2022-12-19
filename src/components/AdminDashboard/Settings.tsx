@@ -75,14 +75,7 @@ const Settings: FC = () => {
         setSections();
     }, []);
     return (
-        <div
-            style={{
-                marginTop: '50px',
-                height: '85vh',
-                overflowY: 'scroll',
-                // border: '2px solid red',
-            }}
-        >
+        <div className="settings_container">
             <div className="add__materials">
                 <div className="list__group field">
                     <input
