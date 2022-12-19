@@ -19,7 +19,7 @@ const Pictures: FC<catalogPros> = ({ catalogItem }) => {
     return (
         <>
             <Swiper
-                className="mySwiper-catalog "
+                className="mySwiper-catalog"
                 slidesPerView={width < 800 ? 2 : 4}
                 spaceBetween={0}
                 slidesPerGroup={width < 800 ? 2 : 4}

@@ -83,7 +83,6 @@ const Catalog: FC = () => {
 
     return (
         <>
-            {console.log('~~~catalogItem~~~', catalogItem)}
             {catalogItem === null ? (
                 <>
                     <div className="catalog-container">

@@ -316,7 +316,6 @@ const Inventory: FC = () => {
             <p className="mb-4">Add an item to the catalog.</p>
             <div
                 style={{
-                    // height: '600px',
                     height: '75vh',
                     overflowY: 'auto',
                 }}

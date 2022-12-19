@@ -31,7 +31,7 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
                     </span>
                 </div>
             </div>
-            <div className="d-flex col-4 flex-column">
+            <div className="d-flex col-4     flex-column">
                 <div className="light_details_container">
                     <h4 className="light_details_title">Design Styles:</h4>
                     <ul className="light_details_info">

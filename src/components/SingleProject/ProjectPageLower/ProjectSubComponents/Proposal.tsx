@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { useAppSelector } from '../../../../app/hooks';
 import './style/proposal.scss';
 
-
 const Proposal: FC = () => {
     const { rfp, proposal } = useAppSelector(({ project }) => project);
     const header = rfp?.header.split(', ');
@@ -14,50 +13,88 @@ const Proposal: FC = () => {
             children.filter((child) => child.sub === item._id),
         ])
     );
-    const finalDisplay = base.map((item)=> [item, displayChildren[item._id]].flat())
-    const ltrs = Array(52).fill('').map((_, index)=> index <= 25 ? String.fromCharCode(index + 65): String.fromCharCode(index + 71));
+    const finalDisplay = base.map((item) =>
+        [item, displayChildren[item._id]].flat()
+    );
+    const ltrs = Array(52)
+        .fill('')
+        .map((_, index) =>
+            index <= 25
+                ? String.fromCharCode(index + 65)
+                : String.fromCharCode(index + 71)
+        );
     const tableRows = () => {
-        return finalDisplay.map((item, indexTop)=>{
-        
-        return item.map((prop, index) => {
-
-            return (
-                <tr key={indexTop + '/' + index}>
-                    <td className={index == 0 ? "cell f-c bold": "cell f-c"}>{item.length > 1 ? `${prop.itemID} - ${ltrs[index]}` :prop.itemID}</td>
-                    <td className={index == 0 ? "cell bold": "cell"}>{prop.lightQuantity}</td>
-                    <td className="cell">
-                        <ol>
-                            {prop.rooms.map((room:any, index:number) => {
-                                return <li className='list' key={index + room.name}>{room.name + ' ( ' + (room.lightNumber || room.roomLights) + ' )'}</li>;
-                            })}
-                        </ol>
-                    </td>
-                    <td className="cell">{prop.description}</td>
-                    <td className="cell">
-                        <ul>
-                        {Object.entries(prop.finishes).map((item:any, index:number)=>{
-                            return <li className='list' key={index + item[0]}>
-                                {item[0]}:  {item[1]}
-                            </li>
-                        })}
-                        </ul>
-                    </td>
-                    <td className="cell">{prop.lampType}</td>
-                    <td className="cell">{prop.lampColor}</td>
-                    <td className="cell">{prop.wattsPer}</td>
-                    <td className="cell">{prop.totalWatts}</td>
-                    <td className="cell">
-                        {prop.numberOfLamps * prop.lightQuantity}
-                    </td>
-                    <td className="cell">{prop.totalLumens}</td>
-                    <td className="cell">{prop.price}</td>
-                    <td className="cell l-c">
-                        {prop.price * prop.lightQuantity}
-                    </td>
-                </tr>
-            );
-        });
-    }).flat()
+        return finalDisplay
+            .map((item, indexTop) => {
+                return item.map((prop, index) => {
+                    return (
+                        <tr key={indexTop + '/' + index}>
+                            <td
+                                className={
+                                    index == 0 ? 'cell f-c bold' : 'cell f-c'
+                                }
+                            >
+                                {item.length > 1
+                                    ? `${prop.itemID} - ${ltrs[index]}`
+                                    : prop.itemID}
+                            </td>
+                            <td className={index == 0 ? 'cell bold' : 'cell'}>
+                                {prop.lightQuantity}
+                            </td>
+                            <td className="cell">
+                                <ol>
+                                    {prop.rooms.map(
+                                        (room: any, index: number) => {
+                                            return (
+                                                <li
+                                                    className="list"
+                                                    key={index + room.name}
+                                                >
+                                                    {room.name +
+                                                        ' ( ' +
+                                                        (room.lightNumber ||
+                                                            room.roomLights) +
+                                                        ' )'}
+                                                </li>
+                                            );
+                                        }
+                                    )}
+                                </ol>
+                            </td>
+                            <td className="cell">{prop.description}</td>
+                            <td className="cell">
+                                <ul>
+                                    {Object.entries(prop.finishes).map(
+                                        (item: any, index: number) => {
+                                            return (
+                                                <li
+                                                    className="list"
+                                                    key={index + item[0]}
+                                                >
+                                                    {item[0]}: {item[1]}
+                                                </li>
+                                            );
+                                        }
+                                    )}
+                                </ul>
+                            </td>
+                            <td className="cell">{prop.lampType}</td>
+                            <td className="cell">{prop.lampColor}</td>
+                            <td className="cell">{prop.wattsPer}</td>
+                            <td className="cell">{prop.totalWatts}</td>
+                            <td className="cell">
+                                {prop.numberOfLamps * prop.lightQuantity}
+                            </td>
+                            <td className="cell">{prop.totalLumens}</td>
+                            <td className="cell">{prop.price}</td>
+                            <td className="cell l-c">
+                                {prop.price * prop.lightQuantity}
+                            </td>
+                        </tr>
+                    );
+                });
+            })
+            .flat();
     };
     return (
         <div className="proposal-container">
