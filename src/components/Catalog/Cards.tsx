@@ -106,13 +106,13 @@ const Cards: FC<catalogPros> = ({
                                           )
                                         : ''}
                                 </ul>
-                                <div className="d-flex row col-8 col-lg-8 col-xl-9 m-0 p-0 cards-container">
+                                <div className="d-flex justify-content-center row col-8 col-lg-8 col-xl-9 m-0 p-0 cards-container">
                                     {useDesigns.map(
                                         (item: any, index: number) => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    className="d-flex col-12 col-lg-6 col-xl-3 justify-content-center m-0 p-0"
+                                                    className="d-flex col-12 col-lg-6 col-xl-3 justify-content-center m-0 p-0 img-card"
                                                 >
                                                     {item}
                                                 </div>

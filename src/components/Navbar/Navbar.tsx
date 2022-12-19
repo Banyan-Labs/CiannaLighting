@@ -40,7 +40,10 @@ const Links: FC<{ links: Link[] }> = () => {
                 .map((link: Link) => {
                     return (
                         <div key={link.href}>
-                            <Link onClick={() => dispatch(setTheYourProjects(false))}
+                            <Link
+                                onClick={() =>
+                                    dispatch(setTheYourProjects(false))
+                                }
                                 to={{
                                     pathname: link.href,
                                     search: `?_id=${user._id}&projectId=${Id}`,
@@ -75,7 +78,10 @@ const Navbar: FC = () => {
 
     return (
         <>
-            <nav className="navbar-container">
+            <nav
+                className="navbar-container"
+                // style={{ border: '2px solid red' }}
+            >
                 <div className="logo-container">
                     <img src={logo} alt="Ciana Logo" />
                 </div>
@@ -84,7 +90,10 @@ const Navbar: FC = () => {
                 <ul>
                     <Links links={links} />
                 </ul>
-                <div className="navbar-user-container">
+                <div
+                    className="navbar-user-container"
+                    // style={{ border: '2px solid blue' }}
+                >
                     <FaRegBell />
                     <div>
                         <span className="navbar-user-hi">Hi, </span>
@@ -98,7 +107,9 @@ const Navbar: FC = () => {
                     {/* <FaChevronDown /> */}
                 </div>
                 {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
-                <button onClick={(e) => handleLogout(e)}>logout</button>
+                <button className="me-2" onClick={(e) => handleLogout(e)}>
+                    logout
+                </button>
             </nav>
         </>
     );

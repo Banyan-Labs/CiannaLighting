@@ -3,12 +3,20 @@
 .admin-dashboard-container {
     padding-top: 100px;
     display: flex;
+    height: 100vh;
+    // padding: 100px;
+    // overflow-y: scroll;
+    // border: 2px solid red;
 }
 
 .admin-sidebar-container {
     background: $primary-bg-dark;
     position: relative;
     min-width: 100px;
+
+    // height: 100vh;
+    // min-height: 100%;
+
     top: 1px;
     padding: 30px 65px 0 30px;
 }
@@ -32,33 +40,34 @@
 }
 
 .admin-content-section {
-    padding: 30px 100px 50px 50px;
-    width: 100%;
+    // padding: 30px 0px 50px 50px;
+    // padding: 30px 100px 50px 50px;
+    // width: 75%;
+    // max-height: 75vh;
+    // overflow-y: scroll;
 }
 
-
-.log-table{
+.log-table {
     text-align: center;
-    
 }
 .log-name {
-   padding-left: 50px; 
+    padding-left: 50px;
 }
 
-.delete-log{
+.delete-log {
     transition: all 0.2s ease-in-out;
- cursor: pointer;
- &:hover {
-    transition: all 0.2s ease-in-out;
-    color: red;
- }
+    cursor: pointer;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        color: red;
+    }
 }
 
-#log-table-container{
+#log-table-container {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-   &:hover{
-    transition: all 0.2s ease-in-out;
-    background-color: $primary-bg-dark ;
-   }
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark;
+    }
 }

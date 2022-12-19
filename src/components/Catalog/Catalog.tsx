@@ -46,6 +46,8 @@ const Catalog: FC = () => {
 
     const fetchData1 = async (e: any) => {
         const value = e.currentTarget.value.toLowerCase();
+        console.log('h~~~i');
+
         dispatch(
             filterCatalogItems({
                 usePackages: [value],
@@ -79,9 +81,9 @@ const Catalog: FC = () => {
         );
     });
 
-    console.log('~~~catalogItem~~~', catalogItem);
     return (
         <>
+            {console.log('~~~catalogItem~~~', catalogItem)}
             {catalogItem === null ? (
                 <>
                     <div className="catalog-container">

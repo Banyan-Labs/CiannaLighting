@@ -7,15 +7,13 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import  useWindowDimensions  from './WindowW';
+import useWindowDimensions from './WindowW';
 
 interface catalogPros {
     catalogItem: any;
 }
 
-const Pictures: FC<catalogPros> = ({
-    catalogItem,
-}) => {
+const Pictures: FC<catalogPros> = ({ catalogItem }) => {
     const { width } = useWindowDimensions();
     const Images = catalogItem?.images;
     return (
@@ -33,7 +31,6 @@ const Pictures: FC<catalogPros> = ({
                 navigation={true}
                 modules={[Navigation, Pagination]}
             >
-
                 {/* use this code when you go live  */}
 
                 {/* {Images
@@ -49,10 +46,13 @@ const Pictures: FC<catalogPros> = ({
                           );
                       })
                     : ''} */}
-                    {Data
-                    ? Data?.map((p: any, i:any) => {
+                {Data
+                    ? Data?.map((p: any, i: any) => {
                           return (
-                              <SwiperSlide className="pictures-slide-catalog" key={i}>
+                              <SwiperSlide
+                                  className="pictures-slide-catalog"
+                                  key={i}
+                              >
                                   <img
                                       className="img-item-details"
                                       src={p.image}

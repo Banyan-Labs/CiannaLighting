@@ -102,8 +102,8 @@ const YourProjects: FC = () => {
                     style={{
                         backgroundColor: color,
                     }}
-                    onClick={async() => {
-                        await dispatch(setTheYourProjects(true))
+                    onClick={async () => {
+                        await dispatch(setTheYourProjects(true));
                         projectRoute(project._id);
                         changeProject(project._id);
                     }}
@@ -144,12 +144,21 @@ const YourProjects: FC = () => {
 
     return (
         <>
-            <div className="dashboard-container">
-                <div className="dashboard-project-overview">
+            <div
+                className="dashboard-container"
+                // style={{ border: '2px solid red' }}
+            >
+                <div
+                    className="dashboard-project-overview"
+                    // style={{ border: '2px solid green' }}
+                >
                     <h4>Project Overview</h4>
                     <div className="overview-vertical-divider" />
                     {/* Grid for project overview */}
-                    <div className="overview-display">
+                    <div
+                        className="overview-display"
+                        // style={{ border: '2px solid yellow', width: '' }}
+                    >
                         {/* Total Projects */}
                         <VscFileSubmodule className="overview-total overview-icon-main" />
                         <div className="overview-total-title overview-label-main">
@@ -193,7 +202,10 @@ const YourProjects: FC = () => {
                     </div>
                 </div>
 
-                <div className="dashboard-your-projects">
+                <div
+                    className="dashboard-your-projects"
+                    // style={{ border: '2px solid blue' }}
+                >
                     <h4>Your Projects</h4>
                     <div className="dashboard-vertical-divider" />
                     <button
