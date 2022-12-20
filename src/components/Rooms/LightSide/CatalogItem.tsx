@@ -136,10 +136,13 @@ const CatalogItem: FC<catalogPros> = ({
     console.log('**catalogDetails**', catalogDetails);
 
     const editFormat = (arr: any, defVal: any) => {
+        // console.log("edtarr: ", arr)
+        // console.log("edtdefVal: ", defVal)
         const reFormat = [
             defVal,
             ...arr[0].split(',').filter((x: any) => x !== defVal),
         ];
+        // console.log("reformat: ", reFormat)
         return reFormat;
     };
 
@@ -147,11 +150,45 @@ const CatalogItem: FC<catalogPros> = ({
         setEditLight(null);
         setCatalogItem(null);
     };
+    // const findEditProp = (propID: string) =>{
+    //     console.log("catalogDeetsInEdit: ", catalogDetails)
+    //     const find = proposal.filter((item)=> item.sub.length  && item.itemID == catalogDetails.item_ID);
+    //     console.log("FIND: ", find)
+    //     // eslint-disable-next-line
+    //     let checker: any[] = [];
+    //     const finishes: any = {
+    //         exteriorFinish: catalogDetails.exteriorFinish,
+    //         interiorFinish: catalogDetails.interiorFinish,
+    //         lensMaterial: catalogDetails.lensMaterial,
+    //         glassOptions: catalogDetails.glassOptions,
+    //         acrylicOptions: catalogDetails.acrylicOptions,
+    //       };
+    //     if (find.length > 1){
+    //         for(const x of find){
+    //         const itemFinish: any = x.finishes
+    //         // eslint-disable-next-line
+    //         let scopeCheck: any = []
+    //         for(const f in itemFinish ){
+    //             scopeCheck.push(finishes[f] == itemFinish[f]);
+    //         }
+    //         if(scopeCheck.every((x: boolean)=> x == true)){
+    //             checker.push(x)
+    //         }
+                
+    //         }
+    //         console.log("HIT checker return: ", checker)
+    //         return checker[0]._id
+    //     }else{
+    //     return find
+    // }
+    // }
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const propCheck = proposal.filter((item:any)=> item.sub ? '' : item).find((item:any)=> item.itemID == catalogDetails.item_ID );
+        console.log("PropCheck: ", propCheck)
         const propID = propCheck ? propCheck._id : '';
+        // console.log("findProp: ", findEditProp(propID))
         const rfpPass = {
             propID: propID,
             description: catalogItem.itemDescription,
@@ -159,9 +196,9 @@ const CatalogItem: FC<catalogPros> = ({
             lampColor: catalogItem.lampColor,
             wattsPer:  catalogItem.wattsPerLamp,
             price: catalogItem.price,
-            totalWatts: catalogItem.wattsPerLamp * count,
+            totalWatts: catalogItem.powerInWatts,
             numberOfLamps: catalogItem.numberOfLamps,
-            totalLumens: catalogItem.powerInWatts, 
+            totalLumens: catalogItem.lumens, 
         }
         try {
             if (editLight === null) {
@@ -198,19 +235,19 @@ const CatalogItem: FC<catalogPros> = ({
                                         {
                                             lightId: lightID,
                                             attachments: catalogItem.specs,
-                                            edit: 'add',
                                         },
                                     ],
+                                    edit: 'add',
                                 },
                                 true
                             )
                         );
                     }
                 }
+                await dispatch(createLight({...catalogDetails, ...rfpPass}));
             } else {
                 dispatch(theEditLight({...catalogDetails, ...rfpPass}, editLight._id));
             }
-            await dispatch(createLight({...catalogDetails, ...rfpPass}));
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0].split(',')[0],
                 interiorFinish: catalogItem.interiorFinish[0].split(',')[0],

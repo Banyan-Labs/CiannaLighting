@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getUserProjects } from '../../redux/actions/projectActions';
+import { getAllProjects, getUserProjects } from '../../redux/actions/projectActions';
 
 const RequireAuth: FC<{ roles: string[] }> = ({ roles }) => {
     const dispatch = useAppDispatch();
@@ -11,6 +11,7 @@ const RequireAuth: FC<{ roles: string[] }> = ({ roles }) => {
     useEffect(() => {
         const fetchData = async () => {
             await dispatch(getUserProjects(user._id));
+            await dispatch(getAllProjects());
         };
         fetchData();
     }, [user._id]);

@@ -42,7 +42,7 @@ export const DeleteModal: FC<Props> = ({
     setEditRoom,
     deleteAttachments
 }) => {
-    const {roomLights} = useAppSelector(({project})=> project)
+    const {roomLights, projectId} = useAppSelector(({project})=> project)
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
@@ -55,6 +55,7 @@ export const DeleteModal: FC<Props> = ({
                 deleteLight({
                     roomId: String(storedRoomId),
                     _id: String(light._id),
+                    projectId: projectId
                 })
             )
         }
