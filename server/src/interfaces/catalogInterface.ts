@@ -14,10 +14,15 @@ export default interface catalogInterface extends Document {
   sconceWidth: string;
   sconceExtension: string;
   socketQuantity: number;
-  powerInWatts: number;
   estimatedWeight: number;
   price: number;
   material: string;
+  lampType: string;
+  lampColor: string;
+  numberOfLamps: string;
+  wattsPerLamp: string;
+  powerInWatts: number;
+  lumens: string;
   exteriorFinish: string[];
   interiorFinish: string[];
   lensMaterial: string[];
@@ -28,11 +33,14 @@ export default interface catalogInterface extends Document {
   projecVoltage: string[];
   socketType: string[];
   mounting: string[];
-  crystalType: string[];
+  crystalType: string[];// add to model add some stuff
+  crystalPinType: string[];
+  crystalPinColor: string[];
   designStyle: string[];
   usePackages: string[];
   images: string[]; //s3
   pdf: string[]; //s3
+  specs: string[];
   drawingFiles: string[]; //s3
   costAdmin: number;
   partnerCodeAdmin: string;

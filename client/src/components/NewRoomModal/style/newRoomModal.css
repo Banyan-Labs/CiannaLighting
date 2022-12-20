@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
+.new-room-modal-background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.new-room-modal-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99 !important;
+    width: 450px;
+    min-height: 370px;
+    margin: 1rem auto;
+    padding: 2rem 5rem;
+    border-radius: 5px;
+    background-color: white;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-title-close-btn button {
+    position: absolute;
+    left: 15px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+}
+
+.modal-title-close-btn button:hover {
+    color: #101010;
+    cursor: pointer;
+}
+
+.modal-title {
+    color: black;
+    text-align: center;
+}
+
+label {
+    font-size: 12px;
+}
+
+.new-room-modal-inputs {
+    border: 1px solid #cbcbcb;
+    border-radius: 5px;
+    padding: 15px 10px;
+    width: 95%;
+    margin-bottom: 25px;
+}
+
+.new-project-modal-button:hover {
+    background-color: #345c9c;
+}
+
+.new-room-modal-labels {
+    font-weight: bold;
+}
+
+.new-room-name {
+    border-bottom: #cbcbcb;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.max-text-span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.max-text {
+    position: relative;
+    top: -20px;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #101010;
+}
+
+.new-lights-prompt-container {
+    padding: 2rem 1rem;
+}
+
+.new-lights-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 125px;
+    margin-bottom: 20px;
+}
+
+.hr {
+    background-color: #cbcbcb;
+    height: 1px;
+    width: 70%;
+}
+
+.next-step-label {
+    font-size: 11px;
+}
+
+.new-room-modal-container .new-room-modal-footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.new-room-modal-container .new-room-modal-footer button {
+    background-color: #528dea;
+    color: white;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#reset-button {
+    background-color: #ccd2dd;
+    color: black;
+    padding: 15px 50px;
+    width: 42%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.skip-lights-container {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+}
+
+.skip-lights-step {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    font-weight: 700;
+    color: #a3a3a3;
+}

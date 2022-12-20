@@ -1,0 +1,303 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.dashboard-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 45px;
+  padding-top: 100px;
+  background-color: #ecebe7;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+}
+.dashboard-container h4 {
+  color: #3f3c39;
+  font-size: 20px;
+}
+.dashboard-container a:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dashboard-new-project-button {
+  padding: 5px;
+}
+
+.dashboard-new-project-button:hover {
+  background-color: hsla(0deg, 0%, 100%, 0.13);
+  border-radius: 50px;
+}
+
+.dashboard-new-project-sub-text {
+  color: #949494;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+
+.dashboard-project-overview {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 50%;
+}
+.dashboard-project-overview h4 {
+  padding: 5px 25px;
+}
+
+.overview-display {
+  margin: 0 25px;
+  position: relative;
+  top: -50px;
+  flex-basis: 100%;
+  display: grid;
+  color: #3f3c39;
+  grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
+  grid-template-rows: 20px 50px;
+  grid-template-areas: "total_icon total_title total_title total_title . . . . ." "total_icon total_num . . . . . . ." ". new_icon new_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title" ". new_icon new_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num";
+}
+
+.overview-icon-main {
+  width: 40px;
+  height: auto;
+  color: #9b9b9b;
+}
+
+.overview-label-main {
+  color: #9b9b9b;
+  position: relative;
+  top: 5px;
+  font-size: 14px;
+}
+
+.overview-num-main {
+  font-family: "sweet-heavy";
+  font-size: 20px;
+}
+
+.overview-icon {
+  width: 30px;
+  height: auto;
+  color: #9b9b9b;
+}
+
+.overview-label {
+  color: #9b9b9b;
+  font-size: 12px;
+}
+
+.overview-num {
+  font-weight: bolder;
+}
+
+.overview-total {
+  grid-area: total_icon;
+}
+
+.overview-total-title {
+  grid-area: total_title;
+}
+
+.overview-total-num {
+  grid-area: total_num;
+}
+
+.overview-new {
+  grid-area: new_icon;
+}
+
+.overview-new-title {
+  grid-area: new_title;
+}
+
+.overview-new-num {
+  grid-area: new_num;
+}
+
+.overview-hold {
+  grid-area: hold_icon;
+}
+
+.overview-hold-title {
+  grid-area: hold_title;
+}
+
+.overview-hold-num {
+  grid-area: hold_num;
+}
+
+.overview-canceled {
+  grid-area: canceled_icon;
+}
+
+.overview-canceled-title {
+  grid-area: canceled_title;
+}
+
+.overview-canceled-num {
+  grid-area: canceled_num;
+}
+
+.overview-completed {
+  grid-area: completed_icon;
+}
+
+.overview-completed-title {
+  grid-area: completed_title;
+}
+
+.overview-completed-num {
+  grid-area: completed_num;
+}
+
+.dashboard-your-projects {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  width: 60%;
+  margin: 0 20px 0 0;
+  overflow-x: scroll;
+}
+.dashboard-your-projects h4 {
+  padding: 5px 25px 0 0;
+}
+.dashboard-your-projects button {
+  background-color: transparent;
+  color: #949494;
+  font-size: 16px;
+  border: none;
+  margin-left: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.dashboard-your-projects .your-projects-icons {
+  margin-left: auto;
+  color: #3f3c39;
+  font-size: 20px;
+  position: relative;
+  top: 2px;
+}
+.dashboard-your-projects #your-project-icons-left {
+  padding-right: 10px;
+}
+.dashboard-your-projects .your-projects-buttons {
+  font-size: 25px;
+}
+.dashboard-your-projects .your-projects-buttons:hover {
+  cursor: pointer;
+  color: rgba(63, 60, 57, 0.219);
+}
+
+.overview-vertical-divider {
+  height: 35px;
+  width: 1px;
+  background-color: #c09d5b;
+  position: relative;
+  top: 10px;
+}
+
+.dashboard-vertical-divider {
+  height: 35px;
+  width: 1px;
+  background-color: #c09d5b;
+  position: relative;
+  top: 10px;
+}
+
+.your-projects-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: scroll;
+  height: 210px;
+  width: 100%;
+}
+.your-projects-section .your-projects-none {
+  flex-grow: 1;
+  text-align: center;
+}
+.your-projects-section .your-projects-none span {
+  color: #777777;
+  font-size: 12px;
+}
+
+.single-project {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 250px;
+  max-width: 250px;
+  margin-right: 30px;
+  border-radius: 3px;
+}
+.single-project span {
+  padding: 10px 15px 0 15px;
+  font-size: 12px;
+  color: #3f3c39;
+}
+.single-project .card-divider {
+  align-self: center;
+  height: 0.5px;
+  width: 80%;
+  margin-top: 15px;
+  background-color: #c09d5b;
+}
+.single-project h3 {
+  padding: 5px 15px;
+  color: #3f3c39;
+  text-align: center;
+}
+.single-project .view-details-block {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.219);
+}
+.single-project .view-details-block span {
+  position: relative;
+  top: -5px;
+  margin-left: 40%;
+  color: #fff;
+}
+.single-project .view-details-block .view-details-chevron {
+  position: relative;
+  top: 1px;
+  font-size: 10px;
+  padding-left: 8px;
+}
+
+.single-project:hover {
+  transition: all 400ms ease;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.single-project:hover h3 {
+  color: black;
+}
+
+.archive-icon {
+  margin-right: 25px;
+  font-size: 1.2em;
+  color: #949494;
+}
+
+.archive-icon:hover {
+  cursor: pointer;
+}/*# sourceMappingURL=dashboard.css.map */

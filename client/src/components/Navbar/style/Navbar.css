@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.navbar-container {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: #ecebe7;
+  border-bottom: 0.5px solid #c09d5b;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+  display: flex;
+  align-items: center;
+}
+.navbar-container img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 66%;
+  margin-top: 20px;
+}
+.navbar-container button {
+  border: none;
+  background-color: transparent;
+  color: #c09d5b;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+.navbar-container button:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logo-container {
+  display: flex;
+  align-self: center;
+  width: 150px;
+  height: 125px;
+}
+
+.navbar-links-container {
+  margin-right: 20px;
+  display: flex;
+  width: 300px;
+  justify-content: space-evenly;
+}
+
+.navbar-links {
+  color: #949494;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 100;
+  color: #3f3c39;
+}
+
+.navbar-user-container {
+  display: flex;
+  align-items: center;
+  width: 250px;
+  justify-content: space-evenly;
+  margin-left: auto;
+  color: #949494;
+}
+.navbar-user-container div {
+  font-size: 14px;
+}
+.navbar-user-container .navbar-user-hi {
+  font-weight: 100;
+}
+.navbar-user-container .navbar-user-name {
+  color: #c09d5b;
+}
+.navbar-user-container .navbar-user-role {
+  font-size: 12px;
+  font-weight: 100;
+}
+
+.navbar-vertical-divider {
+  display: flex;
+  align-self: center;
+  height: 35px;
+  width: 1px;
+  background-color: #c09d5b;
+}
+
+.active {
+  font-weight: 400;
+  padding-bottom: 40px;
+  color: #c09d5b;
+}/*# sourceMappingURL=Navbar.css.map */

@@ -1,0 +1,91 @@
+@import '../../../../../variables/variables.scss';
+.proposal-container {
+    margin: 1%;
+    border: 3px solid black;
+    border-radius: 2px;
+}
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 2%;
+    border-bottom: 2px solid black;
+    background: #23395d;
+    h1:first-child {
+        color: $accent-gold;
+    }
+    h1:nth-child(2) {
+        color: $primary-bg-white;
+    }
+}
+
+.table-contain {
+    padding: 4% 2%;
+    .table-border {
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 0px 5px;
+        }
+        table {
+            width: 100%;
+        }
+        th {
+            font-size: smaller;
+            font-family: $font-family-medium;
+            text-align: center;
+        }
+        td {
+            font-size: x-small;
+            font-family: $font-family-thin;
+            text-align: center;
+        }
+
+        .mini-header {
+            height: 75px;
+        }
+
+        .five {
+            width: 5.5%;
+        }
+        .ten {
+            width: 10%;
+        }
+        .fifteen {
+            width: 15%;
+        }
+        .twenty {
+            width: 17.5%;
+        }
+        .six {
+            width: 6.4%;
+        }
+        .list {
+            text-align: start !important;
+        }
+        .bold {
+            font-family: $font-family;
+        }
+    }
+}
+.pdf-document {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-page {
+    // max-width: 20px;
+    // height: 100px;
+    margin: 10px 10px 0px 0px;
+    // box-shadow: 10px green;
+    // border: 1px solid red;
+}
+@media print {
+    @page {
+        size: landscape;
+        // margin: 50px 0 0 0 ;
+    }
+}

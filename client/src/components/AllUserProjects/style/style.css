@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.all-user-projects-container {
+  background-color: #ecebe7;
+  height: 100vh;
+  width: 100%;
+}
+.all-user-projects-container p {
+  padding: 105px 0 0 15px;
+  color: #949494;
+  margin: 0;
+}/*# sourceMappingURL=style.css.map */

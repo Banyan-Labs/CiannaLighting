@@ -1,0 +1,105 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.users-table-title {
+  margin-top: 10px;
+}
+.users-table-title h1 {
+  margin: 0px;
+}
+.users-table-title p {
+  font-size: 18px;
+}
+
+.new-user-button {
+  background: #c09d5b;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 25px;
+  min-width: 140px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  cursor: pointer;
+}
+
+.users-table-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.281);
+  padding-bottom: 20px;
+}
+
+.users-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #3f3c39;
+}
+
+.users-table-headers {
+  font-size: 14px;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  border-bottom: 2px solid #949494;
+  color: #3f3c39;
+}
+.users-table-headers td {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.remove-td {
+  padding-left: 30px;
+}
+
+.user-options-button {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #949494;
+  margin: 0 10px 0 0;
+}
+
+.user-table-row {
+  font-size: 14px;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  border-bottom: 2px solid #949494;
+  color: #3f3c39;
+}
+.user-table-row th {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.user-table-row td {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.user-table-row .button-td {
+  justify-content: flex-end;
+}
+.user-table-row .remove-button-td {
+  justify-content: center;
+}/*# sourceMappingURL=UsersTable.css.map */

@@ -1,0 +1,88 @@
+@import '../../../variables/variables.scss';
+
+.navbar-container {
+    position: absolute;
+    width: 100vw;
+    height: 100px;
+    background-color: $primary-bg-dark;
+    border-bottom: $line-height solid $line-dark;
+    box-shadow: $box-shadow;
+    display: flex;
+    align-items: center;
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+        height: 66%;
+        margin-top: 20px;
+    }
+    button {
+        border: none;
+        background-color: transparent;
+        color: $accent-gold;
+        font-size: 12px;
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+    button:hover {
+        cursor: pointer;
+        font-weight: 600;
+    }
+}
+
+.logo-container {
+    display: flex;
+    align-self: center;
+    width: 150px;
+    height: 125px;
+}
+
+.navbar-links-container {
+    margin-right: 20px;
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+}
+
+.navbar-links {
+    @include nav-link;
+    color: $primary-bg-dark-title;
+}
+
+.navbar-user-container {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    width: 250px;
+    justify-content: space-evenly;
+    margin-left: auto;
+    color: $primary-bg-dark-text;
+    div {
+        font-size: 14px;
+    }
+    .navbar-user-hi {
+        font-weight: 100;
+    }
+    .navbar-user-name {
+        color: $accent-gold;
+    }
+    .navbar-user-role {
+        font-size: 12px;
+        font-weight: 100;
+    }
+}
+
+.navbar-vertical-divider {
+    display: flex;
+    align-self: center;
+    @include vertical-line;
+}
+
+.active {
+    font-weight: 400;
+    padding-bottom: 40px;
+    color: $accent-gold;
+}

@@ -13,7 +13,7 @@ export const config = {
   },
   server: {
     host: "localhost",
-    port: 1337,
+    port: process.env.PORT,
   },
 };
 export default config;

@@ -1,0 +1,48 @@
+.projects-bottom-half {
+    display: flex;
+}
+
+.all-project-view-main-container {
+    margin-top: 140px;
+    color: $primary-bg-dark-text;
+    width: 100%;
+    border-right: 1px $line-dark solid;
+}
+
+.button-filter-container {
+    width: 100%;
+    button {
+        cursor: pointer;
+    }
+}
+
+.all-project-button {
+    transition: all 0.2s ease-in-out;
+    background-color: $accent-gold;
+    border: 1px $line-dark solid;
+    padding: 12px 16px 12px 16px;
+    border-radius: 5px;
+    color: $primary-bg-white;
+}
+
+.your-projects-button {
+    transition: all 0.2s ease-in-out;
+    background-color: $accent-gold;
+    border: 1px $line-dark solid;
+    padding: 12px 16px 12px 16px;
+    border-radius: 5px;
+    color: $primary-bg-white;
+}
+
+.type-project-btn {
+    transition: all 0.2s ease-in-out;
+    border: none;
+    background-color: $primary-bg-dark;
+    padding: 12px 8px 12px 8px;
+    border-radius: 5px;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark-text;
+        color: $primary-bg-white;
+    }
+}

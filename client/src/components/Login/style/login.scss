@@ -1,0 +1,112 @@
+@import '../../../variables/variables.scss';
+
+.login-container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-bg-dark {
+    height: 100vh;
+    width: 60%;
+    background-color: $primary-bg-dark;
+    img {
+        display: block;
+        width: 35%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25%;
+    }
+}
+.login-gold-accent {
+    height: 100vh;
+    width: 2%;
+    background-color: $accent-gold;
+    box-shadow: $box-shadow;
+}
+
+.login-form-container {
+    color: $primary-bg-white-text;
+    margin: 0 auto;
+    header {
+        font-size: $primary-title-fs;
+        font-weight: bold;
+    }
+    p {
+        font-size: $sub-text-fs;
+        padding: 15px 0;
+    }
+    label {
+        @include input-label;
+    }
+    input {
+        @include input-field;
+    }
+    input::placeholder {
+        color: $primary-bg-dark-text;
+    }
+    a {
+        @include link-bg-white;
+    }
+    a:hover {
+        opacity: 0.5;
+    }
+    div {
+        display: flex;
+        justify-content: center;
+        button {
+            @include button($primary-bg-dark, $primary-bg-dark-button-text);
+            font-weight: bold;
+        }
+        button:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    }
+}
+
+.login-sub-text {
+    color: $primary-bg-white-sub-text;
+}
+
+// Tablet Media Query
+@media only screen and (max-width: 1024px) {
+    .login-bg-dark {
+        width: 35%;
+        img {
+            width: 80%;
+        }
+    }
+    .login-gold-accent {
+        width: 2%;
+    }
+    .login-form-container {
+        margin: 0 auto;
+    }
+}
+
+//Mobile Media Query
+@media only screen and (max-width: 764px) {
+    .login-container {
+        flex-flow: column;
+    }
+    .login-bg-dark {
+        width: 100%;
+        height: 150px;
+        text-align: center;
+        img {
+            height: 200px;
+            width: 50%;
+            margin-top: 0;
+        }
+    }
+    .login-gold-accent {
+        width: 100%;
+        height: 1vh;
+    }
+    .login-form-container {
+        width: auto;
+        margin: 10vh auto;
+    }
+}

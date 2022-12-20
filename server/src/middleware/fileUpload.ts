@@ -47,6 +47,7 @@ const upload = multer({
 const multiUpload = upload.fields([
     { name: 'images', maxCount: 5 },
     { name: 'pdf', maxCount: 5 },
+    { name: 'specs', maxCount: 5 },
     { name: 'drawingFiles', maxCount: 5 },
 ]);
 

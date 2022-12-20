@@ -15,7 +15,7 @@ const refreshTokenController = (req: Request, res: Response) => {
   User.findOne({ refreshToken })
     .then((user) => {
       if (!user) return res.sendStatus(401);
-
+      console.log("USER on REFRESH: ", user)
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET as string,
@@ -25,7 +25,7 @@ const refreshTokenController = (req: Request, res: Response) => {
           const accessToken = jwt.sign(
             { name: user.email, role },
             process.env.ACCESS_TOKEN_SECRET as string,
-            { expiresIn: "3500s" }
+            { expiresIn: "1d" }
           );
           res.json({
             accessToken,
@@ -39,7 +39,7 @@ const refreshTokenController = (req: Request, res: Response) => {
         }
       );
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("Error in refresh: ",err));
 };
 
 export default { refreshTokenController };

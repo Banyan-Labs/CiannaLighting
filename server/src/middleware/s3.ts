@@ -15,6 +15,7 @@ export const uploadFunc = async (files: any) => {
   try {
     const response = files.map(async (field: any) => {
       const params = field.map((file: any) => {
+        console.log("S3 FILE!! pre send: ",file)
         return {
           Bucket: bucketName,
           Key: `uploads/${Date.now()}-${file.originalname}`,

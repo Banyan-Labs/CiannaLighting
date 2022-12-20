@@ -1,0 +1,359 @@
+@import '../../../variables/variables.scss';
+@import './lightDetails';
+@import './CatalogItem';
+.room-details-container {
+    background-color: white;
+    padding: 0;
+}
+.room-details-top {
+    display: inline-flex;
+}
+.room-details-close-button {
+    font-size: 20px;
+    margin: 10px;
+}
+.room-details-close-button:hover {
+    cursor: pointer;
+}
+.room-details-project-name {
+    font-size: 12px;
+    padding-left: 300px;
+}
+.room-details-room-name-bar {
+    margin-right: 0px;
+    display: inline-flex;
+    width: 350px;
+    justify-content: space-evenly;
+}
+
+.trash-icon {
+    margin-left: 15px;
+    font-weight: 800;
+    font-size: 1.2em;
+}
+.trash-icon:hover {
+    cursor: pointer;
+}
+.room-description-light-divider {
+    border-bottom: 1px solid #ada9a9ab;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.room-description-no-lights {
+    display: block;
+    align-self: center;
+    align-content: center;
+    padding-left: 35%;
+    padding-top: 15%;
+}
+
+// ********* Style for project container ************
+
+.roomDetail-container {
+    border-right: 1px solid #ada9a9ab;
+    height: 90vh;
+}
+
+.project-date {
+    border-right: 1px solid black;
+    margin-left: 20px;
+    padding-right: 20px;
+
+    h3 {
+        font-size: 22px;
+    }
+    p {
+        font-size: 13px;
+        color: $primary-bg-white-sub-text;
+    }
+}
+
+.project-name {
+    margin-right: 2rem;
+    font-weight: bold;
+    position: relative;
+    .room-details-circle-icon {
+        position: absolute;
+        margin-left: 0.5rem;
+        font-size: 18px;
+    }
+    .project-tag {
+        font-size: 12px;
+        color: $primary-bg-white-sub-text;
+    }
+}
+
+.description-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // border: 2px solid blue;
+    h4 {
+        margin-left: 20px;
+        font-weight: 400;
+    }
+
+    p {
+        padding-left: 10px;
+        // padding-left: 120px;
+        // padding-right: 30px;
+        // padding-top: 5px;
+        color: $primary-bg-white-sub-text;
+    }
+}
+.light-number {
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.container-no-lights {
+    height: 200px;
+    color: $primary-bg-white-sub-text;
+}
+
+.back-to-project {
+    margin-top: 1rem;
+    font-weight: bold;
+    .chevron-icon {
+        position: relative;
+        top: 2px;
+    }
+    a {
+        margin-left: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        color: black;
+        cursor: pointer;
+    }
+    a:hover {
+        color: #ada9a9ab;
+    }
+}
+
+.icon-container {
+    padding-left: 20px;
+}
+
+.collapse-button {
+    cursor: pointer;
+    font-weight: 500;
+    padding-right: 20px;
+    span {
+        font-size: 20px;
+        padding-left: 10px;
+    }
+}
+.container-for-light-cards-off {
+    // min-height: 50vh;
+    // max-height: 50vh;
+    min-height: 510px;
+    max-height: 510px;
+    overflow-y: scroll;
+}
+
+.container-for-light-cards {
+    min-height: 510px;
+    max-height: 510px;
+    overflow-y: scroll;
+
+    .single-room-container {
+        background-color: $primary-bg-dark;
+        position: relative;
+        padding-top: 20px;
+        margin-right: 20px;
+        margin-left: 20px;
+        padding-bottom: 20px;
+        border-bottom: solid 1px $primary-bg-light-grey;
+
+        // **** the top part of the light card *****
+        .first-light-section {
+            .first-section-name {
+                padding-left: 20px;
+
+                p {
+                    color: $primary-bg-white-sub-text;
+                }
+
+                // .edit-link {
+                //     text-decoration: underline;
+                //     padding-right: 15px;
+                //     font-size: 16px !important;
+                //     color: $accent-gold;
+                //     font-weight: 500;
+                //     cursor: pointer;
+                //     border: none;
+                //     background: none;
+                //     transition: all 0.2s ease-in-out;
+                //     &:hover {
+                //         transition: all 0.2s ease-in-out;
+                //         color: $primary-bg-dark-title;
+                //     }
+                // }
+
+                // .remove-link {
+                //     text-decoration: underline;
+                //     font-weight: 500;
+                //     cursor: pointer;
+                //     font-size: 16px !important;
+                //     color: $primary-bg-white-sub-text;
+                //     border: none;
+                //     background: none;
+                //     transition: all 0.2s ease-in-out;
+                //     &:hover {
+                //         transition: all 0.2s ease-in-out;
+                //         color: $primary-bg-dark-title;
+                //     }
+                // }
+                h3 {
+                    color: $primary-bg-dark-title;
+                }
+                h4 {
+                    color: $primary-bg-dark-title;
+                }
+            }
+
+            .qty {
+                position: absolute;
+                font-weight: 600;
+                right: 0px;
+                top: 0px;
+                padding-right: 10px;
+                font-size: 13px;
+
+                span {
+                    padding-left: 10px;
+                    color: $primary-bg-white-sub-text;
+                }
+            }
+        }
+        .lightImg {
+            box-shadow: $box-shadow;
+            // height: 85px;
+            height: 120px;
+            border-radius: 0.2rem;
+        }
+    }
+
+    .edit-link {
+        text-decoration: underline;
+        padding-right: 15px;
+        font-size: 16px !important;
+        color: $accent-gold;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        background: none;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-title;
+        }
+    }
+
+    .remove-link {
+        text-decoration: underline;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 16px !important;
+        color: $primary-bg-white-sub-text;
+        border: none;
+        background: none;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-title;
+        }
+    }
+}
+
+// ********* The Bottom Part Of The Light Card *********
+.second-left-section {
+    font-size: $primary-text-fs;
+    h5:nth-child(2) {
+        color: gray;
+    }
+}
+
+.second-right-section {
+    font-size: $primary-text-fs;
+    h5:nth-child(2) {
+        color: gray;
+    }
+}
+
+.delete-Modal-container {
+    min-height: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .delete-modal-button {
+        background-color: red !important;
+        padding: 10px 12px 10px 12px;
+        width: 50%;
+    }
+}
+
+.room-icons {
+    cursor: pointer;
+}
+
+// ******** for the containers for each component
+.details-container {
+    padding-top: 100px !important;
+}
+
+// ******** Filter Componet *********
+.container-filter {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 100px;
+}
+
+.filter-lights-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-bar-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    cursor: pointer;
+}
+
+// ******** Media for Tablet ************************
+
+@include media-lg {
+    .container-for-light-cards {
+        min-height: 25vh;
+        max-height: 25vh;
+        overflow-y: scroll;
+        padding: 5px;
+    }
+
+    .container-for-light-cards-off {
+        display: none;
+    }
+
+    .roomDetail-container {
+        border-right: none;
+        height: 45vh;
+    }
+    .details-container {
+        height: 100vh;
+    }
+}

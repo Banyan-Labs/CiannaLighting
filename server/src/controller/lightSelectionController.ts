@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+// import { Finish } from "../interfaces/rfpDocInterface";
 import LightSelection from "../model/LIghtSelection";
+import RFP from "../model/RFP";
+import ProposalTableRow from "../model/ProposalTableRow";
 import Room from "../model/Room";
 
 const lightSelected = async (
@@ -28,7 +31,9 @@ const lightSelected = async (
     projectId,
     clientId,
     quantity,
-  } = req.body;
+    price,
+    propID
+  } = req.body.light;
 
   const light = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
@@ -51,6 +56,7 @@ const lightSelected = async (
     projectId,
     clientId,
     quantity,
+    
   });
   const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
@@ -61,11 +67,15 @@ const lightSelected = async (
         const roomSuccess = `added light to room: ${roomId}`;
         return light
           .save()
-          .then((light) => {
-            return res.status(201).json({
-              light,
-              message: roomSuccess,
-            });
+          .then(async (light) => {
+            if (light) {
+              
+                return res.status(201).json({
+                  light,
+                  message: roomSuccess,
+                });
+              
+            }
           })
           .catch((error) => {
             return res.status(500).json({
@@ -83,8 +93,10 @@ const lightSelected = async (
         error,
       });
     });
+
   return lightAndRoom;
 };
+
 
 const getAllSelectedLights = (req: Request, res: Response) => {
   const { roomId } = req.body;
@@ -115,6 +127,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
+  console.log(parameters, "params object");
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
     .then((light: any) => {
@@ -122,6 +135,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
         keys.map((keyName: string) => {
           light[keyName] = parameters[keyName];
         });
+        light.save();
       }
       console.log(`light_selected:${light?.item_ID}`);
       return res.status(200).json({
@@ -134,6 +148,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async (req: Request, res: Response) => {
+  // console.log(req.body, 'hello', req.body.roomId)
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {
@@ -142,7 +157,6 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
           return String(id) !== req.body._id ? id : "";
         });
         room.save();
-
         const lightRemoved = "light removed successfully from room";
         return await LightSelection.findByIdAndDelete({ _id: req.body._id })
           .then((lightSelection) => {

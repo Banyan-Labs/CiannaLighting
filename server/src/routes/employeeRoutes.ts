@@ -13,8 +13,8 @@ router
   .get("/get-catalog", catalogController.getCatalogItems)
   .post("/create-light", multiUpload, catalogController.createCatalogItem)
   .post("/find-light", catalogController.getLight)
-  .delete("/remove-light", catalogController.removeLight)
+  .post("/remove-light", catalogController.removeLight)
   .post("/new-sr", srController.addInfo)
-  .delete("/delete-sr", srController.deleteData);
+  .post("/delete-sr", srController.deleteData);
 
-export = router;
+export default router;

@@ -25,13 +25,13 @@ const login = async (req: Request, res: Response) => {
               role,
             },
             process.env.ACCESS_TOKEN_SECRET as string,
-            { expiresIn: "3500s" }
+            { expiresIn: "1d" }
           );
 
           const refreshToken = jwt.sign(
             { name: user.email, role },
             process.env.REFRESH_TOKEN_SECRET as string,
-            { expiresIn: "30d" }
+            { expiresIn: "2d" }
           );
           user.refreshToken = refreshToken;
 

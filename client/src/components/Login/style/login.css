@@ -1,0 +1,141 @@
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.login-container {
+  display: flex;
+  align-items: center;
+}
+
+.login-bg-dark {
+  height: 100vh;
+  width: 60%;
+  background-color: #ecebe7;
+}
+.login-bg-dark img {
+  display: block;
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25%;
+}
+
+.login-gold-accent {
+  height: 100vh;
+  width: 2%;
+  background-color: #c09d5b;
+  box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+}
+
+.login-form-container {
+  color: #3f3c39;
+  margin: 0 auto;
+}
+.login-form-container header {
+  font-size: 20px;
+  font-weight: bold;
+}
+.login-form-container p {
+  font-size: 14px;
+  padding: 15px 0;
+}
+.login-form-container label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #3f3c39;
+  line-height: 28px;
+}
+.login-form-container input {
+  border: 1px solid #c09d5b;
+  border-radius: 5px;
+  padding: 15px 10px;
+  width: 95%;
+  margin-bottom: 25px;
+  color: #9b9b9b;
+}
+.login-form-container input::-moz-placeholder {
+  color: #949494;
+}
+.login-form-container input:-ms-input-placeholder {
+  color: #949494;
+}
+.login-form-container input::placeholder {
+  color: #949494;
+}
+.login-form-container a {
+  text-decoration: none;
+  font-size: 12px;
+  color: #3f3c39;
+  font-weight: bold;
+  line-height: 36px;
+}
+.login-form-container a:hover {
+  opacity: 0.5;
+}
+.login-form-container div {
+  display: flex;
+  justify-content: center;
+}
+.login-form-container div button {
+  background-color: #ecebe7;
+  color: #3f3c39;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 5px;
+  transition: 600ms ease;
+  font-weight: bold;
+}
+.login-form-container div button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.login-sub-text {
+  color: #949494;
+}
+
+@media only screen and (max-width: 1024px) {
+  .login-bg-dark {
+    width: 35%;
+  }
+  .login-bg-dark img {
+    width: 80%;
+  }
+  .login-gold-accent {
+    width: 2%;
+  }
+  .login-form-container {
+    margin: 0 auto;
+  }
+}
+@media only screen and (max-width: 764px) {
+  .login-container {
+    flex-flow: column;
+  }
+  .login-bg-dark {
+    width: 100%;
+    height: 150px;
+    text-align: center;
+  }
+  .login-bg-dark img {
+    height: 200px;
+    width: 50%;
+    margin-top: 0;
+  }
+  .login-gold-accent {
+    width: 100%;
+    height: 1vh;
+  }
+  .login-form-container {
+    width: auto;
+    margin: 10vh auto;
+  }
+}/*# sourceMappingURL=login.css.map */

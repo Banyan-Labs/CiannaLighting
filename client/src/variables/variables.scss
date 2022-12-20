@@ -1,0 +1,130 @@
+//Font
+// @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900');
+// @import url() ;
+
+@font-face {
+    font-family: 'sweet-heavy';
+    src: url('../../public/fonts/SweetSansProHeavy.woff') format('woff');
+}
+@font-face {
+    font-family: 'sweet-medium';
+    src: url('../../public/fonts/SweetSansProMedium.woff') format('woff');
+}
+@font-face {
+    font-family: 'sweet-thin';
+    src: url('../../public/fonts/SweetSansProThin.woff') format('woff');
+}
+
+$font-family: 'sweet-heavy';
+$font-family-medium: 'sweet-medium';
+$font-family-thin: 'sweet-thin';
+
+//Dark Background Colors
+$primary-bg-dark: #ecebe7;
+$primary-bg-dark-title: #3f3c39;
+$primary-bg-dark-text: #949494;
+$primary-bg-dark-link: #949494;
+$primary-bg-dark-link-hover: #3f3c39;
+$primary-bg-dark-link-active: #3f3c39;
+$primary-bg-dark-button-text: #3f3c39;
+$primary-bg-light-grey: #9b9b9b;
+$primary-bg-lt-grey: #f2f2f2;
+
+//White Background Colors
+$primary-bg-white: #f7f6f4;
+$primary-bg-white-text: #3f3c39;
+$primary-bg-white-sub-text: #949494;
+
+//Accent Colors
+$accent-gold: #c09d5b;
+$accent-pink-shade-granite: #a3837a;
+$accent-grayish-red: #d3b9b8;
+$accent-empress: #9b8384;
+$accent-grayish-orange: #d1beae;
+$accent-light-grayish-orange: #e5dcd1;
+$accent-dark-orange: #3f3c39;
+$accent-dark-gray: #949494;
+$accent-light-grayish-yellow: #ecebe7;
+
+//Line details and horizontal line colors
+$line-height: 0.5px;
+$line-dark: #c09d5b;
+$line-light: #c09d5b;
+$line-gray: #949494;
+
+//Font sizes
+$nav-link-fs: 14px;
+$primary-title-fs: 20px;
+$primary-text-fs: 16px;
+$sub-text-fs: 14px;
+$table-header-fs: 14px;
+$small-text: 12px;
+$med-text: 13px;
+
+//Box Shadow
+$box-shadow: #3f3c3929 0px 3px 6px, #3f3c393b 0px 3px 6px;
+
+//Mixins *in progress
+@mixin input-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: $primary-bg-white-text;
+    line-height: 28px;
+}
+
+@mixin input-field {
+    border: 1px solid $line-light;
+    border-radius: 5px;
+    padding: 15px 10px;
+    width: 95%;
+    margin-bottom: 25px;
+    color: $primary-bg-light-grey;
+}
+
+@mixin link-bg-white {
+    text-decoration: none;
+    font-size: 12px;
+    color: $primary-bg-white-text;
+    font-weight: bold;
+    line-height: 36px;
+}
+
+@mixin nav-link {
+    color: $primary-bg-dark-link;
+    text-decoration: none;
+    font-size: $nav-link-fs;
+    font-weight: 100;
+}
+
+@mixin vertical-line {
+    height: 35px;
+    width: 1px;
+    background-color: $line-dark;
+}
+
+@mixin button($bg-color, $text-color) {
+    background-color: $bg-color;
+    color: $text-color;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 5px;
+    transition: 600ms ease;
+}
+
+@mixin media-sm {
+    @media screen and (max-width: 800px) {
+        @content;
+    }
+}
+
+@mixin media-lg {
+    @media screen and (max-width: 992px) {
+        @content;
+    }
+}
+
+@mixin media-xl {
+    @media screen and (max-width: 1283px) {
+        @content;
+    }
+}

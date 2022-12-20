@@ -1,0 +1,232 @@
+@import '../../../variables/variables.scss';
+@import './modalAttach';
+@import './projectView';
+
+.projects-top-half {
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+}
+//   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.project-summary-container {
+    margin-top: 100px;
+    background-color: $primary-bg-dark;
+    color: $primary-bg-dark-text;
+    width: 100%;
+    border-right: 1px $line-dark solid;
+}
+
+.back-to-projects {
+    display: inline-flex;
+    .chevron-icon {
+        margin-right: 10px;
+        position: relative;
+        top: 2px;
+    }
+    a {
+        margin-top: 12px;
+        margin-left: 10px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #808080;
+        position: relative;
+        z-index: 2;
+    }
+
+    .back-to-all-projects {
+        transition: all 0.2s ease-in-out;
+        border: none;
+        cursor: pointer;
+        background-color: $primary-bg-dark;
+
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-text;
+        }
+    }
+}
+.back-to-projects:hover {
+    cursor: pointer;
+}
+
+.project-summary-top-bar {
+    margin-left: 20px;
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.project-summary-project-name {
+    width: 110%;
+}
+
+.project-summary-name-and-date {
+    border-right: 0.1px solid rgb(48, 47, 47);
+    padding-right: 20px;
+}
+
+.circle-icon {
+    margin-left: 15px;
+    font-size: 15px;
+}
+
+.project-summary-date {
+    font-size: $sub-text-fs;
+    margin-top: -15px;
+    color: #808080;
+}
+
+.project-summary-icons {
+    display: inline-flex;
+    align-self: center;
+    margin-left: 20px;
+    width: 40%;
+}
+
+.archive-icon {
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: $primary-bg-dark-text;
+}
+.archive-icon:hover {
+    cursor: pointer;
+}
+
+.clone-icon {
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: $primary-bg-dark-text;
+}
+.clone-icon:hover {
+    cursor: pointer;
+}
+
+.edit-icon {
+    margin-left: 0px;
+    font-size: 1.2em;
+    color: $primary-bg-dark-text;
+}
+.edit-icon:hover {
+    cursor: pointer;
+}
+
+.status {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+.project-summary-text-container {
+    margin: 0 2em;
+    font-size: $sub-text-fs;
+}
+
+.project-summary-description-text {
+    font-weight: 100;
+    font-size: $small-text;
+}
+// Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.project-attachments-container {
+    padding-top: 140px;
+    background-color: $primary-bg-dark;
+    width: 100%;
+    color: $primary-bg-dark-link;
+}
+.project-attachments-top-bar {
+    margin-left: 15px;
+    display: inline-flex;
+    height: 60px;
+}
+
+.project-attachment {
+    padding-right: 20px;
+    color: $primary-bg-dark-link;
+}
+
+.paperclip-icon {
+    border-radius: 50%;
+    background-color: rgb(41, 40, 40);
+    margin-top: 17px;
+    margin-left: 20px;
+    padding: 5px;
+}
+
+.paperclip-icon:hover {
+    cursor: pointer;
+}
+
+.attach-file-text {
+    font-size: 8px;
+    margin-top: 25px;
+    margin-left: 5px;
+}
+
+.project-attachments-table-container {
+    margin-left: 10%;
+    border-bottom: 1px solid rgb(39, 39, 40);
+    margin-right: 10%;
+    color: $primary-bg-dark-title;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 200px;
+}
+
+.attachments-file-name {
+    width: 80%;
+    font-size: $med-text;
+    text-align: left;
+    border-bottom: 1px solid rgb(39, 39, 40);
+}
+
+.attachments-file-remove {
+    width: 20%;
+    font-size: $med-text;
+    text-align: center;
+}
+
+.attachments-table {
+    border-bottom: 1px solid rgb(39, 39, 40);
+    width: 100%;
+    thead {
+        top: 0;
+        z-index: 2;
+        position: sticky;
+        background: rgb(236, 235, 231);
+        border-bottom: 2px solid $primary-bg-dark-title;
+    }
+}
+
+.attachments-dynamic-row:hover {
+    transition: 200ms ease;
+}
+
+.file-file-name {
+    font-size: $sub-text-fs;
+    border-top: 1px solid rgb(39, 39, 40);
+    font-weight: 200;
+    padding: 15px;
+    font-size: $small-text;
+}
+
+.file-file-remove {
+    font-size: $small-text;
+    border-top: 1px solid rgb(39, 39, 40);
+    text-align: center;
+}
+
+.file-file-remove:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.project-attachments-view-all {
+    float: right;
+    margin-right: 10%;
+    font-size: $small-text;
+}
+
+.project-attachments-view-all:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,237 @@
+.lightDetail-container {
+    padding-top: 20px;
+    height: 90vh;
+}
+
+// ******** top of the container **********
+
+.light-top-catalog {
+    padding-top: 10px;
+    span {
+        font-weight: 500;
+        padding-left: 10px;
+    }
+
+    p {
+        color: $primary-bg-white-sub-text;
+        font-size: 14px;
+        padding-left: 26px;
+    }
+}
+
+// ********* LightCard **************
+.lightCard {
+    img {
+        width: 100%;
+        padding: 0;
+        height: 220px;
+        box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
+        border-top-left-radius: 0.2rem;
+        border-top-right-radius: 0.2rem;
+    }
+}
+
+.pagination_ {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    position: relative;
+    bottom: 0px;
+}
+
+.pagination_ .text {
+    opacity: 0.6;
+    font-size: 14px;
+    text-align: center;
+}
+
+.page {
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+    border-radius: 0.7rem;
+    cursor: pointer;
+}
+
+.page.active,
+.page:hover {
+    color: #c6ad7c;
+    padding-bottom: 0 !important;
+}
+
+.page.disabled {
+    background-color: transparent !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.item {
+    height: 332px;
+    margin: 10px;
+    margin-top: 40px;
+    width: calc(85% / 3);
+    cursor: pointer;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        img {
+            transition: all 0.2s ease-in-out;
+            opacity: 0.4;
+        }
+        background-color: $primary-bg-dark;
+        height: fit-content;
+    }
+    .item-bottom-sections {
+        border-radius: 0.3rem;
+        box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
+        border-bottom: solid 1px #ada9a9ab;
+        border-right: solid 1px #ada9a9ab;
+        border-left: solid 1px #ada9a9ab;
+        min-height: 100px;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        h4 {
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        span {
+            color: $primary-bg-white-sub-text;
+            font-size: 12px;
+        }
+    }
+}
+
+.input-light-search {
+    padding: 10px;
+    border-radius: 0.5rem;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    width: 80%;
+    background-color: #e7e5e5ab;
+    border: none !important;
+    &::placeholder {
+        color: $primary-bg-white-sub-text;
+    }
+}
+
+.button-search {
+    cursor: pointer;
+    font-size: 30px;
+    color: #9c9c9cab;
+    border: none;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+
+    .icon-search {
+        display: flex;
+    }
+}
+
+.lightCard {
+    min-height: 67.5vh;
+    max-height: 72.5vh;
+    overflow-y: scroll;
+}
+
+.form-input-search {
+    margin-bottom: 15px;
+}
+
+// Filter ***************************
+.container-filter {
+    background-color: $primary-bg-dark;
+    position: relative;
+    border-left: $accent-gold 1px solid;
+    border-top: $accent-gold 1px solid;
+}
+
+.top-filter {
+    height: fit-content;
+    padding-top: 30px !important;
+    h3 {
+        padding-left: 10px;
+        color: black;
+    }
+}
+
+.dashboard-all-projects-submit {
+    background-color: $primary-bg-dark-link-hover;
+    padding: 5px 15px 5px 15px;
+    color: #c09d5b;
+    margin-left: 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    font-weight: 300;
+}
+
+.filter-form-container {
+    padding-top: 20px;
+    height: fit-content;
+
+    p {
+        padding-top: 5px;
+        color: $primary-bg-white-sub-text;
+    }
+}
+.design-container {
+    h5 {
+        color: $accent-gold;
+        padding-top: 20px !important;
+    }
+}
+
+.button-container-filters {
+    position: absolute;
+    bottom: 2%;
+    justify-content: center;
+
+    button {
+        height: fit-content;
+        width: 60%;
+        padding: 10px 10px 10px 10px;
+        color: white;
+        background-color: $accent-gold;
+        font-weight: 500;
+        border-radius: 0.2rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            opacity: 0.8;
+        }
+    }
+}
+
+// media Queries
+
+@include media-xl {
+    .item {
+        margin: 15px;
+        margin-top: 10px;
+        width: calc(80% / 2);
+    }
+}
+
+@include media-lg {
+    .item {
+        margin: 15px;
+        margin-top: 10px;
+        width: calc(80% / 3);
+    }
+    .lightDetail-container {
+        height: 47vh;
+    }
+    .lightCard {
+        max-height: 35vh;
+        min-height: 35vh;
+    }
+}

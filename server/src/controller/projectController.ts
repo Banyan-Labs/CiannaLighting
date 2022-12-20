@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
 import Project from "../model/Project";
 import Room from "../model/Room";
+import RFP from "../model/RFP";
 
 const createProject = async (req: Request, res: Response) => {
   const {
@@ -14,7 +15,9 @@ const createProject = async (req: Request, res: Response) => {
     region,
     status,
     rooms,
-    copy } = req.body;
+    copy,
+  } = req.body;
+  let curDate = new Date().toISOString().split("T")[0].split("-");
   /**
    * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
    */
@@ -35,22 +38,47 @@ const createProject = async (req: Request, res: Response) => {
         });
       });
   } else {
+    const rfp = new RFP({
+      _id: new mongoose.Types.ObjectId(),
+      header: name + ', ' + region,
+      clientId: clientId,
+      projectId: "",
+      clientName: clientName,
+      tableRow: []
+    })
+
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
-      name: name,
+      name: copy === "project" ? `Copy of ${name}` : name,
       clientId: clientId,
       clientName: clientName,
       region: region,
       status: status,
       description: description,
-      rfp: "",
+      rfp: String(rfp._id),
       rooms: [],
+      activity: {
+        createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
+          "/"
+        )}`,
+        rooms: [],
+        archiveRestore: [],
+        status: [
+          [
+            `Status: ${status}`,
+            `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+          ],
+        ],
+      },
     });
-
+   rfp.projectId = project._id
+   await rfp.save()    
     return await project
       .save()
       .then(async (project) => {
+        if(project){
+          project.rfp = String(rfp._id);
         if (_id && copy === "project") {
           if (project) {
             for (let i = 0; i < rooms.length; i++) {
@@ -62,7 +90,7 @@ const createProject = async (req: Request, res: Response) => {
                   console.log(error, "error rinding room line 65");
                 });
             }
-          }
+          }          
           return res.status(201).json({
             project,
             message: `copy of project ${_id}`,
@@ -72,6 +100,7 @@ const createProject = async (req: Request, res: Response) => {
             project,
           });
         }
+      }
       })
       .catch((error) => {
         return res.status(500).json({
@@ -83,38 +112,104 @@ const createProject = async (req: Request, res: Response) => {
 };
 
 const getProject = async (req: Request, res: Response) => {
-  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  console.log("REQBODY in get project: ", req.body);
+  const keys = Object.keys(req.body).filter(
+    (key: string) => key != "_id" && key != "authEmail" && key != "authRole"
+  );
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
-
+  const curDate = new Date().toISOString().split("T")[0].split("-");
   return await Project.findOne({ _id: req.body._id })
     .exec()
-    .then((project) => {
-      console.log(project, "PROJECT");
+    .then(async (project) => {
+      console.log("Project: ", project);
+      console.log("Project activity: ", project?.activity);
+      if(project && project.activity == undefined){
+        project["activity"] = {
+          createUpdate: `Created on ${[
+            curDate[1],
+            curDate[2],
+            curDate[0],
+          ].join("/")}`,
+          rooms: [],
+          archiveRestore: [],
+          status: [
+            [
+              `Status: ${project.status}`,
+              `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+            ],
+          ],
+        };
+      }
       console.log(`project: ${project?.name} retrieved`);
-      if (project && keys.length) {
-        keys.map((keyName: string) => {
-          switch (keyName) {
-            case "name":
-              project.name = parameters["name"];
-              break;
-            case "archived":
-              project.archived = parameters["archived"];
-              break;
-            case "region":
-              project.region = parameters["region"];
-              break;
-            case "status":
-              project.status = parameters["status"];
-              break;
-            case "description":
-              project.description = parameters["description"];
-              break;
-            default:
-              null;
-          }
-        });
+      if (project) {
+        if (keys.length) {
+          keys.map((keyName: string) => {
+            switch (keyName) {
+              case "name":
+                project.name = parameters["name"];
+                break;
+              case "archived":
+                project.archived = parameters["archived"];
+                break;
+              case "region":
+                project.region = parameters["region"];
+                break;
+              case "status":
+                project.status = parameters["status"];
+                project.activity = {
+                  ...project.activity,
+                  status: [
+                    [
+                      `Status: ${parameters["status"]}`,
+                      `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+                    ],
+                    ...project.activity.status,
+                  ],
+                };
+                break;
+              case "description":
+                project.description = parameters["description"];
+                break;
+              case "activityClear":
+                project.activity.rooms = parameters["activityClear"];
+                project.activity.archiveRestore = parameters["activityClear"];
+                break;
+              case "activity":
+                project.activity = {
+                  ...project.activity,
+                  archiveRestore: project.activity.archiveRestore
+                    ? [
+                        [
+                          `Project ${parameters["activity"]}ed`,
+                          `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+                        ],
+                        ...project.activity.archiveRestore,
+                      ]
+                    : [
+                        [
+                          `Project ${parameters["activity"]}ed`,
+                          `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+                        ],
+                      ],
+                };
+                break;
+              default:
+                null;
+            }
+          });
+          if (project.activity) {
+            project.activity = {
+              ...project.activity,
+              createUpdate: `Updated on ${[
+                curDate[1],
+                curDate[2],
+                curDate[0],
+              ].join("/")}`,
+            };
+          } 
+        }
         project.save();
       }
       return res.status(200).json({
@@ -130,15 +225,32 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: name,
+    name: `Copy of ${name}`,
     clientId: clientId,
     projectId: newProjectId,
     description: description,
     lights: [],
   });
   const roomAndProject = await Project.findOne({ _id: newProjectId });
-
+  let curDate = new Date().toISOString().split("T")[0].split("-");
   if (roomAndProject) {
+    roomAndProject.activity = {
+      ...roomAndProject.activity,
+      rooms: [
+        [
+          `${room.name.toUpperCase()} copied and created new roomID: ${
+            newRoom._id
+          }.`,
+          `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+        ],
+        ...roomAndProject.activity.rooms,
+      ],
+
+      createUpdate: `Updated on ${[curDate[1], curDate[2], curDate[0]].join(
+        "/"
+      )}`,
+    };
+    // }
     roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
     roomAndProject.save();
   }
@@ -219,18 +331,30 @@ const getAccountProjects = async (req: Request, res: Response) => {
 };
 
 const getAllProjects = async (req: Request, res: Response) => {
+ 
+
   const check = Object.keys(req.body).filter(
-    (x) => x != "authEmail" && x != "authRole"
+    (x) => x != "authEmail" && x != "authRole" && x != "clientId" && x != "type"
   );
-  const security = check.filter(
-    (x) => x === "status" || x === "region" || x === "clientId"
+  const security =  check.filter(
+    (x) => x === "status" || x === "region" || x === "clientName"
   );
 
+  const workingUpdate = Object.fromEntries(
+    security.map((x) => [x, req.body[x]])
+  );
+   
   if (security.length && check.length === security.length) {
-    await Project.find({ ...req.body })
-      .then((projects) => {
+    
+    await Project.find({ ...workingUpdate })
+      .then(async(projects) => {
+        const {type, clientId} = req.body;
+        const indProj = projects.filter((x) => x.clientId === clientId)
+        
+        // if filtering through only user project
+        const filterProj = await type === 'allProjects' ? projects : indProj;
         return res.status(200).json({
-          projects,
+          filterProj,
         });
       })
       .catch((error) => {
@@ -251,7 +375,6 @@ const getAllProjects = async (req: Request, res: Response) => {
 
 const deleteProject = async (req: Request, res: Response) => {
   // when rfpDocs are created, still need to include.
-  console.log("project delete body: ", req.body);
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {

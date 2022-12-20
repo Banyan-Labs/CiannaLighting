@@ -4,4 +4,4 @@ const router = express.Router();
 
 router.get("/refresh", controller.refreshTokenController);
 
-export = router;
+export default router;

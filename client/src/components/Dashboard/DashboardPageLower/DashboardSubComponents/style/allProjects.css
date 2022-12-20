@@ -1,0 +1,490 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,300,400,700,900");
+@font-face {
+  font-family: "sweet-heavy";
+  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-medium";
+  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "sweet-thin";
+  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+}
+.project-modal-background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.project-modal-container {
+  z-index: 20;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  min-height: 400px;
+  max-height: 400px;
+  margin: 1rem auto;
+  padding: 1rem 5rem;
+  border-radius: 5px;
+  background-color: white;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.project-modal-close-btn button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+}
+
+.project-modal-close-btn button:hover {
+  color: #101010;
+  cursor: pointer;
+}
+
+.modal-title {
+  color: black;
+  text-align: center;
+}
+
+.new-project-modal-button:hover {
+  background-color: #345c9c;
+}
+
+.new-room-modal-labels {
+  font-weight: bold;
+}
+
+.new-room-name {
+  border-bottom: #cbcbcb;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.max-text-span {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.max-text {
+  position: relative;
+  top: -20px;
+  margin-right: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  color: #101010;
+}
+
+.hr {
+  background-color: #cbcbcb;
+  height: 1px;
+  width: 70%;
+}
+
+.next-step-label {
+  font-size: 11px;
+}
+
+.project-modal-container .new-room-modal-footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.project-modal-container .new-room-modal-footer button {
+  background-color: #528dea;
+  color: white;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-display-view-container {
+  border-bottom: 1px solid #949494;
+}
+.button-display-view-container button {
+  font-size: 18px;
+  padding-bottom: 20px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+.button-display-view-container .btn-right {
+  margin-left: 60px;
+}
+.button-display-view-container .viewActive {
+  color: #c09d5b;
+  font-weight: 600;
+  border-bottom: 1.5px solid #c09d5b !important;
+}
+
+.no-lights {
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  color: #949494;
+  border-bottom: 1px solid #949494;
+  padding-bottom: 10px;
+}
+
+.no-rooms {
+  display: flex;
+  justify-content: center;
+  color: #949494;
+}
+
+.light-view-container {
+  width: 100%;
+  max-height: 200px;
+  overflow: scroll;
+  padding-bottom: 10px;
+}
+.light-view-container h5 {
+  font-size: 13px;
+}
+.light-view-container p {
+  padding-left: 30px;
+  color: #949494;
+  font-size: 14px;
+}
+
+.inner-light-container {
+  border-bottom: 1px solid #949494;
+}
+.inner-light-container .name-tag {
+  padding-top: 10px;
+}
+
+.project-view-container {
+  padding-top: 20px;
+}
+.project-view-container span {
+  font-size: 16px;
+  color: #949494;
+}
+
+.btn-view-container-none {
+  border-bottom: none;
+}
+
+.btn-view-container-none {
+  border-bottom: 1px solid #949494;
+}
+
+.btn-view-lights {
+  background-color: white;
+  border: none;
+  padding: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.name-room {
+  padding-top: 20px !important;
+  font-size: 15px;
+}
+
+.created-tag {
+  font-size: 15px;
+}
+
+.created-tag-span {
+  font-size: 14px;
+  color: #949494;
+}
+
+.confirm-delete {
+  color: #949494;
+  margin-right: 10px;
+}
+
+.delete-modal-button {
+  cursor: pointer;
+  background-color: red;
+  margin-top: 10px;
+  color: white;
+  padding: 8px 15px 8px 15px;
+  border-radius: 0.2rem;
+  border: none;
+}
+
+.all-projects-container {
+  margin-right: 1%;
+  margin-left: 1%;
+  width: 97%;
+  border-bottom: 2px solid #3f3c39;
+}
+
+.dashboard-all-projects {
+  min-height: 37vh;
+}
+
+.form-bar-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 15px;
+  margin-top: -15px;
+}
+
+.projects__bar {
+  margin: 1vh 0 3vh 0;
+}
+
+.dashboard-all-projects-submit:hover {
+  cursor: pointer;
+}
+
+.dashboard-all-projects-table {
+  width: 100%;
+  color: #3f3c39;
+}
+
+.table-headers {
+  font-size: 16px;
+  border-bottom: 2px solid #3f3c39;
+  height: 6.17vh;
+}
+
+.all__projects {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 65vh;
+}
+
+.projects__table thead {
+  top: 0;
+  z-index: 2;
+  position: -webkit-sticky;
+  position: sticky;
+  background: white;
+  border-bottom: 2px solid #3f3c39;
+}
+
+.projects-table-dynamic-row {
+  border-bottom: 1px solid #949494;
+  font-size: 14px;
+  width: 100%;
+  height: 6.17vh;
+}
+
+.projects-table-dynamic-row:hover {
+  background: #949494;
+}
+
+.projects-table-dynamic-name {
+  text-align: left;
+  margin-left: 15px;
+  font-size: 14px;
+  text-indent: 20px;
+}
+
+.projects-table-name {
+  padding-left: 20px;
+  width: 40%;
+}
+
+.projects-table-designer {
+  width: 20%;
+}
+
+.projects-table-region {
+  width: 15%;
+}
+
+.projects-table-status {
+  width: 20%;
+}
+
+.projects-table-dots {
+  width: 15%;
+}
+
+.projects-table-dynamic-status span {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: bold;
+  width: 100px;
+  color: #3f3c39;
+}
+.projects-table-dynamic-status .statusColorNew {
+  background-color: #a3837a;
+}
+.projects-table-dynamic-status .statusColorConstruction {
+  background-color: #a3837a;
+}
+.projects-table-dynamic-status .statusColorCompleted {
+  background-color: #9b8384;
+}
+.projects-table-dynamic-status .statusColorHold {
+  background-color: #d1beae;
+}
+.projects-table-dynamic-status .statusColorConfigure {
+  background-color: #e5dcd1;
+}
+.projects-table-dynamic-status .statusColorRFP {
+  background-color: #949494;
+}
+.projects-table-dynamic-status .statusColorInternalApproval {
+  background-color: #3f3c39;
+  color: #f7f6f4;
+}
+.projects-table-dynamic-status .statusColorAwarded {
+  background-color: #c09d5b;
+}
+.projects-table-dynamic-status .statusColorCanceled {
+  background-color: #ecebe7;
+}
+
+.bs-three-dots-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 6px;
+  font-size: 18px;
+  color: #9b9b9b;
+}
+
+.bs-three-dots-container:hover {
+  border-radius: 50%;
+  background: #f2f2f2;
+}
+
+.align-modal-dots {
+  display: flex;
+  justify-content: center;
+}
+
+.project-mini-modal {
+  position: absolute;
+  z-index: 1;
+  background: #3f3c39;
+  right: 60px;
+  color: #f7f6f4;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+.project-mini-modal div {
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.project-mini-modal .project-mini-modal-link:hover {
+  background-color: rgba(255, 255, 255, 0.1529411765);
+  cursor: pointer;
+}
+.project-mini-modal p {
+  padding-left: 10px;
+  margin: 0;
+  font-size: 14px;
+  color: #f7f6f4;
+}
+.project-mini-modal span {
+  padding-left: 10px;
+}
+.project-mini-modal .doc-type {
+  border-top: solid 1px #949494;
+  font-weight: 300;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+tr {
+  height: 50px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.pagination {
+  position: absolute;
+  right: 0;
+}
+
+.table-showing {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute;
+  margin-top: 20px;
+  color: #3f3c39;
+}
+
+.page-item {
+  list-style: none;
+  display: inline;
+  margin-left: 10px;
+}
+
+.page-link {
+  list-style: none;
+  color: #3f3c39;
+  float: left;
+  padding: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.active-page {
+  font-weight: bold;
+  border-bottom: 3px solid #c09d5b;
+}
+
+.skip-link {
+  list-style: none;
+  color: #3f3c39;
+  float: left;
+  padding: 4px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  word-spacing: 5px;
+}
+
+.pages-list {
+  font-size: 14px;
+  width: 100%;
+}
+
+.page-link:hover {
+  background-color: #f2f2f2;
+}
+
+.arrow-pagination {
+  position: relative;
+  top: 2px;
+}
+
+#arrow-pag-before {
+  padding: 0 8px;
+}
+
+#arrow-pag-next {
+  padding: 0 8px;
+}/*# sourceMappingURL=allProjects.css.map */

@@ -1,0 +1,137 @@
+@import '../../../variables/variables.scss';
+
+.new-user-modal-background {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.new-user-modal-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 400px;
+    margin: 1rem auto;
+    padding: 2rem 5rem;
+    border-radius: 5px;
+    background-color: white;
+    color: $primary-bg-dark;
+}
+
+.new-user-modal-title-close-btn {
+    position: absolute;
+    left: 15px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    button {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.new-user-modal-title-close-btn button:hover {
+    color: $primary-bg-white-text;
+    cursor: pointer;
+}
+
+.new-user-modal-title {
+    color: black;
+    text-align: center;
+}
+
+.new-user-modal-labels {
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 200px;
+}
+
+.new-user-modal-inputs {
+    @include input-field;
+}
+
+.new-user-modal-button {
+    min-width: 220px;
+}
+
+.new-user-modal-button:hover {
+    background-color: #345c9c;
+}
+
+.new-user-dropdown-roles {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 auto;
+    font-size: 16px;
+}
+.new-user-dropdown-roles select {
+    border: 1px solid rgb(194, 194, 194);
+    border-radius: 5px;
+    margin: 0.2rem 0;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: grey;
+    transition: all 400ms ease;
+    min-width: 160px;
+}
+
+.new-user-modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.new-user-modal-footer button {
+    @include button(#528dea, white);
+    cursor: pointer;
+    //   box-shadow: $box-shadow;
+}
+
+.role-hover-explanation {
+    position: absolute;
+    color: $accent-gold;
+    right: 50px;
+    top: 110px;
+}
+
+.paragraph-role-explanation {
+    position: absolute;
+    background: $accent-gold;
+    color: rgba(0, 0, 0, 0.568);
+    right: 20px;
+    top: 130px;
+    max-width: 150px;
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.password-generator-section {
+    display: flex;
+    align-items: center;
+}
+
+.generate-password-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    color: white;
+    border-radius: 50%;
+    height: 100%;
+    margin-left: 25px;
+    padding: 3px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.password-input-user-modal {
+    min-width: 200px;
+    cursor: default;
+}

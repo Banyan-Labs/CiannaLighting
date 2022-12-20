@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import LightSelection from "../model/LIghtSelection";
+const curDate = new Date().toISOString().split("T")[0].split("-");
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
   const { name, description, clientId, projectId } = req.body;
@@ -16,11 +17,15 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
   });
  const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
-    .then((project) => {
+    .then(async(project) => {
       if (project) {
-        project.rooms = [...project.rooms, room._id];
-        project.save();
-        console.log(project, "PROJECT FOUND AND UPDATED");
+        project.rooms = [...project.rooms, room._id];        
+        project.activity = {
+          ...project.activity, rooms: [...project.activity.rooms, [`Room ${name} added, ID: ${room._id}.`, `${[curDate[1], curDate[2], curDate[0]].join(
+            "/"
+          )}`]]
+        }        
+        await project.save();
         const projectSuccess = `added room to project: ${projectId}`;
         return room
           .save()
@@ -87,6 +92,7 @@ const getRoom = async (req: Request, res: Response) => {
         keys.map((keyName: string) => {
           room[keyName] = parameters[keyName];
         });
+        room.save();
       }
       console.log(`room: ${room?.name} retrieved`);
       return res.status(200).json({
@@ -103,10 +109,16 @@ const deleteRoom = async (req: Request, res: Response) => {
     .exec()
     .then(async (project) => {
       if (project) {
+        project.activity = {
+          ...project.activity, rooms: [...project.activity.rooms, [`Project Deleted, ID: ${req.body._id}.`, `${[curDate[1], curDate[2], curDate[0]].join(
+            "/"
+          )}`]]
+        }
         project.rooms = project.rooms.filter((id: string) => {
           return String(id) !== req.body._id ? id : "";
         });
-        project.save();
+        console.log("Project updated DELETEROOM: ", project)
+        await project.save();
       }
       const roomRemoved = "room removed successfully from project";
       await LightSelection.deleteMany({ roomId: req.body._id })

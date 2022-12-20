@@ -1,15 +1,27 @@
-# CiannaLighting
-
-Functional user dashboard for project building and inventory maintenance.
+# Cianna Light Web App
 
 ## Development
 
-To start up development enviroments run each command for a new terminal
+Install all needed and nested dependencies use command
 
-### Front-end client
+```sh
+npm run install-modules
+```
 
-run command from root folder `npm run dev:start-client`
+To run fullstack development environment use commmand
 
-### Back-end API
+```sh
+npm run dev:full
+```
 
-run command from root folder `npm run dev:start-server`
+Client only
+
+```sh
+npm run dev:client
+```
+
+Server only
+
+```sh
+npm run dev:server
+```
