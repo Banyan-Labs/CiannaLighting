@@ -75,7 +75,7 @@ const Settings: FC = () => {
         setSections();
     }, []);
     return (
-        <div style={{ marginTop: '100px' }}>
+        <div className="settings_container">
             <div className="add__materials">
                 <div className="list__group field">
                     <input

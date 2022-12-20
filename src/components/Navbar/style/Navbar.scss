@@ -2,7 +2,7 @@
 
 .navbar-container {
     position: absolute;
-    width: 100%;
+    width: 100vw;
     height: 100px;
     background-color: $primary-bg-dark;
     border-bottom: $line-height solid $line-dark;
@@ -55,6 +55,7 @@
 .navbar-user-container {
     display: flex;
     align-items: center;
+    width: 150px;
     width: 250px;
     justify-content: space-evenly;
     margin-left: auto;

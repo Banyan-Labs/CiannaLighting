@@ -313,1236 +313,1295 @@ const Inventory: FC = () => {
                 alt=""
             /> */}
             <h1>Catalog Items</h1>
-            <p>Add an item to the catalog.</p>
-
-            <form className="inventory-form" tabIndex={-1} onSubmit={onSubmit}>
-                <div className="tabs">
+            <p className="mb-4">Add an item to the catalog.</p>
+            <div className="inventory_form_container">
+                <form
+                    className="inventory-form"
+                    tabIndex={-1}
+                    onSubmit={onSubmit}
+                >
+                    <div className="tabs">
+                        <div className="tab">
+                            <input
+                                tabIndex={-1}
+                                type="checkbox"
+                                id="chck1"
+                                defaultChecked
+                            />
+                            <label className="tab-label" htmlFor="chck1">
+                                Details
+                            </label>
+                            <div className="tab-content">
+                                <div className="form__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        type="input tabIndex={-1}"
+                                        id="item_ID"
+                                        name="item_ID"
+                                        value={itemDetails.item_ID}
+                                        onChange={(e) => handleFormInput(e)}
+                                        placeholder="Item ID"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="name"
+                                        className="form__label"
+                                    >
+                                        Item ID
+                                    </label>
+                                </div>
+                                <div className="form__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        type="input tabIndex={-1}"
+                                        id="itemName"
+                                        name="itemName"
+                                        value={itemDetails.itemName || ''}
+                                        onChange={(e) => handleFormInput(e)}
+                                        placeholder="Item Name"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="itemName"
+                                        className="form__label"
+                                    >
+                                        Item Name
+                                    </label>
+                                </div>
+                                <div className="form__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        type="text"
+                                        id="itemDescription"
+                                        name="itemDescription"
+                                        value={
+                                            itemDetails.itemDescription || ''
+                                        }
+                                        onChange={(e) => handleFormInput(e)}
+                                        placeholder="Description"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="itemName"
+                                        className="form__label"
+                                    >
+                                        Item Description
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck1" defaultChecked />
-                        <label className="tab-label" htmlFor="chck1">
-                            Details
+                        <input tabIndex={-1} type="checkbox" id="chck2" />
+                        <label className="tab-label" htmlFor="chck2">
+                            Measurements
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
-                                <input tabIndex={-1}
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
-                                    type="input tabIndex={-1}"
-                                    id="item_ID"
-                                    name="item_ID"
-                                    value={itemDetails.item_ID}
+                                    id="bodyDiameter"
+                                    placeholder="Body Diameter"
+                                    type="text"
+                                    name="bodyDiameter"
+                                    value={itemDetails.bodyDiameter || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    placeholder="Item ID"
                                     required
                                 />
-                                <label htmlFor="name" className="form__label">
-                                    Item ID
+                                <label
+                                    htmlFor="bodyDiameter"
+                                    className="form__label"
+                                >
+                                    Body Diameter
                                 </label>
                             </div>
                             <div className="form__group field">
-                                <input tabIndex={-1}
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
-                                    type="input tabIndex={-1}"
-                                    id="itemName"
-                                    name="itemName"
-                                    value={itemDetails.itemName || ''}
+                                    id="bodyLength"
+                                    placeholder="Body Length"
+                                    type="text"
+                                    name="bodyLength"
+                                    value={itemDetails.bodyLength || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    placeholder="Item Name"
                                     required
                                 />
                                 <label
-                                    htmlFor="itemName"
+                                    htmlFor="bodyLength"
                                     className="form__label"
                                 >
-                                    Item Name
+                                    Body Length
                                 </label>
                             </div>
                             <div className="form__group field">
-                                <input tabIndex={-1}
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
+                                    id="bodyWidth"
+                                    placeholder="bodyWidth"
                                     type="text"
-                                    id="itemDescription"
-                                    name="itemDescription"
-                                    value={itemDetails.itemDescription || ''}
+                                    name="bodyWidth"
+                                    value={itemDetails.bodyWidth || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    placeholder="Description"
                                     required
                                 />
                                 <label
-                                    htmlFor="itemName"
+                                    htmlFor="bodyWidth"
                                     className="form__label"
                                 >
-                                    Item Description
+                                    Body Width
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="bodyHeight"
+                                    placeholder="Body Height"
+                                    type="text"
+                                    name="bodyHeight"
+                                    value={itemDetails.bodyHeight || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="bodyHeight"
+                                    className="form__label"
+                                >
+                                    Body Height
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="fixtureOverallHeight"
+                                    placeholder="Fixture Overall Height"
+                                    type="text"
+                                    name="fixtureOverallHeight"
+                                    value={
+                                        itemDetails.fixtureOverallHeight || ''
+                                    }
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="fixtureOverallHeight"
+                                    className="form__label"
+                                >
+                                    Fixture Height
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="sconceHeight"
+                                    placeholder="Sconce Height"
+                                    type="text"
+                                    name="sconceHeight"
+                                    value={itemDetails.sconceHeight || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="sconceHeight"
+                                    className="form__label"
+                                >
+                                    Sconce Height
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="sconceWidth"
+                                    placeholder="Sconce Width"
+                                    type="text"
+                                    name="sconceWidth"
+                                    value={itemDetails.sconceWidth || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="sconceWidth"
+                                    className="form__label"
+                                >
+                                    Sconce Width
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="sconceExtension"
+                                    placeholder="Sconce Extension"
+                                    type="text"
+                                    name="sconceExtension"
+                                    value={itemDetails.sconceExtension || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="sconceExtension"
+                                    className="form__label"
+                                >
+                                    Sconce Extension
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="estimatedWeight"
+                                    placeholder="Estimated Weight"
+                                    type="number"
+                                    name="estimatedWeight"
+                                    value={itemDetails.estimatedWeight || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    htmlFor="estimatedWeight"
+                                    className="form__label"
+                                >
+                                    Estimated Weight
                                 </label>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck2" />
-                    <label className="tab-label" htmlFor="chck2">
-                        Measurements
-                    </label>
-                    <div className="tab-content">
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="bodyDiameter"
-                                placeholder="Body Diameter"
-                                type="text"
-                                name="bodyDiameter"
-                                value={itemDetails.bodyDiameter || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="bodyDiameter"
-                                className="form__label"
-                            >
-                                Body Diameter
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="bodyLength"
-                                placeholder="Body Length"
-                                type="text"
-                                name="bodyLength"
-                                value={itemDetails.bodyLength || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label htmlFor="bodyLength" className="form__label">
-                                Body Length
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="bodyWidth"
-                                placeholder="bodyWidth"
-                                type="text"
-                                name="bodyWidth"
-                                value={itemDetails.bodyWidth || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label htmlFor="bodyWidth" className="form__label">
-                                Body Width
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="bodyHeight"
-                                placeholder="Body Height"
-                                type="text"
-                                name="bodyHeight"
-                                value={itemDetails.bodyHeight || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label htmlFor="bodyHeight" className="form__label">
-                                Body Height
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="fixtureOverallHeight"
-                                placeholder="Fixture Overall Height"
-                                type="text"
-                                name="fixtureOverallHeight"
-                                value={itemDetails.fixtureOverallHeight || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="fixtureOverallHeight"
-                                className="form__label"
-                            >
-                                Fixture Height
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="sconceHeight"
-                                placeholder="Sconce Height"
-                                type="text"
-                                name="sconceHeight"
-                                value={itemDetails.sconceHeight || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="sconceHeight"
-                                className="form__label"
-                            >
-                                Sconce Height
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="sconceWidth"
-                                placeholder="Sconce Width"
-                                type="text"
-                                name="sconceWidth"
-                                value={itemDetails.sconceWidth || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="sconceWidth"
-                                className="form__label"
-                            >
-                                Sconce Width
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="sconceExtension"
-                                placeholder="Sconce Extension"
-                                type="text"
-                                name="sconceExtension"
-                                value={itemDetails.sconceExtension || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="sconceExtension"
-                                className="form__label"
-                            >
-                                Sconce Extension
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="estimatedWeight"
-                                placeholder="Estimated Weight"
-                                type="number"
-                                name="estimatedWeight"
-                                value={itemDetails.estimatedWeight || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="estimatedWeight"
-                                className="form__label"
-                            >
-                                Estimated Weight
-                            </label>
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck3" />
+                        <label className="tab-label" htmlFor="chck3">
+                            Lamp Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="lampType"
+                                    placeholder="Lamp Type"
+                                    type="text"
+                                    name="lampType"
+                                    value={itemDetails.lampType || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="lampType"
+                                >
+                                    Lamp Type
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="lampColor"
+                                    placeholder="Lamp Color"
+                                    type="text"
+                                    name="lampColor"
+                                    value={itemDetails.lampColor || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="lampColor"
+                                >
+                                    Lamp Color
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="numberOfLamps"
+                                    placeholder="Number of Lamps"
+                                    type="number"
+                                    name="numberOfLamps"
+                                    value={itemDetails.numberOfLamps || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="numberOfLamps"
+                                >
+                                    Number of Lamps
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="wattsPerLamp"
+                                    placeholder="Watts per Lamp"
+                                    type="number"
+                                    name="wattsPerLamp"
+                                    value={itemDetails.wattsPerLamp || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="wattsPerLamp"
+                                >
+                                    Watts Per Lamp
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="powerInWatts"
+                                    placeholder="Power in Watts"
+                                    type="number"
+                                    name="powerInWatts"
+                                    value={itemDetails.powerInWatts || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="powerInWatts"
+                                >
+                                    Power in Watts
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="lumens"
+                                    placeholder="Lumens"
+                                    type="number"
+                                    name="lumens"
+                                    value={itemDetails.lumens || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
+                                />
+                                <label className="form__label" htmlFor="lumens">
+                                    Lumens
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck3" />
-                    <label className="tab-label" htmlFor="chck3">
-                        Lamp Options
-                    </label>
-                    <div className="tab-content">
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="lampType"
-                                placeholder="Lamp Type"
-                                type="text"
-                                name="lampType"
-                                value={itemDetails.lampType || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label className="form__label" htmlFor="lampType">
-                                Lamp Type
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="lampColor"
-                                placeholder="Lamp Color"
-                                type="text"
-                                name="lampColor"
-                                value={itemDetails.lampColor || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label className="form__label" htmlFor="lampColor">
-                                Lamp Color
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="numberOfLamps"
-                                placeholder="Number of Lamps"
-                                type="number"
-                                name="numberOfLamps"
-                                value={itemDetails.numberOfLamps || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="numberOfLamps"
-                            >
-                                Number of Lamps
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="wattsPerLamp"
-                                placeholder="Watts per Lamp"
-                                type="number"
-                                name="wattsPerLamp"
-                                value={itemDetails.wattsPerLamp || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="wattsPerLamp"
-                            >
-                                Watts Per Lamp
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="powerInWatts"
-                                placeholder="Power in Watts"
-                                type="number"
-                                name="powerInWatts"
-                                value={itemDetails.powerInWatts || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="powerInWatts"
-                            >
-                                Power in Watts
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="lumens"
-                                placeholder="Lumens"
-                                type="number"
-                                name="lumens"
-                                value={itemDetails.lumens || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label className="form__label" htmlFor="lumens">
-                                Lumens
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck4" />
-                    <label className="tab-label" htmlFor="chck4">
-                        Material Options
-                    </label>
-                    <div className="tab-content">
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="material"
-                                placeholder="Material"
-                                type="text"
-                                name="material"
-                                value={itemDetails.material || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                htmlFor="description"
-                                className="form__label"
-                            >
-                                Material
-                            </label>
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck4" />
+                        <label className="tab-label" htmlFor="chck4">
+                            Material Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
-                                    id="exteriorFinish"
-                                    placeholder="Exterior Finish"
+                                    id="material"
+                                    placeholder="Material"
                                     type="text"
-                                    name="exteriorFinish"
-                                    value={
-                                        listValue.name == 'exteriorFinish'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="material"
+                                    value={itemDetails.material || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
                                 />
                                 <label
-                                    htmlFor="exteriorFinish"
+                                    htmlFor="description"
                                     className="form__label"
                                 >
-                                    Exterior Finish
+                                    Material
                                 </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'exteriorFinish')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="exteriorFinishValues"
-                                placeholder="Exterior Finishes"
-                                type="text"
-                                name="exteriorFinishValues"
-                                value={itemDetails.exteriorFinish || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="interiorFinish"
-                                    placeholder="Interior Finish"
-                                    type="text"
-                                    name="interiorFinish"
-                                    value={
-                                        listValue.name == 'interiorFinish'
-                                            ? listValue.value
-                                            : ''
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="exteriorFinish"
+                                        placeholder="Exterior Finish"
+                                        type="text"
+                                        name="exteriorFinish"
+                                        value={
+                                            listValue.name == 'exteriorFinish'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        htmlFor="exteriorFinish"
+                                        className="form__label"
+                                    >
+                                        Exterior Finish
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'exteriorFinish')
                                     }
-                                    onChange={(e) => handleArrayValue(e)}
-                                />
-                                <label
-                                    htmlFor="interiorFinish"
-                                    className="form__label"
+                                    className="delete-material-button"
                                 >
-                                    Interior Finish
-                                </label>
-                            </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'interiorFinish')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="interiorFinishValues"
-                                placeholder="Interior Finishes"
-                                type="text"
-                                name="interiorFinishValues"
-                                value={itemDetails.interiorFinish || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="lensMaterial"
-                                    placeholder="Lens Material"
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="exteriorFinishValues"
+                                    placeholder="Exterior Finishes"
                                     type="text"
-                                    name="lensMaterial"
-                                    value={
-                                        listValue.name == 'lensMaterial'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="exteriorFinishValues"
+                                    value={itemDetails.exteriorFinish || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    htmlFor="lensMaterial"
-                                    className="form__label"
-                                >
-                                    Lens Material
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'lensMaterial')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="lensMaterialValues"
-                                placeholder="Lens Materiales"
-                                type="text"
-                                name="lensMaterialValues"
-                                value={itemDetails.lensMaterial || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="glassOptions"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="interiorFinish"
+                                        placeholder="Interior Finish"
+                                        type="text"
+                                        name="interiorFinish"
+                                        value={
+                                            listValue.name == 'interiorFinish'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        htmlFor="interiorFinish"
+                                        className="form__label"
+                                    >
+                                        Interior Finish
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'interiorFinish')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="interiorFinishValues"
+                                    placeholder="Interior Finishes"
+                                    type="text"
+                                    name="interiorFinishValues"
+                                    value={itemDetails.interiorFinish || ''}
+                                    readOnly
+                                    required
+                                />
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="lensMaterial"
+                                        placeholder="Lens Material"
+                                        type="text"
+                                        name="lensMaterial"
+                                        value={
+                                            listValue.name == 'lensMaterial'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        htmlFor="lensMaterial"
+                                        className="form__label"
+                                    >
+                                        Lens Material
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'lensMaterial')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="lensMaterialValues"
+                                    placeholder="Lens Materiales"
+                                    type="text"
+                                    name="lensMaterialValues"
+                                    value={itemDetails.lensMaterial || ''}
+                                    readOnly
+                                    required
+                                />
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="glassOptions"
+                                        placeholder="Glass Options"
+                                        type="text"
+                                        name="glassOptions"
+                                        value={
+                                            listValue.name == 'glassOptions'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        htmlFor="glassOptions"
+                                        className="form__label"
+                                    >
+                                        Glass Options
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'lensMaterial')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="glassOptionsValues"
                                     placeholder="Glass Options"
                                     type="text"
-                                    name="glassOptions"
-                                    value={
-                                        listValue.name == 'glassOptions'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="glassOptionsValues"
+                                    value={itemDetails.glassOptions || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    htmlFor="glassOptions"
-                                    className="form__label"
-                                >
-                                    Glass Options
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'lensMaterial')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="glassOptionsValues"
-                                placeholder="Glass Options"
-                                type="text"
-                                name="glassOptionsValues"
-                                value={itemDetails.glassOptions || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="acrylicOptions"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="acrylicOptions"
+                                        placeholder="Acrylic Options"
+                                        type="text"
+                                        name="acrylicOptions"
+                                        value={
+                                            listValue.name == 'acrylicOptions'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        htmlFor="acrylicOptions"
+                                        className="form__label"
+                                    >
+                                        Acrylic Options
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'acrylicOptions')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="acrylicOptionsValues"
                                     placeholder="Acrylic Options"
                                     type="text"
-                                    name="acrylicOptions"
-                                    value={
-                                        listValue.name == 'acrylicOptions'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="acrylicOptionsValues"
+                                    value={itemDetails.acrylicOptions || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    htmlFor="acrylicOptions"
-                                    className="form__label"
-                                >
-                                    Acrylic Options
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'acrylicOptions')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="acrylicOptionsValues"
-                                placeholder="Acrylic Options"
-                                type="text"
-                                name="acrylicOptionsValues"
-                                value={itemDetails.acrylicOptions || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="crystalType"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="crystalType"
+                                        placeholder="Crystal Types"
+                                        type="text"
+                                        name="crystalType"
+                                        value={
+                                            listValue.name == 'crystalType'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalType"
+                                    >
+                                        Crystal Types
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'crystalType')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="crystalTypeValues"
                                     placeholder="Crystal Types"
                                     type="text"
-                                    name="crystalType"
-                                    value={
-                                        listValue.name == 'crystalType'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="crystalTypeValues"
+                                    value={itemDetails.crystalType || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="crystalType"
-                                >
-                                    Crystal Types
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'crystalType')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="crystalTypeValues"
-                                placeholder="Crystal Types"
-                                type="text"
-                                name="crystalTypeValues"
-                                value={itemDetails.crystalType || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="crystalPinType"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="crystalPinType"
+                                        placeholder="Crystal Pin Types"
+                                        type="text"
+                                        name="crystalPinType"
+                                        value={
+                                            listValue.name == 'crystalPinType'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalPinType"
+                                    >
+                                        Crystal Pin Types
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'crystalPinType')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="crystalPinTypeValues"
                                     placeholder="Crystal Pin Types"
                                     type="text"
-                                    name="crystalPinType"
-                                    value={
-                                        listValue.name == 'crystalPinType'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="crystalPinTypeValues"
+                                    value={itemDetails.crystalPinType || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="crystalPinType"
-                                >
-                                    Crystal Pin Types
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'crystalPinType')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="crystalPinTypeValues"
-                                placeholder="Crystal Pin Types"
-                                type="text"
-                                name="crystalPinTypeValues"
-                                value={itemDetails.crystalPinType || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="crystalPinColor"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="crystalPinColor"
+                                        placeholder="Crystal Pin Colors"
+                                        type="text"
+                                        name="crystalPinColor"
+                                        value={
+                                            listValue.name == 'crystalPinColor'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalPinColor"
+                                    >
+                                        Crystal Pin Colors
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'crystalPinColor')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="crystalPinColorValues"
                                     placeholder="Crystal Pin Colors"
                                     type="text"
-                                    name="crystalPinColor"
-                                    value={
-                                        listValue.name == 'crystalPinColor'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="crystalPinColorValues"
+                                    value={itemDetails.crystalPinColor || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="crystalPinColor"
-                                >
-                                    Crystal Pin Colors
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) =>
-                                    removeItem(e, 'crystalPinColor')
-                                }
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="crystalPinColorValues"
-                                placeholder="Crystal Pin Colors"
-                                type="text"
-                                name="crystalPinColorValues"
-                                value={itemDetails.crystalPinColor || ''}
-                                readOnly
-                                required
-                            />
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck5" />
-                    <label className="tab-label" htmlFor="chck5">
-                        Other Options
-                    </label>
-                    <div className="tab-content">
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="socketQuantity"
-                                placeholder="Socket Quantity"
-                                type="number"
-                                name="socketQuantity"
-                                value={itemDetails.socketQuantity || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="socketQuantity"
-                            >
-                                Socket Quantity
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="price"
-                                placeholder="Price"
-                                type="number"
-                                name="price"
-                                value={itemDetails.price || ''}
-                                onChange={(e) => handleFormInput(e)}
-                                required
-                            />
-                            <label className="form__label" htmlFor="price">
-                                Price
-                            </label>
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck5" />
+                        <label className="tab-label" htmlFor="chck5">
+                            Other Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
-                                    id="environment"
-                                    placeholder="Environment"
-                                    type="text"
-                                    name="environment"
-                                    value={
-                                        listValue.name == 'environment'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    id="socketQuantity"
+                                    placeholder="Socket Quantity"
+                                    type="number"
+                                    name="socketQuantity"
+                                    value={itemDetails.socketQuantity || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
                                 />
                                 <label
                                     className="form__label"
-                                    htmlFor="environment"
+                                    htmlFor="socketQuantity"
                                 >
-                                    Environment
+                                    Socket Quantity
                                 </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'environment')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="environmentValues"
-                                placeholder="Environments"
-                                type="text"
-                                name="environmentValues"
-                                value={itemDetails.environment || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
                                     className="form__field"
-                                    id="safetyCert"
-                                    placeholder="Safety Certifications"
-                                    type="text"
-                                    name="safetyCert"
-                                    value={
-                                        listValue.name == 'safetyCert'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    id="price"
+                                    placeholder="Price"
+                                    type="number"
+                                    name="price"
+                                    value={itemDetails.price || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="safetyCert"
-                                >
-                                    Safety Cert
+                                <label className="form__label" htmlFor="price">
+                                    Price
                                 </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'safetyCert')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="safetyCertValues"
-                                placeholder="Safety Certs"
-                                type="text"
-                                name="safetyCertValues"
-                                value={itemDetails.safetyCert || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="projectVoltage"
-                                    placeholder="Project Voltage"
-                                    type="text"
-                                    name="projectVoltage"
-                                    value={
-                                        listValue.name == 'projectVoltage'
-                                            ? listValue.value
-                                            : ''
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="environment"
+                                        placeholder="Environment"
+                                        type="text"
+                                        name="environment"
+                                        value={
+                                            listValue.name == 'environment'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="environment"
+                                    >
+                                        Environment
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'environment')
                                     }
-                                    onChange={(e) => handleArrayValue(e)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="projectVoltage"
+                                    className="delete-material-button"
                                 >
-                                    Project Voltage
-                                </label>
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="environmentValues"
+                                    placeholder="Environments"
+                                    type="text"
+                                    name="environmentValues"
+                                    value={itemDetails.environment || ''}
+                                    readOnly
+                                    required
+                                />
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'projectVoltage')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="projectVoltageValues"
-                                placeholder="Project Voltages"
-                                type="text"
-                                name="projectVoltageValues"
-                                value={itemDetails.projectVoltage || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="socketType"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="safetyCert"
+                                        placeholder="Safety Certifications"
+                                        type="text"
+                                        name="safetyCert"
+                                        value={
+                                            listValue.name == 'safetyCert'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="safetyCert"
+                                    >
+                                        Safety Cert
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) => removeItem(e, 'safetyCert')}
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="safetyCertValues"
+                                    placeholder="Safety Certs"
+                                    type="text"
+                                    name="safetyCertValues"
+                                    value={itemDetails.safetyCert || ''}
+                                    readOnly
+                                    required
+                                />
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="projectVoltage"
+                                        placeholder="Project Voltage"
+                                        type="text"
+                                        name="projectVoltage"
+                                        value={
+                                            listValue.name == 'projectVoltage'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="projectVoltage"
+                                    >
+                                        Project Voltage
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'projectVoltage')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="projectVoltageValues"
+                                    placeholder="Project Voltages"
+                                    type="text"
+                                    name="projectVoltageValues"
+                                    value={itemDetails.projectVoltage || ''}
+                                    readOnly
+                                    required
+                                />
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="socketType"
+                                        placeholder="Socket Types"
+                                        type="text"
+                                        name="socketType"
+                                        value={
+                                            listValue.name == 'socketType'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="socketType"
+                                    >
+                                        Socket Type
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) => removeItem(e, 'socketType')}
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="socketTypeValues"
                                     placeholder="Socket Types"
                                     type="text"
-                                    name="socketType"
-                                    value={
-                                        listValue.name == 'socketType'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="socketTypeValues"
+                                    value={itemDetails.socketType || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="socketType"
-                                >
-                                    Socket Type
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'socketType')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="socketTypeValues"
-                                placeholder="Socket Types"
-                                type="text"
-                                name="socketTypeValues"
-                                value={itemDetails.socketType || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="mounting"
-                                    placeholder="Mounting"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="mounting"
+                                        placeholder="Mounting"
+                                        type="text"
+                                        name="mounting"
+                                        value={
+                                            listValue.name == 'mounting'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="mounting"
+                                    >
+                                        Mounting
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) => removeItem(e, 'mounting')}
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="mountingValues"
+                                    placeholder="Mountings"
                                     type="text"
-                                    name="mounting"
-                                    value={
-                                        listValue.name == 'mounting'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="mountingValues"
+                                    value={itemDetails.mounting || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="mounting"
-                                >
-                                    Mounting
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Value
-                            </button>
-                            <button tabIndex={-1}
-                                onClick={(e) => removeItem(e, 'mounting')}
-                                className="delete-material-button"
-                            >
-                                <FaMinus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="mountingValues"
-                                placeholder="Mountings"
-                                type="text"
-                                name="mountingValues"
-                                value={itemDetails.mounting || ''}
-                                readOnly
-                                required
-                            />
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck6" />
-                    <label className="tab-label" htmlFor="chck6">
-                        Design Styles & Use Packages
-                    </label>
-                    <div className="tab-content">
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="designStyle"
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck6" />
+                        <label className="tab-label" htmlFor="chck6">
+                            Design Styles & Use Packages
+                        </label>
+                        <div className="tab-content">
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="designStyle"
+                                        placeholder="Design Styles"
+                                        type="text"
+                                        name="designStyle"
+                                        value={
+                                            listValue.name == 'designStyle'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="designStyle"
+                                    >
+                                        Design Styles
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Add Value
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="designStyleValues"
                                     placeholder="Design Styles"
                                     type="text"
-                                    name="designStyle"
-                                    value={
-                                        listValue.name == 'designStyle'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="designStyleValues"
+                                    value={itemDetails.designStyle || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="designStyle"
-                                >
-                                    Design Styles
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Add Value
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="designStyleValues"
-                                placeholder="Design Styles"
-                                type="text"
-                                name="designStyleValues"
-                                value={itemDetails.designStyle || ''}
-                                readOnly
-                                required
-                            />
-                        </div>
-                        <div className="add__materials">
-                            <div className="list__group field">
-                                <input tabIndex={-1}
-                                    className="form__field"
-                                    id="usePackages"
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        id="usePackages"
+                                        placeholder="Use Packages"
+                                        type="text"
+                                        name="usePackages"
+                                        value={
+                                            listValue.name == 'usePackages'
+                                                ? listValue.value
+                                                : ''
+                                        }
+                                        onChange={(e) => handleArrayValue(e)}
+                                    />
+                                    <label
+                                        className="form__label"
+                                        htmlFor="usePackages"
+                                    >
+                                        Use Packages
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    className="new-material-button"
+                                    onClick={(e) => listValSubmit(e)}
+                                >
+                                    <FaPlus />
+                                    Add Value
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="usePackagesValues"
                                     placeholder="Use Packages"
                                     type="text"
-                                    name="usePackages"
-                                    value={
-                                        listValue.name == 'usePackages'
-                                            ? listValue.value
-                                            : ''
-                                    }
-                                    onChange={(e) => handleArrayValue(e)}
+                                    name="usePackagesValues"
+                                    value={itemDetails.usePackages || ''}
+                                    readOnly
+                                    required
                                 />
-                                <label
-                                    className="form__label"
-                                    htmlFor="usePackages"
-                                >
-                                    Use Packages
-                                </label>
                             </div>
-                            <button tabIndex={-1}
-                                className="new-material-button"
-                                onClick={(e) => listValSubmit(e)}
-                            >
-                                <FaPlus />
-                                Add Value
-                            </button>
-                            <input tabIndex={-1}
-                                className="material__list"
-                                id="usePackagesValues"
-                                placeholder="Use Packages"
-                                type="text"
-                                name="usePackagesValues"
-                                value={itemDetails.usePackages || ''}
-                                readOnly
-                                required
-                            />
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck7" />
-                    <label className="tab-label" htmlFor="chck7">
-                        Images & Attachments
-                    </label>
-                    <div className="tab-content">
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="images">
-                                Images
-                            </label>
-                            <button tabIndex={-1}
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'images')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="list-input tabIndex={-1}"
-                                id="images"
-                                placeholder="Upload Images"
-                                type="file"
-                                accept="image/png, image/jpeg, image/jpg"
-                                multiple
-                                name="images"
-                                key={imageName || ''}
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {imageName.map((url: any, index: number) => {
-                                console.log('img url: ', url);
-                                return (
-                                    <img
-                                        src={url}
-                                        key={index}
-                                        alt=""
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="pdf">
-                                PDF
-                            </label>
-                            <button tabIndex={-1}
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'pdf')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="list-input tabIndex={-1}"
-                                id="pdf"
-                                placeholder="Upload PDF's"
-                                type="file"
-                                accept="application/pdf"
-                                multiple
-                                name="pdf"
-                                key={viewablePDF || ''}
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {viewablePDF.map((url: any, index: number) => {
-                                console.log('url pdf: ', url);
-                                return (
-                                    <embed
-                                        src={url}
-                                        key={index}
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label className="images__label" htmlFor="pdf">
-                                SPECS
-                            </label>
-                            <button tabIndex={-1}
-                                className="add__btn"
-                                onClick={(e) => listFileNames(e, 'specs')}
-                            >
-                                <FaPlus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="list-input tabIndex={-1}"
-                                id="specs"
-                                placeholder="Upload Spec File(s)"
-                                type="file"
-                                accept="application/pdf"
-                                multiple
-                                name="specs"
-                                key={viewableSpecs || ''}
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {viewableSpecs.map((url: any, index: number) => {
-                                console.log('url SPECS: ', url);
-                                return (
-                                    <embed
-                                        src={url}
-                                        key={index}
-                                        className="imgAttachment"
-                                    />
-                                );
-                            })}
-                        </div>
-                        <br />
-                        <div className="add__materials">
-                            <label
-                                className="images__label"
-                                htmlFor="drawingFiles"
-                            >
-                                Drawing Files
-                            </label>
-                            <button tabIndex={-1}
-                                className="add__btn"
-                                onClick={(e) =>
-                                    listFileNames(e, 'drawingFiles')
-                                }
-                            >
-                                <FaPlus />
-                            </button>
-                            <input tabIndex={-1}
-                                className="list-input tabIndex={-1}"
-                                id="drawingFiles"
-                                placeholder="Upload Drawing Files"
-                                type="file"
-                                multiple
-                                accept="application/pdf"
-                                name="drawingFiles"
-                                key={drawingFilesNames || ''}
-                                onChange={(e) => handleFileUpload(e)}
-                            />
-                        </div>
-                        <div>
-                            {drawingFilesNames.map(
-                                (url: any, index: number) => {
-                                    console.log(url);
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck7" />
+                        <label className="tab-label" htmlFor="chck7">
+                            Images & Attachments
+                        </label>
+                        <div className="tab-content">
+                            <div className="add__materials">
+                                <label
+                                    className="images__label"
+                                    htmlFor="images"
+                                >
+                                    Images
+                                </label>
+                                <button
+                                    tabIndex={-1}
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'images')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
+                                    id="images"
+                                    placeholder="Upload Images"
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg"
+                                    multiple
+                                    name="images"
+                                    key={imageName || ''}
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {imageName.map((url: any, index: number) => {
+                                    console.log('img url: ', url);
+                                    return (
+                                        <img
+                                            src={url}
+                                            key={index}
+                                            alt=""
+                                            className="imgAttachment"
+                                        />
+                                    );
+                                })}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label className="images__label" htmlFor="pdf">
+                                    PDF
+                                </label>
+                                <button
+                                    tabIndex={-1}
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'pdf')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
+                                    id="pdf"
+                                    placeholder="Upload PDF's"
+                                    type="file"
+                                    accept="application/pdf"
+                                    multiple
+                                    name="pdf"
+                                    key={viewablePDF || ''}
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {viewablePDF.map((url: any, index: number) => {
+                                    console.log('url pdf: ', url);
                                     return (
                                         <embed
                                             src={url}
@@ -1550,53 +1609,141 @@ const Inventory: FC = () => {
                                             className="imgAttachment"
                                         />
                                     );
-                                }
-                            )}
+                                })}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label className="images__label" htmlFor="pdf">
+                                    SPECS
+                                </label>
+                                <button
+                                    tabIndex={-1}
+                                    className="add__btn"
+                                    onClick={(e) => listFileNames(e, 'specs')}
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
+                                    id="specs"
+                                    placeholder="Upload Spec File(s)"
+                                    type="file"
+                                    accept="application/pdf"
+                                    multiple
+                                    name="specs"
+                                    key={viewableSpecs || ''}
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {viewableSpecs.map(
+                                    (url: any, index: number) => {
+                                        console.log('url SPECS: ', url);
+                                        return (
+                                            <embed
+                                                src={url}
+                                                key={index}
+                                                className="imgAttachment"
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
+                            <br />
+                            <div className="add__materials">
+                                <label
+                                    className="images__label"
+                                    htmlFor="drawingFiles"
+                                >
+                                    Drawing Files
+                                </label>
+                                <button
+                                    tabIndex={-1}
+                                    className="add__btn"
+                                    onClick={(e) =>
+                                        listFileNames(e, 'drawingFiles')
+                                    }
+                                >
+                                    <FaPlus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="list-input tabIndex={-1}"
+                                    id="drawingFiles"
+                                    placeholder="Upload Drawing Files"
+                                    type="file"
+                                    multiple
+                                    accept="application/pdf"
+                                    name="drawingFiles"
+                                    key={drawingFilesNames || ''}
+                                    onChange={(e) => handleFileUpload(e)}
+                                />
+                            </div>
+                            <div>
+                                {drawingFilesNames.map(
+                                    (url: any, index: number) => {
+                                        console.log(url);
+                                        return (
+                                            <embed
+                                                src={url}
+                                                key={index}
+                                                className="imgAttachment"
+                                            />
+                                        );
+                                    }
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="tab">
-                    <input tabIndex={-1} type="checkbox" id="chck8" />
-                    <label className="tab-label" htmlFor="chck8">
-                        Admin Options
-                    </label>
-                    <div className="tab-content">
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="costAdmin"
-                                placeholder="Cost"
-                                type="number"
-                                name="costAdmin"
-                                value={itemDetails.costAdmin || ''}
-                                onChange={(e) => handleFormInput(e)}
-                            />
-                            <label className="form__label" htmlFor="costAdmin">
-                                Cost
-                            </label>
-                        </div>
-                        <div className="form__group field">
-                            <input tabIndex={-1}
-                                className="form__field"
-                                id="partnerCodeAdmin"
-                                placeholder="Partner Code"
-                                type="text"
-                                name="partnerCodeAdmin"
-                                value={itemDetails.partnerCodeAdmin || ''}
-                                onChange={(e) => handleFormInput(e)}
-                            />
-                            <label
-                                className="form__label"
-                                htmlFor="partnerCodeAdmin"
-                            >
-                                Partner Code
-                            </label>
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck8" />
+                        <label className="tab-label" htmlFor="chck8">
+                            Admin Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="costAdmin"
+                                    placeholder="Cost"
+                                    type="number"
+                                    name="costAdmin"
+                                    value={itemDetails.costAdmin || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="costAdmin"
+                                >
+                                    Cost
+                                </label>
+                            </div>
+                            <div className="form__group field">
+                                <input
+                                    tabIndex={-1}
+                                    className="form__field"
+                                    id="partnerCodeAdmin"
+                                    placeholder="Partner Code"
+                                    type="text"
+                                    name="partnerCodeAdmin"
+                                    value={itemDetails.partnerCodeAdmin || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="partnerCodeAdmin"
+                                >
+                                    Partner Code
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <button tabIndex={-1} id="inventory-btn">Submit</button>
-            </form>
+                    <button id="inventory-btn">Submit</button>
+                </form>
+            </div>
         </div>
     );
 };

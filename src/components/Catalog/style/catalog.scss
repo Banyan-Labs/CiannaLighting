@@ -60,9 +60,9 @@
     background-color: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-    // background-color: $accent-gold;
-}
+// ::-webkit-scrollbar-thumb {
+// background-color: $accent-gold;
+// }
 
 ::-webkit-scrollbar-thumb:hover {
     cursor: pointer;
@@ -92,19 +92,14 @@
 }
 
 .main-img-catalog-container {
-    padding-left: 10px;
     img {
-        width: fit-content;
-        min-width: 300px;
-        max-width: 500;
+        width: 100%;
+        min-height: 300px;
+        max-height: 450px;
+        // height: 40vh;
         border-radius: 0.2rem;
-        height: 500px;
         box-shadow: $box-shadow;
     }
-}
-
-.main-right-tab-container {
-    width: 100%;
 }
 
 // *********** tabs__catalog STYLE *****************
@@ -114,35 +109,39 @@
     padding-right: 10px;
     padding-left: 10px;
 }
+
 .tab__catalog {
     justify-content: center;
     align-items: center;
     width: 100%;
     background: $primary-bg-dark;
-    padding: 2em 0;
+    padding: 15px 0px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
 }
-.tab__catalog:not(:last-child) {
-    border-right: 1px solid $accent-gold;
+
+.tab__catalog:hover {
+    background: $primary-bg-dark-link;
+    transition: all 0.2s ease-in-out;
 }
+
 .tab__catalog.active2 {
-    background: $line-gray;
+    transition: all 0.2s ease-in-out;
+    background: $accent-gold;
+    padding: 15px 20px;
     font-weight: bold;
+    border-radius: 8px;
     color: white;
 }
-.panels__catalog {
-    padding-right: 10px;
-    padding-left: 10px;
-}
+
 .panel__catalog {
     display: none;
-    background-color: #eaeaea;
     padding: 10px;
     height: 410px;
     overflow-y: scroll;
-    border-top: 1px solid $accent-gold;
 }
+
 .panel__catalog.active2 {
     display: flex;
 }
@@ -180,6 +179,33 @@
     flex-direction: column;
 }
 
+.light_details {
+    .light_details_container {
+        height: 50%;
+    }
+    .light_details_title {
+        color: $primary-bg-dark-title;
+        font-size: $table-header-fs;
+    }
+    .light_details_info {
+        color: $primary-bg-dark-text;
+        font-size: $table-header-fs;
+    }
+}
+
+.options_container {
+    font-size: $table-header-fs;
+    overflow-y: scroll;
+
+    h4 {
+        color: $primary-bg-dark-title;
+    }
+
+    ul {
+        color: $primary-bg-dark-text;
+    }
+}
+
 .options-main-container {
     width: 100%;
 }
@@ -209,6 +235,22 @@
 .specifications-main-container {
     p {
         font-size: 14px !important;
+    }
+
+    .number-spec {
+        color: $primary-bg-dark-title !important;
+    }
+}
+
+.attachments_container {
+    div {
+        height: 50%;
+    }
+    h4 {
+        color: $primary-bg-dark-title;
+    }
+    a {
+        color: $primary-bg-dark-text;
     }
 }
 

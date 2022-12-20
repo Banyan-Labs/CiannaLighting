@@ -3,6 +3,7 @@
 .admin-dashboard-container {
     padding-top: 100px;
     display: flex;
+    height: 100vh;
 }
 
 .admin-sidebar-container {
@@ -31,34 +32,27 @@
     color: $accent-gold;
 }
 
-.admin-content-section {
-    padding: 30px 100px 50px 50px;
-    width: 100%;
-}
-
-
-.log-table{
+.log-table {
     text-align: center;
-    
 }
 .log-name {
-   padding-left: 50px; 
+    padding-left: 50px;
 }
 
-.delete-log{
+.delete-log {
     transition: all 0.2s ease-in-out;
- cursor: pointer;
- &:hover {
-    transition: all 0.2s ease-in-out;
-    color: red;
- }
+    cursor: pointer;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        color: red;
+    }
 }
 
-#log-table-container{
+#log-table-container {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-   &:hover{
-    transition: all 0.2s ease-in-out;
-    background-color: $primary-bg-dark ;
-   }
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark;
+    }
 }

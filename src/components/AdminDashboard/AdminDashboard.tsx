@@ -39,13 +39,13 @@ const AdminDashboard: FC = () => {
                         </div>
                     ))}
             </div>
-            <div className="admin-content-section">
+            <div className="admin-content-section m-5 col-lg-9 col-xl-9">
                 <Routes>
                     <Route path="/" element={<Inventory />} />
 
                     <Route element={<RequireAuth roles={[ROLES.Cmd]} />}>
                         <Route path="/users" element={<UsersTable />} />
-                    <Route path="/activity" element={<Activity />} />   
+                        <Route path="/activity" element={<Activity />} />
                     </Route>
                     <Route path="/settings" element={<Settings />} />
                 </Routes>
