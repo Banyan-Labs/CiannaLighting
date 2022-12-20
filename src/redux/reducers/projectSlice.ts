@@ -134,7 +134,11 @@ export const projectSlice = createSlice({
         }),
         setFilteredProjects: (state, action) => ({
             ...state,
-            filterQueryProjects: action.payload.projects,
+            filterQueryProjects: action.payload,
+        }),
+        setFilteredProjNone: (state) => ({
+            ...state,
+            filterQueryProjects: [],
         }),
         setRoom: (state, action) => ({ ...state, room: action.payload }),
         setRoomId: (state, action) => ({ ...state, roomId: action.payload }),
@@ -192,5 +196,6 @@ export const {
     setCatalogLights,
     setCatalogConnect,
     setYourProjects,
+    setFilteredProjNone,
 } = projectSlice.actions;
 export default projectSlice.reducer;

@@ -5,7 +5,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import {
     getAllProjects,
-    getFilteredProjects,
+    setFilterProjNone
 } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -66,9 +66,18 @@ const AllProjectView: FC<Props> = ({
     const resetInputField = () => {
         setInputValue('');
     };
+    
+    //  Reset sort direction 
+    const setSortToDefault = () => {
+        setSortedData([]);
+        setSortDirection(0);
+        setCurrentSort('');
+    };
 
     useEffect(() => {
         dispatch(getAllProjects());
+        dispatch(setFilterProjNone());
+        
     }, []);
 
     const onMouseOver = (index: number | null) => {
@@ -136,7 +145,7 @@ const AllProjectView: FC<Props> = ({
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        console.log(checkSearchVal);
+        // console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -147,7 +156,8 @@ const AllProjectView: FC<Props> = ({
             setParsedData(data);
             return data;
         } else if (checkSearchVal && searchValue.length) {
-            const searchData = data.filter((item: ProjectType) => {
+            const correctSearch = filterQueryProjects.length > 0 ? filterQueryProjects : data
+            const searchData =  correctSearch.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
                     name: item.name,
@@ -177,7 +187,7 @@ const AllProjectView: FC<Props> = ({
         }
     };
 
-    const reduxData = filterQueryProjects.length
+    const reduxData = filterQueryProjects?.length
         ? filterQueryProjects.slice()
         : filterThis.slice();
     const activeProjects = (parsedData.length ? parsedData : reduxData).filter(
@@ -266,8 +276,14 @@ const AllProjectView: FC<Props> = ({
                             type="text"
                             value={inputValue}
                             placeholder="Search"
-                            onChange={(e) => {
+                            onChange={async(e) => {
                                 handleUserInput(e);
+                                if (typeOfProject === 'yourProjects' && filterQueryProjects.length > 0) {
+                                    searchFilter(e, filterQueryProjects);
+                                }
+                                 if (typeOfProject === 'allProjects' && filterQueryProjects.length > 0) {
+                                    searchFilter(e, filterQueryProjects);
+                                }
                                 if (typeOfProject === 'yourProjects') {
                                     searchFilter(e, userProjects);
                                 }
@@ -282,7 +298,13 @@ const AllProjectView: FC<Props> = ({
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
-                        onClick={() => setOpenModal(true)}
+                        onClick={async() => {
+                            await resetInputField();
+                            await setParsedData([]);
+                            await dispatch(setFilterProjNone())
+                          setOpenModal(true)  
+                        }
+                        }
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                     <div className="button-filter-container d-flex justify-content-end">
@@ -293,7 +315,9 @@ const AllProjectView: FC<Props> = ({
                                     : 'type-project-btn'
                             }
                             onClick={async () => {
+                                
                                 await resetInputField();
+                                await dispatch(setFilterProjNone())
                                 await setParsedData([]);
                                 await setTypeOfProject('allProjects');
                             }}
@@ -308,6 +332,8 @@ const AllProjectView: FC<Props> = ({
                             }
                             onClick={async () => {
                                 await resetInputField();
+                                await setSortToDefault();
+                                await dispatch(setFilterProjNone());
                                 await setParsedData([]);
                                 await setTypeOfProject('yourProjects');
                             }}
@@ -444,7 +470,7 @@ const AllProjectView: FC<Props> = ({
                 />
             )}
             {openModal && (
-                <FilterModal openModal={openModal} closeModal={setOpenModal} />
+        <FilterModal openModal={openModal} closeModal={setOpenModal} typeOfProject={typeOfProject}  />
             )}
         </div>
     );

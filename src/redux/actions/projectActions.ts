@@ -11,7 +11,8 @@ import {
     setFilteredProjects,
     setProjectRooms,
     setUserProjects,
-    setYourProjects
+    setYourProjects, 
+    setFilteredProjNone
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -139,13 +140,31 @@ export const getAllProjects =
         }
     };
 export const getFilteredProjects =
-    (payload: any) =>
+    (payload: any, extraFilter: any) =>
     async (dispatch: Dispatch): Promise<void> => {
+        console.log(payload, extraFilter)
         const axioscall = await axiosPrivate();
         try {
-            const projects = await axioscall.post('/get-projects', payload);
-            dispatch(setFilteredProjects(projects.data));
-            return projects.data;
+            const projects = await axioscall.post('/get-projects', {...payload, ...extraFilter});
+
+            if (extraFilter.filter === 'allProjects') {
+                dispatch(setFilteredProjects(projects.data.projects));
+            return projects.data.projects;
+            } else {
+                dispatch(setFilteredProjects(projects.data.filterProj));
+            return projects.data.filterProj;
+            }
+            
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    export const setFilterProjNone =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+       
+        try {
+                dispatch(setFilteredProjNone());
         } catch (err) {
             console.log(err);
         }
