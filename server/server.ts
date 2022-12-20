@@ -13,11 +13,11 @@ import mongoose from "mongoose";
 import refreshRoute from "./src/routes/refreshTokenRoute";
 import adminRoutes from "./src/routes/adminRoutes";
 import routes from "./src/routes/deployTestRoutes";
-import https from "https";
 
 import publicRoutes from "./src/routes/publicRoutes";
 import userRoutes from "./src/routes/userRoutes";
 import employeeRoutes from "./src/routes/employeeRoutes";
+import path from 'path';
 
 const router = express();
 
@@ -30,6 +30,11 @@ router.use(cors(corsOptions)); // add any rules into the corsOptions file.
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 router.use(express.static("src"));
+if (process.env.NODE_ENV === "production") {
+  router.use(express.static(path.join(__dirname, "../../client/build")));
+} else {
+  router.use(express.static(path.join(__dirname, "../client/build")));
+}
 
 mongoose
   .connect(config.mongo.url, config.mongo.options)
@@ -54,8 +59,12 @@ router.use((req, res, next) => {
 
 /**Routes */
 
-router.get("/", (req, res) => {
-  return res.send("hello universe");
+router.get("*", (req, res) => {
+  const homePage =
+    process.env.NODE_ENV === "production"
+      ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
+      : path.resolve(__dirname, "../", "client", "build", "index.html");
+  res.sendFile(homePage);
 });
 
 router.get("/test", (req, res) => {

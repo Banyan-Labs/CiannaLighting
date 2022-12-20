@@ -1,0 +1,26 @@
+{
+  "name": "cianna-fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-modules": "npm i && npm i --prefix client && npm i --prefix server",
+    "dev:client": "cd client && npm start",
+    "dev:server": "cd server && npm run dev",
+    "dev:full": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Banyan-Labs/cianna-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Banyan-Labs/cianna-backend/issues"
+  },
+  "homepage": "https://github.com/Banyan-Labs/cianna-backend#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
