@@ -66,7 +66,13 @@ export const refreshToken =
                 withCredentials: true,
             });
             console.log('Respnse in RefreshToken: ', response);
-            await dispatch(setAccessToken(response.data));
+            if(response){
+             const done =  dispatch(setAccessToken(response.data));
+             if(done){
+                console.log('REFRESHED!')
+             }
+
+            }
         } catch (error) {
             console.log('Error in refreshToken: ', error);
             throw error;

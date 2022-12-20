@@ -24,8 +24,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         ({ project }) => project
     );
 
-    console.log('~~roomLights~~', roomLights);
-
     const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [deleteLight, setDeleteLight] = useState('');
