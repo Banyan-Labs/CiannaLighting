@@ -2,6 +2,12 @@
 
 ## Development
 
+Install all needed and nested dependencies use command
+
+```sh
+npm run install-modules
+```
+
 To run fullstack development environment use commmand
 
 ```sh
