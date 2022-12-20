@@ -3,7 +3,7 @@ import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
-import { getAllProjects } from '../../../../redux/actions/projectActions';
+import { getAllProjects, setFilterProjNone } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import './style/allProjects.scss';
@@ -22,6 +22,7 @@ type Props = {
     setSortedData: React.Dispatch<React.SetStateAction<ProjectType[]>>;
     setSortDirection: React.Dispatch<React.SetStateAction<number>>;
     setCurrentSort: React.Dispatch<React.SetStateAction<string>>;
+    setDefault: any;
 };
 
 const AllProjects: FC<Props> = ({
@@ -34,6 +35,7 @@ const AllProjects: FC<Props> = ({
     setSortedData,
     setSortDirection,
     setCurrentSort,
+    setDefault
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
@@ -51,6 +53,7 @@ const AllProjects: FC<Props> = ({
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     useEffect(() => {
         dispatch(getAllProjects());
+         dispatch(setFilterProjNone())
     }, []);
 
     const onMouseOver = (index: number | null) => {
@@ -114,11 +117,17 @@ const AllProjects: FC<Props> = ({
 
     const lastIndex = currentPage * projectsPerPage;
     const firstIndex = lastIndex - projectsPerPage;
+    const resetInputField = () => {
+        setInputValue('');
+    };
+    
+    const [inputValue, setInputValue] = useState('');
 
     const searchFilter = (e: any, data: any) => {
-        const searchValue: string = e.currentTarget.value.toLowerCase();
+        setInputValue(e.currentTarget.value.toLowerCase());
+        const searchValue: string = inputValue;
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        console.log(checkSearchVal);
+        // console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -242,6 +251,7 @@ const AllProjects: FC<Props> = ({
                         <input
                             className="form__field"
                             type="text"
+                            value={inputValue}
                             placeholder="Search"
                             onChange={(e) => searchFilter(e, reduxData)}
                         />
@@ -251,7 +261,14 @@ const AllProjects: FC<Props> = ({
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
-                        onClick={() => setOpenModal(true)}
+                        onClick={async() => {
+                            await setDefault()
+                            await resetInputField();
+                            await setParsedData([]);
+                            await dispatch(setFilterProjNone())
+                            setOpenModal(true)
+                        }
+                        }
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                 </div>

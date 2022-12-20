@@ -67,6 +67,7 @@ const DashboardNav: FC = () => {
                 setSortDirection={setSortDirection}
                 currentSort={currentSort}
                 setCurrentSort={setCurrentSort}
+                setDefault={setSortToDefault}
             />
         </>
     );
