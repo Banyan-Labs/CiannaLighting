@@ -10,7 +10,7 @@ const ProjectsNav: FC = () => {
     const [renderedPage, setRenderedPage] = useState('Rooms');
     const componentRef: any = useRef<any>();
     const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+        content: () => componentRef.current,
     });
 
     return (
@@ -49,17 +49,17 @@ const ProjectsNav: FC = () => {
                 <div className="projects-navbar-vertical-divider" />
             </nav>
             <div>
-                { renderedPage === 'Rooms' ? (
+                {renderedPage === 'Rooms' ? (
                     <Rooms />
                 ) : renderedPage === 'Activity' ? (
                     <Activity />
                 ) : renderedPage === 'Proposal' ? (
-                
-                    <div>
-                    <Proposal ref={componentRef} />
-                    <button onClick={handlePrint}>Print this out!</button>
+                    <div className="proposal_container">
+                        <Proposal ref={componentRef} />
+                        <button className="print_btn" onClick={handlePrint}>
+                            Print this out!
+                        </button>
                     </div>
-
                 ) : null}
             </div>
         </>
