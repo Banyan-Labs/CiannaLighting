@@ -15,10 +15,13 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     function onDocumentLoadSuccess({ numPages }: any) {
         setNumPages(numPages);
     }
-    const { rfp, proposal, attachments } = useAppSelector(
-        ({ project }) => project
-    );
+    const { rfp, proposal, attachments } = useAppSelector(({ project }) => {
+        console.log(project);
+        return project;
+    });
     const header = rfp?.header.split(', ');
+    console.log('rfp', rfp);
+
     const base = proposal.filter((item) => item.sub.length == 0);
     const children = proposal.filter((item) => item.sub.length > 0);
     const displayChildren = Object.fromEntries(
@@ -43,19 +46,15 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                 return item.map((prop, index) => {
                     return (
                         <tr key={indexTop + '/' + index}>
-                            <td
-                                className={
-                                    index == 0 ? 'cell f-c bold' : 'cell f-c'
-                                }
-                            >
+                            <td className={index == 0 ? 'bold' : 'cell'}>
                                 {item.length > 1
                                     ? `${prop.itemID} - ${ltrs[index]}`
                                     : prop.itemID}
                             </td>
-                            <td className={index == 0 ? 'cell bold' : 'cell'}>
+                            <td className={index == 0 ? 'bold' : ''}>
                                 {prop.lightQuantity}
                             </td>
-                            <td className="cell">
+                            <td>
                                 <ol>
                                     {prop.rooms.map(
                                         (room: any, index: number) => {
@@ -75,8 +74,8 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                     )}
                                 </ol>
                             </td>
-                            <td className="cell">{prop.description}</td>
-                            <td className="cell">
+                            <td>{prop.description}</td>
+                            <td>
                                 <ul>
                                     {Object.entries(prop.finishes).map(
                                         (item: any, index: number) => {
@@ -92,18 +91,14 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                     )}
                                 </ul>
                             </td>
-                            <td className="cell">{prop.lampType}</td>
-                            <td className="cell">{prop.lampColor}</td>
-                            <td className="cell">{prop.wattsPer}</td>
-                            <td className="cell">{prop.totalWatts}</td>
-                            <td className="cell">
-                                {prop.numberOfLamps * prop.lightQuantity}
-                            </td>
-                            <td className="cell">{prop.totalLumens}</td>
-                            <td className="cell">{prop.price}</td>
-                            <td className="cell l-c">
-                                {prop.price * prop.lightQuantity}
-                            </td>
+                            <td>{prop.lampType}</td>
+                            <td>{prop.lampColor}</td>
+                            <td>{prop.wattsPer}</td>
+                            <td>{prop.totalWatts}</td>
+                            <td>{prop.numberOfLamps * prop.lightQuantity}</td>
+                            <td>{prop.totalLumens}</td>
+                            <td>{prop.price}</td>
+                            <td>{prop.price * prop.lightQuantity}</td>
                         </tr>
                     );
                 });
@@ -137,7 +132,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                             renderTextLayer={false}
                             pageNumber={index + 1}
                             scale={1.0}
-                            width={1400}
+                            width={1100}
                         />
                     ))}
                 </Document>
@@ -153,36 +148,34 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                 </div>
                 <div className="table-contain">
                     <div className="table-border">
-                        <div className="table-labels">
-                            <div className="mini-header">
-                                <h3>Lighting Schedule</h3>
-                            </div>
-                            <div className="head-labels">
-                                <h4 className="label-details">
-                                    Information Details
-                                </h4>
-                                <h4 className="label-lamps">Lamps</h4>
-                                <h4 className="label-price">Pricing</h4>
-                            </div>
-                        </div>
                         <table>
                             <thead>
+                                <tr className="mini-header">
+                                    <th colSpan={13}>
+                                        <h4>Lighting Schedule</h4>
+                                    </th>
+                                </tr>
                                 <tr>
-                                    <th className="cell f-c five">ID</th>
-                                    <th className="cell q-c five">
+                                    <th colSpan={5}>Information Details</th>
+                                    <th colSpan={6}>Lamps</th>
+                                    <th colSpan={2}>Pricing</th>
+                                </tr>
+                                <tr>
+                                    <th className="five">ID</th>
+                                    <th className="five">
                                         Preliminary Quantity
                                     </th>
-                                    <th className="cell fifteen">Rooms</th>
-                                    <th className="cell five">Description</th>
-                                    <th className="cell twenty">Finishes</th>
-                                    <th className="cell six">Lamp Type</th>
-                                    <th className="cell six">Lamp Color</th>
-                                    <th className="cell six">Watts Per</th>
-                                    <th className="cell six">Total Watts</th>
-                                    <th className="cell six">Total Lamps</th>
-                                    <th className="cell six">Lumens</th>
-                                    <th className="cell five">Price Per</th>
-                                    <th className="cell five l-c">Total</th>
+                                    <th className="fifteen">Rooms</th>
+                                    <th className="five">Description</th>
+                                    <th className="twenty">Finishes</th>
+                                    <th className="six">Lamp Type</th>
+                                    <th className="six">Lamp Color</th>
+                                    <th className="six">Watts Per</th>
+                                    <th className="six">Total Watts</th>
+                                    <th className="six">Total Lamps</th>
+                                    <th className="six">Lumens</th>
+                                    <th className="five">Price Per</th>
+                                    <th className="five l-c">Total</th>
                                 </tr>
                             </thead>
                             <tbody>{tableRows()}</tbody>
