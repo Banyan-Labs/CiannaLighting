@@ -10,9 +10,10 @@ import Tabs from './Tabs/Tabs';
 import Pictures from './Tabs/Pictures';
 
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
+    console.log('catalogItem', catalogItem);
+
     return (
-        <div className="single-view-container">
-            Hello
+        <div className="single-view-container col-12">
             <p className="catalog-back" onClick={() => setCatalogItem(null)}>
                 <BsChevronLeft
                     onClick={() => setCatalogItem(null)}
@@ -20,11 +21,15 @@ const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                 />{' '}
                 Back to Catalog
             </p>
-            <div className="col-12 d-flex m-0">
-                <div className=" main-img-catalog-container ">
-                    <img src={avatar2} alt="img of light" />
+            <div className="d-flex m-0 p-2 row justify-content-center">
+                <div className="main-img-catalog-container m-2 col-12 col-lg-8 col-xl-4">
+                    <img
+                        className="img-fluid"
+                        src={catalogItem.images[0]}
+                        alt="img of light"
+                    />
                 </div>
-                <div className="main-right-tab-container">
+                <div className="main-right-tab-container col-12 col-xl-7">
                     <Tabs
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}

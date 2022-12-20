@@ -24,8 +24,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         ({ project }) => project
     );
 
-    console.log('~~roomLights~~', roomLights);
-
     const dispatch = useAppDispatch();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [deleteLight, setDeleteLight] = useState('');
@@ -93,7 +91,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     };
 
     const singleRoom = newLights?.map((light: any, index: any) => {
-        // console.log('~~light~~', light);
         return (
             <div className="single-room-container d-flex row" key={index}>
                 <div className="first-light-section d-flex mb-2">

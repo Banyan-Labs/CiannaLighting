@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import Details from './Details';
 import Options from './Options';
 import Specifications from './Specifications';
 
@@ -15,7 +16,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
         activeIndex === index ? className : '';
     return (
         <>
-            <div className="tabs__catalog">
+            <div className="tabs__catalog m-0 px-1 col-12 col-lg-12 col-xl-12">
                 <button
                     className={`tab__catalog ${checkActive(1, 'active2')}`}
                     onClick={() => handleClick(1)}
@@ -43,49 +44,10 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
             </div>
             <div className="panels__catalog">
                 <div className={`panel__catalog ${checkActive(1, 'active2')}`}>
-                    <div className="catalog-details-left-container col-6">
-                        <h4 className="d-flex justify-content-between m-0">
-                            Name: <span>Acrylic Pendant</span>
-                        </h4>
-                        <h4 className="d-flex justify-content-between m-0">
-                            Id: <span>{Item.item_ID}</span>{' '}
-                        </h4>
-                        <h4 className="d-flex row justify-content-between m-0">
-                            Description:{' '}
-                            <span className="span-description">
-                                {Item?.itemDescription}
-                            </span>{' '}
-                        </h4>
-                    </div>
-                    <div className="catalog-details-right-container col-6 d-flex justify-content-between">
-                        <div className="design-holder">
-                            <h4 className="m-0">Design Styles:</h4>
-                            <div className="d-flex row">
-                                {catalogItem?.designStyle.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return <span key={index}>{ef}</span>;
-                                    }
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="design-holder m-0">
-                            <h4 className="m-0">Use Packages:</h4>
-                            <div className="d-flex row">
-                                {catalogItem?.usePackages.map(
-                                    (ef: string, index = ef.indexOf(ef)) => {
-                                        return <span key={index}>{ef}</span>;
-                                    }
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                    <Details catalogItem={catalogItem} />
                 </div>
                 <div className={`panel__catalog ${checkActive(2, 'active2')}`}>
-                    <Options
-                        catalogItem={catalogItem}
-                        setCatalogItem={setCatalogItem}
-                    />
+                    <Options catalogItem={catalogItem} />
                 </div>
                 <div className={`panel__catalog ${checkActive(3, 'active2')}`}>
                     <Specifications
@@ -94,27 +56,40 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                     />
                 </div>
                 <div className={`panel__catalog ${checkActive(4, 'active2')}`}>
-                    <div className="d-flex row align-content-start m-0">
-                        <h4 className="m-0">Drawing Files:</h4>
-                        {Item?.drawingFiles.map(
-                            (ef: string, index = ef.indexOf(ef)) => {
-                                return (
-                                    <a key={index} href={ef}>
-                                        {ef}
-                                    </a>
-                                );
-                            }
-                        )}
-                    </div>
-                    <div className="d-flex row align-content-start m-0">
-                        <h4 className="m-0">PDF:</h4>
-                        {/* {Item?.PDF.map((ef: string, index = ef.indexOf(ef)) => {
-                            return (
-                                <a key={index} href={ef}>
-                                    {ef}
-                                </a>
-                            );
-                        })} */}
+                    <div className="d-flex col-12 row m-0 attachments_container">
+                        <div className="d-flex flex-column h-50 align-items-center m-0">
+                            <h4 className="m-0">Drawing Files:</h4>
+                            {Item?.drawingFiles.map(
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    return (
+                                        <a
+                                            className="m-2"
+                                            key={index}
+                                            href={ef}
+                                        >
+                                            {ef}
+                                        </a>
+                                    );
+                                }
+                            )}
+                        </div>
+
+                        <div className="d-flex flex-column h-50 align-items-center m-0">
+                            <h4 className="m-0">PDF:</h4>
+                            {Item?.pdf.map(
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    return (
+                                        <a
+                                            className="m-2"
+                                            key={index}
+                                            href={ef}
+                                        >
+                                            {ef}
+                                        </a>
+                                    );
+                                }
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

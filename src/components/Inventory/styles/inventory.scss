@@ -67,6 +67,12 @@
     width: 20%;
 }
 
+.settings_container {
+    margin-top: 50px;
+    height: 85vh;
+    overflow-y: scroll;
+}
+
 .add__materials {
     display: flex;
     flex-direction: row;
@@ -159,6 +165,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.inventory_form_container {
+    height: 75vh;
+    overflow-y: auto;
 }
 
 .inventory-form {

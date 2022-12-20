@@ -40,7 +40,10 @@ const Links: FC<{ links: Link[] }> = () => {
                 .map((link: Link) => {
                     return (
                         <div key={link.href}>
-                            <Link onClick={() => dispatch(setTheYourProjects(false))}
+                            <Link
+                                onClick={() =>
+                                    dispatch(setTheYourProjects(false))
+                                }
                                 to={{
                                     pathname: link.href,
                                     search: `?_id=${user._id}&projectId=${Id}`,
@@ -98,7 +101,9 @@ const Navbar: FC = () => {
                     {/* <FaChevronDown /> */}
                 </div>
                 {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
-                <button onClick={(e) => handleLogout(e)}>logout</button>
+                <button className="me-2" onClick={(e) => handleLogout(e)}>
+                    logout
+                </button>
             </nav>
         </>
     );

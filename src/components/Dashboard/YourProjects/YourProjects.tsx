@@ -102,8 +102,8 @@ const YourProjects: FC = () => {
                     style={{
                         backgroundColor: color,
                     }}
-                    onClick={async() => {
-                        await dispatch(setTheYourProjects(true))
+                    onClick={async () => {
+                        await dispatch(setTheYourProjects(true));
                         projectRoute(project._id);
                         changeProject(project._id);
                     }}

@@ -79,7 +79,6 @@ const Catalog: FC = () => {
         );
     });
 
-    console.log('~~~catalogItem~~~', catalogItem);
     return (
         <>
             {catalogItem === null ? (
