@@ -2,7 +2,6 @@ import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import YourProjects from '../Dashboard/YourProjects/YourProjects';
 import './style/filterModal.scss';
 
 type Props = {
