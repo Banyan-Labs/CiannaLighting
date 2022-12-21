@@ -1,6 +1,6 @@
 import avatar1 from '../../../assets/celestial-room.jpeg';
 import avatar2 from '../../../assets/stairway.jpeg';
-import avatar3 from '../../../assets/reception.jpeg';
+// import avatar3 from '../../../assets/reception.jpeg';
 
 const Data = [
     {

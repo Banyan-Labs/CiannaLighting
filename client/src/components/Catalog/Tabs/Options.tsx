@@ -1,4 +1,4 @@
-import { forIn, split } from 'lodash';
+// import { forIn, split } from 'lodash';
 import React, { FC } from 'react';
 import '../style/catalog.scss';
 interface catalogPros {
