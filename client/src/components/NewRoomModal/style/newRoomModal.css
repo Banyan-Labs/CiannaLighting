@@ -116,13 +116,19 @@ label {
 }
 
 .new-room-modal-container .new-room-modal-footer button {
-    background-color: #528dea;
-    color: white;
+    background-color: #c09d5b;
+    color: #3f3c39;
     padding: 15px 50px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
+
+.new-room-modal-footer button:hover {
+    background-color: #9b9b9b;
+    color: #f7f6f4;
+}
+
 #reset-button {
     background-color: #ccd2dd;
     color: black;

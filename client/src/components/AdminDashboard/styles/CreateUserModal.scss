@@ -86,9 +86,14 @@
 }
 
 .new-user-modal-footer button {
-    @include button(#528dea, white);
+    @include button($accent-gold, $primary-bg-dark-title);
     cursor: pointer;
-    //   box-shadow: $box-shadow;
+}
+
+.new-user-modal-footer button:hover {
+    transition: all 0.2s ease-in-out;
+    background-color: $primary-bg-dark-text;
+    color: $primary-bg-white;
 }
 
 .role-hover-explanation {

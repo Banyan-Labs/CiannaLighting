@@ -48,7 +48,7 @@ const ProjectsNav: FC = () => {
                 </div>
                 <div className="projects-navbar-vertical-divider" />
             </nav>
-            <div>
+            <div className="d-flex col-12 m-0 p-0 justify-content-center align-items-center">
                 {renderedPage === 'Rooms' ? (
                     <Rooms />
                 ) : renderedPage === 'Activity' ? (
