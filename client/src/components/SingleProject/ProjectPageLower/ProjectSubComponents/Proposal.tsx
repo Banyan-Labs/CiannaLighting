@@ -10,7 +10,7 @@ interface Props {
 
 const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
+    // const [pageNumber, setPageNumber] = useState(1);
 
     function onDocumentLoadSuccess({ numPages }: any) {
         setNumPages(numPages);

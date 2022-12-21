@@ -23,7 +23,7 @@ export type ProjectType = {
 import { setSpecFile } from '../../redux/actions/lightActions';
 
 const Projects: FC = () => {
-    const [renderedPage, setRenderedPage] = useState('All Projects');
+    const [renderedPage] = useState('All Projects');
     const [currentPage, setCurrentPage] = useState(1);
     const [sortedData, setSortedData] = useState<ProjectType[]>([]);
     const [sortDirection, setSortDirection] = useState<number>(0);
