@@ -191,7 +191,7 @@
     width: 100%;
     thead {
         top: 0;
-        z-index: 2;
+        z-index: 1;
         position: sticky;
         background: rgb(236, 235, 231);
         border-bottom: 2px solid $primary-bg-dark-title;

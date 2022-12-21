@@ -189,15 +189,15 @@
 }
 
 .button-container-filters {
-    position: absolute;
-    bottom: 2%;
+    margin-top: 100px;
     justify-content: center;
 
     button {
+        bottom: 0px;
         height: fit-content;
-        width: 60%;
+        width: 70%;
         padding: 10px 10px 10px 10px;
-        color: white;
+        color: $primary-bg-dark-title;
         background-color: $accent-gold;
         font-weight: 500;
         border-radius: 0.2rem;
@@ -206,7 +206,8 @@
         transition: all 0.2s ease-in-out;
         &:hover {
             transition: all 0.2s ease-in-out;
-            opacity: 0.8;
+            background-color: $primary-bg-dark-text;
+            color: $primary-bg-white;
         }
     }
 }

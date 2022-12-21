@@ -168,7 +168,7 @@
 }
 
 .inventory_form_container {
-    height: 75vh;
+    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -255,6 +255,6 @@ input:checked {
     @include button($accent-gold, #fff);
     width: 50%;
     align-self: center;
-    margin-top: 25px;
+    margin: 25px 0px;
     cursor: pointer;
 }

@@ -145,7 +145,7 @@ const Modal: FC<Props> = (props) => {
                             placeholder={
                                 props.editProject
                                     ? project?.name
-                                    : 'Ex. 113 Baptistry'
+                                    : 'New Special Project Name'
                             }
                             value={projectDetails.name}
                             onChange={(e) => handleFormInput(e)}

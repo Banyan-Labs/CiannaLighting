@@ -116,7 +116,7 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                                     id="description"
                                     type="text"
                                     className="new-room-modal-inputs"
-                                    placeholder="Description of the project..."
+                                    placeholder="Description of the room..."
                                     value={roomDetails.description}
                                     onChange={(e) => handleFormInput(e)}
                                     required
