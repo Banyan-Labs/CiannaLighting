@@ -10,7 +10,7 @@ import {
     getUserProjects,
     setTheYourProjects,
 } from '../../redux/actions/projectActions';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';

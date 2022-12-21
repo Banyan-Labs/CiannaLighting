@@ -5,7 +5,7 @@ interface catalogPros {
     setCatalogItem: any;
 }
 import { BsChevronLeft } from 'react-icons/bs';
-import avatar2 from '../../assets/stairway.jpeg';
+// import avatar2 from '../../assets/stairway.jpeg';
 import Tabs from './Tabs/Tabs';
 import Pictures from './Tabs/Pictures';
 

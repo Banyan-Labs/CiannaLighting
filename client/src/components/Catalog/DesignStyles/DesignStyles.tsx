@@ -20,10 +20,10 @@ interface catalogPros {
 }
 
 const DesignStyles: FC<catalogPros> = ({
-    catalogType,
+    // catalogType,
     setCatalogType,
     setRenderPage,
-    renderPage,
+    // renderPage,
 }) => {
     const dispatch = useAppDispatch();
 
