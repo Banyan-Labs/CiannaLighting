@@ -1,29 +1,54 @@
-.filter-modal-background {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-.reset-button {
-    background-color: #acbeda;
-    color: white;
-    padding: 15px 50px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.filter-modal-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 450px;
-    height: 400px;
-    margin: 1rem auto;
-    padding: 1rem 5rem;
-    border-radius: 5px;
-    background-color: white;
-    color: #101010;
+@import '../../../variables/variables.scss';
+
+.new_room_modal_footer {
+    display: flex;
+    justify-content: space-evenly;
+
+    .reset-button {
+        transition: all 0.2s ease-in-out;
+        border: none;
+        background-color: $primary-bg-dark;
+        color: $primary-bg-dark-title;
+        padding: 15px 80px;
+        border-radius: 5px;
+    }
+
+    .filter-modal-background {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .new-room-modal-button {
+        transition: all 0.2s ease-in-out;
+        background-color: $accent-gold;
+        padding: 15px 50px;
+        // width: 100px;
+        border-radius: 5px;
+        border: none;
+        color: $primary-bg-dark-title;
+    }
+
+    .filter-modal-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 450px;
+        height: 400px;
+        margin: 1rem auto;
+        padding: 1rem 5rem;
+        border-radius: 5px;
+        background-color: white;
+        color: #101010;
+    }
+
+    button:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark-text;
+        color: $primary-bg-white;
+    }
 }

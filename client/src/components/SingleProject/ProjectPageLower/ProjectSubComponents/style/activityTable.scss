@@ -1,31 +1,36 @@
-.activity-container{
+@import '../../../../../variables/variables.scss';
+
+.activity-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: baseline;
     width: 90%;
+    padding: 100px;
+    color: $primary-bg-dark-title;
 }
-.activity-head{
+.activity-head {
     width: fit-content;
-    background: black;
-    padding: 10px;
+    background: $primary-bg-dark-title;
+    padding: 10px 20px;
     margin-left: 3px;
     border-radius: 50px;
-    color: white;
+    color: $accent-gold;
+    margin: -50px 0px;
 }
-.activity-label{
+.activity-label {
     font-size: larger;
-    margin-top: 5%
+    margin-top: 100px;
 }
 
-.activity-table{
+.activity-table {
     margin-bottom: -50px;
-    width: 100%
+    width: 100%;
 }
-.activity-date{
+.activity-date {
     text-align: end;
 }
-.activity-pagination{
+.activity-pagination {
     width: fit-content;
     align-self: flex-end;
     margin-right: -40px;
