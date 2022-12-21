@@ -8,7 +8,9 @@
     "install-modules": "npm i && npm i --prefix client && npm i --prefix server",
     "dev:client": "cd client && npm start",
     "dev:server": "cd server && npm run dev",
-    "dev:full": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+    "dev:full": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build"
   },
   "repository": {
     "type": "git",
