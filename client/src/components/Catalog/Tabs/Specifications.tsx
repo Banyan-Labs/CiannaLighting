@@ -5,7 +5,7 @@ interface catalogPros {
     setCatalogItem: any;
 }
 
-const specifications: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
+const specifications: FC<catalogPros> = ({ catalogItem }) => {
     const Item = catalogItem;
     return (
         <div className="col-12 d-flex row specifications-main-container m-0">

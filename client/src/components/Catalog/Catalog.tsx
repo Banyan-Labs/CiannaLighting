@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+// import { Navigate } from 'react-router-dom';
+// import { useAppSelector } from '../../app/hooks';
 import Cards from './Cards';
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
@@ -37,7 +37,7 @@ const usePackagesData = [
 ];
 
 const Catalog: FC = () => {
-    const { user } = useAppSelector(({ auth: user }) => user);
+    // const { user } = useAppSelector(({ auth: user }) => user);
     const [catalogItem, setCatalogItem] = useState(null);
     const [catalogType, setCatalogType] = useState('');
     const [currentPage, setCurrentPage] = useState(1);

@@ -2,7 +2,7 @@ import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import YourProjects from '../Dashboard/YourProjects/YourProjects';
+// import YourProjects from '../Dashboard/YourProjects/YourProjects';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;

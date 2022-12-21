@@ -1,17 +1,18 @@
-import React, { FC, useState } from 'react';
-import { FaPaperclip } from 'react-icons/fa';
+import React, { FC } from 'react';
+// import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
-import { ModalAttachments } from './ModalAttachments.tsx';
+// import { ModalAttachments } from './ModalAttachments.tsx';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { deleteSpecFile } from '../../redux/actions/lightActions';
-import { LightType } from '../../redux/reducers/projectSlice';
+// import { LightType } from '../../redux/reducers/projectSlice';
 
 interface ProjectSummaryProps {
     details: any;
 }
 
 const ProjectAttachments: FC<ProjectSummaryProps> = ({ details }) => {
-    const [openModal, setOpenModal] = useState(false);
+    console.log(details)
+    // const [openModal, setOpenModal] = useState(false);
 
     const { project, attachments } = useAppSelector(({ project }) => project);
 

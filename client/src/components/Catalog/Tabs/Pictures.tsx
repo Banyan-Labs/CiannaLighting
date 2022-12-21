@@ -13,9 +13,10 @@ interface catalogPros {
     catalogItem: any;
 }
 
-const Pictures: FC<catalogPros> = ({ catalogItem }) => {
+const Pictures: FC<catalogPros> = () => {
+
     const { width } = useWindowDimensions();
-    const Images = catalogItem?.images;
+    // const Images = catalogItem?.images;
     return (
         <>
             <Swiper

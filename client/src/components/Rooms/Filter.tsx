@@ -1,5 +1,5 @@
 import React, { FC, useState, FormEvent } from 'react';
-import { FaSlidersH } from 'react-icons/fa';
+// import { FaSlidersH } from 'react-icons/fa';
 import './style/roomDetails.scss';
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
@@ -11,7 +11,7 @@ interface catalogPros {
 }
 
 const DetailsFilter: FC<catalogPros> = ({
-    catalogItem,
+    // catalogItem,
     filterBar,
     setFilterBar,
 }) => {

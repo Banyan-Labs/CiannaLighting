@@ -87,7 +87,7 @@ export const refreshToken =
             const response = await axiosPriv.post('cmd/deleteLog', {_id}, {
                 withCredentials: true,
             });
-            // console.log('delete log', response);
+            console.log('delete log', response, dispatch);
             
         } catch (error) {
             console.log('Error in refreshToken: ', error);
