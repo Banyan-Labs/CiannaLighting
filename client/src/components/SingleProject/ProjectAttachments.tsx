@@ -10,9 +10,7 @@ interface ProjectSummaryProps {
     details: any;
 }
 
-const ProjectAttachments: FC<ProjectSummaryProps> = ({ details }) => {
-    // const [openModal, setOpenModal] = useState(false);
-
+const ProjectAttachments: FC<ProjectSummaryProps> = () => {
     const { project, attachments } = useAppSelector(({ project }) => project);
 
     const dispatch = useAppDispatch();
