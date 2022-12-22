@@ -1,14 +1,21 @@
 @import '../../../../../variables/variables.scss';
 .proposal-container {
-    margin: 1%;
-    border: 3px solid black;
+    // margin: 1%;
+    // padding: 20px;
+    border: 3px solid $primary-bg-dark-title;
     border-radius: 2px;
+    height: 822.25px;
+    // height: 802.25px;
 }
+
 .header-section {
     display: flex;
     justify-content: space-between;
-    padding: 1% 2%;
-    border-bottom: 2px solid black;
+    max-height: 100px;
+    min-height: 100px;
+    // padding: 1% 2%;
+    padding: 0px 20px;
+    border-bottom: 2px solid $primary-bg-dark-title;
     background: #23395d;
     h1:first-child {
         color: $accent-gold;
@@ -19,12 +26,12 @@
 }
 
 .table-contain {
-    padding: 4% 2%;
+    margin: 35px;
     .table-border {
         table,
         th,
         td {
-            border: 1px solid black;
+            border: 1px solid $primary-bg-dark-title;
             border-collapse: collapse;
             padding: 0px 5px;
         }
@@ -53,7 +60,7 @@
             width: 10%;
         }
         .fifteen {
-            width: 15%;
+            width: 10%;
         }
         .twenty {
             width: 17.5%;
@@ -62,13 +69,16 @@
             width: 6.4%;
         }
         .list {
-            text-align: start !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
         .bold {
             font-family: $font-family;
         }
     }
 }
+
 .pdf-document {
     display: flex;
     flex-wrap: wrap;
@@ -83,6 +93,7 @@
     // box-shadow: 10px green;
     // border: 1px solid red;
 }
+
 @media print {
     @page {
         size: landscape;
