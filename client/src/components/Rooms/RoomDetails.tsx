@@ -50,7 +50,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         );
 
         await dispatch(
-            deleteSpecFile({ projId: projectId, images: runDispatch })
+            deleteSpecFile({ projId: projectId, images: runDispatch, lights: lights })
         );
     };
     // 63489992a489d04fef5912fa637d6b6bd72c492477042d7c6388e7018fa48e317ef2cda8

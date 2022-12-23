@@ -306,6 +306,11 @@ const runLights = async (
       .save()
       .then((room) => {
         newLight.save();
+        ///////
+        /**
+         * gonna work here, going to have to find a way to conditionally add the propID ( compare with the add Proposal stuff)
+         */
+        //////
         console.log("Room save success: ", room);
       })
       .catch((error) => {
