@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useAppSelector } from '../../app/hooks';
+import { useNavigate } from 'react-router-dom';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 import { FaRegCopy, FaRegEye, FaBan, FaTrash } from 'react-icons/fa';
 import { ROLES } from '../../app/constants';
@@ -28,12 +29,21 @@ const ProjectMiniModal: FC<projectProps> = ({
     typeOfProject,
 }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
 
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
             dataHolding.getData(project, "#d3b9b8");
         };
+
+        const projectRoute = useCallback(
+            (projId: string) => {
+                const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+                navigate(to);
+            },
+            [user.name, navigate]
+        );
 
     const goToProject = () =>
     { 
@@ -42,7 +52,8 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div 
             onClick={async() => {
                await changeProject(project._id);
-                await dispatch(setTheYourProjects(true));
+               await projectRoute(project._id);
+               await dispatch(setTheYourProjects(true));
             }}
             className="project-mini-modal-link"
         > 
@@ -63,6 +74,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div 
             onClick={project?.clientId === user?._id ? async() => {
                 await changeProject(project._id);
+                await projectRoute(project._id) 
                 await dispatch(setTheYourProjects(true));
              } : () => {
                 setOpenModal(true);
