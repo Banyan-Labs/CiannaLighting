@@ -1,0 +1,102 @@
+@import '../../../../../variables/variables.scss';
+.proposal-container {
+    // margin: 1%;
+    // padding: 20px;
+    border: 3px solid $primary-bg-dark-title;
+    border-radius: 2px;
+    height: 822.25px;
+    // height: 802.25px;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    max-height: 100px;
+    min-height: 100px;
+    // padding: 1% 2%;
+    padding: 0px 20px;
+    border-bottom: 2px solid $primary-bg-dark-title;
+    background: #23395d;
+    h1:first-child {
+        color: $accent-gold;
+    }
+    h1:nth-child(2) {
+        color: $primary-bg-white;
+    }
+}
+
+.table-contain {
+    margin: 35px;
+    .table-border {
+        table,
+        th,
+        td {
+            border: 1px solid $primary-bg-dark-title;
+            border-collapse: collapse;
+            padding: 0px 5px;
+        }
+        table {
+            width: 100%;
+        }
+        th {
+            font-size: smaller;
+            font-family: $font-family-medium;
+            text-align: center;
+        }
+        td {
+            font-size: x-small;
+            font-family: $font-family-thin;
+            text-align: center;
+        }
+
+        .mini-header {
+            height: 75px;
+        }
+
+        .five {
+            width: 5.5%;
+        }
+        .ten {
+            width: 10%;
+        }
+        .fifteen {
+            width: 10%;
+        }
+        .twenty {
+            width: 17.5%;
+        }
+        .six {
+            width: 6.4%;
+        }
+        .list {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .bold {
+            font-family: $font-family;
+        }
+    }
+}
+
+.pdf-document {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-page {
+    // max-width: 20px;
+    // height: 100px;
+    margin: 10px 10px 0px 0px;
+    // box-shadow: 10px green;
+    // border: 1px solid red;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        // margin: 50px 0 0 0 ;
+    }
+}

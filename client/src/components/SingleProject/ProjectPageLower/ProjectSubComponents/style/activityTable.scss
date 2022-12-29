@@ -1,0 +1,37 @@
+@import '../../../../../variables/variables.scss';
+
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    width: 90%;
+    padding: 100px;
+    color: $primary-bg-dark-title;
+}
+.activity-head {
+    width: fit-content;
+    background: $primary-bg-dark-title;
+    padding: 10px 20px;
+    margin-left: 3px;
+    border-radius: 50px;
+    color: $accent-gold;
+    margin: -50px 0px;
+}
+.activity-label {
+    font-size: larger;
+    margin-top: 100px;
+}
+
+.activity-table {
+    margin-bottom: -50px;
+    width: 100%;
+}
+.activity-date {
+    text-align: end;
+}
+.activity-pagination {
+    width: fit-content;
+    align-self: flex-end;
+    margin-right: -40px;
+}

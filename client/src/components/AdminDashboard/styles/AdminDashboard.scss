@@ -1,0 +1,59 @@
+@import '../../../variables/variables.scss';
+
+.admin-dashboard-container {
+    padding-top: 100px;
+    display: flex;
+    height: 100vh;
+    min-height: 820px;
+}
+
+.admin-sidebar-container {
+    background: $primary-bg-dark;
+    position: relative;
+    min-width: 100px;
+    top: 1px;
+    padding: 30px 65px 0 30px;
+}
+
+.sidebar-link-container {
+    padding: 10px;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: $primary-bg-dark-link;
+    &:hover {
+        color: $accent-gold;
+        text-decoration: underline;
+    }
+}
+
+.active-sidebar-link {
+    transform: scale(1.1);
+    color: $accent-gold;
+}
+
+.log-table {
+    text-align: center;
+}
+.log-name {
+    padding-left: 50px;
+}
+
+.delete-log {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        color: red;
+    }
+}
+
+#log-table-container {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background-color: $primary-bg-dark;
+    }
+}
