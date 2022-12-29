@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
+import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import RFP from "../model/RFP";
@@ -290,11 +291,19 @@ const runLights = async (
     crystalType: light.crystalType,
     crystalPinType: light.crystalPinType,
     crystalPinColor: light.crystalPinColor,
-    roomName: light.roomName,
+    roomName: 'Copy of ' + light.roomName,
     roomId: newRoomId,
     projectId: newProjectId,
     clientId: clientId,
     quantity: light.quantity,
+    price: light.price,
+    description: light.description,
+    lampType: light.lampType, 
+    lampColor: light.lampColor,
+    wattsPer: light.wattsPer,
+    totalWatts: light.totalWatts,
+    numberOfLamps: light.numberOfLamps,
+    totalLumens: light.totalLumens
   });
 
   const lightAndRoom = await Room.findOne({ _id: newRoomId });
@@ -304,14 +313,159 @@ const runLights = async (
 
     return await lightAndRoom
       .save()
-      .then((room) => {
-        newLight.save();
+      .then(async(room) => {
+        const newlight = await newLight.save();
         ///////
         /**
          * gonna work here, going to have to find a way to conditionally add the propID ( compare with the add Proposal stuff)
          */
         //////
+        if(newlight){
+          const {
+            item_ID,
+            exteriorFinish,
+            interiorFinish,
+            lensMaterial,
+            glassOptions,
+            acrylicOptions,
+            roomName,
+            projectId,
+            quantity,
+            description,
+            lampType,
+            lampColor,
+            price,
+            wattsPer,
+            totalWatts,
+            numberOfLamps,
+            totalLumens,
+          } = newlight;
+        const finishes: any = {
+          exteriorFinish: exteriorFinish,
+          interiorFinish: interiorFinish,
+          lensMaterial: lensMaterial,
+          glassOptions: glassOptions,
+          acrylicOptions: acrylicOptions,
+        };
+        const propID = await ProposalTableRow.findOne({itemID: item_ID, sub: "", projectId: projectId});
+        console.log("PropID in copy light to make proposal: ", propID)
+        const proposal = new ProposalTableRow({
+          _id: new mongoose.Types.ObjectId(),
+          sub: propID ? propID._id : "",
+          itemID: item_ID,
+          lightID: String(newLight._id),
+          projectId: projectId,
+          description: description,
+          lampType: lampType,
+          lampColor: lampColor,
+          price: price,
+          lightQuantity:  quantity,
+          wattsPer: wattsPer,
+          totalWatts: totalWatts * quantity,
+          numberOfLamps: numberOfLamps,
+          totalLumens: totalLumens * quantity,
+          finishes: finishes,
+          rooms: [{ name: roomName, lightNumber: quantity }],
+          subTableRow: [],
+        });
+        if (propID) {
+                console.log("COPY proposalID lightid: ", proposal)
+                let runCheck = [];
+                let rowFinishes: any = propID.finishes;
+                const sameRoom = propID.rooms
+                  .map((room: any) => room.name)
+                  .indexOf(roomName);
+                if (sameRoom == -1) {
+                  const subs = propID.subTableRow;
+                  propID.subTableRow = [...subs, String(proposal._id)];
+                  await proposal.save();
+                } else {
+                  for (let key in rowFinishes) {
+                    console.log("COPYkey in rowFinishes: ", key);
+                    runCheck.push(rowFinishes[key] == finishes[key]);
+                  }
+                  console.log("COPY ^^^^^^^^^^^runCHeck: ", runCheck);
+                  if (runCheck.some((item) => item == false)) {
+                    const subs = propID.subTableRow;
+                    console.log("COPY Subs triggered in update: ", subs);
+                    if (subs) {
+                      propID.subTableRow = [...subs, String(proposal._id)];
+                    }
+                    await proposal.save();
+                  }
+                }
+                const newQuantity = propID.lightQuantity + quantity;
+                const newWattage = totalWatts * newQuantity;
+                const newTotalLumens = totalLumens * newQuantity;
+                const roomFind = propID.rooms.find(
+                  (room: any) => room.name == roomName
+                );
+                const roomFilter = propID.rooms.filter(
+                  (room: any) => room.name != roomName
+                );
+                console.log(roomFind, roomFilter);
+                const newRooms:any =
+                  sameRoom == -1
+                    ? [...propID.rooms, { name: roomName, lightNumber: quantity }]
+                    : [
+                        ...roomFilter,
+                        {
+                          name: roomFind?.name,
+                          lightNumber: roomFind ? roomFind.lightNumber + quantity: quantity,
+                        },
+                      ];
+                // const newRow = [...propID.subTableRow, String(proposal._id)];
+                propID.lightQuantity = newQuantity;
+                propID.totalWatts = newWattage;
+                propID.totalLumens = newTotalLumens;
+                propID.rooms = newRooms;
+                // propID.subTableRow = newRow;
+                // }
+                const done = await propID.save();
+                if (done) {
+                  console.log("COPY DONE UPDATE~~~~~~~~~~~: ", {
+                    propIDDone: done,
+                    newProposal: proposal ? proposal : "None",
+                  });
+                  // return {
+                  //   message: "Successful Update",
+                  //   done,
+                  // };
+                }
+              
+          
+            
+          // return propID;
+        } else {
+          const updateRfp = await RFP.findOne({ projectId: projectId})
+            .exec()
+            .then(async (rfp) => {
+              if (rfp) {
+                await proposal.save();
+                console.log("COPY inRFP add ====: ", rfp);
+                const newRow = [String(proposal._id), ...rfp.tableRow];
+                rfp.tableRow = newRow;
+                const done = await rfp.save();
+                if (done) {
+                  console.log("COPY DONE ADD ========= : ", {
+                    rfpFoundDone: done,
+                    newProposal: proposal,
+                  });
+                  // return {
+                  //   message: "Successful Add",
+                  //   done,
+                  // };
+                }
+              }
+            })
+            .catch((error: any) => {
+              console.log("COPY ERROR on ADD rfp stuff: ", error);
+              return { message: error.message, error };
+            });
+          return updateRfp;
+        }
         console.log("Room save success: ", room);
+      }
       })
       .catch((error) => {
         console.log(

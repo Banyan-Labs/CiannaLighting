@@ -150,38 +150,6 @@ const CatalogItem: FC<catalogPros> = ({
         setEditLight(null);
         setCatalogItem(null);
     };
-    // const findEditProp = (propID: string) =>{
-    //     console.log("catalogDeetsInEdit: ", catalogDetails)
-    //     const find = proposal.filter((item)=> item.sub.length  && item.itemID == catalogDetails.item_ID);
-    //     console.log("FIND: ", find)
-    //     // eslint-disable-next-line
-    //     let checker: any[] = [];
-    //     const finishes: any = {
-    //         exteriorFinish: catalogDetails.exteriorFinish,
-    //         interiorFinish: catalogDetails.interiorFinish,
-    //         lensMaterial: catalogDetails.lensMaterial,
-    //         glassOptions: catalogDetails.glassOptions,
-    //         acrylicOptions: catalogDetails.acrylicOptions,
-    //       };
-    //     if (find.length > 1){
-    //         for(const x of find){
-    //         const itemFinish: any = x.finishes
-    //         // eslint-disable-next-line
-    //         let scopeCheck: any = []
-    //         for(const f in itemFinish ){
-    //             scopeCheck.push(finishes[f] == itemFinish[f]);
-    //         }
-    //         if(scopeCheck.every((x: boolean)=> x == true)){
-    //             checker.push(x)
-    //         }
-                
-    //         }
-    //         console.log("HIT checker return: ", checker)
-    //         return checker[0]._id
-    //     }else{
-    //     return find
-    // }
-    // }
 
     const onSubmit = async (e: any) => {
         e.preventDefault();

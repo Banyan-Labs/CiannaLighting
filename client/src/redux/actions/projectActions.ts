@@ -29,7 +29,14 @@ export const createProjectAction =
                 const getRfp = await axiosPriv.post('/get-rfps', {projectId: response.data.project._id})
                 if(getRfp){
                     console.log("RFP RESPONSE: ", getRfp.data)
-                    dispatch(setRfp(getRfp.data.rfp[0]))
+                    dispatch(setRfp(getRfp.data.rfp[0]));
+                    const proposalSet = await axiosPriv.post('/get-proposals', {
+                        projectId: response.data.project._id,
+                    });
+                    if (proposalSet) {
+                        console.log('PROPOSAL STUFF: ', proposalSet);
+                        dispatch(setProposals(proposalSet.data.proposal));
+                    }/* TAKE THIS OUT FIRE ANOTHER THING TO GET THE PROPOSAL TO FIRE IN REDUX! */
                 }
             }
         } catch (error: any) {

@@ -10,6 +10,14 @@ export default interface lightSelectionInterface extends Document {
   environment: string;
   safetyCert: string;
   projectVoltage: string;
+  description: string;
+  lampType: string;
+  lampColor: string;
+  price: number;
+  wattsPer:  number;
+  totalWatts: number;
+  numberOfLamps: number;
+  totalLumens: number;
   socketType: string;
   mounting: string;
   crystalType: string;
