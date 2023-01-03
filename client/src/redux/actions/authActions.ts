@@ -1,7 +1,12 @@
 import axios from '../../api/axios';
 import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
-import { setUser, logout, setAccessToken, setLogs } from '../reducers/authSlice';
+import {
+    setUser,
+    logout,
+    setAccessToken,
+    setLogs,
+} from '../reducers/authSlice';
 import { axiosPrivate } from '../../api/axios';
 
 type SignInType = {
@@ -43,7 +48,7 @@ export const signInAction =
         }
     };
 
-    export const getAllLogs =
+export const getAllLogs =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
@@ -66,12 +71,11 @@ export const refreshToken =
                 withCredentials: true,
             });
             console.log('Respnse in RefreshToken: ', response);
-            if(response){
-             const done =  dispatch(setAccessToken(response.data));
-             if(done){
-                console.log('REFRESHED!')
-             }
-
+            if (response) {
+                const done = dispatch(setAccessToken(response.data));
+                if (done) {
+                    console.log('REFRESHED!');
+                }
             }
         } catch (error) {
             console.log('Error in refreshToken: ', error);
@@ -79,16 +83,19 @@ export const refreshToken =
         }
     };
 
-    export const deleteTheLog =
+export const deleteTheLog =
     (_id: string) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
             const axiosPriv = await axiosPrivate();
-            const response = await axiosPriv.post('cmd/deleteLog', {_id}, {
-                withCredentials: true,
-            });
+            const response = await axiosPriv.post(
+                'cmd/deleteLog',
+                { _id },
+                {
+                    withCredentials: true,
+                }
+            );
             console.log('delete log', response, dispatch);
-            
         } catch (error) {
             console.log('Error in refreshToken: ', error);
             throw error;

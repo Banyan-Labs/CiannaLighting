@@ -23,7 +23,6 @@
     overflow: scroll;
 }
 
-
 ::-webkit-scrollbar {
     display: none;
 }
@@ -46,8 +45,6 @@
     color: black;
     text-align: center;
 }
-
-
 
 .new-project-modal-button:hover {
     background-color: #345c9c;
@@ -79,8 +76,6 @@
     color: #101010;
 }
 
-
-
 .hr {
     background-color: #cbcbcb;
     height: 1px;
@@ -105,127 +100,120 @@
     cursor: pointer;
 }
 
+// view page
 
+.project-modal-inner-container {
+}
 
+.button-display-view-container {
+    border-bottom: 1px solid $primary-bg-white-sub-text;
 
-// view page 
-
-.project-modal-inner-container{
-    
+    button {
+        font-size: 18px;
+        padding-bottom: 20px;
+        background-color: white;
+        border: none;
+        cursor: pointer;
     }
-    
 
-.button-display-view-container{
- border-bottom: 1px solid $primary-bg-white-sub-text;
+    .btn-right {
+        margin-left: 60px;
+    }
 
- button{
-    font-size: 18px;
-    padding-bottom: 20px;
-    background-color: white;
-    border: none;
-    cursor: pointer;
- }
-
- .btn-right{
-   margin-left: 60px;
- }
-
- .viewActive{
-    color: $accent-gold;
-    font-weight: 600;
-border-bottom: 1.5px solid $accent-gold !important;
- }
+    .viewActive {
+        color: $accent-gold;
+        font-weight: 600;
+        border-bottom: 1.5px solid $accent-gold !important;
+    }
 }
 
-.no-lights{
+.no-lights {
     display: flex;
-  font-size: 14px;
-  justify-content: center;
-  color: $primary-bg-white-sub-text;
-  border-bottom: 1px solid $primary-bg-white-sub-text;
-  padding-bottom: 10px;
+    font-size: 14px;
+    justify-content: center;
+    color: $primary-bg-white-sub-text;
+    border-bottom: 1px solid $primary-bg-white-sub-text;
+    padding-bottom: 10px;
 }
 
-.no-rooms{
+.no-rooms {
     display: flex;
     justify-content: center;
     color: $primary-bg-white-sub-text;
 }
 
-.light-view-container{
- width: 100%;
- max-height: 200px;
- overflow: scroll;
- 
- padding-bottom: 10px;
- h5{
-    font-size: 13px;
- }
- p{
-    padding-left: 30px;
-    color: $primary-bg-white-sub-text;
-    font-size: 14px;
- }
-}
+.light-view-container {
+    width: 100%;
+    max-height: 200px;
+    overflow: scroll;
 
-.inner-light-container{
-   border-bottom: 1px solid $primary-bg-white-sub-text;
-
-   .name-tag{
-    padding-top: 10px;
-   }
-}
-
-.project-view-container{ 
-    padding-top: 20px;
-span{
-    font-size: 16px;
-    color: $primary-bg-white-sub-text ;
-}
-
-}
-
-
-.btn-view-container-none{
-border-bottom: none;
-}
-.btn-view-container-none{
-    border-bottom: 1px solid $primary-bg-white-sub-text ;
-}
-
-.btn-view-lights{
- background-color: white;
- border: none;
- padding: none;
- font-size: 30px;
- cursor: pointer;
-}
-
-.name-room{
-    padding-top: 20px !important;
-    font-size: 15px;
+    padding-bottom: 10px;
+    h5 {
+        font-size: 13px;
     }
-
-    .created-tag{
-     font-size: 15px;
-    }
-
-    .created-tag-span{
+    p {
+        padding-left: 30px;
+        color: $primary-bg-white-sub-text;
         font-size: 14px;
+    }
+}
+
+.inner-light-container {
+    border-bottom: 1px solid $primary-bg-white-sub-text;
+
+    .name-tag {
+        padding-top: 10px;
+    }
+}
+
+.project-view-container {
+    padding-top: 20px;
+    span {
+        font-size: 16px;
         color: $primary-bg-white-sub-text;
     }
+}
 
-    .confirm-delete{
-     color: $primary-bg-white-sub-text;
-     margin-right: 10px;
-    }
+.btn-view-container-none {
+    border-bottom: none;
+}
+.btn-view-container-none {
+    border-bottom: 1px solid $primary-bg-white-sub-text;
+}
 
-    .delete-modal-button{
-        cursor: pointer;
-     background-color: red;
-     margin-top: 10px;
-     color: white;
-     padding: 8px 15px 8px 15px;
-     border-radius: .2rem;
-     border: none;
-    }
+.btn-view-lights {
+    background-color: white;
+    border: none;
+    padding: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.name-room {
+    padding-top: 20px !important;
+    font-size: 15px;
+}
+
+.created-tag {
+    font-size: 15px;
+}
+
+.created-tag-span {
+    font-size: 14px;
+    color: $primary-bg-white-sub-text;
+}
+
+.confirm-delete {
+    color: $primary-bg-white-sub-text;
+    margin-right: 10px;
+}
+
+.delete-modal-button {
+    cursor: pointer;
+    background-color: red;
+    margin-top: 10px;
+    color: white;
+    padding: 8px 15px 8px 15px;
+    border-radius: 0.2rem;
+    border: none;
+}

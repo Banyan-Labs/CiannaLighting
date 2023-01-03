@@ -109,20 +109,20 @@ export const createLight =
             const created = await axiosPriv.post('/create-lightSelection', {
                 light: light,
             });
-            if(created){
-            const proposal = await axiosPriv.post('/update-rfp', {
-                light: {...light, lightID: created.data.light._id},
-            });
-            if (proposal) {
-                const proposalSet = await axiosPriv.post('/get-proposals', {
-                    projectId: light.projectId,
+            if (created) {
+                const proposal = await axiosPriv.post('/update-rfp', {
+                    light: { ...light, lightID: created.data.light._id },
                 });
-                if (proposalSet) {
-                    console.log('PROPOSAL STUFF: ', proposalSet);
-                    dispatch(setProposals(proposalSet.data.proposal));
+                if (proposal) {
+                    const proposalSet = await axiosPriv.post('/get-proposals', {
+                        projectId: light.projectId,
+                    });
+                    if (proposalSet) {
+                        console.log('PROPOSAL STUFF: ', proposalSet);
+                        dispatch(setProposals(proposalSet.data.proposal));
+                    }
                 }
             }
-        }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -174,21 +174,24 @@ export const theEditLight =
     (payload: any, lightId: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
-        
+
         try {
             const response = await axiosPriv.post('/find-lightSelection', {
                 ...payload,
                 _id: lightId,
             });
-            if(response){
-                console.log("response in edit: ", response);
-                console.log("payload in edit: ", {...payload, lightID: lightId})
-                const propEdit = await axiosPriv.post("/edit-props", {
+            if (response) {
+                console.log('response in edit: ', response);
+                console.log('payload in edit: ', {
                     ...payload,
-                    lightID: lightId
-                })
-                console.log("PropEDIT: ", propEdit)
-                if(propEdit){
+                    lightID: lightId,
+                });
+                const propEdit = await axiosPriv.post('/edit-props', {
+                    ...payload,
+                    lightID: lightId,
+                });
+                console.log('PropEDIT: ', propEdit);
+                if (propEdit) {
                     const proposalSet = await axiosPriv.post('/get-proposals', {
                         projectId: payload.projectId,
                     });

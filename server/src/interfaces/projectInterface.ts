@@ -1,8 +1,6 @@
 import { Document } from "mongoose";
 
-interface activity{
-
-}
+interface activity {}
 
 interface ProjectActivity {
   createUpdate: string;
@@ -20,5 +18,5 @@ export default interface projectInterface extends Document {
   description: string;
   rfp: string;
   rooms: string[];
-  activity: ProjectActivity
+  activity: ProjectActivity;
 }

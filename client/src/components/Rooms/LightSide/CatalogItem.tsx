@@ -58,9 +58,8 @@ const CatalogItem: FC<catalogPros> = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomLights, roomId, proposal} = useAppSelector(
-        ({ project }) => project
-    );
+    const { room, attachments, projectId, roomLights, roomId, proposal } =
+        useAppSelector(({ project }) => project);
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
     );
@@ -117,7 +116,9 @@ const CatalogItem: FC<catalogPros> = ({
                 ? editLight?.exteriorFinish
                 : catalogItem.crystalType[0].split(',')[0], // change when you go to production
         mounting:
-            editLight !== null ? editLight?.mounting : catalogItem.mounting[0].split(',')[0],
+            editLight !== null
+                ? editLight?.mounting
+                : catalogItem.mounting[0].split(',')[0],
         item_ID: editLight !== null ? editLight?.item_ID : catalogItem.item_ID,
         roomName: String(room?.name),
         roomId: String(storedRoomId),
@@ -153,21 +154,23 @@ const CatalogItem: FC<catalogPros> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        const propCheck = proposal.filter((item:any)=> item.sub ? '' : item).find((item:any)=> item.itemID == catalogDetails.item_ID );
-        console.log("PropCheck: ", propCheck)
+        const propCheck = proposal
+            .filter((item: any) => (item.sub ? '' : item))
+            .find((item: any) => item.itemID == catalogDetails.item_ID);
+        console.log('PropCheck: ', propCheck);
         const propID = propCheck ? propCheck._id : '';
         // console.log("findProp: ", findEditProp(propID))
         const rfpPass = {
             propID: propID,
             description: catalogItem.itemDescription,
-            lampType: catalogItem.lampType, 
+            lampType: catalogItem.lampType,
             lampColor: catalogItem.lampColor,
-            wattsPer:  catalogItem.wattsPerLamp,
+            wattsPer: catalogItem.wattsPerLamp,
             price: catalogItem.price,
             totalWatts: catalogItem.powerInWatts,
             numberOfLamps: catalogItem.numberOfLamps,
-            totalLumens: catalogItem.lumens, 
-        }
+            totalLumens: catalogItem.lumens,
+        };
         try {
             if (editLight === null) {
                 console.log('pre:', roomLights[roomLights.length - 1]);
@@ -212,9 +215,14 @@ const CatalogItem: FC<catalogPros> = ({
                         );
                     }
                 }
-                await dispatch(createLight({...catalogDetails, ...rfpPass}));
+                await dispatch(createLight({ ...catalogDetails, ...rfpPass }));
             } else {
-                dispatch(theEditLight({...catalogDetails, ...rfpPass}, editLight._id));
+                dispatch(
+                    theEditLight(
+                        { ...catalogDetails, ...rfpPass },
+                        editLight._id
+                    )
+                );
             }
             setCatalogDetails({
                 exteriorFinish: catalogItem.exteriorFinish[0].split(',')[0],

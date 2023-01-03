@@ -33,9 +33,6 @@ const Activity: FC = () => {
                     <td className="projects-table-dynamic-region log-table">
                         <span>{date}</span>
                     </td>
-                    <td className="projects-table-dynamic-region log-table">
-                        <span>{date}</span>
-                    </td>
                     <td className="projects-table-dynamic-region">
                         <FaRegTrashAlt
                             className="delete-log"
@@ -61,7 +58,6 @@ const Activity: FC = () => {
                             <td className="log-table">Name</td>
                             <td className="log-table">IP Address</td>
                             <td className="log-table">Role</td>
-                            <td className="log-table">Updated</td>
                             <td className="log-table">Created</td>
                         </tr>
                     </thead>

@@ -40,9 +40,9 @@ export const DeleteModal: FC<Props> = ({
     room,
     editRoom,
     setEditRoom,
-    deleteAttachments
+    deleteAttachments,
 }) => {
-    const {roomLights, projectId} = useAppSelector(({project})=> project)
+    const { roomLights, projectId } = useAppSelector(({ project }) => project);
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
@@ -50,35 +50,32 @@ export const DeleteModal: FC<Props> = ({
     const navigate = useNavigate();
     console.log("LIGHT IN DELETE: ", light)
     const onSubmit1 = async () => {
-        const nonRoom = async(light: any) =>{
+        const nonRoom = async (light: any) => {
             await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
                     roomId: String(storedRoomId),
                     _id: String(light._id),
-                    projectId: projectId
+                    projectId: projectId,
                 })
-            )
-        }
-        const nonLight = async() =>{     
-                await deleteAttachments(roomLights);
-                await dispatch(
-                    deleteThisRoom({
-                        _id: String(storedRoomId),
-                        projectId: String(storedProjId),
-                    })
-                );
-        }
+            );
+        };
+        const nonLight = async () => {
+            await deleteAttachments(roomLights);
+            await dispatch(
+                deleteThisRoom({
+                    _id: String(storedRoomId),
+                    projectId: String(storedProjId),
+                })
+            );
+        };
         try {
-            !deleteRoom
-                ? await nonRoom(light)
-                
-                : await nonLight();
+            !deleteRoom ? await nonRoom(light) : await nonLight();
             navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
         } catch (err) {
             console.log('Error: ' + err);
         }
-        
+
         await dispatch(getProject({ _id: String(storedProjId) }));
         dispatch(setTheRoom(String(storedRoomId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));

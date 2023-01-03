@@ -98,7 +98,7 @@ const Modal: FC<Props> = (props) => {
                   );
             await dispatch(getUserProjects(user._id));
             await dispatch(setTheYourProjects(true));
-            dataHolding.getData(projectDetails, '');
+            dataHolding.getData(projectDetails, '#a3837a');
             if (props.editProject) {
                 closeModal(false);
                 props.setEditProject(false);

@@ -7,11 +7,10 @@ export interface AuthStateType {
     logs: any[];
 }
 
-
 const initialState: AuthStateType = {
     user: { _id: '', name: '', email: '', role: '' },
     error: null,
-    logs: []
+    logs: [],
 };
 
 export const authSlice = createSlice({
@@ -53,6 +52,12 @@ export const authSlice = createSlice({
     },
 });
 
-export const { setUser, setError, logout, setAccessToken, setUserOnRefresh, setLogs } =
-    authSlice.actions;
+export const {
+    setUser,
+    setError,
+    logout,
+    setAccessToken,
+    setUserOnRefresh,
+    setLogs,
+} = authSlice.actions;
 export default authSlice.reducer;

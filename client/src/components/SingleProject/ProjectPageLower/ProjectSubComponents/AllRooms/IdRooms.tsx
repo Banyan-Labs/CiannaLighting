@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../../../../../api/axios';
@@ -24,6 +24,10 @@ const IdRooms: FC = () => {
         },
         [user.name, navigate]
     );
+
+    useEffect(() => {
+        dispatch(getAllProjectRoomsAction(String(project?._id)));
+    }, []);
 
     const copyRoom = async (e: any, room: RoomType) => {
         e.preventDefault();

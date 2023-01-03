@@ -83,12 +83,10 @@ const lightSelected = async (
           .save()
           .then(async (light) => {
             if (light) {
-              
-                return res.status(201).json({
-                  light,
-                  message: roomSuccess,
-                });
-              
+              return res.status(201).json({
+                light,
+                message: roomSuccess,
+              });
             }
           })
           .catch((error) => {
@@ -110,7 +108,6 @@ const lightSelected = async (
 
   return lightAndRoom;
 };
-
 
 const getAllSelectedLights = (req: Request, res: Response) => {
   const { roomId } = req.body;

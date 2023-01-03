@@ -15,16 +15,21 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
     description,
     lights: [],
   });
- const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+  const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
-    .then(async(project) => {
+    .then(async (project) => {
       if (project) {
-        project.rooms = [...project.rooms, room._id];        
+        project.rooms = [...project.rooms, room._id];
         project.activity = {
-          ...project.activity, rooms: [...project.activity.rooms, [`Room ${name} added, ID: ${room._id}.`, `${[curDate[1], curDate[2], curDate[0]].join(
-            "/"
-          )}`]]
-        }        
+          ...project.activity,
+          rooms: [
+            ...project.activity.rooms,
+            [
+              `Room ${name} added, ID: ${room._id}.`,
+              `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+            ],
+          ],
+        };
         await project.save();
         const projectSuccess = `added room to project: ${projectId}`;
         return room
@@ -110,14 +115,19 @@ const deleteRoom = async (req: Request, res: Response) => {
     .then(async (project) => {
       if (project) {
         project.activity = {
-          ...project.activity, rooms: [...project.activity.rooms, [`Project Deleted, ID: ${req.body._id}.`, `${[curDate[1], curDate[2], curDate[0]].join(
-            "/"
-          )}`]]
-        }
+          ...project.activity,
+          rooms: [
+            ...project.activity.rooms,
+            [
+              `Project Deleted, ID: ${req.body._id}.`,
+              `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+            ],
+          ],
+        };
         project.rooms = project.rooms.filter((id: string) => {
           return String(id) !== req.body._id ? id : "";
         });
-        console.log("Project updated DELETEROOM: ", project)
+        console.log("Project updated DELETEROOM: ", project);
         await project.save();
       }
       const roomRemoved = "room removed successfully from project";

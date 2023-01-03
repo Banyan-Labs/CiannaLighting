@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { FC, useState, ChangeEvent  } from 'react';
+import React, { FC, useState, ChangeEvent } from 'react';
 import useParams from '../../app/utils';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,6 @@ type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
     openModal: boolean;
     project: any;
-    
 };
 
 export const ModalAttachments: FC<Props> = ({
@@ -29,7 +28,6 @@ export const ModalAttachments: FC<Props> = ({
     const [pdfNames, setPdfNames] = useState<any>([]);
     const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
 
-
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'images') {
             setImgfiles(e.target.files);
@@ -40,7 +38,7 @@ export const ModalAttachments: FC<Props> = ({
         if (e.target.name === 'drawingFiles') {
             setDrawingFilesArray(e.target.files);
         }
-        console.log(pdfFiles, pdf, pdfNames,'\n', imgFiles, images, imageName)
+        console.log(pdfFiles, pdf, pdfNames, '\n', imgFiles, images, imageName);
     };
 
     const listFileNames = (e: any) => {
@@ -68,43 +66,41 @@ export const ModalAttachments: FC<Props> = ({
         }
     };
 
-
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const axiosPriv = axiosFileUpload();
         const fs = new FormData();
 
-        console.log("imgs, pdf",images, pdf)
-        fs.append('projId', project._id)
+        console.log('imgs, pdf', images, pdf);
+        fs.append('projId', project._id);
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
                 fs.append('images', images[i]);
-                console.log("imgs: ", images[i])
-                console.log("fs: ",fs)
+                console.log('imgs: ', images[i]);
+                console.log('fs: ', fs);
             }
-            console.log("fsIMG : ",fs)
+            console.log('fsIMG : ', fs);
         }
         if (pdf.length) {
             for (let i = 0; i < pdf.length; i++) {
                 fs.append('pdf', pdf[i]);
-                console.log("pdf: ", pdf)
-                console.log("pdfI: ", pdf[i])
-                console.log("fspdf: ", fs)
+                console.log('pdf: ', pdf);
+                console.log('pdfI: ', pdf[i]);
+                console.log('fspdf: ', fs);
             }
-            console.log("fs pdf: ",fs, pdf)
+            console.log('fs pdf: ', fs, pdf);
         }
         if (drawingFiles.length) {
             for (let i = 0; i < drawingFiles.length; i++) {
                 fs.append('drawingFiles', drawingFiles[i]);
             }
         }
-             
-            //  fs.append('edit', 'add')
-             console.log("imgfiles, imgs, fs: ",imgFiles, images, fs)
+
+        //  fs.append('edit', 'add')
+        console.log('imgfiles, imgs, fs: ', imgFiles, images, fs);
         try {
             (await axiosPriv).post('/new-attachments', fs);
-        }
-        catch (error: any) {
+        } catch (error: any) {
             alert(error.messsge);
             console.log('Error Message: ', error.message);
         }
@@ -124,12 +120,15 @@ export const ModalAttachments: FC<Props> = ({
                     </button>
                 </div>
                 <form className="" onSubmit={onSubmit}>
-                    <div className='project-details-attachment'>
+                    <div className="project-details-attachment">
                         <h3>{project?.name}</h3>
-                        <p>{project?.archived === true ? "Project Archived" : ''}</p>
-                        
+                        <p>
+                            {project?.archived === true
+                                ? 'Project Archived'
+                                : ''}
+                        </p>
                     </div>
-                <div className="tab">
+                    <div className="tab">
                         <input type="checkbox" id="chck5" />
                         <label className="tab-label" htmlFor="chck5">
                             Images & Attachments
@@ -137,7 +136,7 @@ export const ModalAttachments: FC<Props> = ({
                         <div className="tab-content">
                             <label htmlFor="images">Images</label>
                             <br />
-                            
+
                             <input
                                 className="list-input"
                                 id="images"
@@ -152,7 +151,7 @@ export const ModalAttachments: FC<Props> = ({
                                 Add Value
                             </button>
 
-                            <div className='img-container-attach'>
+                            <div className="img-container-attach">
                                 {imageName.map((url: any, index: number) => {
                                     console.log(url);
                                     return <img src={url} key={index} alt="" />;
@@ -197,7 +196,10 @@ export const ModalAttachments: FC<Props> = ({
                                 name="drawingFiles"
                                 onChange={(e) => handleFileUpload(e)}
                             />
-                            <button className='btn-attach-add' onClick={(e) => listFileNames(e)}>
+                            <button
+                                className="btn-attach-add"
+                                onClick={(e) => listFileNames(e)}
+                            >
                                 Add Values
                             </button>
                             <div>
@@ -213,10 +215,9 @@ export const ModalAttachments: FC<Props> = ({
                         </div>
                     </div>
                     <button id="inventory-btn" onClick={(e) => onSubmit(e)}>
-                    Submit
-                </button>
+                        Submit
+                    </button>
                 </form>
-                
             </div>
         </div>
     );

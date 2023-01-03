@@ -7,7 +7,7 @@ const rfpSchema: Schema = new Schema(
     projectId: { type: String, required: true },
     clientId: { type: String, required: true },
     clientName: { type: String, required: true },
-    tableRow: { type: Array<string>, required: true }
+    tableRow: { type: Array<string>, required: true },
   },
   {
     timestamps: true,

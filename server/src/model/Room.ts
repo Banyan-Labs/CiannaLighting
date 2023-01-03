@@ -8,15 +8,11 @@ const roomSchema: Schema = new Schema(
     projectId: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
-    lights: {type: Array<string>}
+    lights: { type: Array<string> },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model<roomInterface>(
-  "Room", 
-  roomSchema
-  );
-  
+export default mongoose.model<roomInterface>("Room", roomSchema);

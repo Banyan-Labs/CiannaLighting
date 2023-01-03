@@ -3,7 +3,7 @@ import { Document } from "mongoose";
 export default interface catalogInterface extends Document {
   item_ID: string;
   itemName: string;
-  employeeID:string;
+  employeeID: string;
   itemDescription: string;
   bodyDiameter: string;
   bodyLength: string;
@@ -33,7 +33,7 @@ export default interface catalogInterface extends Document {
   projecVoltage: string[];
   socketType: string[];
   mounting: string[];
-  crystalType: string[];// add to model add some stuff
+  crystalType: string[]; // add to model add some stuff
   crystalPinType: string[];
   crystalPinColor: string[];
   designStyle: string[];

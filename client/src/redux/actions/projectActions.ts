@@ -11,8 +11,8 @@ import {
     setFilteredProjects,
     setProjectRooms,
     setUserProjects,
-    setYourProjects, 
-    setFilteredProjNone
+    setYourProjects,
+    setFilteredProjNone,
 } from '../reducers/projectSlice';
 import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -23,7 +23,7 @@ export const createProjectAction =
         const axiosPriv = await axiosPrivate();
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            if(response){
+            if (response) {
                 dispatch(setProjectId(response.data.project));
                 dispatch(setProject(response.data.project));
                 const getRfp = await axiosPriv.post('/get-rfps', {projectId: response.data.project._id})
@@ -100,7 +100,7 @@ export const getUserProjects =
         }
     };
 
-    export const setTheYourProjects =
+export const setTheYourProjects =
     (payload: boolean) =>
     async (dispatch: Dispatch): Promise<void> => {
         await dispatch(setYourProjects(payload));
@@ -111,22 +111,27 @@ export const getProject =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
-            console.log("payload get proj: ",payload)
+            console.log('payload get proj: ', payload);
             const project = await axioscall.post('/find-project', payload);
-            console.log("foundproj: ",project)
-            if(project){
-            dispatch(setProject(project.data.project));
-            dispatch(setProjectId(project.data.project));
-                const proposalSet = await axioscall.post('/get-proposals',{
-                    projectId: project.data.project._id
-                })
-                if(proposalSet){
-                    console.log("PROPOSAL STUFF: ", proposalSet)
-                    dispatch(setProposals(proposalSet.data.proposal))
-                    const getRfp = await axioscall.post('/get-rfps', {projectId: project.data.project._id})
-                    if(getRfp){
-                        console.log("RFP RESPONSE in createLight: ", getRfp.data)
-                        dispatch(setRfp(getRfp.data.rfp[0]))
+            console.log('foundproj: ', project);
+            if (project) {
+                dispatch(setProject(project.data.project));
+                dispatch(setProjectId(project.data.project));
+                const proposalSet = await axioscall.post('/get-proposals', {
+                    projectId: project.data.project._id,
+                });
+                if (proposalSet) {
+                    console.log('PROPOSAL STUFF: ', proposalSet);
+                    dispatch(setProposals(proposalSet.data.proposal));
+                    const getRfp = await axioscall.post('/get-rfps', {
+                        projectId: project.data.project._id,
+                    });
+                    if (getRfp) {
+                        console.log(
+                            'RFP RESPONSE in createLight: ',
+                            getRfp.data
+                        );
+                        dispatch(setRfp(getRfp.data.rfp[0]));
                     }
                 }
             }
@@ -149,29 +154,30 @@ export const getAllProjects =
 export const getFilteredProjects =
     (payload: any, extraFilter: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        console.log(payload, extraFilter)
+        console.log(payload, extraFilter);
         const axioscall = await axiosPrivate();
         try {
-            const projects = await axioscall.post('/get-projects', {...payload, ...extraFilter});
+            const projects = await axioscall.post('/get-projects', {
+                ...payload,
+                ...extraFilter,
+            });
 
             if (extraFilter.filter === 'allProjects') {
                 dispatch(setFilteredProjects(projects.data.projects));
-            return projects.data.projects;
+                return projects.data.projects;
             } else {
                 dispatch(setFilteredProjects(projects.data.filterProj));
-            return projects.data.filterProj;
+                return projects.data.filterProj;
             }
-            
         } catch (err) {
             console.log(err);
         }
     };
-    export const setFilterProjNone =
+export const setFilterProjNone =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
-       
         try {
-                dispatch(setFilteredProjNone());
+            dispatch(setFilteredProjNone());
         } catch (err) {
             console.log(err);
         }
@@ -237,4 +243,3 @@ export const editThisRoom =
             dispatch(setProjectError(error.response.data));
         }
     };
-
