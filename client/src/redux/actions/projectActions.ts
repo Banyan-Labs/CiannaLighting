@@ -26,6 +26,37 @@ export const createProjectAction =
             if (response) {
                 dispatch(setProjectId(response.data.project));
                 dispatch(setProject(response.data.project));
+                if(payload.copy && payload.copy.length && payload.attachments){
+                    const generateRandomId = (): string => Math.random().toString(36).substr(2, 9);
+                    const attach = payload.attachments.map((attachment)=>{ {
+                        return {
+                            projId: response.data.project._id,
+                            pdf: [attachment],
+                            images: [
+                                {
+                                    lightId: "COPY" + String(generateRandomId()),
+                                    attachments: attachment,
+                                },
+                            ],
+                            edit: 'add',
+                        }
+                    }});                    
+                    const attachThis = async(load: any) => {
+                       const wait = await axiosPriv.post('/new-attachments', load);
+                       if(wait){
+                        return 'done'
+                       }
+                    };
+                    const end = attach.length;
+                    let i = 0
+                    while(i < end){
+                        console.log("I IN ATTACH: ", attach[i], i)
+                        const done = await attachThis(attach[i]);
+                        if(done){
+                            i+=1
+                        }
+                    }
+                }
                 const getRfp = await axiosPriv.post('/get-rfps', {projectId: response.data.project._id})
                 if(getRfp){
                     console.log("RFP RESPONSE: ", getRfp.data)
