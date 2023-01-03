@@ -3,10 +3,7 @@ import mongoose from "mongoose";
 import User from "../model/User";
 import bcrypt from "bcrypt";
 
-const createNewUser = async (
-  req: Request,
-  res: Response
-) => {
+const createNewUser = async (req: Request, res: Response) => {
   const { name, email, password, role } = req.body;
 
   if (!name || !email || !password || !role)

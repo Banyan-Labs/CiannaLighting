@@ -32,7 +32,7 @@ const lightSelected = async (
     clientId,
     quantity,
     price,
-    propID
+    propID,
   } = req.body.light;
 
   const light = new LightSelection({
@@ -56,7 +56,6 @@ const lightSelected = async (
     projectId,
     clientId,
     quantity,
-    
   });
   const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
@@ -69,12 +68,10 @@ const lightSelected = async (
           .save()
           .then(async (light) => {
             if (light) {
-              
-                return res.status(201).json({
-                  light,
-                  message: roomSuccess,
-                });
-              
+              return res.status(201).json({
+                light,
+                message: roomSuccess,
+              });
             }
           })
           .catch((error) => {
@@ -96,7 +93,6 @@ const lightSelected = async (
 
   return lightAndRoom;
 };
-
 
 const getAllSelectedLights = (req: Request, res: Response) => {
   const { roomId } = req.body;

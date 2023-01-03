@@ -121,8 +121,11 @@ export const projectSlice = createSlice({
     name: 'project',
     initialState,
     reducers: {
-        setProposals: (state, action) => ({...state, proposal: action.payload}),
-        setRfp: (state, action) => ({...state, rfp: action.payload}),
+        setProposals: (state, action) => ({
+            ...state,
+            proposal: action.payload,
+        }),
+        setRfp: (state, action) => ({ ...state, rfp: action.payload }),
         setProject: (state, action) => ({ ...state, project: action.payload }),
         setAttachments: (state, action) => ({
             ...state,

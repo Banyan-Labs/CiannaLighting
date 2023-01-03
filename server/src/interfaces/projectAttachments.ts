@@ -1,11 +1,11 @@
-import {Document} from 'mongoose'
+import { Document } from "mongoose";
 
 interface RoomContainer {
-    lightId: string;
-    attachments:string[];
+  lightId: string;
+  attachments: string[];
 }
 export default interface ProjectAttachments {
-    projectId: string;
-    images: RoomContainer[]; 
-    pdf: string[];
+  projectId: string;
+  images: RoomContainer[];
+  pdf: string[];
 }

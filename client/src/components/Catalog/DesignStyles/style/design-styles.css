@@ -1,158 +1,159 @@
 @font-face {
-  font-family: "sweet-heavy";
-  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+    font-family: 'sweet-heavy';
+    src: url('../../public/fonts/SweetSansProHeavy.woff') format('woff');
 }
 @font-face {
-  font-family: "sweet-medium";
-  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+    font-family: 'sweet-medium';
+    src: url('../../public/fonts/SweetSansProMedium.woff') format('woff');
 }
 @font-face {
-  font-family: "sweet-thin";
-  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+    font-family: 'sweet-thin';
+    src: url('../../public/fonts/SweetSansProThin.woff') format('woff');
 }
 .catalog-design-styles {
-  flex: 1;
-  color: #949494;
+    flex: 1;
+    color: #949494;
 }
 .catalog-design-styles span {
-  position: relative;
-  top: 25px;
-  left: 50px;
+    position: relative;
+    top: 25px;
+    left: 50px;
 }
 
 .catalog-design-styles-buttons {
-  display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
-  grid-row-gap: 15px;
-  text-align: center;
-  margin-top: 4%;
-  margin-bottom: 5%;
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-row-gap: 15px;
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 5%;
 }
 .catalog-design-styles-buttons .design-style-button {
-  width: 220px;
-  padding: 20px 0;
-  background-color: transparent;
-  border-radius: 50px;
-  border: 1px solid #c09d5b;
-  color: #949494;
-  font-size: 16px;
-  font-weight: 100;
+    width: 220px;
+    padding: 20px 0;
+    background-color: transparent;
+    border-radius: 50px;
+    border: 1px solid #c09d5b;
+    color: #949494;
+    font-size: 16px;
+    font-weight: 100;
 }
 .catalog-design-styles-buttons .design-style-button:hover {
-  transition: 600ms ease;
-  cursor: pointer;
-  background-color: #c09d5b;
-  font-weight: bold;
-  color: #f7f6f4;
-  border: 1px solid #3f3c39;
+    transition: 600ms ease;
+    cursor: pointer;
+    background-color: #c09d5b;
+    font-weight: bold;
+    color: #f7f6f4;
+    border: 1px solid #3f3c39;
 }
 
 .catalog-design-styles-divider {
-  height: 0.5px;
-  width: 100%;
-  background-color: #c09d5b;
+    height: 0.5px;
+    width: 100%;
+    background-color: #c09d5b;
 }
 
 .catalog-main-container {
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
 }
 
 .catalog-use-packages {
-  border-bottom: 1px solid #c09d5b;
+    border-bottom: 1px solid #c09d5b;
 }
 
 .pagination2 {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .table-showing2 {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .main-catalog-filter-container h4 {
-  color: #3f3c39;
-  margin-top: 20px;
-  padding: 0 50px;
+    color: #3f3c39;
+    margin-top: 20px;
+    padding: 0 50px;
 }
 .main-catalog-filter-container b {
-  color: #949494;
-  margin-left: 15px;
+    color: #949494;
+    margin-left: 15px;
 }
 .main-catalog-filter-container h5 {
-  color: #949494;
-  padding: 0 50px;
-  margin: 0px;
+    color: #949494;
+    padding: 0 50px;
+    margin: 0px;
 }
 .main-catalog-filter-container li {
-  font-size: 14px;
+    font-size: 14px;
 }
 .main-catalog-filter-container .all-pulled-types {
-  color: #c09d5b;
+    color: #c09d5b;
 }
 .main-catalog-filter-container .cards-container {
-  height: 55vh;
-  overflow-y: scroll;
+    height: 55vh;
+    overflow-y: scroll;
 }
 
 .filter-catalog-container {
-  height: 300px;
-  margin-bottom: 3rem;
+    height: 300px;
+    margin-bottom: 3rem;
 }
 
 .table-showing {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  position: absolute;
-  margin-top: 20px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    position: absolute;
+    margin-top: 20px;
 }
 
 .catalog-item {
-  width: 300px;
-  cursor: pointer;
-  border-radius: 0.3rem;
-  box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 2px 4px, rgba(0, 0, 0, 0.231372549) 0px 2px 4px;
-  border-bottom: solid 1px rgba(173, 169, 169, 0.6705882353);
-  border-right: solid 1px rgba(173, 169, 169, 0.6705882353);
-  border-left: solid 1px rgba(173, 169, 169, 0.6705882353);
+    width: 300px;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.1607843137) 0px 2px 4px,
+        rgba(0, 0, 0, 0.231372549) 0px 2px 4px;
+    border-bottom: solid 1px rgba(173, 169, 169, 0.6705882353);
+    border-right: solid 1px rgba(173, 169, 169, 0.6705882353);
+    border-left: solid 1px rgba(173, 169, 169, 0.6705882353);
 }
 .catalog-item img {
-  border-top-left-radius: 0.2rem;
-  border-top-right-radius: 0.2rem;
-  width: 100%;
-  padding: 0px;
-  height: 220px;
+    border-top-left-radius: 0.2rem;
+    border-top-right-radius: 0.2rem;
+    width: 100%;
+    padding: 0px;
+    height: 220px;
 }
 .catalog-item:hover {
-  transition: all 0.2s ease-in-out;
-  background-color: #ecebe7;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+    transition: all 0.2s ease-in-out;
+    background-color: #ecebe7;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
 }
 .catalog-item:hover img {
-  transition: all 0.2s ease-in-out;
-  opacity: 0.4;
+    transition: all 0.2s ease-in-out;
+    opacity: 0.4;
 }
 .catalog-item .item-bottom-sections {
-  background: #f7f6f4;
-  border-radius: 0.3rem;
-  min-height: 100px;
-  overflow-y: scroll;
+    background: #f7f6f4;
+    border-radius: 0.3rem;
+    min-height: 100px;
+    overflow-y: scroll;
 }
 .catalog-item .item-bottom-sections h4 {
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
 }
 .catalog-item .item-bottom-sections span {
-  color: #949494;
-  font-size: 12px;
-}/*# sourceMappingURL=design-styles.css.map */
+    color: #949494;
+    font-size: 12px;
+} /*# sourceMappingURL=design-styles.css.map */

@@ -40,12 +40,12 @@ const createProject = async (req: Request, res: Response) => {
   } else {
     const rfp = new RFP({
       _id: new mongoose.Types.ObjectId(),
-      header: name + ', ' + region,
+      header: name + ", " + region,
       clientId: clientId,
       projectId: "",
       clientName: clientName,
-      tableRow: []
-    })
+      tableRow: [],
+    });
 
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
@@ -72,35 +72,35 @@ const createProject = async (req: Request, res: Response) => {
         ],
       },
     });
-   rfp.projectId = project._id
-   await rfp.save()    
+    rfp.projectId = project._id;
+    await rfp.save();
     return await project
       .save()
       .then(async (project) => {
-        if(project){
+        if (project) {
           project.rfp = String(rfp._id);
-        if (_id && copy === "project") {
-          if (project) {
-            for (let i = 0; i < rooms.length; i++) {
-              await Room.findOne({ _id: rooms[i] })
-                .then(async (foundRoom) => {
-                  await runRoom(foundRoom, project._id, clientId);
-                })
-                .catch((error) => {
-                  console.log(error, "error rinding room line 65");
-                });
+          if (_id && copy === "project") {
+            if (project) {
+              for (let i = 0; i < rooms.length; i++) {
+                await Room.findOne({ _id: rooms[i] })
+                  .then(async (foundRoom) => {
+                    await runRoom(foundRoom, project._id, clientId);
+                  })
+                  .catch((error) => {
+                    console.log(error, "error rinding room line 65");
+                  });
+              }
             }
-          }          
-          return res.status(201).json({
-            project,
-            message: `copy of project ${_id}`,
-          });
-        } else {
-          return res.status(201).json({
-            project,
-          });
+            return res.status(201).json({
+              project,
+              message: `copy of project ${_id}`,
+            });
+          } else {
+            return res.status(201).json({
+              project,
+            });
+          }
         }
-      }
       })
       .catch((error) => {
         return res.status(500).json({
@@ -125,13 +125,11 @@ const getProject = async (req: Request, res: Response) => {
     .then(async (project) => {
       console.log("Project: ", project);
       console.log("Project activity: ", project?.activity);
-      if(project && project.activity == undefined){
+      if (project && project.activity == undefined) {
         project["activity"] = {
-          createUpdate: `Created on ${[
-            curDate[1],
-            curDate[2],
-            curDate[0],
-          ].join("/")}`,
+          createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
+            "/"
+          )}`,
           rooms: [],
           archiveRestore: [],
           status: [
@@ -208,7 +206,7 @@ const getProject = async (req: Request, res: Response) => {
                 curDate[0],
               ].join("/")}`,
             };
-          } 
+          }
         }
         project.save();
       }
@@ -331,28 +329,25 @@ const getAccountProjects = async (req: Request, res: Response) => {
 };
 
 const getAllProjects = async (req: Request, res: Response) => {
- 
-
   const check = Object.keys(req.body).filter(
     (x) => x != "authEmail" && x != "authRole" && x != "clientId" && x != "type"
   );
-  const security =  check.filter(
+  const security = check.filter(
     (x) => x === "status" || x === "region" || x === "clientName"
   );
 
   const workingUpdate = Object.fromEntries(
     security.map((x) => [x, req.body[x]])
   );
-   
+
   if (security.length && check.length === security.length) {
-    
     await Project.find({ ...workingUpdate })
-      .then(async(projects) => {
-        const {type, clientId} = req.body;
-        const indProj = projects.filter((x) => x.clientId === clientId)
-        
+      .then(async (projects) => {
+        const { type, clientId } = req.body;
+        const indProj = projects.filter((x) => x.clientId === clientId);
+
         // if filtering through only user project
-        const filterProj = await type === 'allProjects' ? projects : indProj;
+        const filterProj = (await type) === "allProjects" ? projects : indProj;
         return res.status(200).json({
           filterProj,
         });

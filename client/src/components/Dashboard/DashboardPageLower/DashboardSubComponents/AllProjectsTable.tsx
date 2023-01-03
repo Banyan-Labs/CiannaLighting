@@ -3,7 +3,10 @@ import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
-import { getAllProjects, setFilterProjNone } from '../../../../redux/actions/projectActions';
+import {
+    getAllProjects,
+    setFilterProjNone,
+} from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import './style/allProjects.scss';
@@ -35,7 +38,7 @@ const AllProjects: FC<Props> = ({
     setSortedData,
     setSortDirection,
     setCurrentSort,
-    setDefault
+    setDefault,
 }) => {
     const dispatch = useAppDispatch();
     const [openModal2, setOpenModal2] = useState(false);
@@ -53,7 +56,7 @@ const AllProjects: FC<Props> = ({
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     useEffect(() => {
         dispatch(getAllProjects());
-         dispatch(setFilterProjNone())
+        dispatch(setFilterProjNone());
     }, []);
 
     const onMouseOver = (index: number | null) => {
@@ -120,7 +123,7 @@ const AllProjects: FC<Props> = ({
     const resetInputField = () => {
         setInputValue('');
     };
-    
+
     const [inputValue, setInputValue] = useState('');
 
     const searchFilter = (e: any, data: any) => {
@@ -261,14 +264,13 @@ const AllProjects: FC<Props> = ({
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
-                        onClick={async() => {
-                            await setDefault()
+                        onClick={async () => {
+                            await setDefault();
                             await resetInputField();
                             await setParsedData([]);
-                            await dispatch(setFilterProjNone())
-                            setOpenModal(true)
-                        }
-                        }
+                            await dispatch(setFilterProjNone());
+                            setOpenModal(true);
+                        }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
                 </div>
@@ -400,7 +402,11 @@ const AllProjects: FC<Props> = ({
                 />
             )}
             {openModal && (
-                <FilterModal openModal={openModal} closeModal={setOpenModal} typeOfProject={typeOfProject} />
+                <FilterModal
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    typeOfProject={typeOfProject}
+                />
             )}
         </div>
     );

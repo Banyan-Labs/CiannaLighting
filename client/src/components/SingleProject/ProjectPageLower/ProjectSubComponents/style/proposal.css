@@ -1,121 +1,121 @@
 @font-face {
-  font-family: "sweet-heavy";
-  src: url("../../public/fonts/SweetSansProHeavy.woff") format("woff");
+    font-family: 'sweet-heavy';
+    src: url('../../public/fonts/SweetSansProHeavy.woff') format('woff');
 }
 @font-face {
-  font-family: "sweet-medium";
-  src: url("../../public/fonts/SweetSansProMedium.woff") format("woff");
+    font-family: 'sweet-medium';
+    src: url('../../public/fonts/SweetSansProMedium.woff') format('woff');
 }
 @font-face {
-  font-family: "sweet-thin";
-  src: url("../../public/fonts/SweetSansProThin.woff") format("woff");
+    font-family: 'sweet-thin';
+    src: url('../../public/fonts/SweetSansProThin.woff') format('woff');
 }
 .proposal-container {
-  margin: 1%;
-  border: 3px solid black;
-  border-radius: 2px;
+    margin: 1%;
+    border: 3px solid black;
+    border-radius: 2px;
 }
 
 .header-section {
-  display: flex;
-  justify-content: space-between;
-  padding: 1% 2%;
-  border-bottom: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 2%;
+    border-bottom: 2px solid black;
 }
 
 .table-contain {
-  padding: 5% 2%;
+    padding: 5% 2%;
 }
 .table-contain .table-border {
-  border: 1px solid;
+    border: 1px solid;
 }
 .table-contain .table-border .table-labels {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .table-contain .table-border .table-labels .mini-header h3 {
-  text-align: center;
+    text-align: center;
 }
 .table-contain .table-border .table-labels .head-labels {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-top: 2px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 2px solid;
 }
 .table-contain .table-border .table-labels .head-labels h4 {
-  margin: 0;
-  height: 30px;
-  padding-top: 15px;
+    margin: 0;
+    height: 30px;
+    padding-top: 15px;
 }
 .table-contain .table-border .table-labels .head-labels .label-details {
-  width: 50%;
-  text-align: center;
+    width: 50%;
+    text-align: center;
 }
 .table-contain .table-border .table-labels .head-labels .label-lamps {
-  width: 40%;
-  text-align: center;
-  border-left: 2px solid;
+    width: 40%;
+    text-align: center;
+    border-left: 2px solid;
 }
 .table-contain .table-border .table-labels .head-labels .label-price {
-  width: 10%;
-  text-align: center;
-  border-left: 2px solid;
+    width: 10%;
+    text-align: center;
+    border-left: 2px solid;
 }
 .table-contain .table-border table {
-  width: 100%;
+    width: 100%;
 }
 .table-contain .table-border th {
-  font-size: smaller;
-  font-family: "sweet-medium";
-  text-align: center;
+    font-size: smaller;
+    font-family: 'sweet-medium';
+    text-align: center;
 }
 .table-contain .table-border td {
-  font-size: x-small;
-  font-family: "sweet-thin";
-  text-align: center;
+    font-size: x-small;
+    font-family: 'sweet-thin';
+    text-align: center;
 }
 .table-contain .table-border .cell {
-  border-top: 1px solid;
-  border-left: 1px solid;
+    border-top: 1px solid;
+    border-left: 1px solid;
 }
 .table-contain .table-border .f-c {
-  border-left: none;
+    border-left: none;
 }
 .table-contain .table-border .five {
-  width: 5%;
+    width: 5%;
 }
 .table-contain .table-border .ten {
-  width: 10%;
+    width: 10%;
 }
 .table-contain .table-border .fifteen {
-  width: 15%;
+    width: 15%;
 }
 .table-contain .table-border .twenty {
-  width: 17.5%;
+    width: 17.5%;
 }
 .table-contain .table-border .six {
-  width: 6.4%;
+    width: 6.4%;
 }
 .table-contain .table-border .list {
-  text-align: start !important;
+    text-align: start !important;
 }
 .table-contain .table-border .bold {
-  font-family: "sweet-heavy";
+    font-family: 'sweet-heavy';
 }
 
 .pdf-document {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 .pdf-page {
-  margin: 10px 10px 0px 0px;
+    margin: 10px 10px 0px 0px;
 }
 
 @media print {
-  @page {
-    size: landscape;
-  }
-}/*# sourceMappingURL=proposal.css.map */
+    @page {
+        size: landscape;
+    }
+} /*# sourceMappingURL=proposal.css.map */

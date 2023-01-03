@@ -38,7 +38,6 @@ const login = async (req: Request, res: Response) => {
           user
             .save()
             .then((authenticatedUser) => {
-
               res.cookie("jwt", refreshToken, {
                 httpOnly: true,
                 sameSite: "none",
@@ -75,8 +74,7 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const { _id, emailChange, password, passwordChange, name, update } =
-    req.body;
+  const { _id, emailChange, password, passwordChange, name, update } = req.body;
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {

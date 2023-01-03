@@ -14,7 +14,6 @@ interface catalogPros {
 }
 
 const Pictures: FC<catalogPros> = () => {
-
     const { width } = useWindowDimensions();
     // const Images = catalogItem?.images;
     return (

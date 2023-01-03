@@ -17,7 +17,7 @@ router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
 router
   .post("/find-user", userController.getUser)
   .post("/find-light", catalogController.getLight)
-  
+
   // Project Routes
   .post("/get-projects", projectController.getAllProjects)
   .post("/account-projects", projectController.getAccountProjects)
@@ -26,7 +26,11 @@ router
   .post("/delete-project", projectController.deleteProject)
 
   //ProjAttachments
-  .post("/new-attachments",multiUpload, projectAttchmentController.addAttachmentSection)
+  .post(
+    "/new-attachments",
+    multiUpload,
+    projectAttchmentController.addAttachmentSection
+  )
   .post("/get-attachments", projectAttchmentController.getData)
   .post("/delete-attachments", projectAttchmentController.deleteData)
   // Room Routes
@@ -38,10 +42,7 @@ router
   .post("/get-lightSelections", lightSelectionController.getAllSelectedLights)
   .post("/find-lightSelection", lightSelectionController.getSelectedLight)
   .post("/create-lightSelection", lightSelectionController.lightSelected)
-  .post(
-    "/delete-lightSelection",
-    lightSelectionController.deleteSelectedLight
-  )
+  .post("/delete-lightSelection", lightSelectionController.deleteSelectedLight)
   // Rfp Routes
   .post("/create-rfp", multiUpload, rfpController.createRfp)
   .post("/account-rfps", rfpController.getAccountRFPS)
@@ -52,5 +53,5 @@ router
   .post("/update-rfp", rfpController.rfpUpdater)
   .post("/delete-props", rfpController.deleteProp)
   .post("/get-proposals", rfpController.getProposalRows)
-  .post("/delete-rfp", rfpController.deleteRFP)
+  .post("/delete-rfp", rfpController.deleteRFP);
 export default router;
