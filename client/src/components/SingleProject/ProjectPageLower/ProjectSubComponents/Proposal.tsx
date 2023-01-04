@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { useAppSelector } from '../../../../app/hooks';
 import './style/proposal.scss';
 import { Document, Page, pdfjs } from 'react-pdf';
-// import 'react-pdf/dist/esm/Page/TextLayer.css'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 interface Props {
     ref: any;
@@ -10,7 +9,6 @@ interface Props {
 
 const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     const [numPages, setNumPages] = useState(null);
-    // const [pageNumber, setPageNumber] = useState(1);
 
     function onDocumentLoadSuccess({ numPages }: any) {
         setNumPages(numPages);
@@ -98,7 +96,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                         <td>{prop.numberOfLamps * prop.lightQuantity}</td>
                         <td>{prop.totalLumens}</td>
                         <td>{prop.price}</td>
-                        <td>{prop.price * prop.lightQuantity}</td>
+                        <td>{(prop.price * prop.lightQuantity).toFixed(2)}</td>
                     </tr>
                 );
             });
@@ -116,14 +114,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                     onLoadError={console.error}
                     className="pdf-document"
                 >
-                    {/* <Page
-            className="pdf-page"
-            pageNumber={pageNumber}
-            renderAnnotationLayer={false}
-            renderTextLayer={false}
-            // scale={1.0}
-            width={1400}
-          /> */}
                     {Array.from(new Array(numPages), (el, index) => (
                         <Page
                             key={`page_${index + 1}`}
@@ -303,7 +293,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                             </thead>
                                             <tbody>
                                                 {tableRows.slice(
-                                                    -(tableRows.length - 1) % 6
+                                                    -(((tableRows.length - 1) % 6) +1)
                                                 )}
                                             </tbody>
                                         </table>
@@ -319,21 +309,3 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
 });
 Proposal.displayName = 'Proposal';
 export default Proposal;
-
-{
-    /* <Document>
-<Page wrap>
-  <Text render={({ pageNumber, totalPages }) => (
-    `${pageNumber} / ${totalPages}`
-  )} fixed />
-
-  <View render={({ pageNumber }) => (
-    pageNumber % 2 === 0 && (
-      <View style={{ background: 'red' }}>
-        <Text>I'm only visible in odd pages!</Text>
-      </View>
-    )
-  )} />
-</Page>
-</Document> */
-}
