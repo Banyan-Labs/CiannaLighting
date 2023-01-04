@@ -61,17 +61,17 @@ router.use((req, res, next) => {
 // /**Routes */
 //comment out in dev
 var none = '';
-// router.get("*", (req, res) => {
-//   const homePage =
-//     process.env.NODE_ENV === "production"
-//       ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
-//       : path.resolve(__dirname, "../", "client", "build", "index.html");
-//   res.sendFile(homePage);
-// });
-
-router.get("/test", (req, res) => {
-  return res.json({ msg: "test" });
+router.get("*", (req, res) => {
+  const homePage =
+    process.env.NODE_ENV === "production"
+      ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
+      : path.resolve(__dirname, "../", "client", "build", "index.html");
+  res.sendFile(homePage);
 });
+
+// router.get("/test", (req, res) => {
+//   return res.json({ msg: "test" });
+// });
 
 router.use("/api/deploy-test", routes);
 router.use("/api/rf", refreshRoute);
