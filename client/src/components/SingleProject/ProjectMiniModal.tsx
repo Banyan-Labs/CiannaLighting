@@ -44,6 +44,7 @@ const ProjectMiniModal: FC<projectProps> = ({
         },
         [user.name, navigate]
     );
+    console.log(project, "minimodal")
 
     const goToProject = () => {
         return (
@@ -64,6 +65,7 @@ const ProjectMiniModal: FC<projectProps> = ({
         <div className="project-mini-modal">
             <div className="project-mini-modal-link">
                 <FaRegCopy />
+                {/* make copy capabilities */}
                 <p>Duplicate</p>
             </div>
             {typeOfProject === 'yourProjects' ? (
