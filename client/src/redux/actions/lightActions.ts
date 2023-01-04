@@ -68,6 +68,34 @@ export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axiosPriv.post('/delete-attachments', payload);
         dispatch(setAttachments(response.data.projectAttach.pdf));
+        if(response){
+            console.log("propLights: ", payload.lights.map((prop: any)=> prop._id));
+            const runIDS = payload.lights.map((prop: any)=> prop._id);
+            const finished = runIDS.length;
+            let i = 0;
+            while(i < finished){
+                console.log("I - F: ", i, '-', finished)
+                const proposal = await axiosPriv.post("/delete-props", {lightID: runIDS[i]})
+                if(proposal){
+                    i+=1
+                }
+            }
+            // const props = await payload.lights.map(async(prop: any)=> await axiosPriv.post("/delete-props", {lightIDS: prop._id}))
+        // const deleteProps = await axiosPriv.post("/delete-props", {lightIDS: props});
+        // console.log("Maybe? props in delAtchAction: ",props)
+
+        if( i == finished){
+            console.log("I=>F: ",i , "=>", finished)
+            const proposalSet = await axiosPriv.post('/get-proposals', {
+                projectId: payload.projectId,
+            });
+            if (proposalSet) {
+                console.log('PROPOSAL STUFF: ', proposalSet);
+                dispatch(setProposals(proposalSet.data.proposal));
+            }
+        }
+
+        }
     } catch (error: any) {
         dispatch(setProjectError(error.response));
     }
@@ -111,20 +139,18 @@ export const deleteLight =
                 payload
             );
             console.log('successDELETE: ', response);
-            if (response) {
-                const deleteProps = await axiosPriv.post('/delete-props', {
-                    lightID: payload._id,
-                });
-                if (deleteProps) {
-                    const proposalSet = await axiosPriv.post('/get-proposals', {
-                        projectId: payload.projectId,
-                    });
-                    if (proposalSet) {
-                        console.log('PROPOSAL STUFF: ', proposalSet);
-                        dispatch(setProposals(proposalSet.data.proposal));
-                    }
-                }
-            }
+            // if(response){
+            //     const deleteProps = await axiosPriv.post("/delete-props", {lightID: payload._id})
+            //     if(deleteProps){
+            //         const proposalSet = await axiosPriv.post('/get-proposals', {
+            //             projectId: payload.projectId,
+            //         });
+            //         if (proposalSet) {
+            //             console.log('PROPOSAL STUFF: ', proposalSet);
+            //             dispatch(setProposals(proposalSet.data.proposal));
+            //         }
+            //     }
+            // }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

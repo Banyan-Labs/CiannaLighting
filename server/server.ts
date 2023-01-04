@@ -58,8 +58,9 @@ router.use((req, res, next) => {
   next();
 });
 
-/**Routes */
-
+// /**Routes */
+//comment out in dev
+var none = '';
 router.get("*", (req, res) => {
   const homePage =
     process.env.NODE_ENV === "production"
@@ -68,9 +69,9 @@ router.get("*", (req, res) => {
   res.sendFile(homePage);
 });
 
-router.get("/test", (req, res) => {
-  return res.json({ msg: "test" });
-});
+// router.get("/test", (req, res) => {
+//   return res.json({ msg: "test" });
+// });
 
 router.use("/api/deploy-test", routes);
 router.use("/api/rf", refreshRoute);

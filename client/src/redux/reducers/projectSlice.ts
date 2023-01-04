@@ -29,6 +29,7 @@ type Activity = {
 export type ProjectType = {
     _id?: string;
     archived?: boolean;
+    copy?: string;
     name: string;
     clientId: string;
     clientName: string;
@@ -37,6 +38,7 @@ export type ProjectType = {
     description: string;
     rfp?: string;
     rooms?: string[];
+    attachments?: string[];
     activity?: Activity;
 };
 

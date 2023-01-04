@@ -5,14 +5,14 @@ import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import {
+    createProjectAction,
     getProject,
     getAllProjects,
     getUserProjects,
     setTheYourProjects,
 } from '../../redux/actions/projectActions';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 interface ProjectSummaryProps {
@@ -22,8 +22,8 @@ interface ProjectSummaryProps {
 const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
+    const {attachments} = useAppSelector(({project})=> project)
     const dispatch = useAppDispatch();
-    // const statusOfArchive = details.archived ?  'Restor' : 'Archiv'
     const Color =
         dataHolding.setData().color &&
         Object.keys(dataHolding.setData().color).length > 0
@@ -55,15 +55,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     }, []);
 
     const copyOfProject = async (e: any, project: ProjectType) => {
-        e.preventDefault();
-        const axiosPriv = await axiosPrivate();
-        const payload = { ...project, copy: 'project' };
+        e.preventDefault();   
+        const payload = { ...project, copy: 'project', attachments: attachments };
         try {
-            const response = await axiosPriv.post('/create-project', payload);
+            const response = await dispatch(createProjectAction(payload))
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
             alert(`Copy of ${project.name} created in your dashboard.`);
-            return response.data;
+            return response;
         } catch (error) {
             console.log('Error in copyProject: ', error);
         }

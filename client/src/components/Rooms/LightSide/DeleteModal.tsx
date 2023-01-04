@@ -48,6 +48,7 @@ export const DeleteModal: FC<Props> = ({
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    console.log("LIGHT IN DELETE: ", light)
     const onSubmit1 = async () => {
         const nonRoom = async (light: any) => {
             await deleteAttachments([light]);

@@ -27,7 +27,7 @@ const refreshTokenController = (req: Request, res: Response) => {
             process.env.ACCESS_TOKEN_SECRET as string,
             { expiresIn: "1d" }
           );
-          res.json({
+          return res.json({
             accessToken,
             user: {
               _id: user._id,

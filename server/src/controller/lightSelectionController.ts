@@ -32,7 +32,13 @@ const lightSelected = async (
     clientId,
     quantity,
     price,
-    propID,
+    description,
+    lampType, 
+    lampColor,
+    wattsPer,
+    totalWatts,
+    numberOfLamps,
+    totalLumens
   } = req.body.light;
 
   const light = new LightSelection({
@@ -56,6 +62,15 @@ const lightSelected = async (
     projectId,
     clientId,
     quantity,
+    price,
+    description,
+    lampType, 
+    lampColor,
+    wattsPer,
+    totalWatts,
+    numberOfLamps,
+    totalLumens
+    
   });
   const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()

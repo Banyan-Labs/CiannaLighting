@@ -250,15 +250,15 @@ const rfpEditor = async (req: Request, res: Response) => {
 
 const deleteProp = async (req: Request, res: Response) => {
   const { lightID } = req.body;
-  console.log("LIGHTID IN DELETEPROP: ", lightID);
-
+  console.log("LIGHTIDS IN DELETEPROP: ", lightID);
   const checkAndDelete = await ProposalTableRow.findOneAndDelete({
     lightID: lightID,
   }).then(async (prop) => {
     if (prop) {
+      console.log("PROP YO!: ", prop);
       if (prop.sub && prop.sub.length) {
-        await ProposalTableRow.findOne({ _id: prop.sub }).then(
-          async (outer: any) => {
+        await ProposalTableRow.findOne({ _id: prop.sub })
+          .then(async (outer: any) => {
             if (outer) {
               const newQuantity = outer.lightQuantity - prop.lightQuantity;
               const newWatts = prop.wattsPer * prop.numberOfLamps * newQuantity;
@@ -288,18 +288,24 @@ const deleteProp = async (req: Request, res: Response) => {
                 });
               }
             }
-          }
-        );
+          })
+          .catch((error) =>
+            console.log("Error in delete inner w sub: ", error)
+          );
       } else if (prop.subTableRow && prop.subTableRow.length) {
-        await ProposalTableRow.findOne({ _id: prop.subTableRow[0] }).then(
-          async (resetProp: any) => {
+        console.log("hit SubTAble: ", prop);
+        await ProposalTableRow.findOne({ _id: prop.subTableRow[0] })
+          .then(async (resetProp: any) => {
+            console.log("RESET: ", resetProp);
             if (resetProp) {
               const originalQuantitySUB =
                 prop.lightQuantity - prop.rooms[0].lightNumber;
 
               const newRooms = prop.rooms.slice(1);
 
-              const newSubTable = prop.subTableRow.slice(1);
+              const newSubTable =
+                prop.subTableRow.length > 1 ? prop.subTableRow.slice(1) : [];
+              console.log("SUB TABLE CHANGE: ", newSubTable);
 
               resetProp.lightQuantity = originalQuantitySUB;
               resetProp.rooms = newRooms;
@@ -307,33 +313,62 @@ const deleteProp = async (req: Request, res: Response) => {
               resetProp.sub = "";
               const doneTop = await resetProp.save();
               if (doneTop) {
-                const updateInner = await ProposalTableRow.updateMany(
-                  { _id: { $in: newSubTable } },
-                  { $set: { sub: resetProp._id } },
-                  { multi: true }
-                );
+                const rfpUpdated = await RFP.findOne({
+                  projectId: prop.projectId,
+                });
+                if (rfpUpdated) {
+                  const filteredRow = rfpUpdated.tableRow.filter(
+                    (proposal) => proposal !== String(prop._id)
+                  );
+                  console.log("filteredRFPTABLEROW in ONLY:: ", filteredRow);
+                  const newRow = [String(resetProp._id), ...filteredRow];
+                  rfpUpdated.tableRow = newRow;
+                  const savedRFP = await rfpUpdated.save();
+                  if (savedRFP) {
+                    const updateInner = await ProposalTableRow.updateMany(
+                      { _id: { $in: newSubTable } },
+                      { $set: { sub: resetProp._id } },
+                      { multi: true }
+                    );
 
-                if (updateInner) {
-                  return res.status(200).json({
-                    doneTop,
-                    updateInner,
-                    message: "Updated all levels and deleted.",
-                  });
+                    if (updateInner) {
+                      return res.status(200).json({
+                        doneTop,
+                        updateInner,
+                        message: "Updated all levels and deleted.",
+                      });
+                    }
+                  }
                 }
               }
             }
-          }
-        );
+          })
+          .catch((error) =>
+            console.log("error in outer w subtableRows: ", error)
+          );
       } else {
         console.log("ONLY PROP@@@@@");
-        return res.status(200).json({
-          prop,
-          message: "Deleted succesfully.",
-        });
+        const rfpUpdated = await RFP.findOne({ projectId: prop.projectId });
+        if (rfpUpdated) {
+          const filteredRow = rfpUpdated.tableRow.filter(
+            (proposal) => proposal !== String(prop._id)
+          );
+          console.log("filteredRFPTABLEROW in ONLY:: ", filteredRow);
+          rfpUpdated.tableRow = filteredRow;
+          const savedRFP = await rfpUpdated.save();
+          console.log("SAVEDrfp: ", savedRFP);
+          if (savedRFP) {
+            return res.status(200).json({
+              prop,
+              message: "Deleted succesfully.",
+            });
+          }
+        }
       }
     }
   });
-  return checkAndDelete;
+
+  if (checkAndDelete) return checkAndDelete;
 };
 
 const rfpUpdater = async (req: Request, res: Response) => {
@@ -385,7 +420,7 @@ const rfpUpdater = async (req: Request, res: Response) => {
     rooms: [{ name: roomName, lightNumber: quantity }],
     subTableRow: [],
   });
-  await proposal.save();
+
   if (propID) {
     const updateProp: any = await ProposalTableRow.findByIdAndUpdate({
       _id: propID,
@@ -395,37 +430,60 @@ const rfpUpdater = async (req: Request, res: Response) => {
         if (propFound) {
           let runCheck = [];
           let rowFinishes: any = propFound.finishes;
-          for (let key in rowFinishes) {
-            console.log("key in rowFinishes: ", key);
-            runCheck.push(rowFinishes[key] == finishes[key]);
-          }
-          if (runCheck.some((item) => item == false)) {
+          const sameRoom = propFound.rooms
+            .map((room: any) => room.name)
+            .indexOf(roomName);
+          if (sameRoom == -1) {
             const subs = propFound.subTableRow;
-            console.log("Subs triggered in update: ", subs);
-            if (subs) {
-              propFound.subTableRow = [String(proposal._id), ...subs];
+            propFound.subTableRow = [...subs, String(proposal._id)];
+            await proposal.save();
+          } else {
+            for (let key in rowFinishes) {
+              console.log("key in rowFinishes: ", key);
+              runCheck.push(rowFinishes[key] == finishes[key]);
+            }
+            console.log("^^^^^^^^^^^runCHeck: ", runCheck);
+            if (runCheck.some((item) => item == false)) {
+              const subs = propFound.subTableRow;
+              console.log("Subs triggered in update: ", subs);
+              if (subs) {
+                propFound.subTableRow = [...subs, String(proposal._id)];
+              }
+              await proposal.save();
             }
           }
           const newQuantity = propFound.lightQuantity + quantity;
           const newWattage = totalWatts * newQuantity;
           const newTotalLumens = totalLumens * newQuantity;
+          const roomFind = propFound.rooms.find(
+            (room) => room.name == roomName
+          );
+          const roomFilter = propFound.rooms.filter(
+            (room) => room.name != roomName
+          );
+          console.log(roomFind, roomFilter);
           const newRooms =
-            propFound.rooms.map((room: any) => room.name).indexOf(roomName) ==
-            -1
+            sameRoom == -1
               ? [...propFound.rooms, { name: roomName, lightNumber: quantity }]
-              : propFound.rooms;
-          const newRow = [...propFound.subTableRow, String(proposal._id)];
+              : [
+                  ...roomFilter,
+                  {
+                    name: roomFind?.name,
+                    lightNumber: roomFind?.lightNumber + quantity,
+                  },
+                ];
+          // const newRow = [...propFound.subTableRow, String(proposal._id)];
           propFound.lightQuantity = newQuantity;
           propFound.totalWatts = newWattage;
           propFound.totalLumens = newTotalLumens;
           propFound.rooms = newRooms;
-          propFound.subTableRow = newRow;
+          // propFound.subTableRow = newRow;
           // }
           const done = await propFound.save();
           if (done) {
             console.log("DONE UPDATE~~~~~~~~~~~: ", {
               propFoundDone: done,
-              newProposal: proposal,
+              newProposal: proposal ? proposal : "None",
             });
             return res.status(200).json({
               message: "Successful Update",
@@ -446,6 +504,7 @@ const rfpUpdater = async (req: Request, res: Response) => {
       .exec()
       .then(async (rfp) => {
         if (rfp) {
+          await proposal.save();
           console.log("inRFP add ====: ", rfp);
           const newRow = [String(proposal._id), ...rfp.tableRow];
           rfp.tableRow = newRow;
