@@ -19,6 +19,7 @@ import publicRoutes from "./src/routes/publicRoutes";
 import userRoutes from "./src/routes/userRoutes";
 import employeeRoutes from "./src/routes/employeeRoutes";
 import path from "path";
+import domainOrigins from "./config/domainOrigins";
 
 const router = express();
 
@@ -57,17 +58,17 @@ router.use((req, res, next) => {
   });
   next();
 });
-
 // /**Routes */
-//comment out in dev
 var none = '';
-router.get("*", (req, res) => {
-  const homePage =
+if (process.env.NODE_ENV !== 'development') {
+  router.get("*", (req, res) => {
+    const homePage =
     process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
-      : path.resolve(__dirname, "../", "client", "build", "index.html");
-  res.sendFile(homePage);
-});
+    ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
+    : path.resolve(__dirname, "../", "client", "build", "index.html");
+    res.sendFile(homePage);
+  });
+} 
 
 // router.get("/test", (req, res) => {
 //   return res.json({ msg: "test" });
