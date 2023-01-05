@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Data from './Data';
+// import Data from './Data';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 
@@ -13,9 +13,9 @@ interface catalogPros {
     catalogItem: any;
 }
 
-const Pictures: FC<catalogPros> = () => {
+const Pictures: FC<catalogPros> = ({catalogItem}) => {
     const { width } = useWindowDimensions();
-    // const Images = catalogItem?.images;
+    const Images = catalogItem?.images;
     return (
         <>
             <Swiper
@@ -33,7 +33,7 @@ const Pictures: FC<catalogPros> = () => {
             >
                 {/* use this code when you go live  */}
 
-                {/* {Images
+                {Images
                     ? Images?.map((p: any, i:any) => {
                           return (
                               <SwiperSlide className="pictures-slide-catalog" key={i}>
@@ -45,8 +45,8 @@ const Pictures: FC<catalogPros> = () => {
                               </SwiperSlide>
                           );
                       })
-                    : ''} */}
-                {Data
+                    : ''}
+                {/* {Data
                     ? Data?.map((p: any, i: any) => {
                           return (
                               <SwiperSlide
@@ -61,7 +61,7 @@ const Pictures: FC<catalogPros> = () => {
                               </SwiperSlide>
                           );
                       })
-                    : ''}
+                    : ''} */}
             </Swiper>
         </>
     );

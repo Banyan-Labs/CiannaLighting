@@ -26,6 +26,7 @@ export const createProjectAction =
             if (response) {
                 dispatch(setProjectId(response.data.project));
                 dispatch(setProject(response.data.project));
+                dispatch(setProjectRooms([]))
                 if(payload.copy && payload.copy.length && payload.attachments){
                     const generateRandomId = (): string => Math.random().toString(36).substr(2, 9);
                     const attach = payload.attachments.map((attachment)=>{ {
