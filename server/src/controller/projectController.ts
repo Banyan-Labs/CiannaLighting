@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
 import ProposalTableRow from "../model/ProposalTableRow";
@@ -112,7 +112,7 @@ const createProject = async (req: Request, res: Response) => {
   }
 };
 
-const getProject = async (req: Request, res: Response) => {
+const getProject = async (req: Request, res: Response, next: NextFunction) => {
   console.log("REQBODY in get project: ", req.body);
   const keys = Object.keys(req.body).filter(
     (key: string) => key != "_id" && key != "authEmail" && key != "authRole"
@@ -126,6 +126,7 @@ const getProject = async (req: Request, res: Response) => {
     .then(async (project) => {
       console.log("Project: ", project);
       console.log("Project activity: ", project?.activity);
+      if(project){
       if (project && project.activity == undefined) {
         project["activity"] = {
           createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
@@ -142,7 +143,7 @@ const getProject = async (req: Request, res: Response) => {
         };
       }
       console.log(`project: ${project?.name} retrieved`);
-      if (project) {
+      
         if (keys.length) {
           keys.map((keyName: string) => {
             switch (keyName) {
@@ -210,10 +211,12 @@ const getProject = async (req: Request, res: Response) => {
           }
         }
         project.save();
+        return res.status(200).json({
+          project,
+        });
+      }else{
+        next();
       }
-      return res.status(200).json({
-        project,
-      });
     })
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });

@@ -11,6 +11,7 @@ export type ProjectType = {
     description: string;
     rfp?: string;
     rooms?: string[];
+    
 };
 const DashboardNav: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');

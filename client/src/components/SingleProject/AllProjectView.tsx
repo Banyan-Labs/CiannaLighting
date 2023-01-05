@@ -16,6 +16,7 @@ import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponent
 
 type Props = {
     renderedPage: string;
+    setRenderedPage: React.Dispatch<React.SetStateAction<string>>;
     currentPage: number;
     sortDirection: number;
     currentSort: string;
@@ -29,6 +30,7 @@ type Props = {
 
 const AllProjectView: FC<Props> = ({
     renderedPage,
+    setRenderedPage,
     currentPage,
     setCurrentPage,
     sortDirection,
@@ -312,6 +314,38 @@ const AllProjectView: FC<Props> = ({
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
+                    <div className='archive-toggle'>
+                    <a
+                    id="all-projects"
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('All Projects');
+                        setSortToDefault();
+                    }}
+                    className={
+                        renderedPage === 'All Projects'
+                            ? 'lower-active'
+                            : 'not-active'
+                    }
+                >
+                    All Projects
+                </a>
+                <a
+                    id="archived"
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('Archived');
+                        setSortToDefault();
+                    }}
+                    className={
+                        renderedPage === 'Archived'
+                            ? 'lower-active'
+                            : 'not-active'
+                    }
+                >
+                    Archived
+                </a>
+                    </div>
                     <div className="button-filter-container d-flex justify-content-end">
                         <button
                             className={

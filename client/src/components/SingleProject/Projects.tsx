@@ -23,7 +23,7 @@ export type ProjectType = {
 import { setSpecFile } from '../../redux/actions/lightActions';
 
 const Projects: FC = () => {
-    const [renderedPage] = useState('All Projects');
+    const [renderedPage, setRenderedPage] = useState('All Projects');
     const [currentPage, setCurrentPage] = useState(1);
     const [sortedData, setSortedData] = useState<ProjectType[]>([]);
     const [sortDirection, setSortDirection] = useState<number>(0);
@@ -71,9 +71,11 @@ const Projects: FC = () => {
                 </>
             ) : (
                 <div className="projects-bottom-half">
+                    
                     <div className="all-project-view-main-container">
                         <AllProjectView
                             renderedPage={renderedPage}
+                            setRenderedPage={setRenderedPage}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             sortedData={sortedData}
@@ -86,6 +88,8 @@ const Projects: FC = () => {
                         />
                     </div>
                 </div>
+                // <DashboardNav             
+                // yourProject={yourProjects}/>
             )}
         </>
     );

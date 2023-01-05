@@ -7,6 +7,15 @@
     width: 97%;
     border-bottom: 2px solid $primary-bg-dark-title;
 }
+.archive-toggle{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    width: 270px;
+    .lower-active{
+        padding-bottom: none;
+    }
+}
 
 .dashboard-all-projects {
     min-height: 37vh;
