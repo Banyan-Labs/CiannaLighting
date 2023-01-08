@@ -25,7 +25,8 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-              const fileName = file.match(/(?<=\d{9,}-)(\w+)/g);
+              const fileName = [file.match(/(?:\d{9,}-)(\w+)/g)[0].split('-')[1]];
+              console.log("FN: ", fileName)
               return (
                   <tbody key={index}>
                       <tr className="attachments-dynamic-row">
