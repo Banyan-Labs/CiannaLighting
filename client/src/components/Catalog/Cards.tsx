@@ -74,14 +74,8 @@ const Cards: FC<catalogPros> = ({
                             <h4 className="d-flex justify-content-center">
                                 Catalog items found for: <b>{catalogType}</b>
                             </h4>
-                            <h5 className="">
-                                {' '}
-                                {renderPage === 'designStyle'
-                                    ? 'All Design Styles:'
-                                    : 'All Use Packages:'}{' '}
-                            </h5>
                             <div className="all-pulled-types d-flex col-12 justify-content-evenly m-0 p-0">
-                                <ul className="col-3 col-lg-3 col-xl-2">
+                                {/* <ul className="col-3 col-lg-3 col-xl-2">
                                     {designsFound
                                         ? designsFound.map(
                                               (
@@ -102,8 +96,8 @@ const Cards: FC<catalogPros> = ({
                                               }
                                           )
                                         : ''}
-                                </ul>
-                                <div className="d-flex justify-content-center row col-8 col-lg-8 col-xl-9 m-0 p-0 cards-container">
+                                </ul> */}
+                                <div className="d-flex justify-content-center row col-10 col-lg-11 col-xl-12 m-0 p-0 cards-container">
                                     {useDesigns.map(
                                         (item: any, index: number) => {
                                             return (

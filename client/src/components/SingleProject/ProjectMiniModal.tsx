@@ -94,11 +94,6 @@ const ProjectMiniModal: FC<projectProps> = ({
                     </p>
                 </div>
             )}
-
-            <div className="doc-type">
-                <FaBan />
-                <span>Read Only</span>
-            </div>
             {user.role === ROLES.Cmd ? (
                 <div
                     onClick={() => {

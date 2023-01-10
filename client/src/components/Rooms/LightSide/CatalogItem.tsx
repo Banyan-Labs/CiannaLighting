@@ -134,16 +134,11 @@ const CatalogItem: FC<catalogPros> = ({
         });
     };
 
-    console.log('**catalogDetails**', catalogDetails);
-
     const editFormat = (arr: any, defVal: any) => {
-        // console.log("edtarr: ", arr)
-        // console.log("edtdefVal: ", defVal)
         const reFormat = [
             defVal,
             ...arr[0].split(',').filter((x: any) => x !== defVal),
         ];
-        // console.log("reformat: ", reFormat)
         return reFormat;
     };
 
@@ -157,9 +152,7 @@ const CatalogItem: FC<catalogPros> = ({
         const propCheck = proposal
             .filter((item: any) => (item.sub ? '' : item))
             .find((item: any) => item.itemID == catalogDetails.item_ID);
-        console.log('PropCheck: ', propCheck);
         const propID = propCheck ? propCheck._id : '';
-        // console.log("findProp: ", findEditProp(propID))
         const rfpPass = {
             propID: propID,
             description: catalogItem.itemDescription,
@@ -1187,7 +1180,7 @@ const CatalogItem: FC<catalogPros> = ({
                         -
                     </button>
                     <button className="submit-button" type="submit">
-                        Add To Room
+                        {editLight ? 'Update' : 'Add To Room'}
                     </button>
                 </div>
             </div>

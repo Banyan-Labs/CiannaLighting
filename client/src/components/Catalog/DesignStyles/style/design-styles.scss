@@ -10,21 +10,22 @@
     }
 }
 .catalog-design-styles-buttons {
-    display: grid;
-    grid-template-columns: 33.33% 33.33% 33.33%;
-    grid-row-gap: 15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5%;
     text-align: center;
     margin-top: 4%;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     .design-style-button {
-        width: 220px;
-        padding: 20px 0;
+        width: 180px;
+        padding: 10px 5px;
         background-color: transparent;
         border-radius: 50px;
         border: 1px solid $accent-gold;
         color: $primary-bg-dark-text;
         font-size: $primary-text-fs;
         font-weight: 100;
+        box-shadow: 0 0  4px inset $primary-bg-dark-text;
     }
     .design-style-button:hover {
         transition: 600ms ease;
