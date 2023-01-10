@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
-import { FaRegCopy, FaRegEye, FaBan, FaTrash } from 'react-icons/fa';
+import { FaRegCopy, FaRegEye, FaTrash } from 'react-icons/fa';
 import { ROLES } from '../../app/constants';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
@@ -94,11 +94,6 @@ const ProjectMiniModal: FC<projectProps> = ({
                     </p>
                 </div>
             )}
-
-            <div className="doc-type">
-                <FaBan />
-                <span>Read Only</span>
-            </div>
             {user.role === ROLES.Cmd ? (
                 <div
                     onClick={() => {

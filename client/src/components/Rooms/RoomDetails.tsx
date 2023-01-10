@@ -53,8 +53,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
             deleteSpecFile({ projId: projectId, images: runDispatch, lights: lights })
         );
     };
-    // 63489992a489d04fef5912fa637d6b6bd72c492477042d7c6388e7018fa48e317ef2cda8
-    // 63489992a489d04fef5912faTST-9996388e7018fa48e317ef2cda8
 
     const setTheData = async (light: any, response: any) => {
         await setCatalogItem(response);
@@ -65,7 +63,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const response = await dispatch(
             getEditLight({ item_ID: String(light.item_ID) })
         );
-        // console.log(response)
         setTheData(light, response);
     };
 

@@ -328,7 +328,7 @@ const AllProjectView: FC<Props> = ({
                             : 'not-active'
                     }
                 >
-                    All Projects
+                    Active
                 </a>
                 <a
                     id="archived"

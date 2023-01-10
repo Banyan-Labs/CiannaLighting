@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useAppSelector } from '../../../../app/hooks';
 import './style/allProjects.scss';
-import { FaRegCopy, FaRegEye, FaBan, FaTrash } from 'react-icons/fa';
+import { FaRegCopy, FaRegEye, FaTrash } from 'react-icons/fa';
 import { ROLES } from '../../../../app/constants';
 
 interface projectProps {
@@ -32,11 +32,6 @@ const ProjectMiniModal: FC<projectProps> = ({
                 className="project-mini-modal-link"
             >
                 <FaRegEye /> <p>View</p>
-            </div>
-
-            <div className="doc-type">
-                <FaBan />
-                <span>Read Only</span>
             </div>
             {user.role === ROLES.Cmd ? (
                 <div
