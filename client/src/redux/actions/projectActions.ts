@@ -14,7 +14,7 @@ import {
     setYourProjects,
     setFilteredProjNone,
 } from '../reducers/projectSlice';
-import { ProjectType, RoomType } from '../reducers/projectSlice';
+import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 
 export const createProjectAction =
