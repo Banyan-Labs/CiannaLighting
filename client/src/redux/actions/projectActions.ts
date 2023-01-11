@@ -18,18 +18,18 @@ import { ProjectType, RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 
 export const createProjectAction =
-    (payload: ProjectType) =>
+    (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
-            const response = await axiosPriv.post('/create-project', payload);
+            const response = await axiosPriv.post('/create-project', {...payload.project, copy: payload.copy});
             if (response) {
                 dispatch(setProjectId(response.data.project));
                 dispatch(setProject(response.data.project));
                 dispatch(setProjectRooms([]))
                 if(payload.copy && payload.copy.length && payload.attachments){
                     const generateRandomId = (): string => Math.random().toString(36).substr(2, 9);
-                    const attach = payload.attachments.map((attachment)=>{ {
+                    const attach = payload.attachments.map((attachment:string)=>{ {
                         return {
                             projId: response.data.project._id,
                             pdf: [attachment],
@@ -114,6 +114,7 @@ export const getAllProjectRoomsAction =
             });
             dispatch(setProjectRooms(response.data.rooms));
         } catch (error: any) {
+            console.log("error in getallproject Rooms action: ", error)
             dispatch(setProjectError(error.response.data));
         }
     };

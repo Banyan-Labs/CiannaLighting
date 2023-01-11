@@ -9,7 +9,11 @@ import { useAppDispatch } from '../../app/hooks';
 import {
     getProject,
     setTheYourProjects,
+    createProjectAction,
+    getUserProjects,
+    getAllProjects
 } from '../../redux/actions/projectActions';
+import { axiosPrivate } from '../../api/axios';
 
 interface projectProps {
     setOpenModal: any;
@@ -44,7 +48,7 @@ const ProjectMiniModal: FC<projectProps> = ({
         },
         [user.name, navigate]
     );
-    console.log(project, "minimodal")
+    console.log(project, 'minimodal');
 
     const goToProject = () => {
         return (
@@ -60,10 +64,44 @@ const ProjectMiniModal: FC<projectProps> = ({
             </div>
         );
     };
+    const copyOfProject = async (e: any) => {
+        e.preventDefault();
+        // FIND PROJECT WITH AXIOS
+        const axiosPriv = await axiosPrivate();
+        
+        const attach = await axiosPriv.post('/get-attachments', {
+            projId: project._id,
+        });
+        let attachments = [];
+        if (attach) {
+            console.log('ATTACH: ', attach);
+            attachments = attach.data.proj.pdf;
+            if (attachments.length) {
+                const payload = {
+                    project: {...project, clientId: user._id, clientName: user.name},
+                    copy: 'project',
+                    attachments: attachments,
+                };
+                try {
+                    const response = await dispatch(
+                        createProjectAction(payload)
+                    );
+                    dispatch(getUserProjects(user._id));
+                    dispatch(getAllProjects());
+                    alert(`Copy of ${project.name} created in your dashboard.`);
+                    return response;
+                } catch (error) {
+                    console.log('Error in copyProject: ', error);
+                    return error
+                }
+            }
+        }
+    };
+
 
     return (
         <div className="project-mini-modal">
-            <div className="project-mini-modal-link">
+            <div className="project-mini-modal-link" onClick={(e) => copyOfProject(e)}>
                 <FaRegCopy />
                 {/* make copy capabilities */}
                 <p>Duplicate</p>

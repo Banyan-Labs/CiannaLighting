@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { useAppDispatch } from '../../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import {
     viewProjectRooms,
     viewRoomLights,
     deleteThisProject,
     getAllProjects,
+    getUserProjects
 } from '../../../../redux/actions/projectActions';
 import './style/allProjects.scss';
 
@@ -31,6 +32,7 @@ export const ViewModal: FC<Props> = ({
     const [rooms, setRooms] = useState<any>(null);
     const [roomLight, setRoomLight] = useState<any>(null);
     const dispatch = useAppDispatch();
+    const {user} = useAppSelector(({auth:user})=> user);
 
     const fetchData = async () => {
         const response = await dispatch(viewProjectRooms(projectModal._id));
@@ -55,6 +57,7 @@ export const ViewModal: FC<Props> = ({
     const deleteTheProject = async () => {
         await dispatch(deleteThisProject({ _id: projectModal._id }));
         await dispatch(getAllProjects());
+        await dispatch(getUserProjects(user._id))
         closeModal(!openModal);
         setProjectModal(null);
         setDeleteProject(false);

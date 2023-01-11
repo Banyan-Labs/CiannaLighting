@@ -14,6 +14,7 @@ import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 
+
 type Props = {
     renderedPage: string;
     setRenderedPage: React.Dispatch<React.SetStateAction<string>>;
@@ -222,6 +223,21 @@ const AllProjectView: FC<Props> = ({
             return directionCall[0];
         }
     };
+    //  const copyOfProject = async (e: any, project: ProjectType) => {
+    //     e.preventDefault();  
+    //     const attachments = 
+    //     const payload = { ...project, copy: 'project', attachments: attachments };
+    //     try {
+    //         const response = await dispatch(createProjectAction(payload))
+    //         dispatch(getUserProjects(details.clientId));
+    //         dispatch(getAllProjects());
+    //         alert(`Copy of ${project.name} created in your dashboard.`);
+    //         return response;
+    //     } catch (error) {
+    //         console.log('Error in copyProject: ', error);
+    //     }
+    // };
+    
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
@@ -314,6 +330,7 @@ const AllProjectView: FC<Props> = ({
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
+                    
                     <div className='archive-toggle'>
                     <a
                     id="all-projects"

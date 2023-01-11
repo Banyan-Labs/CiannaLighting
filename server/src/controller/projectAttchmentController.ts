@@ -51,7 +51,8 @@ const getData = async (req: Request, res: Response) => {
     .exec()
     .then(async (proj) => {
       if (proj) {
-        if (edit.length) {
+        console.log("get data attachments: ",proj)
+        if (edit && edit.length) {
           if (edit === "add") {
             if (images && images.length) {
               proj.images = [...images, ...proj.images];
