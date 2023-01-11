@@ -59,6 +59,7 @@ const AllProjectView: FC<Props> = ({
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     const [inputValue, setInputValue] = useState('');
+    const [processing, setProcessing] = useState(false)
 
     // Input Field handler
     const handleUserInput = (e: any) => {
@@ -223,20 +224,6 @@ const AllProjectView: FC<Props> = ({
             return directionCall[0];
         }
     };
-    //  const copyOfProject = async (e: any, project: ProjectType) => {
-    //     e.preventDefault();  
-    //     const attachments = 
-    //     const payload = { ...project, copy: 'project', attachments: attachments };
-    //     try {
-    //         const response = await dispatch(createProjectAction(payload))
-    //         dispatch(getUserProjects(details.clientId));
-    //         dispatch(getAllProjects());
-    //         alert(`Copy of ${project.name} created in your dashboard.`);
-    //         return response;
-    //     } catch (error) {
-    //         console.log('Error in copyProject: ', error);
-    //     }
-    // };
     
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
@@ -277,6 +264,7 @@ const AllProjectView: FC<Props> = ({
                                 typeOfProject={typeOfProject}
                                 setTypeOfProject={setTypeOfProject}
                                 yourProject={yourProject}
+                                setProcessing={setProcessing}
                             />
                         )}
                     </td>
@@ -330,8 +318,40 @@ const AllProjectView: FC<Props> = ({
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
+                     <div className="personal-section-links">
+                <a
+                    id="all-projects"
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('All Projects');
+                        setSortToDefault();
+                    }}
+                    className={
+                        renderedPage === 'All Projects'
+                            ? 'personal-active'
+                            : 'personal-not-active'
+                    }
+                >
+                    Active Projects
+                </a>
+                <a
+                    id="archived"
+                    onClick={() => {
+                        setCurrentPage(1);
+                        setRenderedPage('Archived');
+                        setSortToDefault();
+                    }}
+                    className={
+                        renderedPage === 'Archived'
+                            ? 'personal-active'
+                            : 'personal-not-active'
+                    }
+                >
+                    Archived
+                </a>
+            </div>
                     
-                    <div className='archive-toggle'>
+                    {/* <div className='archive-toggle'>
                     <a
                     id="all-projects"
                     onClick={() => {
@@ -362,8 +382,12 @@ const AllProjectView: FC<Props> = ({
                 >
                     Archived
                 </a>
-                    </div>
-                    <div className="button-filter-container d-flex justify-content-end">
+                    </div> */}
+                    <div className="button-filter-container d-flex justify-content-end align-items-center">
+                    <div className={processing ? 'processing' : 'process-none'}>
+                     <h2>...Processing</h2>   
+                </div>
+                <div className='button-toggler'>
                         <button
                             className={
                                 typeOfProject === 'allProjects'
@@ -395,6 +419,7 @@ const AllProjectView: FC<Props> = ({
                         >
                             Your Projects
                         </button>
+                        </div>
                     </div>
                 </div>
                 <div>

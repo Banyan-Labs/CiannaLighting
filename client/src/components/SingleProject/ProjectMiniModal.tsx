@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
-import { FaRegCopy, FaRegEye, FaTrash } from 'react-icons/fa';
+import { FaRegCopy, FaTrash, FaPlay, FaBookReader } from 'react-icons/fa';
 import { ROLES } from '../../app/constants';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
@@ -23,6 +23,7 @@ interface projectProps {
     setTypeOfProject: any;
     typeOfProject: any;
     yourProject: any;
+    setProcessing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ProjectMiniModal: FC<projectProps> = ({
@@ -31,6 +32,7 @@ const ProjectMiniModal: FC<projectProps> = ({
     project,
     setDeleteProject,
     typeOfProject,
+    setProcessing
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -60,13 +62,14 @@ const ProjectMiniModal: FC<projectProps> = ({
                 }}
                 className="project-mini-modal-link"
             >
-                <FaRegEye /> <p>Go To Project</p>
+                <FaPlay /> <p>Go To Project</p>
             </div>
         );
     };
     const copyOfProject = async (e: any) => {
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
+        setProcessing(true)
         const axiosPriv = await axiosPrivate();
         
         const attach = await axiosPriv.post('/get-attachments', {
@@ -88,6 +91,7 @@ const ProjectMiniModal: FC<projectProps> = ({
                     );
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
+                    setProcessing(false)
                     alert(`Copy of ${project.name} created in your dashboard.`);
                     return response;
                 } catch (error) {
@@ -103,7 +107,6 @@ const ProjectMiniModal: FC<projectProps> = ({
         <div className="project-mini-modal">
             <div className="project-mini-modal-link" onClick={(e) => copyOfProject(e)}>
                 <FaRegCopy />
-                {/* make copy capabilities */}
                 <p>Duplicate</p>
             </div>
             {typeOfProject === 'yourProjects' ? (
@@ -124,11 +127,11 @@ const ProjectMiniModal: FC<projectProps> = ({
                     }
                     className="project-mini-modal-link"
                 >
-                    <FaRegEye />{' '}
+                    {project.clientId === user._id ? <FaPlay/> : <FaBookReader/>}{' '}
                     <p>
                         {project?.clientId === user?._id
                             ? 'Go To Project'
-                            : 'View'}
+                            : 'Read Only'}
                     </p>
                 </div>
             )}

@@ -48,6 +48,7 @@ const AllProjects: FC<Props> = ({
     const { allProjects, filterQueryProjects } = useAppSelector(
         ({ project }) => project
     );
+    const [processing, setProcessing] = useState(false);
     const [projectOptionsModal, setProjectOptionsModal] =
         useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
@@ -130,7 +131,6 @@ const AllProjects: FC<Props> = ({
         setInputValue(e.currentTarget.value.toLowerCase());
         const searchValue: string = inputValue;
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
-        // console.log(checkSearchVal);
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -239,6 +239,7 @@ const AllProjects: FC<Props> = ({
                                 setProjectModal={setProjectModal}
                                 project={project}
                                 setDeleteProject={setDeleteProject}
+                                setProcessing={setProcessing}
                             />
                         )}
                     </td>
@@ -249,30 +250,38 @@ const AllProjects: FC<Props> = ({
     return (
         <div className="all-projects-container">
             <div>
-                <div className="form-bar-button-container">
-                    <div className="list__group">
-                        <input
-                            className="form__field"
-                            type="text"
-                            value={inputValue}
-                            placeholder="Search"
-                            onChange={(e) => searchFilter(e, reduxData)}
+                <div className="table-top">
+                    <div className="form-bar-button-container">
+                        <div className="list__group">
+                            <input
+                                className="form__field"
+                                type="text"
+                                value={inputValue}
+                                placeholder="Search"
+                                onChange={(e) => searchFilter(e, reduxData)}
+                            />
+                            <label
+                                htmlFor="description"
+                                className="form__label"
+                            >
+                                Search
+                            </label>
+                        </div>
+                        <FaSlidersH
+                            className="dashboard-all-projects-submit"
+                            onClick={async () => {
+                                await setDefault();
+                                await resetInputField();
+                                await setParsedData([]);
+                                await dispatch(setFilterProjNone());
+                                setOpenModal(true);
+                            }}
+                            style={{ background: '#3f3c39', color: '#c09d5b' }}
                         />
-                        <label htmlFor="description" className="form__label">
-                            Search
-                        </label>
                     </div>
-                    <FaSlidersH
-                        className="dashboard-all-projects-submit"
-                        onClick={async () => {
-                            await setDefault();
-                            await resetInputField();
-                            await setParsedData([]);
-                            await dispatch(setFilterProjNone());
-                            setOpenModal(true);
-                        }}
-                        style={{ background: '#3f3c39', color: '#c09d5b' }}
-                    />
+                    <div className={processing ? 'processing' : 'process-none'}>
+                        <h2>...Processing</h2>
+                    </div>
                 </div>
                 <div>
                     <div className="dashboard-all-projects">

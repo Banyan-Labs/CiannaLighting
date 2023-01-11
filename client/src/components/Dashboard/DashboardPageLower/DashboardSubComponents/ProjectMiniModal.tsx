@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import './style/allProjects.scss';
-import { FaRegCopy, FaRegEye, FaTrash } from 'react-icons/fa';
+import { FaRegCopy, FaBookReader, FaTrash } from 'react-icons/fa';
 import { ROLES } from '../../../../app/constants';
 import {axiosPrivate} from "../../../../api/axios"
 import {createProjectAction, getUserProjects, getAllProjects} from "../../../../redux/actions/projectActions"
@@ -11,19 +11,22 @@ interface projectProps {
     setProjectModal: any;
     project: any;
     setDeleteProject: any;
+    setProcessing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ProjectMiniModal: FC<projectProps> = ({
     setOpenModal,
     setProjectModal,
     project,
-    setDeleteProject,
+    setDeleteProject, 
+    setProcessing
 }) => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const dispatch = useAppDispatch();
     const copyOfProject = async (e: any) => {
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
+        setProcessing(true);
         const axiosPriv = await axiosPrivate();
         
         const attach = await axiosPriv.post('/get-attachments', {
@@ -45,6 +48,7 @@ const ProjectMiniModal: FC<projectProps> = ({
                     );
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
+                    setProcessing(false);
                     alert(`Copy of ${project.name} created in your dashboard.`);
                     return response;
                 } catch (error) {
@@ -67,7 +71,7 @@ const ProjectMiniModal: FC<projectProps> = ({
                 }}
                 className="project-mini-modal-link"
             >
-                <FaRegEye /> <p>View</p>
+                <FaBookReader /> <p>Read Only</p>
             </div>
             {user.role === ROLES.Cmd ? (
                 <div
