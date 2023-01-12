@@ -4,6 +4,7 @@
     width: 100vw;
     height: 100vh;
     top: 0;
+    left: 0;
     background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
@@ -13,9 +14,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;
-    min-height: 400px;
-    max-height: 400px;
+    width: 70%;
+    min-height: 60%;
+    max-height: 85%;
+    
     margin: 1rem auto;
     padding: 1rem 5rem;
     border-radius: 5px;
@@ -102,9 +104,6 @@
 
 // view page
 
-.project-modal-inner-container {
-}
-
 .button-display-view-container {
     border-bottom: 1px solid $primary-bg-white-sub-text;
 
@@ -144,9 +143,9 @@
 
 .light-view-container {
     width: 100%;
-    max-height: 200px;
+    max-height: 400px;
     overflow: scroll;
-
+    padding-left: 60px;
     padding-bottom: 10px;
     h5 {
         font-size: 13px;
@@ -160,6 +159,8 @@
 
 .inner-light-container {
     border-bottom: 1px solid $primary-bg-white-sub-text;
+    border-left: 1px solid $primary-bg-white-sub-text;
+    width: 95%;
 
     .name-tag {
         padding-top: 10px;

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState, ChangeEvent } from 'react';
-import useParams from '../../app/utils';
+// import useParams from '../../app/utils';
 import { FaTimes } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+// import { useNavigate } from 'react-router-dom';
+// import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import '../NewRoomModal/style/newRoomModal.css';
 import { axiosFileUpload } from '../../api/axios';
 

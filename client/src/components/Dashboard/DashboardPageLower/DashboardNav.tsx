@@ -40,7 +40,7 @@ const DashboardNav: FC = () => {
                             : 'not-active'
                     }
                 >
-                    All Projects
+                    Active Projects
                 </a>
                 <a
                     id="archived"
