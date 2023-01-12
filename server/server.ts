@@ -60,6 +60,7 @@ router.use((req, res, next) => {
 });
 // /**Routes */
 var none = '';
+console.log("!!!!!!!!!!!!!!!!!ENV: ", process.env)
 if (process.env.NODE_ENV !== 'development') {
   router.get("*", (req, res) => {
     const homePage =
