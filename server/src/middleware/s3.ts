@@ -26,6 +26,7 @@ export const uploadFunc = async (files: any) => {
 
       return await Promise.all(
         params.map(async (param: any) => {
+          console.log("s3PROMISE: ", param)
           return {
             s3Upload: await s3
               .upload({

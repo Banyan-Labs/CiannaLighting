@@ -70,6 +70,6 @@ export const axiosFileUpload = async () => {
             return error;
         }
     );
-
+        console.log("axiosFile: ",axiosFile.interceptors)
     return axiosFile;
 };
