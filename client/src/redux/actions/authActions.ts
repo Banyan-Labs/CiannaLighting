@@ -42,6 +42,7 @@ export const signInAction =
             await axios.post('public/create-log', log, {
                 withCredentials: true,
             });
+            console.log("loginData: ",response.data)
             dispatch(setUser(response.data));
         } catch (error: any) {
             console.log('Error message: ', error.message);
@@ -70,6 +71,7 @@ export const refreshToken =
             const response = await axios.get('rf/refresh', {
                 withCredentials: true,
             });
+            console.log("refreshResponse: ", response)
             console.log('Respnse in RefreshToken: ', response);
             if (response) {
                 const done = dispatch(setAccessToken(response.data));

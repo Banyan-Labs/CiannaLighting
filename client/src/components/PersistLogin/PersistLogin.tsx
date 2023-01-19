@@ -11,7 +11,8 @@ const PersistLogin = () => {
     const { projectId } = useAppSelector(({ project }) => project);
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token:string  = user.token;
     const projId = projectId;
     useEffect(() => {
         let isMounted = true;
@@ -24,6 +25,7 @@ const PersistLogin = () => {
             } finally {
                 isMounted && setIsLoading(false);
                 dispatch(setSpecFile({ projId: projId, edit: '' }, false));
+                console.log("userToken: ", token)
             }
         };
 
