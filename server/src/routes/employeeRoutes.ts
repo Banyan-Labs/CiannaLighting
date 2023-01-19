@@ -12,7 +12,7 @@ router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE));
 router
   .get("/get-catalog", catalogController.getCatalogItems)
   .post("/create-light", multiUpload, catalogController.createCatalogItem)
-  .post("/find-light", catalogController.getLight)
+  .post("/find-light", multiUpload, catalogController.getLight)
   .post("/remove-light", catalogController.removeLight)
   .post("/new-sr", srController.addInfo)
   .post("/delete-sr", srController.deleteData);

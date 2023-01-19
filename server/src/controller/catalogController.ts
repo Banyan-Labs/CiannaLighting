@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { isArray } from "lodash";
 import mongoose from "mongoose";
 import { uploadFunc } from "../middleware/s3";
@@ -137,69 +137,77 @@ const createCatalogItem = async (req: Request, res: Response) => {
     });
 };
 
-const getCatalogItems = (req: Request, res: Response) => {
+const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
   const check = Object.keys(req.body).filter(
     (x) => x === "designStyle" || x == "usePackages"
   );
   const workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
   CatalogItem.find()
     .then((items) => {
-      if (check.length) {
-        const designCheck = check.indexOf("designStyle") > -1;
-        const useCheck = check.indexOf("usePackages") > -1;
-        items = items.filter((x) => {
-          const dz = designCheck
-            ? workArray["designStyle"].every(
-                (v: string) =>
-                  x.designStyle[0]
+      if (items) {
+        if (check.length) {
+          const designCheck = check.indexOf("designStyle") > -1;
+          const useCheck = check.indexOf("usePackages") > -1;
+          items = items.filter((x) => {
+            const dz = designCheck
+              ? workArray["designStyle"].every(
+                  (v: string) =>
+                    x.designStyle[0]
+                      .split(",")
+                      .map((x) => x.toLowerCase())
+                      .indexOf(v) > -1
+                )
+              : false;
+            const uses = useCheck
+              ? workArray["usePackages"].every((v: string) => {
+                  const usePackage = v.match(/[a-z]/g)?.join("");
+                  return x.usePackages[0]
                     .split(",")
-                    .map((x) => x.toLowerCase())
-                    .indexOf(v) > -1
-              )
-            : false;
-          const uses = useCheck
-            ? workArray["usePackages"].every((v: string) => {
-                const usePackage = v.match(/[a-z]/g)?.join("");
-                return x.usePackages[0]
-                  .split(",")
-                  .some(
-                    (x) =>
-                      x.toLowerCase().match(/[a-z]/g)?.join("") == usePackage
-                  );
-              })
-            : false;
-          if (check.length === 2) {
-            if (dz == true && uses == true) {
-              return x;
+                    .some(
+                      (x) =>
+                        x.toLowerCase().match(/[a-z]/g)?.join("") == usePackage
+                    );
+                })
+              : false;
+            if (check.length === 2) {
+              if (dz == true && uses == true) {
+                return x;
+              } else {
+                return "";
+              }
             } else {
-              return "";
+              if (check.indexOf("designStyle") > -1 && dz == true) {
+                return x;
+              } else if (check.indexOf("usePackages") > -1 && uses == true) {
+                return x;
+              } else {
+                return "";
+              }
             }
-          } else {
-            if (check.indexOf("designStyle") > -1 && dz == true) {
-              return x;
-            } else if (check.indexOf("usePackages") > -1 && uses == true) {
-              return x;
-            } else {
-              return "";
-            }
-          }
+          });
+        }
+        return res.status(200).json({
+          items,
         });
+      } else {
+        next();
       }
-      return res.status(200).json({
-        items,
-      });
     })
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
 
-const getLight = async (req: Request, res: Response) => {
+const getLight = async (req: Request, res: Response, next: NextFunction) => {
   const keys = Object.keys(req.body).filter(
     (key: string) =>
       key != "_id" &&
       key != "item_ID" &&
       key != "authEmail" &&
+      key != "images" &&
+      key != "pdf" &&
+      key != "specs" &&
+      key != "drawingFiles" &&
       key != "authRole"
   );
   const search =
@@ -209,21 +217,110 @@ const getLight = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
+  let { images, pdf, specs, drawingFiles } = req.body; //[]//s3
+  images = [];
+  pdf = [];
+  specs = [];
+  drawingFiles = [];
+  if (req.files) {
+    console.log("hit files: ",req.files)
+    const documents = Object.values(req.files as any);
 
+    const results = await uploadFunc(documents);
+    if (results?.length) {
+      for (let i = 0; i < results?.length; i++) {
+        for (let j = 0; j < results[i].length; j++) {
+          const singleDoc = await results[i][j];
+          console.log("singleDoc!: ", singleDoc)
+
+          if (singleDoc.field === "images") {
+            console.log("imagesDoc: ", singleDoc)
+            images.push(singleDoc.s3Upload.Location);
+          } else if (singleDoc.field === "drawingFiles") {
+            console.log("drawDoc: ", singleDoc)
+            drawingFiles.push(singleDoc.s3Upload.Location);
+          } else if (singleDoc.field === "pdf") {
+            console.log("pdfDoc: ", singleDoc)
+            pdf.push(singleDoc.s3Upload.Location);
+          } else if (singleDoc.field === "specs") {
+            console.log("SPECDOC: ", singleDoc)
+            specs.push(singleDoc.s3Upload.Location);
+          }
+          else{
+            next()
+          }
+        }
+      }
+    }
+  }
+    console.log("imagesPreEditFiles: ", images)
   return await CatalogItem.findOne(search)
     .exec()
-    .then((light: any) => {
+    .then(async(light: any) => {
+      if(light){
+        console.log("HIT LIGHT: ", light)
       if (light && keys.length) {
         keys.map((keyName: string) => {
-          light[keyName] = parameters[keyName];
+          if (/edit/.test(keyName)) {
+            console.log("IN EDIT: ", keyName)
+            switch (keyName) {
+              case "editImages":
+                if(images.length){
+                  const paramsSplit = parameters[keyName].split(',')
+                  light.images = [...images, ...paramsSplit].filter(x=> x);
+                }else{
+                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
+                  light.images = paramsSplit
+                }
+                    console.log("light images: ", light.images, parameters[keyName]);
+                break;
+              case "editpdf":
+                if(pdf.length && parameters[keyName].length){
+                  const paramsSplit = parameters[keyName].split(',')
+                  light.pdf = [...pdf, ...paramsSplit]
+                }else{
+                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
+                  light.pdf = paramsSplit
+                }
+               console.log("lightPDF: ",light.pdf)
+                break;
+              case "editDrawingFiles":
+                if(drawingFiles.length && parameters[keyName].length){
+                  const paramsSplit = parameters[keyName].split(',')
+                  light.drawingFiles = [...drawingFiles, ...paramsSplit];
+                }else{
+                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
+                  light.drawingFiles = paramsSplit;
+                }
+                console.log("lightDrawingFiles: ",light.drawingFiles)
+                break;
+              case "editSpecs":
+                if(specs.length && parameters[keyName].length){
+                  const paramsSplit = parameters[keyName].split(',')
+                  light.specs = [...specs, ...paramsSplit]
+                }else{
+                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
+                  light.specs = paramsSplit
+                }
+                console.log("lightSpecs: ", light.specs)
+                break;
+              default:
+                null;
+                break;
+            }
+          }else{
+            light[keyName] = parameters[keyName];
+          }
+          ;
         });
         light.save();
       }
 
-      console.log(`Catalog Item: ${light?.item_ID} retrieved`);
+      console.log(`Catalog Item: ${light.item_ID} retrieved`);
       return res.status(200).json({
         light,
       });
+    }
     })
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
