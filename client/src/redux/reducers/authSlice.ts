@@ -8,7 +8,7 @@ export interface AuthStateType {
 }
 
 const initialState: AuthStateType = {
-    user: { _id: '', name: '', email: '', role: '' },
+    user: { _id: '', name: '', email: '', role: '', token: '' },
     error: null,
     logs: [],
 };
@@ -22,7 +22,7 @@ export const authSlice = createSlice({
             localStorage.setItem('role', action.payload.user.role);
             return {
                 ...state,
-                user: action.payload.user,
+                user: {...action.payload.user, token: action.payload.accessToken},
             };
         },
         setLogs: (state, action) => {
@@ -40,7 +40,7 @@ export const authSlice = createSlice({
             localStorage.setItem('role', action.payload.user.role);
             return {
                 ...state,
-                user: action.payload.user,
+                user: {...action.payload.user, token: action.payload.accessToken},
             };
         },
         logout: () => {

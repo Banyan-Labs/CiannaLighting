@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { store } from '../redux/store';
+const state = store.getState()
+console.log(state)
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -19,7 +22,9 @@ const axiosFile = axios.create({
 });
 
 export const axiosPrivate = async () => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = state.auth.user.token;
+    console.log("axiosPrivate token: ",token)
     axiosAuth.interceptors.request.use(
         (config: any) => {
             config.headers['authorization'] = `Bearer ${token}`;
@@ -47,7 +52,8 @@ export const axiosPrivate = async () => {
 };
 
 export const axiosFileUpload = async () => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = state.auth.user.token;
     axiosFile.interceptors.request.use(
         (config: any) => {
             config.headers['authorization'] = `Bearer ${token}`;
