@@ -18,7 +18,9 @@ const PersistLogin = () => {
         let isMounted = true;
         const verifyRefreshToken = async () => {
             try {
+                if(token){
                 await dispatch(refreshToken());
+                }
             } catch (error) {
                 console.log('Error in persistLogin: ', error);
                 throw error;
@@ -32,7 +34,7 @@ const PersistLogin = () => {
         userId || !token ? verifyRefreshToken() : setIsLoading(false);
 
         () => (isMounted = false);
-    }, []);
+    }, [token]);
 
     return <>{isLoading && !user._id ? <p>Loading...</p> : <Outlet />}</>;
 };

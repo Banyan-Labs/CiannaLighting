@@ -15,10 +15,12 @@ export const getRoomLights =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/get-lightSelections', {
                 roomId: roomId,
             });
             dispatch(setRoomLights(response.data.lights));
+        }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -29,8 +31,10 @@ export const getCatalogItems =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/public/get-catalog');
             dispatch(setCatalogLights(response.data.items));
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -41,6 +45,7 @@ export const setSpecFile =
         const axiosPriv = await axiosPrivate();
         console.log('pay&status:', payload, newAttach);
         try {
+            if(axiosPriv){
             const response = (endpoint: string) => {
                 return axiosPriv.post(endpoint, payload);
             };
@@ -58,6 +63,7 @@ export const setSpecFile =
                     dispatch(setAttachments([]));
                 }
             }
+        }
         } catch (error: any) {
             console.log('ERROR IN SPECS: ', error);
             dispatch(setProjectError(error.reponse));
@@ -66,6 +72,7 @@ export const setSpecFile =
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
     const axiosPriv = await axiosPrivate();
     try {
+        if(axiosPriv){
         const response = await axiosPriv.post('/delete-attachments', payload);
         dispatch(setAttachments(response.data.projectAttach.pdf));
         if(response){
@@ -96,6 +103,7 @@ export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
         }
 
         }
+    }
     } catch (error: any) {
         dispatch(setProjectError(error.response));
     }
@@ -106,6 +114,7 @@ export const createLight =
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const created = await axiosPriv.post('/create-lightSelection', {
                 light: light,
             });
@@ -123,6 +132,7 @@ export const createLight =
                     }
                 }
             }
+        }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -134,6 +144,7 @@ export const deleteLight =
         const axiosPriv = await axiosPrivate();
         try {
             console.log('payloadDELETE:', payload);
+            if(axiosPriv){
             const response = await axiosPriv.post(
                 '/delete-lightSelection',
                 payload
@@ -151,6 +162,7 @@ export const deleteLight =
             //         }
             //     }
             // }
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -162,9 +174,11 @@ export const getEditLight =
         console.log(payload);
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/find-light', payload);
             dispatch(setCatalogConnect(response.data.light));
             return response.data.light;
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -176,6 +190,7 @@ export const theEditLight =
         const axiosPriv = await axiosPrivate();
 
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/find-lightSelection', {
                 ...payload,
                 _id: lightId,
@@ -205,6 +220,7 @@ export const theEditLight =
              * need to set up the rfp & proposal dispatches here
              *  */
             return response.data;
+        }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -216,12 +232,14 @@ export const filterCatalogItems =
         const axiosPriv = await axiosPrivate();
         try {
             console.log('cataPAY: ', payload);
+            if(axiosPriv){
             const response = await axiosPriv.post(
                 '/public/get-catalog',
                 payload
             );
             console.log('respCAT: ', response);
             dispatch(setCatalogLights(response.data.items));
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }

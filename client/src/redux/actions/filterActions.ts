@@ -7,10 +7,12 @@ export const getAllStatus =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
+            if(axioscall){
             const AllStatus = await axioscall.post('/public/s_r', {
                 label: 'status',
             });
             dispatch(setStatus(AllStatus.data));
+        }
         } catch (error: any) {
             dispatch(setError(error.response.data));
         }
@@ -21,10 +23,12 @@ export const getAllRegions =
     async (dispatch: Dispatch): Promise<void> => {
         const axioscall = await axiosPrivate();
         try {
+            if(axioscall){
             const AllRegion = await axioscall.post('/public/s_r', {
                 label: 'region',
             });
             dispatch(setRegion(AllRegion.data));
+        }
         } catch (error: any) {
             dispatch(setError(error.response.data));
         }

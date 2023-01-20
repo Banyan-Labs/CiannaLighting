@@ -27,15 +27,28 @@ const refreshTokenController = (req: Request, res: Response) => {
             process.env.ACCESS_TOKEN_SECRET as string,
             { expiresIn: "1d" }
           );
-          return res.json({
+          // return res.json({
+          //   accessToken,
+          //   user: {
+          //     _id: user._id,
+          //     name: user.name,
+          //     email: user.email,
+          //     role: user.role,
+          //   },
+          // });
+          const data:any = JSON.stringify({ 
             accessToken,
-            user: {
-              _id: user._id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            },
-          });
+              user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+              },
+            })
+            console.log("DATA IN REFRESH: ", data)
+            console.log("DATA PARSED: ", JSON.parse(data))
+          
+          return res.send(data)
         }
       );
     })

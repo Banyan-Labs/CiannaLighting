@@ -7,15 +7,26 @@ export const getAllUsers =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
-
-        const users = await axiosPriv.get('cmd/get-users');
-        dispatch(setUsers(users.data));
+        try {
+            if (axiosPriv) {
+                const users = await axiosPriv.get('cmd/get-users');
+                dispatch(setUsers(users.data));
+            }
+        } catch (error) {
+            throw Error('Error getting all users');
+        }
     };
 
 export const createUserAction =
     (user: CreateUserType) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = await axiosPrivate();
-        const response = await axiosPriv.post('cmd/create-user', user);
-        dispatch(setNewUser(response.data.user));
+        try {
+            if (axiosPriv) {
+                const response = await axiosPriv.post('cmd/create-user', user);
+                dispatch(setNewUser(response.data.user));
+            }
+        } catch (error) {
+            throw Error('Error getting all users');
+        }
     };

@@ -28,10 +28,11 @@ const ProjectMiniModal: FC<projectProps> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
         const axiosPriv = await axiosPrivate();
-        
+        if(axiosPriv){
         const attach = await axiosPriv.post('/get-attachments', {
             projId: project._id,
         });
+    
         let attachments = [];
         if (attach) {
             console.log('ATTACH: ', attach);
@@ -56,6 +57,9 @@ const ProjectMiniModal: FC<projectProps> = ({
                     return error
                 }
             }
+        }}else{
+            console.log('error in mini modal axios')
+            return
         }
     };
     return (

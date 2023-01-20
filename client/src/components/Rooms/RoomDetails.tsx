@@ -79,9 +79,11 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         };
 
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/create-project', payload);
             console.log('copyRoom Response: ', response);
             dispatch(getAllProjectRoomsAction(projectId));
+            }
         } catch (error: any) {
             console.log('Error: ', error);
         }

@@ -124,12 +124,14 @@ const Inventory: FC = () => {
     const initializeCatalog = async () => {
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const catalog = await axiosPriv.post('/public/get-catalog');
             if (catalog) {
                 const items = catalog.data.items;
                 console.log('ITEMS: ', items);
                 setCatalogItems(items);
             }
+        }
         } catch (error) {
             console.log('error in items: ');
         }

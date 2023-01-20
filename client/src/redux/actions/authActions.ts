@@ -25,13 +25,13 @@ export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            getAllProjects();
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
+            console.log("response in sign in: ", response)
             const res = await axios.get('https://geolocation-db.com/json/');
             // console.log(res.data, response);
-
+            
             const log: userLogType = {
                 userId: response.data.user._id,
                 name: response.data.user.name,
@@ -43,7 +43,14 @@ export const signInAction =
                 withCredentials: true,
             });
             console.log("loginData: ",response.data)
-            dispatch(setUser(response.data));
+                // const data = JSON.parse(response.data)
+            if(response){
+                
+                // console.log("DATA RESPONSE SIGN IN",data)
+                dispatch(setUser(response.data));
+                getAllProjects();
+
+            }
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }
@@ -54,11 +61,13 @@ export const getAllLogs =
     async (dispatch: Dispatch): Promise<void> => {
         try {
             const axiosPriv = await axiosPrivate();
+            if(axiosPriv){
             const response = await axiosPriv.post('cmd/getAllLogs', {
                 withCredentials: true,
             });
             // console.log(response, 'hello')
             dispatch(setLogs(response.data));
+        }
         } catch (error: any) {
             console.log('Error message: ', error.message);
         }
@@ -69,12 +78,17 @@ export const refreshToken =
     async (dispatch: Dispatch): Promise<void> => {
         try {
             const response = await axios.get('rf/refresh', {
+                headers: { 'Content-Type': 'application/json', 'accept': 'application/json' },
+                data: {},
                 withCredentials: true,
             });
             console.log("refreshResponse: ", response)
             console.log('Respnse in RefreshToken: ', response);
+            const data = response.data
+                console.log("DATA RESP IN REFRESH: ", data)
             if (response) {
-                const done = dispatch(setAccessToken(response.data));
+                
+                const done = dispatch(setAccessToken(data));
                 if (done) {
                     console.log('REFRESHED!');
                 }
@@ -90,6 +104,7 @@ export const deleteTheLog =
     async (dispatch: Dispatch): Promise<void> => {
         try {
             const axiosPriv = await axiosPrivate();
+            if(axiosPriv){
             const response = await axiosPriv.post(
                 'cmd/deleteLog',
                 { _id },
@@ -98,6 +113,7 @@ export const deleteTheLog =
                 }
             );
             console.log('delete log', response, dispatch);
+        }
         } catch (error) {
             console.log('Error in refreshToken: ', error);
             throw error;

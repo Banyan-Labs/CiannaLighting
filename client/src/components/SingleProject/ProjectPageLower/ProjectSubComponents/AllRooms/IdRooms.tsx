@@ -42,9 +42,11 @@ const IdRooms: FC = () => {
         };
 
         try {
+            if(axiosPriv){
             const response = await axiosPriv.post('/create-project', payload);
             dispatch(getAllProjectRoomsAction(projectId));
             return response.data;
+            }
         } catch (error: any) {
             console.log('Error: ', error);
         }

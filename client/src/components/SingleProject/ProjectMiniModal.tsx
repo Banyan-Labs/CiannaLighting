@@ -71,7 +71,7 @@ const ProjectMiniModal: FC<projectProps> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true)
         const axiosPriv = await axiosPrivate();
-        
+        if(axiosPriv){
         const attach = await axiosPriv.post('/get-attachments', {
             projId: project._id,
         });
@@ -100,6 +100,10 @@ const ProjectMiniModal: FC<projectProps> = ({
                 }
             }
         }
+    }else{
+        console.log('axios error in proj mini modal single proj')
+        return 
+    }
     };
 
 

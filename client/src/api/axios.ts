@@ -11,19 +11,21 @@ export default axios.create({
 
 const axiosAuth = axios.create({
     baseURL: BACKEND_URL,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'accept': 'application/json' },
+    data: {},
     withCredentials: true,
 });
 
 const axiosFile = axios.create({
     baseURL: BACKEND_URL,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: { 'Content-Type': 'mapplication/json', 'accept': 'multipart/form-data' },
     withCredentials: true,
 });
 
 export const axiosPrivate = async () => {
     // const token = localStorage.getItem('token');
     const token = state.auth.user.token;
+    if(token){
     console.log("axiosPrivate token: ",token)
     axiosAuth.interceptors.request.use(
         (config: any) => {
@@ -40,8 +42,10 @@ export const axiosPrivate = async () => {
             if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
                 prevRequest.sent = true;
                 const newToken = await axiosAuth.get('rf/refresh');
+                if(newToken){
                 prevRequest.headers['authorization'] = `Bearer ${newToken}`;
                 return axiosAuth(prevRequest);
+                }else{throw Error('Axios Private Error')}
             }
             console.log(error);
             return error;
@@ -49,6 +53,9 @@ export const axiosPrivate = async () => {
     );
 
     return axiosAuth;
+}else{
+    throw Error('Waiting on user token in axios')
+}
 };
 
 export const axiosFileUpload = async () => {
@@ -69,8 +76,13 @@ export const axiosFileUpload = async () => {
             if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
                 prevRequest.sent = true;
                 const newToken = await axiosFile.get('rf/refresh');
+                if(newToken){
+                console.log("token in File", newToken)
                 prevRequest.headers['authorization'] = `Bearer ${newToken}`;
                 return axiosFile(prevRequest);
+                }else{
+                    throw Error('Axios File error')
+                }
             }
             console.log(error);
             return error;

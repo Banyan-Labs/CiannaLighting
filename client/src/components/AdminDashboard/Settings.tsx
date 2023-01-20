@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { axiosPrivate } from '../../api/axios';
+import axios, { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
 
@@ -12,6 +12,7 @@ const Settings: FC = () => {
     const setSections = async () => {
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const statusCall = await axiosPriv.post('/public/s_r', {
                 label: 'status',
             });
@@ -22,6 +23,7 @@ const Settings: FC = () => {
             setRegion(regionCall.data.data);
             setNewStatus('');
             setNewRegion('');
+        }
         } catch (error: any) {
             console.log('error sr: ', error.message);
         }
@@ -43,11 +45,13 @@ const Settings: FC = () => {
                 : '';
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const submitted = await axiosPriv.post('/internal/new-sr', {
                 label: section,
                 value: submitVal,
             });
             console.log('submitted: ', submitted);
+        }
         } catch (error: any) {
             console.log('error submitNew: ', error.message);
         }
@@ -57,11 +61,13 @@ const Settings: FC = () => {
         e.preventDefault();
         const axiosPriv = await axiosPrivate();
         try {
+            if(axiosPriv){
             const submitted = await axiosPriv.post('/internal/delete-sr', {
                 label: section,
                 value: value,
             });
             console.log('submitted delete: ', submitted);
+        }
         } catch (error: any) {
             console.log('error submitNew: ', error.message);
         }
