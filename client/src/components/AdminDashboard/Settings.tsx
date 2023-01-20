@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import axios, { axiosPrivate } from '../../api/axios';
+import { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
 
