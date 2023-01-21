@@ -491,6 +491,7 @@ const getAccountProjects = async (req: Request, res: Response) => {
 };
 
 const getAllProjects = async (req: Request, res: Response) => {
+  console.log("Cookies in get All PROJ: ", req.cookies)
   const check = Object.keys(req.body).filter(
     (x) => x != "authEmail" && x != "authRole" && x != "clientId" && x != "type"
   );

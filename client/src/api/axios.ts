@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from '../redux/store';
-const state = store.getState()
-console.log(state)
+
+// console.log(state)
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -21,9 +21,13 @@ const axiosFile = axios.create({
     withCredentials: true,
 });
 
-export const axiosPrivate = async () => {
-    // const token = localStorage.getItem('token');
-    const token = state.auth.user.token;
+export const axiosPrivate = () => {
+    let token = ''
+   
+    const state = store.getState()
+    if(state){
+     token = state.auth.user.token;
+    
     console.log("axiosPrivate token: ",token)
     axiosAuth.interceptors.request.use(
         (config: any) => {
@@ -49,11 +53,17 @@ export const axiosPrivate = async () => {
     );
 
     return axiosAuth;
+    }else{
+        throw Error ('axiosPrivate call error')
+    }
 };
 
 export const axiosFileUpload = async () => {
-    // const token = localStorage.getItem('token');
-    const token = state.auth.user.token;
+    let token = ''
+   
+    const state = store.getState()
+    if(state){
+     token = state.auth.user.token;
     axiosFile.interceptors.request.use(
         (config: any) => {
             config.headers['authorization'] = `Bearer ${token}`;
@@ -78,4 +88,7 @@ export const axiosFileUpload = async () => {
     );
         console.log("axiosFile: ",axiosFile.interceptors)
     return axiosFile;
+}else{
+    throw Error ('axiosFILEupload call error')
+}
 };
