@@ -62,12 +62,13 @@ router.use((req, res, next) => {
 var none = '';
 console.log("!!!!!!!!!!!!!!!!!ENV: ", process.env)
 if (process.env.NODE_ENV !== 'development') {
-  router.get("*", (req, res) => {
+  router.get("/", (req, res, next) => {
     const homePage =
     process.env.NODE_ENV === "production"
     ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
     : path.resolve(__dirname, "../", "client", "build", "index.html");
     res.sendFile(homePage);
+    next();
   });
 } 
 
