@@ -22,6 +22,7 @@ import path from "path";
 import domainOrigins from "./config/domainOrigins";
 
 const router = express();
+const router2 = express();
 
 /** Server Handler */
 // const httpServer = http.createServer(router);
@@ -33,13 +34,13 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 router.use(express.static("src"));
 if (process.env.NODE_ENV === "production") {
-  router.use(express.static(path.join(__dirname, "../../client/build")));
+  router2.use(express.static(path.join(__dirname, "../../client/build")));
 } else {
-  router.use(express.static(path.join(__dirname, "../client/build")));
+  router2.use(express.static(path.join(__dirname, "../client/build")));
 }
 
 mongoose
-  .connect(config.mongo.url, config.mongo.options)
+.connect(config.mongo.url, config.mongo.options)
   .then(() => {
     logging.info("Mongoose CONNECTED.");
   })
@@ -47,14 +48,14 @@ mongoose
     logging.error(error);
   });
 
-router.use((req, res, next) => {
+  router.use((req, res, next) => {
   logging.info(
     `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress}`
   );
   res.on("finish", () => {
     logging.info(
       `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress} - STATUS: '${res.statusCode}`
-    );
+      );
   });
   next();
 });
@@ -62,14 +63,14 @@ router.use((req, res, next) => {
 var none = '';
 console.log("!!!!!!!!!!!!!!!!!ENV: ", process.env)
 if (process.env.NODE_ENV !== 'development') {
-  router.get("/", (req, res, next) => {
+  router2.get("*", (req, res) => {
     const homePage =
     process.env.NODE_ENV === "production"
     ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
     : path.resolve(__dirname, "../", "client", "build", "index.html");
     res.sendFile(homePage);
-    next();
   });
+  router2.listen(config.server.port, () => console.log('page server running'))
 } 
 
 // router.get("/test", (req, res) => {
@@ -93,7 +94,7 @@ router.use((req, res, next) => {
 });
 
 /**Requests */
-router.listen(config.server.port, () => {
+router.listen(process.env.NODE_ENV === 'production' ? 5000 : config.server.port, () => {
   logging.info(
     `Server is running at ${config.server.host}:${config.server.port}`
   );
