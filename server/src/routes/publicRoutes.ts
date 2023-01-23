@@ -3,6 +3,7 @@ import controller from "../controller/userController";
 import statusController from "../controller/statusAndRegionController";
 import catalogController from "../controller/catalogController";
 import activityController from "../controller/activityController";
+import adminController from "../controller/adminController";
 const router = express.Router();
 
 // Public Routes: no login required
@@ -12,5 +13,5 @@ router.post("/s_r", statusController.getData);
 router.post("/get-catalog", catalogController.getCatalogItems);
 router.post("/find-light", catalogController.getLight);
 router.post("/create-log", activityController.createActivityLog);
-
+router.post("/create-user", adminController.createNewUser)
 export default router;
