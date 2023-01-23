@@ -66,7 +66,7 @@ if (process.env.NODE_ENV !== "development") {
   router2.use(credentials);
   router2.use(cookieParser());
 
-  router2.use(cors(corsOptions)); // add any rules into the corsOptions file.
+  router2.use(cors({ allowedHeaders: '*', origin: '*' })); // add any rules into the corsOptions file.
   router2.use(express.urlencoded({ extended: false }));
   router2.use(express.json());
   router2.get("*", (req, res) => {
