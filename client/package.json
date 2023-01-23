@@ -44,7 +44,9 @@
         "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
         "dev:start": "npm-run-all --parallel dev:*",
         "dev:start-server": "cd server && nodemon --config nodemon.json src/server.ts",
-        "dev:start-client": "react-scripts start"
+        "dev:start-client": "react-scripts start",
+        "stage:build": "ENV=staging react-scripts build",
+        "prod:build": "ENV=production react-scripts build"
     },
     "husky": {
         "hooks": {
