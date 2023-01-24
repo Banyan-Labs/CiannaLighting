@@ -1,8 +1,3 @@
-// import http from "http";
-import http from "http";
-if (process.env.NODE_ENV !== "deploy") {
-  require("dotenv").config();
-}
 import express from "express";
 import logging from "./config/logging";
 import config from "./config/config";
@@ -19,25 +14,17 @@ import publicRoutes from "./src/routes/publicRoutes";
 import userRoutes from "./src/routes/userRoutes";
 import employeeRoutes from "./src/routes/employeeRoutes";
 import path from "path";
-import domainOrigins from "./config/domainOrigins";
 
 const router = express();
-const router2 = express();
 
 /** Server Handler */
-// const httpServer = http.createServer(router);
 router.use(credentials);
 router.use(cookieParser());
 
-router.use(cors(corsOptions)); // add any rules into the corsOptions file.
+router.use(cors(corsOptions));
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 router.use(express.static("src"));
-if (process.env.NODE_ENV === "production") {
-  router2.use(express.static(path.join(__dirname, "../../client/build")));
-} else {
-  router2.use(express.static(path.join(__dirname, "../client/build")));
-}
 
 mongoose
   .connect(config.mongo.url, config.mongo.options)
@@ -60,35 +47,21 @@ router.use((req, res, next) => {
   next();
 });
 // /**Routes */
-var none = "";
-console.log("!!!!!!!!!!!!!!!!!ENV: ", process.env);
-if (process.env.NODE_ENV !== "development") {
-  router2.use(credentials);
-  router2.use(cookieParser());
-
-  router2.use(cors({ allowedHeaders: '*', origin: '*' })); // add any rules into the corsOptions file.
-  router2.use(express.urlencoded({ extended: false }));
-  router2.use(express.json());
-  router2.get("*", (req, res) => {
-    const homePage =
-      process.env.NODE_ENV === "production"
-        ? path.resolve(__dirname, "../", "../", "client", "build", "index.html")
-        : path.resolve(__dirname, "../", "client", "build", "index.html");
-    res.sendFile(homePage);
-  });
-  router2.listen(config.server.port, () => console.log("page server running"));
-}
-
-// router.get("/test", (req, res) => {
-//   return res.json({ msg: "test" });
-// });
-
 router.use("/api/deploy-test", routes);
 router.use("/api/rf", refreshRoute);
 router.use("/api/cmd", adminRoutes);
-router.use("/api/public", publicRoutes); // << -- crashes app
-router.use("/api", userRoutes); //<<-- crashes app
-router.use("/api/internal", employeeRoutes); //<<-- crashes app
+router.use("/api/public", publicRoutes);
+router.use("/api", userRoutes);
+router.use("/api/internal", employeeRoutes);
+
+if (process.env.NODE_ENV !== "development") {
+  router.use(express.static(path.join(__dirname, "../../client/build")));
+  router.get("*", (_req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "../", "../", "client", "build", "index.html")
+    );
+  });
+}
 
 /**Errors */
 router.use((req, res, next) => {
@@ -100,17 +73,8 @@ router.use((req, res, next) => {
 });
 
 /**Requests */
-router.listen(
-  process.env.NODE_ENV === "production" ? 5000 : config.server.port,
-  () => {
-    logging.info(
-      `Server is running at ${config.server.host}:${config.server.port}`
-    );
-  }
-);
-
-// https.createServer(router).listen(config.server.port, () => {
-//   logging.info(
-//     `Server is running at ${config.server.host}:${config.server.port}`
-//   );
-// });
+router.listen(config.server.port, () => {
+  logging.info(
+    `Server is running at ${config.server.host}:${config.server.port}`
+  );
+});
