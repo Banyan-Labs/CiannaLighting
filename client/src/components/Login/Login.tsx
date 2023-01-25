@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { signInAction } from '../../redux/actions/authActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './style/login.scss';
-import axios from '../../api/axios';
 
 const Login: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -41,20 +40,6 @@ const Login: FC = () => {
         }
     };
 
-    const deleteAfterUse = (e:any) => {
-        e.preventDefault();
-        const newUser = {
-            name: 'Owen Josh',
-            email: 'admin@admn.com',
-            role: '6677',
-            password: 'startup',
-        }
-        axios.post('/public/create-user', newUser).then((user)=>{ 
-          if(user) alert('User created. Login again please.')
-        }).catch((err)=> console.log("newUser error",err.message))
-
-    }
-
     useEffect(() => {
         if (user._id && dashRoles.includes(user.role))
             navigate(`/dashboard?_id=${user._id}`);
@@ -68,7 +53,6 @@ const Login: FC = () => {
                 <div className="login-bg-dark">
                     <img src={logo} alt="ciana lighting logo" />
                 </div>
-                <button onClick={(e)=> deleteAfterUse(e)}>MAKE USER</button>
                 <div className="login-gold-accent" />
 
                 <div className="login-form-container">
