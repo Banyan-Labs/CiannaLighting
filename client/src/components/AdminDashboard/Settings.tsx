@@ -10,7 +10,7 @@ const Settings: FC = () => {
     const [newRegion, setNewRegion] = useState<string>('');
 
     const setSections = async () => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const statusCall = await axiosPriv.post('/public/s_r', {
                 label: 'status',
@@ -23,7 +23,7 @@ const Settings: FC = () => {
             setNewStatus('');
             setNewRegion('');
         } catch (error: any) {
-            console.log('error sr: ', error.message);
+            throw new Error(error.message)
         }
     };
     const handleChange = (e: any, section: string) => {
@@ -41,15 +41,15 @@ const Settings: FC = () => {
                 : section === 'region'
                 ? newRegion
                 : '';
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const submitted = await axiosPriv.post('/internal/new-sr', {
                 label: section,
                 value: submitVal,
             });
-            console.log('submitted: ', submitted);
+            return submitted
         } catch (error: any) {
-            console.log('error submitNew: ', error.message);
+            throw new Error(error.message);
         }
         setSections();
     };
@@ -61,9 +61,9 @@ const Settings: FC = () => {
                 label: section,
                 value: value,
             });
-            console.log('submitted delete: ', submitted);
-        } catch (error: any) {
-            console.log('error submitNew: ', error.message);
+            return submitted            
+        } catch (error: any) {            
+            throw new Error(error.message);
         }
         setSections();
     };

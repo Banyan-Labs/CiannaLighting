@@ -122,22 +122,20 @@ const Inventory: FC = () => {
     const [numSpecPages, setNumSpecPages] = useState<any>({});
 
     const initializeCatalog = async () => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const catalog = await axiosPriv.post('/public/get-catalog');
             if (catalog) {
                 const items = catalog.data.items;
-                console.log('ITEMS: ', items);
                 setCatalogItems(items);
             }
-        } catch (error) {
-            console.log('error in items: ');
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
     useEffect(() => {
         initializeCatalog();
     }, []);
-    console.log('CATALOG ITEMS: ', catalogItems);
     const handleEditingChange = (val: string) => {
         setEditingInput(val);
     };
@@ -190,7 +188,7 @@ const Inventory: FC = () => {
             const newDrawing = drawingFilesNames.filter(
                 (x: any) => x.name != filePath.name
             );
-            setDrawingFilesNames(newDrawing);    
+            setDrawingFilesNames(newDrawing);
             const newPages = numDrawPages;
             delete newPages[filePath.name];
             setNumDrawPages(newPages);
@@ -239,7 +237,6 @@ const Inventory: FC = () => {
         location: string,
         name: string | number
     ) => {
-        console.log('locationLOAD: ', location);
         if (location == 'pdf') {
             setNumPdfPages({
                 ...numPdfPages,
@@ -514,70 +511,82 @@ const Inventory: FC = () => {
     return (
         <div className="inventory-container">
             <div className="inventory-head">
-                <div className='head-left'>
-                <div className="inv-header">
-                    {editingItem ? 'Edit Items' : 'Catalog Items'}
+                <div className="head-left">
+                    <div className="inv-header">
+                        {editingItem ? 'Edit Items' : 'Catalog Items'}
+                    </div>
+                    <div>
+                        <p className="mb-4">
+                            {editingItem
+                                ? 'Edit an item in the catalog.'
+                                : 'Add an item to the catalog.'}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                <p className="mb-4">
-                {editingItem
-                    ? 'Edit an item in the catalog.'
-                    : 'Add an item to the catalog.'}
-            </p>
-            </div>
-                </div>
-                <div className='head-right'>
-                <div className="button-toggler inv-togl">
-                    <button
-                        className={
-                            typeOfProject === 'non-edit'
-                                ? 'all-project-button'
-                                : 'type-project-btn'
-                        }
-                        onClick={() => {
-                            setTypeOfProject('non-edit');
-                            setEditingItem(false);
-                        }}
-                    >
-                        New Item
-                    </button>
-                    <button
-                        className={
-                            typeOfProject === 'edit'
-                                ? 'your-projects-button'
-                                : 'type-project-btn'
-                        }
-                        onClick={() => {
-                            setTypeOfProject('edit');
-                            setEditingItem(true);
-                        }}
-                    >
-                        Edit Item
-                    </button>
-                </div>
-                {editingItem && (
-                <div className="editor-contain">
-                    <input
-                        list="catalog"
-                        id="edit-input"
-                        name="editor"
-                        className="edit-input"
-                        value={editingInput}
-                        onChange={(e) =>
-                            handleEditingChange(e.currentTarget.value)
-                        }
-                    />
-                    <label htmlFor="editor" className="form__label">
-                        Choose item here..
-                    </label>
-                    <button className='edit-button' onClick={(e) => setEdit(e)}>edit</button>
-                    <datalist id="catalog">
-                        {catalogItems.map((item: any, index: number) => {
-                            return <option key={index} value={item.item_ID} />;
-                        })}
-                    </datalist>
-                </div>
-                )}
+                <div className="head-right">
+                    <div className="button-toggler inv-togl">
+                        <button
+                            className={
+                                typeOfProject === 'non-edit'
+                                    ? 'all-project-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={() => {
+                                setTypeOfProject('non-edit');
+                                setEditingItem(false);
+                            }}
+                        >
+                            New Item
+                        </button>
+                        <button
+                            className={
+                                typeOfProject === 'edit'
+                                    ? 'your-projects-button'
+                                    : 'type-project-btn'
+                            }
+                            onClick={() => {
+                                setTypeOfProject('edit');
+                                setEditingItem(true);
+                            }}
+                        >
+                            Edit Item
+                        </button>
+                    </div>
+                    {editingItem && (
+                        <div className="editor-contain">
+                            <input
+                                list="catalog"
+                                id="edit-input"
+                                name="editor"
+                                className="edit-input"
+                                value={editingInput}
+                                onChange={(e) =>
+                                    handleEditingChange(e.currentTarget.value)
+                                }
+                            />
+                            <label htmlFor="editor" className="form__label">
+                                Choose item here..
+                            </label>
+                            <button
+                                className="edit-button"
+                                onClick={(e) => setEdit(e)}
+                            >
+                                edit
+                            </button>
+                            <datalist id="catalog">
+                                {catalogItems.map(
+                                    (item: any, index: number) => {
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={item.item_ID}
+                                            />
+                                        );
+                                    }
+                                )}
+                            </datalist>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="inventory_form_container">
@@ -1883,7 +1892,6 @@ const Inventory: FC = () => {
                             </div>
                             <div className="file-row">
                                 {viewablePDF.map((url: any, dex: number) => {
-                                    // console.log('url pdf: ', String(url));
                                     return (
                                         <Document
                                             key={dex}
@@ -1972,7 +1980,6 @@ const Inventory: FC = () => {
                             </div>
                             <div className="file-row">
                                 {viewableSpecs.map((url: any, dex: number) => {
-                                    // console.log('url SPECS: ', url);
                                     return (
                                         <Document
                                             key={dex}
@@ -2067,7 +2074,6 @@ const Inventory: FC = () => {
                             <div className="file-row">
                                 {drawingFilesNames.map(
                                     (url: any, dex: number) => {
-                                        // console.log(url);
                                         return (
                                             <Document
                                                 key={dex}

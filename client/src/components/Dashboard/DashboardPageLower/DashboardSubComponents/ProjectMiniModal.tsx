@@ -33,8 +33,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             projId: project._id,
         });
         let attachments = [];
-        if (attach) {
-            console.log('ATTACH: ', attach);
+        if (attach) {            
             attachments = attach.data.proj.pdf;
             if (attachments.length) {
                 const payload = {
@@ -51,9 +50,8 @@ const ProjectMiniModal: FC<projectProps> = ({
                     setProcessing(false);
                     alert(`Copy of ${project.name} created in your dashboard.`);
                     return response;
-                } catch (error) {
-                    console.log('Error in copyProject: ', error);
-                    return error
+                } catch (error:any) {
+                    throw new Error(error.message)
                 }
             }
         }

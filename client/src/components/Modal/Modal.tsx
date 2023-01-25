@@ -72,8 +72,6 @@ const Modal: FC<Props> = (props) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('submitted');
-        console.log('DEETS: ', projectDetails);
         try {
             !props.editProject
                 ? await dispatch(createProjectAction(projectDetails))
@@ -103,8 +101,8 @@ const Modal: FC<Props> = (props) => {
                 closeModal(false);
                 props.setEditProject(false);
             }
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err:any) {            
+            throw new Error(err.message)
         }
     };
 

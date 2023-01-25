@@ -87,7 +87,6 @@ const AllProjects: FC<Props> = ({
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         let utilizedData: any = [];
-        console.log('direction: ', sortDirection);
         if (renderedPage == 'All Projects') {
             utilizedData = activeProjects;
         } else {
@@ -135,7 +134,6 @@ const AllProjects: FC<Props> = ({
             checkSearchVal;
         } catch (error: any) {
             alert('Please no special characters.');
-            console.log('error in searchfield: ', error.message);
         }
         if (searchValue === '') {
             setParsedData(data);

@@ -59,8 +59,6 @@ const DetailsFilter: FC<catalogPros> = ({
             x.toLowerCase()
         );
 
-        console.log(designs, packages);
-
         try {
             dispatch(
                 filterCatalogItems({
@@ -84,8 +82,8 @@ const DetailsFilter: FC<catalogPros> = ({
                 hallway: '',
                 forier: '',
             });
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
         const inputs = document.getElementsByTagName('input');
         for (let i = 0; i < inputs.length; i++) {
