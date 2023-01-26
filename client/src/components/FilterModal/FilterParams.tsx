@@ -219,7 +219,6 @@ export const FilterModal: FC<Props> = ({
                             </select>
                             <div className="new_room_modal_footer">
                                 <button
-                                    // id="reset-button"
                                     className="reset-button"
                                     onClick={() => clearForm()}
                                     type="reset"

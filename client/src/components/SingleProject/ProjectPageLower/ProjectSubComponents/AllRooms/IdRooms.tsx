@@ -2,14 +2,11 @@ import React, { FC, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../../../../../api/axios';
-
-import './rooms.scss';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
-import ReactTooltip from 'react-tooltip';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
 import { getAllProjectRoomsAction } from '../../../../../redux/actions/projectActions';
-
-// check(room).map((lights: LightType)=> dave sucks)
+import ReactTooltip from 'react-tooltip';
+import './rooms.scss';
 
 const IdRooms: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -46,7 +43,7 @@ const IdRooms: FC = () => {
             dispatch(getAllProjectRoomsAction(projectId));
             return response.data;
         } catch (error: any) {
-            console.log('Error: ', error);
+            throw new Error(error.message);
         }
     };
 

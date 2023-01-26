@@ -8,14 +8,12 @@ export interface RefreshTokenType {
 
 const refreshTokenController = (req: Request, res: Response) => {
   const cookies = req.cookies;
-  console.log(cookies, "refresh controller");
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken: string = cookies.jwt;
 
   User.findOne({ refreshToken })
     .then((user) => {
       if (!user) return res.sendStatus(401);
-      console.log("USER on REFRESH: ", user);
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET as string,
@@ -39,7 +37,7 @@ const refreshTokenController = (req: Request, res: Response) => {
         }
       );
     })
-    .catch((err) => console.log("Error in refresh: ", err));
+    .catch((err) => err);
 };
 
 export default { refreshTokenController };

@@ -14,7 +14,6 @@ import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 
-
 type Props = {
     renderedPage: string;
     setRenderedPage: React.Dispatch<React.SetStateAction<string>>;
@@ -59,7 +58,7 @@ const AllProjectView: FC<Props> = ({
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [processing, setProcessing] = useState(false)
+    const [processing, setProcessing] = useState(false);
 
     // Input Field handler
     const handleUserInput = (e: any) => {
@@ -110,7 +109,6 @@ const AllProjectView: FC<Props> = ({
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         let utilizedData: any = [];
-        console.log('direction: ', sortDirection);
         if (renderedPage == 'All Projects') {
             utilizedData = activeProjects;
         } else {
@@ -152,7 +150,7 @@ const AllProjectView: FC<Props> = ({
             checkSearchVal;
         } catch (error: any) {
             alert('Please no special characters.');
-            console.log('error in searchfield: ', error.message);
+            return error;
         }
         if (searchValue === '') {
             setParsedData(data);
@@ -223,7 +221,6 @@ const AllProjectView: FC<Props> = ({
             return directionCall[0];
         }
     };
-    
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
@@ -317,39 +314,39 @@ const AllProjectView: FC<Props> = ({
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
                     />
-                     <div className="personal-section-links">
-                <a
-                    id="all-projects"
-                    onClick={() => {
-                        setCurrentPage(1);
-                        setRenderedPage('All Projects');
-                        setSortToDefault();
-                    }}
-                    className={
-                        renderedPage === 'All Projects'
-                            ? 'personal-active'
-                            : 'personal-not-active'
-                    }
-                >
-                    Active Projects
-                </a>
-                <a
-                    id="archived"
-                    onClick={() => {
-                        setCurrentPage(1);
-                        setRenderedPage('Archived');
-                        setSortToDefault();
-                    }}
-                    className={
-                        renderedPage === 'Archived'
-                            ? 'personal-active'
-                            : 'personal-not-active'
-                    }
-                >
-                    Archived
-                </a>
-            </div>
-                    
+                    <div className="personal-section-links">
+                        <a
+                            id="all-projects"
+                            onClick={() => {
+                                setCurrentPage(1);
+                                setRenderedPage('All Projects');
+                                setSortToDefault();
+                            }}
+                            className={
+                                renderedPage === 'All Projects'
+                                    ? 'personal-active'
+                                    : 'personal-not-active'
+                            }
+                        >
+                            Active Projects
+                        </a>
+                        <a
+                            id="archived"
+                            onClick={() => {
+                                setCurrentPage(1);
+                                setRenderedPage('Archived');
+                                setSortToDefault();
+                            }}
+                            className={
+                                renderedPage === 'Archived'
+                                    ? 'personal-active'
+                                    : 'personal-not-active'
+                            }
+                        >
+                            Archived
+                        </a>
+                    </div>
+
                     {/* <div className='archive-toggle'>
                     <a
                     id="all-projects"
@@ -383,41 +380,45 @@ const AllProjectView: FC<Props> = ({
                 </a>
                     </div> */}
                     <div className="button-filter-container d-flex justify-content-end align-items-center">
-                    <div className={processing ? 'processing' : 'process-none'}>
-                     <h2>...Processing</h2>   
-                </div>
-                <div className='button-toggler'>
-                        <button
+                        <div
                             className={
-                                typeOfProject === 'allProjects'
-                                    ? 'all-project-button'
-                                    : 'type-project-btn'
+                                processing ? 'processing' : 'process-none'
                             }
-                            onClick={async () => {
-                                await resetInputField();
-                                await dispatch(setFilterProjNone());
-                                await setParsedData([]);
-                                await setTypeOfProject('allProjects');
-                            }}
                         >
-                            All Projects
-                        </button>
-                        <button
-                            className={
-                                typeOfProject === 'yourProjects'
-                                    ? 'your-projects-button'
-                                    : 'type-project-btn'
-                            }
-                            onClick={async () => {
-                                await resetInputField();
-                                await setSortToDefault();
-                                await dispatch(setFilterProjNone());
-                                await setParsedData([]);
-                                await setTypeOfProject('yourProjects');
-                            }}
-                        >
-                            Your Projects
-                        </button>
+                            <h2>...Processing</h2>
+                        </div>
+                        <div className="button-toggler">
+                            <button
+                                className={
+                                    typeOfProject === 'allProjects'
+                                        ? 'all-project-button'
+                                        : 'type-project-btn'
+                                }
+                                onClick={async () => {
+                                    await resetInputField();
+                                    await dispatch(setFilterProjNone());
+                                    await setParsedData([]);
+                                    await setTypeOfProject('allProjects');
+                                }}
+                            >
+                                All Projects
+                            </button>
+                            <button
+                                className={
+                                    typeOfProject === 'yourProjects'
+                                        ? 'your-projects-button'
+                                        : 'type-project-btn'
+                                }
+                                onClick={async () => {
+                                    await resetInputField();
+                                    await setSortToDefault();
+                                    await dispatch(setFilterProjNone());
+                                    await setParsedData([]);
+                                    await setTypeOfProject('yourProjects');
+                                }}
+                            >
+                                Your Projects
+                            </button>
                         </div>
                     </div>
                 </div>

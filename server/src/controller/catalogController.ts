@@ -55,7 +55,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
   if (req.files) {
     const documents = Object.values(req.files as any);
 
-    const results = await uploadFunc(documents);
+    const results:any = await uploadFunc(documents);
     if (results?.length) {
       for (let i = 0; i < results?.length; i++) {
         for (let j = 0; j < results[i].length; j++) {
@@ -223,104 +223,94 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
   specs = [];
   drawingFiles = [];
   if (req.files) {
-    console.log("hit files: ",req.files)
     const documents = Object.values(req.files as any);
 
-    const results = await uploadFunc(documents);
+    const results:any = await uploadFunc(documents);
     if (results?.length) {
       for (let i = 0; i < results?.length; i++) {
         for (let j = 0; j < results[i].length; j++) {
           const singleDoc = await results[i][j];
-          console.log("singleDoc!: ", singleDoc)
-
           if (singleDoc.field === "images") {
-            console.log("imagesDoc: ", singleDoc)
             images.push(singleDoc.s3Upload.Location);
           } else if (singleDoc.field === "drawingFiles") {
-            console.log("drawDoc: ", singleDoc)
             drawingFiles.push(singleDoc.s3Upload.Location);
           } else if (singleDoc.field === "pdf") {
-            console.log("pdfDoc: ", singleDoc)
             pdf.push(singleDoc.s3Upload.Location);
           } else if (singleDoc.field === "specs") {
-            console.log("SPECDOC: ", singleDoc)
             specs.push(singleDoc.s3Upload.Location);
-          }
-          else{
-            next()
+          } else {
+            next();
           }
         }
       }
     }
   }
-    console.log("imagesPreEditFiles: ", images)
   return await CatalogItem.findOne(search)
     .exec()
-    .then(async(light: any) => {
-      if(light){
-        console.log("HIT LIGHT: ", light)
-      if (light && keys.length) {
-        keys.map((keyName: string) => {
-          if (/edit/.test(keyName)) {
-            console.log("IN EDIT: ", keyName)
-            switch (keyName) {
-              case "editImages":
-                if(images.length){
-                  const paramsSplit = parameters[keyName].split(',')
-                  light.images = [...images, ...paramsSplit].filter(x=> x);
-                }else{
-                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
-                  light.images = paramsSplit
-                }
-                    console.log("light images: ", light.images, parameters[keyName]);
-                break;
-              case "editpdf":
-                if(pdf.length && parameters[keyName].length){
-                  const paramsSplit = parameters[keyName].split(',')
-                  light.pdf = [...pdf, ...paramsSplit]
-                }else{
-                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
-                  light.pdf = paramsSplit
-                }
-               console.log("lightPDF: ",light.pdf)
-                break;
-              case "editDrawingFiles":
-                if(drawingFiles.length && parameters[keyName].length){
-                  const paramsSplit = parameters[keyName].split(',')
-                  light.drawingFiles = [...drawingFiles, ...paramsSplit];
-                }else{
-                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
-                  light.drawingFiles = paramsSplit;
-                }
-                console.log("lightDrawingFiles: ",light.drawingFiles)
-                break;
-              case "editSpecs":
-                if(specs.length && parameters[keyName].length){
-                  const paramsSplit = parameters[keyName].split(',')
-                  light.specs = [...specs, ...paramsSplit]
-                }else{
-                  const paramsSplit = parameters[keyName].length ?  parameters[keyName].split(',') : []
-                  light.specs = paramsSplit
-                }
-                console.log("lightSpecs: ", light.specs)
-                break;
-              default:
-                null;
-                break;
+    .then(async (light: any) => {
+      if (light) {
+        if (light && keys.length) {
+          keys.map((keyName: string) => {
+            if (/edit/.test(keyName)) {
+              switch (keyName) {
+                case "editImages":
+                  if (images.length) {
+                    const paramsSplit = parameters[keyName].split(",");
+                    light.images = [...images, ...paramsSplit].filter((x) => x);
+                  } else {
+                    const paramsSplit = parameters[keyName].length
+                      ? parameters[keyName].split(",")
+                      : [];
+                    light.images = paramsSplit;
+                  }
+                  break;
+                case "editpdf":
+                  if (pdf.length && parameters[keyName].length) {
+                    const paramsSplit = parameters[keyName].split(",");
+                    light.pdf = [...pdf, ...paramsSplit];
+                  } else {
+                    const paramsSplit = parameters[keyName].length
+                      ? parameters[keyName].split(",")
+                      : [];
+                    light.pdf = paramsSplit;
+                  }
+                  break;
+                case "editDrawingFiles":
+                  if (drawingFiles.length && parameters[keyName].length) {
+                    const paramsSplit = parameters[keyName].split(",");
+                    light.drawingFiles = [...drawingFiles, ...paramsSplit];
+                  } else {
+                    const paramsSplit = parameters[keyName].length
+                      ? parameters[keyName].split(",")
+                      : [];
+                    light.drawingFiles = paramsSplit;
+                  }
+                  break;
+                case "editSpecs":
+                  if (specs.length && parameters[keyName].length) {
+                    const paramsSplit = parameters[keyName].split(",");
+                    light.specs = [...specs, ...paramsSplit];
+                  } else {
+                    const paramsSplit = parameters[keyName].length
+                      ? parameters[keyName].split(",")
+                      : [];
+                    light.specs = paramsSplit;
+                  }
+                  break;
+                default:
+                  null;
+                  break;
+              }
+            } else {
+              light[keyName] = parameters[keyName];
             }
-          }else{
-            light[keyName] = parameters[keyName];
-          }
-          ;
+          });
+          light.save();
+        }
+        return res.status(200).json({
+          light,
         });
-        light.save();
       }
-
-      console.log(`Catalog Item: ${light.item_ID} retrieved`);
-      return res.status(200).json({
-        light,
-      });
-    }
     })
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });

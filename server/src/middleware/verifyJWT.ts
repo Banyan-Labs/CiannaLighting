@@ -13,7 +13,6 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     token,
     process.env.ACCESS_TOKEN_SECRET as string,
     (err: any, token: TokenType) => {
-      console.log(err);
       if (err) return res.sendStatus(403);
       req.body.authEmail = token.name;
       req.body.authRole = token.role;

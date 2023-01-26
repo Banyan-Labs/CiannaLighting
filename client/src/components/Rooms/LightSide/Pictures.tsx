@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Data from './Data';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
 
@@ -8,7 +7,11 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-const Pictures: FC = () => {
+interface catalogProps {
+    catalogItem: any;
+}
+const Pictures: FC<catalogProps> = ({catalogItem}) => {
+    const Images = catalogItem.images;
     return (
         <>
             <Swiper
@@ -24,14 +27,14 @@ const Pictures: FC = () => {
                 navigation={true}
                 modules={[Navigation, Pagination]}
             >
-                {Data
-                    ? Data.map((p, i) => {
+                {Images
+                    ? Images.map((p:string, i: number) => {
                           return (
                               <SwiperSlide className="pictures-slide" key={i}>
                                   <img
                                       className="img-details"
-                                      src={p.image}
-                                      alt={p.name}
+                                      src={p}
+                                      alt={p}
                                   />
                               </SwiperSlide>
                           );

@@ -41,19 +41,16 @@ const createNewUser = async (req: Request, res: Response) => {
             });
           })
           .catch((error) => {
-            console.log(error);
             res.status(500).json({ message: error.message });
           });
       }
     })
     .catch((error) => {
-      console.log(error);
       res.sendStatus(500);
     });
 };
 
 const getAllUsers = (req: Request, res: Response) => {
-  console.log("hit");
   User.find()
     .exec()
     .then((results) => {

@@ -31,15 +31,6 @@ export interface ProposalTableRow {
   rooms: Room[]; // updates each time a room is added, and updates lightQuantity
   subTableRow: string[]; // fills in if secondary customization of light added with new copy
 }
-/**
- * make this into a new model,
- * create route that finds tableRow && subTableRow depending on Project ID every time that project is active.
- * create redux state to hold the return information.
- * if new light is selected, do a frontend check against redux, comparing itemID, if one is there send _id
- * if _id comes through with info make a new one &! ( update the info in the one with the _id (Proposal)  (rooms, subTableRow gets _id of new el, lightQuantity, totalWatts, totalLumens ))
- * if it does not then rfpDoc foundBy ProjectID gets the new _id assigned to the tableRow array
- *
- */
 
 export default interface rfpDocInterface extends Document {
   header: string; // project name && creates rfp

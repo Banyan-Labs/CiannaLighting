@@ -51,7 +51,6 @@ const getData = async (req: Request, res: Response) => {
     .exec()
     .then(async (proj) => {
       if (proj) {
-        console.log("get data attachments: ",proj)
         if (edit && edit.length) {
           if (edit === "add") {
             if (images && images.length) {
@@ -102,18 +101,13 @@ const deleteData = async (req: Request, res: Response) => {
               }
             });
             projectAttach.images = copyOfImages;
-            console.log("cpyImgs: ", copyOfImages);
             //attachments is array
             const imageVSpdf = copyOfImages
               .map((img) => img.attachments)
               .flat();
-            console.log("projAttch: ", projectAttach);
             const pdfVSimg = projectAttach.pdf.filter(
               (pdf) => imageVSpdf.indexOf(pdf) > -1
             );
-            console.log("imgPDF", imageVSpdf);
-            console.log("pdfVSIMG: ", pdfVSimg);
-            console.log("projAtchPDF: ", projId.pdf);
             if (pdfVSimg.length !== projectAttach.pdf.length) {
               projectAttach.pdf = pdfVSimg;
             }

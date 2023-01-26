@@ -190,8 +190,7 @@
     border-bottom: 1px solid rgb(39, 39, 40);
     width: 100%;
     thead {
-        top: 0;
-        // z-index: 1;
+        top: 0;        
         position: sticky;
         background: rgb(236, 235, 231);
         border-bottom: 2px solid $primary-bg-dark-title;

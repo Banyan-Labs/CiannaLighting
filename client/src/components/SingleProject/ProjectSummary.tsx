@@ -22,7 +22,7 @@ interface ProjectSummaryProps {
 const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
-    const {attachments} = useAppSelector(({project})=> project)
+    const { attachments } = useAppSelector(({ project }) => project);
     const dispatch = useAppDispatch();
     const Color =
         dataHolding.setData().color &&
@@ -44,8 +44,8 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                 ? alert('This project was restored')
                 : alert('This project was archived');
         } catch (error: any) {
-            console.log('Error archiving item: ', error.message);
             alert('Can not archive project.');
+            throw new Error(error.message);
         }
     };
 
@@ -55,16 +55,20 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     }, []);
 
     const copyOfProject = async (e: any, project: ProjectType) => {
-        e.preventDefault();   
-        const payload = { ...project, copy: 'project', attachments: attachments };
+        e.preventDefault();
+        const payload = {
+            ...project,
+            copy: 'project',
+            attachments: attachments,
+        };
         try {
-            const response = await dispatch(createProjectAction(payload))
+            const response = await dispatch(createProjectAction(payload));
             dispatch(getUserProjects(details.clientId));
             dispatch(getAllProjects());
             alert(`Copy of ${project.name} created in your dashboard.`);
             return response;
-        } catch (error) {
-            console.log('Error in copyProject: ', error);
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 

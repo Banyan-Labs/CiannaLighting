@@ -1,10 +1,7 @@
 import React, { FC } from 'react';
-// import { FaPaperclip } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
-// import { ModalAttachments } from './ModalAttachments.tsx';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { deleteSpecFile } from '../../redux/actions/lightActions';
-// import { LightType } from '../../redux/reducers/projectSlice';
 
 interface ProjectSummaryProps {
     details: any;
@@ -25,8 +22,9 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-              const fileName = [file.match(/(?:\d{9,}-)(\w+)/g)[0].split('-')[1]];
-              console.log("FN: ", fileName)
+              const fileName = [
+                  file.match(/(?:\d{9,}-)(\w+)/g)[0].split('-')[1],
+              ];
               return (
                   <tbody key={index}>
                       <tr className="attachments-dynamic-row">

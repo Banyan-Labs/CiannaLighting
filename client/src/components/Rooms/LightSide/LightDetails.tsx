@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
-import '../style/roomDetails.scss';
+import { FaSlidersH } from 'react-icons/fa';
 import Cards from './Cards';
 import SearchBar from './SearchBar';
 import CatalogItem from './CatalogItem';
-import { FaSlidersH } from 'react-icons/fa';
+import '../style/roomDetails.scss';
 
 interface catalogPros {
     setCatalogItem: any;
@@ -23,7 +23,6 @@ const LightDetails: FC<catalogPros> = ({
     filterBar,
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    // const [catalogItem, setCatalogItem] = useState(null);
 
     return (
         <>

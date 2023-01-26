@@ -55,8 +55,9 @@ const login = async (req: Request, res: Response) => {
               });
             })
             .catch((error) => {
-              console.log(error.message);
-              res.sendStatus(401);
+              res.sendStatus(401).json({
+                error,
+              });
             });
         } else {
           res
@@ -106,7 +107,6 @@ const getUser = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
-      console.log(error);
       res.sendStatus(500).json({
         message: error.message,
       });
@@ -117,14 +117,12 @@ const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
   const refreshToken = cookies.jwt;
-  console.log(refreshToken);
 
   if (!cookies.jwt) return res.sendStatus(204);
 
   await User.findOne({ refreshToken })
     .select("+refreshToken")
     .then((user) => {
-      console.log(user);
       if (!user) {
         res.clearCookie("jwt", {
           httpOnly: true,

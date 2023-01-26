@@ -19,12 +19,7 @@ interface catalogPros {
     renderPage: any;
 }
 
-const DesignStyles: FC<catalogPros> = ({
-    // catalogType,
-    setCatalogType,
-    setRenderPage,
-    // renderPage,
-}) => {
+const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {

@@ -25,8 +25,6 @@ export const axiosPrivate = () => {
     const state = store.getState();
     if (state) {
         token = state.auth.user.token;
-
-        console.log('axiosPrivate token: ', token);
         axiosAuth.interceptors.request.use(
             (config: any) => {
                 config.headers['authorization'] = `Bearer ${token}`;
@@ -45,7 +43,6 @@ export const axiosPrivate = () => {
                     prevRequest.headers['authorization'] = `Bearer ${newToken}`;
                     return axiosAuth(prevRequest);
                 }
-                console.log(error);
                 return error;
             }
         );
@@ -80,7 +77,6 @@ export const axiosFileUpload = async () => {
                     prevRequest.headers['authorization'] = `Bearer ${newToken}`;
                     return axiosFile(prevRequest);
                 }
-                console.log(error);
                 return error;
             }
         );
