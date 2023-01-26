@@ -71,8 +71,8 @@ const Navbar: FC = () => {
         try {
             e.preventDefault();
             dispatch(logoutAction(user.email));
-        } catch (err) {
-            console.log('Error: ', err);
+        } catch (err:any) {
+            throw new Error(err.message)
         }
     };
 

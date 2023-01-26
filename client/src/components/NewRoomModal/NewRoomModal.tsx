@@ -64,8 +64,8 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                 name: '',
                 description: '',
             });
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
 

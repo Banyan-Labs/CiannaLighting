@@ -58,8 +58,9 @@ const CatalogItem: FC<catalogPros> = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomLights, roomId, proposal } =
-        useAppSelector(({ project }) => project);
+    const { room, attachments, projectId, roomId, proposal } = useAppSelector(
+        ({ project }) => project
+    );
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
     );
@@ -166,11 +167,6 @@ const CatalogItem: FC<catalogPros> = ({
         };
         try {
             if (editLight === null) {
-                console.log('pre:', roomLights[roomLights.length - 1]);
-
-                console.log('post: ', roomLights[roomLights.length - 1]);
-                console.log('ItemSpecs!: ', catalogItem.specs);
-
                 if (catalogItem.specs.length) {
                     if (attachments.length) {
                         dispatch(
@@ -244,8 +240,8 @@ const CatalogItem: FC<catalogPros> = ({
             await dispatch(getRoomLights(String(storedRoomId)));
             setCatalogItem(null);
             setEditLight(null);
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
     return (

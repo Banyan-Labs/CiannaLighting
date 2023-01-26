@@ -5,13 +5,10 @@ interface catalogPros {
     setCatalogItem: any;
 }
 import { BsChevronLeft } from 'react-icons/bs';
-// import avatar2 from '../../assets/stairway.jpeg';
 import Tabs from './Tabs/Tabs';
 import Pictures from './Tabs/Pictures';
 
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
-    console.log('catalogItem', catalogItem);
-
     return (
         <div className="single-view-container col-12">
             <p className="catalog-back" onClick={() => setCatalogItem(null)}>

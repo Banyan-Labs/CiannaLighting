@@ -34,9 +34,8 @@ const Login: FC = () => {
                 email: '',
                 password: '',
             });
-        } catch (error) {
-            console.log(error);
-            return error;
+        } catch (error: any) {
+            throw new Error(error.message)
         }
     };
 

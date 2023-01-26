@@ -48,8 +48,8 @@ const CreateProjectPage: FC = () => {
                 clientName: user.name,
                 rooms: [],
             });
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
     return (

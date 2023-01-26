@@ -17,7 +17,6 @@ export const FilterModal: FC<Props> = ({
 }) => {
     const { allProjects } = useAppSelector(({ project }) => project);
     const { user } = useAppSelector(({ auth }) => auth);
-    // console.log(typeOfProject)
     const [formDetails, setFormDetails] = useState({
         clientName: '',
         status: '',
@@ -102,8 +101,8 @@ export const FilterModal: FC<Props> = ({
             );
             clearForm();
             closeModal(!openModal);
-        } catch (err) {
-            console.log('Error in submit: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
 

@@ -50,7 +50,11 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         );
 
         await dispatch(
-            deleteSpecFile({ projId: projectId, images: runDispatch, lights: lights })
+            deleteSpecFile({
+                projId: projectId,
+                images: runDispatch,
+                lights: lights,
+            })
         );
     };
 
@@ -80,10 +84,10 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            console.log('copyRoom Response: ', response);
             dispatch(getAllProjectRoomsAction(projectId));
+            return response;
         } catch (error: any) {
-            console.log('Error: ', error);
+            throw new Error(error.message);
         }
     };
 
