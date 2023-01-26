@@ -61,7 +61,6 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
 
 const getAllRooms = (req: Request, res: Response) => {
   const { projectId } = req.body;
-  console.log(projectId);
   if (projectId && projectId.length) {
     Room.find({ projectId })
       .then((rooms) => {
@@ -99,7 +98,6 @@ const getRoom = async (req: Request, res: Response) => {
         });
         room.save();
       }
-      console.log(`room: ${room?.name} retrieved`);
       return res.status(200).json({
         room,
       });
@@ -127,7 +125,6 @@ const deleteRoom = async (req: Request, res: Response) => {
         project.rooms = project.rooms.filter((id: string) => {
           return String(id) !== req.body._id ? id : "";
         });
-        console.log("Project updated DELETEROOM: ", project);
         await project.save();
       }
       const roomRemoved = "room removed successfully from project";

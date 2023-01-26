@@ -15,7 +15,6 @@ export const uploadFunc = async (files: any) => {
   try {
     const response = files.map(async (field: any) => {
       const params = field.map((file: any) => {
-        console.log("S3 FILE!! pre send: ", file);
         return {
           Bucket: bucketName,
           Key: `uploads/${Date.now()}-${file.originalname}`,
@@ -26,7 +25,6 @@ export const uploadFunc = async (files: any) => {
 
       return await Promise.all(
         params.map(async (param: any) => {
-          console.log("s3PROMISE: ", param)
           return {
             s3Upload: await s3
               .upload({
@@ -42,15 +40,6 @@ export const uploadFunc = async (files: any) => {
     });
     return await Promise.all(response.map(async (res: any) => res));
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
-
-// export const getfieldtream = (fileKey: string) => {
-//   const downloadParams = {
-//     Key: fileKey, // maybe see if you can get all the array images.
-//     Bucket: bucketName,
-//   };
-
-//   return s3.getObject(downloadParams).createReadStream();
-// };

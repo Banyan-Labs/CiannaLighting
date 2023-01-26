@@ -22,7 +22,9 @@ const PersistLogin = () => {
                 throw new Error(error.message);
             } finally {
                 isMounted && setIsLoading(false);
+                if(projectId && projId){
                 dispatch(setSpecFile({ projId: projId, edit: '' }, false));
+                }
             }
         };
 

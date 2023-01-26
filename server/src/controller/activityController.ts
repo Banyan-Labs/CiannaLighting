@@ -8,18 +8,14 @@ const createActivityLog = async (
   next: NextFunction
 ) => {
   const { name, userId, ipAddress, role } = req.body;
-  console.log(req.body);
   await Activity.findOne({ ipAddress: ipAddress })
     .exec()
     .then((log) => {
       if (log) {
-        // console.log(log, 'got it')
         log.ipAddress = ipAddress;
-        console.log(log.ipAddress);
         log
           .save()
           .then((updatedLog) => {
-            // console.log(updatedLog, 'updated log')
             res.status(201).json({
               updatedLog,
             });
@@ -82,7 +78,6 @@ const getUserLogs = (req: Request, res: Response) => {
 };
 
 const deleteLog = async (req: Request, res: Response) => {
-  console.log(req.body._id, "delete log");
   await Activity.findOneAndDelete({ _id: req.body._id })
     .then((data) => {
       return res.status(200).json({
@@ -97,4 +92,4 @@ const deleteLog = async (req: Request, res: Response) => {
     });
 };
 
-export default { createActivityLog, getAllLogs, deleteLog };
+export default { createActivityLog, getAllLogs, deleteLog, getUserLogs };

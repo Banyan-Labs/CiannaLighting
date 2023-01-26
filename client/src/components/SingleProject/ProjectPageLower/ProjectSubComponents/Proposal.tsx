@@ -15,7 +15,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     }
 
     const { rfp, proposal, attachments } = useAppSelector(({ project }) => {
-        console.log(project);
         return project;
     });
 
@@ -105,7 +104,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
 
     const renderAttachments = () => {
         return attachments.map((url, index) => {
-            console.log('URL: ', url);
             return (
                 <Document
                     key={index}
@@ -293,7 +291,12 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                             </thead>
                                             <tbody>
                                                 {tableRows.slice(
-                                                    -(((tableRows.length - 1) % 6) +1)
+                                                    -(
+                                                        ((tableRows.length -
+                                                            1) %
+                                                            6) +
+                                                        1
+                                                    )
                                                 )}
                                             </tbody>
                                         </table>

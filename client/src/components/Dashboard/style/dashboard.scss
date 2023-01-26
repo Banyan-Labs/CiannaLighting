@@ -54,7 +54,6 @@
     flex-basis: 100%;
     display: grid;
     color: $primary-bg-dark-title;
-    // color: #fff;
     grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
     grid-template-rows: 20px 50px;
     grid-template-areas:
@@ -65,7 +64,6 @@
 }
 
 .overview-icon-main {
-    // width: 20px;
     width: 40px;
     height: auto;
     color: $primary-bg-light-grey;
@@ -80,7 +78,6 @@
 
 .overview-num-main {
     font-family: $font-family;
-    // font-size: 12;
     font-size: 20px;
 }
 

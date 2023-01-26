@@ -86,18 +86,14 @@
 .description-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    // border: 2px solid blue;
+    align-items: center;    
     h4 {
         margin-left: 20px;
         font-weight: 400;
     }
 
     p {
-        padding-left: 10px;
-        // padding-left: 120px;
-        // padding-right: 30px;
-        // padding-top: 5px;
+        padding-left: 10px;        
         color: $primary-bg-white-sub-text;
     }
 }
@@ -143,9 +139,7 @@
         padding-left: 10px;
     }
 }
-.container-for-light-cards-off {
-    // min-height: 50vh;
-    // max-height: 50vh;
+.container-for-light-cards-off {    
     min-height: 510px;
     max-height: 510px;
     overflow-y: scroll;
@@ -174,36 +168,6 @@
                     color: $primary-bg-white-sub-text;
                 }
 
-                // .edit-link {
-                //     text-decoration: underline;
-                //     padding-right: 15px;
-                //     font-size: 16px !important;
-                //     color: $accent-gold;
-                //     font-weight: 500;
-                //     cursor: pointer;
-                //     border: none;
-                //     background: none;
-                //     transition: all 0.2s ease-in-out;
-                //     &:hover {
-                //         transition: all 0.2s ease-in-out;
-                //         color: $primary-bg-dark-title;
-                //     }
-                // }
-
-                // .remove-link {
-                //     text-decoration: underline;
-                //     font-weight: 500;
-                //     cursor: pointer;
-                //     font-size: 16px !important;
-                //     color: $primary-bg-white-sub-text;
-                //     border: none;
-                //     background: none;
-                //     transition: all 0.2s ease-in-out;
-                //     &:hover {
-                //         transition: all 0.2s ease-in-out;
-                //         color: $primary-bg-dark-title;
-                //     }
-                // }
                 h3 {
                     color: $primary-bg-dark-title;
                 }
@@ -227,8 +191,7 @@
             }
         }
         .lightImg {
-            box-shadow: $box-shadow;
-            // height: 85px;
+            box-shadow: $box-shadow;            
             height: 120px;
             border-radius: 0.2rem;
         }

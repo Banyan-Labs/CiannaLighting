@@ -2,8 +2,6 @@ import React, { FC, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 
-// import "./style/projectForm.css";
-
 type ProjectType = {
     name: string;
     description: string;

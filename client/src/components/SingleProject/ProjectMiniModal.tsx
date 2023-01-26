@@ -11,7 +11,7 @@ import {
     setTheYourProjects,
     createProjectAction,
     getUserProjects,
-    getAllProjects
+    getAllProjects,
 } from '../../redux/actions/projectActions';
 import { axiosPrivate } from '../../api/axios';
 
@@ -23,7 +23,7 @@ interface projectProps {
     setTypeOfProject: any;
     typeOfProject: any;
     yourProject: any;
-    setProcessing: React.Dispatch<React.SetStateAction<boolean>>
+    setProcessing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProjectMiniModal: FC<projectProps> = ({
@@ -32,7 +32,7 @@ const ProjectMiniModal: FC<projectProps> = ({
     project,
     setDeleteProject,
     typeOfProject,
-    setProcessing
+    setProcessing,
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -50,8 +50,6 @@ const ProjectMiniModal: FC<projectProps> = ({
         },
         [user.name, navigate]
     );
-    console.log(project, 'minimodal');
-
     const goToProject = () => {
         return (
             <div
@@ -69,19 +67,22 @@ const ProjectMiniModal: FC<projectProps> = ({
     const copyOfProject = async (e: any) => {
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
-        setProcessing(true)
-        const axiosPriv = await axiosPrivate();
-        
+        setProcessing(true);
+        const axiosPriv = axiosPrivate();
+
         const attach = await axiosPriv.post('/get-attachments', {
             projId: project._id,
         });
         let attachments = [];
         if (attach) {
-            console.log('ATTACH: ', attach);
             attachments = attach.data.proj.pdf;
             if (attachments.length) {
                 const payload = {
-                    project: {...project, clientId: user._id, clientName: user.name},
+                    project: {
+                        ...project,
+                        clientId: user._id,
+                        clientName: user.name,
+                    },
                     copy: 'project',
                     attachments: attachments,
                 };
@@ -91,21 +92,22 @@ const ProjectMiniModal: FC<projectProps> = ({
                     );
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
-                    setProcessing(false)
+                    setProcessing(false);
                     alert(`Copy of ${project.name} created in your dashboard.`);
                     return response;
-                } catch (error) {
-                    console.log('Error in copyProject: ', error);
-                    return error
+                } catch (error: any) {
+                    throw new Error(error.message);
                 }
             }
         }
     };
 
-
     return (
         <div className="project-mini-modal">
-            <div className="project-mini-modal-link" onClick={(e) => copyOfProject(e)}>
+            <div
+                className="project-mini-modal-link"
+                onClick={(e) => copyOfProject(e)}
+            >
                 <FaRegCopy />
                 <p>Duplicate</p>
             </div>
@@ -127,7 +129,11 @@ const ProjectMiniModal: FC<projectProps> = ({
                     }
                     className="project-mini-modal-link"
                 >
-                    {project.clientId === user._id ? <FaPlay/> : <FaBookReader/>}{' '}
+                    {project.clientId === user._id ? (
+                        <FaPlay />
+                    ) : (
+                        <FaBookReader />
+                    )}{' '}
                     <p>
                         {project?.clientId === user?._id
                             ? 'Go To Project'

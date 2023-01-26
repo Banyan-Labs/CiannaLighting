@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
-// import { Finish } from "../interfaces/rfpDocInterface";
 import LightSelection from "../model/LIghtSelection";
-import RFP from "../model/RFP";
-import ProposalTableRow from "../model/ProposalTableRow";
 import Room from "../model/Room";
 
 const lightSelected = async (
@@ -33,12 +30,12 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType, 
+    lampType,
     lampColor,
     wattsPer,
     totalWatts,
     numberOfLamps,
-    totalLumens
+    totalLumens,
   } = req.body.light;
 
   const light = new LightSelection({
@@ -64,13 +61,12 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType, 
+    lampType,
     lampColor,
     wattsPer,
     totalWatts,
     numberOfLamps,
-    totalLumens
-    
+    totalLumens,
   });
   const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
@@ -138,7 +134,6 @@ const getSelectedLight = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
-  console.log(parameters, "params object");
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
     .then((light: any) => {
@@ -148,7 +143,6 @@ const getSelectedLight = async (req: Request, res: Response) => {
         });
         light.save();
       }
-      console.log(`light_selected:${light?.item_ID}`);
       return res.status(200).json({
         light,
       });
@@ -159,7 +153,6 @@ const getSelectedLight = async (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async (req: Request, res: Response) => {
-  // console.log(req.body, 'hello', req.body.roomId)
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {

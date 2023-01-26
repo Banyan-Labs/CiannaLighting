@@ -71,7 +71,6 @@ const Projects: FC = () => {
                 </>
             ) : (
                 <div className="projects-bottom-half">
-                    
                     <div className="all-project-view-main-container">
                         <AllProjectView
                             renderedPage={renderedPage}
@@ -88,8 +87,6 @@ const Projects: FC = () => {
                         />
                     </div>
                 </div>
-                // <DashboardNav             
-                // yourProject={yourProjects}/>
             )}
         </>
     );
