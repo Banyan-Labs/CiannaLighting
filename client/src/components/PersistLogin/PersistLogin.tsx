@@ -11,21 +11,20 @@ const PersistLogin = () => {
     const { projectId } = useAppSelector(({ project }) => project);
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
-    // const token = localStorage.getItem('token');
-    const token:string  = user.token;
+    const token: string = user.token;
     const projId = projectId;
     useEffect(() => {
         let isMounted = true;
         const verifyRefreshToken = async () => {
             try {
                 await dispatch(refreshToken());
-            } catch (error) {
-                console.log('Error in persistLogin: ', error);
-                throw error;
+            } catch (error: any) {
+                throw new Error(error.message);
             } finally {
                 isMounted && setIsLoading(false);
+                if(projectId && projId){
                 dispatch(setSpecFile({ projId: projId, edit: '' }, false));
-                console.log("userToken: ", token)
+                }
             }
         };
 

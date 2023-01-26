@@ -2,8 +2,6 @@ import React, { FC, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 
-// import "./style/projectForm.css";
-
 type ProjectType = {
     name: string;
     description: string;
@@ -48,8 +46,8 @@ const CreateProjectPage: FC = () => {
                 clientName: user.name,
                 rooms: [],
             });
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
     return (

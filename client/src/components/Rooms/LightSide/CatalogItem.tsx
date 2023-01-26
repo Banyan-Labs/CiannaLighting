@@ -1,6 +1,5 @@
 import React, { FC, useState, FormEvent } from 'react';
 import useParams from '../../../app/utils';
-import Default2 from '../../../assets/celestial-room.jpeg';
 import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
@@ -58,8 +57,9 @@ const CatalogItem: FC<catalogPros> = ({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [anotherCollapsed, setAnotherCollapsed] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomLights, roomId, proposal } =
-        useAppSelector(({ project }) => project);
+    const { room, attachments, projectId, roomId, proposal } = useAppSelector(
+        ({ project }) => project
+    );
     const [count, setCount] = useState<number>(
         editLight !== null ? editLight?.quantity : 1
     );
@@ -146,7 +146,6 @@ const CatalogItem: FC<catalogPros> = ({
         setEditLight(null);
         setCatalogItem(null);
     };
-
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const propCheck = proposal
@@ -166,11 +165,6 @@ const CatalogItem: FC<catalogPros> = ({
         };
         try {
             if (editLight === null) {
-                console.log('pre:', roomLights[roomLights.length - 1]);
-
-                console.log('post: ', roomLights[roomLights.length - 1]);
-                console.log('ItemSpecs!: ', catalogItem.specs);
-
                 if (catalogItem.specs.length) {
                     if (attachments.length) {
                         dispatch(
@@ -244,19 +238,18 @@ const CatalogItem: FC<catalogPros> = ({
             await dispatch(getRoomLights(String(storedRoomId)));
             setCatalogItem(null);
             setEditLight(null);
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
     return (
         <form
             onSubmit={onSubmit}
             className="d-flex catalog-container container-fluid row"
-            // style={{ border: '2px solid yellow' }}
         >
             <div className="col-5 item-img-container d-flex row justify-content-between container-type-back align-content-start m-0">
-                <img className="col-12 p-0" src={Default2} alt="" />
-                <Pictures />
+                <img className="col-12 p-0" src={catalogItem.images[0]} alt="" />
+                <Pictures catalogItem={catalogItem}/>
                 <div className="col-12">
                     <h4
                         className="collapse-button d-flex justify-content-between align-items-center p-0 m-0"

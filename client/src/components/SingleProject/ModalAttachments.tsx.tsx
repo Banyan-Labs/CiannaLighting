@@ -1,11 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState, ChangeEvent } from 'react';
-// import useParams from '../../app/utils';
 import { FaTimes } from 'react-icons/fa';
-// import { useNavigate } from 'react-router-dom';
-// import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import '../NewRoomModal/style/newRoomModal.css';
 import { axiosFileUpload } from '../../api/axios';
+import '../NewRoomModal/style/newRoomModal.css';
 
 type Props = {
     closeModal: React.Dispatch<React.SetStateAction<any>>;
@@ -38,14 +35,12 @@ export const ModalAttachments: FC<Props> = ({
         if (e.target.name === 'drawingFiles') {
             setDrawingFilesArray(e.target.files);
         }
-        console.log(pdfFiles, pdf, pdfNames, '\n', imgFiles, images, imageName);
     };
 
     const listFileNames = (e: any) => {
         e.preventDefault();
         if (imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
-                console.log(imgFiles[key]);
                 const objectUrl = URL.createObjectURL(imgFiles[key]);
                 setImageNames([...imageName, objectUrl]);
                 setImages([...images, imgFiles[key]]);
@@ -70,39 +65,26 @@ export const ModalAttachments: FC<Props> = ({
         e.preventDefault();
         const axiosPriv = axiosFileUpload();
         const fs = new FormData();
-
-        console.log('imgs, pdf', images, pdf);
         fs.append('projId', project._id);
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
                 fs.append('images', images[i]);
-                console.log('imgs: ', images[i]);
-                console.log('fs: ', fs);
             }
-            console.log('fsIMG : ', fs);
         }
         if (pdf.length) {
             for (let i = 0; i < pdf.length; i++) {
                 fs.append('pdf', pdf[i]);
-                console.log('pdf: ', pdf);
-                console.log('pdfI: ', pdf[i]);
-                console.log('fspdf: ', fs);
             }
-            console.log('fs pdf: ', fs, pdf);
         }
         if (drawingFiles.length) {
             for (let i = 0; i < drawingFiles.length; i++) {
                 fs.append('drawingFiles', drawingFiles[i]);
             }
         }
-
-        //  fs.append('edit', 'add')
-        console.log('imgfiles, imgs, fs: ', imgFiles, images, fs);
         try {
             (await axiosPriv).post('/new-attachments', fs);
         } catch (error: any) {
-            alert(error.messsge);
-            console.log('Error Message: ', error.message);
+            throw new Error(error.messsge);
         }
     };
 
@@ -153,7 +135,6 @@ export const ModalAttachments: FC<Props> = ({
 
                             <div className="img-container-attach">
                                 {imageName.map((url: any, index: number) => {
-                                    console.log(url);
                                     return <img src={url} key={index} alt="" />;
                                 })}
                             </div>
@@ -205,7 +186,6 @@ export const ModalAttachments: FC<Props> = ({
                             <div>
                                 {drawingFilesNames.map(
                                     (url: any, index: number) => {
-                                        console.log(url);
                                         return (
                                             <img src={url} key={index} alt="" />
                                         );

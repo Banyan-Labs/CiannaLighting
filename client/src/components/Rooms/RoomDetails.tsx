@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-import Default from '../../assets/stairway.jpeg';
+// import Default from '../../assets/stairway.jpeg';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from './LightSide/DeleteModal';
@@ -20,7 +20,7 @@ interface lightProps {
 
 const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const [openModal, setOpenModal] = useState(false);
-    const { room, project, roomLights } = useAppSelector(
+    const { room, project, roomLights, setAllCatalog } = useAppSelector(
         ({ project }) => project
     );
 
@@ -50,7 +50,11 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         );
 
         await dispatch(
-            deleteSpecFile({ projId: projectId, images: runDispatch, lights: lights })
+            deleteSpecFile({
+                projId: projectId,
+                images: runDispatch,
+                lights: lights,
+            })
         );
     };
 
@@ -80,18 +84,19 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            console.log('copyRoom Response: ', response);
             dispatch(getAllProjectRoomsAction(projectId));
+            return response;
         } catch (error: any) {
-            console.log('Error: ', error);
+            throw new Error(error.message);
         }
     };
-
+    
     const singleRoom = newLights?.map((light: any, index: any) => {
+        const image = setAllCatalog ?  setAllCatalog.find((item: any)=> item.item_ID === light.item_ID).images[0] : '';
         return (
             <div className="single-room-container d-flex row" key={index}>
                 <div className="first-light-section d-flex mb-2">
-                    <img className="lightImg" src={Default} alt={light.name} />
+                    <img className="lightImg" src={image} alt={light.name} />
                     <div className="d-flex row first-section-name">
                         <div className="">
                             <h3>{light.item_ID}</h3>

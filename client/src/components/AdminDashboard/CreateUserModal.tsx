@@ -56,8 +56,8 @@ const CreateUserModal: FC<Props> = (props) => {
 
             dispatch(getAllUsers());
             props.closeModal(!props.openModal);
-        } catch (err) {
-            console.log('Error: ' + err);
+        } catch (err:any) {            
+            throw new Error(err.message)
         }
     };
     return (

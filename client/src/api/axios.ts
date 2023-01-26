@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { store } from '../redux/store';
 
-// console.log(state)
-
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default axios.create({
@@ -22,73 +20,68 @@ const axiosFile = axios.create({
 });
 
 export const axiosPrivate = () => {
-    let token = ''
-   
-    const state = store.getState()
-    if(state){
-     token = state.auth.user.token;
-    
-    console.log("axiosPrivate token: ",token)
-    axiosAuth.interceptors.request.use(
-        (config: any) => {
-            config.headers['authorization'] = `Bearer ${token}`;
+    let token = '';
 
-            return config;
-        },
-        (error) => Promise.reject(error)
-    );
-    axiosAuth.interceptors.response.use(
-        (response) => response,
-        async (error) => {
-            const prevRequest = error?.config;
-            if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
-                prevRequest.sent = true;
-                const newToken = await axiosAuth.get('rf/refresh');
-                prevRequest.headers['authorization'] = `Bearer ${newToken}`;
-                return axiosAuth(prevRequest);
+    const state = store.getState();
+    if (state) {
+        token = state.auth.user.token;
+        axiosAuth.interceptors.request.use(
+            (config: any) => {
+                config.headers['authorization'] = `Bearer ${token}`;
+
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+        axiosAuth.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                const prevRequest = error?.config;
+                if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
+                    prevRequest.sent = true;
+                    const newToken = await axiosAuth.get('rf/refresh');
+                    prevRequest.headers['authorization'] = `Bearer ${newToken}`;
+                    return axiosAuth(prevRequest);
+                }
+                return error;
             }
-            console.log(error);
-            return error;
-        }
-    );
+        );
 
-    return axiosAuth;
-    }else{
-        throw Error ('axiosPrivate call error')
+        return axiosAuth;
+    } else {
+        throw Error('axiosPrivate call error');
     }
 };
 
 export const axiosFileUpload = async () => {
-    let token = ''
-   
-    const state = store.getState()
-    if(state){
-     token = state.auth.user.token;
-    axiosFile.interceptors.request.use(
-        (config: any) => {
-            config.headers['authorization'] = `Bearer ${token}`;
+    let token = '';
 
-            return config;
-        },
-        (error) => Promise.reject(error)
-    );
-    axiosFile.interceptors.response.use(
-        (response) => response,
-        async (error) => {
-            const prevRequest = error?.config;
-            if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
-                prevRequest.sent = true;
-                const newToken = await axiosFile.get('rf/refresh');
-                prevRequest.headers['authorization'] = `Bearer ${newToken}`;
-                return axiosFile(prevRequest);
+    const state = store.getState();
+    if (state) {
+        token = state.auth.user.token;
+        axiosFile.interceptors.request.use(
+            (config: any) => {
+                config.headers['authorization'] = `Bearer ${token}`;
+
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+        axiosFile.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                const prevRequest = error?.config;
+                if (error?.repsonse?.status === 403 && !prevRequest?.sent) {
+                    prevRequest.sent = true;
+                    const newToken = await axiosFile.get('rf/refresh');
+                    prevRequest.headers['authorization'] = `Bearer ${newToken}`;
+                    return axiosFile(prevRequest);
+                }
+                return error;
             }
-            console.log(error);
-            return error;
-        }
-    );
-        console.log("axiosFile: ",axiosFile.interceptors)
-    return axiosFile;
-}else{
-    throw Error ('axiosFILEupload call error')
-}
+        );
+        return axiosFile;
+    } else {
+        throw Error('axiosFILEupload call error');
+    }
 };

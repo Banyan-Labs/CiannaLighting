@@ -38,8 +38,7 @@ export const getCatalogItems =
 
 export const setSpecFile =
     (payload: any, newAttach: boolean) => async (dispatch: Dispatch) => {
-        const axiosPriv = await axiosPrivate();
-        console.log('pay&status:', payload, newAttach);
+        const axiosPriv = axiosPrivate();
         try {
             const response = (endpoint: string) => {
                 return axiosPriv.post(endpoint, payload);
@@ -59,52 +58,46 @@ export const setSpecFile =
                 }
             }
         } catch (error: any) {
-            console.log('ERROR IN SPECS: ', error);
             dispatch(setProjectError(error.reponse));
+            throw new Error(error.message);
         }
     };
 export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
-    const axiosPriv = await axiosPrivate();
+    const axiosPriv = axiosPrivate();
     try {
         const response = await axiosPriv.post('/delete-attachments', payload);
         dispatch(setAttachments(response.data.projectAttach.pdf));
-        if(response){
-            console.log("propLights: ", payload.lights.map((prop: any)=> prop._id));
-            const runIDS = payload.lights.map((prop: any)=> prop._id);
+        if (response) {
+            const runIDS = payload.lights.map((prop: any) => prop._id);
             const finished = runIDS.length;
             let i = 0;
-            while(i < finished){
-                console.log("I - F: ", i, '-', finished)
-                const proposal = await axiosPriv.post("/delete-props", {lightID: runIDS[i]})
-                if(proposal){
-                    i+=1
+            while (i < finished) {
+                const proposal = await axiosPriv.post('/delete-props', {
+                    lightID: runIDS[i],
+                });
+                if (proposal) {
+                    i += 1;
                 }
             }
-            // const props = await payload.lights.map(async(prop: any)=> await axiosPriv.post("/delete-props", {lightIDS: prop._id}))
-        // const deleteProps = await axiosPriv.post("/delete-props", {lightIDS: props});
-        // console.log("Maybe? props in delAtchAction: ",props)
-
-        if( i == finished){
-            console.log("I=>F: ",i , "=>", finished)
-            const proposalSet = await axiosPriv.post('/get-proposals', {
-                projectId: payload.projectId,
-            });
-            if (proposalSet) {
-                console.log('PROPOSAL STUFF: ', proposalSet);
-                dispatch(setProposals(proposalSet.data.proposal));
+            if (i == finished) {
+                const proposalSet = await axiosPriv.post('/get-proposals', {
+                    projectId: payload.projectId,
+                });
+                if (proposalSet) {
+                    dispatch(setProposals(proposalSet.data.proposal));
+                }
             }
-        }
-
         }
     } catch (error: any) {
         dispatch(setProjectError(error.response));
+        throw new Error(error.message);
     }
 };
 
 export const createLight =
     (light: LightType) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const created = await axiosPriv.post('/create-lightSelection', {
                 light: light,
@@ -118,62 +111,46 @@ export const createLight =
                         projectId: light.projectId,
                     });
                     if (proposalSet) {
-                        console.log('PROPOSAL STUFF: ', proposalSet);
                         dispatch(setProposals(proposalSet.data.proposal));
                     }
                 }
             }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
+            throw new Error(error.message);
         }
     };
 
 export const deleteLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
-            console.log('payloadDELETE:', payload);
-            const response = await axiosPriv.post(
-                '/delete-lightSelection',
-                payload
-            );
-            console.log('successDELETE: ', response);
-            // if(response){
-            //     const deleteProps = await axiosPriv.post("/delete-props", {lightID: payload._id})
-            //     if(deleteProps){
-            //         const proposalSet = await axiosPriv.post('/get-proposals', {
-            //             projectId: payload.projectId,
-            //         });
-            //         if (proposalSet) {
-            //             console.log('PROPOSAL STUFF: ', proposalSet);
-            //             dispatch(setProposals(proposalSet.data.proposal));
-            //         }
-            //     }
-            // }
+            await axiosPriv.post('/delete-lightSelection', payload);
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
+            throw new Error(error.message);
         }
     };
 
 export const getEditLight =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        console.log(payload);
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-light', payload);
             dispatch(setCatalogConnect(response.data.light));
             return response.data.light;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
+            throw new Error(error.message);
         }
     };
 
 export const theEditLight =
     (payload: any, lightId: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
 
         try {
             const response = await axiosPriv.post('/find-lightSelection', {
@@ -181,48 +158,38 @@ export const theEditLight =
                 _id: lightId,
             });
             if (response) {
-                console.log('response in edit: ', response);
-                console.log('payload in edit: ', {
-                    ...payload,
-                    lightID: lightId,
-                });
                 const propEdit = await axiosPriv.post('/edit-props', {
                     ...payload,
                     lightID: lightId,
                 });
-                console.log('PropEDIT: ', propEdit);
                 if (propEdit) {
                     const proposalSet = await axiosPriv.post('/get-proposals', {
                         projectId: payload.projectId,
                     });
                     if (proposalSet) {
-                        console.log('PROPOSAL STUFF: ', proposalSet);
                         dispatch(setProposals(proposalSet.data.proposal));
                     }
                 }
             }
-            /**
-             * need to set up the rfp & proposal dispatches here
-             *  */
             return response.data;
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
+            throw new Error(error.message);
         }
     };
 
 export const filterCatalogItems =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
-            console.log('cataPAY: ', payload);
             const response = await axiosPriv.post(
                 '/public/get-catalog',
                 payload
             );
-            console.log('respCAT: ', response);
             dispatch(setCatalogLights(response.data.items));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
+            throw new Error(error.message);
         }
     };
