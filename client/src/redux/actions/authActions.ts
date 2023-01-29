@@ -29,7 +29,9 @@ export const signInAction =
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
-            const res = await axios.get('https://geolocation-db.com/json/');
+            const res = await axios.get('https://geolocation-db.com/json/', {
+                headers: { 'Access-Control-Allow-Origin': '*' },
+            });
             const log: userLogType = {
                 userId: response.data.user._id,
                 name: response.data.user.name,
