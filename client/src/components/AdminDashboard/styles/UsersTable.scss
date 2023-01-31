@@ -52,6 +52,13 @@
         justify-content: flex-start;
     }
 }
+.settings-head{
+    border-radius: 3px 3px 0px 0px;
+    cursor: pointer;
+}
+.settings-head:hover{
+    box-shadow: inset 0 0 5px 5px rgba(0, 0, 0, 0.676);
+}
 .remove-td {
     padding-left: 30px;
 }
