@@ -1,13 +1,17 @@
 import React, { FC, useEffect, useState } from 'react';
 import { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { FaPlus } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
 
 const Settings: FC = () => {
     const [status, setStatus] = useState<string[]>([]);
     const [region, setRegion] = useState<string[]>([]);
     const [newStatus, setNewStatus] = useState<string>('');
     const [newRegion, setNewRegion] = useState<string>('');
+    const [sortedStatus, setSortedStatus] = useState<string[]>([]);
+    const [sortedRegion, setSortedRegion] = useState<string[]>([]);
+    const [statusSort, setStatusSort] = useState<number>(0);
+    const [regionSort, setRegionSort] = useState<number>(0);
 
     const setSections = async () => {
         const axiosPriv = axiosPrivate();
@@ -18,8 +22,14 @@ const Settings: FC = () => {
             const regionCall = await axiosPriv.post('/public/s_r', {
                 label: 'region',
             });
+            if(statusCall){
             setStatus(statusCall.data.data);
+            setSortedStatus(statusCall.data.data)
+            }
+            if(regionCall){
             setRegion(regionCall.data.data);
+            setSortedRegion(regionCall.data.data)
+            }
             setNewStatus('');
             setNewRegion('');
         } catch (error: any) {
@@ -47,25 +57,100 @@ const Settings: FC = () => {
                 label: section,
                 value: submitVal,
             });
+            if(submitted){
+                setSections();
+            }
             return submitted
         } catch (error: any) {
             throw new Error(error.message);
         }
-        setSections();
+        
     };
     const removeSR = async (e: any, section: string, value: string) => {
         e.preventDefault();
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv =  axiosPrivate();
         try {
             const submitted = await axiosPriv.post('/internal/delete-sr', {
                 label: section,
                 value: value,
             });
+            if(submitted){
+                setSections();
+            }
             return submitted            
         } catch (error: any) {            
             throw new Error(error.message);
         }
-        setSections();
+        
+    };
+    const sortDisplay = (field: string) => {
+        const directionCall: any = {
+            0: '',
+            1: <FaChevronUp className="sort-chevron" />,
+            2: <FaChevronDown className="sort-chevron" />,
+        };
+        if (field == 'status') {
+            return directionCall[statusSort];
+        } else {
+            return directionCall[regionSort];
+        }
+    };
+    const setUpSortTrigger = (field: string, direction: number) => {
+        const utilizedData: any = field == 'status' ? status : region;
+        
+        const sorted: any = {
+            0: utilizedData,
+            1: utilizedData.slice().sort((a: any, b: any) => {
+                if (a < b) {
+                    return -1;
+                }
+                if (a > b) {
+                    return 1;
+                }
+                return 0;
+            }),
+            2: utilizedData.slice().sort((a: any, b: any) => {
+                if (b < a) {
+                    return -1;
+                }
+                if (b > a) {
+                    return 1;
+                }
+                return 0;
+            }),
+        };
+        if (field == 'status'){
+        setSortedStatus(sorted[direction]);
+        setStatusSort(direction);
+        }else{
+            setSortedRegion(sorted[direction]);
+            setRegionSort(direction)
+        }
+    };
+    const triggerDirection = (field: string) => {
+        if (field == 'status') {
+            if (statusSort == 0) {
+                setStatusSort(1);
+                setUpSortTrigger(field, 1);
+            } else if (statusSort == 1) {
+                setStatusSort(2);
+                setUpSortTrigger(field, 2);
+            } else {
+                setStatusSort(0);
+                setUpSortTrigger(field, 0);
+            }
+        } else {
+            if (regionSort == 0) {
+                setRegionSort(1);
+                setUpSortTrigger(field, 1);
+            } else if (regionSort == 1) {
+                setRegionSort(2);
+                setUpSortTrigger(field, 2);
+            } else {
+                setRegionSort(0);
+                setUpSortTrigger(field, 0);
+            }
+        }
     };
 
     /**
@@ -98,16 +183,16 @@ const Settings: FC = () => {
                 </button>
             </div>
             <table className="users-table">
-                <thead>
-                    <tr className="users-table-headers">
+                <thead >
+                    <tr className="users-table-headers settings-head" onClick={()=> triggerDirection('status')}>
                         <td>Status</td>
-                        <td></td>
-                        <td></td>
+                        <td>{sortDisplay('status')}</td>
+                        <td>click to sort</td>
                         <td className="remove-td">Remove</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {status?.map((label, index) => {
+                    {sortedStatus?.map((label, index) => {
                         return (
                             <tr key={index} className="user-table-row">
                                 <th>{label}</th>
@@ -148,7 +233,7 @@ const Settings: FC = () => {
                 </div>
                 <button
                     className="new-material-button"
-                    onClick={(e) => handleSubmit(e, 'status')}
+                    onClick={(e) => handleSubmit(e, 'region')}
                 >
                     <FaPlus />
                     Submit
@@ -156,15 +241,15 @@ const Settings: FC = () => {
             </div>
             <table className="users-table">
                 <thead>
-                    <tr className="users-table-headers">
+                    <tr className="users-table-headers settings-head" onClick={()=> triggerDirection('region')}>
                         <td>Region</td>
-                        <td></td>
-                        <td></td>
+                        <td>{sortDisplay('region')}</td>
+                        <td>click to sort</td>
                         <td className="remove-td">Remove</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {region?.map((label, index) => {
+                    {sortedRegion?.map((label, index) => {
                         return (
                             <tr key={index} className="user-table-row">
                                 <th>{label}</th>
