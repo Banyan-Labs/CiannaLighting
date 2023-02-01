@@ -1,24 +1,58 @@
 import React, { FC, useEffect, useState } from 'react';
 import CreateUserModal from './CreateUserModal';
-import useParams from '../../app/utils';
 import { ROLES } from '../../app/constants';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlay, FaPlus } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { CreateUserType } from '../../app/typescriptTypes';
+import { FaPencilAlt } from 'react-icons/fa';
+import { RiArchiveDrawerFill } from 'react-icons/ri'
 import './styles/UsersTable.scss';
 
 const UsersTable: FC = () => {
     const { users } = useAppSelector(({ users: users }) => users);
-    const [userId] = useParams('_id');
-    const filteredUsers = users.filter((data) => data._id !== userId);
     const dispatch = useAppDispatch();
+    const [curUser, setCurUser] = useState<string>('')
     const [openModal, setOpenModal] = useState(false);
+    const [edit, setEdit] = useState<boolean>(false);
+    const [options, setOptions] = useState<boolean>(false);
+    const [optionIndex, setOptionIndex ] = useState<number>(-1)
+    const [userDetails, setUserDetails] = useState<CreateUserType>({
+        name: '',
+        email: '',
+        role: '1212',
+        password: ''
+    });
     useEffect(() => {
-        if (!users.length) {
+        // if (!users.length) {
             dispatch(getAllUsers());
-        }
+        // }
     }, []);
+    console.log(users)
+    const setMini = (dex: number) =>{
+        setOptions(true);
+        setOptionIndex(dex)
+    }
+    const unsetMini = () =>{
+        setOptions(false);
+        setOptionIndex(-1)
+    }
+    const activateEdit = (user: any) =>{
+        setUserDetails({
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            password: ''
+        });
+        setEdit(true);
+        setOpenModal(true);
+        setCurUser(user._id)
+    }
+    const closeAndGet = async() =>{
+        setOpenModal(false);
+        await dispatch(getAllUsers());
+    }
 
     return (
         <>
@@ -45,7 +79,7 @@ const UsersTable: FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredUsers.map((user) => (
+                    {users.map((user: any, index: number) => (
                         <tr key={user._id} className="user-table-row">
                             <th>{user.name}</th>
                             <td>{user.email}</td>
@@ -62,20 +96,36 @@ const UsersTable: FC = () => {
                                     }
                                 })}
                             </td>
-                            <td className="button-td">
-                                <button className="user-options-button">
-                                    <BsThreeDots />
+                            <td className="button-td" onMouseOver={()=>setMini(index)} onMouseLeave={()=> unsetMini()}>
+                           
+                                <button className="user-options-button" >
+                                    <BsThreeDots className='options-dots'/>
                                 </button>
+                                
+                            {
+                                options && optionIndex === index && (
+                                <div className='mini-modal-contain'>
+                                    <div className="mini-modal-link" onClick={()=> activateEdit(user)}><FaPencilAlt/><p>Edit</p></div>
+                                    <div className="mini-modal-link">{user.isActive ? <RiArchiveDrawerFill/> : <FaPlay/>}<p>{user.isActive ? "Archive" : "Restore"}</p></div>
+                                </div>
+                                )
+                                }
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            
             {openModal && (
                 <CreateUserModal
                     openModal={openModal}
                     closeModal={setOpenModal}
-                />
+                    userDetails={userDetails}
+                    setUserDetails={setUserDetails}
+                    edit={edit}
+                    setEdit={setEdit} 
+                    curUser={curUser}
+                    closeAndGet={closeAndGet}                />
             )}
         </>
     );

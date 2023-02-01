@@ -9,7 +9,10 @@ export const getAllUsers =
         const axiosPriv = axiosPrivate();
 
         const users = await axiosPriv.get('cmd/get-users');
-        dispatch(setUsers(users.data));
+        if (users) {
+            console.log('users in redux: ', users);
+            dispatch(setUsers(users.data));
+        }
     };
 
 export const createUserAction =

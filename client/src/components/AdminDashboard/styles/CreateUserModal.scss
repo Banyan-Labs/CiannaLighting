@@ -22,6 +22,10 @@
     background-color: white;
     color: $primary-bg-dark;
 }
+.edit-contain{
+    height: 400px;
+}
+
 
 .new-user-modal-title-close-btn {
     position: absolute;
@@ -85,9 +89,14 @@
     justify-content: center;
 }
 
-.new-user-modal-footer button {
+.new-user-submit {
     @include button($accent-gold, $primary-bg-dark-title);
     cursor: pointer;
+}
+.new-user-cancel{
+    @include button($primary-bg-dark-link, $primary-bg-dark-title);
+    cursor: pointer;
+    margin-right: 140px;
 }
 
 .new-user-modal-footer button:hover {
