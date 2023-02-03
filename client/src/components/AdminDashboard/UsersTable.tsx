@@ -17,6 +17,9 @@ const UsersTable: FC = () => {
     useEffect(() => {
         if (!users.length) {
             dispatch(getAllUsers());
+            /**
+             * getting users
+             */
         }
     }, []);
 
