@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { ROLES } from '../../app/constants';
-import { AiOutlineReload } from 'react-icons/ai';
+import { AiOutlineReload, AiOutlineCopy } from 'react-icons/ai';
 import { useAppDispatch } from '../../app/hooks';
 import { CreateUserType } from '../../app/typescriptTypes';
 import { generatePassword } from '../../app/generatePassword';
@@ -43,6 +43,51 @@ const CreateUserModal: FC<Props> = (props) => {
             [e.currentTarget.name]: e.currentTarget.value,
         });
     };
+    const copyPasswordToClipboard = (): void => {
+        const element = document.getElementById('password') as HTMLInputElement;
+        const tooltip = document.getElementById('copyPassTooltip');
+        if (element && tooltip) {
+            element.select();
+            element.setSelectionRange(0, 99999); // <- for mobile browsers
+            navigator.clipboard.writeText(element.value);
+
+            tooltip.innerText = `Copied: ${element.value}`;
+            tooltip.style.color = '#333';
+            tooltip.style.backgroundColor = '#07c12f';
+        }
+    };
+    const handleGeneratePassword = (): void => {
+        const tooltip = document.getElementById('generatePassTooltip');
+        if (tooltip) {
+            tooltip.innerText = 'Generated Successfully';
+            tooltip.style.backgroundColor = '#07c12f';
+            tooltip.style.color = '#333';
+            setUserDetails({
+                ...userDetails,
+                password: generatePassword(10),
+            });
+        }
+    };
+    const onExitTooltip = (
+        tooltipElementId: 'copyPassTooltip' | 'generatePassTooltip'
+    ): void => {
+        const tooltip = document.getElementById(tooltipElementId);
+        if (tooltip) {
+            tooltip.style.color = '#fff';
+            tooltip.style.backgroundColor = '#555';
+            switch (tooltipElementId) {
+                case 'copyPassTooltip':
+                    tooltip.innerText = 'Copy Password';
+                    break;
+                case 'generatePassTooltip':
+                    tooltip.innerText = 'Generate Password';
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
@@ -56,8 +101,8 @@ const CreateUserModal: FC<Props> = (props) => {
 
             dispatch(getAllUsers());
             props.closeModal(!props.openModal);
-        } catch (err:any) {            
-            throw new Error(err.message)
+        } catch (err: any) {
+            throw new Error(err.message);
         }
     };
     return (
@@ -185,14 +230,32 @@ const CreateUserModal: FC<Props> = (props) => {
 
                             <span
                                 className="generate-password-circle"
-                                onClick={() =>
-                                    setUserDetails({
-                                        ...userDetails,
-                                        password: generatePassword(10),
-                                    })
+                                onClick={handleGeneratePassword}
+                                onMouseLeave={() =>
+                                    onExitTooltip('generatePassTooltip')}
+                            >
+                                <span
+                                    className="tooltip-text"
+                                    id="generatePassTooltip"
+                                >
+                                    Generate Password
+                                </span>
+                                <AiOutlineReload />
+                            </span>
+                            <span
+                                className="copy-password-circle"
+                                onClick={copyPasswordToClipboard}
+                                onMouseLeave={() =>
+                                    onExitTooltip('copyPassTooltip')
                                 }
                             >
-                                <AiOutlineReload />
+                                <span
+                                    className="tooltip-text"
+                                    id="copyPassTooltip"
+                                >
+                                    Copy password
+                                </span>
+                                <AiOutlineCopy />
                             </span>
                         </div>
 
