@@ -39,4 +39,11 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_GH_KEY }}
           PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
       - name: Update codebase - Stage environment 
-        run: ssh ec2 'cd ~/CiannaLighting && git checkout stage && sudo git pull && npm run install-modules'
+        run: ssh ec2 '
+          cd ~/CiannaLighting &&
+          git checkout stage &&
+          sudo git pull &&
+          npm run install-modules &&
+          cd client && npm run build &&
+          cd ../server && npm run build
+          '
