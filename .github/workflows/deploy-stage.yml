@@ -8,15 +8,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy stage environment on EC2 instance
-        uses: easingthemes/ssh-deploy@main
+      - uses: actions/checkout@v3
+      - name: Deploy Stage to EC2
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          SCRIPT_BEFORE: 1s
-          SCRIPT_AFTER: |
-            echo $RSYNC_STDOUT
-            cd ~/CiannaLighting/
-            git checkout stage
-            git pull origin
+          PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+          HOSTNAME: ${{ secrets.HOST_DNS_STAGE }}
+          USERNAME: ${{ secrets.USERNAME }}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
+            
+            cd /home/ubuntu/CiannaLighting/ &&
+            git checkout stage && git pull && npm install-modules &&
+            cd client && npm run build &&
+            cd ../server && npm run build &&
+            pm2 kill && pm2 start dist/server.js
+            '
