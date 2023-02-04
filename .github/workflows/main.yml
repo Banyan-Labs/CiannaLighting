@@ -1,6 +1,7 @@
-name: CI pipeline
+name: app build health check
 
-on: [push]
+on:
+  workflow_call:
 
 jobs:
   build:

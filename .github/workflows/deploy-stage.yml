@@ -1,0 +1,27 @@
+name: CI/CD EC2 Stage deployment
+
+on:
+  push:
+    branches: ["stage"]
+  pull_request:
+    branches: ["stage"]
+  
+jobs:
+  build:
+    uses: ./.github/workflows/main.yml 
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy stage environment on EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        with:
+          ssh-private-key: ${{ secrets.AWS_SSH_KEY }}
+          host:  ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS_STAGE }}
+          script: |
+            echo accessing stage cloud container
+            cd CiannaLighting/
+            sudo sh ./deploy-stg.sh
+  
