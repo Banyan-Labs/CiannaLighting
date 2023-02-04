@@ -13,11 +13,16 @@ jobs:
       - name: Deploy stage environment on EC2 instance
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.GH_ACTION_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: /
           REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
           REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.REMOTE_TARGET}}
+          EXCLUDE: "/node_modules/"
           SCRIPT_BEFORE: |
             whoami
             echo working directory
             ls -a
-            cd ~/CiannaLighting/
+          SCRIPT_AFTER: |
+            ls -a
