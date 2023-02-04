@@ -18,7 +18,7 @@ jobs:
       - name: Deploy stage environment on EC2 instance
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           SCRIPT_BEFORE: |
