@@ -17,12 +17,15 @@ jobs:
     steps:
       - name: Deploy stage environment on EC2 instance
         uses: easingthemes/ssh-deploy@main
-        with:
-          sshPrivateKey: ${{ secrets.AWS_SSH_KEY }}
-          remoteHost:  ${{ secrets.HOST_DNS_STAGE }}
-          remoteUser: ${{ secrets.USERNAME }}
-          script: |
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          SCRIPT_BEFORE: |
             echo accessing stage cloud container
+            whoami
+            ls -al
             cd CiannaLighting/
             sudo sh ./deploy-stg.sh
-  
+          SCRIPT_AFTER: |
+            echo $RSYNC_STDOUT
