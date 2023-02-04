@@ -19,7 +19,11 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} '
             
-            cd /home/ubuntu/CiannaLighting/ && git stash &&
-            sudo chmod a+rx deploy-stg.sh &&
-            ./deploy-stg.sh
+            cd /home/ubuntu/CiannaLighting/ &&
+            git checkout stage &&
+            git pull origin &&
+            npm install-modules &&
+            cd client && npm run stage:build &&
+            cd ../server && npm run build &&
+            pm2 kill && pm2 start dist/server.js
             '
