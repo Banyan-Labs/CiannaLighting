@@ -347,38 +347,6 @@ const AllProjectView: FC<Props> = ({
                         </a>
                     </div>
 
-                    {/* <div className='archive-toggle'>
-                    <a
-                    id="all-projects"
-                    onClick={() => {
-                        setCurrentPage(1);
-                        setRenderedPage('All Projects');
-                        setSortToDefault();
-                    }}
-                    className={
-                        renderedPage === 'All Projects'
-                            ? 'lower-active'
-                            : 'not-active'
-                    }
-                >
-                    Active
-                </a>
-                <a
-                    id="archived"
-                    onClick={() => {
-                        setCurrentPage(1);
-                        setRenderedPage('Archived');
-                        setSortToDefault();
-                    }}
-                    className={
-                        renderedPage === 'Archived'
-                            ? 'lower-active'
-                            : 'not-active'
-                    }
-                >
-                    Archived
-                </a>
-                    </div> */}
                     <div className="button-filter-container d-flex justify-content-end align-items-center">
                         <div
                             className={
