@@ -1,7 +1,8 @@
 name: app build health check
 
-on:
-  workflow_call:
+on: 
+  pull_request:
+    branches: ["main", "stage"]
 
 jobs:
   build:
