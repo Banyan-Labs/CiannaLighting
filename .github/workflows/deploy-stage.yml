@@ -21,6 +21,9 @@ jobs:
       - name: config SSH
         run: |
           mkdir -p ~/.ssh/
+          chmod 700 ~/.ssh
+          echo "$PUBLIC_KEY" > ~/.ssh/authorized_keys
+          chmod 600 ~/.ssh/authorized_keys
           echo "$SSH_KEY" > ~/.ssh/github-actions-key
           chmod 600 ~/.ssh/github-actions-key
           cat >>~/.ssh/config <<END
@@ -34,6 +37,7 @@ jobs:
           SSH_HOST: ${{ env.REMOTE_HOST }}
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.SSH_GH_KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
       - name: list home directories
         run: ssh ec2 'ls -la'
 
