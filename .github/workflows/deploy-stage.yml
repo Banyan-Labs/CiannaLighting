@@ -45,5 +45,7 @@ jobs:
           sudo git pull &&
           npm run install-modules &&
           cd client && npm run build &&
-          cd ../server && npm run build
+          cd ../server && npm run build &&
+          pm2 kill && pm2 start dist/server.js &&
+          echo "OH FUCK YEAH!"
           '
