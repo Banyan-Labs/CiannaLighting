@@ -1,11 +1,11 @@
-name: CD pipeline staging
+name: CD pipeline production
 
 on:
   push:
-    branches: ["stage"]
+    branches: ["main"]
 env:
   AWS_REGION: ${{ secrets.AWS_EC2_REGION }}
-  REMOTE_HOST: ${{ secrets.STAGE_HOST_DNS }}
+  REMOTE_HOST: ${{ secrets.PROD_HOST_DNS }}
   REMOTE_USER: ${{ secrets.USERNAME }}
 
 permissions:
@@ -15,7 +15,7 @@ permissions:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
@@ -37,10 +37,10 @@ jobs:
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.SSH_GH_KEY }}
           PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-      - name: Update codebase - Stage environment 
+      - name: Update codebase - Production environment 
         run: ssh ec2 '
           cd ~/CiannaLighting &&
-          git checkout stage &&
+          git checkout main &&
           sudo git pull &&
           npm run install-modules &&
           cd client && npm run build &&
