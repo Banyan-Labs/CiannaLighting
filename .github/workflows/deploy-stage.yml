@@ -1,4 +1,4 @@
-name: CI/CD EC2 Stage deployment
+name: CD staging pipeline
 
 on:
   push:
@@ -13,8 +13,9 @@ permissions:
   id-token: write
   
 jobs:
-  deploy-stage:
+  deployment:
     runs-on: ubuntu-latest
+    environment: staging
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
