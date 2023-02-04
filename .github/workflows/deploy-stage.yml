@@ -3,8 +3,6 @@ name: CI/CD EC2 Stage deployment
 on:
   push:
     branches: ["stage"]
-  pull_request:
-    branches: ["stage"]
   
 jobs:
   deploy:
