@@ -1,4 +1,4 @@
-name: app build health check
+name: CI app build
 
 on: [push]
 
