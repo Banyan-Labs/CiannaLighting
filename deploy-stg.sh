@@ -2,7 +2,9 @@
 echo Building Cianna Lighting web app
 
 echo Fetching most recent changes on stage branch
-git checkout stage && git pull
+git stash
+git checkout stage
+git pull
 
 echo Updating node modules
 npm run install-modules
