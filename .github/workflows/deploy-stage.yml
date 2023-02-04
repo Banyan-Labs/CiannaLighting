@@ -3,6 +3,8 @@ name: CI/CD EC2 Stage deployment
 on:
   push:
     branches: ["stage"]
+  pull_request:
+    branches: ["stage"]
   
 jobs:
   deploy:
@@ -14,9 +16,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          SCRIPT_BEFORE: 1s
-          SCRIPT_AFTER: |
-            echo $RSYNC_STDOUT
+          SCRIPT_BEFORE: |
+            whoami
+            echo working directory
+            ls -a
             cd ~/CiannaLighting/
-            git checkout stage
-            git pull origin
