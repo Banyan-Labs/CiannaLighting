@@ -20,4 +20,4 @@ pm2 kill
 echo starting production application
 pm2 start dist/server.js
 
-exit 1
+exit 0
