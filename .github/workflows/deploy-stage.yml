@@ -18,7 +18,6 @@ jobs:
           SOURCE: /
           REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.REMOTE_TARGET}}
           EXCLUDE: "/node_modules/"
           SCRIPT_BEFORE: |
             whoami
