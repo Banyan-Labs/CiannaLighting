@@ -7,8 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: build
-
     steps:
       - name: Deploy stage environment on EC2 instance
         uses: easingthemes/ssh-deploy@main
