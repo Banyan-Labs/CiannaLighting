@@ -9,6 +9,7 @@ const userSchema: Schema = new Schema(
     password: { type: String, required: true, select: false },
     role: { type: String, required: true },
     refreshToken: { type: String, select: false },
+    isActive: { type: Boolean, default: true },
   },
   {
     timestamps: true,

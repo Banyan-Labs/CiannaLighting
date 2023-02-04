@@ -2,6 +2,7 @@
 echo Building Cianna Lighting web app
 
 echo Fetching most recent changes on stage branch
+git stash
 git checkout stage
 git pull
 
@@ -20,4 +21,4 @@ pm2 kill
 echo starting production application
 pm2 start dist/server.js
 
-exit 1
+exit 0
