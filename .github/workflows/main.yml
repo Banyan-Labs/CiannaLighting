@@ -1,6 +1,8 @@
-name: CI pipeline
+name: app build health check
 
-on: [push]
+on: 
+  pull_request:
+    branches: ["main", "stage"]
 
 jobs:
   build:

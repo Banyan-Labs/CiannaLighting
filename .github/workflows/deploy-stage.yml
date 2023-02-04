@@ -1,0 +1,27 @@
+name: CI/CD EC2 Stage deployment
+
+on:
+  push:
+    branches: ["stage"]
+  
+jobs:
+  build:
+    uses: ./.github/workflows/main.yml 
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy stage environment on EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS_STAGE }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          SCRIPT_BEFORE: 1s
+          SCRIPT_AFTER: |
+            echo $RSYNC_STDOUT
+            cd ~/CiannaLighting/
+            git checkout stage
+            git pull origin
