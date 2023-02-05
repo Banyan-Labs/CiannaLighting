@@ -96,7 +96,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         return (
             <div className="single-room-container d-flex row" key={index}>
                 <div className="first-light-section d-flex mb-2">
-                    <img className="lightImg" src={image} alt={light.name} />
+                    <img className="lightImg" src={image ? image : ""} alt={light.name} />
                     <div className="d-flex row first-section-name">
                         <div className="">
                             <h3>{light.item_ID}</h3>

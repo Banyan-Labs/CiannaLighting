@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../model/User";
 import bcrypt from "bcrypt";
@@ -74,32 +74,41 @@ const login = async (req: Request, res: Response) => {
     });
 };
 
-const getUser = async (req: Request, res: Response) => {
-  const { _id, emailChange, password, passwordChange, name, update } = req.body;
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id, emailChange, passwordChange, name, role, isActive, update } = req.body;
+  console.log('body: ', req.body)
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
+        console.log("authUser update: ",authUser, update)
         if (update === true) {
-          const match = await bcrypt.compare(password, authUser.password);
-          if (match) {
-            if (passwordChange) {
+          console.log("update in conditional: ",update)
+          const match = passwordChange ? await bcrypt.compare(passwordChange, authUser.password) : '';
+          const emailMatch = authUser.email === emailChange;
+          const nameMatch = authUser.name === name;
+          const roleMatch = authUser.role === role;
+          const activeMatch = authUser.isActive === isActive;
+            if (passwordChange && !match) {
               const newHashedPassword = await bcrypt.hash(passwordChange, 10);
               authUser.password = newHashedPassword;
             }
-            if (emailChange) {
+            if (emailChange && !emailMatch) {
               authUser.email = emailChange;
             }
-            if (name) {
+            if (role && !roleMatch) {
+              authUser.role = role;
+            }
+            if (name && !nameMatch) {
               authUser.name = name;
             }
-            authUser.save();
+            if(isActive != undefined && !activeMatch){
+              authUser.isActive = isActive;
+            }
+            await authUser.save();
           } else {
-            res.status(500).json({
-              message: "Password is incorrect.",
-            });
+            next();
           }
-        }
       }
       return res.status(200).json({
         authUser,

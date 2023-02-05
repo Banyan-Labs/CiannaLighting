@@ -5,5 +5,6 @@ export default interface Iuser extends Document {
   email: string;
   password: string;
   role: string;
+  isActive: boolean;
   refreshToken: string | null;
 }
