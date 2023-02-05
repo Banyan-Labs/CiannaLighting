@@ -81,15 +81,14 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
-        console.log("authUser: ",authUser)
+        console.log("authUser update: ",authUser, update)
         if (update === true) {
-          const match = await bcrypt.compare(passwordChange, authUser.password);
+          console.log("update in conditional: ",update)
+          const match = passwordChange ? await bcrypt.compare(passwordChange, authUser.password) : '';
           const emailMatch = authUser.email === emailChange;
           const nameMatch = authUser.name === name;
           const roleMatch = authUser.role === role;
           const activeMatch = authUser.isActive === isActive;
-          console.log("activeMatch: ", activeMatch);
-          // if (match) {
             if (passwordChange && !match) {
               const newHashedPassword = await bcrypt.hash(passwordChange, 10);
               authUser.password = newHashedPassword;
@@ -103,9 +102,8 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
             if (name && !nameMatch) {
               authUser.name = name;
             }
-            if(isActive && !activeMatch){
+            if(isActive != undefined && !activeMatch){
               authUser.isActive = isActive;
-              console.log("authUser: ", authUser)
             }
             await authUser.save();
           } else {
