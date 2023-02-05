@@ -49,9 +49,9 @@ const UsersTable: FC = () => {
         setOpenModal(true);
         setCurUser(user._id)
     }
-    const closeAndGet = async() =>{
+    const closeAndGet = () =>{
         setOpenModal(false);
-        await dispatch(getAllUsers());
+         dispatch(getAllUsers());
     }
 
     return (

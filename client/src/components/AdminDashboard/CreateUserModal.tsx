@@ -79,11 +79,12 @@ const CreateUserModal: FC<Props> = ({
                     }else{
                         alert(`User ${curUser} edited.`);
                     }
-                    closeAndGet();
+                    await closeAndGet();
                 }
             }else{
-            dispatch(createUserAction(userDetails));
-            closeAndGet();
+            await dispatch(createUserAction(userDetails));
+            await closeAndGet();
+
             }
             setUserDetails({
                 name: '',
