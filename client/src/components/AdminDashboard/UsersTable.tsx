@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import CreateUserModal from './CreateUserModal';
+import { axiosPrivate } from '../../api/axios';
 import { ROLES } from '../../app/constants';
 import { FaPlus, FaChevronUp, FaChevronDown, FaPlay } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
@@ -116,6 +117,20 @@ const UsersTable: FC = () => {
             return directionCall[0];
         }
     };
+    const activationTrigger = async (e:any, user:any) =>{
+        e.preventDefault();
+        const axiosPriv = axiosPrivate();
+        const statSwitch = {
+            _id: user._id,
+            isActive: !user.isActive,
+            update: true,
+        }
+
+        const statusChanged = await axiosPriv.post('/cmd/edit-user', statSwitch);
+        if(statusChanged){
+            closeAndGet();
+        } 
+    }
 
     return (
         <>
@@ -169,7 +184,7 @@ const UsersTable: FC = () => {
                                 options && optionIndex === index && (
                                 <div className='mini-modal-contain'>
                                     <div className="mini-modal-link" onClick={()=> activateEdit(user)}><FaPencilAlt/><p>Edit</p></div>
-                                    <div className="mini-modal-link">{user.isActive ? <RiArchiveDrawerFill/> : <FaPlay/>}<p>{user.isActive ? "Archive" : "Restore"}</p></div>
+                                    <div className="mini-modal-link" onClick={(e)=> activationTrigger(e, user)}>{user.isActive ? <RiArchiveDrawerFill /> : <FaPlay />}<p>{user.isActive ? "Archive" : "Restore"}</p></div>
                                 </div>
                                 )
                                 }

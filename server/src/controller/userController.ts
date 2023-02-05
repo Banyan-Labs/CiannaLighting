@@ -75,16 +75,20 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { _id, emailChange, passwordChange, name, role, update } = req.body;
+  const { _id, emailChange, passwordChange, name, role, isActive, update } = req.body;
+  console.log('body: ', req.body)
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
+        console.log("authUser: ",authUser)
         if (update === true) {
           const match = await bcrypt.compare(passwordChange, authUser.password);
           const emailMatch = authUser.email === emailChange;
           const nameMatch = authUser.name === name;
           const roleMatch = authUser.role === role;
+          const activeMatch = authUser.isActive === isActive;
+          console.log("activeMatch: ", activeMatch);
           // if (match) {
             if (passwordChange && !match) {
               const newHashedPassword = await bcrypt.hash(passwordChange, 10);
@@ -98,6 +102,10 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
             }
             if (name && !nameMatch) {
               authUser.name = name;
+            }
+            if(isActive && !activeMatch){
+              authUser.isActive = isActive;
+              console.log("authUser: ", authUser)
             }
             await authUser.save();
           } else {
