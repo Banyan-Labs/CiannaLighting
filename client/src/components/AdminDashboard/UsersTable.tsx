@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 import { ROLES } from '../../app/constants';
-import { FaPlay, FaPlus } from 'react-icons/fa';
+import { FaPlus, FaChevronUp, FaChevronDown, FaPlay } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -15,6 +15,10 @@ const UsersTable: FC = () => {
     const dispatch = useAppDispatch();
     const [curUser, setCurUser] = useState<string>('')
     const [openModal, setOpenModal] = useState(false);
+    const [sortedData, setSortedData] = useState<any>([]);
+    const [sortDirection, setSortDirection] = useState(0);
+    const [currentSort, setCurrentSort] = useState('');
+    const utilizedData = users;
     const [edit, setEdit] = useState<boolean>(false);
     const [options, setOptions] = useState<boolean>(false);
     const [optionIndex, setOptionIndex ] = useState<number>(-1)
@@ -27,9 +31,9 @@ const UsersTable: FC = () => {
     useEffect(() => {
         // if (!users.length) {
             dispatch(getAllUsers());
+            setSortToDefault();
         // }
     }, []);
-    console.log(users)
     const setMini = (dex: number) =>{
         setOptions(true);
         setOptionIndex(dex)
@@ -51,8 +55,67 @@ const UsersTable: FC = () => {
     }
     const closeAndGet = () =>{
         setOpenModal(false);
-         dispatch(getAllUsers());
+        dispatch(getAllUsers());
     }
+    const setSortToDefault = () => {
+        setSortedData(users);
+        setSortDirection(0);
+        setCurrentSort('');
+    };
+    const triggerDirection = (field: string) => {
+        if (field == currentSort) {
+            if (sortDirection == 0) {
+                setSortDirection(1);
+                setUpSortTrigger(field, 1);
+            } else if (sortDirection == 1) {
+                setSortDirection(2);
+                setUpSortTrigger(field, 2);
+            } else {
+                setSortDirection(0);
+                setUpSortTrigger(field, 0);
+            }
+        } else {
+            setSortDirection(1);
+            setUpSortTrigger(field, 1);
+        }
+    };
+    const setUpSortTrigger = (field: string, direction: number) => {
+        const sorted: any = {
+            0: utilizedData,
+            1: utilizedData.slice().sort((a: any, b: any) => {
+                if (a[field] < b[field]) {
+                    return -1;
+                }
+                if (a[String(field)] > b[String(field)]) {
+                    return 1;
+                }
+                return 0;
+            }),
+            2: utilizedData.slice().sort((a: any, b: any) => {
+                if (b[String(field)] < a[String(field)]) {
+                    return -1;
+                }
+                if (b[String(field)] > a[field]) {
+                    return 1;
+                }
+                return 0;
+            }),
+        };
+        setSortedData(sorted[direction]);
+        setCurrentSort(field);
+    };
+    const sortDisplay = (field: string) => {
+        const directionCall: any = {
+            0: '',
+            1: <FaChevronUp className="sort-chevron" />,
+            2: <FaChevronDown className="sort-chevron" />,
+        };
+        if (field == currentSort) {
+            return directionCall[sortDirection];
+        } else {
+            return directionCall[0];
+        }
+    };
 
     return (
         <>
@@ -72,14 +135,14 @@ const UsersTable: FC = () => {
             <table className="users-table">
                 <thead>
                     <tr className="users-table-headers">
-                        <td>Name</td>
-                        <td>Email</td>
-                        <td>Role</td>
+                        <td onClick={()=> triggerDirection('name')}>Name {sortDisplay('name')}</td>
+                        <td onClick={()=> triggerDirection('email')}>Email{ sortDisplay('email')}</td>
+                        <td onClick={()=> triggerDirection('role')}>Role {sortDisplay('role')}</td>
                         <td></td>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user: any, index: number) => (
+                    { (sortedData.length ? sortedData : users).map((user:any, index:number) => (
                         <tr key={user._id} className="user-table-row">
                             <th>{user.name}</th>
                             <td>{user.email}</td>
@@ -112,7 +175,7 @@ const UsersTable: FC = () => {
                                 }
                             </td>
                         </tr>
-                    ))}
+                    )) }
                 </tbody>
             </table>
             

@@ -147,4 +147,26 @@ const logOut = async (req: Request, res: Response) => {
     });
 };
 
-export default { login, logOut, getUser };
+const addActiveColumnToUserAndSetToTrue = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const allUsers = await User.find();
+    allUsers.forEach((user) => {
+      User.findByIdAndUpdate(
+        user._id,
+        {
+          isActive: true,
+        },
+        (error, updatedUser) => {error ? console.error(error) : console.log(updatedUser)}
+      );
+    });
+    return res.sendStatus(200);
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export default { login, logOut, getUser, addActiveColumnToUserAndSetToTrue };

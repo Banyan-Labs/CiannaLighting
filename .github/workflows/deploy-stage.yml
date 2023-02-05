@@ -1,0 +1,49 @@
+name: CD pipeline staging
+
+on:
+  push:
+    branches: ["stage"]
+env:
+  AWS_REGION: ${{ secrets.AWS_EC2_REGION }}
+  REMOTE_HOST: ${{ secrets.STAGE_HOST_DNS }}
+  REMOTE_USER: ${{ secrets.USERNAME }}
+
+permissions:
+  contents: read
+  id-token: write
+  
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: config SSH
+        run: |
+          mkdir -p ~/.ssh/
+          chmod 700 ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/github-actions-key
+          chmod 600 ~/.ssh/github-actions-key
+          cat >>~/.ssh/config <<END
+          Host ec2
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/github-actions-key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_HOST: ${{ env.REMOTE_HOST }}
+          SSH_USER: ${{ env.REMOTE_USER }}
+          SSH_KEY: ${{ secrets.SSH_GH_KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+      - name: Update codebase - Stage environment 
+        run: ssh ec2 '
+          cd ~/CiannaLighting &&
+          git checkout stage &&
+          sudo git pull &&
+          npm run install-modules &&
+          cd client && npm run build &&
+          cd ../server && npm run build &&
+          pm2 kill && pm2 start dist/server.js
+          '
