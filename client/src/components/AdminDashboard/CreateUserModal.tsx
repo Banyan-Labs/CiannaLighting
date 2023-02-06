@@ -115,14 +115,18 @@ const CreateUserModal: FC<Props> = ({
         try {
             if(edit){
                 const axiosPriv = axiosPrivate();
-                const edited = await axiosPriv.post('/cmd/edit-user', handleEdit());
-                if(edited){
-                    console.log("Edited: ", edited);
+                const response = await axiosPriv.put('/cmd/edit-user/' + handleEdit()._id, handleEdit());
+                if(response){
+                    console.log("response: ", response);
                     setEdit(false);
                     if(curUser === userId){
                         alert('Next login, you will use new credentials.')
                     }else{
-                        alert(`User ${curUser} edited.`);
+                        const updatedUser = response.data?.data;
+                        delete updatedUser?.password;
+                        delete updatedUser?._id
+                        delete updatedUser?.__v
+                        alert(`${response.data.message}\n${JSON.stringify(updatedUser).split(/[{},]/).join('\n')}`);
                     }
                     await closeAndGet();
                 }

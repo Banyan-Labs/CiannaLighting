@@ -82,7 +82,7 @@ const Login: FC = () => {
                             onChange={(e) => handleFormInput(e)}
                             required
                         />
-                        <a href="/forgot-password">Forgot Password?</a>
+                        {/* <a href="/forgot-password">Forgot Password?</a> */}
                         <br />
                         <div>
                             <button type="submit">Sign In</button>

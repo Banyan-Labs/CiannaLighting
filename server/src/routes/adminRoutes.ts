@@ -23,6 +23,8 @@ verifyAuthorization(ROLES_LIST.ADMIN),
     .post("/getAllLogs", activityController.getAllLogs)
     .post("/deleteLog", activityController.deleteLog)
     .put("/update-users/add-column", userController.addActiveColumnToUserAndSetToTrue) // TODO: disable this line after route after DB is updated in all environments
+    .put("/edit-user/:userId", userController.editUser)
+    .put("/toggle-user/:userId", userController.toggleUserIsActive)
 
 
 export default router;
