@@ -58,7 +58,6 @@ const Login: FC = () => {
                     <form onSubmit={handleLogin}>
                         <header>Log in</header>
                         <p>Welcome! Please enter your email and password.</p>
-
                         <label>Email</label>
                         <br />
                         <input
@@ -82,7 +81,7 @@ const Login: FC = () => {
                             onChange={(e) => handleFormInput(e)}
                             required
                         />
-                        <a href="/forgot-password">Forgot Password?</a>
+                        {/* <a href="/forgot-password">Forgot Password?</a> */}
                         <br />
                         <div>
                             <button type="submit">Sign In</button>

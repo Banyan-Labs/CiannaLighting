@@ -76,6 +76,7 @@ router.use((req, res, next) => {
 /**Requests */
 router.listen(config.server.port, () => {
   logging.info(
-    `Server is running at ${config.server.host}:${config.server.port}`
+    `Server is running at ${config.server.host}:${config.server.port} -------------------- CI/CD`
+
   );
 });

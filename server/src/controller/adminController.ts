@@ -54,6 +54,7 @@ const getAllUsers = (req: Request, res: Response) => {
   User.find()
     .exec()
     .then((results) => {
+      console.log(results)
       return res.status(200).json({
         users: results,
         count: results.length,

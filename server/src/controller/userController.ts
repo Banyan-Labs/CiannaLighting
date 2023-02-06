@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import User from "../model/User";
 import bcrypt from "bcrypt";
@@ -74,31 +74,43 @@ const login = async (req: Request, res: Response) => {
     });
 };
 
-const getUser = async (req: Request, res: Response) => {
-  const { _id, emailChange, password, passwordChange, name, update } = req.body;
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { _id, emailChange, passwordChange, name, role, isActive, update } =
+    req.body;
+  console.log("body: ", req.body);
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
+        console.log("authUser update: ", authUser, update);
         if (update === true) {
-          const match = await bcrypt.compare(password, authUser.password);
-          if (match) {
-            if (passwordChange) {
-              const newHashedPassword = await bcrypt.hash(passwordChange, 10);
-              authUser.password = newHashedPassword;
-            }
-            if (emailChange) {
-              authUser.email = emailChange;
-            }
-            if (name) {
-              authUser.name = name;
-            }
-            authUser.save();
-          } else {
-            res.status(500).json({
-              message: "Password is incorrect.",
-            });
+          console.log("update in conditional: ", update);
+          const match = passwordChange
+            ? await bcrypt.compare(passwordChange, authUser.password)
+            : "";
+          const emailMatch = authUser.email === emailChange;
+          const nameMatch = authUser.name === name;
+          const roleMatch = authUser.role === role;
+          const activeMatch = authUser.isActive === isActive;
+          if (passwordChange && !match) {
+            const newHashedPassword = await bcrypt.hash(passwordChange, 10);
+            authUser.password = newHashedPassword;
           }
+          if (emailChange && !emailMatch) {
+            authUser.email = emailChange;
+          }
+          if (role && !roleMatch) {
+            authUser.role = role;
+          }
+          if (name && !nameMatch) {
+            authUser.name = name;
+          }
+          if (isActive != undefined && !activeMatch) {
+            authUser.isActive = isActive;
+          }
+          await authUser.save();
+        } else {
+          next();
         }
       }
       return res.status(200).json({
@@ -144,4 +156,89 @@ const logOut = async (req: Request, res: Response) => {
     });
 };
 
-export default { login, logOut, getUser };
+const addActiveColumnToUserAndSetToTrue = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const allUsers = await User.find();
+    allUsers.forEach((user) => {
+      User.findByIdAndUpdate(
+        user._id,
+        {
+          isActive: true,
+        },
+        (error, updatedUser) => {
+          error ? console.error(error) : console.log(updatedUser);
+        }
+      );
+    });
+    return res.sendStatus(200);
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const editUser = async (req: Request, res: Response) => {
+  type ReqBody = {
+    name: string | undefined;
+    emailChange: string | undefined;
+    passwordChange: string | undefined;
+    role: string | undefined;
+  };
+  const { name, emailChange, passwordChange, role }: ReqBody = req.body;
+  const { userId } = req.params;
+  try {
+    const targetUser = await User.findById(userId);
+    console.log("🚀 ~ file: userController.ts:194 ~ editUser ~ targetUser", targetUser)
+    if (!targetUser) {
+      return res.status(404).json({ message: "User not found" });
+    } else {
+      if (name) {
+        targetUser.name = name;
+      }
+      if (emailChange) {
+        targetUser.email = emailChange;
+      }
+      if (passwordChange) {
+        targetUser.password = bcrypt.hashSync(passwordChange, 10);
+      }
+      if (role) {
+        targetUser.role = role;
+      }
+      await targetUser.save();
+      return res.status(200).json({ message: "User updated", data: targetUser });
+    }
+  } catch (error: any) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const toggleUserIsActive = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const targetUser = await User.findById(userId);
+    if (!targetUser) {
+      return res.status(404).json({ message: "User not found" });
+    } else {
+      const currentStatus = targetUser.isActive;
+      targetUser.isActive = !currentStatus;
+      await targetUser.save();
+      return res.status(200).json({ message: `User ${targetUser.name} ${currentStatus ? 'deactivated' : 'activated'}` });
+    }
+  } catch (error: any) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export default {
+  login,
+  logOut,
+  getUser,
+  addActiveColumnToUserAndSetToTrue,
+  editUser,
+  toggleUserIsActive,
+};

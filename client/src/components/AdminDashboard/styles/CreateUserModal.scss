@@ -22,6 +22,10 @@
     background-color: white;
     color: $primary-bg-dark;
 }
+.edit-contain{
+    height: 400px;
+}
+
 
 .new-user-modal-title-close-btn {
     position: absolute;
@@ -85,9 +89,14 @@
     justify-content: center;
 }
 
-.new-user-modal-footer button {
+.new-user-submit {
     @include button($accent-gold, $primary-bg-dark-title);
     cursor: pointer;
+}
+.new-user-cancel{
+    @include button($primary-bg-dark-link, $primary-bg-dark-title);
+    cursor: pointer;
+    margin-right: 140px;
 }
 
 .new-user-modal-footer button:hover {
@@ -121,7 +130,8 @@
     align-items: center;
 }
 
-.generate-password-circle {
+.generate-password-circle, .copy-password-circle {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,9 +143,39 @@
     padding: 3px;
     &:hover {
         cursor: pointer;
+        .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
     }
+    .tooltip-text {
+        visibility: hidden;
+        width: 140px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+    }
+    
 }
-
 .password-input-user-modal {
     min-width: 200px;
     cursor: default;

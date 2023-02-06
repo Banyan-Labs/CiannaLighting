@@ -1,6 +1,14 @@
-name: CI pipeline
+name: CI app build
 
-on: [push]
+on:
+  pull_request:
+    branches:
+    - 'staging'
+    - 'main'
+    - 'releases/**'
+  push:
+    branches-ignore:
+      - 'staging'
 
 jobs:
   build:
