@@ -58,7 +58,6 @@ const Login: FC = () => {
                     <form onSubmit={handleLogin}>
                         <header>Log in</header>
                         <p>Welcome! Please enter your email and password.</p>
-
                         <label>Email</label>
                         <br />
                         <input
