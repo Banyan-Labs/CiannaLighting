@@ -9,6 +9,7 @@
     box-shadow: $box-shadow;
     display: flex;
     align-items: center;
+    z-index: 100;
 
     img {
         display: block;
