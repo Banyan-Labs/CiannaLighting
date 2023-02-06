@@ -1,6 +1,7 @@
 @import '../../../variables/variables.scss';
 
 .admin-dashboard-container {
+    position: relative;
     padding-top: 100px;
     display: flex;
     height: 100vh;

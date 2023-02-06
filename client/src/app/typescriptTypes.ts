@@ -4,6 +4,7 @@ export type UserType = {
     email: string;
     role: string;
     token: string;
+    isActive?: boolean;
 };
 
 export type CreateUserType = {
