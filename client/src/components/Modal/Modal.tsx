@@ -69,12 +69,11 @@ const Modal: FC<Props> = (props) => {
 
         return reFormat;
     };
-
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
             !props.editProject
-                ? await dispatch(createProjectAction(projectDetails))
+                ?  await dispatch(createProjectAction({project: projectDetails}))
                 : await dispatch(
                       getProject({
                           ...projectDetails,

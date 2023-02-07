@@ -92,7 +92,8 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     };
     
     const singleRoom = newLights?.map((light: any, index: any) => {
-        const image = setAllCatalog ?  setAllCatalog.find((item: any)=> item.item_ID === light.item_ID).images[0] : '';
+        const item = setAllCatalog && setAllCatalog.length ?  setAllCatalog.find((item: any)=> item.item_ID === light.item_ID).images[0] : '';
+        const image = item.images ? item.images[0] : '';
         return (
             <div className="single-room-container d-flex row" key={index}>
                 <div className="first-light-section d-flex mb-2">
