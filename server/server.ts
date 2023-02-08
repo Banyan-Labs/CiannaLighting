@@ -23,8 +23,8 @@ router.use(credentials);
 router.use(cookieParser());
 
 router.use(cors(corsOptions));
-router.use(express.urlencoded({ extended: false }));
-router.use(express.json());
+router.use(express.urlencoded({ extended: false, limit: "10mb" }));
+router.use(express.json({ limit: "10mb" }));
 router.use(express.static("src"));
 
 mongoose
@@ -54,8 +54,6 @@ router.use("/api/cmd", adminRoutes);
 router.use("/api/public", publicRoutes);
 router.use("/api", userRoutes);
 router.use("/api/internal", employeeRoutes);
-router.use(express.urlencoded({ extended: false, limit: "10mb" }));
-router.use(express.json({ limit: "10mb" }));
 
 if (process.env.NODE_ENV !== "development") {
   router.use(express.static(path.join(__dirname, "../../client/build")));
