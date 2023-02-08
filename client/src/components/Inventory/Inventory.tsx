@@ -232,6 +232,46 @@ const Inventory: FC = () => {
         }
     };
 
+    const checkForm = (e: any) => {
+        e.preventDefault();
+        const editKeys: Array<string | unknown> = [
+            'editImages',
+            'editpdf',
+            'editDrawingFiles',
+            'editSpecs',
+            '__v',
+        ];
+        const vals = Object.entries(itemDetails);
+        const check = vals.map((itemKeyVal: any) =>
+            itemKeyVal[1]
+                ? typeof itemKeyVal[1] == 'number'
+                    ? [itemKeyVal[0], itemKeyVal[1] > 0]
+                    : typeof itemKeyVal[1] == 'string'
+                    ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
+                    : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
+                : [itemKeyVal[0], false]
+        );
+        const checker = check.filter(
+            (itemKeyVal: Array<string | unknown>) =>
+                editKeys.indexOf(itemKeyVal[0]) === -1
+        );
+        const checkVals = checker.filter(
+            (itemKeyVal: Array<string | unknown>) => !itemKeyVal[1]
+        );
+        if (checkVals.length) {
+            const showRequired = checkVals.map(
+                (itemKeyVal: unknown[]) => itemKeyVal[0]
+            );
+            alert(
+                `Please fill out the following fields: \n ${showRequired.join(
+                    '\n'
+                )}`
+            );
+        } else {
+            onSubmit(e);
+        }
+    };
+
     const onDocumentLoadSuccess = (
         e: any,
         location: string,
@@ -439,9 +479,13 @@ const Inventory: FC = () => {
                 const done = await axiosPriv.post('/internal/find-light', fs);
                 if (done) {
                     setEditingItem(false);
+                    initializeCatalog();
+                    alert('Item Edited!');
                 }
             } else {
                 await axiosPriv.post('/internal/create-light', fs);
+                initializeCatalog();
+                alert('Item created!');
             }
             setItemDetails({
                 employeeID: user._id,
@@ -593,7 +637,7 @@ const Inventory: FC = () => {
                 <form
                     className="inventory-form"
                     tabIndex={-1}
-                    onSubmit={onSubmit}
+                    onSubmit={checkForm}
                 >
                     <div className="tabs">
                         <div className="tab">
@@ -611,13 +655,12 @@ const Inventory: FC = () => {
                                     <input
                                         tabIndex={-1}
                                         className="form__field"
-                                        type="input tabIndex={-1}"
+                                        type="input"
                                         id="item_ID"
                                         name="item_ID"
                                         value={itemDetails.item_ID}
                                         onChange={(e) => handleFormInput(e)}
                                         placeholder="Item ID"
-                                        required
                                     />
                                     <label
                                         htmlFor="name"
@@ -630,13 +673,12 @@ const Inventory: FC = () => {
                                     <input
                                         tabIndex={-1}
                                         className="form__field"
-                                        type="input tabIndex={-1}"
+                                        type="input"
                                         id="itemName"
                                         name="itemName"
                                         value={itemDetails.itemName || ''}
                                         onChange={(e) => handleFormInput(e)}
                                         placeholder="Item Name"
-                                        required
                                     />
                                     <label
                                         htmlFor="itemName"
@@ -657,7 +699,6 @@ const Inventory: FC = () => {
                                         }
                                         onChange={(e) => handleFormInput(e)}
                                         placeholder="Description"
-                                        required
                                     />
                                     <label
                                         htmlFor="itemName"
@@ -685,7 +726,6 @@ const Inventory: FC = () => {
                                     name="bodyDiameter"
                                     value={itemDetails.bodyDiameter || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="bodyDiameter"
@@ -704,7 +744,6 @@ const Inventory: FC = () => {
                                     name="bodyLength"
                                     value={itemDetails.bodyLength || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="bodyLength"
@@ -723,7 +762,6 @@ const Inventory: FC = () => {
                                     name="bodyWidth"
                                     value={itemDetails.bodyWidth || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="bodyWidth"
@@ -742,7 +780,6 @@ const Inventory: FC = () => {
                                     name="bodyHeight"
                                     value={itemDetails.bodyHeight || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="bodyHeight"
@@ -763,7 +800,6 @@ const Inventory: FC = () => {
                                         itemDetails.fixtureOverallHeight || ''
                                     }
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="fixtureOverallHeight"
@@ -782,7 +818,6 @@ const Inventory: FC = () => {
                                     name="sconceHeight"
                                     value={itemDetails.sconceHeight || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="sconceHeight"
@@ -801,7 +836,6 @@ const Inventory: FC = () => {
                                     name="sconceWidth"
                                     value={itemDetails.sconceWidth || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="sconceWidth"
@@ -820,7 +854,6 @@ const Inventory: FC = () => {
                                     name="sconceExtension"
                                     value={itemDetails.sconceExtension || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="sconceExtension"
@@ -839,7 +872,6 @@ const Inventory: FC = () => {
                                     name="estimatedWeight"
                                     value={itemDetails.estimatedWeight || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="estimatedWeight"
@@ -866,7 +898,6 @@ const Inventory: FC = () => {
                                     name="lampType"
                                     value={itemDetails.lampType || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -885,7 +916,6 @@ const Inventory: FC = () => {
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -904,7 +934,6 @@ const Inventory: FC = () => {
                                     name="numberOfLamps"
                                     value={itemDetails.numberOfLamps || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -923,7 +952,6 @@ const Inventory: FC = () => {
                                     name="wattsPerLamp"
                                     value={itemDetails.wattsPerLamp || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -942,7 +970,6 @@ const Inventory: FC = () => {
                                     name="powerInWatts"
                                     value={itemDetails.powerInWatts || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -961,7 +988,6 @@ const Inventory: FC = () => {
                                     name="lumens"
                                     value={itemDetails.lumens || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label className="form__label" htmlFor="lumens">
                                     Lumens
@@ -986,7 +1012,6 @@ const Inventory: FC = () => {
                                     name="material"
                                     value={itemDetails.material || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     htmlFor="description"
@@ -1044,7 +1069,6 @@ const Inventory: FC = () => {
                                     name="exteriorFinishValues"
                                     value={itemDetails.exteriorFinish || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1096,7 +1120,6 @@ const Inventory: FC = () => {
                                     name="interiorFinishValues"
                                     value={itemDetails.interiorFinish || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1148,7 +1171,6 @@ const Inventory: FC = () => {
                                     name="lensMaterialValues"
                                     value={itemDetails.lensMaterial || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1200,7 +1222,6 @@ const Inventory: FC = () => {
                                     name="glassOptionsValues"
                                     value={itemDetails.glassOptions || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1252,7 +1273,6 @@ const Inventory: FC = () => {
                                     name="acrylicOptionsValues"
                                     value={itemDetails.acrylicOptions || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1304,7 +1324,6 @@ const Inventory: FC = () => {
                                     name="crystalTypeValues"
                                     value={itemDetails.crystalType || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1356,7 +1375,6 @@ const Inventory: FC = () => {
                                     name="crystalPinTypeValues"
                                     value={itemDetails.crystalPinType || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1408,7 +1426,6 @@ const Inventory: FC = () => {
                                     name="crystalPinColorValues"
                                     value={itemDetails.crystalPinColor || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                         </div>
@@ -1429,7 +1446,6 @@ const Inventory: FC = () => {
                                     name="socketQuantity"
                                     value={itemDetails.socketQuantity || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label
                                     className="form__label"
@@ -1448,7 +1464,6 @@ const Inventory: FC = () => {
                                     name="price"
                                     value={itemDetails.price || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    required
                                 />
                                 <label className="form__label" htmlFor="price">
                                     Price
@@ -1503,7 +1518,6 @@ const Inventory: FC = () => {
                                     name="environmentValues"
                                     value={itemDetails.environment || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1553,7 +1567,6 @@ const Inventory: FC = () => {
                                     name="safetyCertValues"
                                     value={itemDetails.safetyCert || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1605,7 +1618,6 @@ const Inventory: FC = () => {
                                     name="projectVoltageValues"
                                     value={itemDetails.projectVoltage || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1655,7 +1667,6 @@ const Inventory: FC = () => {
                                     name="socketTypeValues"
                                     value={itemDetails.socketType || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1705,7 +1716,6 @@ const Inventory: FC = () => {
                                     name="mountingValues"
                                     value={itemDetails.mounting || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                         </div>
@@ -1756,7 +1766,6 @@ const Inventory: FC = () => {
                                     name="designStyleValues"
                                     value={itemDetails.designStyle || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                             <div className="add__materials">
@@ -1799,7 +1808,6 @@ const Inventory: FC = () => {
                                     name="usePackagesValues"
                                     value={itemDetails.usePackages || ''}
                                     readOnly
-                                    required
                                 />
                             </div>
                         </div>
