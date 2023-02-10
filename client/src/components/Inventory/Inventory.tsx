@@ -1,4 +1,4 @@
-import React, { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import React, { FC, useState, FormEvent, ChangeEvent, useEffect, SyntheticEvent } from 'react';
 import { axiosFileUpload } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
@@ -445,7 +445,7 @@ const Inventory: FC = () => {
             }
         }
     };
-    const onSubmit = async (e: any) => {
+    const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         const axiosPriv = await axiosFileUpload();
         const fs = new FormData();
@@ -481,12 +481,12 @@ const Inventory: FC = () => {
                     setEditingItem(false);
                     initializeCatalog();
                     alert('Item Edited!');
+                    toggleEdit(e,false);
                 }
             } else {
                 await axiosPriv.post('/internal/create-light', fs);
                 initializeCatalog();
                 alert('Item created!');
-            }
             setItemDetails({
                 employeeID: user._id,
                 item_ID: '',
@@ -531,6 +531,7 @@ const Inventory: FC = () => {
                 costAdmin: 0,
                 partnerCodeAdmin: '',
             });
+        }
             setImageNames([]);
             setViewablePDF([]);
             setViewableSpecs([]);
@@ -552,6 +553,61 @@ const Inventory: FC = () => {
             alert(error.messsge);
         }
     };
+    const toggleEdit = (e: SyntheticEvent,set: boolean) => {
+        e.preventDefault();
+        let type = '';
+        if(editingItem){
+            setItemDetails({
+                employeeID: user._id,
+                item_ID: '',
+                itemName: '',
+                itemDescription: '',
+                bodyDiameter: '',
+                bodyLength: '',
+                bodyWidth: '',
+                bodyHeight: '',
+                fixtureOverallHeight: '',
+                sconceHeight: '',
+                sconceWidth: '',
+                sconceExtension: '',
+                material: '',
+                socketQuantity: 0,
+                estimatedWeight: 0,
+                lampType: '',
+                lampColor: '',
+                numberOfLamps: 0,
+                wattsPerLamp: 0,
+                powerInWatts: 0,
+                price: 0,
+                exteriorFinish: [], //[]
+                interiorFinish: [], //[]
+                lensMaterial: [], //[]
+                glassOptions: [], //[]
+                acrylicOptions: [], //[]
+                environment: [], //[]
+                safetyCert: [], //[]
+                projectVoltage: [], //[]
+                socketType: [], //[]
+                mounting: [], //[]
+                crystalType: [], //[]
+                crystalPinType: [], //[]
+                crystalPinColor: [], //[]
+                designStyle: [], //[]
+                usePackages: [], //[]
+                editImages: [],
+                editpdf: [],
+                editDrawingFiles: [],
+                editSpecs: [],
+                costAdmin: 0,
+                partnerCodeAdmin: '',
+            });
+            type = 'non-edit';
+        }else{
+            type = 'edit';
+        }
+        setTypeOfProject(type);
+        setEditingItem(set);
+    }
     return (
         <div className="inventory-container">
             <div className="inventory-head">
@@ -575,9 +631,8 @@ const Inventory: FC = () => {
                                     ? 'all-project-button'
                                     : 'type-project-btn'
                             }
-                            onClick={() => {
-                                setTypeOfProject('non-edit');
-                                setEditingItem(false);
+                            onClick={(e) => {
+                                toggleEdit(e,false);
                             }}
                         >
                             New Item
@@ -588,9 +643,8 @@ const Inventory: FC = () => {
                                     ? 'your-projects-button'
                                     : 'type-project-btn'
                             }
-                            onClick={() => {
-                                setTypeOfProject('edit');
-                                setEditingItem(true);
+                            onClick={(e) => {
+                                toggleEdit(e,true);
                             }}
                         >
                             Edit Item
@@ -2192,10 +2246,13 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
+                    <div className='edit-button-container'>
+                    {editingItem && <button className='cancel-button' onClick={(e)=> toggleEdit(e,false)}>Clear</button>}
 
-                    <button id="inventory-btn">
-                        {editingItem ? 'Edit' : 'Submit'}
+                    <button id="inventory-btn" className={editingItem ? 'edit-inventory' : 'inventory-btn'}>
+                        {editingItem ? 'Submit Edit' : 'Submit'}
                     </button>
+                    </div>
                 </form>
             </div>
         </div>

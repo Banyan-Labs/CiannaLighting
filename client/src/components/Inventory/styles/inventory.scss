@@ -327,13 +327,30 @@ input:checked {
         padding: 1em;
     }
 }
-
-#inventory-btn {
+.edit-button-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+.inventory-btn {
     @include button($accent-gold, #fff);
     width: 50%;
-    align-self: center;
     margin: 25px 0px;
     cursor: pointer;
+}
+.edit-inventory{
+    @include button($accent-gold, #fff);
+    width: 25%;
+    margin: 25px 0px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.cancel-button{
+    @include button($primary-bg-white-sub-text, $primary-bg-white-text);
+    width: 25%;
+    margin: 25px 0px;
+    margin-right: 10px;
+    cursor: pointer;
+}
 }
 .file-contain {
     width: fit-content;
