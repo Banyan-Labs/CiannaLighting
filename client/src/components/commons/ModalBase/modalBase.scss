@@ -1,0 +1,60 @@
+@import '../../../variables/variables.scss';
+
+.modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper {
+    background: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.modal-card-head {
+    text-align: center;
+
+    .modal-card-title {
+        margin-top: 10px;
+    }
+
+    .delete {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+}
+
+.modal-card-body {
+    padding: 24px 80px;
+
+    input {
+        @include input-field;
+    }
+
+    .modal-submit-button {
+        @include button($accent-gold, $primary-bg-dark-title);
+    }
+
+    .modal-cancel-button {
+        @include button($primary-bg-dark-link, $primary-bg-dark-title);
+    }
+}
+
+.modal-card-foot {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
