@@ -17,6 +17,7 @@
     padding: 8px;
     border-radius: 5px;
     position: relative;
+    animation: zoomIn 0.2s ease-in-out none 1;
 }
 
 .modal-card-head {
@@ -50,6 +51,14 @@
     .modal-cancel-button {
         @include button($primary-bg-dark-link, $primary-bg-dark-title);
     }
+
+    .modal-submit-button, .modal-cancel-button {
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+        &:hover {
+            color: #fff;
+        }
+    }
 }
 
 .modal-card-foot {
@@ -57,4 +66,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
 }

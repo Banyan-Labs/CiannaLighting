@@ -225,6 +225,7 @@ const editUser = async (req: Request, res: Response) => {
         targetUser.email = emailChange;
       }
       if (passwordChange) {
+        if (targetUser.resetPasswordRequest) targetUser.resetPasswordRequest = false;
         targetUser.password = bcrypt.hashSync(passwordChange, 10);
       }
       if (role) {
@@ -263,9 +264,13 @@ const resetPassword = async (req: Request, res: Response) => {
   if (!targetUser) {
     res.status(404).json({ message: "User not found" });
   } else {
-    targetUser.resetPasswordRequest = true;
-    await targetUser.save();
-    return res.status(200).json({ message: "Password reset request sent" });
+    if (targetUser.resetPasswordRequest) {
+      res.status(400).json({ message: "Password reset pending" });
+    } else {
+      targetUser.resetPasswordRequest = true;
+      await targetUser.save();
+      return res.status(200).json({ message: "Password reset request sent" });
+    }
   }
 }
 

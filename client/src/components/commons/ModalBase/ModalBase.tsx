@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 import './modalBase.scss';
 
 type ModalBaseProps = {
-    children: ReactElement | ReactElement[];
+    children?: ReactElement | ReactElement[] | false | null;
     isShown: boolean;
     setIsShown: (isShown: boolean) => void;
     title?: string;
