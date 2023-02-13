@@ -20,7 +20,7 @@ import { axiosPrivate } from '../../api/axios';
 export const createProjectAction =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv =  axiosPrivate();
         try {
             const response = await axiosPriv.post('/create-project', {
                 ...payload.project,
@@ -86,6 +86,8 @@ export const createProjectAction =
                         dispatch(setProposals(proposalSet.data.proposal));
                     } /* TAKE THIS OUT FIRE ANOTHER THING TO GET THE PROPOSAL TO FIRE IN REDUX! */
                 }
+            }else{
+                null;
             }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
