@@ -40,7 +40,6 @@ const UsersTable: FC = () => {
     useEffect(() => {
         const toastEle = document.getElementById('toast');
         if (toastEle) {
-            
             if (apiMessage) {
                 toastEle.style.display = 'block';
                 setTimeout(() => {
@@ -189,7 +188,15 @@ const UsersTable: FC = () => {
                     {(sortedData.length ? sortedData : users).map(
                         (user: UserType, index: number) => (
                             <tr key={user._id} className="user-table-row">
-                                <th>{user.name}</th>
+                                <th
+                                    style={
+                                        user.resetPasswordRequest
+                                            ? { color: 'red', opacity: 0.5 }
+                                            : {}
+                                    }
+                                >
+                                    {user.name}
+                                </th>
                                 <td>{user.email}</td>
                                 <td>
                                     {Object.entries(ROLES).map((role) => {
