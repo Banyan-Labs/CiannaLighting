@@ -179,6 +179,29 @@ const addActiveColumnToUserAndSetToTrue = async (
     throw error;
   }
 };
+const addResetPassColumnToUserAndSetToFalse = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const allUsers = await User.find();
+    allUsers.forEach((user) => {
+      User.findByIdAndUpdate(
+        user._id,
+        {
+          resetPasswordRequest: false,
+        },
+        (error, updatedUser) => {
+          error ? console.error(error) : console.log(updatedUser);
+        }
+      );
+    });
+    return res.sendStatus(200);
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+};
 
 const editUser = async (req: Request, res: Response) => {
   type ReqBody = {
@@ -202,6 +225,7 @@ const editUser = async (req: Request, res: Response) => {
         targetUser.email = emailChange;
       }
       if (passwordChange) {
+        if (targetUser.resetPasswordRequest) targetUser.resetPasswordRequest = false;
         targetUser.password = bcrypt.hashSync(passwordChange, 10);
       }
       if (role) {
@@ -234,6 +258,22 @@ const toggleUserIsActive = async (req: Request, res: Response) => {
   }
 };
 
+const resetPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const targetUser = await User.findOne({ email });
+  if (!targetUser) {
+    res.status(404).json({ message: "User not found" });
+  } else {
+    if (targetUser.resetPasswordRequest) {
+      res.status(400).json({ message: "Password reset pending" });
+    } else {
+      targetUser.resetPasswordRequest = true;
+      await targetUser.save();
+      return res.status(200).json({ message: "Password reset request sent" });
+    }
+  }
+}
+
 export default {
   login,
   logOut,
@@ -241,4 +281,6 @@ export default {
   addActiveColumnToUserAndSetToTrue,
   editUser,
   toggleUserIsActive,
+  addResetPassColumnToUserAndSetToFalse,
+  resetPassword,
 };

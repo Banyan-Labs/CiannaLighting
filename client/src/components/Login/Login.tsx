@@ -4,6 +4,7 @@ import { ROLES } from '../../app/constants';
 import { useNavigate } from 'react-router-dom';
 import { signInAction } from '../../redux/actions/authActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import ForgotPasswordModal from './ForgotPasswordModal';
 import './style/login.scss';
 
 const Login: FC = () => {
@@ -17,6 +18,11 @@ const Login: FC = () => {
         email: '',
         password: '',
     });
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen((prev) => !prev);
+    };
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>): void => {
         setUserFields({
@@ -35,7 +41,7 @@ const Login: FC = () => {
                 password: '',
             });
         } catch (error: any) {
-            throw new Error(error.message)
+            throw new Error(error.message);
         }
     };
 
@@ -81,8 +87,8 @@ const Login: FC = () => {
                             onChange={(e) => handleFormInput(e)}
                             required
                         />
-                        {/* <a href="/forgot-password">Forgot Password?</a> */}
                         <br />
+                        <span onClick={openModal}>Forgot Password?</span>
                         <div>
                             <button type="submit">Sign In</button>
                         </div>
@@ -94,6 +100,7 @@ const Login: FC = () => {
                     </p>
                 </div>
             </div>
+            <ForgotPasswordModal isOpen={modalOpen} setIsOpen={setModalOpen} />
         </>
     );
 };
