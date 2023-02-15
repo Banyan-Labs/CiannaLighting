@@ -1,77 +1,47 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import User from "../model/User";
 import bcrypt from "bcrypt";
+import { signJwt } from "../utils/signJwt";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password)
-    return res
-      .status(400)
-      .json({ message: "Username and password are required" });
-
-  User.findOne({ email })
-    .select("+password")
-    .then(async (user) => {
-      if (!user) res.status(404).json({ message: "User not found" });
-      if (user) {
-        const match = await bcrypt.compare(password, user.password);
-        if (match) {
-          const role = user.role;
-
-          const accessToken = jwt.sign(
-            {
-              name: user.email,
-              role,
-            },
-            process.env.ACCESS_TOKEN_SECRET as string,
-            { expiresIn: "1d" }
-          );
-
-          const refreshToken = jwt.sign(
-            { name: user.email, role },
-            process.env.REFRESH_TOKEN_SECRET as string,
-            { expiresIn: "2d" }
-          );
-          user.refreshToken = refreshToken;
-
-          user
-            .save()
-            .then((authenticatedUser) => {
-              res.cookie("jwt", refreshToken, {
-                httpOnly: true,
-                sameSite: "none",
-                path: "/",
-                secure: true,
-              });
-              res.json({
-                accessToken,
-                user: {
-                  _id: authenticatedUser._id,
-                  name: authenticatedUser.name,
-                  email: authenticatedUser.email,
-                  role: authenticatedUser.role,
-                },
-              });
-            })
-            .catch((error) => {
-              res.sendStatus(401).json({
-                error,
-              });
-            });
-        } else {
-          res
-            .status(401)
-            .json({ message: "The password you entered is incorrect." });
+    res.status(400).json({ message: "Username and password are required" });
+  try {
+    const thisUser = await User.findOne({ email }).select("+password");
+    if (!thisUser) res.status(404).json({ message: "User not found" });
+    else if (thisUser && !thisUser?.isActive)
+      res.status(401).json({ message: "User is not active" });
+    else if (thisUser && thisUser.isActive) {
+      if (!bcrypt.compareSync(password, thisUser.password))
+        res.status(401).json({ message: "Invalid password" });
+      else {
+        const JWT = signJwt({ email: thisUser.email, role: thisUser.role });
+        thisUser.refreshToken = JWT.refreshToken;
+        const authUser = await thisUser.save();
+        if (authUser) {
+          const { _id, name, email, role } = authUser;
+          res.cookie("jwt", JWT.refreshToken, {
+            httpOnly: true,
+            sameSite: "none",
+            path: "/",
+            secure: true,
+          });
+          res.status(200).json({
+            accessToken: JWT.accessToken,
+            message: "Login successful",
+            user: { _id, name, email, role },
+          });
         }
       }
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        message: error.message,
-        error,
-      });
+    }
+  } catch (error: any) {
+    console.error("🚀 ~ file: userController.ts:125 ~ login ~ error", error);
+    return res.status(500).json({
+      message: error.message,
+      error,
     });
+  }
 };
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -214,7 +184,6 @@ const editUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
   try {
     const targetUser = await User.findById(userId);
-    console.log("🚀 ~ file: userController.ts:194 ~ editUser ~ targetUser", targetUser)
     if (!targetUser) {
       return res.status(404).json({ message: "User not found" });
     } else {
@@ -225,14 +194,17 @@ const editUser = async (req: Request, res: Response) => {
         targetUser.email = emailChange;
       }
       if (passwordChange) {
-        if (targetUser.resetPasswordRequest) targetUser.resetPasswordRequest = false;
+        if (targetUser.resetPasswordRequest)
+          targetUser.resetPasswordRequest = false;
         targetUser.password = bcrypt.hashSync(passwordChange, 10);
       }
       if (role) {
         targetUser.role = role;
       }
       await targetUser.save();
-      return res.status(200).json({ message: "User updated", data: targetUser });
+      return res
+        .status(200)
+        .json({ message: "User updated", data: targetUser });
     }
   } catch (error: any) {
     console.log(error);
@@ -250,7 +222,11 @@ const toggleUserIsActive = async (req: Request, res: Response) => {
       const currentStatus = targetUser.isActive;
       targetUser.isActive = !currentStatus;
       await targetUser.save();
-      return res.status(200).json({ message: `User ${targetUser.name} ${currentStatus ? 'deactivated' : 'activated'}` });
+      return res.status(200).json({
+        message: `User ${targetUser.name} ${
+          currentStatus ? "deactivated" : "activated"
+        }`,
+      });
     }
   } catch (error: any) {
     console.log(error);
@@ -272,7 +248,7 @@ const resetPassword = async (req: Request, res: Response) => {
       return res.status(200).json({ message: "Password reset request sent" });
     }
   }
-}
+};
 
 export default {
   login,

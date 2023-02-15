@@ -3,7 +3,8 @@ import { UserType } from '../../app/typescriptTypes';
 
 export interface AuthStateType {
     user: UserType;
-    error: any;
+    error: null | { message: string };
+
     logs: any[];
 }
 

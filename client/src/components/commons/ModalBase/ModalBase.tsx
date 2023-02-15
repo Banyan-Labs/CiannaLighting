@@ -53,5 +53,4 @@ const ModalBase = ({
         : null;
 };
 
-// export default forwardRef(ModalBase);
 export default ModalBase;
