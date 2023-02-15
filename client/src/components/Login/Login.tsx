@@ -1,47 +1,46 @@
-import React, { FC, useState, FormEvent, useEffect } from 'react';
+import React, { FC, useState, useEffect, useRef, SyntheticEvent } from 'react';
 import logo from '../../assets/ciana-lds-logo.png';
 import { ROLES } from '../../app/constants';
 import { useNavigate } from 'react-router-dom';
-import { signInAction } from '../../redux/actions/authActions';
+import {
+    signInAction,
+    dismissErrorAction,
+} from '../../redux/actions/authActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import ModalBase from '../commons/ModalBase/ModalBase';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import './style/login.scss';
 
 const Login: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
+    const loginApiError = useAppSelector(({ auth: { error } }) => error);
+    const [modalOpen, setModalOpen] = useState(false);
+    const emailInput = useRef<HTMLInputElement>(null);
+    const passwordInput = useRef<HTMLInputElement>(null);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const dashRoles = [ROLES.Cmd, ROLES.User];
 
-    const [userFields, setUserFields] = useState({
-        email: '',
-        password: '',
-    });
-    const [modalOpen, setModalOpen] = useState(false);
+    const dashRoles = [ROLES.Cmd, ROLES.User];
+    const isLoginError = loginApiError !== null;
 
     const openModal = () => {
         setModalOpen((prev) => !prev);
     };
 
-    const handleFormInput = (e: FormEvent<HTMLInputElement>): void => {
-        setUserFields({
-            ...userFields,
-            [e.currentTarget.name]: e.currentTarget.value,
-        });
-    };
+    const closeApiError = (isEmpty: boolean) =>
+        !isEmpty && dispatch(dismissErrorAction());
 
-    const handleLogin = async (e: any) => {
-        e.preventDefault();
-
-        try {
-            dispatch(signInAction(userFields));
-            setUserFields({
-                email: '',
-                password: '',
-            });
-        } catch (error: any) {
-            throw new Error(error.message);
+    const handleLoginSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (emailInput.current && passwordInput.current) {
+            dispatch(
+                signInAction({
+                    email: emailInput.current.value,
+                    password: passwordInput.current.value,
+                })
+            );
+            event.currentTarget.reset();
         }
     };
 
@@ -61,17 +60,16 @@ const Login: FC = () => {
                 <div className="login-gold-accent" />
 
                 <div className="login-form-container">
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLoginSubmit}>
                         <header>Log in</header>
                         <p>Welcome! Please enter your email and password.</p>
                         <label>Email</label>
                         <br />
                         <input
+                            ref={emailInput}
                             id="email"
                             type="email"
                             name="email"
-                            value={userFields.email}
-                            onChange={(e) => handleFormInput(e)}
                             placeholder="Email address"
                             required
                         />
@@ -79,12 +77,11 @@ const Login: FC = () => {
                         <label>Password</label>
                         <br />
                         <input
+                            ref={passwordInput}
                             id="password"
                             type="password"
                             name="password"
-                            value={userFields.password}
                             placeholder="Password"
-                            onChange={(e) => handleFormInput(e)}
                             required
                         />
                         <br />
@@ -100,6 +97,19 @@ const Login: FC = () => {
                     </p>
                 </div>
             </div>
+            <ModalBase isShown={isLoginError} setIsShown={closeApiError}>
+                {loginApiError && (
+                    <div>
+                        <p style={{ paddingBottom: '10px' }}>{loginApiError.message}</p>
+                        <button
+                            className="modal-cancel-button"
+                            onClick={() => closeApiError(false)}
+                        >
+                            Ok
+                        </button>
+                    </div>
+                )}
+            </ModalBase>
             <ForgotPasswordModal isOpen={modalOpen} setIsOpen={setModalOpen} />
         </>
     );
