@@ -99,7 +99,7 @@ export const DeleteModal: FC<Props> = ({
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await dispatch(editThisRoom({ _id: room?._id, ...roomDetails }));
+            await dispatch(editThisRoom({ _id: room?._id, ...roomDetails, roomName: room?.name, projectId: projectId }));
             setRoomDetails({
                 name: room?.name,
                 description: room?.description,

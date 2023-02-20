@@ -50,6 +50,7 @@ router
   //newRFP
   .post("/get-rfps", rfpController.getRFPS)
   .post("/edit-props", rfpController.rfpEditor)
+  .post("/name-exchange", rfpController.propNameExchange)
   .post("/update-rfp", rfpController.rfpUpdater)
   .post("/delete-props", rfpController.deleteProp)
   .post("/get-proposals", rfpController.getProposalRows)

@@ -47,7 +47,7 @@ const Modal: FC<Props> = (props) => {
         status: props.editProject ? String(project?.status) : 'New',
         description: props.editProject ? String(project?.description) : '',
     });
-
+ 
     const dispatch = useAppDispatch();
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -78,6 +78,7 @@ const Modal: FC<Props> = (props) => {
                       getProject({
                           ...projectDetails,
                           _id: project?._id,
+                          projectName: project?.name
                       })
                   );
             setProjectDetails({

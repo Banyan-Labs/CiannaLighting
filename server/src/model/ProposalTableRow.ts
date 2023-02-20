@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { ProposalTableRow, Room, Finish } from "../interfaces/rfpDocInterface";
+import { PropTableRow, Room, Finish } from "../interfaces/rfpDocInterface";
 const proposalRowSchema: Schema = new Schema(
   {
     _id: { type: mongoose.Types.ObjectId },
@@ -25,7 +25,7 @@ const proposalRowSchema: Schema = new Schema(
   }
 );
 
-export default mongoose.model<ProposalTableRow>(
+export default mongoose.model<PropTableRow>(
   "ProposalRow",
   proposalRowSchema
 );
