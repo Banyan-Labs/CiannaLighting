@@ -171,6 +171,11 @@ export const getProject =
                 });
                 if (proposalSet) {
                     dispatch(setProposals(proposalSet.data.proposal));
+                    if(payload.projectName != payload.name){
+                        const exchangeLoad = {type: 'project', name: payload.projectName, newName: payload.name, projectId: payload._id}
+                        await axioscall.post('/name-exchange', exchangeLoad);
+
+                    }
                     const getRfp = await axioscall.post('/get-rfps', {
                         projectId: project.data.project._id,
                     });
@@ -282,6 +287,10 @@ export const editThisRoom =
         const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-room', payload);
+            if(payload.roomName != payload.name){
+            const exchangeLoad = {type: 'room', name: payload.roomName, newName: payload.name, projectId: payload.projectId}
+                await axiosPriv.post('/name-exchange', exchangeLoad);
+            }
             dispatch(setRoomId(response.data.room._id));
             dispatch(setRoom(response.data.room));
         } catch (error: any) {

@@ -4,6 +4,10 @@ import Project from "../model/Project";
 import { uploadFunc } from "../middleware/s3";
 import RFP from "../model/RFP";
 import ProposalTableRow from "../model/ProposalTableRow";
+import rfpDocInterface, {
+  PropTableRow,
+  Room,
+} from "../interfaces/rfpDocInterface";
 
 const createRfp = async (req: Request, res: Response, next: NextFunction) => {
   const {
@@ -119,6 +123,79 @@ const getAccountRFPS = async (req: Request, res: Response) => {
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
     });
+};
+const propNameExchange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  type RequestBody = {
+    type: string;
+    name: string;
+    newName: string;
+    projectId: string;
+  };
+  const { type, name, newName, projectId }: RequestBody = req.body;
+  if (type === "project") {
+    const rfp: rfpDocInterface | null = await RFP.findOne({ projectId });
+    if (rfp) {
+      const checkName = rfp.header.split(", ");
+      if (checkName[0] === name) {
+        rfp.header = `${newName}, ${checkName[1]}`;
+        try {
+          const done = await rfp.save();
+          if (done) {
+            return res.status(200).json({
+              done,
+              message: "RFP header updated successfully",
+            });
+          } else {
+            next();
+          }
+        } catch (error) {
+          return res.status(400).json({
+            error,
+            message: "RFP Header update failed.",
+          });
+        }
+      }
+    }
+  } else if (type === "room") {
+    const proposals: PropTableRow[] | [] | null = await ProposalTableRow.find({
+      projectId,
+    });
+    if (proposals) {
+      try {
+         proposals.forEach(async(item: any) => {
+          if (item.rooms) {
+            const newRooms: Room[] = item.rooms.map(
+              (room: Room, index: number) => {
+                if (room.name === name) {
+                  return { name: newName, lightNumber: room.lightNumber };
+                } else {
+                  return room;
+                }
+              }
+            );          
+            item.rooms = newRooms;
+          }
+          await item.save();
+          return item;
+        });
+        return res.status(200).json({
+          proposals,
+          message: 'Room Update successful'
+        });
+      } catch (error) {
+        return res.status(400).json({
+          error,
+          message: "Room update failed.",
+        });
+      }
+    }
+  } else {
+    throw new Error('Error in propNameExchange.')
+  }
 };
 const rfpEditor = async (req: Request, res: Response) => {
   const {
@@ -546,4 +623,5 @@ export default {
   rfpUpdater,
   deleteProp,
   getProposalRows,
+  propNameExchange
 };

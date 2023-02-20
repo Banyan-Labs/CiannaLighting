@@ -13,7 +13,7 @@ export interface Room {
   lightNumber: number;
 }
 
-export interface ProposalTableRow {
+export interface PropTableRow {
   sub: string;
   projectId: string;
   lightID: string;

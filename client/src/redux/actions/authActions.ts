@@ -1,4 +1,5 @@
-import axios from '../../api/axios';
+import axiosSrc, { AxiosError } from 'axios';
+import axios, { axiosPrivate } from '../../api/axios';
 import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
 import {
@@ -6,8 +7,8 @@ import {
     logout,
     setAccessToken,
     setLogs,
+    setError,
 } from '../reducers/authSlice';
-import { axiosPrivate } from '../../api/axios';
 
 type SignInType = {
     email: string;
@@ -40,8 +41,11 @@ export const signInAction =
                 withCredentials: true,
             });
             dispatch(setUser(response.data));
-        } catch (error: any) {
-            throw new Error(error.message);
+        } catch (error: any | AxiosError) {
+            if (axiosSrc.isAxiosError(error)) {
+                const axiosErr: AxiosError = error;
+                dispatch(setError(axiosErr.response?.data));
+            } else throw new Error(error.message);
         }
     };
 
@@ -103,4 +107,9 @@ export const logoutAction =
         } catch (error: any) {
             throw new Error(error.message);
         }
+    };
+export const dismissErrorAction =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        dispatch(setError(null));
     };

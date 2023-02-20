@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, SyntheticEvent } from 'react';
+import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'react';
 import CreateUserModal from './CreateUserModal';
 import { axiosPrivate } from '../../api/axios';
 import { ROLES } from '../../app/constants';
@@ -16,7 +16,7 @@ const UsersTable: FC = () => {
     const dispatch = useAppDispatch();
     const [curUser, setCurUser] = useState<string>('');
     const [openModal, setOpenModal] = useState(false);
-    const [sortedData, setSortedData] = useState<any>([]);
+    const [sortedData, setSortedData] = useState<UserType[]>([]);
     const [sortDirection, setSortDirection] = useState(0);
     const [currentSort, setCurrentSort] = useState('');
     const utilizedData = users;
@@ -24,13 +24,16 @@ const UsersTable: FC = () => {
     const [options, setOptions] = useState<boolean>(false);
     const [optionIndex, setOptionIndex] = useState<number>(-1);
     const [apiMessage, setApiMessage] = useState<string>('');
-
     const [userDetails, setUserDetails] = useState<CreateUserType>({
         name: '',
         email: '',
         role: '1212',
         password: '',
     });
+    const [, updateState] = useState<unknown>();
+
+    const forceUpdate = useCallback(() => updateState({}), []);
+
     useEffect(() => {
         // if (!users.length) {
         dispatch(getAllUsers());
@@ -40,7 +43,6 @@ const UsersTable: FC = () => {
     useEffect(() => {
         const toastEle = document.getElementById('toast');
         if (toastEle) {
-            
             if (apiMessage) {
                 toastEle.style.display = 'block';
                 setTimeout(() => {
@@ -151,6 +153,7 @@ const UsersTable: FC = () => {
         }
         // dispatch(getAllUsers());
         unsetMini();
+        forceUpdate();
     };
     console.log(sortedData)
 
@@ -192,8 +195,24 @@ const UsersTable: FC = () => {
                 <tbody>
                     {(sortedData.length ? sortedData : users).map(
                         (user: UserType, index: number) => (
-                            <tr key={user._id} className="user-table-row">
-                                <th>{(!user.isActive ? <FaUserAltSlash/> : <FaUserCheck className='active-user'/>)}{'\xa0\xa0\xa0'}{ user.name }</th>
+                            <tr
+                                key={user._id}
+                                className="user-table-row"
+                                style={
+                                    !user.isActive
+                                        ? { background: '#ccc', opacity: 0.6 }
+                                        : {}
+                                }
+                            >
+                                <th
+                                    style={
+                                        user.resetPasswordRequest
+                                            ? { color: 'red', opacity: 0.5 }
+                                            : {}
+                                    }
+                                >
+                                    {(!user.isActive ? <FaUserAltSlash/> : <FaUserCheck className='active-user'/>)}{'\xa0\xa0\xa0'}{ user.name }
+                                </th>
                                 <td>{user.email}</td>
                                 <td>
                                     {Object.entries(ROLES).map((role) => {
