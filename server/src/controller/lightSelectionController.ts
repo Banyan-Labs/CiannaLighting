@@ -106,7 +106,7 @@ const lightSelected = async (
 };
 
 const getAllSelectedLights = (req: Request, res: Response) => {
-  const { roomId } = req.body;
+  const { roomId, item_ID } = req.body;
   if (roomId && roomId.length) {
     LightSelection.find({ roomId })
       .then((lights) => {
@@ -118,7 +118,7 @@ const getAllSelectedLights = (req: Request, res: Response) => {
         return res.status(500).json({ message: error.message, error });
       });
   } else {
-    LightSelection.find()
+    LightSelection.find({item_ID})
       .then((lights) => {
         return res.status(200).json({
           lights,

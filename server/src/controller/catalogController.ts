@@ -52,6 +52,13 @@ const createCatalogItem = async (req: Request, res: Response) => {
   pdf = [];
   specs = [];
   drawingFiles = [];
+  const existingCatalog = await CatalogItem.findOne({item_ID});
+  console.log("existingCatalog: ",existingCatalog);
+  if(existingCatalog){
+    return res.status(400).json({
+      message: "This Item already exists."
+    })
+  }else{
   if (req.files) {
     const documents = Object.values(req.files as any);
 
@@ -135,6 +142,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
         error,
       });
     });
+  }
 };
 
 const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
@@ -245,10 +253,12 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   }
+  console.log("editBOD: ",req.body)
   return await CatalogItem.findOne(search)
     .exec()
     .then(async (light: any) => {
       if (light) {
+        console.log("lightFound",light)
         if (light && keys.length) {
           keys.map((keyName: string) => {
             if (/edit/.test(keyName)) {
@@ -310,6 +320,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
         return res.status(200).json({
           light,
         });
+      }else{
+        next();
       }
     })
     .catch((error) => {

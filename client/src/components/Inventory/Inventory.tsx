@@ -120,6 +120,7 @@ const Inventory: FC = () => {
     const [numPdfPages, setNumPdfPages] = useState<any>({});
     const [numDrawPages, setNumDrawPages] = useState<any>({});
     const [numSpecPages, setNumSpecPages] = useState<any>({});
+    const [usedItem, setUsedItem] = useState<boolean>(false)
 
     const initializeCatalog = async () => {
         const axiosPriv = axiosPrivate();
@@ -296,11 +297,23 @@ const Inventory: FC = () => {
             });
         }
     };
+
+    const checkItemUsage = async (ID: string) =>{
+        const axiosPriv =  axiosPrivate();
+        const check = await axiosPriv.post('/get-lightSelections', {item_ID: ID});
+        if(check.data.lights && check.data.lights.length){
+            setUsedItem(true)
+        }else{
+            setUsedItem(false)
+        }
+    }
+
     const setEdit = (e: any) => {
         e.preventDefault();
         const item: any = catalogItems.find(
             (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
         );
+        checkItemUsage(item.item_ID)
         if (item) {
             const files: any = {
                 images: item.images,
@@ -556,6 +569,7 @@ const Inventory: FC = () => {
     const toggleEdit = (e: SyntheticEvent,set: boolean) => {
         e.preventDefault();
         let type = '';
+        setUsedItem(false);
         if(editingItem){
             setItemDetails({
                 employeeID: user._id,
@@ -605,6 +619,14 @@ const Inventory: FC = () => {
         }else{
             type = 'edit';
         }
+        setImages([]);
+        setDrawingFiles([]);
+        setPdf([]);
+        setSpecs([]);
+        setImageNames([]);
+        setViewablePDF([])
+        setViewableSpecs([]);
+        setDrawingFilesNames([])
         setTypeOfProject(type);
         setEditingItem(set);
     }
@@ -706,7 +728,19 @@ const Inventory: FC = () => {
                             </label>
                             <div className="tab-content">
                                 <div className="form__group field">
-                                    <input
+                                    {
+                                        usedItem && editingItem ? 
+                                        <input
+                                        tabIndex={-1}
+                                        className="form__field"
+                                        type="input"
+                                        id="item_ID"
+                                        name="item_ID"
+                                        value={itemDetails.item_ID}
+                                        readOnly
+                                        placeholder="Item ID"                                    
+                                    /> :
+                                        <input
                                         tabIndex={-1}
                                         className="form__field"
                                         type="input"
@@ -714,8 +748,9 @@ const Inventory: FC = () => {
                                         name="item_ID"
                                         value={itemDetails.item_ID}
                                         onChange={(e) => handleFormInput(e)}
-                                        placeholder="Item ID"
+                                        placeholder="Item ID"                                    
                                     />
+                                    }
                                     <label
                                         htmlFor="name"
                                         className="form__label"

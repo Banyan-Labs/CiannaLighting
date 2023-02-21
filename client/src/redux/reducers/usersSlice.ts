@@ -3,10 +3,12 @@ import { UserType } from '../../app/typescriptTypes';
 
 export interface UsersStateType {
     users: UserType[];
+    lastStatus: string;
 }
 
 const initialState: UsersStateType = {
     users: [],
+    lastStatus: '',
 };
 
 export const getAllUsersSlice = createSlice({
@@ -22,8 +24,12 @@ export const getAllUsersSlice = createSlice({
             user: action.payload,
             users: [action.payload, ...state.users],
         }),
+        setStatus: (state, action) =>({
+            ...state,
+            lastStatus: action.payload
+        })
     },
 });
 
-export const { setUsers, setNewUser } = getAllUsersSlice.actions;
+export const { setUsers, setNewUser, setStatus } = getAllUsersSlice.actions;
 export default getAllUsersSlice.reducer;

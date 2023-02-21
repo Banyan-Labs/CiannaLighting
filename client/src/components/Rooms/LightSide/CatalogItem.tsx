@@ -15,7 +15,7 @@ import {
 } from '../../../redux/actions/projectActions';
 import LightCarousel from './LightCarousel';
 
-interface catalogPros {
+interface catalogProps {
     setCatalogItem: any;
     catalogItem: any;
     editLight: any;
@@ -44,7 +44,7 @@ type LightType = {
     quantity: number;
 };
 
-const CatalogItem: FC<catalogPros> = ({
+const CatalogItem: FC<catalogProps> = ({
     setCatalogItem,
     catalogItem,
     editLight,

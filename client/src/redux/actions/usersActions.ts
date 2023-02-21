@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux';
 import { axiosPrivate } from '../../api/axios';
 import { CreateUserType } from '../../app/typescriptTypes';
-import { setUsers, setNewUser } from '../reducers/usersSlice';
+import {  } from '../reducers/filterSlice';
+import { setUsers, setNewUser, setStatus } from '../reducers/usersSlice';
 
 export const getAllUsers =
     () =>
@@ -19,6 +20,16 @@ export const createUserAction =
     (user: CreateUserType) =>
     async (dispatch: Dispatch): Promise<void> => {
         const axiosPriv = axiosPrivate();
-        const response = await axiosPriv.post('cmd/create-user', user);
+        const response:any = await axiosPriv.post('cmd/create-user', user);
+        console.log("response:", response.message)
+        // set something to throw error
+        if(response.data){
         dispatch(setNewUser(response.data.user));
+        dispatch(setStatus("User created successfully."))
+        }else{
+            
+            dispatch(setStatus(response.response.data.message))
+            
+         
+        }
     };

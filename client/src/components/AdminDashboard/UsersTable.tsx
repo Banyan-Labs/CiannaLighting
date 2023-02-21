@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'rea
 import CreateUserModal from './CreateUserModal';
 import { axiosPrivate } from '../../api/axios';
 import { ROLES } from '../../app/constants';
-import { FaPlus, FaChevronUp, FaChevronDown, FaPlay } from 'react-icons/fa';
+import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -12,7 +12,7 @@ import { RiArchiveDrawerFill } from 'react-icons/ri';
 import './styles/UsersTable.scss';
 
 const UsersTable: FC = () => {
-    const { users } = useAppSelector(({ users: users }) => users);
+    const { users, lastStatus } = useAppSelector(({ users }) => users);
     const dispatch = useAppDispatch();
     const [curUser, setCurUser] = useState<string>('');
     const [openModal, setOpenModal] = useState(false);
@@ -48,6 +48,7 @@ const UsersTable: FC = () => {
                 setTimeout(() => {
                     toastEle.style.display = 'none';
                     setApiMessage('');
+                    dispatch(getAllUsers());
                 }, 3000);
             }
         }
@@ -60,6 +61,7 @@ const UsersTable: FC = () => {
     const unsetMini = () => {
         setOptions(false);
         setOptionIndex(-1);
+        
     };
     const activateEdit = (user: any) => {
         setUserDetails({
@@ -75,6 +77,7 @@ const UsersTable: FC = () => {
     const closeAndGet = () => {
         setOpenModal(false);
         dispatch(getAllUsers());
+        setApiMessage(lastStatus)
     };
     const setSortToDefault = () => {
         setSortedData(users);
@@ -148,10 +151,11 @@ const UsersTable: FC = () => {
         } else {
             setApiMessage('Unable to toggle user status');
         }
-        dispatch(getAllUsers());
+        // dispatch(getAllUsers());
         unsetMini();
         forceUpdate();
     };
+    console.log(sortedData)
 
     return (
         <>
@@ -207,7 +211,7 @@ const UsersTable: FC = () => {
                                             : {}
                                     }
                                 >
-                                    {user.name}
+                                    {(!user.isActive ? <FaUserAltSlash/> : <FaUserCheck className='active-user'/>)}{'\xa0\xa0\xa0'}{ user.name }
                                 </th>
                                 <td>{user.email}</td>
                                 <td>
