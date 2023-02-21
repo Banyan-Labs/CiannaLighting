@@ -23,6 +23,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const [openModal, setOpenModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const { attachments } = useAppSelector(({ project }) => project);
+    const {user} = useAppSelector(({auth:user})=> user)
     const dispatch = useAppDispatch();
     const Color =
         dataHolding.setData().color &&
@@ -37,7 +38,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
                 getProject({
                     _id: details._id,
                     archived: !details.archived,
-                    activity: details.archived ? 'Restor' : 'Archiv',
+                    activity: details.archived ? 'Restore' : 'Archive',
                 })
             );
             details?.archived === true
@@ -57,7 +58,11 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({ details }) => {
     const copyOfProject = async (e: any, project: ProjectType) => {
         e.preventDefault();
         const payload = {
-            ...project,
+            project:{
+                ...project, 
+                clientId: user._id,
+                clientName: user.name,
+            },
             copy: 'project',
             attachments: attachments,
         };

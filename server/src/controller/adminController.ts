@@ -16,7 +16,7 @@ const createNewUser = async (req: Request, res: Response) => {
       if (existingUser) {
         res
           .status(400)
-          .json({ message: "An account with this email already exists" });
+          .json({ message: "An account with this email already exists." });
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({

@@ -28,7 +28,7 @@ const createProject = async (req: Request, res: Response) => {
       .then(async (foundRoom) => {
         await runRoom(foundRoom, _id, clientId);
         return res.status(201).json({
-          message: `copy of room ${rooms[0]}`,
+          message: rooms[0],
         });
       })
       .catch((error) => {
@@ -40,7 +40,7 @@ const createProject = async (req: Request, res: Response) => {
   } else {
     const rfp = new RFP({
       _id: new mongoose.Types.ObjectId(),
-      header: name + ", " + region,
+      header: `${copy === "project" ? "Copy of " + name : name}, ${region}`,
       clientId: clientId,
       projectId: "",
       clientName: clientName,
@@ -225,7 +225,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: `Copy of ${name}`,
+    name: name,
     clientId: clientId,
     projectId: newProjectId,
     description: description,

@@ -55,9 +55,6 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
                     {userAttachments}
                 </table>
             </div>
-            <div className="project-attachments-view-all">
-                <p>View All</p>
-            </div>
         </div>
     );
 };
