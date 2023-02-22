@@ -8,6 +8,11 @@ interface ProjectActivity {
   archiveRestore: string[][];
   status: string[][];
 }
+
+interface lightREF {
+  lightID: string;
+  rooms: string[]
+}
 export default interface projectInterface extends Document {
   archived: boolean;
   name: string;
@@ -18,5 +23,6 @@ export default interface projectInterface extends Document {
   description: string;
   rfp: string;
   rooms: string[];
+  // lightIDs: lightREF[]
   activity: ProjectActivity;
 }

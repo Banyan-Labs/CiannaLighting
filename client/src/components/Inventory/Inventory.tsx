@@ -316,7 +316,7 @@ const Inventory: FC = () => {
         const item: any = catalogItems.find(
             (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
         );
-        checkItemUsage(item.item_ID)
+        checkItemUsage(item.item_ID);
         if (item) {
             const files: any = {
                 images: item.images,

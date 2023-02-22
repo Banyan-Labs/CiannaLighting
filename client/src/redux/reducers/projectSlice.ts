@@ -14,6 +14,7 @@ export interface ProjectStateType {
     roomId: string;
     roomLights: [];
     setAllCatalog: any[];
+    setInactive: string[];
     attachments: any[];
     catalogConnectLight: any[] | null;
     yourProjects: boolean;
@@ -114,6 +115,7 @@ const initialState: ProjectStateType = {
     projectId: '',
     roomLights: [],
     setAllCatalog: [],
+    setInactive: [],
     attachments: [],
     catalogConnectLight: null,
     yourProjects: false,
@@ -154,6 +156,10 @@ export const projectSlice = createSlice({
         setCatalogLights: (state, action) => ({
             ...state,
             setAllCatalog: action.payload,
+        }),
+        setInactiveLights: (state, action) =>({
+            ...state,
+            setInactive: action.payload
         }),
         setYourProjects: (state, action) => ({
             ...state,
@@ -199,6 +205,7 @@ export const {
     setRoomId,
     setRoomLights,
     setCatalogLights,
+    setInactiveLights,
     setCatalogConnect,
     setYourProjects,
     setFilteredProjNone,

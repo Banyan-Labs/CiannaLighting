@@ -20,7 +20,7 @@ export type ProjectType = {
     rfp?: string;
     rooms?: string[];
 };
-import { setSpecFile } from '../../redux/actions/lightActions';
+import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
 
 const Projects: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');
@@ -41,6 +41,7 @@ const Projects: FC = () => {
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
         await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
+        await dispatch(getCatalogItems());
     };
 
     useEffect(() => {
