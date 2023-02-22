@@ -30,7 +30,7 @@ export default interface catalogInterface extends Document {
   acrylicOptions: string[];
   environment: string[];
   safetyCert: string[];
-  projecVoltage: string[];
+  projectVoltage: string[];
   socketType: string[];
   mounting: string[];
   crystalType: string[]; // add to model add some stuff
@@ -44,4 +44,5 @@ export default interface catalogInterface extends Document {
   drawingFiles: string[]; //s3
   costAdmin: number;
   partnerCodeAdmin: string;
+  isActive: boolean;
 }
