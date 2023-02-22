@@ -27,7 +27,7 @@ const LightDetails: FC<catalogPros> = ({
     return (
         <>
             {!catalogItem ? (
-                <div className="container lightDetail-container m-0 mr-0 col-12 col-lg-5">
+                <div className="container lightDetail-container m-0 mr-0 col-md-12 col-lg-6">
                     <div className="col-12 d-flex row light-top-catalog justify-content-center m-0">
                         <div className="d-flex row justify-content-center align-items-center">
                             <div className="col-12 d-flex justify-content-end align-items-center tooltip bs-tooltip-top">

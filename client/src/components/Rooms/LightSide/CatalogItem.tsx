@@ -13,7 +13,7 @@ import {
     setTheRoom,
     getAllProjectRoomsAction,
 } from '../../../redux/actions/projectActions';
-import Pictures from './Pictures';
+import LightCarousel from './LightCarousel';
 
 interface catalogProps {
     setCatalogItem: any;
@@ -65,6 +65,9 @@ const CatalogItem: FC<catalogProps> = ({
     );
 
     const lightID = user._id + catalogItem.item_ID + roomId;
+    const carouslImageData = catalogItem.images.map((img: string) => ({
+        url: img,
+    }));
 
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
         exteriorFinish:
@@ -247,9 +250,8 @@ const CatalogItem: FC<catalogProps> = ({
             onSubmit={onSubmit}
             className="d-flex catalog-container container-fluid row"
         >
-            <div className="col-5 item-img-container d-flex row justify-content-between container-type-back align-content-start m-0">
-                <img className="col-12 p-0" src={catalogItem.images[0]} alt="" />
-                <Pictures catalogItem={catalogItem}/>
+            <div className="col-5 d-flex row justify-content-between container-type-back align-content-start">
+                <LightCarousel images={carouslImageData} />
                 <div className="col-12">
                     <h4
                         className="collapse-button d-flex justify-content-between align-items-center p-0 m-0"
@@ -295,7 +297,7 @@ const CatalogItem: FC<catalogProps> = ({
                                 : 'container-left-spec spec-main-container'
                         }
                     >
-                        <div className="d-flex col-12 row  justify-content-end m-0">
+                        <div className="d-flex col-12 row justify-content-end m-0">
                             <div className="d-flex spec-container justify-content-between p-0 m-0">
                                 <p className="p-0 m-0">Body Diameter</p>
                                 <p className="p-0 m-0 number-spec">
@@ -872,7 +874,7 @@ const CatalogItem: FC<catalogProps> = ({
                                       )}
                             </select>
                         </div>
-                        <div className="d-flex options-container">
+                        <div className="d-flex select-container">
                             <label
                                 htmlFor="status-select-menu"
                                 className="label-light col-6"
@@ -925,7 +927,7 @@ const CatalogItem: FC<catalogProps> = ({
                                       )}
                             </select>
                         </div>
-                        <div className="d-flex options-container">
+                        <div className="d-flex select-container">
                             <label
                                 htmlFor="status-select-menu"
                                 className="label-light col-6"
@@ -1031,7 +1033,7 @@ const CatalogItem: FC<catalogProps> = ({
                                       )}
                             </select>
                         </div>
-                        <div className="d-flex options-container">
+                        <div className="d-flex select-container">
                             <label
                                 htmlFor="status-select-menu"
                                 className="label-light col-6"
@@ -1085,7 +1087,7 @@ const CatalogItem: FC<catalogProps> = ({
                                       )}
                             </select>
                         </div>
-                        <div className="d-flex options-container">
+                        <div className="d-flex select-container">
                             <label
                                 htmlFor="status-select-menu"
                                 className="label-light col-6"
