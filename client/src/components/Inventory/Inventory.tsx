@@ -1,11 +1,17 @@
-import React, { FC, useState, FormEvent, ChangeEvent, useEffect, SyntheticEvent } from 'react';
-import { axiosFileUpload } from '../../api/axios';
+import React, {
+    FC,
+    useState,
+    FormEvent,
+    ChangeEvent,
+    useEffect,
+    SyntheticEvent,
+} from 'react';
+import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import './styles/inventory.scss';
-import { FaPlus, FaRegWindowClose } from 'react-icons/fa';
-import { FaMinus } from 'react-icons/fa';
-import { axiosPrivate } from '../../api/axios';
+import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
 import { Document, Page, pdfjs } from 'react-pdf';
+import uuid from 'react-uuid';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface CatalogType {
@@ -120,7 +126,7 @@ const Inventory: FC = () => {
     const [numPdfPages, setNumPdfPages] = useState<any>({});
     const [numDrawPages, setNumDrawPages] = useState<any>({});
     const [numSpecPages, setNumSpecPages] = useState<any>({});
-    const [usedItem, setUsedItem] = useState<boolean>(false)
+    const [usedItem, setUsedItem] = useState<boolean>(false);
 
     const initializeCatalog = async () => {
         const axiosPriv = axiosPrivate();
@@ -298,22 +304,24 @@ const Inventory: FC = () => {
         }
     };
 
-    const checkItemUsage = async (ID: string) =>{
-        const axiosPriv =  axiosPrivate();
-        const check = await axiosPriv.post('/get-lightSelections', {item_ID: ID});
-        if(check.data.lights && check.data.lights.length){
-            setUsedItem(true)
-        }else{
-            setUsedItem(false)
+    const checkItemUsage = async (ID: string) => {
+        const axiosPriv = axiosPrivate();
+        const check = await axiosPriv.post('/get-lightSelections', {
+            item_ID: ID,
+        });
+        if (check.data.lights && check.data.lights.length) {
+            setUsedItem(true);
+        } else {
+            setUsedItem(false);
         }
-    }
+    };
 
     const setEdit = (e: any) => {
         e.preventDefault();
         const item: any = catalogItems.find(
             (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
         );
-        checkItemUsage(item.item_ID)
+        checkItemUsage(item.item_ID);
         if (item) {
             const files: any = {
                 images: item.images,
@@ -494,57 +502,57 @@ const Inventory: FC = () => {
                     setEditingItem(false);
                     initializeCatalog();
                     alert('Item Edited!');
-                    toggleEdit(e,false);
+                    toggleEdit(e, false);
                 }
             } else {
                 await axiosPriv.post('/internal/create-light', fs);
                 initializeCatalog();
                 alert('Item created!');
-            setItemDetails({
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
-        }
+                setItemDetails({
+                    employeeID: user._id,
+                    item_ID: '',
+                    itemName: '',
+                    itemDescription: '',
+                    bodyDiameter: '',
+                    bodyLength: '',
+                    bodyWidth: '',
+                    bodyHeight: '',
+                    fixtureOverallHeight: '',
+                    sconceHeight: '',
+                    sconceWidth: '',
+                    sconceExtension: '',
+                    material: '',
+                    socketQuantity: 0,
+                    estimatedWeight: 0,
+                    lampType: '',
+                    lampColor: '',
+                    numberOfLamps: 0,
+                    wattsPerLamp: 0,
+                    powerInWatts: 0,
+                    price: 0,
+                    exteriorFinish: [], //[]
+                    interiorFinish: [], //[]
+                    lensMaterial: [], //[]
+                    glassOptions: [], //[]
+                    acrylicOptions: [], //[]
+                    environment: [], //[]
+                    safetyCert: [], //[]
+                    projectVoltage: [], //[]
+                    socketType: [], //[]
+                    mounting: [], //[]
+                    crystalType: [], //[]
+                    crystalPinType: [], //[]
+                    crystalPinColor: [], //[]
+                    designStyle: [], //[]
+                    usePackages: [], //[]
+                    editImages: [],
+                    editpdf: [],
+                    editDrawingFiles: [],
+                    editSpecs: [],
+                    costAdmin: 0,
+                    partnerCodeAdmin: '',
+                });
+            }
             setImageNames([]);
             setViewablePDF([]);
             setViewableSpecs([]);
@@ -566,11 +574,11 @@ const Inventory: FC = () => {
             alert(error.messsge);
         }
     };
-    const toggleEdit = (e: SyntheticEvent,set: boolean) => {
+    const toggleEdit = (e: SyntheticEvent, set: boolean) => {
         e.preventDefault();
         let type = '';
         setUsedItem(false);
-        if(editingItem){
+        if (editingItem) {
             setItemDetails({
                 employeeID: user._id,
                 item_ID: '',
@@ -616,7 +624,7 @@ const Inventory: FC = () => {
                 partnerCodeAdmin: '',
             });
             type = 'non-edit';
-        }else{
+        } else {
             type = 'edit';
         }
         setImages([]);
@@ -624,12 +632,12 @@ const Inventory: FC = () => {
         setPdf([]);
         setSpecs([]);
         setImageNames([]);
-        setViewablePDF([])
+        setViewablePDF([]);
         setViewableSpecs([]);
-        setDrawingFilesNames([])
+        setDrawingFilesNames([]);
         setTypeOfProject(type);
         setEditingItem(set);
-    }
+    };
     return (
         <div className="inventory-container">
             <div className="inventory-head">
@@ -654,7 +662,7 @@ const Inventory: FC = () => {
                                     : 'type-project-btn'
                             }
                             onClick={(e) => {
-                                toggleEdit(e,false);
+                                toggleEdit(e, false);
                             }}
                         >
                             New Item
@@ -666,7 +674,7 @@ const Inventory: FC = () => {
                                     : 'type-project-btn'
                             }
                             onClick={(e) => {
-                                toggleEdit(e,true);
+                                toggleEdit(e, true);
                             }}
                         >
                             Edit Item
@@ -694,16 +702,14 @@ const Inventory: FC = () => {
                                 edit
                             </button>
                             <datalist id="catalog">
-                                {catalogItems.map(
-                                    (item: any, index: number) => {
-                                        return (
-                                            <option
-                                                key={index}
-                                                value={item.item_ID}
-                                            />
-                                        );
-                                    }
-                                )}
+                                {catalogItems.map((item: any) => {
+                                    return (
+                                        <option
+                                            key={uuid()}
+                                            value={item.item_ID}
+                                        />
+                                    );
+                                })}
                             </datalist>
                         </div>
                     )}
@@ -728,29 +734,29 @@ const Inventory: FC = () => {
                             </label>
                             <div className="tab-content">
                                 <div className="form__group field">
-                                    {
-                                        usedItem && editingItem ? 
+                                    {usedItem && editingItem ? (
                                         <input
-                                        tabIndex={-1}
-                                        className="form__field"
-                                        type="input"
-                                        id="item_ID"
-                                        name="item_ID"
-                                        value={itemDetails.item_ID}
-                                        readOnly
-                                        placeholder="Item ID"                                    
-                                    /> :
+                                            tabIndex={-1}
+                                            className="form__field"
+                                            type="input"
+                                            id="item_ID"
+                                            name="item_ID"
+                                            value={itemDetails.item_ID}
+                                            readOnly
+                                            placeholder="Item ID"
+                                        />
+                                    ) : (
                                         <input
-                                        tabIndex={-1}
-                                        className="form__field"
-                                        type="input"
-                                        id="item_ID"
-                                        name="item_ID"
-                                        value={itemDetails.item_ID}
-                                        onChange={(e) => handleFormInput(e)}
-                                        placeholder="Item ID"                                    
-                                    />
-                                    }
+                                            tabIndex={-1}
+                                            className="form__field"
+                                            type="input"
+                                            id="item_ID"
+                                            name="item_ID"
+                                            value={itemDetails.item_ID}
+                                            onChange={(e) => handleFormInput(e)}
+                                            placeholder="Item ID"
+                                        />
+                                    )}
                                     <label
                                         htmlFor="name"
                                         className="form__label"
@@ -1846,6 +1852,15 @@ const Inventory: FC = () => {
                                     <FaPlus />
                                     Add Value
                                 </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'designStyle')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
+                                </button>
                                 <input
                                     tabIndex={-1}
                                     className="material__list"
@@ -1887,6 +1902,15 @@ const Inventory: FC = () => {
                                 >
                                     <FaPlus />
                                     Add Value
+                                </button>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'usePackages')
+                                    }
+                                    className="delete-material-button"
+                                >
+                                    <FaMinus />
                                 </button>
                                 <input
                                     tabIndex={-1}
@@ -1935,10 +1959,10 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {imageName.map((url: any, index: number) => {
+                                {imageName.map((url: any) => {
                                     return (
                                         <div
-                                            key={index}
+                                            key={uuid()}
                                             className="file-contain"
                                         >
                                             <button
@@ -1988,10 +2012,10 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any, dex: number) => {
+                                {viewablePDF.map((url: any) => {
                                     return (
                                         <Document
-                                            key={dex}
+                                            key={uuid()}
                                             file={url.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
@@ -2076,10 +2100,10 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs.map((url: any, dex: number) => {
+                                {viewableSpecs.map((url: any) => {
                                     return (
                                         <Document
-                                            key={dex}
+                                            key={uuid()}
                                             file={url.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
@@ -2169,71 +2193,67 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {drawingFilesNames.map(
-                                    (url: any, dex: number) => {
-                                        return (
-                                            <Document
-                                                key={dex}
-                                                file={url.url}
-                                                onLoadSuccess={(e) =>
-                                                    onDocumentLoadSuccess(
-                                                        e,
-                                                        'drawingFiles',
-                                                        url.name
-                                                    )
-                                                }
-                                                onLoadError={console.error}
-                                                className="pdf-document2"
-                                            >
-                                                {Array.from(
-                                                    new Array(
-                                                        numDrawPages[url.name]
-                                                    ),
-                                                    (el, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className="pdf-contain"
-                                                        >
-                                                            {index == 0 && (
-                                                                <button
-                                                                    className="add__btn pdf_lst"
-                                                                    onClick={(
-                                                                        e
-                                                                    ) =>
-                                                                        deleteFiles(
-                                                                            e,
-                                                                            url,
-                                                                            'drawingFiles'
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <FaRegWindowClose />
-                                                                </button>
-                                                            )}
-                                                            <Page
-                                                                key={`page_${
-                                                                    index + 1
-                                                                }`}
-                                                                className="pdf-page2"
-                                                                renderAnnotationLayer={
-                                                                    false
+                                {drawingFilesNames.map((url: any) => {
+                                    return (
+                                        <Document
+                                            key={uuid()}
+                                            file={url.url}
+                                            onLoadSuccess={(e) =>
+                                                onDocumentLoadSuccess(
+                                                    e,
+                                                    'drawingFiles',
+                                                    url.name
+                                                )
+                                            }
+                                            onLoadError={console.error}
+                                            className="pdf-document2"
+                                        >
+                                            {Array.from(
+                                                new Array(
+                                                    numDrawPages[url.name]
+                                                ),
+                                                (el, index) => (
+                                                    <div
+                                                        key={uuid()}
+                                                        className="pdf-contain"
+                                                    >
+                                                        {index == 0 && (
+                                                            <button
+                                                                className="add__btn pdf_lst"
+                                                                onClick={(e) =>
+                                                                    deleteFiles(
+                                                                        e,
+                                                                        url,
+                                                                        'drawingFiles'
+                                                                    )
                                                                 }
-                                                                renderTextLayer={
-                                                                    false
-                                                                }
-                                                                pageNumber={
-                                                                    index + 1
-                                                                }
-                                                                // scale={1.0}
-                                                                width={320}
-                                                            />
-                                                        </div>
-                                                    )
-                                                )}
-                                            </Document>
-                                        );
-                                    }
-                                )}
+                                                            >
+                                                                <FaRegWindowClose />
+                                                            </button>
+                                                        )}
+                                                        <Page
+                                                            key={`page_${
+                                                                index + 1
+                                                            }`}
+                                                            className="pdf-page2"
+                                                            renderAnnotationLayer={
+                                                                false
+                                                            }
+                                                            renderTextLayer={
+                                                                false
+                                                            }
+                                                            pageNumber={
+                                                                index + 1
+                                                            }
+                                                            // scale={1.0}
+                                                            width={320}
+                                                        />
+                                                    </div>
+                                                )
+                                            )}
+                                        </Document>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
@@ -2281,12 +2301,24 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='edit-button-container'>
-                    {editingItem && <button className='cancel-button' onClick={(e)=> toggleEdit(e,false)}>Clear</button>}
+                    <div className="edit-button-container">
+                        {editingItem && (
+                            <button
+                                className="cancel-button"
+                                onClick={(e) => toggleEdit(e, false)}
+                            >
+                                Clear
+                            </button>
+                        )}
 
-                    <button id="inventory-btn" className={editingItem ? 'edit-inventory' : 'inventory-btn'}>
-                        {editingItem ? 'Submit Edit' : 'Submit'}
-                    </button>
+                        <button
+                            id="inventory-btn"
+                            className={
+                                editingItem ? 'edit-inventory' : 'inventory-btn'
+                            }
+                        >
+                            {editingItem ? 'Submit Edit' : 'Submit'}
+                        </button>
                     </div>
                 </form>
             </div>
