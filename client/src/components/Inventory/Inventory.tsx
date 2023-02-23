@@ -1855,7 +1855,7 @@ const Inventory: FC = () => {
                                 <button
                                     tabIndex={-1}
                                     onClick={(e) =>
-                                        removeItem(e, 'exteriorFinish')
+                                        removeItem(e, 'designStyle')
                                     }
                                     className="delete-material-button"
                                 >
@@ -1906,7 +1906,7 @@ const Inventory: FC = () => {
                                 <button
                                     tabIndex={-1}
                                     onClick={(e) =>
-                                        removeItem(e, 'exteriorFinish')
+                                        removeItem(e, 'usePackages')
                                     }
                                     className="delete-material-button"
                                 >
