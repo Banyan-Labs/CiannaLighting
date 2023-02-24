@@ -273,6 +273,7 @@ export const deleteThisProject = (payload: any) => async () => {
 
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
+    console.log("IN DELETE ROOM!")
     try {
         const room = await axiosPriv.post('/delete-room', payload);
         return room.data;

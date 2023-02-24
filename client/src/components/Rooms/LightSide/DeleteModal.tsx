@@ -61,7 +61,9 @@ export const DeleteModal: FC<Props> = ({
             );
         };
         const nonLight = async () => {
+            if(roomLights && roomLights.length){
             await deleteAttachments(roomLights);
+            } 
             await dispatch(
                 deleteThisRoom({
                     _id: String(storedRoomId),
