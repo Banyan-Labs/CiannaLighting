@@ -4,6 +4,7 @@ import LightSelection from "../model/LIghtSelection";
 import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
+import { longString } from "aws-sdk/clients/datapipeline";
 
 const lightSelected = async (
   req: Request,
@@ -160,16 +161,27 @@ const getSelectedLight = async (req: Request, res: Response) => {
 };
 
 const deleteSelectedLight = async (req: Request, res: Response) => {
+  type RequestBody = {
+    item_ID: string;
+    roomId: string;
+    _id: string;
+    projectId: string;
+  }
+  const { item_ID, roomId, _id, projectId }: RequestBody = req.body;
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {
       if (room) {
+        const updateLightIds = await lightIdService(projectId, 'delete', item_ID, room.name);
+        if ( updateLightIds ){
+          console.log("lightIDs updated!@#$#@!")
+        }
         room.lights = room.lights.filter((id: string) => {
-          return String(id) !== req.body._id ? id : "";
+          return String(id) !== _id ? id : "";
         });
         room.save();
         const lightRemoved = "light removed successfully from room";
-        return await LightSelection.findByIdAndDelete({ _id: req.body._id })
+        return await LightSelection.findByIdAndDelete({ _id: _id })
           .then((lightSelection) => {
             return !lightSelection
               ? res.status(200).json({

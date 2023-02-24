@@ -53,6 +53,7 @@ export const DeleteModal: FC<Props> = ({
             await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
+                    item_ID: light.item_ID,
                     roomId: String(storedRoomId),
                     _id: String(light._id),
                     projectId: projectId,
