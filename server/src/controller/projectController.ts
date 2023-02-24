@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
+import {lightIdService} from "./lightSelectionController"
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -58,6 +59,7 @@ const createProject = async (req: Request, res: Response) => {
       description: description,
       rfp: String(rfp._id),
       rooms: [],
+      lightIDs: [],
       activity: {
         createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
           "/"
@@ -496,6 +498,41 @@ const getAllProjects = async (req: Request, res: Response) => {
   } else {
     await Project.find()
       .then((projects) => {
+        const updater = projects.forEach(async(project)=>{
+          console.log("name and light ids in project: ", project.name, project.lightIDs)
+          //  project.rooms.forEach(async(room: string)=>{
+          //   const roomFound = await Room.findOne({_id: room});
+          //   if(roomFound){
+          //     console.log("roomFoundLights and name: ",roomFound.name, roomFound.lights)
+          //     const ranLights = roomFound.lights.map(async(light: string)=>{
+          //       const lightFound = await LightSelection.findOne({_id: light});
+          //       console.log("weird?",lightFound)
+          //       if(lightFound){
+          //         console.log("lightFound: ", lightFound.item_ID, lightFound.roomName)
+          //         const doneRunning = await lightIdService(project._id, 'add', lightFound.item_ID, lightFound.roomName);
+          //         if (doneRunning){
+          //           console.log("COMPLETED UPDATE! :):", lightFound ) 
+          //           return lightFound
+          //         }else{
+          //           return new Error("error in the update function on the light level")
+          //         }
+          //       }else{
+                  
+          //         return new Error('Error on light map')
+          //       }
+                
+                
+          //     })
+          //     if(ranLights){
+          //       return room
+          //     }
+          //   }else{
+          //     return new Error("Error in the room Map")
+          //   }
+          // })
+          
+        })
+        updater
         return res.status(200).json({
           projects,
         });

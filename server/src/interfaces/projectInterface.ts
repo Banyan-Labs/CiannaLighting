@@ -9,8 +9,8 @@ interface ProjectActivity {
   status: string[][];
 }
 
-interface lightREF {
-  lightID: string;
+export interface LightREF {
+  item_ID: string;
   rooms: string[]
 }
 export default interface projectInterface extends Document {
@@ -23,6 +23,6 @@ export default interface projectInterface extends Document {
   description: string;
   rfp: string;
   rooms: string[];
-  // lightIDs: lightREF[]
+  lightIDs: LightREF[] | [];
   activity: ProjectActivity;
 }
