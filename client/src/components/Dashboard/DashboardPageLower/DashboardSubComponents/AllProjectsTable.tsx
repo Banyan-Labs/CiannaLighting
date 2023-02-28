@@ -235,7 +235,7 @@ const AllProjects: FC<Props> = ({
                             <ProjectMiniModal
                                 setOpenModal={setOpenModal2}
                                 setProjectModal={setProjectModal}
-                                project={project}
+                                proj={project}
                                 setDeleteProject={setDeleteProject}
                                 setProcessing={setProcessing}
                             />

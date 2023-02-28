@@ -30,6 +30,7 @@ type Activity = {
 export type ProjectType = {
     _id?: string;
     archived?: boolean;
+    lightIDs?: any[];
     copy?: string;
     name: string;
     clientId: string;

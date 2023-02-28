@@ -266,12 +266,15 @@ const rfpEditor = async (req: Request, res: Response) => {
         prop.lightQuantity = newQuantity;
         prop.totalWatts = newWatts;
         prop.totalLumens = newLumens;
+        console.log("Prop rooms before reasigning: ", prop.rooms);
+        console.log("newRooms Variable: ", newRooms);
         prop.rooms = newRooms;
-
+        console.log("propRooms after reasigning: ", prop.rooms)
         return await prop
           .save()
           .then(async (propSaved: any) => {
             if (propSaved) {
+              console.log("PropRooms after saving: ", propSaved.rooms)
               if (propSaved.sub && checkQuantity != quantity) {
                 await ProposalTableRow.findOne({ _id: prop.sub })
                   .then(async (outer) => {
