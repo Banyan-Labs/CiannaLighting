@@ -61,6 +61,7 @@ export const DeleteModal: FC<Props> = ({
             );
         };
         const nonLight = async () => {
+            const itemIDS = roomLights ? roomLights.map((room: any)=> room.item_ID) : []
             if(roomLights && roomLights.length){
             await deleteAttachments(roomLights);
             } 
@@ -68,8 +69,10 @@ export const DeleteModal: FC<Props> = ({
                 deleteThisRoom({
                     _id: String(storedRoomId),
                     projectId: String(storedProjId),
+                    itemIDS: itemIDS
                 })
             );
+            await dispatch(getProject(String(storedProjId)))
         };
         try {
             !deleteRoom ? await nonRoom(light) : await nonLight();
