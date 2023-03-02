@@ -42,7 +42,7 @@ jobs:
           cd ~/CiannaLighting &&
           git checkout stage &&
           sudo git pull &&
-          npm run install-modules &&
+          sudo npm run install-modules &&
           cd client && npm run build &&
           cd ../server && npm run build
           '
