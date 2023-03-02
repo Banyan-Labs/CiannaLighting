@@ -1,11 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
+import { axiosPrivate } from '../../../../api/axios';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
     setFilterProjNone,
+    createProjectAction,
+    getUserProjects,
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -14,6 +17,8 @@ import './style/allProjects.scss';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
 import { ViewModal } from './ViewModal';
+import { LightREF } from '../../../../redux/reducers/projectSlice';
+import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 
 type Props = {
     renderedPage: string;
@@ -45,6 +50,7 @@ const AllProjects: FC<Props> = ({
     const [deleteProject, setDeleteProject] = useState(false);
     const [typeOfProject] = useState('allProjects');
     const [projectModal, setProjectModal] = useState(null);
+    const { user } = useAppSelector(({ auth: user }) => user);
     const { allProjects, filterQueryProjects } = useAppSelector(
         ({ project }) => project
     );
@@ -55,11 +61,23 @@ const AllProjects: FC<Props> = ({
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
+    const [inactiveClearModal, setInactiveClearModal] =
+        useState<boolean>(false);
+    const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
+    const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
     }, []);
-
+    const inactiveModalTrigger = (): void => {
+        setInactiveClearModal(true);
+        onMouseOut();
+    };
+    const clearInactiveModal = () => {
+        setInactiveList([]);
+        setProjectHold(null);
+        setInactiveClearModal(false);
+    };
     const onMouseOver = (index: number | null) => {
         setProjectOptionsModal(true);
         setProjectIndex(index);
@@ -199,6 +217,44 @@ const AllProjects: FC<Props> = ({
         }
     };
 
+    const copyOfProject = async (e: SyntheticEvent, proj: ProjectType) => {
+        e.preventDefault();
+        // FIND PROJECT WITH AXIOS
+        setProcessing(true);
+        const axiosPriv = axiosPrivate();
+
+        const attach = await axiosPriv.post('/get-attachments', {
+            projId: proj._id,
+        });
+        let attachments = [];
+        if (attach) {
+            attachments = attach.data.proj.pdf;
+            if (attachments.length) {
+                const payload = {
+                    project: {
+                        ...proj,
+                        clientId: user._id,
+                        clientName: user.name,
+                    },
+                    copy: 'project',
+                    attachments: attachments,
+                };
+                try {
+                    const response = await dispatch(
+                        createProjectAction(payload)
+                    );
+                    dispatch(getUserProjects(user._id));
+                    dispatch(getAllProjects());
+                    setProcessing(false);
+                    alert(`Copy of ${proj.name} created in your dashboard.`);
+                    return response;
+                } catch (error: any) {
+                    throw new Error(error.message);
+                }
+            }
+        }
+    };
+
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
         return (
@@ -235,9 +291,12 @@ const AllProjects: FC<Props> = ({
                             <ProjectMiniModal
                                 setOpenModal={setOpenModal2}
                                 setProjectModal={setProjectModal}
-                                project={project}
+                                proj={project}
                                 setDeleteProject={setDeleteProject}
-                                setProcessing={setProcessing}
+                                copyOfProject={copyOfProject}
+                                setInactiveList={setInactiveList}
+                                setProjectHold={setProjectHold}
+                                inactiveModalTrigger={inactiveModalTrigger}
                             />
                         )}
                     </td>
@@ -413,6 +472,14 @@ const AllProjects: FC<Props> = ({
                     openModal={openModal}
                     closeModal={setOpenModal}
                     typeOfProject={typeOfProject}
+                />
+            )}
+            {inactiveClearModal && (
+                <InactiveNotification
+                    inactiveList={inactiveList}
+                    projectHold={projectHold}
+                    clearInactiveModal={clearInactiveModal}
+                    copyOfProject={copyOfProject}
                 />
             )}
         </div>

@@ -59,6 +59,7 @@ type SetList = {
 const Inventory: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const [itemDetails, setItemDetails] = useState<any>({
+        isActive: true,
         employeeID: user._id,
         item_ID: '',
         itemName: '',
@@ -140,6 +141,7 @@ const Inventory: FC = () => {
             throw new Error(error.message);
         }
     };
+    console.log("CatalogItems: ", catalogItems)
     useEffect(() => {
         initializeCatalog();
     }, []);
@@ -246,6 +248,7 @@ const Inventory: FC = () => {
             'editpdf',
             'editDrawingFiles',
             'editSpecs',
+            'isActive',
             '__v',
         ];
         const vals = Object.entries(itemDetails);
@@ -508,51 +511,51 @@ const Inventory: FC = () => {
                 await axiosPriv.post('/internal/create-light', fs);
                 initializeCatalog();
                 alert('Item created!');
-                setItemDetails({
-                    employeeID: user._id,
-                    item_ID: '',
-                    itemName: '',
-                    itemDescription: '',
-                    bodyDiameter: '',
-                    bodyLength: '',
-                    bodyWidth: '',
-                    bodyHeight: '',
-                    fixtureOverallHeight: '',
-                    sconceHeight: '',
-                    sconceWidth: '',
-                    sconceExtension: '',
-                    material: '',
-                    socketQuantity: 0,
-                    estimatedWeight: 0,
-                    lampType: '',
-                    lampColor: '',
-                    numberOfLamps: 0,
-                    wattsPerLamp: 0,
-                    powerInWatts: 0,
-                    price: 0,
-                    exteriorFinish: [], //[]
-                    interiorFinish: [], //[]
-                    lensMaterial: [], //[]
-                    glassOptions: [], //[]
-                    acrylicOptions: [], //[]
-                    environment: [], //[]
-                    safetyCert: [], //[]
-                    projectVoltage: [], //[]
-                    socketType: [], //[]
-                    mounting: [], //[]
-                    crystalType: [], //[]
-                    crystalPinType: [], //[]
-                    crystalPinColor: [], //[]
-                    designStyle: [], //[]
-                    usePackages: [], //[]
-                    editImages: [],
-                    editpdf: [],
-                    editDrawingFiles: [],
-                    editSpecs: [],
-                    costAdmin: 0,
-                    partnerCodeAdmin: '',
-                });
-            }
+            setItemDetails({
+                employeeID: user._id,
+                item_ID: '',
+                itemName: '',
+                itemDescription: '',
+                bodyDiameter: '',
+                bodyLength: '',
+                bodyWidth: '',
+                bodyHeight: '',
+                fixtureOverallHeight: '',
+                sconceHeight: '',
+                sconceWidth: '',
+                sconceExtension: '',
+                material: '',
+                socketQuantity: 0,
+                estimatedWeight: 0,
+                lampType: '',
+                lampColor: '',
+                numberOfLamps: 0,
+                wattsPerLamp: 0,
+                powerInWatts: 0,
+                price: 0,
+                exteriorFinish: [], //[]
+                interiorFinish: [], //[]
+                lensMaterial: [], //[]
+                glassOptions: [], //[]
+                acrylicOptions: [], //[]
+                environment: [], //[]
+                safetyCert: [], //[]
+                projectVoltage: [], //[]
+                socketType: [], //[]
+                mounting: [], //[]
+                crystalType: [], //[]
+                crystalPinType: [], //[]
+                crystalPinColor: [], //[]
+                designStyle: [], //[]
+                usePackages: [], //[]
+                editImages: [],
+                editpdf: [],
+                editDrawingFiles: [],
+                editSpecs: [],
+                costAdmin: 0,
+                partnerCodeAdmin: '',
+            });
+        }
             setImageNames([]);
             setViewablePDF([]);
             setViewableSpecs([]);
@@ -580,6 +583,7 @@ const Inventory: FC = () => {
         setUsedItem(false);
         if (editingItem) {
             setItemDetails({
+                isActive: true,
                 employeeID: user._id,
                 item_ID: '',
                 itemName: '',
@@ -652,6 +656,40 @@ const Inventory: FC = () => {
                                 : 'Add an item to the catalog.'}
                         </p>
                     </div>
+                    {editingItem && (
+                    <div className="inv-togl">
+                        <button
+                            className={
+                                itemDetails.isActive 
+                                    ? 'selected-active'
+                                    : 'un-selected-active'
+                            }
+                            onClick={() => {
+                                setItemDetails({
+                                    ...itemDetails,
+                                    isActive: true
+                                })                            
+                            }}
+                        >
+                            Active
+                        </button>
+                        <button
+                            className={
+                                !itemDetails.isActive
+                                ? 'selected-active'
+                                : 'un-selected-active'
+                            }
+                            onClick={() => {
+                                setItemDetails({
+                                    ...itemDetails,
+                                    isActive: false
+                                })
+                            }}
+                        >
+                            Inactive
+                        </button>
+                    </div>
+                )}
                 </div>
                 <div className="head-right">
                     <div className="button-toggler inv-togl">

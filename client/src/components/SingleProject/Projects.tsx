@@ -1,26 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
+import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
+import { getProject } from '../../redux/actions/projectActions';
+import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
 import useParams from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
 import ProjectAttachments from './ProjectAttachments';
-import { getProject } from '../../redux/actions/projectActions';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import './style/projects.scss';
 import AllProjectView from './AllProjectView';
-
-export type ProjectType = {
-    name: string;
-    archived: boolean;
-    clientId: string;
-    clientName: string;
-    region: string;
-    status: string;
-    description: string;
-    rfp?: string;
-    rooms?: string[];
-};
-import { setSpecFile } from '../../redux/actions/lightActions';
+import './style/projects.scss';
 
 const Projects: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');
@@ -28,6 +17,7 @@ const Projects: FC = () => {
     const [sortedData, setSortedData] = useState<ProjectType[]>([]);
     const [sortDirection, setSortDirection] = useState<number>(0);
     const [currentSort, setCurrentSort] = useState<string>('');
+    const [processing, setProcessing] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const { userProjects, projectId, project, yourProjects } = useAppSelector(
         ({ project }) => project
@@ -41,6 +31,7 @@ const Projects: FC = () => {
             ? await dispatch(getProject({ _id: String(storedProjId) }))
             : await dispatch(getProject({ _id: String(defaultProjId) }));
         await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
+        await dispatch(getCatalogItems());
     };
 
     useEffect(() => {
@@ -62,11 +53,15 @@ const Projects: FC = () => {
             {yourProjects === true ? (
                 <>
                     <div className="projects-top-half">
-                        <ProjectSummary details={project} />
+                        <ProjectSummary
+                            details={project}
+                            processing={processing}
+                            setProcessing={setProcessing}
+                        />
                         <ProjectAttachments details={project} />
                     </div>
                     <div>
-                        <ProjectsNav />
+                        <ProjectsNav processing={processing} />
                     </div>
                 </>
             ) : (

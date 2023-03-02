@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, SyntheticEvent, useCallback } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
@@ -8,12 +8,10 @@ import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
 import {
     getProject,
-    setTheYourProjects,
-    createProjectAction,
-    getUserProjects,
-    getAllProjects,
+    setTheYourProjects
 } from '../../redux/actions/projectActions';
-import { axiosPrivate } from '../../api/axios';
+import { LightREF } from '../../redux/reducers/projectSlice';
+import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 
 interface projectProps {
     setOpenModal: any;
@@ -23,7 +21,10 @@ interface projectProps {
     setTypeOfProject: any;
     typeOfProject: any;
     yourProject: any;
-    setProcessing: React.Dispatch<React.SetStateAction<boolean>>;
+    setInactiveList: React.Dispatch<React.SetStateAction<LightREF[]>>;
+    setProjectHold: React.Dispatch<React.SetStateAction<ProjectType | null>>;
+    inactiveModalTrigger: () => void;
+    copyOfProject: (e: SyntheticEvent, proj: ProjectType) => Promise<void>;
 }
 
 const ProjectMiniModal: FC<projectProps> = ({
@@ -31,12 +32,39 @@ const ProjectMiniModal: FC<projectProps> = ({
     setProjectModal,
     project,
     setDeleteProject,
-    typeOfProject,
-    setProcessing,
+    typeOfProject, 
+    setInactiveList,
+    setProjectHold,
+    inactiveModalTrigger,
+    copyOfProject
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
+    const { setInactive } = useAppSelector(({ project }) => project);
+    const inactiveLightCheck = (e: SyntheticEvent) => {
+        e.preventDefault();
+        let finalLightCheck: LightREF[] | [] = [];
+
+        setInactive.forEach((item: string) => {
+            const inactive = project.lightIDs.find(
+                (light: LightREF) => light.item_ID === item
+            );
+            if (inactive && inactive !== undefined) {
+                finalLightCheck = [...finalLightCheck, inactive];
+            }
+            return item;
+        });
+        if (finalLightCheck && finalLightCheck.length) {
+            setInactiveList(finalLightCheck);
+            setProjectHold(project);
+            inactiveModalTrigger();
+            return true;
+        } else {
+            copyOfProject(e, project);
+            return false;
+        }
+    };
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
@@ -64,49 +92,12 @@ const ProjectMiniModal: FC<projectProps> = ({
             </div>
         );
     };
-    const copyOfProject = async (e: any) => {
-        e.preventDefault();
-        // FIND PROJECT WITH AXIOS
-        setProcessing(true);
-        const axiosPriv = axiosPrivate();
-
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: project._id,
-        });
-        let attachments = [];
-        if (attach) {
-            attachments = attach.data.proj.pdf;
-            if (attachments.length) {
-                const payload = {
-                    project: {
-                        ...project,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: 'project',
-                    attachments: attachments,
-                };
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${project.name} created in your dashboard.`);
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
-        }
-    };
-
+    
     return (
         <div className="project-mini-modal">
             <div
                 className="project-mini-modal-link"
-                onClick={(e) => copyOfProject(e)}
+                onClick={(e) => inactiveLightCheck(e)}
             >
                 <FaRegCopy />
                 <p>Duplicate</p>

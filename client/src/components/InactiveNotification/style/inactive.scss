@@ -1,0 +1,32 @@
+@import '../../../variables/variables.scss';
+
+.inactive-main {
+    color: $primary-bg-dark-title;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    .center-description {
+        height: 85%;
+        padding-top: 30px;
+        .description {
+            text-align: center;
+            font-size: x-large;
+            border-bottom: 1px solid;
+        }
+        .item-rooms {
+            color: $accent-gold;
+            height: 40%;
+            overflow-y: scroll;
+            margin-top: 20px;
+        }
+    }
+}
+.copy-button {
+    @include button($accent-gold, $primary-bg-dark-title);
+    width: 60%;
+    cursor: pointer;
+    position: relative;
+    bottom: 20px;
+}

@@ -20,6 +20,7 @@ const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
             </p>
             <div className="d-flex m-0 p-2 row justify-content-center">
                 <div className="main-img-catalog-container m-2 col-12 col-lg-8 col-xl-4">
+                    {!catalogItem.isActive && (<span >*** This Light is Currently Unavailable ***</span>)}
                     <img
                         className="img-fluid"
                         src={catalogItem.images[0]}

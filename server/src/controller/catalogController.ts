@@ -84,6 +84,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
 
   const catalogItem = new CatalogItem({
     _id: new mongoose.Types.ObjectId(),
+    isActive: true,
     item_ID,
     itemName,
     employeeID,

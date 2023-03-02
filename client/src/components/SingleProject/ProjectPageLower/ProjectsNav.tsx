@@ -3,10 +3,13 @@ import { useReactToPrint } from 'react-to-print';
 import Rooms from './ProjectSubComponents/Rooms';
 import Activity from './ProjectSubComponents/Activity';
 import Proposal from './ProjectSubComponents/Proposal';
-
 import './style/projectNav.scss';
 
-const ProjectsNav: FC = () => {
+type ProjectNavProps = {
+    processing: boolean;
+};
+
+const ProjectsNav: FC<ProjectNavProps> = ({ processing }) => {
     const [renderedPage, setRenderedPage] = useState('Rooms');
     const componentRef: any = useRef<any>();
     const handlePrint = useReactToPrint({
@@ -49,6 +52,9 @@ const ProjectsNav: FC = () => {
                 <div className="projects-navbar-vertical-divider" />
             </nav>
             <div className="d-flex col-12 m-0 p-0 justify-content-center align-items-center">
+                <div className={processing ? 'processing' : 'process-none'}>
+                    <h2>...Processing</h2>
+                </div>
                 {renderedPage === 'Rooms' ? (
                     <Rooms />
                 ) : renderedPage === 'Activity' ? (

@@ -14,21 +14,27 @@ export interface ProjectStateType {
     roomId: string;
     roomLights: [];
     setAllCatalog: any[];
+    setInactive: string[];
     attachments: any[];
     catalogConnectLight: any[] | null;
     yourProjects: boolean;
 }
 
-type Activity = {
+export type Activity = {
     createUpdate: string;
     rooms: string[];
     archiveRestore: string[];
     status: string[];
 };
+export interface LightREF {
+    item_ID: string;
+    rooms: string[];
+}
 
 export type ProjectType = {
     _id?: string;
     archived?: boolean;
+    lightIDs?: LightREF[];
     copy?: string;
     name: string;
     clientId: string;
@@ -114,6 +120,7 @@ const initialState: ProjectStateType = {
     projectId: '',
     roomLights: [],
     setAllCatalog: [],
+    setInactive: [],
     attachments: [],
     catalogConnectLight: null,
     yourProjects: false,
@@ -154,6 +161,10 @@ export const projectSlice = createSlice({
         setCatalogLights: (state, action) => ({
             ...state,
             setAllCatalog: action.payload,
+        }),
+        setInactiveLights: (state, action) => ({
+            ...state,
+            setInactive: action.payload,
         }),
         setYourProjects: (state, action) => ({
             ...state,
@@ -199,6 +210,7 @@ export const {
     setRoomId,
     setRoomLights,
     setCatalogLights,
+    setInactiveLights,
     setCatalogConnect,
     setYourProjects,
     setFilteredProjNone,

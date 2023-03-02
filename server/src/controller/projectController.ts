@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
+import lightSelectionController, { lightIdService } from "./lightSelectionController";
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -15,6 +16,7 @@ const createProject = async (req: Request, res: Response) => {
     clientName,
     region,
     status,
+    lightIDs,
     rooms,
     copy,
   } = req.body;
@@ -22,11 +24,19 @@ const createProject = async (req: Request, res: Response) => {
   /**
    * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
    */
+  /**
+   *
+   *
+   *  need to include in copying a room instead of just the light
+   *
+   *
+   *
+   */
 
   if (_id && copy === "room") {
     Room.findOne({ _id: rooms[0] })
       .then(async (foundRoom) => {
-        await runRoom(foundRoom, _id, clientId);
+        await runRoom(foundRoom, _id, clientId, copy);
         return res.status(201).json({
           message: rooms[0],
         });
@@ -58,6 +68,7 @@ const createProject = async (req: Request, res: Response) => {
       description: description,
       rfp: String(rfp._id),
       rooms: [],
+      lightIDs: copy === "project" ? lightIDs : [],
       activity: {
         createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
           "/"
@@ -84,7 +95,7 @@ const createProject = async (req: Request, res: Response) => {
               for (let i = 0; i < rooms.length; i++) {
                 await Room.findOne({ _id: rooms[i] })
                   .then(async (foundRoom) => {
-                    await runRoom(foundRoom, project._id, clientId);
+                    await runRoom(foundRoom, project._id, clientId, copy);
                   })
                   .catch((error) => {
                     res.status(500).json({
@@ -220,12 +231,17 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string, clientId: string) => {
+const runRoom = async (room: any, newProjectId: string, clientId: string, copy:string) => {
   const { name, description, lights } = room;
+  /**
+   * Need to include lideSelectionService in here and update the information
+   * from the front end to send the itemIDS from the front end of each light in the room being copied.
+   *
+   */
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: name,
+    name: copy === 'room' ? `Copy of ${name}` : name,
     clientId: clientId,
     projectId: newProjectId,
     description: description,
@@ -258,7 +274,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
     if (room) {
       for (let i = 0; i < lights.length; i++) {
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, room.projectId, clientId);
+          await runLights(light, room._id, room.projectId, clientId, copy);
         });
       }
     }
@@ -271,7 +287,8 @@ const runLights = async (
   light: any,
   newRoomId: string,
   newProjectId: string,
-  clientId: string
+  clientId: string,
+  copy: string
 ) => {
   const newLight = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
@@ -338,6 +355,11 @@ const runLights = async (
             numberOfLamps,
             totalLumens,
           } = newlight;
+          if(copy === 'room'){
+            console.log("item id in roomCopyIDservice: ", item_ID, roomName)
+            await lightIdService(projectId, 'add', item_ID, roomName);
+          }
+
           const finishes: any = {
             exteriorFinish: exteriorFinish,
             interiorFinish: interiorFinish,

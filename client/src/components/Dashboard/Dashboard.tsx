@@ -4,6 +4,7 @@ import YourProjects from './YourProjects/YourProjects';
 
 import './style/dashboard.scss';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
+import { getCatalogItems } from '../../redux/actions/lightActions';
 
 const Dashboard: FC = () => {
     const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ const Dashboard: FC = () => {
     useEffect(() => {
         dispatch(getAllStatus());
         dispatch(getAllRegions());
+        dispatch(getCatalogItems())
     }, []);
 
     return (
