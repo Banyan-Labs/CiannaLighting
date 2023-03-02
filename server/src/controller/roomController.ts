@@ -146,7 +146,6 @@ const deleteRoom = async (req: Request, res: Response) => {
       return await Room.findByIdAndDelete({ _id: req.body._id })
         .then((room) => {
           if(room && req.body.itemIDS && req.body.itemIDS.length){
-            console.log("itemIds in deleteRoom: ", itemIDS)
             itemIDS.forEach(async(item_ID: string)=> await lightIdService(room.projectId, 'delete', item_ID, room.name))
           }
           return !room

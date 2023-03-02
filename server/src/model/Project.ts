@@ -13,7 +13,7 @@ const projectSchema: Schema = new Schema(
     description: { type: String, required: true },
     rfp: { type: String },
     rooms: { type: Array<string> },
-    lightIDs: {type: Array<object>},
+    lightIDs: { type: Array<object> },
     activity: { type: Object },
   },
   {

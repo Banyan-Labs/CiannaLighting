@@ -20,17 +20,21 @@ export interface ProjectStateType {
     yourProjects: boolean;
 }
 
-type Activity = {
+export type Activity = {
     createUpdate: string;
     rooms: string[];
     archiveRestore: string[];
     status: string[];
 };
+export interface LightREF {
+    item_ID: string;
+    rooms: string[];
+}
 
 export type ProjectType = {
     _id?: string;
     archived?: boolean;
-    lightIDs?: any[];
+    lightIDs?: LightREF[];
     copy?: string;
     name: string;
     clientId: string;
@@ -158,9 +162,9 @@ export const projectSlice = createSlice({
             ...state,
             setAllCatalog: action.payload,
         }),
-        setInactiveLights: (state, action) =>({
+        setInactiveLights: (state, action) => ({
             ...state,
-            setInactive: action.payload
+            setInactive: action.payload,
         }),
         setYourProjects: (state, action) => ({
             ...state,

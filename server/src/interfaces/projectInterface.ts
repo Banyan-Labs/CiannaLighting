@@ -1,7 +1,5 @@
 import { Document } from "mongoose";
 
-interface activity {}
-
 interface ProjectActivity {
   createUpdate: string;
   rooms: string[][];

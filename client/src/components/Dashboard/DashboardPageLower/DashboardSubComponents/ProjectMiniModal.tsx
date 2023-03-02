@@ -1,82 +1,62 @@
-import React, { FC } from 'react';
-import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
-import './style/allProjects.scss';
+import React, { FC, SyntheticEvent } from 'react';
+import { useAppSelector } from '../../../../app/hooks';
 import { FaRegCopy, FaBookReader, FaTrash } from 'react-icons/fa';
 import { ROLES } from '../../../../app/constants';
-import {axiosPrivate} from "../../../../api/axios"
-import {createProjectAction, getUserProjects, getAllProjects} from "../../../../redux/actions/projectActions"
+import { ProjectType } from '../DashboardNav';
+import { LightREF } from '../../../../redux/reducers/projectSlice';
+import './style/allProjects.scss';
 
 interface projectProps {
     setOpenModal: any;
     setProjectModal: any;
     proj: any;
     setDeleteProject: any;
-    setProcessing: React.Dispatch<React.SetStateAction<boolean>>
+    setInactiveList: React.Dispatch<React.SetStateAction<LightREF[]>>;
+    setProjectHold: React.Dispatch<React.SetStateAction<ProjectType | null>>;
+    inactiveModalTrigger: () => void;
+    copyOfProject: (e: SyntheticEvent, proj: ProjectType) => Promise<void>;
 }
-interface LightREF {
-    item_ID: string;
-    rooms: string[]
-  }
 
 const ProjectMiniModal: FC<projectProps> = ({
     setOpenModal,
     setProjectModal,
     proj,
-    setDeleteProject, 
-    setProcessing
+    setDeleteProject,
+    inactiveModalTrigger,
+    setInactiveList,
+    setProjectHold,
+    copyOfProject,
 }) => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { setInactive } = useAppSelector(({project})=> project) 
-    const dispatch = useAppDispatch();
-    const inactiveLightCheck = () =>{
-        let finalLightCheck: LightREF[] | [] = [];
-        
-        setInactive.forEach((item: string)=>{
-            const inactive = proj.lightIDs.find((light:LightREF)=> light.item_ID === item);
-            if(inactive && inactive !== undefined){
-                finalLightCheck = [...finalLightCheck, inactive]
-            }
-            return item
-        })
-        console.log("finalLightCheck: ", finalLightCheck)
-    }
-    inactiveLightCheck()
-    const copyOfProject = async (e: any) => {
+    const { setInactive } = useAppSelector(({ project }) => project);
+    const inactiveLightCheck = (e: SyntheticEvent) => {
         e.preventDefault();
-        // FIND PROJECT WITH AXIOS
-        setProcessing(true);
-        const axiosPriv = await axiosPrivate();
-        
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
-        if (attach) {            
-            attachments = attach.data.proj.pdf;
-            if (attachments.length) {
-                const payload = {
-                    project: {...proj, clientId: user._id, clientName: user.name},
-                    copy: 'project',
-                    attachments: attachments,
-                };
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
-                    return response;
-                } catch (error:any) {
-                    throw new Error(error.message)
-                }
+        let finalLightCheck: LightREF[] | [] = [];
+        setInactive.forEach((item: string) => {
+            const inactive = proj.lightIDs.find(
+                (light: LightREF) => light.item_ID === item
+            );
+            if (inactive && inactive !== undefined) {
+                finalLightCheck = [...finalLightCheck, inactive];
             }
+            return item;
+        });
+        if (finalLightCheck && finalLightCheck.length) {
+            setInactiveList(finalLightCheck);
+            setProjectHold(proj);
+            inactiveModalTrigger();
+            return true;
+        } else {
+            copyOfProject(e, proj);
+            return false;
         }
     };
     return (
         <div className="project-mini-modal">
-            <div className="project-mini-modal-link" onClick={(e)=> copyOfProject(e)}>
+            <div
+                className="project-mini-modal-link"
+                onClick={(e) => inactiveLightCheck(e)}
+            >
                 <FaRegCopy />
                 <p>Duplicate</p>
             </div>
