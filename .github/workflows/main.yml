@@ -3,12 +3,12 @@ name: CI app build
 on:
   pull_request:
     branches:
-    - 'staging'
-    - 'main'
-    - 'releases/**'
+      - "stage"
+      - "main"
+      - "release/**"
   push:
     branches-ignore:
-      - 'staging'
+      - "stage"
 
 jobs:
   build:
