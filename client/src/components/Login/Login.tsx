@@ -63,6 +63,7 @@ const Login: FC = () => {
                     <form onSubmit={handleLoginSubmit}>
                         <header>Log in</header>
                         <p>Welcome! Please enter your email and password.</p>
+                        <p>TEST CONFIRMING CI/CD</p>
                         <label>Email</label>
                         <br />
                         <input
@@ -100,7 +101,9 @@ const Login: FC = () => {
             <ModalBase isShown={isLoginError} setIsShown={closeApiError}>
                 {loginApiError && (
                     <div>
-                        <p style={{ paddingBottom: '10px' }}>{loginApiError.message}</p>
+                        <p style={{ paddingBottom: '10px' }}>
+                            {loginApiError.message}
+                        </p>
                         <button
                             className="modal-cancel-button"
                             onClick={() => closeApiError(false)}
