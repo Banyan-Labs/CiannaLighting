@@ -132,16 +132,18 @@ const propNameExchange = async (
   type RequestBody = {
     type: string;
     name: string;
+    region: string;
     newName: string;
     projectId: string;
+    projectRegion: string;
   };
-  const { type, name, newName, projectId }: RequestBody = req.body;
+  const { type, name, newName, projectId, projectRegion, region }: RequestBody = req.body;
   if (type === "project") {
     const rfp: rfpDocInterface | null = await RFP.findOne({ projectId });
     if (rfp) {
       const checkName = rfp.header.split(", ");
-      if (checkName[0] === name) {
-        rfp.header = `${newName}, ${checkName[1]}`;
+      if (checkName[0] === name || checkName[1] === projectRegion) {
+        rfp.header = `${checkName[0] !== newName ? newName : checkName[0]}, ${checkName[1] !== region ? region : checkName[1]}`;
         try {
           const done = await rfp.save();
           if (done) {

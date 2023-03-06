@@ -29,7 +29,7 @@ const InactiveNotification: FC<InactiveProps> = ({
     const copyList = (e: SyntheticEvent): void => {
         e.preventDefault();
         const newList = inactiveList
-            .map((item) => `(${item.item_ID}: ${item.rooms})`)
+            .map((item) => `(${item.item_ID}: ${item.rooms.join(', ')})`)
             .join('\n');
         navigator.clipboard.writeText(newList);
         setCopied(true);
@@ -66,7 +66,7 @@ const InactiveNotification: FC<InactiveProps> = ({
                                 {inactiveList.map((item, index) => {
                                     return (
                                         <li key={index}>
-                                            {item.item_ID}: {item.rooms}
+                                            {item.item_ID}: {item.rooms.join(', ')}
                                         </li>
                                     );
                                 })}
