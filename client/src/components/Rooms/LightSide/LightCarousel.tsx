@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import { SlSizeFullscreen } from 'react-icons/sl';
+import ModalBase from '../../commons/ModalBase/ModalBase';
 import './carousel.style.scss';
 
 export type ImageType = { id: number; url: string };
@@ -10,6 +12,7 @@ type Props = {
 const LightCarousel = ({ images }: Props) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedImage, setSelectedImage] = useState<ImageType>();
+    const [fullscreen, setFullscreen] = useState(false);
     const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([]);
 
     useEffect(() => {
@@ -58,44 +61,76 @@ const LightCarousel = ({ images }: Props) => {
     };
 
     return (
-        <div className="carousel-container">
-            <div className="img-wrapper">
-                <img className="selected-image" src={selectedImage?.url} />
-            </div>
-            <div className="carousel">
-                <div className="carousel__images">
-                    {images &&
-                        images.map((image, idx) => (
-                            <div
-                                onClick={() => handleSelectedImageChange(idx)}
-                                style={{ backgroundImage: `url(${image.url})` }}
-                                key={image.id}
-                                className={`carousel__image ${
-                                    selectedImageIndex === idx &&
-                                    'carousel__image-selected'
-                                }`}
-                                ref={(el) =>
-                                    (carouselItemsRef.current[idx] = el)
-                                }
-                            />
-                        ))}
+        <>
+            <div className="carousel-container">
+                <div className="img-wrapper">
+                    <SlSizeFullscreen
+                        className="fullscreen-toggle-button"
+                        onClick={() => setFullscreen(!fullscreen)}
+                    />
+                    <img className="selected-image" src={selectedImage?.url} />
                 </div>
-                <button
-                    type="button"
-                    className="carousel__button carousel__button-left"
-                    onClick={handleLeftClick}
-                >
-                    <FaChevronLeft />
-                </button>
-                <button
-                    type="button"
-                    className="carousel__button carousel__button-right"
-                    onClick={handleRightClick}
-                >
-                    <FaChevronRight />
-                </button>
+                <div className="carousel">
+                    <div className="carousel__images">
+                        {images &&
+                            images.map((image, idx) => (
+                                <div
+                                    onClick={() =>
+                                        handleSelectedImageChange(idx)
+                                    }
+                                    style={{
+                                        backgroundImage: `url(${image.url})`,
+                                    }}
+                                    key={image.id}
+                                    className={`carousel__image ${
+                                        selectedImageIndex === idx &&
+                                        'carousel__image-selected'
+                                    }`}
+                                    ref={(el) =>
+                                        (carouselItemsRef.current[idx] = el)
+                                    }
+                                />
+                            ))}
+                    </div>
+                    <button
+                        type="button"
+                        className="carousel__button carousel__button-left"
+                        onClick={handleLeftClick}
+                    >
+                        <FaChevronLeft />
+                    </button>
+                    <button
+                        type="button"
+                        className="carousel__button carousel__button-right"
+                        onClick={handleRightClick}
+                    >
+                        <FaChevronRight />
+                    </button>
+                </div>
             </div>
-        </div>
+            <ModalBase isShown={fullscreen} setIsShown={setFullscreen}>
+                <div className="carousel__fullscreen-content-wrapper">
+                    <img
+                        className="fullscreen-image"
+                        src={selectedImage?.url}
+                    />
+                    <button
+                        type="button"
+                        className="carousel__button carousel__button-left fullscreen-button"
+                        onClick={handleLeftClick}
+                    >
+                        <FaChevronLeft />
+                    </button>
+                    <button
+                        type="button"
+                        className="carousel__button carousel__button-right fullscreen-button"
+                        onClick={handleRightClick}
+                    >
+                        <FaChevronRight />
+                    </button>
+                </div>
+            </ModalBase>
+        </>
     );
 };
 

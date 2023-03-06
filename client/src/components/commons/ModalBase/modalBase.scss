@@ -10,6 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
 
 .modal-wrapper {
@@ -18,6 +19,7 @@
     border-radius: 5px;
     position: relative;
     animation: zoomIn 0.2s ease-in-out none 1;
+    max-width: 100vw;
 }
 
 .modal-card-head {
@@ -38,7 +40,7 @@
 }
 
 .modal-card-body {
-    padding: 24px 80px;
+    padding: 24px 60px;
 
     input {
         @include input-field;
@@ -52,7 +54,8 @@
         @include button($primary-bg-dark-link, $primary-bg-dark-title);
     }
 
-    .modal-submit-button, .modal-cancel-button {
+    .modal-submit-button,
+    .modal-cancel-button {
         cursor: pointer;
         transition: all 0.1s ease-in-out;
         &:hover {
