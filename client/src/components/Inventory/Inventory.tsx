@@ -140,8 +140,7 @@ const Inventory: FC = () => {
         } catch (error: any) {
             throw new Error(error.message);
         }
-    };
-    console.log("CatalogItems: ", catalogItems)
+    };    
     useEffect(() => {
         initializeCatalog();
     }, []);
@@ -285,25 +284,33 @@ const Inventory: FC = () => {
     const onDocumentLoadSuccess = (
         e: any,
         location: string,
-        name: string | number
+        name: string | number,
+        rendered: boolean
     ) => {
-        if (location == 'pdf') {
+        if (location == 'pdf' && rendered === false) {
+            const newPdfs = viewablePDF.map((pdf: any)=> pdf.name === name ? {...pdf, rendered: true} : pdf)
             setNumPdfPages({
                 ...numPdfPages,
                 [name]: e.numPages,
             });
+            setViewablePDF(newPdfs);
         }
-        if (location == 'drawingFiles') {
+        if (location == 'drawingFiles' && rendered === false) {
+            const newDrawingFiles = drawingFilesNames.map((drawFile: any)=> drawFile.name === name ? {...drawFile, rendered: true} : drawFile)
             setNumDrawPages({
                 ...numDrawPages,
                 [name]: e.numPages,
             });
+            setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs') {
+        if (location == 'specs' && rendered === false){
+            const newSpecs = viewableSpecs.map((spec: any)=> spec.name === name ? {...spec, rendered: true} : spec)
             setNumSpecPages({
                 ...numSpecPages,
                 [name]: e.numPages,
             });
+            setViewableSpecs(newSpecs);
+           
         }
     };
 
@@ -436,12 +443,12 @@ const Inventory: FC = () => {
                 setImages([...images, imgFiles[key]]);
             }
         }
-        if (name === 'pdf' && pdfFiles.length) {
+        if (name === 'pdf' && pdfFiles.length) {            
             for (const key of Object.keys(pdfFiles)) {
                 const objectUrl = URL.createObjectURL(pdfFiles[key]);
                 setViewablePDF([
                     ...viewablePDF,
-                    { name: pdfFiles[key].name, url: objectUrl },
+                    { name: pdfFiles[key].name, url: objectUrl, rendered: false },
                 ]);
                 setPdf([...pdf, pdfFiles[key]]);
                 setPdfNames([...pdfNames, pdfFiles[key].name]);
@@ -452,7 +459,7 @@ const Inventory: FC = () => {
                 const objectUrl = URL.createObjectURL(specFiles[key]);
                 setViewableSpecs([
                     ...viewableSpecs,
-                    { name: specFiles[key].name, url: objectUrl },
+                    { name: specFiles[key].name, url: objectUrl, rendered: false },
                 ]);
                 setSpecs([...specs, specFiles[key]]);
                 setSpecNames([...specNames, specFiles[key].name]);
@@ -464,7 +471,7 @@ const Inventory: FC = () => {
                 setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
                 setDrawingFilesNames([
                     ...drawingFilesNames,
-                    { name: drawingFilesArray[key].name, url: objectUrl },
+                    { name: drawingFilesArray[key].name, url: objectUrl, rendered: false },
                 ]);
             }
         }
@@ -2050,17 +2057,19 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any) => {
+                                {viewablePDF.map((url: any) => {                                    
                                     return (
                                         <Document
                                             key={uuid()}
                                             file={url.url}
-                                            onLoadSuccess={(e) =>
+                                            onLoadSuccess={(e) =>{
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'pdf',
-                                                    url.name
+                                                    url.name,
+                                                    url.rendered
                                                 )
+                                                }
                                             }
                                             onLoadError={console.error}
                                             className="pdf-document2"
@@ -2147,7 +2156,8 @@ const Inventory: FC = () => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'specs',
-                                                    url.name
+                                                    url.name,
+                                                    url.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
@@ -2240,7 +2250,8 @@ const Inventory: FC = () => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'drawingFiles',
-                                                    url.name
+                                                    url.name,
+                                                    url.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
