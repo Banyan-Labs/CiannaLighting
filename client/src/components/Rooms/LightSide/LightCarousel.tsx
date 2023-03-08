@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { SlSizeFullscreen } from 'react-icons/sl';
+import uuid from 'react-uuid';
 import ModalBase from '../../commons/ModalBase/ModalBase';
 import './carousel.style.scss';
 
-export type ImageType = { id: number; url: string };
+export type ImageType = { url: string };
 type Props = {
     images?: ImageType[];
 };
@@ -81,7 +82,7 @@ const LightCarousel = ({ images }: Props) => {
                                     style={{
                                         backgroundImage: `url(${image.url})`,
                                     }}
-                                    key={image.id}
+                                    key={uuid()}
                                     className={`carousel__image ${
                                         selectedImageIndex === idx &&
                                         'carousel__image-selected'

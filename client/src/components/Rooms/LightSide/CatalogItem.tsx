@@ -1,6 +1,6 @@
 import React, { FC, useState, FormEvent } from 'react';
 import useParams from '../../../app/utils';
-import { BsChevronLeft, BsChevronDown } from 'react-icons/bs';
+import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
     createLight,
@@ -14,10 +14,12 @@ import {
     getAllProjectRoomsAction,
 } from '../../../redux/actions/projectActions';
 import LightCarousel from './LightCarousel';
+import LightSpecifications from './LightSpecifications';
+import { CatalogItem as CatalogItemType } from '../../../typescript/CatalogItem';
 
-interface catalogProps {
+interface Props {
     setCatalogItem: any;
-    catalogItem: any;
+    catalogItem: CatalogItemType;
     editLight: any;
     setEditLight: any;
 }
@@ -44,7 +46,7 @@ type LightType = {
     quantity: number;
 };
 
-const CatalogItem: FC<catalogProps> = ({
+const CatalogItem: FC<Props> = ({
     setCatalogItem,
     catalogItem,
     editLight,
@@ -54,8 +56,6 @@ const CatalogItem: FC<catalogProps> = ({
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [anotherCollapsed, setAnotherCollapsed] = useState(true);
     const { user } = useAppSelector(({ auth: user }) => user);
     const { room, attachments, projectId, roomId, proposal } = useAppSelector(
         ({ project }) => project
@@ -65,7 +65,7 @@ const CatalogItem: FC<catalogProps> = ({
     );
 
     const lightID = user._id + catalogItem.item_ID + roomId;
-    const carouslImageData = catalogItem.images.map((img: string) => ({
+    const carouselImageData = catalogItem.images.map((img: string) => ({
         url: img,
     }));
 
@@ -246,182 +246,16 @@ const CatalogItem: FC<catalogProps> = ({
         }
     };
     return (
-        <form
-            onSubmit={onSubmit}
-            className="d-flex catalog-container container-fluid row"
-        >
-            <div className="col-5 d-flex row justify-content-between container-type-back align-content-start">
-                <LightCarousel images={carouslImageData} />
-                <div className="col-12">
-                    <h4
-                        className="collapse-button d-flex justify-content-between align-items-center p-0 m-0"
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                    >
-                        Use Packages <span>{isCollapsed ? '-' : '+'} </span>
-                    </h4>
-                    <div
-                        className={
-                            !isCollapsed
-                                ? 'container-left-packages-light d-none'
-                                : 'container-left-packages-off '
-                        }
-                    >
-                        <div className=" col-12 d-flex row m-0 ">
-                            {catalogItem?.usePackages[0]
-                                .split(',')
-                                .map((p: any, index = p.indexOf(p)) => {
-                                    return (
-                                        <p
-                                            key={index}
-                                            className=" col-12 p-0 package-list m-0 justify-content-center"
-                                        >
-                                            {p}
-                                        </p>
-                                    );
-                                })}
-                        </div>
-                    </div>
-                </div>
-                <div className="col-12">
-                    <h4
-                        className="collapse-button d-flex justify-content-between align-items-center p-0 m-0"
-                        onClick={() => setAnotherCollapsed(!anotherCollapsed)}
-                    >
-                        Specifications{' '}
-                        <span>{anotherCollapsed ? '-' : '+'} </span>
-                    </h4>
-                    <div
-                        className={
-                            !anotherCollapsed
-                                ? 'container-left-spec-off'
-                                : 'container-left-spec spec-main-container'
-                        }
-                    >
-                        <div className="d-flex col-12 row justify-content-end m-0">
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Body Diameter</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.bodyDiameter}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Body Length</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.bodyLength}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Body Width</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.bodyWidth}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Body Height</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.bodyHeight}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Fixture Height</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.fixtureOverallHeight}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Sconce Height</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.sconceHeight}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Sconce Width</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.sconceWidth}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Sconce Extension</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.sconceExtension}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Socket Quantity</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.socketQuantity}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Lamp Type</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.lampType}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Lamp Color</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.lampColor}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Number Of Lamps</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.numberOfLamps}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Watts Per Lamp</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.wattsPerLamp}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Power In Watts</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.powerInWatts}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Lumens</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.lumens}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Estimated Weight</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.estimatedWeight}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Price</p>
-                                <p className="p-0 m-0 number-spec">
-                                    ${catalogItem.price}
-                                </p>
-                            </div>
-                            <div className="d-flex spec-container justify-content-between p-0 m-0">
-                                <p className="p-0 m-0">Material</p>
-                                <p className="p-0 m-0 number-spec">
-                                    {catalogItem.material}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        className={
-                            !anotherCollapsed
-                                ? 'container-down-off'
-                                : 'container-down col-12 d-flex justify-content-center'
-                        }
-                    >
-                        <p>
-                            <BsChevronDown className="downArrow" />
-                        </p>
-                    </div>
-                </div>
+        <form onSubmit={onSubmit} className="">
+            {/* Start left wrapper */}
+            <div style={{ border: '1px solid #7f6' }} className="">
+                <LightCarousel images={carouselImageData} />
+
+                <LightSpecifications lightDetails={catalogItem} />
             </div>
-            <div className="col-7 d-flex row justify-content-between container-type-back align-content-start m-0">
+            {/* End left wrapper */}
+            {/* Start right wrapper */}
+            <div style={{ border: '1px solid #f33' }} className="">
                 <p className="type-catalog-item m-0 col-6">Traditional</p>
                 <p
                     onClick={() => returnToNull()}
@@ -694,7 +528,7 @@ const CatalogItem: FC<catalogProps> = ({
                                               }
                                           )
                                     : editFormat(
-                                          catalogItem.exteriorFinish,
+                                          catalogItem.projectVoltage,
                                           editLight.projectVoltage
                                       ).map(
                                           (
@@ -1179,8 +1013,16 @@ const CatalogItem: FC<catalogProps> = ({
                     </button>
                 </div>
             </div>
+            {/* End right wrapper */}
         </form>
     );
 };
 
 export default CatalogItem;
+
+/**
+ * Hey Eric, I wanted to touch base with you about my employment situation here with Banyan.
+ * As we get into another pay cycle I can't help but wonder how long is Indeed really gonna continue to pay my wages.
+ *
+ *  I'm trying to not worry to much about it, but I'm starting to get concerned that I should've been applying for some jobs.
+ */
