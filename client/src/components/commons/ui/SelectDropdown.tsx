@@ -23,7 +23,7 @@ const SelectDropdown = ({
                     <option
                         key={uuid()}
                         value={value}
-                        selected={value === defaultValue}
+                        defaultValue={defaultValue}
                     >
                         {value}
                     </option>

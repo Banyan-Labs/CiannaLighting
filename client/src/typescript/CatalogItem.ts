@@ -62,6 +62,7 @@ export interface CatalogLightItem
  * TODO: look at refactoring this to extend types for Catalog Item
  */
 export type LightItemType = {
+    _id?: string;
     exteriorFinish: string;
     interiorFinish: string;
     environment: string;
