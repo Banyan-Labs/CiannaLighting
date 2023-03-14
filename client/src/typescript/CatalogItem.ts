@@ -52,4 +52,33 @@ export type LightSpecs = {
     material: string;
 };
 
-export interface CatalogItem extends LightDetails, LightSpecs, LightOptions {}
+export interface CatalogLightItem
+    extends LightDetails,
+        LightSpecs,
+        LightOptions {}
+
+/**
+ * * Below type is being used for as typing for a light created and assigned to room from catalog item
+ * TODO: look at refactoring this to extend types for Catalog Item
+ */
+export type LightItemType = {
+    exteriorFinish: string;
+    interiorFinish: string;
+    environment: string;
+    safetyCert: string;
+    projectVoltage: string;
+    socketType: string;
+    lensMaterial: string;
+    glassOptions: string;
+    acrylicOptions: string;
+    crystalType: string;
+    crystalPinType: string;
+    crystalPinColor: string;
+    mounting: string;
+    item_ID: string;
+    roomName: string;
+    roomId: string;
+    projectId: string;
+    clientId: string;
+    quantity: number;
+};

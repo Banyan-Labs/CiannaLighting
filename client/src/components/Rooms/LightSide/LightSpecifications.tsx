@@ -1,11 +1,11 @@
 import React from 'react';
 import CollapsibleList from 'components/commons/ui/CollapsibleList';
-import { CatalogItem } from 'typescript/CatalogItem';
+import { CatalogLightItem } from 'typescript/CatalogItem';
 import convertCsvInArray from 'helpers/convertCsvInArray';
 import getLightSpecsFromItem from 'helpers/getLightSpecsFromItem';
 
 type Props = {
-    lightDetails: CatalogItem;
+    lightDetails: CatalogLightItem;
 };
 
 const LightSpecifications = ({ lightDetails }: Props) => {

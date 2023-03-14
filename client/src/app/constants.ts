@@ -24,3 +24,19 @@ export const LIGHT_DISPLAY_SPECIFICATION_KEYS = [
     'material',
     'price',
 ];
+
+export const LIGHT_FORM_OPTIONS_KEYS = [
+    'acrylicOptions',
+    'crystalPinColor',
+    'crystalPinType',
+    'crystalType',
+    'glassOptions',
+    'mounting',
+    'socketType',
+    'safetyCert',
+    'environment',
+    'interiorFinish',
+    'exteriorFinish',
+    'lensMaterial',
+    'projectVoltage',
+];

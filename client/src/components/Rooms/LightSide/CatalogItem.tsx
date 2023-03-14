@@ -15,7 +15,8 @@ import {
 } from '../../../redux/actions/projectActions';
 import LightCarousel from './LightCarousel';
 import LightSpecifications from './LightSpecifications';
-import { CatalogItem as CatalogItemType } from '../../../typescript/CatalogItem';
+import LightOptionsForm from './LightOptionsForm';
+import { CatalogLightItem as CatalogItemType } from '../../../typescript/CatalogItem';
 
 interface Props {
     setCatalogItem: any;
@@ -52,6 +53,8 @@ const CatalogItem: FC<Props> = ({
     editLight,
     setEditLight,
 }) => {
+    console.log('🚀 ~ file: CatalogItem.tsx:55 ~ catalogItem:', catalogItem);
+    console.log('🚀 ~ file: CatalogItem.tsx:55 ~ editLight:', editLight);
     const dispatch = useAppDispatch();
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
@@ -68,7 +71,7 @@ const CatalogItem: FC<Props> = ({
     const carouselImageData = catalogItem.images.map((img: string) => ({
         url: img,
     }));
-
+    // TODO: rename this to something more descriptive
     const [catalogDetails, setCatalogDetails] = useState<LightType>({
         exteriorFinish:
             editLight !== null
@@ -129,6 +132,10 @@ const CatalogItem: FC<Props> = ({
         clientId: String(userId),
         quantity: count,
     });
+    console.log(
+        '🚀 ~ file: CatalogItem.tsx:133 ~ catalogDetails:',
+        catalogDetails
+    );
 
     const handleFormInput = (e: FormEvent<HTMLSelectElement>) => {
         setCatalogDetails({
@@ -254,6 +261,12 @@ const CatalogItem: FC<Props> = ({
                 <LightSpecifications lightDetails={catalogItem} />
             </div>
             {/* End left wrapper */}
+            <div>
+                <LightOptionsForm
+                    catalogLightItem={catalogItem}
+                    editLightItem={editLight}
+                />
+            </div>
             {/* Start right wrapper */}
             <div style={{ border: '1px solid #f33' }} className="">
                 <p className="type-catalog-item m-0 col-6">Traditional</p>
