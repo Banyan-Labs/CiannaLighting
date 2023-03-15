@@ -26,6 +26,7 @@ type Props = {
     editLightItem: LightItemType | null;
     setCatalogItem: (val: any) => void;
     setEditLight: (val: any) => void;
+    lightSpecs: string[];
 };
 
 function LightOptionsForm({
@@ -33,30 +34,40 @@ function LightOptionsForm({
     editLightItem,
     setCatalogItem,
     setEditLight,
+    lightSpecs,
 }: Props) {
     const dispatch = useAppDispatch();
+    const { user } = useAppSelector(({ auth: user }) => user);
     const { room, attachments, projectId, roomId, proposal } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
         editLightItem ? editLightItem?.quantity : 1
     );
-    const { user } = useAppSelector(({ auth: user }) => user);
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
     const formRef = useRef<HTMLFormElement>(null);
-
     const lightID = user._id + catalogLightItem.item_ID + roomId;
+
+    const subtractCount = (subtract: boolean) =>
+        setCount((prevState) => {
+            if (subtract) {
+                return prevState > 1 ? prevState - 1 : 1;
+            } else {
+                return prevState + 1;
+            }
+        });
 
     const dispatchSubmit = async (
         editLight: LightItemType | null,
         catalogLight: CatalogLightItem,
-        rfpPassData: any
+        rfpPassData: any,
+        lightSpecs: string[]
     ) => {
         try {
             if (!editLight) {
-                if (catalogLight.specs.length) {
+                if (lightSpecs.length) {
                     dispatch(
                         setSpecFile(
                             {
@@ -113,8 +124,8 @@ function LightOptionsForm({
             };
             const lightInfoData: unknown = {
                 ...formEleData,
-                count,
                 ...additionalData,
+                quantity: count,
             };
 
             const propCheck = proposal
@@ -135,8 +146,9 @@ function LightOptionsForm({
             try {
                 await dispatchSubmit(
                     editLightItem,
-                    lightInfoData as CatalogLightItem,
-                    rfpPass
+                    { ...(lightInfoData as CatalogLightItem) },
+                    rfpPass,
+                    lightSpecs
                 );
             } catch (error: any) {
                 throw new Error(error?.message);
@@ -170,9 +182,7 @@ function LightOptionsForm({
             <button
                 type="button"
                 className="qty-button"
-                onClick={() => {
-                    setCount(count + 1);
-                }}
+                onClick={() => subtractCount(false)}
             >
                 +
             </button>
@@ -180,9 +190,7 @@ function LightOptionsForm({
             <button
                 type="button"
                 className="qty-button"
-                onClick={() => {
-                    count > 1 ? setCount(count - 1) : setCount(1);
-                }}
+                onClick={() => subtractCount(true)}
             >
                 -
             </button>

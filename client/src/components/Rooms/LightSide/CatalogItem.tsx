@@ -43,6 +43,7 @@ const CatalogItem: FC<Props> = ({
                     editLightItem={editLight}
                     setCatalogItem={setCatalogItem}
                     setEditLight={setEditLight}
+                    lightSpecs={catalogItem.specs}
                 />
             </div>
             <div style={{ border: '1px solid #f33' }} className="">
