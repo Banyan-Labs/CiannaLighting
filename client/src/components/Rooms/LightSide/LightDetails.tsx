@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
 import Cards from './Cards';
 import SearchBar from './SearchBar';
-import CatalogItem from './CatalogItem';
+import CreateEditLight from './CreateEditLight';
 import '../style/roomDetails.scss';
 
 interface catalogPros {
@@ -61,8 +61,8 @@ const LightDetails: FC<catalogPros> = ({
                     </div>
                 </div>
             ) : (
-                <div className="container lightDetail-container col-12 col-lg-5">
-                    <CatalogItem
+                <div className="">
+                    <CreateEditLight
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}
                         setEditLight={setEditLight}

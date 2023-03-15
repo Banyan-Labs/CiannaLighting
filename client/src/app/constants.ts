@@ -39,4 +39,5 @@ export const LIGHT_FORM_OPTIONS_KEYS = [
     'exteriorFinish',
     'lensMaterial',
     'projectVoltage',
+    // 'designStyle' // ! can't be added until controller is implemented
 ];

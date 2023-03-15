@@ -1,5 +1,5 @@
 import React, { useRef, FormEvent, useState } from 'react';
-import SelectDropdown from 'components/commons/ui/SelectDropdown';
+import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import uuid from 'react-uuid';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import useParams from 'app/utils';

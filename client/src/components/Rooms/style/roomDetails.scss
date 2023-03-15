@@ -1,6 +1,35 @@
 @import '../../../variables/variables.scss';
 @import './lightDetails';
 @import './CatalogItem';
+
+body {
+    padding-bottom: 0 !important; // ! overrides core index.scss
+}
+
+.room-details-page {
+    &__page-container {
+        padding-top: 100px;
+        display: flex;
+        overflow: clip;
+        height: calc(100vh - 100px);
+    }
+
+    &__panel-wrapper {
+        padding: 0 24px 12px;
+        overflow: scroll;
+
+        &.left {
+            width: 40%;
+            border-right: 1px solid #666;
+        }
+
+        &.right {
+            width: 60%;
+        }
+    }
+}
+
+// ** Old styling **
 .room-details-container {
     background-color: white;
     padding: 0;
@@ -86,14 +115,14 @@
 .description-container {
     display: flex;
     flex-direction: row;
-    align-items: center;    
+    align-items: center;
     h4 {
         margin-left: 20px;
         font-weight: 400;
     }
 
     p {
-        padding-left: 10px;        
+        padding-left: 10px;
         color: $primary-bg-white-sub-text;
     }
 }
@@ -139,7 +168,7 @@
         padding-left: 10px;
     }
 }
-.container-for-light-cards-off {    
+.container-for-light-cards-off {
     min-height: 510px;
     max-height: 510px;
     overflow-y: scroll;
@@ -191,7 +220,7 @@
             }
         }
         .lightImg {
-            box-shadow: $box-shadow;            
+            box-shadow: $box-shadow;
             height: 120px;
             border-radius: 0.2rem;
         }

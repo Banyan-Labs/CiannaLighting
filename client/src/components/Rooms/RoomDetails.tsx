@@ -100,7 +100,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 : '';
         const image = item.images ? item.images[0] : '';
         return (
-            <div className="single-room-container d-flex row" key={index}>
+            <div className="" key={index}>
                 <div className="first-light-section d-flex mb-2">
                     <img
                         className="lightImg"
@@ -233,7 +233,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     });
 
     return (
-        <div className="roomDetail-container m-0 mr-0 container d-flex row col-md-12 col-lg-6">
+        <div className="">
             <div className="col-12 d-flex row m-0">
                 <div className="back-to-project col-6">
                     <Link

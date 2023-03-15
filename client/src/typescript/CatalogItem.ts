@@ -29,6 +29,7 @@ export type LightOptions = {
     exteriorFinish: string[];
     lensMaterial: string[];
     projectVoltage: string[];
+    designStyle: string[];
 };
 
 export type LightSpecs = {
