@@ -2,7 +2,7 @@
 
 .light-options-form {
     padding: 0 60px;
-    width: 300px;
+    max-width: 300px;
 
     .select-dropdown {
         margin-bottom: 10px;
@@ -37,6 +37,17 @@
                 transition: all 0.2s ease-in-out;
                 opacity: 0.8;
             }
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        display: flex;
+        max-width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        .select-dropdown {
+            width: 48% !important;
         }
     }
 }

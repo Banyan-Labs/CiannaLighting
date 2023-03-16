@@ -1,13 +1,12 @@
 @import '../../../variables/variables.scss';
 
 .light-details {
-    &__container {
-        padding-top: 16px;
-    }
+    padding-top: 18px;
 
     &__heading {
         display: flex;
         justify-content: space-between;
+        grid-area: heading;
 
         &.edit-prompt {
             text-align: end;
@@ -21,12 +20,18 @@
     &__carousel-wrapper {
         display: inline-block;
         width: 50%;
+        grid-area: carousel;
     }
 
     &__description-wrapper {
         display: inline-block;
         width: 50%;
         vertical-align: top;
+        grid-area: description;
+    }
+
+    &__form-wrapper {
+        grid-area: form;
     }
     &__item-name {
         display: block;
@@ -35,5 +40,18 @@
     }
     &__item-id {
         color: $primary-bg-white-sub-text;
+    }
+
+    @media screen and (max-width: 1200px) {
+        &__content {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        &__description-wrapper,
+        &__carousel-wrapper {
+            display: block;
+            width: 100%;
+        }
     }
 }
