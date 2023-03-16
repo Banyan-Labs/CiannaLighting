@@ -1,5 +1,4 @@
 export type LightDetails = {
-    name: string; //* added after typing CatalogItem.tsx, might be redundant key for `itemName` from API
     costAdmin: number;
     designStyle: string[];
     drawingFiles: string[];
