@@ -154,13 +154,13 @@ export const getUserProjects =
 export const setTheYourProjects =
     (payload: boolean) =>
     async (dispatch: Dispatch): Promise<void> => {
-        await dispatch(setYourProjects(payload));
+        dispatch(setYourProjects(payload));
     };
 
 export const getProject =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axioscall = await axiosPrivate();
+        const axioscall = axiosPrivate();
         try {
             const project = await axioscall.post('/find-project', payload);
             if (project) {
@@ -199,7 +199,9 @@ export const getAllProjects =
         const axioscall = axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects');
+            if(projects){
             dispatch(setAllProjects(projects.data));
+            }
         } catch (error: any) {
             throw new Error(error.message);
         }

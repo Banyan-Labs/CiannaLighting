@@ -53,7 +53,7 @@ export const getAllLogs =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const axiosPriv = await axiosPrivate();
+            const axiosPriv = axiosPrivate();
             const response = await axiosPriv.post('cmd/getAllLogs', {
                 withCredentials: true,
             });
