@@ -44,7 +44,14 @@ export const signInAction =
         } catch (error: any | AxiosError) {
             if (axiosSrc.isAxiosError(error)) {
                 const axiosErr: AxiosError = error;
-                dispatch(setError(axiosErr.response?.data));
+                const errorMessage =
+                    axiosErr.response?.data === undefined
+                        ? {
+                              message:
+                                  'Unable to fetch Geolocation. Please disable ad blocking for this site to continue.',
+                          }
+                        : axiosErr.response.data;
+                dispatch(setError(errorMessage));
             } else throw new Error(error.message);
         }
     };

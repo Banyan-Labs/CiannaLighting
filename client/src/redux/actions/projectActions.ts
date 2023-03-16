@@ -171,15 +171,26 @@ export const getProject =
                 });
                 if (proposalSet) {
                     dispatch(setProposals(proposalSet.data.proposal));
-                    if (payload.projectName != payload.name) {
+                    if (payload.projectName != payload.name || payload.region != payload.projectRegion) {
                         const exchangeLoad = {
                             type: 'project',
                             name: payload.projectName,
                             newName: payload.name,
                             projectId: payload._id,
+                            region: payload.region,
+                            projectRegion: payload.projectRegion
                         };
                         await axioscall.post('/name-exchange', exchangeLoad);
                     }
+                    // if (payload.projectName != payload.name) {
+                    //     const exchangeLoad = {
+                    //         type: 'project',
+                    //         name: payload.projectName,
+                    //         newName: payload.name,
+                    //         projectId: payload._id,
+                    //     };
+                    //     await axioscall.post('/name-exchange', exchangeLoad);
+                    // }
                     const getRfp = await axioscall.post('/get-rfps', {
                         projectId: project.data.project._id,
                     });

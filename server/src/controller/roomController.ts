@@ -4,6 +4,7 @@ import Project from "../model/Project";
 import Room from "../model/Room";
 import LightSelection from "../model/LIghtSelection";
 import { lightIdService } from "./lightSelectionController";
+import { LightREF } from "../interfaces/projectInterface";
 const curDate = new Date().toISOString().split("T")[0].split("-");
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
@@ -86,14 +87,25 @@ const getAllRooms = (req: Request, res: Response) => {
 };
 
 const getRoom = async (req: Request, res: Response) => {
-  const keys = Object.keys(req.body).filter((key: string) => key != "_id");
+  const keys = Object.keys(req.body).filter((key: string) => key != '_id' && key != 'projectId' && key != 'roomName');
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
   return await Room.findOne({ _id: req.body._id })
     .exec()
-    .then((room: any) => {
+    .then(async(room: any) => {
       if (room && keys.length) {
+        if(room.name !== req.body.name){
+          const project = await Project.findOne({_id: req.body.projectId});
+          if(project){
+            const newLightIds = project.lightIDs.map((light: LightREF)=>{
+              const newRooms = light.rooms.map((lightIdRoom:string)=> lightIdRoom === room.name ? req.body.name : lightIdRoom);
+              return {item_ID: light.item_ID, rooms: newRooms};
+            })                        
+            project.lightIDs = newLightIds;            
+            await project.save();            
+          }
+        }
         keys.map((keyName: string) => {
           room[keyName] = parameters[keyName];
         });

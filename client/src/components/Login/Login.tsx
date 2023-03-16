@@ -100,7 +100,9 @@ const Login: FC = () => {
             <ModalBase isShown={isLoginError} setIsShown={closeApiError}>
                 {loginApiError && (
                     <div>
-                        <p style={{ paddingBottom: '10px' }}>{loginApiError.message}</p>
+                        <p style={{ paddingBottom: '10px' }}>
+                            {loginApiError.message}
+                        </p>
                         <button
                             className="modal-cancel-button"
                             onClick={() => closeApiError(false)}

@@ -7,6 +7,23 @@
 
 .img-wrapper {
     background: #777;
+    position: relative;
+
+    .fullscreen-toggle-button {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        cursor: pointer;
+        opacity: 0.65;
+        transition: all 0.1s ease-in-out;
+        font-size: 24px;
+        color: white;
+
+        &:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    }
 }
 
 .selected-image {
@@ -16,53 +33,80 @@
     object-fit: cover;
 }
 
+.fullscreen-image {
+    max-height: 75vh;
+    max-width: 100%;
+    object-fit: scale-down;
+}
+
 .carousel {
     position: relative;
-}
 
-.carousel__images {
-    display: flex;
-    max-width: 100%;
-    overflow-x: hidden;
-    background: #ccc;
-}
-
-.carousel__image-selected {
-    border: 3px solid $accent-gold !important;
-}
-
-.carousel__image {
-    margin-right: 10px;
-    height: 150px;
-    min-width: 150px;
-    border: 3px solid #ffa70000;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.carousel__button {
-    position: absolute;
-    top: 40%;
-    outline: none;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: all 0.3 ease-in-out;
-
-    &:hover {
-        opacity: 1;
+    &__image {
+        margin-right: 10px;
+        height: 150px;
+        min-width: 150px;
+        border: 3px solid #ffa70000;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
-}
 
-.carousel__button-left {
-    left: 10px;
-}
+    &__image-selected {
+        border: 3px solid $accent-gold !important;
+    }
 
-.carousel__button-right {
-    right: 10px;
+    &__images {
+        display: flex;
+        max-width: 100%;
+        overflow-x: hidden;
+        background: #ccc;
+    }
+
+    &__button {
+        position: absolute;
+        top: 40%;
+        outline: none;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all 0.3 ease-in-out;
+
+        &.fullscreen-button {
+            top: 45%;
+            color: #000;
+            font-size: 36px;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &__button-left {
+        left: 10px;
+        &.fullscreen-button {
+            left: -56px;
+        }
+    }
+
+    &__button-right {
+        right: 10px;
+        &.fullscreen-button {
+            right: -56px;
+        }
+    }
+
+    &__fullscreen-content-wrapper {
+        position: relative;
+        height: auto;
+        max-height: 75vh;
+        width: auto;
+        max-width: 90vw;
+        border: 1px solid #000;
+    }
 }
