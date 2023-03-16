@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import './style/roomDetails.scss';
+import uuid from 'react-uuid';
 
 interface lightProps {
     setEditLight: any;
@@ -91,7 +92,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         }
     };
 
-    const singleRoom = newLights?.map((light: any, index: any) => {
+    const singleRoom = newLights?.map((light: any) => {
         const item =
             setAllCatalog && setAllCatalog.length
                 ? setAllCatalog.find(
@@ -100,7 +101,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 : '';
         const image = item.images ? item.images[0] : '';
         return (
-            <div className="" key={index}>
+            <div className="single-room-container d-flex row" key={uuid()}>
                 <div className="first-light-section d-flex mb-2">
                     <img
                         className="lightImg"
