@@ -1,6 +1,7 @@
 import React from 'react';
 import uuid from 'react-uuid';
 import convertCsvInArray from 'helpers/convertCsvInArray';
+import './style.scss';
 
 type Props = {
     label: string;
@@ -16,11 +17,18 @@ const SelectDropdown = ({
     defaultValue,
 }: Props) => {
     return (
-        <div>
-            <label htmlFor={itemKey}>{label}</label>
-            <select name={itemKey} id={itemKey}>
+        <div className="select-dropdown">
+            <label className="select-dropdown__label" htmlFor={itemKey}>
+                {label}
+            </label>
+            <select
+                className="select-dropdown__wrapper"
+                name={itemKey}
+                id={itemKey}
+            >
                 {convertCsvInArray(dropdownValues).map((value) => (
                     <option
+                        className="select-dropdown__option"
                         key={uuid()}
                         value={value}
                         defaultValue={defaultValue}

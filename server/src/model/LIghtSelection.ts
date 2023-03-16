@@ -30,7 +30,6 @@ const lightSelectionSchema = new Schema({
   crystalPinColor: { type: String, required: true },
   roomName: { type: String, required: true },
   quantity: { type: Number, required: true },
-  designStyle: { type: String, required: true },
 });
 
 export default mongoose.model<lightSelectionInterface>(

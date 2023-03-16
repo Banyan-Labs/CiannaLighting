@@ -20,6 +20,7 @@ import {
     setTheRoom,
     getAllProjectRoomsAction,
 } from 'redux/actions/projectActions';
+import './lightOptionsForm.style.scss';
 
 type Props = {
     catalogLightItem: CatalogLightItem;
@@ -177,24 +178,32 @@ function LightOptionsForm({
     });
 
     return (
-        <form ref={formRef} onSubmit={handleSubmit}>
+        <form
+            className="light-options-form"
+            ref={formRef}
+            onSubmit={handleSubmit}
+        >
             {InputElements}
-            <button
-                type="button"
-                className="qty-button"
-                onClick={() => subtractCount(false)}
-            >
-                +
-            </button>
-            <h3>{count}</h3>
-            <button
-                type="button"
-                className="qty-button"
-                onClick={() => subtractCount(true)}
-            >
-                -
-            </button>
-            <button type="submit">Submit</button>
+            <div className="quantity-input">
+                <button
+                    type="button"
+                    className="quantity-input__value-button"
+                    onClick={() => subtractCount(false)}
+                >
+                    +
+                </button>
+                <span className="quantity-input__value">{count}</span>
+                <button
+                    type="button"
+                    className="quantity-input__value-button"
+                    onClick={() => subtractCount(true)}
+                >
+                    -
+                </button>
+                <button type="submit" className="quantity-input__submit-value">
+                    {editLightItem ? 'Update Room' : 'Add to Room'}
+                </button>
+            </div>
         </form>
     );
 }
