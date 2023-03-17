@@ -110,7 +110,7 @@ export const createRoomAction =
 export const setTheRoom =
     (roomId: string) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-room', {
                 _id: roomId,
@@ -182,15 +182,7 @@ export const getProject =
                         };
                         await axioscall.post('/name-exchange', exchangeLoad);
                     }
-                    // if (payload.projectName != payload.name) {
-                    //     const exchangeLoad = {
-                    //         type: 'project',
-                    //         name: payload.projectName,
-                    //         newName: payload.name,
-                    //         projectId: payload._id,
-                    //     };
-                    //     await axioscall.post('/name-exchange', exchangeLoad);
-                    // }
+                  
                     const getRfp = await axioscall.post('/get-rfps', {
                         projectId: project.data.project._id,
                     });

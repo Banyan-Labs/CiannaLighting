@@ -12,6 +12,7 @@ import {
 } from '../../redux/actions/projectActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
+import { setSpecFile } from '../../redux/actions/lightActions';
 
 interface projectProps {
     setOpenModal: any;
@@ -83,7 +84,10 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div
                 onClick={async () => {
                     await changeProject(project._id);
-                    await projectRoute(project._id);
+                    await dispatch(
+                        setSpecFile({ projId: project._id, edit: '' }, false)
+                    );
+                    projectRoute(project._id);
                     await dispatch(setTheYourProjects(true));
                 }}
                 className="project-mini-modal-link"

@@ -125,6 +125,16 @@ const initialState: ProjectStateType = {
     catalogConnectLight: null,
     yourProjects: false,
 };
+/**
+ * proposal
+ * rfp
+ * project
+ * projectRooms
+ * room
+ * roomId
+ * projectId
+ * attachments
+ */
 
 export const projectSlice = createSlice({
     name: 'project',
