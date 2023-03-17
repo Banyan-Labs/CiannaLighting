@@ -107,23 +107,23 @@ export type RoomType = {
 };
 
 const initialState: ProjectStateType = {
-    proposal: [],
+    roomId: '',
+    projectId: '',
     rfp: null,
+    project: null,
+    room: null,
+    error: null,
+    catalogConnectLight: null,
+    yourProjects: false,
+    proposal: [],
     userProjects: [],
     allProjects: [],
     filterQueryProjects: [],
-    project: null,
     projectRooms: [],
-    room: null,
-    roomId: '',
-    error: null,
-    projectId: '',
     roomLights: [],
     setAllCatalog: [],
     setInactive: [],
     attachments: [],
-    catalogConnectLight: null,
-    yourProjects: false,
 };
 /**
  * proposal
@@ -202,6 +202,17 @@ export const projectSlice = createSlice({
             ...state,
             userProjects: action.payload.projects,
         }),
+        setPersonalizedDefaults: (state) =>({
+            ...state,
+            roomId: '',
+            projectId: '',
+            rfp: null,
+            project: null,
+            room: null,
+            proposal: [],
+            projectRooms: [],
+            attachments: []
+        }),
     },
 });
 
@@ -224,5 +235,6 @@ export const {
     setCatalogConnect,
     setYourProjects,
     setFilteredProjNone,
+    setPersonalizedDefaults
 } = projectSlice.actions;
 export default projectSlice.reducer;

@@ -6,6 +6,7 @@ import {
     setFilterProjNone,
     getUserProjects,
     createProjectAction,
+    setDefaults,
 } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -136,6 +137,7 @@ const AllProjectView: FC<Props> = ({
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
+        dispatch(setDefaults());
     }, []);
 
     const onMouseOver = (index: number | null) => {

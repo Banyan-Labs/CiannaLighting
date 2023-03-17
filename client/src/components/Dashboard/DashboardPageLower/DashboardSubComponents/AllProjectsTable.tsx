@@ -9,6 +9,7 @@ import {
     setFilterProjNone,
     createProjectAction,
     getUserProjects,
+    setDefaults
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -68,6 +69,7 @@ const AllProjects: FC<Props> = ({
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
+        dispatch(setDefaults());
     }, []);
     const inactiveModalTrigger = (): void => {
         setInactiveClearModal(true);

@@ -13,6 +13,7 @@ import {
     setUserProjects,
     setYourProjects,
     setFilteredProjNone,
+    setPersonalizedDefaults,
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -121,6 +122,15 @@ export const setTheRoom =
             dispatch(setProjectError(error.message));
         }
     };
+export const setRoomIdToDefault =
+    ()=>
+    async (dispatch: Dispatch): Promise<void> =>{
+        try{
+            dispatch(setRoomId(''))
+        }catch(error: any){
+            throw new Error('Error setting roomID to default.')
+        }
+    }
 
 export const getAllProjectRoomsAction =
     (projectId: string) =>
@@ -171,18 +181,21 @@ export const getProject =
                 });
                 if (proposalSet) {
                     dispatch(setProposals(proposalSet.data.proposal));
-                    if (payload.projectName != payload.name || payload.region != payload.projectRegion) {
+                    if (
+                        payload.projectName != payload.name ||
+                        payload.region != payload.projectRegion
+                    ) {
                         const exchangeLoad = {
                             type: 'project',
                             name: payload.projectName,
                             newName: payload.name,
                             projectId: payload._id,
                             region: payload.region,
-                            projectRegion: payload.projectRegion
+                            projectRegion: payload.projectRegion,
                         };
                         await axioscall.post('/name-exchange', exchangeLoad);
                     }
-                  
+
                     const getRfp = await axioscall.post('/get-rfps', {
                         projectId: project.data.project._id,
                     });
@@ -202,8 +215,8 @@ export const getAllProjects =
         const axioscall = axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects');
-            if(projects){
-            dispatch(setAllProjects(projects.data));
+            if (projects) {
+                dispatch(setAllProjects(projects.data));
             }
         } catch (error: any) {
             throw new Error(error.message);
@@ -311,5 +324,14 @@ export const editThisRoom =
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
             throw new Error(error.message);
+        }
+    };
+export const setDefaults =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setPersonalizedDefaults());
+        } catch (error: any) {
+            throw new Error('error setting defaults!');
         }
     };
