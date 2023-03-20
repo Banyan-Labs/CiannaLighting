@@ -82,7 +82,6 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id, userProjects.length]);
-    console.log(userProjects);
     const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
     const singleProject = userProjects
         .map((project: any, index: any) => {

@@ -323,6 +323,7 @@ const deleteProp = async (req: Request, res: Response) => {
     lightID: lightID,
   }).then(async (prop) => {
     if (prop) {
+      console.log("Prop in delete prop",prop)
       if (prop.sub && prop.sub.length) {
         await ProposalTableRow.findOne({ _id: prop.sub })
           .then(async (outer: any) => {
@@ -351,6 +352,10 @@ const deleteProp = async (req: Request, res: Response) => {
                   done,
                   message: "Successfully updated and deleted props.",
                 });
+              }else{
+                return res.status(500).json({
+                  message: "Error in deleting props"
+                })
               }
             }
           })

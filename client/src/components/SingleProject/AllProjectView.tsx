@@ -543,8 +543,8 @@ const AllProjectView: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length - 1
-                                            : archivedProjects.length - 1
+                                            ? activeProjects.length 
+                                            : archivedProjects.length 
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
