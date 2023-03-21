@@ -19,10 +19,6 @@ const CreateEditLight = ({
     editLight,
     setEditLight,
 }: Props) => {
-    console.log(
-        '🚀 ~ file: CreateEditLight.tsx:22 ~ catalogItem:',
-        catalogItem
-    );
     const carouselImageData = catalogItem.images.map((img: string) => ({
         url: img,
     }));
