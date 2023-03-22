@@ -1,0 +1,42 @@
+@import '../../../variables/variables.scss';
+
+.collapsible-container {
+    cursor: pointer;
+    padding: 6px 0;
+
+    &__title {
+        font-size: 1.2rem;
+    }
+
+    &__toggle {
+        float: right;
+        transition: all 0.2s ease-in-out;
+        svg {
+            vertical-align: middle;
+        }
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 250px;
+        overflow: scroll;
+
+        .listItem {
+            padding: 4px 0 4px 4px;
+            color: $primary-bg-dark-text;
+            border-bottom: 1px solid #000;
+            font-family: $font-family-medium;
+
+            &__key-pair {
+                font-size: 0.9rem;
+                span {
+                    color: #000;
+                    float: right;
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
+}

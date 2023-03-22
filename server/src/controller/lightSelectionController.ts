@@ -82,10 +82,15 @@ const lightSelected = async (
           .save()
           .then(async (light) => {
             if (light) {
-              console.log("adding before call", projectId, item_ID, roomName)
-              const finished = await lightIdService(projectId, 'add', item_ID, roomName);
-              if(finished){
-                console.log("finished update: ", light)
+              console.log("adding before call", projectId, item_ID, roomName);
+              const finished = await lightIdService(
+                projectId,
+                "add",
+                item_ID,
+                roomName
+              );
+              if (finished) {
+                console.log("finished update: ", light);
               }
               return res.status(201).json({
                 light,
@@ -166,15 +171,20 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
     roomId: string;
     _id: string;
     projectId: string;
-  }
+  };
   const { item_ID, roomId, _id, projectId }: RequestBody = req.body;
   return await Room.findByIdAndUpdate({ _id: req.body.roomId })
     .exec()
     .then(async (room) => {
       if (room) {
-        const updateLightIds = await lightIdService(projectId, 'delete', item_ID, room.name);
-        if ( updateLightIds ){
-          console.log("lightIDs updated!@#$#@!")
+        const updateLightIds = await lightIdService(
+          projectId,
+          "delete",
+          item_ID,
+          room.name
+        );
+        if (updateLightIds) {
+          console.log("lightIDs updated!@#$#@!");
         }
         room.lights = room.lights.filter((id: string) => {
           return String(id) !== _id ? id : "";
@@ -208,23 +218,23 @@ export const lightIdService = async (
   item_ID: string,
   room: string
 ) => {
-  console.log("adding AFTER call", projectId, item_ID, room)
-  const project = await Project.findOne({_id: projectId });
+  console.log("adding AFTER call", projectId, item_ID, room);
+  const project = await Project.findOne({ _id: projectId });
   if (project) {
     console.log("PROJ lightService in add: ", project);
     const lightIDs = project.lightIDs;
-    //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing 
+    //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing
     if (lightIDs && lightIDs.length) {
       console.log("In lightIDS if statement: ", lightIDs);
       const reWrite: LightREF[] = lightIDs
         .map((item: LightREF): LightREF => {
           if (item.item_ID === item_ID) {
             if (type === "add") {
-              console.log('in the ADD section of the lightIdService!')
+              console.log("in the ADD section of the lightIdService!");
               const newItem = { ...item, rooms: [...item.rooms, room] };
               return newItem;
             } else if (type === "delete") {
-              console.log('In the delte secion of the lightIdService!')
+              console.log("In the delte secion of the lightIdService!");
               console.log("Item rooms before delete: ", item, item.rooms);
               const deletingRooms =
                 item.rooms && item.rooms.length
@@ -237,9 +247,9 @@ export const lightIdService = async (
                           : roomName
                     )
                   : [];
-                  console.log("DeletingRooms Variable: ", deletingRooms);
+              console.log("DeletingRooms Variable: ", deletingRooms);
               if (deletingRooms.length) {
-                console.log("In the deltingrooms length if statement!")
+                console.log("In the deltingrooms length if statement!");
                 const newItem = { ...item, rooms: deletingRooms };
                 console.log("New deleted rooms item: ", newItem);
                 return newItem;
@@ -256,15 +266,23 @@ export const lightIdService = async (
         .filter((item) => item.item_ID.length && item.rooms.length);
       console.log("REWRITE variable: ", reWrite);
       console.log("project light Ids before reWriting: ", project.lightIDs);
-      const checkForId = project.lightIDs.find(item=> item.item_ID === item_ID);
-      console.log("id check",checkForId)
-      if(checkForId == undefined){
-        const lightIdAddOn = [...project.lightIDs, { item_ID: item_ID, rooms: [room] }]
-        console.log("Adding onto lightIDS: ", lightIdAddOn)
+      const checkForId = project.lightIDs.find(
+        (item) => item.item_ID === item_ID
+      );
+      console.log("id check", checkForId);
+      if (checkForId == undefined) {
+        const lightIdAddOn = [
+          ...project.lightIDs,
+          { item_ID: item_ID, rooms: [room] },
+        ];
+        console.log("Adding onto lightIDS: ", lightIdAddOn);
         project.lightIDs = lightIdAddOn;
-        console.log("proj lightIDS after refactoring with add on: ", project.lightIDs)
-      }else{
-      project.lightIDs = reWrite;
+        console.log(
+          "proj lightIDS after refactoring with add on: ",
+          project.lightIDs
+        );
+      } else {
+        project.lightIDs = reWrite;
       }
       console.log("projLIghtIds: ", project.lightIDs);
     } else {
@@ -273,16 +291,16 @@ export const lightIdService = async (
 
     const done = await project.save();
     if (done) {
-      console.log("Done and Saved successfully: ", done, done.lightIDs)
+      console.log("Done and Saved successfully: ", done, done.lightIDs);
       return done;
     } else {
-      console.log("Error in lightID service with saving.")
+      console.log("Error in lightID service with saving.");
       throw new Error(
         "Error saving project in the add section of lightIdService."
       );
     }
   } else {
-    console.log("couldnt find project in lightIdService")
+    console.log("couldnt find project in lightIdService");
     throw new Error(
       "Error finding project in the add section of lightIdService."
     );
@@ -293,5 +311,5 @@ export default {
   lightSelected,
   getAllSelectedLights,
   deleteSelectedLight,
-  getSelectedLight
+  getSelectedLight,
 };

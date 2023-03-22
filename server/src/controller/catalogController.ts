@@ -52,97 +52,97 @@ const createCatalogItem = async (req: Request, res: Response) => {
   pdf = [];
   specs = [];
   drawingFiles = [];
-  const existingCatalog = await CatalogItem.findOne({item_ID});
-  console.log("existingCatalog: ",existingCatalog);
-  if(existingCatalog){
+  const existingCatalog = await CatalogItem.findOne({ item_ID });
+  console.log("existingCatalog: ", existingCatalog);
+  if (existingCatalog) {
     return res.status(400).json({
-      message: "This Item already exists."
-    })
-  }else{
-  if (req.files) {
-    const documents = Object.values(req.files as any);
+      message: "This Item already exists.",
+    });
+  } else {
+    if (req.files) {
+      const documents = Object.values(req.files as any);
 
-    const results:any = await uploadFunc(documents);
-    if (results?.length) {
-      for (let i = 0; i < results?.length; i++) {
-        for (let j = 0; j < results[i].length; j++) {
-          const singleDoc = await results[i][j];
+      const results: any = await uploadFunc(documents);
+      if (results?.length) {
+        for (let i = 0; i < results?.length; i++) {
+          for (let j = 0; j < results[i].length; j++) {
+            const singleDoc = await results[i][j];
 
-          if (singleDoc.field === "images") {
-            images.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "drawingFiles") {
-            drawingFiles.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "pdf") {
-            pdf.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "specs") {
-            specs.push(singleDoc.s3Upload.Location);
+            if (singleDoc.field === "images") {
+              images.push(singleDoc.s3Upload.Location);
+            } else if (singleDoc.field === "drawingFiles") {
+              drawingFiles.push(singleDoc.s3Upload.Location);
+            } else if (singleDoc.field === "pdf") {
+              pdf.push(singleDoc.s3Upload.Location);
+            } else if (singleDoc.field === "specs") {
+              specs.push(singleDoc.s3Upload.Location);
+            }
           }
         }
       }
     }
-  }
 
-  const catalogItem = new CatalogItem({
-    _id: new mongoose.Types.ObjectId(),
-    isActive: true,
-    item_ID,
-    itemName,
-    employeeID,
-    itemDescription,
-    bodyDiameter,
-    bodyLength,
-    bodyWidth,
-    bodyHeight,
-    fixtureOverallHeight,
-    sconceHeight,
-    sconceWidth,
-    sconceExtension,
-    socketQuantity,
-    estimatedWeight,
-    price,
-    material,
-    lampType,
-    lampColor,
-    numberOfLamps,
-    wattsPerLamp,
-    powerInWatts,
-    lumens,
-    exteriorFinish, //[]
-    interiorFinish, //[]
-    lensMaterial, //[]
-    glassOptions, //[]
-    acrylicOptions, //[]
-    environment, //[]
-    safetyCert, //[]
-    projectVoltage, //[]
-    socketType, //[]
-    mounting, //[]
-    crystalType, //[]
-    crystalPinType, //[]
-    crystalPinColor, //[]
-    designStyle, //[]
-    usePackages, //[]
-    images, //[]//s3
-    pdf, //[]//s3
-    specs, //[]//s3
-    drawingFiles, //[]//s3
-    costAdmin,
-    partnerCodeAdmin,
-  });
-
-  return await catalogItem
-    .save()
-    .then((item) => {
-      return res.status(201).json({
-        item,
-      });
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        message: error.message,
-        error,
-      });
+    const catalogItem = new CatalogItem({
+      _id: new mongoose.Types.ObjectId(),
+      isActive: true,
+      item_ID,
+      itemName,
+      employeeID,
+      itemDescription,
+      bodyDiameter,
+      bodyLength,
+      bodyWidth,
+      bodyHeight,
+      fixtureOverallHeight,
+      sconceHeight,
+      sconceWidth,
+      sconceExtension,
+      socketQuantity,
+      estimatedWeight,
+      price,
+      material,
+      lampType,
+      lampColor,
+      numberOfLamps,
+      wattsPerLamp,
+      powerInWatts,
+      lumens,
+      exteriorFinish, //[]
+      interiorFinish, //[]
+      lensMaterial, //[]
+      glassOptions, //[]
+      acrylicOptions, //[]
+      environment, //[]
+      safetyCert, //[]
+      projectVoltage, //[]
+      socketType, //[]
+      mounting, //[]
+      crystalType, //[]
+      crystalPinType, //[]
+      crystalPinColor, //[]
+      designStyle, //[]
+      usePackages, //[]
+      images, //[]//s3
+      pdf, //[]//s3
+      specs, //[]//s3
+      drawingFiles, //[]//s3
+      costAdmin,
+      partnerCodeAdmin,
     });
+
+    return await catalogItem
+      .save()
+      .then((item) => {
+        return res.status(201).json({
+          item,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          message: error.message,
+          error,
+        });
+      });
   }
 };
 
@@ -234,7 +234,7 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
   if (req.files) {
     const documents = Object.values(req.files as any);
 
-    const results:any = await uploadFunc(documents);
+    const results: any = await uploadFunc(documents);
     if (results?.length) {
       for (let i = 0; i < results?.length; i++) {
         for (let j = 0; j < results[i].length; j++) {
@@ -254,12 +254,12 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   }
-  console.log("editBOD: ",req.body)
+  console.log("editBOD: ", req.body);
   return await CatalogItem.findOne(search)
     .exec()
     .then(async (light: any) => {
       if (light) {
-        console.log("lightFound",light)
+        console.log("lightFound", light);
         if (light && keys.length) {
           keys.map((keyName: string) => {
             if (/edit/.test(keyName)) {
@@ -316,12 +316,21 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
               light[keyName] = parameters[keyName];
             }
           });
+          for (const key in light) {
+            if (
+              Array.isArray(light[key]) &&
+              light[key].length === 1 &&
+              /\,/g.test(light[key][0])
+            ) {
+              light[key] = light[key][0].split(",");
+            }
+          }
           light.save();
         }
         return res.status(200).json({
           light,
         });
-      }else{
+      } else {
         next();
       }
     })

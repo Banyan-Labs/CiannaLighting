@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { SlSizeFullscreen } from 'react-icons/sl';
+import uuid from 'react-uuid';
 import ModalBase from '../../commons/ModalBase/ModalBase';
 import './carousel.style.scss';
 
-export type ImageType = { id: number; url: string };
+export type ImageType = { url: string };
 type Props = {
     images?: ImageType[];
 };
@@ -26,6 +27,11 @@ const LightCarousel = ({ images }: Props) => {
             setSelectedImage(images[0]);
         }
     }, [images]);
+
+    const toggleFullscreen = useCallback(
+        () => setFullscreen((prev) => !prev),
+        [fullscreen]
+    );
 
     const handleSelectedImageChange = (newIdx: number) => {
         if (images && images.length > 0) {
@@ -66,7 +72,7 @@ const LightCarousel = ({ images }: Props) => {
                 <div className="img-wrapper">
                     <SlSizeFullscreen
                         className="fullscreen-toggle-button"
-                        onClick={() => setFullscreen(!fullscreen)}
+                        onClick={toggleFullscreen}
                     />
                     <img className="selected-image" src={selectedImage?.url} />
                 </div>
@@ -81,7 +87,7 @@ const LightCarousel = ({ images }: Props) => {
                                     style={{
                                         backgroundImage: `url(${image.url})`,
                                     }}
-                                    key={image.id}
+                                    key={uuid()}
                                     className={`carousel__image ${
                                         selectedImageIndex === idx &&
                                         'carousel__image-selected'
