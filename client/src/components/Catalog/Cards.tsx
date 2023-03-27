@@ -4,7 +4,7 @@ import './style/catalog.scss';
 
 import '../Dashboard/DashboardPageLower/style/dashboardNav.scss';
 
-interface catalogPros {
+interface catalogProps {
     catalogItem: any;
     setCatalogItem: any;
     catalogType: any;
@@ -14,7 +14,7 @@ interface catalogPros {
     renderPage: any;
 }
 
-const Cards: FC<catalogPros> = ({
+const Cards: FC<catalogProps> = ({
     setCatalogItem,
     catalogType,
     setRenderPage,
