@@ -6,7 +6,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 
 const Activity: FC = () => {
     const { logs } = useAppSelector(({ auth: user }) => user);
-    const logsDisplay = logs.length > 9 ? logs.splice(0, 7) : logs;
+    const logsDisplay = logs.length > 9 ? logs.slice(0, 7) : logs;
     const dispatch = useAppDispatch();
 
     const allUserLogs = logsDisplay?.map((log, index) => {
