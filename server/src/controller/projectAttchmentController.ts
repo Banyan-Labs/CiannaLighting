@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import ProjectAttachments from "../model/ProjectAttachments";
 
 const addAttachmentSection = async (req: Request, res: Response) => {
@@ -45,11 +45,12 @@ const addAttachmentSection = async (req: Request, res: Response) => {
       });
     });
 };
-const getData = async (req: Request, res: Response) => {
+const getData = async (req: Request, res: Response, next: NextFunction) => {
   const { projId, images, pdf, edit } = req.body;
   await ProjectAttachments.findOne({ projectId: projId })
     .exec()
     .then(async (proj) => {
+      console.log("projectID and proj: ", projId, '\n', proj)
       if (proj) {
         if (edit && edit.length) {
           if (edit === "add") {
@@ -73,6 +74,8 @@ const getData = async (req: Request, res: Response) => {
         return res.status(200).json({
           proj,
         });
+      }else{
+        next();
       }
     })
     .catch((error) => {

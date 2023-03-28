@@ -16,7 +16,7 @@ const Pagination: FC<Props> = ({
 }: Props) => {
     const [view] = useState<number>(3);
     const pageNumbers: number[] = [];
-
+    
     for (let i = 1; i <= Math.ceil(totalProjects / projectsPerPage); i++) {
         pageNumbers.push(i);
     }

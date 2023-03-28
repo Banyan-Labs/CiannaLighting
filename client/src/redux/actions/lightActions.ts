@@ -61,7 +61,8 @@ export const setSpecFile =
             } else {
                 dispatch(setAttachments([]));
                 const answer = await response('/get-attachments');
-                if (answer) {
+                console.log("resp in get attach: ",answer.status)
+                if (answer.status === 200) {
                     dispatch(setAttachments(answer.data.proj.pdf));
                 } else {
                     dispatch(setAttachments([]));

@@ -8,6 +8,7 @@ import {
     getAllProjects,
     getUserProjects,
     setTheYourProjects,
+    setRoomIdToDefault,
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
@@ -135,6 +136,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     useEffect(() => {
         dispatch(getAllStatus());
         dispatch(getAllRegions());
+        dispatch(setRoomIdToDefault());
     }, []);
 
     const date = new Date(Date.parse(details?.createdAt)).toDateString();

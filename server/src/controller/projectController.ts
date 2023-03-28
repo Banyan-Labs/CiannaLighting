@@ -91,11 +91,13 @@ const createProject = async (req: Request, res: Response) => {
         if (project) {
           project.rfp = String(rfp._id);
           if (_id && copy === "project") {
+            let i = 0;
             if (project) {
-              for (let i = 0; i < rooms.length; i++) {
+              while( i < rooms.length) {
                 await Room.findOne({ _id: rooms[i] })
                   .then(async (foundRoom) => {
                     await runRoom(foundRoom, project._id, clientId, copy);
+                    i++
                   })
                   .catch((error) => {
                     res.status(500).json({
@@ -103,11 +105,13 @@ const createProject = async (req: Request, res: Response) => {
                     });
                   });
               }
+            if(i === rooms.length){
+              return res.status(201).json({
+                project,
+                message: `copy of project ${_id}`,
+              });
             }
-            return res.status(201).json({
-              project,
-              message: `copy of project ${_id}`,
-            });
+            }
           } else {
             return res.status(201).json({
               project,
@@ -231,7 +235,7 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string, clientId: string, copy:string) => {
+const runRoom = async (room: any, newProjectId: string, clientId: string, copy:string):Promise<void> => {
   const { name, description, lights } = room;
   /**
    * Need to include lideSelectionService in here and update the information
@@ -241,7 +245,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy:s
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: copy === 'room' ? `Copy of ${name}` : name,
+    name: name,
     clientId: clientId,
     projectId: newProjectId,
     description: description,
@@ -267,20 +271,20 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy:s
       )}`,
     };
     roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
-    roomAndProject.save();
+    await roomAndProject.save();
   }
 
   await newRoom.save().then(async (room) => {
     if (room) {
       for (let i = 0; i < lights.length; i++) {
+        console.log("lights and index", lights, i, lights[i] )
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, room.projectId, clientId, copy);
+        await runLights(light, room._id, room.projectId, clientId, copy);
         });
       }
+      return room
     }
   });
-
-  return roomAndProject;
 };
 
 const runLights = async (
@@ -306,7 +310,7 @@ const runLights = async (
     crystalType: light.crystalType,
     crystalPinType: light.crystalPinType,
     crystalPinColor: light.crystalPinColor,
-    roomName: "Copy of " + light.roomName,
+    roomName: light.roomName,
     roomId: newRoomId,
     projectId: newProjectId,
     clientId: clientId,
@@ -324,8 +328,7 @@ const runLights = async (
   const lightAndRoom = await Room.findOne({ _id: newRoomId });
 
   if (lightAndRoom) {
-    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
-
+    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];    
     return await lightAndRoom
       .save()
       .then(async (room) => {
@@ -392,6 +395,7 @@ const runLights = async (
             subTableRow: [],
           });
           if (propID) {
+            console.log("propID or updating current proposal row?: ", propID)
             let runCheck = [];
             let rowFinishes: any = propID.finishes;
             const sameRoom = propID.rooms
@@ -450,6 +454,7 @@ const runLights = async (
               .exec()
               .then(async (rfp) => {
                 if (rfp) {
+                  console.log("RFP in Update rfp: ", rfp)
                   await proposal.save();
                   const newRow = [String(proposal._id), ...rfp.tableRow];
                   rfp.tableRow = newRow;

@@ -9,6 +9,7 @@ import {
     setFilterProjNone,
     createProjectAction,
     getUserProjects,
+    setDefaults
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -68,6 +69,7 @@ const AllProjects: FC<Props> = ({
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
+        dispatch(setDefaults());
     }, []);
     const inactiveModalTrigger = (): void => {
         setInactiveClearModal(true);
@@ -252,6 +254,8 @@ const AllProjects: FC<Props> = ({
                     throw new Error(error.message);
                 }
             }
+        }else{
+            throw new Error("Error in copying project route.")
         }
     };
 
@@ -432,14 +436,14 @@ const AllProjects: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length - 1
-                                            : archivedProjects.length - 1
+                                            ? activeProjects.length 
+                                            : archivedProjects.length 
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage - 1 && (
+                                {currentPage !== lastPage && (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);

@@ -6,6 +6,7 @@ import {
     setFilterProjNone,
     getUserProjects,
     createProjectAction,
+    setDefaults,
 } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
@@ -136,6 +137,7 @@ const AllProjectView: FC<Props> = ({
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
+        dispatch(setDefaults());
     }, []);
 
     const onMouseOver = (index: number | null) => {
@@ -541,8 +543,8 @@ const AllProjectView: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length - 1
-                                            : archivedProjects.length - 1
+                                            ? activeProjects.length 
+                                            : archivedProjects.length 
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}

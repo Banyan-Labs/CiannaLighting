@@ -73,11 +73,11 @@ function LightOptionsForm({
                         setSpecFile(
                             {
                                 projId: projectId,
-                                pdf: catalogLight.specs,
+                                pdf: lightSpecs,
                                 images: [
                                     {
                                         lightId: lightID,
-                                        attachments: catalogLight.specs,
+                                        attachments: lightSpecs,
                                     },
                                 ],
                                 edit: 'add',

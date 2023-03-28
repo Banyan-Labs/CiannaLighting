@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getProject } from '../../redux/actions/projectActions';
+import { getProject, setDefaults } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
@@ -47,6 +47,13 @@ const Projects: FC = () => {
     useEffect(() => {
         fetchData();
     }, [projectId]);
+    useEffect(()=>{
+        if(yourProjects === false){
+            dispatch(setDefaults());
+        }else{
+            null
+        }
+    }, [yourProjects])
 
     return (
         <>
