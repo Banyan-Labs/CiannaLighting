@@ -254,6 +254,8 @@ const AllProjects: FC<Props> = ({
                     throw new Error(error.message);
                 }
             }
+        }else{
+            throw new Error("Error in copying project route.")
         }
     };
 
