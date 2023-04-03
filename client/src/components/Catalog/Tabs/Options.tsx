@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import uuid from 'react-uuid';
 import '../style/catalog.scss';
 interface catalogPros {
     catalogItem: any;
@@ -12,8 +13,8 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
             {ItemValues?.map((item: any, index: number) => {
                 if (index > 22 && index < 29)
                     return (
-                        <div className="d-flex col-6 flex-column align-items-center">
-                            <h4 className="col-6 m-0 p-0" key={index}>
+                        <div className="d-flex col-6 flex-column align-items-center" key={uuid()}>
+                            <h4 className="col-6 m-0 p-0" key={uuid()}>
                                 {item[0]
                                     .split(/(?=[A-Z])/)
                                     .join(' ')
@@ -24,8 +25,8 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                                 {item[1]
                                     .join('')
                                     .split(',')
-                                    .map((val: any, index: number) => (
-                                        <li className="" key={index}>
+                                    .map((val: any) => (
+                                        <li className="" key={uuid()}>
                                             {val}
                                         </li>
                                     ))}
@@ -34,8 +35,8 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                     );
                 else if (index >= 29 && index < 36)
                     return (
-                        <div className="d-flex col-6 flex-column align-items-center">
-                            <h4 className="col-6 m-0 p-0" key={index}>
+                        <div className="d-flex col-6 flex-column align-items-center" key={uuid()}>
+                            <h4 className="col-6 m-0 p-0" key={uuid()}>
                                 {item[0]
                                     .split(/(?=[A-Z])/)
                                     .join(' ')
@@ -45,8 +46,8 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                                 {item[1]
                                     .join('')
                                     .split(',')
-                                    .map((val: any, index: number) => (
-                                        <li key={index}>{val}</li>
+                                    .map((val: any) => (
+                                        <li key={uuid()}>{val}</li>
                                     ))}
                             </ul>
                         </div>

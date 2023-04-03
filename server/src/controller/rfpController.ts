@@ -322,8 +322,7 @@ const deleteProp = async (req: Request, res: Response) => {
   const checkAndDelete = await ProposalTableRow.findOneAndDelete({
     lightID: lightID,
   }).then(async (prop) => {
-    if (prop) {
-      console.log("Prop in delete prop",prop)
+    if (prop) {      
       if (prop.sub && prop.sub.length) {
         await ProposalTableRow.findOne({ _id: prop.sub })
           .then(async (outer: any) => {
