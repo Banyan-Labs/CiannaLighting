@@ -7,7 +7,6 @@ import uuid from 'react-uuid';
 
 const Activity: FC = () => {
     const { logs } = useAppSelector(({ auth: user }) => user);
-    // const logsDisplay = logs.length > 9 ? logs.slice(0, 7) : logs;
     const dispatch = useAppDispatch();
     const deleteLog = async (_id: string) => {
         await dispatch(deleteTheLog(_id));
@@ -43,7 +42,6 @@ const Activity: FC = () => {
                             const time = new Date(
                                 Date.parse(RDate)
                             ).toLocaleTimeString();
-
                             return (
                                 <tr
                                     key={uuid()}
