@@ -268,6 +268,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                   if (images.length) {
                     const paramsSplit = parameters[keyName].split(",");
                     light.images = [...images, ...paramsSplit].filter((x) => x);
+                  }else if(images.length && parameters[keyName].length == 0){
+                    light.images = images;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
@@ -279,6 +281,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                   if (pdf.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
                     light.pdf = [...pdf, ...paramsSplit];
+                  }else if(pdf.length && parameters[keyName].length == 0){
+                    light.pdf = pdf;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
@@ -290,6 +294,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                   if (drawingFiles.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
                     light.drawingFiles = [...drawingFiles, ...paramsSplit];
+                  } else if(drawingFiles.length && parameters[keyName].length == 0){
+                    light.drawingFiles = drawingFiles;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
@@ -301,6 +307,9 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                   if (specs.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
                     light.specs = [...specs, ...paramsSplit];
+                  }else if(specs.length && parameters[keyName].length == 0){
+                    console.log("HIT!")
+                    light.specs = specs;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")

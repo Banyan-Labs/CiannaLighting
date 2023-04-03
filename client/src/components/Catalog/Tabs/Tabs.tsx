@@ -60,15 +60,15 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">Drawing Files:</h4>
                             {Item?.drawingFiles.map(
-                                (ef: string, index = ef.indexOf(ef)) => {
-                                    const fileName =  ef.match(/(?:\d{9,}-)(\w+)/g);
+                                (ef: string, index = ef.indexOf(ef)) => {                                    
+                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0].split('-')[1] : '' }
+                                            {fileName ? fileName[0] : '' }
                                         </a>
                                     );
                                 }
@@ -78,15 +78,15 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">PDF:</h4>
                             {Item?.pdf.map(
-                                (ef: string, index = ef.indexOf(ef)) => {
-                                    const fileName =  ef.match(/(?:\d{9,}-)(\w+)/g);
+                                (ef: string, index = ef.indexOf(ef)) => {                                    
+                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0].split('-')[1] : '' }
+                                            {fileName ? fileName[0]: '' }
                                         </a>
                                     );
                                 }

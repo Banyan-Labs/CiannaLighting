@@ -12,7 +12,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
             {ItemValues?.map((item: any, index: number) => {
                 if (index > 22 && index < 29)
                     return (
-                        <div className="d-flex col-6 flex-column align-items-center">
+                        <div className="d-flex col-6 flex-column align-items-center" key={index}>
                             <h4 className="col-6 m-0 p-0" key={index}>
                                 {item[0]
                                     .split(/(?=[A-Z])/)
@@ -34,7 +34,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                     );
                 else if (index >= 29 && index < 36)
                     return (
-                        <div className="d-flex col-6 flex-column align-items-center">
+                        <div className="d-flex col-6 flex-column align-items-center" key={index}>
                             <h4 className="col-6 m-0 p-0" key={index}>
                                 {item[0]
                                     .split(/(?=[A-Z])/)
