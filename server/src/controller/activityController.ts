@@ -69,7 +69,13 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
       (activityLog) => activityLog
     );
     if (!log || log.ipAddress !== ipAddress) {
-      const newLog = new Activity({ name, userId, ipAddress, role });
+      const newLog = new Activity({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        userId,
+        ipAddress,
+        role,
+      });
       await newLog.save();
       return res.status(201).json({ log: newLog });
     } else {
