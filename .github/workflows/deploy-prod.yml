@@ -11,7 +11,7 @@ env:
 permissions:
   contents: read
   id-token: write
-  
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -37,12 +37,12 @@ jobs:
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.SSH_GH_KEY }}
           PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-      - name: Update codebase - Production environment 
+      - name: Update codebase - Production environment
         run: ssh ec2 '
           cd ~/CiannaLighting &&
           git checkout main &&
           sudo git pull &&
-          npm run install-modules &&
+          sudo npm run install-modules &&
           cd client && npm run build &&
           cd ../server && npm run build
           '
