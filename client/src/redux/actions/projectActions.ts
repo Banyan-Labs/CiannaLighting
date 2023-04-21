@@ -13,6 +13,7 @@ import {
     setUserProjects,
     setYourProjects,
     setFilteredProjNone,
+    setPersonalizedDefaults,
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -20,7 +21,7 @@ import { axiosPrivate } from '../../api/axios';
 export const createProjectAction =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/create-project', {
                 ...payload.project,
@@ -86,6 +87,8 @@ export const createProjectAction =
                         dispatch(setProposals(proposalSet.data.proposal));
                     } /* TAKE THIS OUT FIRE ANOTHER THING TO GET THE PROPOSAL TO FIRE IN REDUX! */
                 }
+            } else {
+                null;
             }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
@@ -108,7 +111,7 @@ export const createRoomAction =
 export const setTheRoom =
     (roomId: string) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axiosPriv = await axiosPrivate();
+        const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-room', {
                 _id: roomId,
@@ -119,6 +122,15 @@ export const setTheRoom =
             dispatch(setProjectError(error.message));
         }
     };
+export const setRoomIdToDefault =
+    ()=>
+    async (dispatch: Dispatch): Promise<void> =>{
+        try{
+            dispatch(setRoomId(''))
+        }catch(error: any){
+            throw new Error('Error setting roomID to default.')
+        }
+    }
 
 export const getAllProjectRoomsAction =
     (projectId: string) =>
@@ -152,13 +164,13 @@ export const getUserProjects =
 export const setTheYourProjects =
     (payload: boolean) =>
     async (dispatch: Dispatch): Promise<void> => {
-        await dispatch(setYourProjects(payload));
+        dispatch(setYourProjects(payload));
     };
 
 export const getProject =
     (payload: any) =>
     async (dispatch: Dispatch): Promise<void> => {
-        const axioscall = await axiosPrivate();
+        const axioscall = axiosPrivate();
         try {
             const project = await axioscall.post('/find-project', payload);
             if (project) {
@@ -169,6 +181,21 @@ export const getProject =
                 });
                 if (proposalSet) {
                     dispatch(setProposals(proposalSet.data.proposal));
+                    if (
+                        payload.projectName != payload.name ||
+                        payload.region != payload.projectRegion
+                    ) {
+                        const exchangeLoad = {
+                            type: 'project',
+                            name: payload.projectName,
+                            newName: payload.name,
+                            projectId: payload._id,
+                            region: payload.region,
+                            projectRegion: payload.projectRegion,
+                        };
+                        await axioscall.post('/name-exchange', exchangeLoad);
+                    }
+
                     const getRfp = await axioscall.post('/get-rfps', {
                         projectId: project.data.project._id,
                     });
@@ -188,7 +215,9 @@ export const getAllProjects =
         const axioscall = axiosPrivate();
         try {
             const projects = await axioscall.post('/get-projects');
-            dispatch(setAllProjects(projects.data));
+            if (projects) {
+                dispatch(setAllProjects(projects.data));
+            }
         } catch (error: any) {
             throw new Error(error.message);
         }
@@ -266,6 +295,7 @@ export const deleteThisProject = (payload: any) => async () => {
 
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
+    console.log('IN DELETE ROOM!');
     try {
         const room = await axiosPriv.post('/delete-room', payload);
         return room.data;
@@ -280,10 +310,28 @@ export const editThisRoom =
         const axiosPriv = axiosPrivate();
         try {
             const response = await axiosPriv.post('/find-room', payload);
+            if (payload.roomName != payload.name) {
+                const exchangeLoad = {
+                    type: 'room',
+                    name: payload.roomName,
+                    newName: payload.name,
+                    projectId: payload.projectId,
+                };
+                await axiosPriv.post('/name-exchange', exchangeLoad);
+            }
             dispatch(setRoomId(response.data.room._id));
             dispatch(setRoom(response.data.room));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
             throw new Error(error.message);
+        }
+    };
+export const setDefaults =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setPersonalizedDefaults());
+        } catch (error: any) {
+            throw new Error('error setting defaults!');
         }
     };

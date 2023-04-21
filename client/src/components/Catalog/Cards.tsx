@@ -4,7 +4,7 @@ import './style/catalog.scss';
 
 import '../Dashboard/DashboardPageLower/style/dashboardNav.scss';
 
-interface catalogPros {
+interface catalogProps {
     catalogItem: any;
     setCatalogItem: any;
     catalogType: any;
@@ -14,7 +14,7 @@ interface catalogPros {
     renderPage: any;
 }
 
-const Cards: FC<catalogPros> = ({
+const Cards: FC<catalogProps> = ({
     setCatalogItem,
     catalogType,
     setRenderPage,
@@ -57,7 +57,12 @@ const Cards: FC<catalogPros> = ({
                     <div className="item-bottom-sections">
                         <h4 className="">
                             {design.itemName}
-                            <br /> <span>{design.item_ID}</span>
+                            <br /> 
+                            <span>{design.item_ID}</span>
+                            <br/>
+                            {!design.isActive && (
+                                <span>inactive</span>
+                            )}
                         </h4>
                     </div>
                 </div>

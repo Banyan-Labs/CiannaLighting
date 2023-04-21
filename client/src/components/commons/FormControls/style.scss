@@ -1,0 +1,19 @@
+.select-dropdown {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__label {
+        font-size: 0.8rem;
+    }
+    &__wrapper {
+        width: 100px;
+        border-radius: 4px;
+        padding: 2px 0;
+    }
+    &__option {
+        border-radius: 4px;
+        padding: 12px 0;
+    }
+}

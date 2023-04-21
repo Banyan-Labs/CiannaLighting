@@ -5,6 +5,7 @@ export type UserType = {
     role: string;
     token: string;
     isActive?: boolean;
+    resetPasswordRequest?: boolean;
 };
 
 export type CreateUserType = {

@@ -1,18 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
-import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
-import ProjectMiniModal from './ProjectMiniModal';
+import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import {
     getAllProjects,
     setFilterProjNone,
+    getUserProjects,
+    createProjectAction,
+    setDefaults,
 } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
+import { LightREF } from '../../redux/reducers/projectSlice';
+import { axiosPrivate } from '../../api/axios';
+import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
+import ProjectMiniModal from './ProjectMiniModal';
+import InactiveNotification from '../InactiveNotification/InactiveNotification';
+import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
 type Props = {
     renderedPage: string;
@@ -59,6 +65,11 @@ const AllProjectView: FC<Props> = ({
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [processing, setProcessing] = useState(false);
+    const { user } = useAppSelector(({ auth: user }) => user);
+    const [inactiveClearModal, setInactiveClearModal] =
+        useState<boolean>(false);
+    const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
+    const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
 
     // Input Field handler
     const handleUserInput = (e: any) => {
@@ -76,10 +87,57 @@ const AllProjectView: FC<Props> = ({
         setSortDirection(0);
         setCurrentSort('');
     };
+    const inactiveModalTrigger = (): void => {
+        setInactiveClearModal(true);
+        onMouseOut();
+    };
+    const clearInactiveModal = () => {
+        setInactiveList([]);
+        setProjectHold(null);
+        setInactiveClearModal(false);
+    };
+    const copyOfProject = async (e: SyntheticEvent, proj: ProjectType) => {
+        e.preventDefault();
+        // FIND PROJECT WITH AXIOS
+        setProcessing(true);
+        const axiosPriv = axiosPrivate();
+
+        const attach = await axiosPriv.post('/get-attachments', {
+            projId: proj._id,
+        });
+        let attachments = [];
+        if (attach) {
+            attachments = attach.data.proj.pdf;
+            if (attachments.length) {
+                const payload = {
+                    project: {
+                        ...proj,
+                        clientId: user._id,
+                        clientName: user.name,
+                    },
+                    copy: 'project',
+                    attachments: attachments,
+                };
+                try {
+                    const response = await dispatch(
+                        createProjectAction(payload)
+                    );
+                    dispatch(getUserProjects(user._id));
+                    dispatch(getAllProjects());
+                    setProcessing(false);
+                    alert(`Copy of ${proj.name} created in your dashboard.`);
+                    return response;
+                } catch (error: any) {
+                    throw new Error(error.message);
+                }
+            }
+        }
+    };
 
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
+        dispatch(setDefaults());
     }, []);
 
     const onMouseOver = (index: number | null) => {
@@ -260,7 +318,10 @@ const AllProjectView: FC<Props> = ({
                                 typeOfProject={typeOfProject}
                                 setTypeOfProject={setTypeOfProject}
                                 yourProject={yourProject}
-                                setProcessing={setProcessing}
+                                copyOfProject={copyOfProject}
+                                setInactiveList={setInactiveList}
+                                setProjectHold={setProjectHold}
+                                inactiveModalTrigger={inactiveModalTrigger}
                             />
                         )}
                     </td>
@@ -482,8 +543,8 @@ const AllProjectView: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length - 1
-                                            : archivedProjects.length - 1
+                                            ? activeProjects.length 
+                                            : archivedProjects.length 
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
@@ -522,6 +583,14 @@ const AllProjectView: FC<Props> = ({
                     openModal={openModal}
                     closeModal={setOpenModal}
                     typeOfProject={typeOfProject}
+                />
+            )}
+            {inactiveClearModal && (
+                <InactiveNotification
+                    inactiveList={inactiveList}
+                    projectHold={projectHold}
+                    clearInactiveModal={clearInactiveModal}
+                    copyOfProject={copyOfProject}
                 />
             )}
         </div>

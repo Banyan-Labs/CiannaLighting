@@ -1,0 +1,53 @@
+@import '../../../variables/variables.scss';
+
+.light-options-form {
+    padding: 0 60px;
+    max-width: 300px;
+
+    .select-dropdown {
+        margin-bottom: 10px;
+    }
+
+    .quantity-input {
+        margin: 24px auto;
+        text-align: center;
+
+        &__value-button {
+            padding: 10px;
+            border: none;
+            background-color: #e7e5e5ab;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        &__value {
+            padding: 10px;
+            font-size: 1.1rem;
+            background-color: #e7e5e5ab;
+        }
+        &__submit-value {
+            padding: 10px;
+            font-size: 1.1rem;
+            color: white;
+            background-color: $accent-gold;
+            border-radius: 0.2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+                transition: all 0.2s ease-in-out;
+                opacity: 0.8;
+            }
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        display: flex;
+        max-width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        .select-dropdown {
+            width: 48% !important;
+        }
+    }
+}

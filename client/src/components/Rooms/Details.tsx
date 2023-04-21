@@ -36,7 +36,7 @@ const Details: FC = () => {
     }, []);
 
     return (
-        <>
+        <div className="room-details-page__page-container">
             {filterBar && (
                 <div
                     className="filter-bar-background"
@@ -45,10 +45,17 @@ const Details: FC = () => {
                     }
                 ></div>
             )}
-            <div className="container-fluid details-container m-0 p-0 col-lg-12 d-flex row">
+            <div className="room-details-page__panel-wrapper left">
                 <RoomDetails
                     setEditLight={setEditLight}
                     setCatalogItem={setCatalogItem}
+                />
+            </div>
+            <div className="room-details-page__panel-wrapper right">
+                <Filter
+                    catalogItem={catalogItem}
+                    filterBar={filterBar}
+                    setFilterBar={setFilterBar}
                 />
                 <LightDetails
                     catalogItem={catalogItem}
@@ -59,12 +66,7 @@ const Details: FC = () => {
                     setFilterBar={setFilterBar}
                 />
             </div>
-            <Filter
-                catalogItem={catalogItem}
-                filterBar={filterBar}
-                setFilterBar={setFilterBar}
-            />
-        </>
+        </div>
     );
 };
 

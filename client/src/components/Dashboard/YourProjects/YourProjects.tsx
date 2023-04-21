@@ -58,6 +58,7 @@ const YourProjects: FC = () => {
     };
 
     useEffect(() => {
+        console.log(user)
         dispatch(getUserProjects(user._id));
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
@@ -81,7 +82,6 @@ const YourProjects: FC = () => {
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id, userProjects.length]);
-
     const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
     const singleProject = userProjects
         .map((project: any, index: any) => {
@@ -104,8 +104,9 @@ const YourProjects: FC = () => {
                     }}
                     onClick={async () => {
                         await dispatch(setTheYourProjects(true));
-                        projectRoute(project._id);
                         changeProject(project._id);
+                        projectRoute(project._id);
+                        
                     }}
                     key={index}
                 >

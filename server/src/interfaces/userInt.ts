@@ -7,4 +7,5 @@ export default interface Iuser extends Document {
   role: string;
   isActive: boolean;
   refreshToken: string | null;
+  resetPasswordRequest?: boolean;
 }

@@ -6,6 +6,7 @@ import {
     setCatalogConnect,
     setAttachments,
     setProposals,
+    setInactiveLights,
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
@@ -31,6 +32,15 @@ export const getCatalogItems =
         try {
             const response = await axiosPriv.post('/public/get-catalog');
             dispatch(setCatalogLights(response.data.items));
+            if (response) {
+                const inactiveFilter = response.data.items.filter(
+                    (item: any) => !item.isActive
+                );
+                const inactiveList = inactiveFilter.map(
+                    (item: any) => item.item_ID
+                );
+                dispatch(setInactiveLights(inactiveList));
+            }
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
         }
@@ -51,7 +61,8 @@ export const setSpecFile =
             } else {
                 dispatch(setAttachments([]));
                 const answer = await response('/get-attachments');
-                if (answer) {
+                console.log("resp in get attach: ",answer.status)
+                if (answer.status === 200) {
                     dispatch(setAttachments(answer.data.proj.pdf));
                 } else {
                     dispatch(setAttachments([]));

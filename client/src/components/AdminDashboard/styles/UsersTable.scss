@@ -136,7 +136,9 @@
         opacity: 0.8;
     }
 }
-
+.active-user{
+    color: $accent-gold;
+}
 #toast {
     position: absolute;
     display: none;
@@ -144,6 +146,7 @@
     background-color: #333;
     top: 10px;
     height: 80px;
+    z-index: 101;
     .message-wrapper {
         display: flex;
         height: 100%;

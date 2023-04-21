@@ -1,0 +1,84 @@
+@import '../../../variables/variables.scss';
+
+.modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-wrapper {
+    background: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    position: relative;
+    animation: zoomIn 0.2s ease-in-out none 1;
+    max-width: 100vw;
+}
+
+.modal-card-head {
+    text-align: center;
+
+    .modal-card-title {
+        margin-top: 10px;
+    }
+
+    .delete {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+}
+
+.modal-card-body {
+    padding: 24px 60px;
+
+    input {
+        @include input-field;
+    }
+
+    .modal-submit-button {
+        @include button($accent-gold, $primary-bg-dark-title);
+    }
+
+    .modal-cancel-button {
+        @include button($primary-bg-dark-link, $primary-bg-dark-title);
+    }
+
+    .modal-submit-button,
+    .modal-cancel-button {
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+.modal-card-foot {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}

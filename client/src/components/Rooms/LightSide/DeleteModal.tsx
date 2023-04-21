@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState, FormEvent } from 'react';
-import useParams from '../../../app/utils';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -15,6 +14,7 @@ import {
     deleteThisRoom,
     editThisRoom,
 } from '../../../redux/actions/projectActions';
+import useParams from '../../../app/utils';
 import '../../NewRoomModal/style/newRoomModal.css';
 
 type Props = {
@@ -53,6 +53,7 @@ export const DeleteModal: FC<Props> = ({
             await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
+                    item_ID: light.item_ID,
                     roomId: String(storedRoomId),
                     _id: String(light._id),
                     projectId: projectId,
@@ -60,19 +61,26 @@ export const DeleteModal: FC<Props> = ({
             );
         };
         const nonLight = async () => {
-            await deleteAttachments(roomLights);
+            const itemIDS = roomLights
+                ? roomLights.map((room: any) => room.item_ID)
+                : [];
+            if (roomLights && roomLights.length) {
+                await deleteAttachments(roomLights);
+            }
             await dispatch(
                 deleteThisRoom({
                     _id: String(storedRoomId),
                     projectId: String(storedProjId),
+                    itemIDS: itemIDS,
                 })
             );
+            await dispatch(getProject(String(storedProjId)));
         };
         try {
             !deleteRoom ? await nonRoom(light) : await nonLight();
             navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
-        } catch (err: any) {            
-            throw new Error(err.message)
+        } catch (err: any) {
+            throw new Error(err.message);
         }
 
         await dispatch(getProject({ _id: String(storedProjId) }));
@@ -99,13 +107,20 @@ export const DeleteModal: FC<Props> = ({
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await dispatch(editThisRoom({ _id: room?._id, ...roomDetails }));
+            await dispatch(
+                editThisRoom({
+                    _id: room?._id,
+                    ...roomDetails,
+                    roomName: room?.name,
+                    projectId: projectId,
+                })
+            );
             setRoomDetails({
                 name: room?.name,
                 description: room?.description,
             });
-        } catch (err:any) {
-            throw new Error(err.message)
+        } catch (err: any) {
+            throw new Error(err.message);
         }
         await dispatch(getProject({ _id: String(storedProjId) }));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));

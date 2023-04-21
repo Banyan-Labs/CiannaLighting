@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
+import lightSelectionController, { lightIdService } from "./lightSelectionController";
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -15,6 +16,7 @@ const createProject = async (req: Request, res: Response) => {
     clientName,
     region,
     status,
+    lightIDs,
     rooms,
     copy,
   } = req.body;
@@ -22,13 +24,21 @@ const createProject = async (req: Request, res: Response) => {
   /**
    * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
    */
+  /**
+   *
+   *
+   *  need to include in copying a room instead of just the light
+   *
+   *
+   *
+   */
 
   if (_id && copy === "room") {
     Room.findOne({ _id: rooms[0] })
       .then(async (foundRoom) => {
-        await runRoom(foundRoom, _id, clientId);
+        await runRoom(foundRoom, _id, clientId, copy);
         return res.status(201).json({
-          message: `copy of room ${rooms[0]}`,
+          message: rooms[0],
         });
       })
       .catch((error) => {
@@ -40,7 +50,7 @@ const createProject = async (req: Request, res: Response) => {
   } else {
     const rfp = new RFP({
       _id: new mongoose.Types.ObjectId(),
-      header: name + ", " + region,
+      header: `${copy === "project" ? "Copy of " + name : name}, ${region}`,
       clientId: clientId,
       projectId: "",
       clientName: clientName,
@@ -58,6 +68,7 @@ const createProject = async (req: Request, res: Response) => {
       description: description,
       rfp: String(rfp._id),
       rooms: [],
+      lightIDs: copy === "project" ? lightIDs : [],
       activity: {
         createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
           "/"
@@ -80,11 +91,13 @@ const createProject = async (req: Request, res: Response) => {
         if (project) {
           project.rfp = String(rfp._id);
           if (_id && copy === "project") {
+            let i = 0;
             if (project) {
-              for (let i = 0; i < rooms.length; i++) {
+              while( i < rooms.length) {
                 await Room.findOne({ _id: rooms[i] })
                   .then(async (foundRoom) => {
-                    await runRoom(foundRoom, project._id, clientId);
+                    await runRoom(foundRoom, project._id, clientId, copy);
+                    i++
                   })
                   .catch((error) => {
                     res.status(500).json({
@@ -92,11 +105,13 @@ const createProject = async (req: Request, res: Response) => {
                     });
                   });
               }
+            if(i === rooms.length){
+              return res.status(201).json({
+                project,
+                message: `copy of project ${_id}`,
+              });
             }
-            return res.status(201).json({
-              project,
-              message: `copy of project ${_id}`,
-            });
+            }
           } else {
             return res.status(201).json({
               project,
@@ -220,12 +235,17 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string, clientId: string) => {
+const runRoom = async (room: any, newProjectId: string, clientId: string, copy:string):Promise<void> => {
   const { name, description, lights } = room;
+  /**
+   * Need to include lideSelectionService in here and update the information
+   * from the front end to send the itemIDS from the front end of each light in the room being copied.
+   *
+   */
 
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: `Copy of ${name}`,
+    name: name,
     clientId: clientId,
     projectId: newProjectId,
     description: description,
@@ -251,27 +271,28 @@ const runRoom = async (room: any, newProjectId: string, clientId: string) => {
       )}`,
     };
     roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
-    roomAndProject.save();
+    await roomAndProject.save();
   }
 
   await newRoom.save().then(async (room) => {
     if (room) {
       for (let i = 0; i < lights.length; i++) {
+        console.log("lights and index", lights, i, lights[i] )
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, room.projectId, clientId);
+        await runLights(light, room._id, room.projectId, clientId, copy);
         });
       }
+      return room
     }
   });
-
-  return roomAndProject;
 };
 
 const runLights = async (
   light: any,
   newRoomId: string,
   newProjectId: string,
-  clientId: string
+  clientId: string,
+  copy: string
 ) => {
   const newLight = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
@@ -289,7 +310,7 @@ const runLights = async (
     crystalType: light.crystalType,
     crystalPinType: light.crystalPinType,
     crystalPinColor: light.crystalPinColor,
-    roomName: "Copy of " + light.roomName,
+    roomName: light.roomName,
     roomId: newRoomId,
     projectId: newProjectId,
     clientId: clientId,
@@ -307,8 +328,7 @@ const runLights = async (
   const lightAndRoom = await Room.findOne({ _id: newRoomId });
 
   if (lightAndRoom) {
-    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
-
+    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];    
     return await lightAndRoom
       .save()
       .then(async (room) => {
@@ -338,6 +358,11 @@ const runLights = async (
             numberOfLamps,
             totalLumens,
           } = newlight;
+          if(copy === 'room'){
+            console.log("item id in roomCopyIDservice: ", item_ID, roomName)
+            await lightIdService(projectId, 'add', item_ID, roomName);
+          }
+
           const finishes: any = {
             exteriorFinish: exteriorFinish,
             interiorFinish: interiorFinish,
@@ -370,6 +395,7 @@ const runLights = async (
             subTableRow: [],
           });
           if (propID) {
+            console.log("propID or updating current proposal row?: ", propID)
             let runCheck = [];
             let rowFinishes: any = propID.finishes;
             const sameRoom = propID.rooms
@@ -428,6 +454,7 @@ const runLights = async (
               .exec()
               .then(async (rfp) => {
                 if (rfp) {
+                  console.log("RFP in Update rfp: ", rfp)
                   await proposal.save();
                   const newRow = [String(proposal._id), ...rfp.tableRow];
                   rfp.tableRow = newRow;

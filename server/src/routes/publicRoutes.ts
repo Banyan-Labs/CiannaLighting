@@ -3,13 +3,21 @@ import controller from "../controller/userController";
 import statusController from "../controller/statusAndRegionController";
 import catalogController from "../controller/catalogController";
 import activityController from "../controller/activityController";
+import userController from "../controller/userController";
+
 const router = express.Router();
 
-// Public Routes: no login required
+/**
+ * * Public Routes: no login required
+ * prefix: /api/public
+ */
+
 router.post("/login/user", controller.login);
 router.post("/log_out/user", controller.logOut);
 router.post("/s_r", statusController.getData);
 router.post("/get-catalog", catalogController.getCatalogItems);
 router.post("/find-light", catalogController.getLight);
-router.post("/create-log", activityController.createActivityLog);
+router.post("/create-log", activityController.createLog);
+router.post("/forgot-password", userController.resetPassword);
+
 export default router;

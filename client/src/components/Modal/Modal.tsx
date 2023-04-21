@@ -11,6 +11,7 @@ import {
 } from '../../redux/actions/projectActions';
 import './style/modal.scss';
 
+
 type ProjectType = {
     name: string;
     clientId: string;
@@ -47,7 +48,7 @@ const Modal: FC<Props> = (props) => {
         status: props.editProject ? String(project?.status) : 'New',
         description: props.editProject ? String(project?.description) : '',
     });
-
+ 
     const dispatch = useAppDispatch();
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
@@ -69,16 +70,19 @@ const Modal: FC<Props> = (props) => {
 
         return reFormat;
     };
-
+    console.log("modalOpening",projectDetails)
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        console.log(projectDetails)
         try {
             !props.editProject
-                ? await dispatch(createProjectAction(projectDetails))
+                ?  await dispatch(createProjectAction({project: projectDetails}))
                 : await dispatch(
                       getProject({
                           ...projectDetails,
                           _id: project?._id,
+                          projectName: project?.name,
+                          projectRegion: project?.region
                       })
                   );
             setProjectDetails({

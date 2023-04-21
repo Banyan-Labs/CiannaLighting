@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState, SyntheticEvent } from 'react';
+import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'react';
 import CreateUserModal from './CreateUserModal';
 import { axiosPrivate } from '../../api/axios';
 import { ROLES } from '../../app/constants';
-import { FaPlus, FaChevronUp, FaChevronDown, FaPlay } from 'react-icons/fa';
+import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -12,11 +12,11 @@ import { RiArchiveDrawerFill } from 'react-icons/ri';
 import './styles/UsersTable.scss';
 
 const UsersTable: FC = () => {
-    const { users } = useAppSelector(({ users: users }) => users);
+    const { users, lastStatus } = useAppSelector(({ users }) => users);
     const dispatch = useAppDispatch();
     const [curUser, setCurUser] = useState<string>('');
     const [openModal, setOpenModal] = useState(false);
-    const [sortedData, setSortedData] = useState<any>([]);
+    const [sortedData, setSortedData] = useState<UserType[]>([]);
     const [sortDirection, setSortDirection] = useState(0);
     const [currentSort, setCurrentSort] = useState('');
     const utilizedData = users;
@@ -24,13 +24,16 @@ const UsersTable: FC = () => {
     const [options, setOptions] = useState<boolean>(false);
     const [optionIndex, setOptionIndex] = useState<number>(-1);
     const [apiMessage, setApiMessage] = useState<string>('');
-
     const [userDetails, setUserDetails] = useState<CreateUserType>({
         name: '',
         email: '',
         role: '1212',
         password: '',
     });
+    const [, updateState] = useState<unknown>();
+
+    const forceUpdate = useCallback(() => updateState({}), []);
+
     useEffect(() => {
         // if (!users.length) {
         dispatch(getAllUsers());
@@ -40,12 +43,12 @@ const UsersTable: FC = () => {
     useEffect(() => {
         const toastEle = document.getElementById('toast');
         if (toastEle) {
-            
             if (apiMessage) {
                 toastEle.style.display = 'block';
                 setTimeout(() => {
                     toastEle.style.display = 'none';
                     setApiMessage('');
+                    dispatch(getAllUsers());
                 }, 3000);
             }
         }
@@ -58,6 +61,7 @@ const UsersTable: FC = () => {
     const unsetMini = () => {
         setOptions(false);
         setOptionIndex(-1);
+        
     };
     const activateEdit = (user: any) => {
         setUserDetails({
@@ -73,6 +77,7 @@ const UsersTable: FC = () => {
     const closeAndGet = () => {
         setOpenModal(false);
         dispatch(getAllUsers());
+        setApiMessage(lastStatus)
     };
     const setSortToDefault = () => {
         setSortedData(users);
@@ -146,9 +151,11 @@ const UsersTable: FC = () => {
         } else {
             setApiMessage('Unable to toggle user status');
         }
-        dispatch(getAllUsers());
+        // dispatch(getAllUsers());
         unsetMini();
+        forceUpdate();
     };
+    console.log(sortedData)
 
     return (
         <>
@@ -188,8 +195,24 @@ const UsersTable: FC = () => {
                 <tbody>
                     {(sortedData.length ? sortedData : users).map(
                         (user: UserType, index: number) => (
-                            <tr key={user._id} className="user-table-row">
-                                <th>{user.name}</th>
+                            <tr
+                                key={user._id}
+                                className="user-table-row"
+                                style={
+                                    !user.isActive
+                                        ? { background: '#ccc', opacity: 0.6 }
+                                        : {}
+                                }
+                            >
+                                <th
+                                    style={
+                                        user.resetPasswordRequest
+                                            ? { color: 'red', opacity: 0.5 }
+                                            : {}
+                                    }
+                                >
+                                    {(!user.isActive ? <FaUserAltSlash/> : <FaUserCheck className='active-user'/>)}{'\xa0\xa0\xa0'}{ user.name }
+                                </th>
                                 <td>{user.email}</td>
                                 <td>
                                     {Object.entries(ROLES).map((role) => {

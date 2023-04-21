@@ -1,9 +1,13 @@
 import React, { FC, useState } from 'react';
+import { LightREF, Activity } from '../../../redux/reducers/projectSlice';
 import AllProjects from './DashboardSubComponents/AllProjectsTable';
 import './style/dashboardNav.scss';
 export type ProjectType = {
+    _id?: string;
+    archived?: boolean;
+    lightIDs?: LightREF[];
+    copy?: string;
     name: string;
-    archived: boolean;
     clientId: string;
     clientName: string;
     region: string;
@@ -11,7 +15,8 @@ export type ProjectType = {
     description: string;
     rfp?: string;
     rooms?: string[];
-    
+    attachments?: string[];
+    activity?: Activity;
 };
 const DashboardNav: FC = () => {
     const [renderedPage, setRenderedPage] = useState('All Projects');

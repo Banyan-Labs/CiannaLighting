@@ -46,6 +46,7 @@ const catalogItemScema = new Schema({
   drawingFiles: { type: Array<string>, required: true }, //s3 remember to add the light profile pic to light selection
   costAdmin: { type: Number, required: true },
   partnerCodeAdmin: { type: String, required: true },
+  isActive: { type: Boolean, required: true },
 });
 
 export default mongoose.model<catalogInterface>(

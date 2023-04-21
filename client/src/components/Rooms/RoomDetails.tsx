@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import './style/roomDetails.scss';
+import uuid from 'react-uuid';
 
 interface lightProps {
     setEditLight: any;
@@ -90,13 +91,23 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
             throw new Error(error.message);
         }
     };
-    
-    const singleRoom = newLights?.map((light: any, index: any) => {
-        const image = setAllCatalog ?  setAllCatalog.find((item: any)=> item.item_ID === light.item_ID).images[0] : '';
+
+    const singleRoom = newLights?.map((light: any) => {
+        const item =
+            setAllCatalog && setAllCatalog.length
+                ? setAllCatalog.find(
+                      (item: any) => item.item_ID === light.item_ID
+                  ).images[0]
+                : '';
+        const image = item.images ? item.images[0] : '';
         return (
-            <div className="single-room-container d-flex row" key={index}>
+            <div className="single-room-container d-flex row" key={uuid()}>
                 <div className="first-light-section d-flex mb-2">
-                    <img className="lightImg" src={image ? image : ""} alt={light.name} />
+                    <img
+                        className="lightImg"
+                        src={image ? image : ''}
+                        alt={light.name}
+                    />
                     <div className="d-flex row first-section-name">
                         <div className="">
                             <h3>{light.item_ID}</h3>
@@ -223,7 +234,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     });
 
     return (
-        <div className="roomDetail-container m-0 mr-0 container d-flex row col-12 col-lg-7">
+        <div className="">
             <div className="col-12 d-flex row m-0">
                 <div className="back-to-project col-6">
                     <Link

@@ -50,11 +50,12 @@
     input::placeholder {
         color: $primary-bg-dark-text;
     }
-    a {
+    span {
         @include link-bg-white;
     }
-    a:hover {
+    span:hover {
         opacity: 0.5;
+        cursor: pointer;
     }
     div {
         display: flex;

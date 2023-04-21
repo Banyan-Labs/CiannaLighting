@@ -14,21 +14,27 @@ export interface ProjectStateType {
     roomId: string;
     roomLights: [];
     setAllCatalog: any[];
+    setInactive: string[];
     attachments: any[];
     catalogConnectLight: any[] | null;
     yourProjects: boolean;
 }
 
-type Activity = {
+export type Activity = {
     createUpdate: string;
     rooms: string[];
     archiveRestore: string[];
     status: string[];
 };
+export interface LightREF {
+    item_ID: string;
+    rooms: string[];
+}
 
 export type ProjectType = {
     _id?: string;
     archived?: boolean;
+    lightIDs?: LightREF[];
     copy?: string;
     name: string;
     clientId: string;
@@ -101,23 +107,34 @@ export type RoomType = {
 };
 
 const initialState: ProjectStateType = {
-    proposal: [],
+    roomId: '',
+    projectId: '',
     rfp: null,
+    project: null,
+    room: null,
+    error: null,
+    catalogConnectLight: null,
+    yourProjects: false,
+    proposal: [],
     userProjects: [],
     allProjects: [],
     filterQueryProjects: [],
-    project: null,
     projectRooms: [],
-    room: null,
-    roomId: '',
-    error: null,
-    projectId: '',
     roomLights: [],
     setAllCatalog: [],
+    setInactive: [],
     attachments: [],
-    catalogConnectLight: null,
-    yourProjects: false,
 };
+/**
+ * proposal
+ * rfp
+ * project
+ * projectRooms
+ * room
+ * roomId
+ * projectId
+ * attachments
+ */
 
 export const projectSlice = createSlice({
     name: 'project',
@@ -155,6 +172,10 @@ export const projectSlice = createSlice({
             ...state,
             setAllCatalog: action.payload,
         }),
+        setInactiveLights: (state, action) => ({
+            ...state,
+            setInactive: action.payload,
+        }),
         setYourProjects: (state, action) => ({
             ...state,
             yourProjects: action.payload,
@@ -181,6 +202,17 @@ export const projectSlice = createSlice({
             ...state,
             userProjects: action.payload.projects,
         }),
+        setPersonalizedDefaults: (state) =>({
+            ...state,
+            roomId: '',
+            projectId: '',
+            rfp: null,
+            project: null,
+            room: null,
+            proposal: [],
+            projectRooms: [],
+            attachments: []
+        }),
     },
 });
 
@@ -199,8 +231,10 @@ export const {
     setRoomId,
     setRoomLights,
     setCatalogLights,
+    setInactiveLights,
     setCatalogConnect,
     setYourProjects,
     setFilteredProjNone,
+    setPersonalizedDefaults
 } = projectSlice.actions;
 export default projectSlice.reducer;

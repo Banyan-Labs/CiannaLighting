@@ -2,6 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import Activity from "../model/ActivityLog";
 
+/**
+ *
+ * @deprecated createActivityLog
+ * replaced by
+ * @function createLog
+ * TODO: Remove after version 1.0
+ */
 const createActivityLog = async (
   req: Request,
   res: Response,
@@ -55,12 +62,44 @@ const createActivityLog = async (
     });
 };
 
+const createLog = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { name, userId, ipAddress, role } = req.body;
+    const log = await Activity.findOne({ userId }).then(
+      (activityLog) => activityLog
+    );
+    if (!log || log.ipAddress !== ipAddress) {
+      const newLog = new Activity({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        userId,
+        ipAddress,
+        role,
+      });
+      await newLog.save();
+      return res.status(201).json({ log: newLog });
+    } else {
+      const logUpdate = Activity.findOneAndUpdate(
+        { userId },
+        { ipAddress },
+        { new: true }
+      );
+      return res.status(200).json({ log: logUpdate });
+    }
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+      error,
+    });
+  }
+};
+
 const getAllLogs = (req: Request, res: Response) => {
   Activity.find()
-    .exec()
+    // .exec()
     .then((results) => {
       return res.status(200).json({
-        logs: results.reverse(),
+        logs: results,
         count: results.length,
       });
     });
@@ -92,4 +131,10 @@ const deleteLog = async (req: Request, res: Response) => {
     });
 };
 
-export default { createActivityLog, getAllLogs, deleteLog, getUserLogs };
+export default {
+  createActivityLog,
+  getAllLogs,
+  deleteLog,
+  getUserLogs,
+  createLog,
+};

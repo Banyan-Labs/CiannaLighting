@@ -1,4 +1,5 @@
-import axios from '../../api/axios';
+import axiosSrc, { AxiosError } from 'axios';
+import axios, { axiosPrivate } from '../../api/axios';
 import { Dispatch } from 'redux';
 import { getAllProjects } from './projectActions';
 import {
@@ -6,8 +7,8 @@ import {
     logout,
     setAccessToken,
     setLogs,
+    setError,
 } from '../reducers/authSlice';
-import { axiosPrivate } from '../../api/axios';
 
 type SignInType = {
     email: string;
@@ -40,8 +41,18 @@ export const signInAction =
                 withCredentials: true,
             });
             dispatch(setUser(response.data));
-        } catch (error: any) {
-            throw new Error(error.message);
+        } catch (error: any | AxiosError) {
+            if (axiosSrc.isAxiosError(error)) {
+                const axiosErr: AxiosError = error;
+                const errorMessage =
+                    axiosErr.response?.data === undefined
+                        ? {
+                              message:
+                                  'Unable to fetch Geolocation. Please disable ad blocking for this site to continue.',
+                          }
+                        : axiosErr.response.data;
+                dispatch(setError(errorMessage));
+            } else throw new Error(error.message);
         }
     };
 
@@ -49,7 +60,7 @@ export const getAllLogs =
     () =>
     async (dispatch: Dispatch): Promise<void> => {
         try {
-            const axiosPriv = await axiosPrivate();
+            const axiosPriv = axiosPrivate();
             const response = await axiosPriv.post('cmd/getAllLogs', {
                 withCredentials: true,
             });
@@ -103,4 +114,9 @@ export const logoutAction =
         } catch (error: any) {
             throw new Error(error.message);
         }
+    };
+export const dismissErrorAction =
+    () =>
+    async (dispatch: Dispatch): Promise<void> => {
+        dispatch(setError(null));
     };

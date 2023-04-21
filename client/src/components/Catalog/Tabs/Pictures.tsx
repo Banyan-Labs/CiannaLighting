@@ -48,22 +48,6 @@ const Pictures: FC<catalogPros> = ({ catalogItem }) => {
                           );
                       })
                     : ''}
-                {/* {Data
-                    ? Data?.map((p: any, i: any) => {
-                          return (
-                              <SwiperSlide
-                                  className="pictures-slide-catalog"
-                                  key={i}
-                              >
-                                  <img
-                                      className="img-item-details"
-                                      src={p.image}
-                                      alt={p.name}
-                                  />
-                              </SwiperSlide>
-                          );
-                      })
-                    : ''} */}
             </Swiper>
         </>
     );
