@@ -1,6 +1,7 @@
 name: CD pipeline staging
 
 on:
+  workflow_dispatch:
   push:
     branches: ["stage"]
 env:
