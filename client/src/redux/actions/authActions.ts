@@ -15,12 +15,12 @@ type SignInType = {
     password: string;
 };
 
-type userLogType = {
-    name: string;
-    userId: string;
-    ipAddress: string;
-    role: string;
-};
+// type userLogType = {
+//     name: string;
+//     userId: string;
+//     ipAddress: string;
+//     role: string;
+// };
 
 export const signInAction =
     (payload: SignInType) =>
