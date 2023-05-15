@@ -18,7 +18,7 @@ type SignInType = {
 type userLogType = {
     name: string;
     userId: string;
-    ipAddress: string;
+    // ipAddress: string;
     role: string;
 };
 
@@ -30,18 +30,18 @@ export const signInAction =
             const response = await axios.post('public/login/user', payload, {
                 withCredentials: true,
             });
-            const res = await axios.get('https://geolocation-db.com/json/');
+
             const log: userLogType = {
                 userId: response.data.user._id,
                 name: response.data.user.name,
                 role: response.data.user.role,
-                ipAddress: res.data.IPv4,
             };
             await axios.post('public/create-log', log, {
-                withCredentials: true,
+                // withCredentials: true,
             });
             dispatch(setUser(response.data));
         } catch (error: any | AxiosError) {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>', error);
             if (axiosSrc.isAxiosError(error)) {
                 const axiosErr: AxiosError = error;
                 const errorMessage =
