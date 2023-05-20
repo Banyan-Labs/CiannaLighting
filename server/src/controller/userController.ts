@@ -2,27 +2,26 @@ import { NextFunction, Request, Response } from "express";
 import User from "../model/User";
 import bcrypt from "bcrypt";
 import { signJwt } from "../utils/signJwt";
-import mongoose from "mongoose";
-
+import { createLogAtSignIn } from "./activityController";
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password)
     res.status(400).json({ message: "Username and password are required" });
   try {
     const thisUser = await User.findOne({ email }).select("+password");
-    if (!thisUser) res.status(404).json({ message: "User not found" });
+    if (!thisUser) return res.status(404).json({ message: "User not found" });
     else if (thisUser && !thisUser?.isActive)
-      res.status(401).json({ message: "User is not active" });
+      return res.status(401).json({ message: "User is not active" });
     else if (thisUser && thisUser.isActive) {
       if (!bcrypt.compareSync(password, thisUser.password))
-        res.status(401).json({ message: "Invalid password" });
+        return res.status(401).json({ message: "Invalid password" });
       else {
         const JWT = signJwt({ email: thisUser.email, role: thisUser.role });
         thisUser.refreshToken = JWT.refreshToken;
         const authUser = await thisUser.save();
         if (authUser) {
           const { _id, name, email, role } = authUser;
-
+          await createLogAtSignIn(req.ip, _id, role, name);
           res.cookie("jwt", JWT.refreshToken, {
             httpOnly: true,
             sameSite: "none",
