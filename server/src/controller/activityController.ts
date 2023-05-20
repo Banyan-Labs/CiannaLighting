@@ -35,6 +35,40 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+export const createLogAtSignIn = async (
+  ipAddress: string,
+  userId: string,
+  role: string,
+  name: string
+) => {
+  try {
+    const log = await Activity.findOne({ userId }).then(
+      (activityLog) => activityLog
+    );
+    if (!log || log.ipAddress !== ipAddress) {
+      const newLog = new Activity({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        userId,
+        ipAddress,
+        role,
+      });
+      await newLog.save();
+      return Promise.resolve(newLog);
+    } else {
+      const logUpdate = Activity.findOneAndUpdate(
+        { userId },
+        { ipAddress },
+        { new: true }
+      );
+      return Promise.resolve(logUpdate);
+    }
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
 const getAllLogs = (req: Request, res: Response) => {
   Activity.find()
     // .exec()
