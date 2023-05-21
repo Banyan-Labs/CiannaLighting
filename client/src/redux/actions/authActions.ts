@@ -15,13 +15,6 @@ type SignInType = {
     password: string;
 };
 
-type userLogType = {
-    name: string;
-    userId: string;
-    // ipAddress: string;
-    role: string;
-};
-
 export const signInAction =
     (payload: SignInType) =>
     async (dispatch: Dispatch): Promise<void> => {
@@ -31,14 +24,6 @@ export const signInAction =
                 withCredentials: true,
             });
 
-            const log: userLogType = {
-                userId: response.data.user._id,
-                name: response.data.user.name,
-                role: response.data.user.role,
-            };
-            await axios.post('public/create-log', log, {
-                // withCredentials: true,
-            });
             dispatch(setUser(response.data));
         } catch (error: any | AxiosError) {
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>', error);
