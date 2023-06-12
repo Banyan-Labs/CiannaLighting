@@ -11,9 +11,9 @@ interface catalogPros {
 const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     const Item = catalogItem;
     const [activeIndex, setActiveIndex] = useState(1);
-    const handleClick = (index: any) => setActiveIndex(index);
     const checkActive = (index: any, className: any) =>
         activeIndex === index ? className : '';
+    const handleClick = (index: any) => setActiveIndex(index);
     return (
         <>
             <div className="tabs__catalog m-0 px-1 col-12 col-lg-12 col-xl-12">
@@ -60,15 +60,19 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">Drawing Files:</h4>
                             {Item?.drawingFiles.map(
-                                (ef: string, index = ef.indexOf(ef)) => {                                    
-                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    const fileName = ef.match(
+                                        /(?<=\/\d+-)|(\w+)|(?=\.\w+)|(?!\/)/gi
+                                    );
+                                    console.log('fileName', fileName);
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0] : '' }
+                                            {`drawing file #${index + 1}`}
+                                            {/* {fileName ? fileName[0] : '' } */}
                                         </a>
                                     );
                                 }
@@ -78,15 +82,19 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">PDF:</h4>
                             {Item?.pdf.map(
-                                (ef: string, index = ef.indexOf(ef)) => {                                    
-                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    const fileName = ef.match(
+                                        /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
+                                    );
+                                    console.log('fileName', fileName);
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0]: '' }
+                                            {`PDF #${index + 1}`}
+                                            {/* {fileName ? fileName[0]: '' } */}
                                         </a>
                                     );
                                 }
