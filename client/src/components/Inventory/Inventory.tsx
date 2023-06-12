@@ -129,6 +129,10 @@ const Inventory: FC = () => {
     const [numSpecPages, setNumSpecPages] = useState<any>({});
     const [usedItem, setUsedItem] = useState<boolean>(false);
 
+    const formatDollarString = (num: number) => {
+        return '$' + num.toFixed(2);
+    };
+    const formatedPrice = formatDollarString(itemDetails.price);
     const initializeCatalog = async () => {
         const axiosPriv = axiosPrivate();
         try {
@@ -140,7 +144,7 @@ const Inventory: FC = () => {
         } catch (error: any) {
             throw new Error(error.message);
         }
-    };    
+    };
     useEffect(() => {
         initializeCatalog();
     }, []);
@@ -288,7 +292,9 @@ const Inventory: FC = () => {
         rendered: boolean
     ) => {
         if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF.map((pdf: any)=> pdf.name === name ? {...pdf, rendered: true} : pdf)
+            const newPdfs = viewablePDF.map((pdf: any) =>
+                pdf.name === name ? { ...pdf, rendered: true } : pdf
+            );
             setNumPdfPages({
                 ...numPdfPages,
                 [name]: e.numPages,
@@ -296,21 +302,26 @@ const Inventory: FC = () => {
             setViewablePDF(newPdfs);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames.map((drawFile: any)=> drawFile.name === name ? {...drawFile, rendered: true} : drawFile)
+            const newDrawingFiles = drawingFilesNames.map((drawFile: any) =>
+                drawFile.name === name
+                    ? { ...drawFile, rendered: true }
+                    : drawFile
+            );
             setNumDrawPages({
                 ...numDrawPages,
                 [name]: e.numPages,
             });
             setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs' && rendered === false){
-            const newSpecs = viewableSpecs.map((spec: any)=> spec.name === name ? {...spec, rendered: true} : spec)
+        if (location == 'specs' && rendered === false) {
+            const newSpecs = viewableSpecs.map((spec: any) =>
+                spec.name === name ? { ...spec, rendered: true } : spec
+            );
             setNumSpecPages({
                 ...numSpecPages,
                 [name]: e.numPages,
             });
             setViewableSpecs(newSpecs);
-           
         }
     };
 
@@ -443,12 +454,16 @@ const Inventory: FC = () => {
                 setImages([...images, imgFiles[key]]);
             }
         }
-        if (name === 'pdf' && pdfFiles.length) {            
+        if (name === 'pdf' && pdfFiles.length) {
             for (const key of Object.keys(pdfFiles)) {
                 const objectUrl = URL.createObjectURL(pdfFiles[key]);
                 setViewablePDF([
                     ...viewablePDF,
-                    { name: pdfFiles[key].name, url: objectUrl, rendered: false },
+                    {
+                        name: pdfFiles[key].name,
+                        url: objectUrl,
+                        rendered: false,
+                    },
                 ]);
                 setPdf([...pdf, pdfFiles[key]]);
                 setPdfNames([...pdfNames, pdfFiles[key].name]);
@@ -459,7 +474,11 @@ const Inventory: FC = () => {
                 const objectUrl = URL.createObjectURL(specFiles[key]);
                 setViewableSpecs([
                     ...viewableSpecs,
-                    { name: specFiles[key].name, url: objectUrl, rendered: false },
+                    {
+                        name: specFiles[key].name,
+                        url: objectUrl,
+                        rendered: false,
+                    },
                 ]);
                 setSpecs([...specs, specFiles[key]]);
                 setSpecNames([...specNames, specFiles[key].name]);
@@ -471,7 +490,11 @@ const Inventory: FC = () => {
                 setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
                 setDrawingFilesNames([
                     ...drawingFilesNames,
-                    { name: drawingFilesArray[key].name, url: objectUrl, rendered: false },
+                    {
+                        name: drawingFilesArray[key].name,
+                        url: objectUrl,
+                        rendered: false,
+                    },
                 ]);
             }
         }
@@ -518,51 +541,51 @@ const Inventory: FC = () => {
                 await axiosPriv.post('/internal/create-light', fs);
                 initializeCatalog();
                 alert('Item created!');
-            setItemDetails({
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
-        }
+                setItemDetails({
+                    employeeID: user._id,
+                    item_ID: '',
+                    itemName: '',
+                    itemDescription: '',
+                    bodyDiameter: '',
+                    bodyLength: '',
+                    bodyWidth: '',
+                    bodyHeight: '',
+                    fixtureOverallHeight: '',
+                    sconceHeight: '',
+                    sconceWidth: '',
+                    sconceExtension: '',
+                    material: '',
+                    socketQuantity: 0,
+                    estimatedWeight: 0,
+                    lampType: '',
+                    lampColor: '',
+                    numberOfLamps: 0,
+                    wattsPerLamp: 0,
+                    powerInWatts: 0,
+                    price: 0,
+                    exteriorFinish: [], //[]
+                    interiorFinish: [], //[]
+                    lensMaterial: [], //[]
+                    glassOptions: [], //[]
+                    acrylicOptions: [], //[]
+                    environment: [], //[]
+                    safetyCert: [], //[]
+                    projectVoltage: [], //[]
+                    socketType: [], //[]
+                    mounting: [], //[]
+                    crystalType: [], //[]
+                    crystalPinType: [], //[]
+                    crystalPinColor: [], //[]
+                    designStyle: [], //[]
+                    usePackages: [], //[]
+                    editImages: [],
+                    editpdf: [],
+                    editDrawingFiles: [],
+                    editSpecs: [],
+                    costAdmin: 0,
+                    partnerCodeAdmin: '',
+                });
+            }
             setImageNames([]);
             setViewablePDF([]);
             setViewableSpecs([]);
@@ -664,39 +687,39 @@ const Inventory: FC = () => {
                         </p>
                     </div>
                     {editingItem && (
-                    <div className="inv-togl">
-                        <button
-                            className={
-                                itemDetails.isActive 
-                                    ? 'selected-active'
-                                    : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: true
-                                })                            
-                            }}
-                        >
-                            Active
-                        </button>
-                        <button
-                            className={
-                                !itemDetails.isActive
-                                ? 'selected-active'
-                                : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: false
-                                })
-                            }}
-                        >
-                            Inactive
-                        </button>
-                    </div>
-                )}
+                        <div className="inv-togl">
+                            <button
+                                className={
+                                    itemDetails.isActive
+                                        ? 'selected-active'
+                                        : 'un-selected-active'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: true,
+                                    });
+                                }}
+                            >
+                                Active
+                            </button>
+                            <button
+                                className={
+                                    !itemDetails.isActive
+                                        ? 'selected-active'
+                                        : 'un-selected-active'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: false,
+                                    });
+                                }}
+                            >
+                                Inactive
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="head-right">
                     <div className="button-toggler inv-togl">
@@ -1008,7 +1031,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="estimatedWeight"
                                     placeholder="Estimated Weight"
-                                    type="number"
+                                    type="text"
                                     name="estimatedWeight"
                                     value={itemDetails.estimatedWeight || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1070,7 +1093,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="numberOfLamps"
                                     placeholder="Number of Lamps"
-                                    type="number"
+                                    type="text"
                                     name="numberOfLamps"
                                     value={itemDetails.numberOfLamps || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1088,7 +1111,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="wattsPerLamp"
                                     placeholder="Watts per Lamp"
-                                    type="number"
+                                    type="text"
                                     name="wattsPerLamp"
                                     value={itemDetails.wattsPerLamp || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1106,7 +1129,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="powerInWatts"
                                     placeholder="Power in Watts"
-                                    type="number"
+                                    type="text"
                                     name="powerInWatts"
                                     value={itemDetails.powerInWatts || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1124,7 +1147,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
-                                    type="number"
+                                    type="text"
                                     name="lumens"
                                     value={itemDetails.lumens || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1582,7 +1605,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="socketQuantity"
                                     placeholder="Socket Quantity"
-                                    type="number"
+                                    type="text"
                                     name="socketQuantity"
                                     value={itemDetails.socketQuantity || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1600,9 +1623,9 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="price"
                                     placeholder="Price"
-                                    type="number"
+                                    type="text"
                                     name="price"
-                                    value={itemDetails.price || ''}
+                                    value={formatedPrice || ''}
                                     onChange={(e) => handleFormInput(e)}
                                 />
                                 <label className="form__label" htmlFor="price">
@@ -1611,6 +1634,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
+                                    s
                                     <input
                                         tabIndex={-1}
                                         className="form__field"
@@ -2057,20 +2081,19 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any) => {                                    
+                                {viewablePDF.map((url: any) => {
                                     return (
                                         <Document
                                             key={uuid()}
                                             file={url.url}
-                                            onLoadSuccess={(e) =>{
+                                            onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'pdf',
                                                     url.name,
                                                     url.rendered
-                                                )
-                                                }
-                                            }
+                                                );
+                                            }}
                                             onLoadError={console.error}
                                             className="pdf-document2"
                                         >
@@ -2318,7 +2341,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
-                                    type="number"
+                                    type="text"
                                     name="costAdmin"
                                     value={itemDetails.costAdmin || ''}
                                     onChange={(e) => handleFormInput(e)}
