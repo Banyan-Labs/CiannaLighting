@@ -3,15 +3,12 @@ import User from "../model/User";
 import bcrypt from "bcrypt";
 import { signJwt } from "../utils/signJwt";
 import { createLogAtSignIn } from "./activityController";
-
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   if (!email || !password)
     res.status(400).json({ message: "Username and password are required" });
   try {
     const thisUser = await User.findOne({ email }).select("+password");
-
     if (!thisUser) return res.status(404).json({ message: "User not found" });
     else if (thisUser && !thisUser?.isActive)
       return res.status(401).json({ message: "User is not active" });
