@@ -39,7 +39,7 @@ function LightOptionsForm({
 }: Props) {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomId, proposal } = useAppSelector(
+    const { room, projectId, roomId, proposal } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
