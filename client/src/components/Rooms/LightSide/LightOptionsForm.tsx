@@ -39,7 +39,7 @@ function LightOptionsForm({
 }: Props) {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomId, proposal } = useAppSelector(
+    const { room, projectId, roomId, proposal } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -69,23 +69,26 @@ function LightOptionsForm({
         try {
             if (!editLight) {
                 if (lightSpecs.length) {
+                    const pdfFiles = [...lightSpecs, ...catalogLight.pdf, ...catalogLight.drawingFiles];
+
                     dispatch(
                         setSpecFile(
                             {
                                 projId: projectId,
-                                pdf: lightSpecs,
+                                pdf: pdfFiles,
                                 images: [
                                     {
                                         lightId: lightID,
-                                        attachments: lightSpecs,
+                                        attachments: catalogLight.images,
                                     },
                                 ],
                                 edit: 'add',
                             },
-                            attachments.length > 0 ? false : true
+                            pdfFiles.length > 0 || catalogLight.images.length > 0
                         )
                     );
                 }
+
                 await dispatch(
                     createLight({ ...catalogLight, ...rfpPassData })
                 );
