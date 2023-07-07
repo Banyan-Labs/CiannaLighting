@@ -69,13 +69,20 @@ function LightOptionsForm({
         try {
             if (!editLight) {
                 if (lightSpecs.length) {
-                    const pdfFiles = [...lightSpecs, ...catalogLight.pdf, ...catalogLight.drawingFiles];
+                    const specs = lightSpecs.length ? lightSpecs : [];
+                    const catalogPDF = catalogLight?.pdf?.length ? catalogLight.pdf : [];
+                    const catalogDrawings = catalogLight?.drawingFiles?.length ? catalogLight.drawingFiles : [];
+                    const attachments = [
+                        ...specs, 
+                        ...catalogPDF, 
+                        ...catalogDrawings
+                    ];
 
                     dispatch(
                         setSpecFile(
                             {
                                 projId: projectId,
-                                pdf: pdfFiles,
+                                pdf: attachments,
                                 images: [
                                     {
                                         lightId: lightID,
@@ -84,7 +91,7 @@ function LightOptionsForm({
                                 ],
                                 edit: 'add',
                             },
-                            pdfFiles.length > 0 || catalogLight.images.length > 0
+                            attachments.length > 0 || catalogLight.images.length > 0
                         )
                     );
                 }
