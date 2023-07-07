@@ -42,7 +42,8 @@
     color: #949494;
     font-size: 12px;
     position: relative;
-    top: -3px;
+    top: -1px;
+    margin-left: 5px;
 }
 
 .dashboard-project-overview {
