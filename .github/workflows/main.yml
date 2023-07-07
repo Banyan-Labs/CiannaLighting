@@ -6,9 +6,9 @@ on:
       - "stage"
       - "main"
       - "release/**"
-  push:
-    branches-ignore:
-      - "stage"
+  # push:
+  #   branches-ignore:
+  #     - "stage"
 
 jobs:
   build:
