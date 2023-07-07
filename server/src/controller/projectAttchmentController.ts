@@ -3,17 +3,20 @@ import ProjectAttachments from "../model/ProjectAttachments";
 
 const addAttachmentSection = async (req: Request, res: Response) => {
   const { projId, images, pdf } = req.body;
+  
   await ProjectAttachments.findOne({ projectId: projId })
     .then(async (existing: any) => {
       if (existing) {
         if (images && images.length) {
           existing.images = [...images, ...existing.images];
         }
+
         if (pdf && pdf.length) {
-          const singleInstances = [...new Set(existing.pdf)];
-          existing.pdf = [...new Set([...pdf, ...singleInstances])];
+          existing.pdf = [...new Set([...pdf, ...existing.pdf])];
         }
+
         await existing.save();
+
         return res.status(200).json({
           attachments: { ...existing._doc },
         });
@@ -21,8 +24,9 @@ const addAttachmentSection = async (req: Request, res: Response) => {
         const projectAttchments = new ProjectAttachments({
           projectId: projId,
           images: images ? images : [],
-          pdf: pdf ? pdf : [],
+          pdf: pdf ? [...new Set([...pdf])] : [],
         });
+        
         return await projectAttchments
           .save()
           .then((attachments) => {
