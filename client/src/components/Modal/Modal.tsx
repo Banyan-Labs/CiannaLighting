@@ -122,14 +122,14 @@ const Modal: FC<Props> = (props) => {
                     >
                         {' '}
                         <FaTimes />
-                        <div className="new-project-modal-title">
-                            <h3 className="modal-title-new-project">
-                                {props.editProject === true
-                                    ? `Edit ${project?.name}`
-                                    : 'New Project'}
-                            </h3>
-                        </div>
                     </button>
+                </div>
+                <div className="new-project-modal-title">
+                    <h3 className="modal-title-new-project">
+                        {props.editProject === true
+                            ? `Edit ${project?.name}`
+                            : 'New Project'}
+                    </h3>
                 </div>
                 <div className="new-project-modal-body">
                     <form onSubmit={onSubmit}>
