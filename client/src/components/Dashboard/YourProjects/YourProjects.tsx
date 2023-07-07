@@ -204,10 +204,10 @@ const YourProjects: FC = () => {
                         }}
                     >
                         <FaPlus />
-                    </button>
                     <span className="dashboard-new-project-sub-text">
                         New Project
                     </span>
+                    </button>
                     <div className="your-projects-icons">
                         <IoIosArrowDropleftCircle
                             id="your-project-icons-left"
