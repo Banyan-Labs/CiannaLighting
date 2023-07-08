@@ -1,18 +1,20 @@
 import React, { FC, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
+import { BsChevronLeft } from 'react-icons/bs';
+import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import uuid from 'react-uuid';
+
 // import Default from '../../assets/stairway.jpeg';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { Link } from 'react-router-dom';
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
-import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
-import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+
 import './style/roomDetails.scss';
-import uuid from 'react-uuid';
 
 interface lightProps {
     setEditLight: any;
@@ -68,11 +70,13 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const response = await dispatch(
             getEditLight({ item_ID: String(light.item_ID) })
         );
+
         setTheData(light, response);
     };
 
     const copyRoom = async (e: any) => {
         e.preventDefault();
+
         const axiosPriv = await axiosPrivate();
         const projectId: string = project?._id ?? '';
         const copyRoom = [room?._id];
@@ -85,7 +89,9 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
+
             dispatch(getAllProjectRoomsAction(projectId));
+
             return response;
         } catch (error: any) {
             throw new Error(error.message);

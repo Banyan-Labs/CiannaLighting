@@ -1,6 +1,8 @@
 import React from 'react';
 import uuid from 'react-uuid';
+
 import convertCsvInArray from 'helpers/convertCsvInArray';
+
 import './style.scss';
 
 type Props = {

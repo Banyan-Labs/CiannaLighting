@@ -1,11 +1,13 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import { axiosPrivate } from '../../../../../api/axios';
+import ReactTooltip from 'react-tooltip';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
+
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
+import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
 import { getAllProjectRoomsAction } from '../../../../../redux/actions/projectActions';
-import ReactTooltip from 'react-tooltip';
+
 import './rooms.scss';
 
 const IdRooms: FC = () => {
@@ -17,6 +19,7 @@ const IdRooms: FC = () => {
     const projectRoute = useCallback(
         (roomId: string, projId: string) => {
             const to = `/createLight/ ?_id= ${user._id}&roomId=${roomId}&projectId=${projId}`;
+
             navigate(to);
         },
         [user.name, navigate]
@@ -28,6 +31,7 @@ const IdRooms: FC = () => {
 
     const copyRoom = async (e: any, room: RoomType) => {
         e.preventDefault();
+
         const axiosPriv = await axiosPrivate();
         const projectId: string = project?._id ?? '';
         const copyRoom = [room._id];
@@ -40,7 +44,9 @@ const IdRooms: FC = () => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
+
             dispatch(getAllProjectRoomsAction(projectId));
+            
             return response.data;
         } catch (error: any) {
             throw new Error(error.message);

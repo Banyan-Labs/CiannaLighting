@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
-
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+
+import { useAppSelector } from '../../../../app/hooks';
 import Pagination from '../../../Dashboard/DashboardPageLower/Pagination/Pagination';
+
 import './style/activityTable.scss';
+
 const Activity: FC = () => {
     const { project } = useAppSelector(({ project }) => project);
     const projectsPerPage = 5;
@@ -34,6 +36,7 @@ const Activity: FC = () => {
             A: setArchPage(page),
             S: setStatusPage(page),
         };
+        
         actionTrigger[String(action)];
     };
 

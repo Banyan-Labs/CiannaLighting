@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
+
 import { NewRoomModal } from '../../../NewRoomModal/NewRoomModal';
 import { useAppSelector } from '../../../../app/hooks';
 import IdRooms from './AllRooms/IdRooms';

@@ -1,5 +1,8 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import {
     getAllProjects,
@@ -9,8 +12,6 @@ import {
     setDefaults,
 } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 import { LightREF } from '../../redux/reducers/projectSlice';
@@ -18,6 +19,7 @@ import { axiosPrivate } from '../../api/axios';
 import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
+
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
 type Props = {
@@ -100,14 +102,16 @@ const AllProjectView: FC<Props> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
-        const axiosPriv = axiosPrivate();
 
+        const axiosPriv = axiosPrivate();
         const attach = await axiosPriv.post('/get-attachments', {
             projId: proj._id,
         });
         let attachments = [];
+
         if (attach) {
             attachments = attach.data.proj.pdf;
+
             if (attachments.length) {
                 const payload = {
                     project: {
@@ -118,14 +122,17 @@ const AllProjectView: FC<Props> = ({
                     copy: 'project',
                     attachments: attachments,
                 };
+
                 try {
                     const response = await dispatch(
                         createProjectAction(payload)
                     );
+
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
                     setProcessing(false);
                     alert(`Copy of ${proj.name} created in your dashboard.`);
+
                     return response;
                 } catch (error: any) {
                     throw new Error(error.message);
@@ -167,12 +174,15 @@ const AllProjectView: FC<Props> = ({
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         let utilizedData: any = [];
+
         if (renderedPage == 'All Projects') {
             utilizedData = activeProjects;
         } else {
             utilizedData = archivedProjects;
+
             return;
         }
+
         const sorted: any = {
             0: utilizedData,
             1: utilizedData.slice().sort((a: any, b: any) => {
@@ -194,6 +204,7 @@ const AllProjectView: FC<Props> = ({
                 return 0;
             }),
         };
+
         setSortedData(sorted[direction]);
         setCurrentSort(field);
     };
@@ -204,18 +215,20 @@ const AllProjectView: FC<Props> = ({
     const searchFilter = (e: any, data: any) => {
         const searchValue: string = e.currentTarget.value.toLowerCase();
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
+
         try {
             checkSearchVal;
         } catch (error: any) {
             alert('Please no special characters.');
             return error;
         }
+
         if (searchValue === '') {
             setParsedData(data);
+
             return data;
         } else if (checkSearchVal && searchValue.length) {
-            const correctSearch =
-                filterQueryProjects.length > 0 ? filterQueryProjects : data;
+            const correctSearch = filterQueryProjects.length > 0 ? filterQueryProjects : data;
             const searchData = correctSearch.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
@@ -225,21 +238,26 @@ const AllProjectView: FC<Props> = ({
                 };
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
+
                 itemVals.map((item: string) => {
                     const regCheck = new RegExp(searchValue, 'g').test(
                         item.toLowerCase()
                     );
+
                     if (regCheck) {
                         doesMatch = true;
                     }
                 });
+
                 if (Boolean(doesMatch) === true) {
                     return item;
                 } else {
                     return '';
                 }
             });
+
             setParsedData(searchData);
+
             return searchData;
         } else {
             alert('Please no special characters.');
@@ -259,8 +277,8 @@ const AllProjectView: FC<Props> = ({
     const filteredProjects = sortedData.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-        ? activeProjects.reverse().slice(firstIndex, lastIndex)
-        : archivedProjects.reverse().slice(firstIndex, lastIndex);
+            ? activeProjects.reverse().slice(firstIndex, lastIndex)
+            : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(
         typeOfProject === 'yourProjects'
@@ -273,6 +291,7 @@ const AllProjectView: FC<Props> = ({
             1: <FaChevronUp className="sort-chevron" />,
             2: <FaChevronDown className="sort-chevron" />,
         };
+
         if (field == currentSort) {
             return directionCall[sortDirection];
         } else {
@@ -282,6 +301,7 @@ const AllProjectView: FC<Props> = ({
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
+
         return (
             <tbody key={index}>
                 <tr className="projects-table-dynamic-row">
@@ -502,9 +522,9 @@ const AllProjectView: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    reduxData.length - archivedProjects.length
+                                        reduxData.length - archivedProjects.length
                                         ? reduxData.length -
-                                          archivedProjects.length
+                                        archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {(parsedData.length
@@ -519,7 +539,7 @@ const AllProjectView: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    archivedProjects.length
+                                        archivedProjects.length
                                         ? archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects.length}
@@ -543,8 +563,8 @@ const AllProjectView: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length 
-                                            : archivedProjects.length 
+                                            ? activeProjects.length
+                                            : archivedProjects.length
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
@@ -596,4 +616,5 @@ const AllProjectView: FC<Props> = ({
         </div>
     );
 };
+
 export default AllProjectView;

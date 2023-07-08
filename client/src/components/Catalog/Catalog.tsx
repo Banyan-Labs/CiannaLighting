@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react';
+
 import Cards from './Cards';
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
 import DesignStyles from './DesignStyles/DesignStyles';
-import './style/catalog.scss';
 import SingleView from './SingleView';
+
+import './style/catalog.scss';
 
 const usePackagesData = [
     {

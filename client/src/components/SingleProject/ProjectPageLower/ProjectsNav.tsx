@@ -1,8 +1,10 @@
 import React, { FC, useState, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+
 import Rooms from './ProjectSubComponents/Rooms';
 import Activity from './ProjectSubComponents/Activity';
 import Proposal from './ProjectSubComponents/Proposal';
+
 import './style/projectNav.scss';
 
 type ProjectNavProps = {

@@ -1,9 +1,11 @@
 import React, { FC, SyntheticEvent } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
 import { FaRegCopy, FaBookReader, FaTrash } from 'react-icons/fa';
+
+import { useAppSelector } from '../../../../app/hooks';
 import { ROLES } from '../../../../app/constants';
 import { ProjectType } from '../DashboardNav';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
+
 import './style/allProjects.scss';
 
 interface projectProps {
@@ -29,28 +31,37 @@ const ProjectMiniModal: FC<projectProps> = ({
 }) => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const { setInactive } = useAppSelector(({ project }) => project);
+
     const inactiveLightCheck = (e: SyntheticEvent) => {
         e.preventDefault();
+
         let finalLightCheck: LightREF[] | [] = [];
+
         setInactive.forEach((item: string) => {
             const inactive = proj.lightIDs.find(
                 (light: LightREF) => light.item_ID === item
             );
+
             if (inactive && inactive !== undefined) {
                 finalLightCheck = [...finalLightCheck, inactive];
             }
+
             return item;
         });
+
         if (finalLightCheck && finalLightCheck.length) {
             setInactiveList(finalLightCheck);
             setProjectHold(proj);
             inactiveModalTrigger();
+
             return true;
         } else {
             copyOfProject(e, proj);
+
             return false;
         }
     };
+
     return (
         <div className="project-mini-modal">
             <div

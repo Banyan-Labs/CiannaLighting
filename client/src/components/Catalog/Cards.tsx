@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { useAppSelector } from '../../app/hooks';
-import './style/catalog.scss';
 
+import { useAppSelector } from '../../app/hooks';
+
+import './style/catalog.scss';
 import '../Dashboard/DashboardPageLower/style/dashboardNav.scss';
 
 interface catalogProps {

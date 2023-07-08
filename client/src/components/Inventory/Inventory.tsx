@@ -6,13 +6,15 @@ import React, {
     useEffect,
     SyntheticEvent,
 } from 'react';
-import { axiosFileUpload, axiosPrivate } from '../../api/axios';
-import { useAppSelector } from '../../app/hooks';
-import './styles/inventory.scss';
-import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
+import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+import { axiosFileUpload, axiosPrivate } from '../../api/axios';
+import { useAppSelector } from '../../app/hooks';
+
+import './styles/inventory.scss';
 
 interface CatalogType {
     item_ID: string;
@@ -140,25 +142,32 @@ const Inventory: FC = () => {
         } catch (error: any) {
             throw new Error(error.message);
         }
-    };    
+    };
+
     useEffect(() => {
         initializeCatalog();
     }, []);
+
     const handleEditingChange = (val: string) => {
         setEditingInput(val);
     };
     const deleteFiles = (e: any, filePath: any, type: string) => {
         e.preventDefault();
+
         if (type == 'images') {
             const newImages = imageName.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setImageNames(newImages);
+
             if (typeof filePath.name == 'string') {
                 const newimg = images.filter(
                     (img: any) => img.name != filePath.name
                 );
+
                 setImages(newimg);
+
                 if (imgFiles[0].name === filePath.name) {
                     setImgfiles([]);
                 }
@@ -166,6 +175,7 @@ const Inventory: FC = () => {
                 const editImg = itemDetails.editImages.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editImages: editImg });
             }
         }
@@ -173,15 +183,21 @@ const Inventory: FC = () => {
             const newPdf = viewablePDF.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setViewablePDF(newPdf);
+
             const newPages = numPdfPages;
             delete newPages[filePath.name];
+
             setNumPdfPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newpdf = pdf.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setPdf(newpdf);
+
                 if (pdfFiles[0].name === filePath.name) {
                     setPdfFiles([]);
                 }
@@ -189,6 +205,7 @@ const Inventory: FC = () => {
                 const editPdf = itemDetails.editpdf.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editpdf: editPdf });
             }
         }
@@ -196,15 +213,21 @@ const Inventory: FC = () => {
             const newDrawing = drawingFilesNames.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setDrawingFilesNames(newDrawing);
+
             const newPages = numDrawPages;
             delete newPages[filePath.name];
+
             setNumDrawPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newdraw = drawingFiles.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setDrawingFiles(newdraw);
+
                 if (drawingFilesArray[0].name === filePath.name) {
                     setDrawingFilesArray([]);
                 }
@@ -212,6 +235,7 @@ const Inventory: FC = () => {
                 const editDraw = itemDetails.editDrawingFiles.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editDrawingFiles: editDraw });
             }
         }
@@ -219,15 +243,21 @@ const Inventory: FC = () => {
             const newSpecs = viewableSpecs.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setViewableSpecs(newSpecs);
+
             const newPages = numSpecPages;
             delete newPages[filePath.name];
+
             setNumSpecPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newspecs = specs.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setSpecs(newspecs);
+
                 if (specFiles[0].name === filePath.name) {
                     setSpecFiles([]);
                 }
@@ -235,6 +265,7 @@ const Inventory: FC = () => {
                 const editSpec = itemDetails.editSpecs.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editSpecs: editSpec });
             }
         }
@@ -242,6 +273,7 @@ const Inventory: FC = () => {
 
     const checkForm = (e: any) => {
         e.preventDefault();
+
         const editKeys: Array<string | unknown> = [
             'editImages',
             'editpdf',
@@ -256,8 +288,8 @@ const Inventory: FC = () => {
                 ? typeof itemKeyVal[1] == 'number'
                     ? [itemKeyVal[0], itemKeyVal[1] > 0]
                     : typeof itemKeyVal[1] == 'string'
-                    ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
-                    : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
+                        ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
+                        : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
                 : [itemKeyVal[0], false]
         );
         const checker = check.filter(
@@ -267,10 +299,12 @@ const Inventory: FC = () => {
         const checkVals = checker.filter(
             (itemKeyVal: Array<string | unknown>) => !itemKeyVal[1]
         );
+
         if (checkVals.length) {
             const showRequired = checkVals.map(
                 (itemKeyVal: unknown[]) => itemKeyVal[0]
             );
+
             alert(
                 `Please fill out the following fields: \n ${showRequired.join(
                     '\n'
@@ -288,7 +322,8 @@ const Inventory: FC = () => {
         rendered: boolean
     ) => {
         if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF.map((pdf: any)=> pdf.name === name ? {...pdf, rendered: true} : pdf)
+            const newPdfs = viewablePDF.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
+
             setNumPdfPages({
                 ...numPdfPages,
                 [name]: e.numPages,
@@ -296,21 +331,23 @@ const Inventory: FC = () => {
             setViewablePDF(newPdfs);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames.map((drawFile: any)=> drawFile.name === name ? {...drawFile, rendered: true} : drawFile)
+            const newDrawingFiles = drawingFilesNames.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
+
             setNumDrawPages({
                 ...numDrawPages,
                 [name]: e.numPages,
             });
             setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs' && rendered === false){
-            const newSpecs = viewableSpecs.map((spec: any)=> spec.name === name ? {...spec, rendered: true} : spec)
+        if (location == 'specs' && rendered === false) {
+            const newSpecs = viewableSpecs.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
+
             setNumSpecPages({
                 ...numSpecPages,
                 [name]: e.numPages,
             });
             setViewableSpecs(newSpecs);
-           
+
         }
     };
 
@@ -319,6 +356,7 @@ const Inventory: FC = () => {
         const check = await axiosPriv.post('/get-lightSelections', {
             item_ID: ID,
         });
+
         if (check.data.lights && check.data.lights.length) {
             setUsedItem(true);
         } else {
@@ -328,10 +366,13 @@ const Inventory: FC = () => {
 
     const setEdit = (e: any) => {
         e.preventDefault();
+
         const item: any = catalogItems.find(
             (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
         );
+
         checkItemUsage(item.item_ID);
+
         if (item) {
             const files: any = {
                 images: item.images,
@@ -339,6 +380,7 @@ const Inventory: FC = () => {
                 specs: item.specs,
                 drawingFiles: item.drawingFiles,
             };
+
             setImageNames(
                 files.images.map((x: string, index: number) =>
                     Object({ name: index, url: x })
@@ -359,9 +401,11 @@ const Inventory: FC = () => {
                     Object({ name: index, url: x })
                 )
             );
+
             for (const val in files) {
                 delete item[val];
             }
+
             setItemDetails({
                 ...item,
                 editImages: files.images,
@@ -411,8 +455,8 @@ const Inventory: FC = () => {
 
     const listValSubmit = (e: any) => {
         e.preventDefault();
-        const valueOfKey: any =
-            itemDetails[listValue.name as keyof CatalogType];
+
+        const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType];
 
         setItemDetails({
             ...itemDetails,
@@ -426,6 +470,7 @@ const Inventory: FC = () => {
 
     const removeItem = (e: any, item: any) => {
         e.preventDefault();
+
         setItemDetails({
             ...itemDetails,
             [item]: itemDetails[item].slice(0, -1),
@@ -433,19 +478,23 @@ const Inventory: FC = () => {
     };
     const listFileNames = (e: any, name: string) => {
         e.preventDefault();
+
         if (name === 'images' && imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
                 const objectUrl = URL.createObjectURL(imgFiles[key]);
+
                 setImageNames([
                     ...imageName,
                     { name: imgFiles[key].name, url: objectUrl },
                 ]);
+
                 setImages([...images, imgFiles[key]]);
             }
         }
-        if (name === 'pdf' && pdfFiles.length) {            
+        if (name === 'pdf' && pdfFiles.length) {
             for (const key of Object.keys(pdfFiles)) {
                 const objectUrl = URL.createObjectURL(pdfFiles[key]);
+
                 setViewablePDF([
                     ...viewablePDF,
                     { name: pdfFiles[key].name, url: objectUrl, rendered: false },
@@ -457,6 +506,7 @@ const Inventory: FC = () => {
         if (name === 'specs' && specFiles.length) {
             for (const key of Object.keys(specFiles)) {
                 const objectUrl = URL.createObjectURL(specFiles[key]);
+
                 setViewableSpecs([
                     ...viewableSpecs,
                     { name: specFiles[key].name, url: objectUrl, rendered: false },
@@ -468,6 +518,7 @@ const Inventory: FC = () => {
         if (name === 'drawingFiles' && drawingFilesArray.length) {
             for (const key of Object.keys(drawingFilesArray)) {
                 const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
+
                 setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
                 setDrawingFilesNames([
                     ...drawingFilesNames,
@@ -478,8 +529,10 @@ const Inventory: FC = () => {
     };
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+
         const axiosPriv = await axiosFileUpload();
         const fs = new FormData();
+
         for (const key of Object.keys(itemDetails)) {
             fs.append(key, itemDetails[key]);
         }
@@ -518,51 +571,52 @@ const Inventory: FC = () => {
                 await axiosPriv.post('/internal/create-light', fs);
                 initializeCatalog();
                 alert('Item created!');
-            setItemDetails({
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
-        }
+                setItemDetails({
+                    employeeID: user._id,
+                    item_ID: '',
+                    itemName: '',
+                    itemDescription: '',
+                    bodyDiameter: '',
+                    bodyLength: '',
+                    bodyWidth: '',
+                    bodyHeight: '',
+                    fixtureOverallHeight: '',
+                    sconceHeight: '',
+                    sconceWidth: '',
+                    sconceExtension: '',
+                    material: '',
+                    socketQuantity: 0,
+                    estimatedWeight: 0,
+                    lampType: '',
+                    lampColor: '',
+                    numberOfLamps: 0,
+                    wattsPerLamp: 0,
+                    powerInWatts: 0,
+                    price: 0,
+                    exteriorFinish: [], //[]
+                    interiorFinish: [], //[]
+                    lensMaterial: [], //[]
+                    glassOptions: [], //[]
+                    acrylicOptions: [], //[]
+                    environment: [], //[]
+                    safetyCert: [], //[]
+                    projectVoltage: [], //[]
+                    socketType: [], //[]
+                    mounting: [], //[]
+                    crystalType: [], //[]
+                    crystalPinType: [], //[]
+                    crystalPinColor: [], //[]
+                    designStyle: [], //[]
+                    usePackages: [], //[]
+                    editImages: [],
+                    editpdf: [],
+                    editDrawingFiles: [],
+                    editSpecs: [],
+                    costAdmin: 0,
+                    partnerCodeAdmin: '',
+                });
+            }
+
             setImageNames([]);
             setViewablePDF([]);
             setViewableSpecs([]);
@@ -577,6 +631,7 @@ const Inventory: FC = () => {
             initializeCatalog();
 
             const checked = document.querySelectorAll('input[type=checkbox]');
+
             checked.forEach((item: any, index: number) => {
                 if (index > 0 && item.checked) item.checked = false;
             });
@@ -586,8 +641,11 @@ const Inventory: FC = () => {
     };
     const toggleEdit = (e: SyntheticEvent, set: boolean) => {
         e.preventDefault();
+
         let type = '';
+
         setUsedItem(false);
+        
         if (editingItem) {
             setItemDetails({
                 isActive: true,
@@ -664,39 +722,39 @@ const Inventory: FC = () => {
                         </p>
                     </div>
                     {editingItem && (
-                    <div className="inv-togl">
-                        <button
-                            className={
-                                itemDetails.isActive 
-                                    ? 'selected-active'
-                                    : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: true
-                                })                            
-                            }}
-                        >
-                            Active
-                        </button>
-                        <button
-                            className={
-                                !itemDetails.isActive
-                                ? 'selected-active'
-                                : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: false
-                                })
-                            }}
-                        >
-                            Inactive
-                        </button>
-                    </div>
-                )}
+                        <div className="inv-togl">
+                            <button
+                                className={
+                                    itemDetails.isActive
+                                        ? 'selected-active'
+                                        : 'un-selected-active'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: true
+                                    })
+                                }}
+                            >
+                                Active
+                            </button>
+                            <button
+                                className={
+                                    !itemDetails.isActive
+                                        ? 'selected-active'
+                                        : 'un-selected-active'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: false
+                                    })
+                                }}
+                            >
+                                Inactive
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="head-right">
                     <div className="button-toggler inv-togl">
@@ -2057,19 +2115,19 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any) => {                                    
+                                {viewablePDF.map((url: any) => {
                                     return (
                                         <Document
                                             key={uuid()}
                                             file={url.url}
-                                            onLoadSuccess={(e) =>{
+                                            onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'pdf',
                                                     url.name,
                                                     url.rendered
                                                 )
-                                                }
+                                            }
                                             }
                                             onLoadError={console.error}
                                             className="pdf-document2"
@@ -2098,9 +2156,8 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={`page_${index + 1
+                                                                }`}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2187,9 +2244,8 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={`page_${index + 1
+                                                                }`}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2281,9 +2337,8 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={`page_${index + 1
+                                                                }`}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false

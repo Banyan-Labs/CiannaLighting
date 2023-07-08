@@ -1,15 +1,15 @@
 import React, { FC, FormEvent, useState } from 'react';
-import { ROLES } from '../../app/constants';
 import { AiOutlineReload, AiOutlineCopy } from 'react-icons/ai';
+import { FaTimes, FaQuestionCircle } from 'react-icons/fa';
+
+import { ROLES } from '../../app/constants';
 import { useAppDispatch } from '../../app/hooks';
 import { CreateUserType } from '../../app/typescriptTypes';
 import { generatePassword } from '../../app/generatePassword';
-import {
-    createUserAction
-} from '../../redux/actions/usersActions';
-import { FaTimes, FaQuestionCircle } from 'react-icons/fa';
+import { createUserAction } from '../../redux/actions/usersActions';
 import { axiosPrivate } from '../../api/axios';
 import useParams from '../../app/utils';
+
 import './styles/CreateUserModal.scss';
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
     userDetails: CreateUserType;
     setUserDetails: React.Dispatch<React.SetStateAction<any>>;
     curUser: string;
-    closeAndGet:any;
+    closeAndGet: any;
 };
 
 const CreateUserModal: FC<Props> = ({
@@ -36,7 +36,7 @@ const CreateUserModal: FC<Props> = ({
     const dispatch = useAppDispatch();
     const [showRoleExplanation, setShowRoleExplanation] = useState(false);
     const [userId] = useParams('_id');
- 
+
     const onMouseOver = () => {
         setShowRoleExplanation(true);
     };
@@ -58,6 +58,7 @@ const CreateUserModal: FC<Props> = ({
     const copyPasswordToClipboard = (): void => {
         const element = document.getElementById('password') as HTMLInputElement;
         const tooltip = document.getElementById('copyPassTooltip');
+
         if (element && tooltip) {
             element.select();
             element.setSelectionRange(0, 99999); // <- for mobile browsers
@@ -70,6 +71,7 @@ const CreateUserModal: FC<Props> = ({
     };
     const handleGeneratePassword = (): void => {
         const tooltip = document.getElementById('generatePassTooltip');
+
         if (tooltip) {
             tooltip.innerText = 'Generated Successfully';
             tooltip.style.backgroundColor = '#07c12f';
@@ -84,9 +86,11 @@ const CreateUserModal: FC<Props> = ({
         tooltipElementId: 'copyPassTooltip' | 'generatePassTooltip'
     ): void => {
         const tooltip = document.getElementById(tooltipElementId);
+
         if (tooltip) {
             tooltip.style.color = '#fff';
             tooltip.style.backgroundColor = '#555';
+
             switch (tooltipElementId) {
                 case 'copyPassTooltip':
                     tooltip.innerText = 'Copy Password';
@@ -100,66 +104,73 @@ const CreateUserModal: FC<Props> = ({
         }
     };
 
-    const onCancel = (e:any) =>{
+    const onCancel = (e: any) => {
         e.preventDefault();
+
         setUserDetails({
             name: '',
             email: '',
             role: '',
             password: '',
         });
+
         closeModal(false);
     }
     const onSubmit = async (e: any) => {
         e.preventDefault();
+
         try {
-            if(edit){
+            if (edit) {
                 const axiosPriv = axiosPrivate();
                 const response = await axiosPriv.put('/cmd/edit-user/' + handleEdit()._id, handleEdit());
-                if(response){
+
+                if (response) {
                     console.log("response: ", response);
                     setEdit(false);
-                    if(curUser === userId){
+
+                    if (curUser === userId) {
                         alert('Next login, you will use new credentials.')
-                    }else{
+                    } else {
                         const updatedUser = response.data?.data;
                         delete updatedUser?.password;
                         delete updatedUser?._id
                         delete updatedUser?.__v
+
                         alert(`${response.data.message}\n${JSON.stringify(updatedUser).split(/[{},]/).join('\n')}`);
                     }
+
                     await closeAndGet();
                 }
-            }else{
-            await dispatch(createUserAction(userDetails));
-            await closeAndGet();
-
+            } else {
+                await dispatch(createUserAction(userDetails));
+                await closeAndGet();
             }
+
             setUserDetails({
                 name: '',
                 email: '',
                 role: '',
                 password: '',
             });
-            
-            
         } catch (err: any) {
             throw new Error(err.message);
         }
     };
-    const handleEdit = () =>{
+    const handleEdit = () => {
         const editPass = {
-            _id: curUser, 
-            name: userDetails.name, 
+            _id: curUser,
+            name: userDetails.name,
             emailChange: userDetails.email,
-            passwordChange: userDetails.password, 
+            passwordChange: userDetails.password,
             role: userDetails.role,
-            update: true 
+            update: true
         }
+
         return editPass;
-    }
+    };
+
     console.log("deet: ", userDetails)
-    
+
     return (
         <div className="new-user-modal-background">
             <div className={edit ? "new-user-modal-container edit-contain" : "new-user-modal-container"}>
@@ -168,7 +179,7 @@ const CreateUserModal: FC<Props> = ({
                         <FaTimes />
                     </button>
                 </div>
-                
+
                 <div className="new-user-modal-title">
                     <h3 className="new-user-modal-title">{edit ? 'Edit User' : 'New User'}</h3>
                 </div>
@@ -318,13 +329,12 @@ const CreateUserModal: FC<Props> = ({
                             </span>
                         </div>
                         <div className="new-user-modal-footer">
-                            {edit && <button className='new-user-cancel' onClick={(e)=> onCancel(e)}> Cancel </button>}
+                            {edit && <button className='new-user-cancel' onClick={(e) => onCancel(e)}> Cancel </button>}
                             <button type="submit" className='new-user-submit'>{edit ? ' Edit User' : 'Create User'}</button>
-
                         </div>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     );

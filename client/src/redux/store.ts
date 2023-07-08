@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
+
 import authReducer from './reducers/authSlice';
 import projectReducer from './reducers/projectSlice';
 import filterSlice from './reducers/filterSlice';

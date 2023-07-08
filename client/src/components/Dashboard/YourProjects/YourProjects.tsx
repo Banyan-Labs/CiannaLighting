@@ -1,12 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import {
-    getProject,
-    getUserProjects,
-} from '../../../redux/actions/projectActions';
 import ReactTooltip from 'react-tooltip';
-import Modal from '../../Modal/Modal';
 import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import { VscFileSubmodule } from 'react-icons/vsc';
 import {
@@ -21,12 +15,16 @@ import {
 } from 'react-icons/io';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { getProject, getUserProjects } from '../../../redux/actions/projectActions';
+import Modal from '../../Modal/Modal';
 import dataHolding from './projectDetails';
-
-import '../style/dashboard.scss';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setSpecFile } from '../../../redux/actions/lightActions';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
+
+
+import '../style/dashboard.scss';
 
 const YourProjects: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -60,10 +58,12 @@ const YourProjects: FC = () => {
     useEffect(() => {
         console.log(user)
         dispatch(getUserProjects(user._id));
+
         let newProjectsNumber = 0;
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
         let completedProjectsNumber = 0;
+
         if (userProjects.length != 0) {
             userProjects.map((project) => {
                 if (project.status == 'New') {
@@ -76,71 +76,72 @@ const YourProjects: FC = () => {
                     completedProjectsNumber = completedProjectsNumber + 1;
                 }
             });
+
             setNewProjects(newProjectsNumber);
             setOnHoldProjects(onHoldProjectsNumber);
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
         }
     }, [user._id, userProjects.length]);
+
     const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
-    const singleProject = userProjects
-        .map((project: any, index: any) => {
-            const color = projectColors[index % projectColors.length];
+    const singleProject = userProjects.map((project: any, index: any) => {
+        const color = projectColors[index % projectColors.length];
 
-            const changeProject = async (prodId: string) => {
-                await dispatch(getProject({ _id: prodId }));
-                await dispatch(
-                    setSpecFile({ projId: prodId, edit: '' }, false)
-                );
-                dataHolding.getData(project, color);
-            };
-            const date = new Date(Date.parse(project.createdAt)).toDateString();
-
-            return (
-                <div
-                    className="single-project"
-                    style={{
-                        backgroundColor: color,
-                    }}
-                    onClick={async () => {
-                        await dispatch(setTheYourProjects(true));
-                        changeProject(project._id);
-                        projectRoute(project._id);
-                        
-                    }}
-                    key={index}
-                >
-                    <span>
-                        Created: <strong>{date}</strong>
-                    </span>
-                    <div className="d-flex align-items-end justify-content-between">
-                        <span>
-                            Status: <strong>{project.status}</strong>
-                        </span>
-
-                        <RiArchiveDrawerFill
-                            data-for="ab"
-                            data-tip={`${project?.name} is archived`}
-                            className={
-                                project?.archived
-                                    ? 'archive-icon archive-show-option'
-                                    : 'd-none'
-                            }
-                        />
-
-                        <ReactTooltip id="ab" />
-                    </div>
-                    <div className="card-divider" />
-                    <h3>{project.name}</h3>
-                    <div className="view-details-block" key={index}>
-                        <span>
-                            View Details{' '}
-                            <FaChevronRight className="view-details-chevron" />
-                        </span>
-                    </div>
-                </div>
+        const changeProject = async (prodId: string) => {
+            await dispatch(getProject({ _id: prodId }));
+            await dispatch(
+                setSpecFile({ projId: prodId, edit: '' }, false)
             );
-        })
+            dataHolding.getData(project, color);
+        };
+        const date = new Date(Date.parse(project.createdAt)).toDateString();
+
+        return (
+            <div
+                className="single-project"
+                style={{
+                    backgroundColor: color,
+                }}
+                onClick={async () => {
+                    await dispatch(setTheYourProjects(true));
+                    changeProject(project._id);
+                    projectRoute(project._id);
+
+                }}
+                key={index}
+            >
+                <span>
+                    Created: <strong>{date}</strong>
+                </span>
+                <div className="d-flex align-items-end justify-content-between">
+                    <span>
+                        Status: <strong>{project.status}</strong>
+                    </span>
+
+                    <RiArchiveDrawerFill
+                        data-for="ab"
+                        data-tip={`${project?.name} is archived`}
+                        className={
+                            project?.archived
+                                ? 'archive-icon archive-show-option'
+                                : 'd-none'
+                        }
+                    />
+
+                    <ReactTooltip id="ab" />
+                </div>
+                <div className="card-divider" />
+                <h3>{project.name}</h3>
+                <div className="view-details-block" key={index}>
+                    <span>
+                        View Details{' '}
+                        <FaChevronRight className="view-details-chevron" />
+                    </span>
+                </div>
+            </div>
+        );
+    })
         .reverse();
 
     return (

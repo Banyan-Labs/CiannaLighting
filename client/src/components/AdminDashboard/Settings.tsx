@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { axiosPrivate } from '../../api/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
+
+import { axiosPrivate } from '../../api/axios';
 
 const Settings: FC = () => {
     const [status, setStatus] = useState<string[]>([]);
@@ -22,14 +23,17 @@ const Settings: FC = () => {
             const regionCall = await axiosPriv.post('/public/s_r', {
                 label: 'region',
             });
-            if(statusCall){
-            setStatus(statusCall.data.data);
-            setSortedStatus(statusCall.data.data)
+
+            if (statusCall) {
+                setStatus(statusCall.data.data);
+                setSortedStatus(statusCall.data.data)
             }
-            if(regionCall){
-            setRegion(regionCall.data.data);
-            setSortedRegion(regionCall.data.data)
+
+            if (regionCall) {
+                setRegion(regionCall.data.data);
+                setSortedRegion(regionCall.data.data)
             }
+
             setNewStatus('');
             setNewRegion('');
         } catch (error: any) {
@@ -45,43 +49,50 @@ const Settings: FC = () => {
     };
     const handleSubmit = async (e: any, section: string) => {
         e.preventDefault();
+
         const submitVal =
             section === 'status'
                 ? newStatus
                 : section === 'region'
-                ? newRegion
-                : '';
+                    ? newRegion
+                    : '';
         const axiosPriv = axiosPrivate();
+
         try {
             const submitted = await axiosPriv.post('/internal/new-sr', {
                 label: section,
                 value: submitVal,
             });
-            if(submitted){
+
+            if (submitted) {
                 setSections();
             }
-            return submitted
+
+            return submitted;
         } catch (error: any) {
             throw new Error(error.message);
         }
-        
+
     };
     const removeSR = async (e: any, section: string, value: string) => {
         e.preventDefault();
-        const axiosPriv =  axiosPrivate();
+
+        const axiosPriv = axiosPrivate();
+
         try {
             const submitted = await axiosPriv.post('/internal/delete-sr', {
                 label: section,
                 value: value,
             });
-            if(submitted){
+
+            if (submitted) {
                 setSections();
             }
-            return submitted            
-        } catch (error: any) {            
+
+            return submitted;
+        } catch (error: any) {
             throw new Error(error.message);
         }
-        
     };
     const sortDisplay = (field: string) => {
         const directionCall: any = {
@@ -89,6 +100,7 @@ const Settings: FC = () => {
             1: <FaChevronUp className="sort-chevron" />,
             2: <FaChevronDown className="sort-chevron" />,
         };
+
         if (field == 'status') {
             return directionCall[statusSort];
         } else {
@@ -97,7 +109,6 @@ const Settings: FC = () => {
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         const utilizedData: any = field == 'status' ? status : region;
-        
         const sorted: any = {
             0: utilizedData,
             1: utilizedData.slice().sort((a: any, b: any) => {
@@ -119,10 +130,11 @@ const Settings: FC = () => {
                 return 0;
             }),
         };
-        if (field == 'status'){
-        setSortedStatus(sorted[direction]);
-        setStatusSort(direction);
-        }else{
+
+        if (field == 'status') {
+            setSortedStatus(sorted[direction]);
+            setStatusSort(direction);
+        } else {
             setSortedRegion(sorted[direction]);
             setRegionSort(direction)
         }
@@ -184,7 +196,7 @@ const Settings: FC = () => {
             </div>
             <table className="users-table">
                 <thead >
-                    <tr className="users-table-headers settings-head" onClick={()=> triggerDirection('status')}>
+                    <tr className="users-table-headers settings-head" onClick={() => triggerDirection('status')}>
                         <td>Status</td>
                         <td>{sortDisplay('status')}</td>
                         <td>click to sort</td>
@@ -241,7 +253,7 @@ const Settings: FC = () => {
             </div>
             <table className="users-table">
                 <thead>
-                    <tr className="users-table-headers settings-head" onClick={()=> triggerDirection('region')}>
+                    <tr className="users-table-headers settings-head" onClick={() => triggerDirection('region')}>
                         <td>Region</td>
                         <td>{sortDisplay('region')}</td>
                         <td>click to sort</td>
@@ -273,4 +285,5 @@ const Settings: FC = () => {
         </div>
     );
 };
+
 export default Settings;

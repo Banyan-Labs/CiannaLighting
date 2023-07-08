@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
+import ReactTooltip from 'react-tooltip';
+
 import {
     createProjectAction,
     getProject,
@@ -15,10 +17,10 @@ import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import ReactTooltip from 'react-tooltip';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
+
 interface ProjectSummaryProps {
     details: any;
     processing: boolean;
@@ -49,24 +51,29 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
 
     const inactiveLightCheck = (e: SyntheticEvent, project: ProjectType) => {
         e.preventDefault();
+
         let finalLightCheck: LightREF[] | [] = [];
 
         setInactive.forEach((item: string) => {
             const inactive = project.lightIDs?.find(
                 (light: LightREF) => light.item_ID === item
             );
+
             if (inactive && inactive !== undefined) {
                 finalLightCheck = [...finalLightCheck, inactive];
             }
+
             return item;
         });
         if (finalLightCheck && finalLightCheck.length) {
             setInactiveList(finalLightCheck);
             setProjectHold(project);
             inactiveModalTrigger();
+
             return true;
         } else {
             copyOfProject(e, project);
+
             return false;
         }
     };
@@ -74,14 +81,16 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
-        const axiosPriv = axiosPrivate();
 
+        const axiosPriv = axiosPrivate();
         const attach = await axiosPriv.post('/get-attachments', {
             projId: proj._id,
         });
         let attachments = [];
+
         if (attach) {
             attachments = attach.data.proj.pdf;
+
             if (attachments.length) {
                 const payload = {
                     project: {
@@ -92,14 +101,17 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     copy: 'project',
                     attachments: attachments,
                 };
+
                 try {
                     const response = await dispatch(
                         createProjectAction(payload)
                     );
+
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
                     setProcessing(false);
                     alert(`Copy of ${proj.name} created in your dashboard.`);
+
                     return response;
                 } catch (error: any) {
                     throw new Error(error.message);
@@ -116,6 +128,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
 
     const archiveSet = async (e: any) => {
         e.preventDefault();
+
         try {
             await dispatch(
                 getProject({
@@ -124,6 +137,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     activity: details.archived ? 'Restore' : 'Archive',
                 })
             );
+
             details?.archived === true
                 ? alert('This project was restored')
                 : alert('This project was archived');
@@ -140,6 +154,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     }, []);
 
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
+    
     return (
         <div className="project-summary-container">
             <div className="projects-summary">

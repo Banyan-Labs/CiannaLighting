@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+
 import Filter from './Filter';
 import useParams from '../../app/utils';
 import RoomDetails from './RoomDetails';
@@ -13,6 +14,7 @@ import {
     getRoomLights,
     getCatalogItems,
 } from '../../redux/actions/lightActions';
+
 import './style/roomDetails.scss';
 
 const Details: FC = () => {

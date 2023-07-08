@@ -1,4 +1,6 @@
 import React, { FC } from 'react';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
+
 import Settings from './Settings';
 import Activity from './Activity';
 import Inventory from '../Inventory/Inventory';
@@ -7,7 +9,7 @@ import RequireAuth from '../RequireAuth/RequireAuth';
 import { ROLES } from '../../app/constants';
 import { adminLinks } from './links';
 import { useAppSelector } from '../../app/hooks';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
+
 import './styles/AdminDashboard.scss';
 
 const AdminDashboard: FC = () => {
@@ -47,6 +49,7 @@ const AdminDashboard: FC = () => {
                         <Route path="/users" element={<UsersTable />} />
                         <Route path="/activity" element={<Activity />} />
                     </Route>
+
                     <Route path="/settings" element={<Settings />} />
                 </Routes>
             </div>

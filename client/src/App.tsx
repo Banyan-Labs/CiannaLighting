@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import { ROLES } from './app/constants';
-import './index.scss';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import Layout from './components/Layout/Layout';
 import Catalog from './components/Catalog/Catalog';
@@ -14,6 +14,8 @@ import Unauthorized from './components/RequireAuth/Unauthorized';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Inventory from './components/Inventory/Inventory';
 import Details from './components/Rooms/Details';
+
+import './index.scss';
 
 export interface AppProps {
     user: any;

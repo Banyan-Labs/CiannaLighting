@@ -20,11 +20,11 @@ const axiosFile = axios.create({
 });
 
 export const axiosPrivate = () => {
-    let token = '';
-
     const state = store.getState();
+
     if (state) {
-        token = state.auth.user.token;
+        const token = state.auth.user.token;
+
         axiosAuth.interceptors.request.use(
             (config: any) => {
                 config.headers['authorization'] = `Bearer ${token}`;
@@ -33,6 +33,7 @@ export const axiosPrivate = () => {
             },
             (error) => Promise.reject(error)
         );
+
         axiosAuth.interceptors.response.use(
             (response) => response,
             async (error) => {
@@ -54,11 +55,11 @@ export const axiosPrivate = () => {
 };
 
 export const axiosFileUpload = async () => {
-    let token = '';
-
     const state = store.getState();
+
     if (state) {
-        token = state.auth.user.token;
+        const token = state.auth.user.token;
+
         axiosFile.interceptors.request.use(
             (config: any) => {
                 config.headers['authorization'] = `Bearer ${token}`;
@@ -67,6 +68,7 @@ export const axiosFileUpload = async () => {
             },
             (error) => Promise.reject(error)
         );
+
         axiosFile.interceptors.response.use(
             (response) => response,
             async (error) => {

@@ -1,4 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createProjectAction } from '../../redux/actions/projectActions';
 
@@ -35,6 +36,7 @@ const CreateProjectPage: FC = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        
         try {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({

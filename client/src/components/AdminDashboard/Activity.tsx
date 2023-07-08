@@ -1,9 +1,11 @@
 import React, { FC, useEffect } from 'react';
-import './styles/AdminDashboard.scss';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteTheLog, getAllLogs } from '../../redux/actions/authActions';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import uuid from 'react-uuid';
+
+import './styles/AdminDashboard.scss';
+
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { deleteTheLog, getAllLogs } from '../../redux/actions/authActions';
 
 const Activity: FC = () => {
     const { logs } = useAppSelector(({ auth: user }) => user);
@@ -16,6 +18,7 @@ const Activity: FC = () => {
     useEffect(() => {
         dispatch(getAllLogs());
     }, []);
+
     return (
         <div>
             <h2>Recent Logs</h2>
@@ -32,16 +35,10 @@ const Activity: FC = () => {
                     </thead>
                     <tbody>
                         {logs?.map((log) => {
-                            const RDate =
-                                log?.updatedAt !== ''
-                                    ? log?.updatedAt
-                                    : log?.createdAt;
-                            const date = new Date(
-                                Date.parse(RDate)
-                            ).toDateString();
-                            const time = new Date(
-                                Date.parse(RDate)
-                            ).toLocaleTimeString();
+                            const RDate = log?.updatedAt !== '' ? log?.updatedAt : log?.createdAt;
+                            const date = new Date(Date.parse(RDate)).toDateString();
+                            const time = new Date(Date.parse(RDate)).toLocaleTimeString();
+
                             return (
                                 <tr
                                     key={uuid()}

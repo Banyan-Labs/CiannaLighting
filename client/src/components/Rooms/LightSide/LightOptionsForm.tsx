@@ -1,6 +1,7 @@
 import React, { useRef, FormEvent, useState } from 'react';
-import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import uuid from 'react-uuid';
+
+import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import useParams from 'app/utils';
 import { CatalogLightItem, LightItemType } from 'typescript/CatalogItem';
@@ -20,6 +21,7 @@ import {
     setTheRoom,
     getAllProjectRoomsAction,
 } from 'redux/actions/projectActions';
+
 import './lightOptionsForm.style.scss';
 
 type Props = {
@@ -107,6 +109,7 @@ function LightOptionsForm({
                     )
                 );
             }
+
             await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
@@ -120,6 +123,7 @@ function LightOptionsForm({
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
+
         if (formRef.current) {
             const formEleData = buildObjectFromFormControls(
                 formRef.current.elements
@@ -154,6 +158,7 @@ function LightOptionsForm({
                 numberOfLamps: catalogLightItem.numberOfLamps,
                 totalLumens: catalogLightItem.lumens,
             };
+
             try {
                 await dispatchSubmit(
                     editLightItem,
@@ -166,6 +171,7 @@ function LightOptionsForm({
             }
         }
     };
+    
     const InputElements = getLightOptionsDropValuesFromItem(
         catalogLightItem
     ).map((selectField) => {
@@ -178,9 +184,9 @@ function LightOptionsForm({
                 defaultValue={
                     editLightItem !== null
                         ? getDefaultDropValueFromLightEntity(
-                              editLightItem,
-                              selectField.key
-                          )
+                            editLightItem,
+                            selectField.key
+                        )
                         : selectField.values[0]
                 }
             />

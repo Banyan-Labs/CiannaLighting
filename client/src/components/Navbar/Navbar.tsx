@@ -1,4 +1,6 @@
 import React, { FC } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
 import * as data from './links.json';
 import logo from '../../assets/ciana-logo-black.png';
 import useParams from '../../app/utils';
@@ -6,8 +8,8 @@ import { ROLES } from '../../app/constants';
 import { FaRegBell } from 'react-icons/fa';
 import { logoutAction } from '../../redux/actions/authActions';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
-import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+
 import './style/Navbar.scss';
 
 const links = JSON.parse(JSON.stringify(data)).links;
@@ -70,8 +72,9 @@ const Navbar: FC = () => {
     const handleLogout = async (e: any) => {
         try {
             e.preventDefault();
+            
             dispatch(logoutAction(user.email));
-        } catch (err:any) {
+        } catch (err: any) {
             throw new Error(err.message)
         }
     };

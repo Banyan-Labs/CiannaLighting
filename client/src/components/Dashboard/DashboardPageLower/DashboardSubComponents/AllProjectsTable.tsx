@@ -1,4 +1,7 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { axiosPrivate } from '../../../../api/axios';
@@ -12,14 +15,12 @@ import {
     setDefaults
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
-import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import './style/allProjects.scss';
-
-import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
 import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
+
+import './style/allProjects.scss';
 
 type Props = {
     renderedPage: string;
@@ -56,21 +57,21 @@ const AllProjects: FC<Props> = ({
         ({ project }) => project
     );
     const [processing, setProcessing] = useState(false);
-    const [projectOptionsModal, setProjectOptionsModal] =
-        useState<boolean>(false);
+    const [projectOptionsModal, setProjectOptionsModal] = useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inactiveClearModal, setInactiveClearModal] =
-        useState<boolean>(false);
+    const [inactiveClearModal, setInactiveClearModal] = useState<boolean>(false);
     const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
     const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
+
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
         dispatch(setDefaults());
     }, []);
+
     const inactiveModalTrigger = (): void => {
         setInactiveClearModal(true);
         onMouseOut();
@@ -107,12 +108,14 @@ const AllProjects: FC<Props> = ({
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         let utilizedData: any = [];
+
         if (renderedPage == 'All Projects') {
             utilizedData = activeProjects;
         } else {
             utilizedData = archivedProjects;
             return;
         }
+
         const sorted: any = {
             0: utilizedData,
             1: utilizedData.slice().sort((a: any, b: any) => {
@@ -134,6 +137,7 @@ const AllProjects: FC<Props> = ({
                 return 0;
             }),
         };
+
         setSortedData(sorted[direction]);
         setCurrentSort(field);
     };
@@ -148,8 +152,10 @@ const AllProjects: FC<Props> = ({
 
     const searchFilter = (e: any, data: any) => {
         setInputValue(e.currentTarget.value.toLowerCase());
+
         const searchValue: string = inputValue;
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
+
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -168,10 +174,12 @@ const AllProjects: FC<Props> = ({
                 };
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
+
                 itemVals.map((item: string) => {
                     const regCheck = new RegExp(searchValue, 'g').test(
                         item.toLowerCase()
                     );
+
                     if (regCheck) {
                         doesMatch = true;
                     }
@@ -202,8 +210,8 @@ const AllProjects: FC<Props> = ({
     const filteredProjects = sortedData.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-        ? activeProjects.reverse().slice(firstIndex, lastIndex)
-        : archivedProjects.reverse().slice(firstIndex, lastIndex);
+            ? activeProjects.reverse().slice(firstIndex, lastIndex)
+            : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData.length / projectsPerPage);
     const sortDisplay = (field: string) => {
@@ -223,14 +231,16 @@ const AllProjects: FC<Props> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
-        const axiosPriv = axiosPrivate();
 
+        const axiosPriv = axiosPrivate();
         const attach = await axiosPriv.post('/get-attachments', {
             projId: proj._id,
         });
         let attachments = [];
+
         if (attach) {
             attachments = attach.data.proj.pdf;
+
             if (attachments.length) {
                 const payload = {
                     project: {
@@ -241,26 +251,30 @@ const AllProjects: FC<Props> = ({
                     copy: 'project',
                     attachments: attachments,
                 };
+
                 try {
                     const response = await dispatch(
                         createProjectAction(payload)
                     );
+
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
                     setProcessing(false);
                     alert(`Copy of ${proj.name} created in your dashboard.`);
+
                     return response;
                 } catch (error: any) {
                     throw new Error(error.message);
                 }
             }
-        }else{
+        } else {
             throw new Error("Error in copying project route.")
         }
     };
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
         const statusNoSpace = project.status.replace(/\s/g, '');
+        
         return (
             <tbody key={index}>
                 <tr
@@ -395,9 +409,9 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    reduxData.length - archivedProjects.length
+                                        reduxData.length - archivedProjects.length
                                         ? reduxData.length -
-                                          archivedProjects.length
+                                        archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {(parsedData.length
@@ -412,7 +426,7 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    archivedProjects.length
+                                        archivedProjects.length
                                         ? archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects.length}
@@ -436,8 +450,8 @@ const AllProjects: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length 
-                                            : archivedProjects.length 
+                                            ? activeProjects.length
+                                            : archivedProjects.length
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}

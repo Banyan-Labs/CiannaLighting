@@ -1,7 +1,9 @@
 import React, { FC, useState, FormEvent } from 'react';
-import './style/roomDetails.scss';
+
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
+
+import './style/roomDetails.scss';
 
 interface catalogPros {
     catalogItem: any;
@@ -83,12 +85,15 @@ const DetailsFilter: FC<catalogPros> = ({
         } catch (err: any) {
             throw new Error(err.message);
         }
+
         const inputs = document.getElementsByTagName('input');
+
         for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].type == 'checkbox') {
                 inputs[i].checked = false;
             }
         }
+        
         setFilterBar(!filterBar);
     };
 

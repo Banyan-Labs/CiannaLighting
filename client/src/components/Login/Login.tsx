@@ -1,14 +1,13 @@
 import React, { FC, useState, useEffect, useRef, SyntheticEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import logo from '../../assets/ciana-lds-logo.png';
 import { ROLES } from '../../app/constants';
-import { useNavigate } from 'react-router-dom';
-import {
-    signInAction,
-    dismissErrorAction,
-} from '../../redux/actions/authActions';
+import { signInAction, dismissErrorAction } from '../../redux/actions/authActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ModalBase from '../commons/ModalBase/ModalBase';
 import ForgotPasswordModal from './ForgotPasswordModal';
+
 import './style/login.scss';
 
 const Login: FC = () => {
@@ -28,11 +27,11 @@ const Login: FC = () => {
         setModalOpen((prev) => !prev);
     };
 
-    const closeApiError = (isEmpty: boolean) =>
-        !isEmpty && dispatch(dismissErrorAction());
+    const closeApiError = (isEmpty: boolean) => !isEmpty && dispatch(dismissErrorAction());
 
     const handleLoginSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         if (emailInput.current && passwordInput.current) {
             dispatch(
                 signInAction({
@@ -45,10 +44,11 @@ const Login: FC = () => {
     };
 
     useEffect(() => {
-        if (user._id && dashRoles.includes(user.role))
+        if (user._id && dashRoles.includes(user.role)) {
             navigate(`/dashboard?_id=${user._id}`);
-        else if (user._id && !dashRoles.includes(user.role))
+        } else if (user._id && !dashRoles.includes(user.role)) {
             navigate(`/cmd/dash?_id=${user._id}`);
+        }
     }, [user._id]);
 
     return (
