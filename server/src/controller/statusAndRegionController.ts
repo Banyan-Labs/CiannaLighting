@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
+
 import statusAndRegion from "../model/statusAndRegion";
 
 const addInfo = (req: Request, res: Response) => {
   const { label, value } = req.body;
-
   const data = new statusAndRegion({
     label,
     value,
@@ -27,6 +27,7 @@ const addInfo = (req: Request, res: Response) => {
 
 const getData = async (req: Request, res: Response) => {
   const { label } = req.body;
+
   await statusAndRegion
     .find({ label })
     .exec()

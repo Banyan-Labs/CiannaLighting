@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+
 import Project from "../model/Project";
 import Room from "../model/Room";
 import LightSelection from "../model/LIghtSelection";
 import { lightIdService } from "./lightSelectionController";
 import { LightREF } from "../interfaces/projectInterface";
+
 const curDate = new Date().toISOString().split("T")[0].split("-");
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +51,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
             });
           });
       } else {
-        next();
+        res.status(204).json( { message: `No project found using _id of #${projectId}.` } );
       }
     })
     .catch((error) => {
@@ -58,12 +60,14 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
         error,
       });
     });
+
   return roomAndProject;
 };
 
 const getAllRooms = (req: Request, res: Response) => {
   const { projectId } = req.body;
-  if (projectId && projectId.length) {
+
+  if (projectId) {
     Room.find({ projectId })
       .then((rooms) => {
         return res.status(200).json({
@@ -91,26 +95,30 @@ const getRoom = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
+
   return await Room.findOne({ _id: req.body._id })
     .exec()
-    .then(async(room: any) => {
+    .then(async (room: any) => {
       if (room && keys.length) {
-        if(room.name !== req.body.name){
-          const project = await Project.findOne({_id: req.body.projectId});
-          if(project){
-            const newLightIds = project.lightIDs.map((light: LightREF)=>{
-              const newRooms = light.rooms.map((lightIdRoom:string)=> lightIdRoom === room.name ? req.body.name : lightIdRoom);
-              return {item_ID: light.item_ID, rooms: newRooms};
-            })                        
-            project.lightIDs = newLightIds;            
-            await project.save();            
+        if (room.name !== req.body.name) {
+          const project = await Project.findOne({ _id: req.body.projectId });
+          if (project) {
+            const newLightIds = project.lightIDs.map((light: LightREF) => {
+              const newRooms = light.rooms.map((lightIdRoom: string) => lightIdRoom === room.name ? req.body.name : lightIdRoom);
+              return { item_ID: light.item_ID, rooms: newRooms };
+            })
+            project.lightIDs = newLightIds;
+            await project.save();
           }
         }
         keys.map((keyName: string) => {
           room[keyName] = parameters[keyName];
         });
         room.save();
+      } else if (!room) {
+        return res.status(204).json( { message: `No room found using _id of #${req.body._id}.` } );
       }
+
       return res.status(200).json({
         room,
       });
@@ -127,6 +135,7 @@ const deleteRoom = async (req: Request, res: Response) => {
     itemIDS: string[];
   }
   const { projectId, _id, itemIDS }: RequestBody = req.body;
+
   return await Project.findByIdAndUpdate({ _id: projectId })
     .exec()
     .then(async (project) => {
@@ -144,9 +153,10 @@ const deleteRoom = async (req: Request, res: Response) => {
         project.rooms = project.rooms.filter((id: string) => {
           return String(id) !== _id ? id : "";
         });
+
         await project.save();
       }
-      const roomRemoved = "room removed successfully from project";
+
       await LightSelection.deleteMany({ roomId: _id })
         .exec()
         .then((res) => {
@@ -157,17 +167,18 @@ const deleteRoom = async (req: Request, res: Response) => {
         });
       return await Room.findByIdAndDelete({ _id: req.body._id })
         .then((room) => {
-          if(room && req.body.itemIDS && req.body.itemIDS.length){
-            itemIDS.forEach(async(item_ID: string)=> await lightIdService(room.projectId, 'delete', item_ID, room.name))
+          if (room && req.body.itemIDS && req.body.itemIDS.length) {
+            itemIDS.forEach(async (item_ID: string) => await lightIdService(room.projectId, 'delete', item_ID, room.name))
           }
+
           return !room
             ? res.status(200).json({
-                room,
-              })
+              room,
+            })
             : res.status(404).json({
-                message: "The Room you are looking for no longer exists",
-                roomRemoved,
-              });
+              message: "The Room you are looking for no longer exists",
+              roomRemoved: "room removed successfully from project",
+            });
         })
         .catch((error) => {
           res.status(500).json(error);

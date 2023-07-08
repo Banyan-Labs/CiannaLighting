@@ -1,14 +1,18 @@
 import mongoose from "mongoose";
-import Activity from "../model/ActivityLog";
 import type { Request } from "express";
+
+import Activity from "../model/ActivityLog";
+
 export const createLog = async (req: Request) => {
   const ipAddress = req.ip;
   const { name, userId, role } = req.body;
+
   await Activity.findOne({ ipAddress: ipAddress })
     .exec()
     .then((log) => {
       if (log) {
         log.ipAddress = ipAddress;
+
         log
           .save()
           .then((updatedLog) => {

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+
 import Activity from "../model/ActivityLog";
 
 const createLog = async (req: Request, res: Response, next: NextFunction) => {
@@ -9,6 +10,7 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
     const log = await Activity.findOne({ userId }).then(
       (activityLog) => activityLog
     );
+
     if (!log || log.ipAddress !== ipAddress) {
       const newLog = new Activity({
         _id: new mongoose.Types.ObjectId(),
@@ -17,7 +19,9 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
         ipAddress,
         role,
       });
+
       await newLog.save();
+
       return res.status(201).json({ log: newLog });
     } else {
       const logUpdate = Activity.findOneAndUpdate(
@@ -25,6 +29,7 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
         { ipAddress },
         { new: true }
       );
+
       return res.status(200).json({ log: logUpdate });
     }
   } catch (error: any) {
@@ -45,6 +50,7 @@ export const createLogAtSignIn = async (
     const log = await Activity.findOne({ userId }).then(
       (activityLog) => activityLog
     );
+
     if (!log || log.ipAddress !== ipAddress) {
       const newLog = new Activity({
         _id: new mongoose.Types.ObjectId(),
@@ -53,7 +59,9 @@ export const createLogAtSignIn = async (
         ipAddress,
         role,
       });
+
       await newLog.save();
+
       return Promise.resolve(newLog);
     } else {
       const logUpdate = Activity.findOneAndUpdate(
@@ -61,6 +69,7 @@ export const createLogAtSignIn = async (
         { ipAddress },
         { new: true }
       );
+
       return Promise.resolve(logUpdate);
     }
   } catch (error: any) {
@@ -82,6 +91,7 @@ const getAllLogs = (req: Request, res: Response) => {
 
 const getUserLogs = (req: Request, res: Response) => {
   const { userId } = req.body;
+
   Activity.findOne({ userId })
     .exec()
     .then((results) => {
@@ -93,7 +103,7 @@ const getUserLogs = (req: Request, res: Response) => {
 
 const deleteLog = async (req: Request, res: Response) => {
   await Activity.findOneAndDelete({ _id: req.body._id })
-    .then((data) => {
+    .then(() => {
       return res.status(200).json({
         message: `Successfully deleted ${req.body._id}`,
       });

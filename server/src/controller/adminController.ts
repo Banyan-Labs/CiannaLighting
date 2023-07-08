@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import User from "../model/User";
 import bcrypt from "bcrypt";
+
+import User from "../model/User";
 
 const createNewUser = async (req: Request, res: Response) => {
   const { name, email, password, role } = req.body;
 
-  if (!name || !email || !password || !role)
+  if (!name || !email || !password || !role) {
     return res
       .status(400)
       .json({ message: "Please fill in all required fields" });
+  }
 
   await User.findOne({ email })
     .then(async (existingUser) => {
@@ -46,7 +48,7 @@ const createNewUser = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
-      res.sendStatus(500);
+      res.sendStatus(500).json({ message: error.message });
     });
 };
 

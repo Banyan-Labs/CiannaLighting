@@ -1,4 +1,5 @@
 import express from "express";
+
 import controller from "../controller/userController";
 import statusController from "../controller/statusAndRegionController";
 import catalogController from "../controller/catalogController";
@@ -12,12 +13,12 @@ const router = express.Router();
  * prefix: /api/public
  */
 
-router.post("/login/user", controller.login);
-router.post("/log_out/user", controller.logOut);
-router.post("/s_r", statusController.getData);
-router.post("/get-catalog", catalogController.getCatalogItems);
-router.post("/find-light", catalogController.getLight);
-router.post("/create-log", activityController.createLog);
-router.post("/forgot-password", userController.resetPassword);
+router.post("/login/user", controller.login)
+  .post("/log_out/user", controller.logOut)
+  .post("/s_r", statusController.getData)
+  .post("/get-catalog", catalogController.getCatalogItems)
+  .post("/find-light", catalogController.getLight)
+  .post("/create-log", activityController.createLog)
+  .post("/forgot-password", userController.resetPassword);
 
 export default router;

@@ -1,33 +1,44 @@
 import { NextFunction, Request, Response } from "express";
-import User from "../model/User";
 import bcrypt from "bcrypt";
+
+import User from "../model/User";
 import { signJwt } from "../utils/signJwt";
 import { createLogAtSignIn } from "./activityController";
+
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  if (!email || !password)
+
+  if (!email || !password) {
     res.status(400).json({ message: "Username and password are required" });
+  }
+
   try {
     const thisUser = await User.findOne({ email }).select("+password");
-    if (!thisUser) return res.status(404).json({ message: "User not found" });
-    else if (thisUser && !thisUser?.isActive)
+
+    if (!thisUser) {
+      return res.status(404).json({ message: "User not found" });
+    } else if (!thisUser?.isActive) {
       return res.status(401).json({ message: "User is not active" });
-    else if (thisUser && thisUser.isActive) {
-      if (!bcrypt.compareSync(password, thisUser.password))
+    } else if (thisUser && thisUser.isActive) {
+      if (!bcrypt.compareSync(password, thisUser.password)) {
         return res.status(401).json({ message: "Invalid password" });
-      else {
+      } else {
         const JWT = signJwt({ email: thisUser.email, role: thisUser.role });
         thisUser.refreshToken = JWT.refreshToken;
         const authUser = await thisUser.save();
+
         if (authUser) {
           const { _id, name, email, role } = authUser;
+
           await createLogAtSignIn(req.ip, _id, role, name);
+
           res.cookie("jwt", JWT.refreshToken, {
             httpOnly: true,
             sameSite: "none",
             path: "/",
             secure: true,
           });
+
           res.status(200).json({
             accessToken: JWT.accessToken,
             message: "Login successful",
@@ -46,9 +57,9 @@ const login = async (req: Request, res: Response) => {
 };
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { _id, emailChange, passwordChange, name, role, isActive, update } =
-    req.body;
+  const { _id, emailChange, passwordChange, name, role, isActive, update } = req.body;
   console.log("body: ", req.body);
+
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
@@ -63,31 +74,38 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
           const nameMatch = authUser.name === name;
           const roleMatch = authUser.role === role;
           const activeMatch = authUser.isActive === isActive;
+
           if (passwordChange && !match) {
             const newHashedPassword = await bcrypt.hash(passwordChange, 10);
             authUser.password = newHashedPassword;
           }
+
           if (emailChange && !emailMatch) {
             authUser.email = emailChange;
           }
+
           if (role && !roleMatch) {
             authUser.role = role;
           }
+
           if (name && !nameMatch) {
             authUser.name = name;
           }
+
           if (isActive != undefined && !activeMatch) {
             authUser.isActive = isActive;
           }
+
           await authUser.save();
-        } else {
-          next();
         }
+
+        return res.status(200).json({
+          authUser,
+          message: `Don't forget you're new password if you changed it ${authUser?.name}!`,
+        });
+      } else {
+        return res.status(204).json( { message: `No user found using _id of #${_id}.` } );
       }
-      return res.status(200).json({
-        authUser,
-        message: `Don't forget you're new password if you changed it ${authUser?.name}!`,
-      });
     })
     .catch((error) => {
       res.sendStatus(500).json({
@@ -98,10 +116,11 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const logOut = async (req: Request, res: Response) => {
   const cookies = req.cookies;
-
   const refreshToken = cookies.jwt;
 
-  if (!cookies.jwt) return res.sendStatus(204);
+  if (!refreshToken) {
+    return res.sendStatus(204).json( { message: "No refresh token found in cookie." } );
+  }
 
   await User.findOne({ refreshToken })
     .select("+refreshToken")
@@ -112,18 +131,17 @@ const logOut = async (req: Request, res: Response) => {
           sameSite: "none",
           secure: true,
         });
-        return res.sendStatus(204);
+        return res.sendStatus(204).json( { message: `No user found using refreshToken of #${refreshToken}.` } );
       }
 
       user.refreshToken = "";
       user.save();
-
       res.clearCookie("jwt", {
         httpOnly: true,
         sameSite: "none",
         secure: true,
       });
-      res.sendStatus(204);
+      res.sendStatus(200);
     });
 };
 
@@ -133,6 +151,7 @@ const addActiveColumnToUserAndSetToTrue = async (
 ) => {
   try {
     const allUsers = await User.find();
+
     allUsers.forEach((user) => {
       User.findByIdAndUpdate(
         user._id,
@@ -144,18 +163,21 @@ const addActiveColumnToUserAndSetToTrue = async (
         }
       );
     });
+
     return res.sendStatus(200);
   } catch (error: any) {
     console.error(error);
     throw error;
   }
 };
+
 const addResetPassColumnToUserAndSetToFalse = async (
   _req: Request,
   res: Response
 ) => {
   try {
     const allUsers = await User.find();
+
     allUsers.forEach((user) => {
       User.findByIdAndUpdate(
         user._id,
@@ -167,6 +189,7 @@ const addResetPassColumnToUserAndSetToFalse = async (
         }
       );
     });
+
     return res.sendStatus(200);
   } catch (error: any) {
     console.error(error);
@@ -183,26 +206,33 @@ const editUser = async (req: Request, res: Response) => {
   };
   const { name, emailChange, passwordChange, role }: ReqBody = req.body;
   const { userId } = req.params;
+
   try {
     const targetUser = await User.findById(userId);
+
     if (!targetUser) {
       return res.status(404).json({ message: "User not found" });
     } else {
       if (name) {
         targetUser.name = name;
       }
+
       if (emailChange) {
         targetUser.email = emailChange;
       }
+
       if (passwordChange) {
         if (targetUser.resetPasswordRequest)
           targetUser.resetPasswordRequest = false;
         targetUser.password = bcrypt.hashSync(passwordChange, 10);
       }
+
       if (role) {
         targetUser.role = role;
       }
+
       await targetUser.save();
+
       return res
         .status(200)
         .json({ message: "User updated", data: targetUser });
@@ -215,6 +245,7 @@ const editUser = async (req: Request, res: Response) => {
 
 const toggleUserIsActive = async (req: Request, res: Response) => {
   const { userId } = req.params;
+
   try {
     const targetUser = await User.findById(userId);
     if (!targetUser) {
@@ -222,11 +253,12 @@ const toggleUserIsActive = async (req: Request, res: Response) => {
     } else {
       const currentStatus = targetUser.isActive;
       targetUser.isActive = !currentStatus;
+
       await targetUser.save();
+
       return res.status(200).json({
-        message: `User ${targetUser.name} ${
-          currentStatus ? "deactivated" : "activated"
-        }`,
+        message: `User ${targetUser.name} ${currentStatus ? "deactivated" : "activated"
+          }`,
       });
     }
   } catch (error: any) {
@@ -238,6 +270,7 @@ const toggleUserIsActive = async (req: Request, res: Response) => {
 const resetPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
   const targetUser = await User.findOne({ email });
+
   if (!targetUser) {
     res.status(404).json({ message: "User not found" });
   } else {

@@ -8,7 +8,6 @@ const allowedMimeTypes = [
   "image/png",
   "image/jpg",
 ];
-
 const filetypes = /jpeg|jpg|png|gif|pdf/;
 
 const multerStorage = multer.memoryStorage();
@@ -19,12 +18,14 @@ const multerFilter = async (
   cb: FileFilterCallback
 ) => {
   const extname = filetypes.test(path.extname(file.originalname).toString());
+
   if (allowedMimeTypes.includes(file.mimetype) && extname) {
     cb(null, true);
   } else {
     return cb(new Error("File type not supported"));
   }
 };
+
 const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import LightSelection from "../model/LIghtSelection";
-import lightSelectionController, { lightIdService } from "./lightSelectionController";
+import { lightIdService } from "./lightSelectionController";
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
@@ -56,7 +56,6 @@ const createProject = async (req: Request, res: Response) => {
       clientName: clientName,
       tableRow: [],
     });
-
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
@@ -83,34 +82,38 @@ const createProject = async (req: Request, res: Response) => {
         ],
       },
     });
+
     rfp.projectId = project._id;
+
     await rfp.save();
+
     return await project
       .save()
       .then(async (project) => {
         if (project) {
           project.rfp = String(rfp._id);
           if (_id && copy === "project") {
-            let i = 0;
             if (project) {
-              while( i < rooms.length) {
+              let i = 0;
+
+              while (i < rooms.length) {
                 await Room.findOne({ _id: rooms[i] })
                   .then(async (foundRoom) => {
                     await runRoom(foundRoom, project._id, clientId, copy);
                     i++
-                  })
-                  .catch((error) => {
+                  }).catch((error) => {
                     res.status(500).json({
                       error,
                     });
                   });
               }
-            if(i === rooms.length){
-              return res.status(201).json({
-                project,
-                message: `copy of project ${_id}`,
-              });
-            }
+
+              if (i === rooms.length) {
+                return res.status(201).json({
+                  project,
+                  message: `copy of project ${_id}`,
+                });
+              }
             }
           } else {
             return res.status(201).json({
@@ -136,17 +139,14 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
   const curDate = new Date().toISOString().split("T")[0].split("-");
+
   return await Project.findOne({ _id: req.body._id })
     .exec()
     .then(async (project) => {
       if (project) {
         if (project && project.activity == undefined) {
           project["activity"] = {
-            createUpdate: `Created on ${[
-              curDate[1],
-              curDate[2],
-              curDate[0],
-            ].join("/")}`,
+            createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0],].join("/")}`,
             rooms: [],
             archiveRestore: [],
             status: [
@@ -157,6 +157,7 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
             ],
           };
         }
+
         if (keys.length) {
           keys.map((keyName: string) => {
             switch (keyName) {
@@ -194,55 +195,51 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
                   ...project.activity,
                   archiveRestore: project.activity.archiveRestore
                     ? [
-                        [
-                          `Project ${parameters["activity"]}ed`,
-                          `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
-                        ],
-                        ...project.activity.archiveRestore,
-                      ]
-                    : [
-                        [
-                          `Project ${parameters["activity"]}ed`,
-                          `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
-                        ],
+                      [
+                        `Project ${parameters["activity"]}ed`,
+                        `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
                       ],
+                      ...project.activity.archiveRestore,
+                    ]
+                    : [
+                      [
+                        `Project ${parameters["activity"]}ed`,
+                        `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
+                      ],
+                    ],
                 };
                 break;
               default:
-                null;
+                break;
             }
           });
           if (project.activity) {
             project.activity = {
               ...project.activity,
-              createUpdate: `Updated on ${[
-                curDate[1],
-                curDate[2],
-                curDate[0],
-              ].join("/")}`,
+              createUpdate: `Updated on ${[curDate[1], curDate[2], curDate[0],].join("/")}`,
             };
           }
         }
         project.save();
+
         return res.status(200).json({
           project,
         });
       } else {
-        next();
+        return res.status(204).json( { message: `No project found using _id #${req.body._id}.` } );
       }
     })
     .catch((error) => {
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string, clientId: string, copy:string):Promise<void> => {
+const runRoom = async (room: any, newProjectId: string, clientId: string, copy: string): Promise<void> => {
   const { name, description, lights } = room;
   /**
    * Need to include lideSelectionService in here and update the information
    * from the front end to send the itemIDS from the front end of each light in the room being copied.
    *
    */
-
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
     name: name,
@@ -253,35 +250,34 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy:s
   });
   const roomAndProject = await Project.findOne({ _id: newProjectId });
   let curDate = new Date().toISOString().split("T")[0].split("-");
+
   if (roomAndProject) {
     roomAndProject.activity = {
       ...roomAndProject.activity,
       rooms: [
         [
-          `${room.name.toUpperCase()} copied and created new roomID: ${
-            newRoom._id
+          `${room.name.toUpperCase()} copied and created new roomID: ${newRoom._id
           }.`,
           `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
         ],
         ...roomAndProject.activity.rooms,
       ],
-
-      createUpdate: `Updated on ${[curDate[1], curDate[2], curDate[0]].join(
-        "/"
-      )}`,
+      createUpdate: `Updated on ${[curDate[1], curDate[2], curDate[0]].join("/")}`,
     };
     roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
+
     await roomAndProject.save();
   }
 
   await newRoom.save().then(async (room) => {
     if (room) {
       for (let i = 0; i < lights.length; i++) {
-        console.log("lights and index", lights, i, lights[i] )
+        console.log("lights and index", lights, i, lights[i])
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-        await runLights(light, room._id, room.projectId, clientId, copy);
+          await runLights(light, room._id, room.projectId, clientId, copy);
         });
       }
+
       return room
     }
   });
@@ -324,14 +320,14 @@ const runLights = async (
     numberOfLamps: light.numberOfLamps,
     totalLumens: light.totalLumens,
   });
-
   const lightAndRoom = await Room.findOne({ _id: newRoomId });
 
   if (lightAndRoom) {
-    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];    
+    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
+
     return await lightAndRoom
       .save()
-      .then(async (room) => {
+      .then(async () => {
         const newlight = await newLight.save();
         ///////
         /**
@@ -358,8 +354,9 @@ const runLights = async (
             numberOfLamps,
             totalLumens,
           } = newlight;
-          if(copy === 'room'){
-            console.log("item id in roomCopyIDservice: ", item_ID, roomName)
+
+          if (copy === 'room') {
+            console.log("item id in roomCopyIDservice: ", item_ID, roomName);
             await lightIdService(projectId, 'add', item_ID, roomName);
           }
 
@@ -394,6 +391,7 @@ const runLights = async (
             rooms: [{ name: roomName, lightNumber: quantity }],
             subTableRow: [],
           });
+
           if (propID) {
             console.log("propID or updating current proposal row?: ", propID)
             let runCheck = [];
@@ -401,9 +399,11 @@ const runLights = async (
             const sameRoom = propID.rooms
               .map((room: any) => room.name)
               .indexOf(roomName);
+
             if (sameRoom == -1) {
               const subs = propID.subTableRow;
               propID.subTableRow = [...subs, String(proposal._id)];
+
               await proposal.save();
             } else {
               for (let key in rowFinishes) {
@@ -411,9 +411,11 @@ const runLights = async (
               }
               if (runCheck.some((item) => item == false)) {
                 const subs = propID.subTableRow;
+
                 if (subs) {
                   propID.subTableRow = [...subs, String(proposal._id)];
                 }
+
                 await proposal.save();
               }
             }
@@ -430,19 +432,20 @@ const runLights = async (
               sameRoom == -1
                 ? [...propID.rooms, { name: roomName, lightNumber: quantity }]
                 : [
-                    ...roomFilter,
-                    {
-                      name: roomFind?.name,
-                      lightNumber: roomFind
-                        ? roomFind.lightNumber + quantity
-                        : quantity,
-                    },
-                  ];
+                  ...roomFilter,
+                  {
+                    name: roomFind?.name,
+                    lightNumber: roomFind
+                      ? roomFind.lightNumber + quantity
+                      : quantity,
+                  },
+                ];
             propID.lightQuantity = newQuantity;
             propID.totalWatts = newWattage;
             propID.totalLumens = newTotalLumens;
             propID.rooms = newRooms;
             const done = await propID.save();
+
             if (done) {
               return {
                 message: "Successful Update",
@@ -456,9 +459,11 @@ const runLights = async (
                 if (rfp) {
                   console.log("RFP in Update rfp: ", rfp)
                   await proposal.save();
+
                   const newRow = [String(proposal._id), ...rfp.tableRow];
                   rfp.tableRow = newRow;
                   const done = await rfp.save();
+
                   if (done) {
                     return {
                       message: "Successful Add",
@@ -470,6 +475,7 @@ const runLights = async (
               .catch((error: any) => {
                 return { message: error.message, error };
               });
+
             return updateRfp;
           }
         }
@@ -500,7 +506,6 @@ const getAllProjects = async (req: Request, res: Response) => {
   const security = check.filter(
     (x) => x === "status" || x === "region" || x === "clientName"
   );
-
   const workingUpdate = Object.fromEntries(
     security.map((x) => [x, req.body[x]])
   );
@@ -510,9 +515,9 @@ const getAllProjects = async (req: Request, res: Response) => {
       .then(async (projects) => {
         const { type, clientId } = req.body;
         const indProj = projects.filter((x) => x.clientId === clientId);
-
         // if filtering through only user project
         const filterProj = (await type) === "allProjects" ? projects : indProj;
+
         return res.status(200).json({
           filterProj,
         });
@@ -559,8 +564,8 @@ const deleteProject = async (req: Request, res: Response) => {
       return !project
         ? res.status(200).json(project)
         : res.status(404).json({
-            message: "The Project you are looking for no longer exists",
-          });
+          message: "The Project you are looking for no longer exists",
+        });
     })
     .catch((error) => {
       res.status(500).json(error);

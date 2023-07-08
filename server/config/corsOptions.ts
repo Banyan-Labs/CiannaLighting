@@ -1,4 +1,5 @@
 import allowedOrigins from "./domainOrigins";
+
 const corsOptions = {
   origin: (origin: any, callback: any) => {
     console.log("ORIGIN: ", origin);
