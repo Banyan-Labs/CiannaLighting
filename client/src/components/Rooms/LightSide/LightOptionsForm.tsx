@@ -3,7 +3,7 @@ import uuid from 'react-uuid';
 
 import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import useParams from 'app/utils';
+import { useParams } from 'app/utils';
 import { CatalogLightItem, LightItemType } from 'typescript/CatalogItem';
 import {
     getLightOptionsDropValuesFromItem,

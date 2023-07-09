@@ -77,7 +77,7 @@ const ProjectMiniModal: FC<projectProps> = ({
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
-        dataHolding.getData(project, '#d3b9b8');
+        dataHolding.getData(project);
     };
 
     const projectRoute = useCallback(

@@ -20,6 +20,7 @@ import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
+import { findClosestSystemStatus } from 'app/utils';
 
 import './style/allProjects.scss';
 
@@ -274,8 +275,6 @@ const AllProjects: FC<Props> = ({
     };
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
-        const statusNoSpace = project.status.replace(/\s/g, '');
-        
         return (
             <tbody key={index}>
                 <tr
@@ -292,7 +291,7 @@ const AllProjects: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status">
-                        <span className={`statusColor${statusNoSpace}`}>
+                        <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
                             {project.status}
                         </span>
                     </td>

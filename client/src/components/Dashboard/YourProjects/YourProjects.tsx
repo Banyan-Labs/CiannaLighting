@@ -23,6 +23,7 @@ import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setSpecFile } from '../../../redux/actions/lightActions';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
 import logging from 'config/logging';
+import { findClosestSystemStatus } from 'app/utils';
 
 import '../style/dashboard.scss';
 
@@ -84,25 +85,19 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects.length]);
 
-    const projectColors = ['#a3837a', '#d3b9b8', '#9b8384', '#d1beae'];
     const singleProject = userProjects.map((project: any, index: any) => {
-        const color = projectColors[index % projectColors.length];
-
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
             await dispatch(
                 setSpecFile({ projId: prodId, edit: '' }, false)
             );
-            dataHolding.getData(project, color);
+            dataHolding.getData(project);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();
 
         return (
             <div
-                className="single-project"
-                style={{
-                    backgroundColor: color,
-                }}
+                className={`single-project statusColor${findClosestSystemStatus(project.status)}`}
                 onClick={async () => {
                     await dispatch(setTheYourProjects(true));
                     changeProject(project._id);
@@ -205,9 +200,9 @@ const YourProjects: FC = () => {
                         }}
                     >
                         <FaPlus />
-                    <span className="dashboard-new-project-sub-text">
-                        New Project
-                    </span>
+                        <span className="dashboard-new-project-sub-text">
+                            New Project
+                        </span>
                     </button>
                     <div className="your-projects-icons">
                         <IoIosArrowDropleftCircle

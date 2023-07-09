@@ -5,7 +5,6 @@ import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import uuid from 'react-uuid';
 import { Link } from 'react-router-dom';
 
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
@@ -15,6 +14,7 @@ import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 
 import './style/roomDetails.scss';
+import { findClosestSystemStatus } from 'app/utils';
 
 interface lightProps {
     setEditLight: any;
@@ -34,12 +34,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const [editRoom, setEditRoom] = useState(false);
     const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
-
-    const Color =
-        Object.keys(dataHolding.setData().color).length === 0
-            ? '#AC92EB'
-            : dataHolding.setData().color;
-
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
 
@@ -255,8 +249,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         <span className="project-tag">Project</span> <br />
                         {project?.name}
                         <FaCircle
-                            style={{ color: String(Color) }}
-                            className="room-details-circle-icon"
+                            className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')}`}
                         />
                     </p>
                 </div>

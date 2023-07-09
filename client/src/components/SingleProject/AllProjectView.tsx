@@ -20,6 +20,7 @@ import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
+import { findClosestSystemStatus } from 'app/utils';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -301,8 +302,6 @@ const AllProjectView: FC<Props> = ({
     };
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
-        const statusNoSpace = project.status.replace(/\s/g, '');
-
         return (
             <tbody key={index}>
                 <tr className="projects-table-dynamic-row">
@@ -316,7 +315,7 @@ const AllProjectView: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status">
-                        <span className={`statusColor${statusNoSpace}`}>
+                        <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
                             {project.status}
                         </span>
                     </td>

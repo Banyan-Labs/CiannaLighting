@@ -12,7 +12,7 @@ import {
     deleteThisRoom,
     editThisRoom,
 } from '../../../redux/actions/projectActions';
-import useParams from '../../../app/utils';
+import { useParams } from '../../../app/utils';
 import '../../NewRoomModal/style/newRoomModal.css';
 
 type Props = {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import useParams from '../../app/utils';
+import { useParams } from '../../app/utils';
 import { refreshToken } from '../../redux/actions/authActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setSpecFile } from '../../redux/actions/lightActions';

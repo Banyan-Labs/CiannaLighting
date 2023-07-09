@@ -167,43 +167,6 @@ transition: 0.3s ease-in-out;
         width: 100px;
         color: $primary-bg-dark-button-text;
     }
-
-    .statusColorNew {
-        background-color: $accent-pink-shade-granite;
-    }
-
-    .statusColorConstruction {
-        background-color: $accent-pink-shade-granite;
-    }
-
-    .statusColorCompleted {
-        background-color: $accent-empress;
-    }
-
-    .statusColorHold {
-        background-color: $accent-grayish-orange;
-    }
-
-    .statusColorConfigure {
-        background-color: $accent-light-grayish-orange;
-    }
-
-    .statusColorRFP {
-        background-color: $accent-dark-gray;
-    }
-
-    .statusColorInternalApproval {
-        background-color: $accent-dark-orange;
-        color: $primary-bg-white;
-    }
-
-    .statusColorAwarded {
-        background-color: $accent-gold;
-    }
-
-    .statusColorCanceled {
-        background-color: $accent-light-grayish-yellow;
-    }
 }
 
 .bs-three-dots-container {

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import * as data from './links.json';
 import logo from '../../assets/ciana-logo-black.png';
-import useParams from '../../app/utils';
+import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { FaRegBell } from 'react-icons/fa';
 import { logoutAction } from '../../redux/actions/authActions';

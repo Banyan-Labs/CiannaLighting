@@ -9,3 +9,36 @@ body {
     margin: 0;
     padding-bottom: 100px;
 }
+
+.statusColorNew {
+    background-color: $accent-grayish-red;
+}
+
+.statusColorDesign {
+    background-color: $accent-grayish-orange;
+}
+.statusColorInternal {
+    background-color: $accent-grayish-orange;
+}
+
+.statusColorHold {
+    background-color: $accent-pink-shade-granite;
+}
+
+.statusColorCanceled {
+    background-color: $accent-dark-gray;
+}
+
+.statusColorRFP {
+    background-color: $accent-gold;
+}
+.statusColorAwarded {
+    background-color: $accent-gold;
+}
+.statusColorCompleted {
+    background-color: $accent-gold;
+}
+
+.statusColorDefault {
+    background-color: $accent-light-grayish-yellow;
+}

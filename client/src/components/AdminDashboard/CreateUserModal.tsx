@@ -8,7 +8,7 @@ import { CreateUserType } from '../../app/typescriptTypes';
 import { generatePassword } from '../../app/generatePassword';
 import { createUserAction } from '../../redux/actions/usersActions';
 import { axiosPrivate } from '../../api/axios';
-import useParams from '../../app/utils';
+import { useParams } from '../../app/utils';
 import logging from 'config/logging';
 
 import './styles/CreateUserModal.scss';

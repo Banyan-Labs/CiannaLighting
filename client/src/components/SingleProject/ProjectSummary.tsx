@@ -17,10 +17,10 @@ import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
+import { findClosestSystemStatus } from 'app/utils';
 
 interface ProjectSummaryProps {
     details: any;
@@ -121,12 +121,6 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         }
     };
 
-    const Color =
-        dataHolding.setData().color &&
-        Object.keys(dataHolding.setData().color).length > 0
-            ? dataHolding.setData().color
-            : '#AC92EB';
-
     const archiveSet = async (e: any) => {
         e.preventDefault();
 
@@ -155,7 +149,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     }, []);
 
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
-    
+
     return (
         <div className="project-summary-container">
             <div className="projects-summary">
@@ -173,8 +167,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         <h3 className="project-summary-project-name">
                             {details?.name}
                             <FaCircle
-                                className="circle-icon"
-                                style={{ color: String(Color) }}
+                                className={`circle-icon statusColor${findClosestSystemStatus(details?.status || '')}`}
                             />
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>

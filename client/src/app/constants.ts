@@ -58,3 +58,14 @@ export enum CopyType {
     PROJECT = 1,
     ROOM
 }
+
+export const SystemStatus = [
+    'New',
+    'RFP',
+    'Completed',
+    'Hold',
+    'Design',
+    'Internal',
+    'Awarded',
+    'Canceled'
+];
