@@ -38,12 +38,12 @@ mongoose
 
 router.use((req, res, next) => {
   logging.info(
-    `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress}`
+    `'${req.method}' request made to '${req.url}' from IP ${req.socket.remoteAddress}`
   );
 
   res.on("finish", () => {
     logging.info(
-      `METHOD: '${req.method}' - URL:'${req.url}' - IP${req.socket.remoteAddress} - STATUS: '${res.statusCode}`
+      `${req.method}' request to '${req.url}' returned ${res.statusCode}`
     );
   });
 
