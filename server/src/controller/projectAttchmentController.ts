@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 
 import ProjectAttachments from "../model/ProjectAttachments";
+import logging from "../../config/logging";
+import { ActionType } from "../utils/constants";
 
 const addAttachmentSection = async (req: Request, res: Response) => {
   const { projId, images, pdf } = req.body;
@@ -38,6 +40,7 @@ const addAttachmentSection = async (req: Request, res: Response) => {
             }
           })
           .catch((error) => {
+            logging.error(error.message, "addAttachmentSection");
             return res.status(500).json({
               message: error.message,
             });
@@ -45,21 +48,23 @@ const addAttachmentSection = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "addAttachmentSection");
       return res.status(500).json({
         message: error.message,
       });
     });
 };
+
 const getData = async (req: Request, res: Response) => {
   const { projId, images, pdf, edit } = req.body;
 
   await ProjectAttachments.findOne({ projectId: projId })
     .exec()
     .then(async (proj) => {
-      console.log("projectID and proj: ", projId, '\n', proj)
+      logging.info(`Project found using ${projId}: ${JSON.stringify(proj)}`);
       if (proj) {
-        if (edit && edit.length) {
-          if (edit === "add") {
+        if (edit) {
+          if (edit === ActionType.ADD) {
             if (images && images.length) {
               proj.images = [...images, ...proj.images];
             }
@@ -69,7 +74,7 @@ const getData = async (req: Request, res: Response) => {
 
               proj.pdf = [...new Set([...pdf, ...singleInstances])];
             }
-          } else if (edit === "replace") {
+          } else if (edit === ActionType.REPLACE) {
             if (images) {
               proj.images = [...images];
             }
@@ -89,6 +94,7 @@ const getData = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getData");
       return res.status(500).json({
         message: error.message,
       });
@@ -165,6 +171,7 @@ const deleteData = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "deleteData");
         return res.status(500).json({
           message: error.message,
           error,

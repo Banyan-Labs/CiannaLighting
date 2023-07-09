@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import User from "../model/User";
 import { signJwt } from "../utils/signJwt";
 import { createLogAtSignIn } from "./activityController";
+import logging from "../../config/logging";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -48,7 +49,7 @@ const login = async (req: Request, res: Response) => {
       }
     }
   } catch (error: any) {
-    console.error("🚀 ~ file: userController.ts:125 ~ login ~ error", error);
+    logging.error(error.message, "login");
     return res.status(500).json({
       message: error.message,
       error,
@@ -58,15 +59,14 @@ const login = async (req: Request, res: Response) => {
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   const { _id, emailChange, passwordChange, name, role, isActive, update } = req.body;
-  console.log("body: ", req.body);
+  logging.info(`Recieved the following values from the client: _id = ${_id}, emailChange = ${emailChange}, passwordChange = ${passwordChange}, name = ${name}, role = ${role}, isActive = ${isActive}, update = ${update}`, "getUser");
 
   await User.findOne({ _id })
     .select("+password")
     .then(async (authUser) => {
       if (authUser != null) {
-        console.log("authUser update: ", authUser, update);
+        logging.info(`Found the following user: ${JSON.stringify(authUser)}`, "getUser");
         if (update === true) {
-          console.log("update in conditional: ", update);
           const match = passwordChange
             ? await bcrypt.compare(passwordChange, authUser.password)
             : "";
@@ -108,6 +108,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getUser");
       res.sendStatus(500).json({
         message: error.message,
       });
@@ -159,14 +160,16 @@ const addActiveColumnToUserAndSetToTrue = async (
           isActive: true,
         },
         (error, updatedUser) => {
-          error ? console.error(error) : console.log(updatedUser);
+          error 
+          ? logging.error(error.message, "addActiveColumnToUserAndSetToTrue") 
+          : logging.info(`Updated user: ${updatedUser}`, "addActiveColumnToUserAndSetToTrue");
         }
       );
     });
 
     return res.sendStatus(200);
   } catch (error: any) {
-    console.error(error);
+    logging.error(error.message, "addActiveColumnToUserAndSetToTrue");
     throw error;
   }
 };
@@ -185,14 +188,16 @@ const addResetPassColumnToUserAndSetToFalse = async (
           resetPasswordRequest: false,
         },
         (error, updatedUser) => {
-          error ? console.error(error) : console.log(updatedUser);
+          error 
+          ? logging.error(error.message, "addResetPassColumnToUserAndSetToFalse") 
+          : logging.info(`Updated user: ${updatedUser}`, "addResetPassColumnToUserAndSetToFalse");
         }
       );
     });
 
     return res.sendStatus(200);
   } catch (error: any) {
-    console.error(error);
+    logging.error(error.message, "addResetPassColumnToUserAndSetToFalse");
     throw error;
   }
 };
@@ -238,7 +243,7 @@ const editUser = async (req: Request, res: Response) => {
         .json({ message: "User updated", data: targetUser });
     }
   } catch (error: any) {
-    console.log(error);
+    logging.error(error.message, "editUser");
     return res.status(500).json({ message: error.message });
   }
 };
@@ -262,7 +267,7 @@ const toggleUserIsActive = async (req: Request, res: Response) => {
       });
     }
   } catch (error: any) {
-    console.log(error);
+    logging.error(error.message, "toggleUserIsActive");
     return res.status(500).json({ message: error.message });
   }
 };

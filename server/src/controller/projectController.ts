@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
+
 import LightSelection from "../model/LIghtSelection";
 import { lightIdService } from "./lightSelectionController";
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import RFP from "../model/RFP";
+import { ActionType, CopyType } from "../utils/constants";
+import logging from "../../config/logging";
 
 const createProject = async (req: Request, res: Response) => {
   const {
@@ -33,7 +36,7 @@ const createProject = async (req: Request, res: Response) => {
    *
    */
 
-  if (_id && copy === "room") {
+  if (_id && copy === CopyType.ROOM) {
     Room.findOne({ _id: rooms[0] })
       .then(async (foundRoom) => {
         await runRoom(foundRoom, _id, clientId, copy);
@@ -42,6 +45,7 @@ const createProject = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "createProject");
         return res.status(500).json({
           message: error.message,
           error,
@@ -50,7 +54,7 @@ const createProject = async (req: Request, res: Response) => {
   } else {
     const rfp = new RFP({
       _id: new mongoose.Types.ObjectId(),
-      header: `${copy === "project" ? "Copy of " + name : name}, ${region}`,
+      header: `${copy === CopyType.PROJECT ? "Copy of " + name : name}, ${region}`,
       clientId: clientId,
       projectId: "",
       clientName: clientName,
@@ -59,7 +63,7 @@ const createProject = async (req: Request, res: Response) => {
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
-      name: copy === "project" ? `Copy of ${name}` : name,
+      name: copy === CopyType.PROJECT ? `Copy of ${name}` : name,
       clientId: clientId,
       clientName: clientName,
       region: region,
@@ -67,7 +71,7 @@ const createProject = async (req: Request, res: Response) => {
       description: description,
       rfp: String(rfp._id),
       rooms: [],
-      lightIDs: copy === "project" ? lightIDs : [],
+      lightIDs: copy === CopyType.PROJECT ? lightIDs : [],
       activity: {
         createUpdate: `Created on ${[curDate[1], curDate[2], curDate[0]].join(
           "/"
@@ -92,7 +96,7 @@ const createProject = async (req: Request, res: Response) => {
       .then(async (project) => {
         if (project) {
           project.rfp = String(rfp._id);
-          if (_id && copy === "project") {
+          if (_id && copy === CopyType.PROJECT ) {
             if (project) {
               let i = 0;
 
@@ -102,6 +106,7 @@ const createProject = async (req: Request, res: Response) => {
                     await runRoom(foundRoom, project._id, clientId, copy);
                     i++
                   }).catch((error) => {
+                    logging.error(error.message, "createProject");
                     res.status(500).json({
                       error,
                     });
@@ -123,6 +128,7 @@ const createProject = async (req: Request, res: Response) => {
         }
       })
       .catch((error) => {
+        logging.error(error.message, "createProject");
         return res.status(500).json({
           message: error.message,
           error,
@@ -230,10 +236,12 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getProject");
       return res.status(500).json({ message: error.message, error });
     });
 };
-const runRoom = async (room: any, newProjectId: string, clientId: string, copy: string): Promise<void> => {
+
+const runRoom = async (room: any, newProjectId: string, clientId: string, copy: CopyType): Promise<void> => {
   const { name, description, lights } = room;
   /**
    * Need to include lideSelectionService in here and update the information
@@ -271,8 +279,9 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
 
   await newRoom.save().then(async (room) => {
     if (room) {
+      logging.info(`Lights: ${lights}`, "runRoom");
       for (let i = 0; i < lights.length; i++) {
-        console.log("lights and index", lights, i, lights[i])
+        logging.info(`Copying light ${lights[i]} at index ${i}`, "runRoom");
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
           await runLights(light, room._id, room.projectId, clientId, copy);
         });
@@ -288,7 +297,7 @@ const runLights = async (
   newRoomId: string,
   newProjectId: string,
   clientId: string,
-  copy: string
+  copy: CopyType
 ) => {
   const newLight = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
@@ -355,9 +364,8 @@ const runLights = async (
             totalLumens,
           } = newlight;
 
-          if (copy === 'room') {
-            console.log("item id in roomCopyIDservice: ", item_ID, roomName);
-            await lightIdService(projectId, 'add', item_ID, roomName);
+          if (copy === CopyType.ROOM) {
+            await lightIdService(projectId, ActionType.ADD, item_ID, roomName);
           }
 
           const finishes: any = {
@@ -393,7 +401,7 @@ const runLights = async (
           });
 
           if (propID) {
-            console.log("propID or updating current proposal row?: ", propID)
+            logging.info(`Updating current proposal row: ${propID}`, "runLights");
             let runCheck = [];
             let rowFinishes: any = propID.finishes;
             const sameRoom = propID.rooms
@@ -457,7 +465,7 @@ const runLights = async (
               .exec()
               .then(async (rfp) => {
                 if (rfp) {
-                  console.log("RFP in Update rfp: ", rfp)
+                  logging.info(`Updating current RFP: ${JSON.stringify(rfp)}`, "runLights");
                   await proposal.save();
 
                   const newRow = [String(proposal._id), ...rfp.tableRow];
@@ -495,6 +503,7 @@ const getAccountProjects = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getAccountProjects");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -523,6 +532,7 @@ const getAllProjects = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllProjects");
         return res.status(500).json({ message: error.message, error });
       });
   } else {
@@ -533,6 +543,7 @@ const getAllProjects = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllProjects");
         return res.status(500).json({ message: error.message, error });
       });
   }
@@ -568,6 +579,7 @@ const deleteProject = async (req: Request, res: Response) => {
         });
     })
     .catch((error) => {
+      logging.error(error.message, "deleteProject");
       res.status(500).json(error);
     });
 };

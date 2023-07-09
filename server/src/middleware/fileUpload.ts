@@ -2,6 +2,8 @@ import { Request } from "express";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 
+import { AttachmentType } from "../utils/constants";
+
 const allowedMimeTypes = [
   "application/pdf",
   "image/jpeg",
@@ -32,10 +34,10 @@ const upload = multer({
 });
 
 const multiUpload = upload.fields([
-  { name: "images", maxCount: 5 },
-  { name: "pdf", maxCount: 5 },
-  { name: "specs", maxCount: 5 },
-  { name: "drawingFiles", maxCount: 5 },
+  { name: AttachmentType.IMAGE, maxCount: 5 },
+  { name: AttachmentType.PDF, maxCount: 5 },
+  { name: AttachmentType.SPEC, maxCount: 5 },
+  { name: AttachmentType.DRAWING_FILE, maxCount: 5 },
 ]);
 
 export default multiUpload;

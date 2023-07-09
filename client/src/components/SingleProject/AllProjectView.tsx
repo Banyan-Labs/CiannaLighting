@@ -19,6 +19,7 @@ import { axiosPrivate } from '../../api/axios';
 import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
+import { CopyType } from 'app/constants';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -119,7 +120,7 @@ const AllProjectView: FC<Props> = ({
                         clientId: user._id,
                         clientName: user.name,
                     },
-                    copy: 'project',
+                    copy: CopyType.PROJECT,
                     attachments: attachments,
                 };
 

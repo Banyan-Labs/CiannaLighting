@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 import User from "../model/User";
+import logging from "../../config/logging";
 
 const createNewUser = async (req: Request, res: Response) => {
   const { name, email, password, role } = req.body;
@@ -43,11 +44,13 @@ const createNewUser = async (req: Request, res: Response) => {
             });
           })
           .catch((error) => {
+            logging.error(error.message, "createNewUser");
             res.status(500).json({ message: error.message });
           });
       }
     })
     .catch((error) => {
+      logging.error(error.message, "createNewUser");
       res.sendStatus(500).json({ message: error.message });
     });
 };
@@ -56,7 +59,8 @@ const getAllUsers = (req: Request, res: Response) => {
   User.find()
     .exec()
     .then((results) => {
-      console.log(results)
+      logging.info(`Users: ${results}`, "getAllUsers");
+      
       return res.status(200).json({
         users: results,
         count: results.length,

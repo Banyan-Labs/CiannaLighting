@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
+import logging from "../../config/logging";
 
 import { uploadFunc } from "../middleware/s3";
 import CatalogItem from "../model/CatalogItem";
+import { AttachmentType } from "../utils/constants";
 
 const createCatalogItem = async (req: Request, res: Response) => {
   let {
@@ -53,7 +55,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
   drawingFiles = [];
   const existingCatalog = await CatalogItem.findOne({ item_ID });
 
-  console.log("existingCatalog: ", existingCatalog);
+  logging.info(`existingCatalog: ${existingCatalog}`, "createCatalogItem")
 
   if (existingCatalog) {
     return res.status(400).json({
@@ -69,13 +71,13 @@ const createCatalogItem = async (req: Request, res: Response) => {
           for (let j = 0; j < results[i].length; j++) {
             const singleDoc = await results[i][j];
 
-            if (singleDoc.field === "images") {
+            if (singleDoc.field === AttachmentType.IMAGE) {
               images.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "drawingFiles") {
+            } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
               drawingFiles.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "pdf") {
+            } else if (singleDoc.field === AttachmentType.PDF) {
               pdf.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "specs") {
+            } else if (singleDoc.field === AttachmentType.SPEC) {
               specs.push(singleDoc.s3Upload.Location);
             }
           }
@@ -139,6 +141,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "createCatalogItem");
         return res.status(500).json({
           message: error.message,
           error,
@@ -206,6 +209,7 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getCatalogItems");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -243,13 +247,13 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       for (let i = 0; i < results?.length; i++) {
         for (let j = 0; j < results[i].length; j++) {
           const singleDoc = await results[i][j];
-          if (singleDoc.field === "images") {
+          if (singleDoc.field === AttachmentType.IMAGE) {
             images.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "drawingFiles") {
+          } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
             drawingFiles.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "pdf") {
+          } else if (singleDoc.field === AttachmentType.PDF) {
             pdf.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "specs") {
+          } else if (singleDoc.field === AttachmentType.SPEC) {
             specs.push(singleDoc.s3Upload.Location);
           } else {
             next();
@@ -258,13 +262,14 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   }
-  console.log("editBOD: ", req.body);
+
+  logging.info(`editBOD: ${JSON.stringify(req.body)}`, "getLight");
 
   return await CatalogItem.findOne(search)
     .exec()
     .then(async (light: any) => {
       if (light) {
-        console.log("lightFound", light);
+        logging.info(`lightFound: ${JSON.stringify(light)}`, "getLight");
         if (keys.length) {
           keys.map((keyName: string) => {
             if (/edit/.test(keyName)) {
@@ -320,7 +325,6 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
 
                     light.specs = [...specs, ...paramsSplit];
                   } else if (specs.length && parameters[keyName].length == 0) {
-                    console.log("HIT!")
                     light.specs = specs;
                   } else {
                     const paramsSplit = parameters[keyName].length
@@ -357,6 +361,7 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getLight");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -372,6 +377,7 @@ const removeLight = async (req: Request, res: Response) => {
         });
     })
     .catch((error) => {
+      logging.error(error.message, "removeLight");
       return res.status(500).json(error);
     });
 };

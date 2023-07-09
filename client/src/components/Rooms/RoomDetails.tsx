@@ -3,16 +3,16 @@ import ReactTooltip from 'react-tooltip';
 import { BsChevronLeft } from 'react-icons/bs';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import uuid from 'react-uuid';
-
-// import Default from '../../assets/stairway.jpeg';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { Link } from 'react-router-dom';
+
+import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { CopyType } from 'app/constants';
 
 import './style/roomDetails.scss';
 
@@ -83,7 +83,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const payload = {
             _id: projectId,
             rooms: copyRoom,
-            copy: 'room',
+            copy: CopyType.ROOM,
             clientId: room?.clientId,
         };
 

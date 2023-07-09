@@ -4,6 +4,7 @@ import { axiosPrivate } from '../../api/axios';
 import { CreateUserType } from '../../app/typescriptTypes';
 import { } from '../reducers/filterSlice';
 import { setUsers, setNewUser, setStatus } from '../reducers/usersSlice';
+import logging from 'config/logging';
 
 export const getAllUsers =
     () =>
@@ -12,7 +13,8 @@ export const getAllUsers =
             const users = await axiosPriv.get('cmd/get-users');
 
             if (users) {
-                console.log('users in redux: ', users);
+                logging.info(`Users: ${JSON.stringify(users)}}`, "getAllUsers");
+
                 dispatch(setUsers(users.data));
             }
         };
@@ -23,7 +25,7 @@ export const createUserAction =
             const axiosPriv = axiosPrivate();
             const response: any = await axiosPriv.post('cmd/create-user', user);
 
-            console.log("response:", response.message)
+            logging.info(`Response: ${JSON.stringify(response)}`, "createUserAction");
             // set something to throw error
             if (response.data) {
                 dispatch(setNewUser(response.data.user));

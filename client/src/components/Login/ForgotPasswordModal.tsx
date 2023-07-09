@@ -2,6 +2,7 @@ import React, { useRef, SyntheticEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
 import ModalBase from '../commons/ModalBase/ModalBase';
+import logging from 'config/logging';
 
 type ComponentProps = {
     isOpen: boolean;
@@ -64,10 +65,7 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
                         break;
                 }
             } else {
-                console.error(
-                    '🚀 ~ file: ForgotPasswordModal.tsx:20 ~ handleSubmit ~ error',
-                    error
-                );
+                logging.error(error.message, "ForgotPasswordModal");
                 throw Error(error);
             }
         }

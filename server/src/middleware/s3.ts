@@ -1,5 +1,6 @@
 import * as AWS from "aws-sdk";
 
+import logging from "../../config/logging";
 import envVars from "../config";
 const { AWS_BUCKET_NAME, AWS_BUCKET_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY } = envVars;
 
@@ -38,7 +39,8 @@ export const uploadFunc = async (files: any) => {
     });
 
     return await Promise.all(response.map(async (res: any) => res));
-  } catch (error) {
+  } catch (error: any) {
+    logging.error(error.message, "uploadFunc");
     return error;
   }
 };

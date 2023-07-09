@@ -6,6 +6,8 @@ import Room from "../model/Room";
 import LightSelection from "../model/LIghtSelection";
 import { lightIdService } from "./lightSelectionController";
 import { LightREF } from "../interfaces/projectInterface";
+import logging from "../../config/logging";
+import { ActionType } from "../utils/constants";
 
 const curDate = new Date().toISOString().split("T")[0].split("-");
 
@@ -45,6 +47,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
             });
           })
           .catch((error) => {
+            logging.error(error.message, "createRoom");
             return res.status(500).json({
               message: error.message,
               error,
@@ -55,6 +58,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "createRoom");
       return res.status(500).json({
         message: error.message,
         error,
@@ -75,6 +79,7 @@ const getAllRooms = (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllRooms");
         return res.status(500).json({ message: error.message, error });
       });
   } else {
@@ -85,6 +90,7 @@ const getAllRooms = (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllRooms");
         return res.status(500).json({ message: error.message, error });
       });
   }
@@ -124,6 +130,7 @@ const getRoom = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getRoom");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -168,7 +175,7 @@ const deleteRoom = async (req: Request, res: Response) => {
       return await Room.findByIdAndDelete({ _id: req.body._id })
         .then((room) => {
           if (room && req.body.itemIDS && req.body.itemIDS.length) {
-            itemIDS.forEach(async (item_ID: string) => await lightIdService(room.projectId, 'delete', item_ID, room.name))
+            itemIDS.forEach(async (item_ID: string) => await lightIdService(room.projectId, ActionType.DELETE, item_ID, room.name))
           }
 
           return !room
@@ -181,6 +188,7 @@ const deleteRoom = async (req: Request, res: Response) => {
             });
         })
         .catch((error) => {
+          logging.error(error.message, "deleteRoom");
           res.status(500).json(error);
         });
     });

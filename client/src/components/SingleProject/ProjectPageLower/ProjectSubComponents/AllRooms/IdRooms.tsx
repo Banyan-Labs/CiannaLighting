@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
 import { getAllProjectRoomsAction } from '../../../../../redux/actions/projectActions';
+import { CopyType } from 'app/constants';
 
 import './rooms.scss';
 
@@ -38,7 +39,7 @@ const IdRooms: FC = () => {
         const payload = {
             _id: projectId,
             rooms: copyRoom,
-            copy: 'room',
+            copy: CopyType.ROOM,
             clientId: room.clientId,
         };
 

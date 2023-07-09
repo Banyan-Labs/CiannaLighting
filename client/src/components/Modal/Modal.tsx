@@ -10,6 +10,7 @@ import {
     getUserProjects,
     setTheYourProjects,
 } from '../../redux/actions/projectActions';
+import logging from 'config/logging';
 
 import './style/modal.scss';
 
@@ -72,12 +73,12 @@ const Modal: FC<Props> = (props) => {
         return reFormat;
     };
 
-    console.log("modalOpening", projectDetails);
+    logging.info(`projectDetails: ${JSON.stringify(projectDetails)}}`, "Modal");
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
-        console.log(projectDetails)
+        logging.info(`projectDetails: ${JSON.stringify(projectDetails)}}`, "Modal");
         try {
             !props.editProject
                 ? await dispatch(createProjectAction({ project: projectDetails }))

@@ -5,10 +5,9 @@ import Project from "../model/Project";
 import { uploadFunc } from "../middleware/s3";
 import RFP from "../model/RFP";
 import ProposalTableRow from "../model/ProposalTableRow";
-import rfpDocInterface, {
-  PropTableRow,
-  Room,
-} from "../interfaces/rfpDocInterface";
+import rfpDocInterface, { PropTableRow, Room } from "../interfaces/rfpDocInterface";
+import { AttachmentType, CopyType } from "../utils/constants";
+import logging from "../../config/logging";
 
 const createRfp = async (req: Request, res: Response, next: NextFunction) => {
   const {
@@ -34,9 +33,9 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
       for (let j = 0; j < results[i].length; j++) {
         const singleDoc = await results[i][j];
 
-        if (singleDoc.field === "images") {
+        if (singleDoc.field === AttachmentType.IMAGE) {
           images.push(singleDoc.s3Upload.Location);
-        } else if (singleDoc.field === "pdf") {
+        } else if (singleDoc.field === AttachmentType.PDF) {
           pdf.push(singleDoc.s3Upload.Location);
         }
       }
@@ -73,6 +72,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
             });
           })
           .catch((error) => {
+            logging.error(error.message, "createRfp");
             return res.status(500).json({
               message: error.message,
               error,
@@ -83,6 +83,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "createRfp");
       return res.status(500).json({
         message: error.message,
         error,
@@ -114,6 +115,7 @@ const findRFP = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "findRFP");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -127,6 +129,7 @@ const getAccountRFPS = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getAccountRFPS");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -137,7 +140,7 @@ const propNameExchange = async (
   next: NextFunction
 ) => {
   type RequestBody = {
-    type: string;
+    type: CopyType;
     name: string;
     region: string;
     newName: string;
@@ -146,7 +149,7 @@ const propNameExchange = async (
   };
   const { type, name, newName, projectId, projectRegion, region }: RequestBody = req.body;
 
-  if (type === "project") {
+  if (type === CopyType.PROJECT ) {
     const rfp: rfpDocInterface | null = await RFP.findOne({ projectId });
 
     if (rfp) {
@@ -163,7 +166,8 @@ const propNameExchange = async (
           } else {
             next();
           }
-        } catch (error) {
+        } catch (error: any) {
+          logging.error(error.message, "propNameExchange");
           return res.status(400).json({
             error,
             message: "RFP Header update failed.",
@@ -173,7 +177,7 @@ const propNameExchange = async (
     } else {
       return res.status(204).json( { message: `No RFP found using projectId of #${projectId}.` } );
     }
-  } else if (type === "room") {
+  } else if (type === CopyType.ROOM) {
     const proposals: PropTableRow[] | [] | null = await ProposalTableRow.find({
       projectId,
     });
@@ -203,7 +207,8 @@ const propNameExchange = async (
           proposals,
           message: 'Room Update successful'
         });
-      } catch (error) {
+      } catch (error: any) {
+        logging.error(error.message, "propNameExchange");
         return res.status(400).json({
           error,
           message: "Room update failed.",
@@ -271,16 +276,16 @@ const rfpEditor = async (req: Request, res: Response) => {
         prop.lightQuantity = newQuantity;
         prop.totalWatts = newWatts;
         prop.totalLumens = newLumens;
-        console.log("Prop rooms before reasigning: ", prop.rooms);
-        console.log("newRooms Variable: ", newRooms);
+        logging.info(`Rooms before reassigning: ${prop.rooms}`, "rfpEditor");
+        logging.info(`New rooms: ${newRooms}`, "rfpEditor");
         prop.rooms = newRooms;
-        console.log("propRooms after reasigning: ", prop.rooms)
+        logging.info(`Rooms after reassigning: ${prop.rooms}`, "rfpEditor");
 
         return await prop
           .save()
           .then(async (propSaved: any) => {
             if (propSaved) {
-              console.log("PropRooms after saving: ", propSaved.rooms)
+              logging.info(`PropRooms after saving: ${JSON.stringify(propSaved.rooms)}`, "rfpEditor");
               if (propSaved.sub && checkQuantity != quantity) {
                 await ProposalTableRow.findOne({ _id: prop.sub })
                   .then(async (outer) => {
@@ -300,6 +305,7 @@ const rfpEditor = async (req: Request, res: Response) => {
                     }
                   })
                   .catch((error: any) => {
+                    logging.error(error.message, "rfpEditor");
                     return res.status(500).json({
                       error,
                     });
@@ -313,6 +319,7 @@ const rfpEditor = async (req: Request, res: Response) => {
             }
           })
           .catch((error: any) => {
+            logging.error(error.message, "rfpEditor");
             return res.status(500).json({
               error,
             });
@@ -358,6 +365,7 @@ const deleteProp = async (req: Request, res: Response) => {
                   message: "Successfully updated and deleted props.",
                 });
               } else {
+                logging.error(`Error in deleting props: ${JSON.stringify(outer)}`, "deleteProp");
                 return res.status(500).json({
                   message: "Error in deleting props"
                 })
@@ -365,6 +373,7 @@ const deleteProp = async (req: Request, res: Response) => {
             }
           })
           .catch((error: any) => {
+            logging.error(error.message, "deleteProp");
             return res.status(500).json({
               error,
             });
@@ -415,6 +424,7 @@ const deleteProp = async (req: Request, res: Response) => {
             }
           })
           .catch((error: any) => {
+            logging.error(error.message, "deleteProp");
             return res.status(500).json({
               error,
             });
@@ -583,6 +593,7 @@ const rfpUpdater = async (req: Request, res: Response) => {
         }
       })
       .catch((error: any) => {
+        logging.error(error.message, "rfpUpdater")
         return res.status(500).json({ message: error.message, error });
       });
 
@@ -600,6 +611,7 @@ const getProposalRows = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getProposalRows")
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -614,6 +626,7 @@ const getRFPS = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getRFPS")
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -640,6 +653,7 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
               });
           })
           .catch((error) => {
+            logging.error(error.message, "deleteRFP")
             res.status(500).json(error);
           });
       } else {
@@ -647,6 +661,7 @@ const deleteRFP = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "deleteRFP");
       res.status(500).json(error);
     });
 };

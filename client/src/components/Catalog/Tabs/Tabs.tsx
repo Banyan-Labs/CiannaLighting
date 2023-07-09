@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react';
+
+import logging from 'config/logging';
 import Details from './Details';
 import Options from './Options';
 import Specifications from './Specifications';
@@ -64,7 +66,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                     const fileName = ef.match(
                                         /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
                                     );
-                                    console.log(fileName);
+                                    logging.info(fileName, 'Tabs');
                                     return (
                                         <a
                                             className="m-2"
@@ -86,7 +88,8 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                     const fileName = ef.match(
                                         /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
                                     );
-                                    console.log(fileName);
+                                    logging.info(fileName, 'Tabs');
+                                    
                                     return (
                                         <a
                                             className="m-2"

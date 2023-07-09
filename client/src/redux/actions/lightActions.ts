@@ -11,6 +11,7 @@ import {
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
+import logging from 'config/logging';
 
 export const getRoomLights =
     (roomId: string) =>
@@ -72,7 +73,7 @@ export const setSpecFile =
 
                 const answer = await response('/get-attachments');
 
-                console.log("resp in get attach: ", answer.status)
+                logging.info(`Status of get attachements call: ${answer.status}`, "setSpecFile")
                 if (answer.status === 200) {
                     dispatch(setAttachments(answer.data.proj.pdf));
                 } else {

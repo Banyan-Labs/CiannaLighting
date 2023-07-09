@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
+import logging from "../../config/logging";
 import Activity from "../model/ActivityLog";
 
 const createLog = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,6 +34,7 @@ const createLog = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(200).json({ log: logUpdate });
     }
   } catch (error: any) {
+    logging.error(error.message, "createLog");
     return res.status(500).json({
       message: error.message,
       error,
@@ -73,7 +75,7 @@ export const createLogAtSignIn = async (
       return Promise.resolve(logUpdate);
     }
   } catch (error: any) {
-    console.log(error);
+    logging.error(error.message, "createLogAtSignIn");
     throw new Error(error.message);
   }
 };
@@ -109,6 +111,7 @@ const deleteLog = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "deleteLog");
       return res.status(500).json({
         message: error.message,
         error,

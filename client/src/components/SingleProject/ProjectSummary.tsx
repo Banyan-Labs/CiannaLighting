@@ -20,6 +20,7 @@ import { axiosPrivate } from '../../api/axios';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
+import { CopyType } from 'app/constants';
 
 interface ProjectSummaryProps {
     details: any;
@@ -98,7 +99,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         clientId: user._id,
                         clientName: user.name,
                     },
-                    copy: 'project',
+                    copy: CopyType.PROJECT,
                     attachments: attachments,
                 };
 

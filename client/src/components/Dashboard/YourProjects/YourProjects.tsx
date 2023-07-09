@@ -22,7 +22,7 @@ import dataHolding from './projectDetails';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setSpecFile } from '../../../redux/actions/lightActions';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
-
+import logging from 'config/logging';
 
 import '../style/dashboard.scss';
 
@@ -56,7 +56,7 @@ const YourProjects: FC = () => {
     };
 
     useEffect(() => {
-        console.log(user)
+        logging.info(`User: ${JSON.stringify(user)}`, 'YourProjects');
         dispatch(getUserProjects(user._id));
 
         let newProjectsNumber = 0;

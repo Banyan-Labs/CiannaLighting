@@ -21,6 +21,7 @@ import {
     setTheRoom,
     getAllProjectRoomsAction,
 } from 'redux/actions/projectActions';
+import { ActionType } from 'app/constants';
 
 import './lightOptionsForm.style.scss';
 
@@ -91,7 +92,7 @@ function LightOptionsForm({
                                         attachments: catalogLight.images,
                                     },
                                 ],
-                                edit: 'add',
+                                edit: ActionType.ADD,
                             },
                             attachments.length > 0 || catalogLight.images.length > 0
                         )

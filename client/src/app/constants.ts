@@ -40,3 +40,21 @@ export const LIGHT_FORM_OPTIONS_KEYS = [
     'lensMaterial',
     'projectVoltage',
 ];
+
+export enum ActionType {
+    ADD = 1,
+    REPLACE,
+    DELETE
+}
+
+export enum AttachmentType {
+    IMAGE = 'images',
+    PDF = 'pdf',
+    SPEC = 'specs',
+    DRAWING_FILE = 'drawingFiles',
+}
+
+export enum CopyType {
+    PROJECT = 1,
+    ROOM
+}

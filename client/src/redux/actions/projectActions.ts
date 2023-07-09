@@ -18,6 +18,8 @@ import {
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
+import { ActionType } from 'app/constants';
+import logging from 'config/logging';
 
 export const createProjectAction =
     (payload: any) =>
@@ -56,7 +58,7 @@ export const createProjectAction =
                                                 attachments: attachment,
                                             },
                                         ],
-                                        edit: 'add',
+                                        edit: ActionType.ADD,
                                     };
                                 }
                             }
@@ -331,8 +333,7 @@ export const deleteThisProject = (payload: any) => async () => {
 
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
-
-    console.log('IN DELETE ROOM!');
+    logging.info(`${JSON.stringify(payload)}`, 'deleteThisRoom')
     try {
         const room = await axiosPriv.post('/delete-room', payload);
 

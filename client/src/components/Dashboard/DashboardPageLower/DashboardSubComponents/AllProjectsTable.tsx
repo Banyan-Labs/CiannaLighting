@@ -1,11 +1,11 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { BsThreeDots } from 'react-icons/bs';
 
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { axiosPrivate } from '../../../../api/axios';
-import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
@@ -19,6 +19,7 @@ import { FilterModal } from '../../../FilterModal/FilterParams';
 import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
+import { CopyType } from 'app/constants';
 
 import './style/allProjects.scss';
 
@@ -248,7 +249,7 @@ const AllProjects: FC<Props> = ({
                         clientId: user._id,
                         clientName: user.name,
                     },
-                    copy: 'project',
+                    copy: CopyType.PROJECT,
                     attachments: attachments,
                 };
 

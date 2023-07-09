@@ -10,6 +10,7 @@ import {
     setLogs,
     setError,
 } from '../reducers/authSlice';
+import logging from 'config/logging';
 
 type SignInType = {
     email: string;
@@ -28,7 +29,7 @@ export const signInAction =
 
                 dispatch(setUser(response.data));
             } catch (error: any | AxiosError) {
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>', error);
+                logging.error(error.message, "signInAction");
                 if (axiosSrc.isAxiosError(error)) {
                     const axiosErr: AxiosError = error;
                     const errorMessage =

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import logging from "../../config/logging";
 import statusAndRegion from "../model/statusAndRegion";
 
 const addInfo = (req: Request, res: Response) => {
@@ -18,6 +19,7 @@ const addInfo = (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "addInfo");
       return res.status(500).json({
         message: error.message,
         error,
@@ -37,6 +39,7 @@ const getData = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getData");
       return res.status(500).json({
         message: error.message,
         error,
@@ -55,6 +58,7 @@ const deleteData = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "deleteData");
       return res.status(500).json({
         message: error.message,
         error,
