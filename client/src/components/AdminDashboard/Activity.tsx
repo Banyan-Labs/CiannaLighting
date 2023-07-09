@@ -27,10 +27,10 @@ const Activity: FC = () => {
                 <table className="dashboard-all-projects-table">
                     <thead className="table-headers">
                         <tr>
-                            <td className="log-table">Name</td>
-                            <td className="log-table">IP Address</td>
-                            <td className="log-table">Role</td>
-                            <td className="log-table">Last Login</td>
+                            <td>Name</td>
+                            <td>IP Address</td>
+                            <td>Role</td>
+                            <td>Last Login</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,19 +42,19 @@ const Activity: FC = () => {
                             return (
                                 <tr
                                     key={uuid()}
-                                    id="log-table-container"
+                                    id="-container"
                                     className="projects-table-dynamic-row"
                                 >
-                                    <th className="col-3 m-0 p-0">
+                                    <td className="col-3 m-0 p-0">
                                         {log.name}
-                                    </th>
-                                    <td className="projects-table-dynamic-designer log-table">
+                                    </td>
+                                    <td className="projects-table-dynamic-designer ">
                                         {log.ipAddress}
                                     </td>
-                                    <td className="projects-table-dynamic-region log-table">
+                                    <td className="projects-table-dynamic-region ">
                                         {log.role === '6677' ? 'Admin' : 'User'}
                                     </td>
-                                    <td className="projects-table-dynamic-region log-table">
+                                    <td className="projects-table-dynamic-region ">
                                         <span>{date + ' @ ' + time}</span>
                                     </td>
                                     <td

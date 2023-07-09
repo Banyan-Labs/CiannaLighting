@@ -32,7 +32,6 @@
     font-size: 12px;
     position: relative;
     top: -1px;
-    margin-left: 5px;
 }
 
 // project overview
@@ -55,13 +54,13 @@
     flex-basis: 100%;
     display: grid;
     color: $primary-bg-dark-title;
-    grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
+    grid-template-columns: 45px 40px 50px 40px 80px 40px 70px 40px 70px 40px;
     grid-template-rows: 20px 50px;
     grid-template-areas:
-        'total_icon total_title total_title total_title . . . . .'
-        'total_icon total_num . . . . . . .'
-        '. new_icon new_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title'
-        '. new_icon new_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num';
+        'total_icon total_title total_title total_title . . . . . . .'
+        'total_icon total_num . . . . . . . . .'
+        '. new_icon new_title in_progress_icon in_progress_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title'
+        '. new_icon new_num in_progress_icon in_progress_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num';
 }
 
 .overview-icon-main {
@@ -120,6 +119,18 @@
 
 .overview-new-num {
     grid-area: new_num;
+}
+
+.overview-in-progress {
+    grid-area: in_progress_icon;
+}
+
+.overview-in-progress-title {
+    grid-area: in_progress_title;
+}
+
+.overview-in-progress-num {
+    grid-area: in_progress_num;
 }
 
 .overview-hold {

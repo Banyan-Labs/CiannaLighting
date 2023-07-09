@@ -8,6 +8,7 @@ import {
     AiOutlineCloseCircle,
     AiOutlinePauseCircle,
     AiOutlineExclamationCircle,
+    AiOutlinePlayCircle
 } from 'react-icons/ai';
 import {
     IoIosArrowDropleftCircle,
@@ -46,6 +47,7 @@ const YourProjects: FC = () => {
     );
 
     const [newProjects, setNewProjects] = useState(0);
+    const [inProgressProjects, setInProgressProjects] = useState(0);
     const [onHoldProjects, setOnHoldProjects] = useState(0);
     const [canceledProjects, setCanceledProjects] = useState(0);
     const [completedProjects, setCompletedProjects] = useState(0);
@@ -64,21 +66,34 @@ const YourProjects: FC = () => {
         let onHoldProjectsNumber = 0;
         let canceledProjectsNumber = 0;
         let completedProjectsNumber = 0;
+        let inProgressProjectsNumber = 0;
 
         if (userProjects.length != 0) {
             userProjects.map((project) => {
-                if (project.status == 'New') {
-                    newProjectsNumber = newProjectsNumber + 1;
-                } else if (project.status == 'Hold') {
-                    onHoldProjectsNumber = onHoldProjectsNumber + 1;
-                } else if (project.status == 'Canceled') {
-                    canceledProjectsNumber = canceledProjectsNumber + 1;
-                } else if (project.status == 'Completed') {
-                    completedProjectsNumber = completedProjectsNumber + 1;
+                const closestSystemStatus = findClosestSystemStatus(project.status);
+
+                switch (closestSystemStatus) {
+                    case 'New':
+                        newProjectsNumber = newProjectsNumber + 1;
+                        break;
+                    case 'RFP':
+                    case 'Awarded':
+                    case 'Completed':
+                        completedProjectsNumber = completedProjectsNumber + 1;
+                        break;
+                    case 'Hold':
+                        onHoldProjectsNumber = onHoldProjectsNumber + 1;
+                        break;
+                    case 'Canceled':
+                        canceledProjectsNumber = canceledProjectsNumber + 1;
+                        break;
+                    default:
+                        inProgressProjectsNumber = inProgressProjectsNumber + 1;
                 }
             });
 
             setNewProjects(newProjectsNumber);
+            setInProgressProjects(inProgressProjectsNumber);
             setOnHoldProjects(onHoldProjectsNumber);
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
@@ -163,6 +178,14 @@ const YourProjects: FC = () => {
                         <div className="overview-new-num overview-num">
                             {newProjects}
                         </div>
+                        {/* In Progress Projects */}
+                        <AiOutlinePlayCircle className="overview-in-progress overview-icon" />
+                        <div className="overview-in-progress-title overview-label">
+                            In Progress
+                        </div>
+                        <div className="overview-in-progress-num overview-num">
+                            {inProgressProjects}
+                        </div>
                         {/* On Hold Projects */}
                         <AiOutlinePauseCircle className="overview-hold overview-icon" />
                         <div className="overview-hold-title overview-label">
@@ -199,7 +222,7 @@ const YourProjects: FC = () => {
                             setOpenModal(true);
                         }}
                     >
-                        <FaPlus />
+                        <FaPlus className="submit-icon" />
                         <span className="dashboard-new-project-sub-text">
                             New Project
                         </span>

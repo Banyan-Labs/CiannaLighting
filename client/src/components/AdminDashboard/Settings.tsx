@@ -177,20 +177,19 @@ const Settings: FC = () => {
                 <div className="list__group field">
                     <input
                         className="form__field"
-                        placeholder="Add to status"
                         type="text"
                         value={newStatus}
                         onChange={(e) => handleChange(e, 'status')}
                     />
                     <label htmlFor="description" className="form__label">
-                        Add to status
+                        Add status
                     </label>
                 </div>
                 <button
-                    className="new-material-button"
+                    className={`new-material-button ${newStatus.length < 1 ? 'disabled' : ''}`}
                     onClick={(e) => handleSubmit(e, 'status')}
                 >
-                    <FaPlus />
+                    <FaPlus className="submit-icon" />
                     Submit
                 </button>
             </div>
@@ -207,7 +206,7 @@ const Settings: FC = () => {
                     {sortedStatus?.map((label, index) => {
                         return (
                             <tr key={index} className="user-table-row">
-                                <th>{label}</th>
+                                <td>{label}</td>
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">
@@ -225,29 +224,27 @@ const Settings: FC = () => {
                     })}
                 </tbody>
             </table>
+
             <br></br>
             <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+
             <div className="add__materials">
                 <div className="list__group field">
                     <input
                         className="form__field"
-                        placeholder="Add to region"
                         type="text"
                         value={newRegion}
                         onChange={(e) => handleChange(e, 'region')}
                     />
                     <label htmlFor="description" className="form__label">
-                        Add to region
+                        Add region
                     </label>
                 </div>
                 <button
-                    className="new-material-button"
+                    className={`new-material-button ${newRegion.length < 1 ? 'disabled' : ''}`}
                     onClick={(e) => handleSubmit(e, 'region')}
                 >
-                    <FaPlus />
+                    <FaPlus className="submit-icon" />
                     Submit
                 </button>
             </div>
@@ -264,7 +261,7 @@ const Settings: FC = () => {
                     {sortedRegion?.map((label, index) => {
                         return (
                             <tr key={index} className="user-table-row">
-                                <th>{label}</th>
+                                <td>{label}</td>
                                 <td></td>
                                 <td></td>
                                 <td className="remove-button-td">

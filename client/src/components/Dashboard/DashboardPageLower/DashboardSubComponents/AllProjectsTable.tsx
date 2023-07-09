@@ -165,6 +165,7 @@ const AllProjects: FC<Props> = ({
         }
         if (searchValue === '') {
             setParsedData(data);
+
             return data;
         } else if (checkSearchVal && searchValue.length) {
             const searchData = data.filter((item: ProjectType) => {
@@ -192,7 +193,9 @@ const AllProjects: FC<Props> = ({
                     return '';
                 }
             });
+            
             setParsedData(searchData);
+
             return searchData;
         } else {
             alert('Please no special characters.');

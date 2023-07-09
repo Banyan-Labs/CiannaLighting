@@ -62,7 +62,7 @@ export enum CopyType {
 export const SystemStatus = [
     'New',
     'RFP',
-    'Completed',
+    'Complete',
     'Hold',
     'Design',
     'Internal',
