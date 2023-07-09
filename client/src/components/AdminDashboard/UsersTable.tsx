@@ -165,7 +165,7 @@ const UsersTable: FC = () => {
         unsetMini();
         forceUpdate();
     };
-    logging.info(`Sorted Data: ${sortedData}`, "UsersTable")
+    logging.info(sortedData, "UsersTable")
 
     return (
         <>
@@ -225,17 +225,7 @@ const UsersTable: FC = () => {
                                 </th>
                                 <td>{user.email}</td>
                                 <td>
-                                    {Object.entries(ROLES).map((role) => {
-                                        if (role[1] === user.role) {
-                                            if (role[0] === 'Cmd') {
-                                                return 'Admin';
-                                            } else if (role[0] === 'Int') {
-                                                return 'Employee';
-                                            } else {
-                                                return role[0];
-                                            }
-                                        }
-                                    })}
+                                    {Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role)}
                                 </td>
                                 <td
                                     className="button-td"

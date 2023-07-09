@@ -37,7 +37,7 @@ const Links: FC<{ links: Link[] }> = () => {
             {links
                 .slice()
                 .filter((link: Link) =>
-                    link.label === 'Admin' && user.role != ROLES.Cmd ? '' : link
+                    link.label === 'Admin' && user.role != ROLES.Admin ? '' : link
                 )
                 .map((link: Link) => {
                     return (
@@ -51,9 +51,9 @@ const Links: FC<{ links: Link[] }> = () => {
                                     search: `?_id=${user._id}&projectId=${Id}`,
                                 }}
                                 className={
-                                    activeLocation === link.label.toLowerCase()
-                                        ? 'active navbar-links'
-                                        : 'navbar-links'
+                                    link.label === 'Admin' 
+                                    ? link.href.includes(activeLocation) ? 'active navbar-links' : 'navbar-links'
+                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links' : 'navbar-links'
                                 }
                             >
                                 {link.label}
@@ -67,6 +67,7 @@ const Links: FC<{ links: Link[] }> = () => {
 
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
+    const userRole = Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role);
     const dispatch = useAppDispatch();
 
     const handleLogout = async (e: any) => {
@@ -99,7 +100,7 @@ const Navbar: FC = () => {
                             !
                         </span>
                         <br />
-                        <span className="navbar-user-role">User</span>
+                        <span className="navbar-user-role">{userRole}</span>
                     </div>
                     {/* <FaChevronDown /> */}
                 </div>

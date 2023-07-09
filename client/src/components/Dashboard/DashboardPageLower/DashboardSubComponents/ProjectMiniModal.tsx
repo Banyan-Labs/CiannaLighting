@@ -80,7 +80,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             >
                 <FaBookReader /> <p>Read Only</p>
             </div>
-            {user.role === ROLES.Cmd ? (
+            {user.role === ROLES.Admin ? (
                 <div
                     onClick={() => {
                         setOpenModal(true);

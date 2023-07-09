@@ -146,7 +146,7 @@ const ProjectMiniModal: FC<projectProps> = ({
                     </p>
                 </div>
             )}
-            {user.role === ROLES.Cmd ? (
+            {user.role === ROLES.Admin ? (
                 <div
                     onClick={() => {
                         setOpenModal(true);

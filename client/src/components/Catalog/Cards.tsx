@@ -29,15 +29,15 @@ const Cards: FC<catalogProps> = ({
         const allReceived =
             renderPage === 'designStyle'
                 ? design?.designStyle.map((type: any) => {
-                      if (!designsFound.includes(type)) {
-                          designsFound.push(type);
-                      }
-                  })
+                    if (!designsFound.includes(type)) {
+                        designsFound.push(type);
+                    }
+                })
                 : design?.usePackages.map((type: any) => {
-                      if (!designsFound.includes(type)) {
-                          designsFound.push(type);
-                      }
-                  });
+                    if (!designsFound.includes(type)) {
+                        designsFound.push(type);
+                    }
+                });
 
         if (renderPage === '') {
             return setRenderPage('');
@@ -58,9 +58,9 @@ const Cards: FC<catalogProps> = ({
                     <div className="item-bottom-sections">
                         <h4 className="">
                             {design.itemName}
-                            <br /> 
+                            <br />
                             <span>{design.item_ID}</span>
-                            <br/>
+                            <br />
                             {!design.isActive && (
                                 <span>inactive</span>
                             )}
@@ -78,7 +78,7 @@ const Cards: FC<catalogProps> = ({
                     <div className="main-catalog-filter-container d-flex m-0">
                         <div className="col-12 d-flex row m-0 p-0">
                             <h4 className="d-flex justify-content-center">
-                                Catalog items found for: <b>{catalogType}</b>
+                            <b>{catalogType}</b>&nbsp;catalog items
                             </h4>
                             <div className="all-pulled-types d-flex col-12 justify-content-evenly m-0 p-0">
                                 {/* <ul className="col-3 col-lg-3 col-xl-2">
@@ -121,8 +121,14 @@ const Cards: FC<catalogProps> = ({
                         </div>
                     </div>
                 </>
-            ) : (
-                ''
+            ) : catalogType && (
+                <div className="main-catalog-filter-container d-flex m-0">
+                    <div className="col-12 d-flex row m-0 p-0">
+                        <h4 className="d-flex justify-content-center">
+                            No&nbsp;<b>{catalogType}</b>&nbsp;catalog items found.
+                        </h4>
+                    </div>
+                </div>
             )}
         </>
     );

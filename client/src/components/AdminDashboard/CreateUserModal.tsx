@@ -220,7 +220,7 @@ const CreateUserModal: FC<Props> = ({
                                     value={userDetails.role}
                                 >
                                     {Object.values(ROLES).map((role, index) =>
-                                        role === '6677' ? (
+                                        role === ROLES.Admin ? (
                                             <option
                                                 defaultValue={role}
                                                 key={index}
@@ -228,7 +228,7 @@ const CreateUserModal: FC<Props> = ({
                                             >
                                                 Admin
                                             </option>
-                                        ) : role === '9999' ? (
+                                        ) : role === ROLES.Employee ? (
                                             <option
                                                 defaultValue={role}
                                                 key={index}
@@ -236,7 +236,7 @@ const CreateUserModal: FC<Props> = ({
                                             >
                                                 Employee
                                             </option>
-                                        ) : role === '1212' ? (
+                                        ) : role === ROLES.User ? (
                                             <option
                                                 defaultValue={role}
                                                 key={index}

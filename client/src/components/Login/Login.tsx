@@ -20,7 +20,7 @@ const Login: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const dashRoles = [ROLES.Cmd, ROLES.User];
+    const dashRoles = [ROLES.Admin, ROLES.User];
     const isLoginError = loginApiError !== null;
 
     const openModal = () => {

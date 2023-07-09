@@ -1,7 +1,7 @@
 export const ROLES = {
     User: '1212',
-    Int: '9999',
-    Cmd: '6677',
+    Employee: '9999',
+    Admin: '6677',
 };
 
 export const LIGHT_DISPLAY_SPECIFICATION_KEYS = [

@@ -22,7 +22,7 @@ const AdminDashboard: FC = () => {
                 {adminLinks
                     .slice()
                     .filter((link) =>
-                        link.text === 'Users' && user.role != ROLES.Cmd
+                        link.text === 'Users' && user.role != ROLES.Admin
                             ? ''
                             : link
                     )
@@ -45,7 +45,7 @@ const AdminDashboard: FC = () => {
                 <Routes>
                     <Route path="/" element={<Inventory />} />
 
-                    <Route element={<RequireAuth roles={[ROLES.Cmd]} />}>
+                    <Route element={<RequireAuth roles={[ROLES.Admin]} />}>
                         <Route path="/users" element={<UsersTable />} />
                         <Route path="/activity" element={<Activity />} />
                     </Route>

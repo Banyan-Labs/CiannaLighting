@@ -187,7 +187,7 @@
         color: $primary-bg-dark-link-hover;
         font-size: 20px;
         position: relative;
-        top: 2px;
+        top: 5px;
     }
     #your-project-icons-left {
         padding-right: 10px;
@@ -268,8 +268,9 @@
         span {
             position: relative;
             top: -5px;
-            margin-left: 40%;
             color: #fff;
+            letter-spacing: 1px;
+            margin-left: auto;
         }
         .view-details-chevron {
             position: relative;
