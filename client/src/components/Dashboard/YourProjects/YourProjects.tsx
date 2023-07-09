@@ -56,7 +56,7 @@ const YourProjects: FC = () => {
     };
 
     useEffect(() => {
-        logging.info(`User: ${JSON.stringify(user)}`, 'YourProjects');
+        logging.info(user, 'YourProjects');
         dispatch(getUserProjects(user._id));
 
         let newProjectsNumber = 0;

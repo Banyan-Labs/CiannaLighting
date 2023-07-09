@@ -13,7 +13,7 @@ export const getAllUsers =
             const users = await axiosPriv.get('cmd/get-users');
 
             if (users) {
-                logging.info(`Users: ${JSON.stringify(users)}}`, "getAllUsers");
+                logging.info(users, "getAllUsers");
 
                 dispatch(setUsers(users.data));
             }
@@ -25,7 +25,7 @@ export const createUserAction =
             const axiosPriv = axiosPrivate();
             const response: any = await axiosPriv.post('cmd/create-user', user);
 
-            logging.info(`Response: ${JSON.stringify(response)}`, "createUserAction");
+            logging.info(response, "createUserAction");
             // set something to throw error
             if (response.data) {
                 dispatch(setNewUser(response.data.user));

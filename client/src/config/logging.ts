@@ -1,24 +1,24 @@
 const info = (message: any, namespace?: string) => {
     if (typeof message === "string") {
-        console.log("%c" + `[${getDate()}] [INFO] [${getLocation(namespace)}] \n > ${message}`, "color: #3d88f5;");
+        console.log("%c" + `[${getDate()}] [INFO] [${getLocation(namespace)}] > ${message}`, "color: #3d88f5;");
     } else {
-        console.log("%c" + `[${getDate()}] [INFO] [${getLocation(namespace)}] \n`, "color: #3d88f5;", message);
+        console.log("%c" + `[${getDate()}] [INFO] [${getLocation(namespace)}]`, "color: #3d88f5;", message);
     }
 };
 
 const warn = (message: any, namespace?: string) => {
     if (typeof message === "string") {
-        console.log("%c" + `[${getDate()}] [WARN] [${getLocation(namespace)}] \n > ${message}`, "color: #f1ed69;");
+        console.log("%c" + `[${getDate()}] [WARN] [${getLocation(namespace)}] > ${message}`, "color: #f1ed69;");
     } else {
-        console.log("%c" + `[${getDate()}] [WARN] [${getLocation(namespace)}] \n`, "color: #f1ed69;", message);
+        console.log("%c" + `[${getDate()}] [WARN] [${getLocation(namespace)}]`, "color: #f1ed69;", message);
     }
 };
 
 const error = (message: any, namespace?: string) => {
     if (typeof message === "string") {
-        console.log("%c" + `[${getDate()}] [ERROR] [${getLocation(namespace)}] \n > ${message}`, "color: #ed5a6e;");
+        console.log("%c" + `[${getDate()}] [ERROR] [${getLocation(namespace)}] > ${message}`, "color: #ed5a6e;");
     } else {
-        console.log("%c" + `[${getDate()}] [ERROR] [${getLocation(namespace)}] \n`, "color: #ed5a6e;", message);
+        console.log("%c" + `[${getDate()}] [ERROR] [${getLocation(namespace)}]`, "color: #ed5a6e;", message);
     }
 };
 

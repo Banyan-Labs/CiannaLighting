@@ -46,8 +46,8 @@ const Modal: FC<Props> = (props) => {
         name: props.editProject ? String(project?.name) : '',
         clientId: user._id,
         clientName: user.name,
-        region: props.editProject ? String(project?.region) : 'Africa',
-        status: props.editProject ? String(project?.status) : 'New',
+        region: props.editProject ? String(project?.region) : region[0],
+        status: props.editProject ? String(project?.status) : status[0],
         description: props.editProject ? String(project?.description) : '',
     });
 
@@ -73,12 +73,12 @@ const Modal: FC<Props> = (props) => {
         return reFormat;
     };
 
-    logging.info(`projectDetails: ${JSON.stringify(projectDetails)}}`, "Modal");
+    logging.info(projectDetails, "Modal");
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
-        logging.info(`projectDetails: ${JSON.stringify(projectDetails)}}`, "Modal");
+        logging.info(projectDetails, "Modal");
         try {
             !props.editProject
                 ? await dispatch(createProjectAction({ project: projectDetails }))

@@ -126,7 +126,7 @@ const CreateUserModal: FC<Props> = ({
                 const response = await axiosPriv.put('/cmd/edit-user/' + handleEdit()._id, handleEdit());
 
                 if (response) {
-                    logging.info(`Response: ${JSON.stringify(response.data)}}`, 'CreateUserModal');
+                    logging.info(response.data, 'CreateUserModal');
                     setEdit(false);
 
                     if (curUser === userId) {
@@ -170,7 +170,7 @@ const CreateUserModal: FC<Props> = ({
         return editPass;
     };
 
-    logging.info(`User Details: ${JSON.stringify(userDetails)}`, 'CreateUserModal');
+    logging.info(userDetails, 'CreateUserModal');
 
     return (
         <div className="new-user-modal-background">

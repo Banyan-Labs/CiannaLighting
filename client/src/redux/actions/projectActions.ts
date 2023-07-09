@@ -333,7 +333,8 @@ export const deleteThisProject = (payload: any) => async () => {
 
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
-    logging.info(`${JSON.stringify(payload)}`, 'deleteThisRoom')
+    logging.info(payload, 'deleteThisRoom');
+    
     try {
         const room = await axiosPriv.post('/delete-room', payload);
 
