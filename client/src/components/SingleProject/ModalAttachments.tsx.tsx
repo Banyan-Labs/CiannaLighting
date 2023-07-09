@@ -90,7 +90,6 @@ export const ModalAttachments: FC<Props> = ({
             }
         }
         try {
-            // curious about this ???
             (await axiosPriv).post('/new-attachments', fs);
         } catch (error: any) {
             throw new Error(error.messsge);
