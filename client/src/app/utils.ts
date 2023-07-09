@@ -7,8 +7,8 @@ export const useParams = (query: string) => {
     return searchParams.getAll(query);
 };
 
-export const findClosestSystemStatus = (status: string) => {
-    const stausWithoutSpecialCharsOrSpace = status
+export const findClosestSystemStatus = (givenStatus: string) => {
+    const stausWithoutSpecialCharsOrSpace = givenStatus
         .replace(/\s/g, '')
         .replace(/[^\w\s]/gi, '');
 

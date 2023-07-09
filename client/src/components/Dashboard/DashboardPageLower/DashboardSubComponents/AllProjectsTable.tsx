@@ -457,7 +457,13 @@ const AllProjects: FC<Props> = ({
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage && (
+                                {(
+                                    currentPage !== lastPage && (
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length
+                                            : archivedProjects.length
+                                    )
+                                ) ? (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);
@@ -469,7 +475,7 @@ const AllProjects: FC<Props> = ({
                                             id="arrow-pag-next"
                                         />
                                     </li>
-                                )}
+                                ) : null}
                             </ul>
                         </nav>
                     </div>

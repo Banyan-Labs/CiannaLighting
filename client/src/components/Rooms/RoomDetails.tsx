@@ -96,10 +96,10 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const item =
             setAllCatalog && setAllCatalog.length
                 ? setAllCatalog.find(
-                      (item: any) => item.item_ID === light.item_ID
-                  ) : null;
+                    (item: any) => item.item_ID === light.item_ID
+                ) : null;
         const image = item?.images?.length ? item.images[0] : '';
-        
+
         return (
             <div className="single-room-container d-flex row" key={uuid()}>
                 <div className="first-light-section d-flex mb-2">
@@ -247,10 +247,12 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 <div className="col-6 d-flex justify-content-end">
                     <p className="project-name">
                         <span className="project-tag">Project</span> <br />
-                        {project?.name}
-                        <FaCircle
-                            className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')}`}
-                        />
+                        <div className="project-title-with-status-icon">
+                            {project?.name}
+                            <FaCircle
+                                className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
+                            />
+                        </div>
                     </p>
                 </div>
             </div>

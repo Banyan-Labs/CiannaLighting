@@ -570,7 +570,7 @@ const AllProjectView: FC<Props> = ({
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage - 1 && (
+                                {(currentPage !== lastPage && (activeProjects.length || archivedProjects.length)) && (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);

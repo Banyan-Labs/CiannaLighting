@@ -12,6 +12,7 @@ body {
 
 .statusColorNew {
     background-color: $accent-grayish-red;
+    fill: $accent-grayish-red;
 }
 
 .statusColorDesign {
@@ -41,4 +42,13 @@ body {
 
 .statusColorDefault {
     background-color: $accent-light-grayish-yellow;
+}
+
+.background-unset {
+    background-color: unset;
+}
+
+.project-title-with-status-icon {
+    display: flex;
+    align-items: center;
 }

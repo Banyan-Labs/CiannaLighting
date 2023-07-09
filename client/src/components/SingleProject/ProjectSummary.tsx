@@ -165,10 +165,12 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                 <div className="project-summary-top-bar">
                     <div className="project-summary-name-and-date">
                         <h3 className="project-summary-project-name">
-                            {details?.name}
-                            <FaCircle
-                                className={`circle-icon statusColor${findClosestSystemStatus(details?.status || '')}`}
-                            />
+                            <div className="project-title-with-status-icon">
+                                {details?.name}
+                                <FaCircle
+                                    className={`circle-icon statusColor${findClosestSystemStatus(details?.status || '')} background-unset`}
+                                />
+                            </div>
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
