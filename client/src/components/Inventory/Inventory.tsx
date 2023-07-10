@@ -153,7 +153,7 @@ const Inventory: FC = () => {
         e.preventDefault();
 
         if (type == 'images') {
-            const newImages = imageName.filter(
+            const newImages = imageName?.filter(
                 (x: any) => x.name != filePath.name
             );
 
@@ -178,7 +178,7 @@ const Inventory: FC = () => {
             }
         }
         if (type == 'pdf') {
-            const newPdf = viewablePDF.filter(
+            const newPdf = viewablePDF?.filter(
                 (x: any) => x.name != filePath.name
             );
 
@@ -281,7 +281,7 @@ const Inventory: FC = () => {
             '__v',
         ];
         const vals = Object.entries(itemDetails);
-        const check = vals.map((itemKeyVal: any) =>
+        const check = vals?.map((itemKeyVal: any) =>
             itemKeyVal[1]
                 ? typeof itemKeyVal[1] == 'number'
                     ? [itemKeyVal[0], itemKeyVal[1] > 0]
@@ -299,7 +299,7 @@ const Inventory: FC = () => {
         );
 
         if (checkVals.length) {
-            const showRequired = checkVals.map(
+            const showRequired = checkVals?.map(
                 (itemKeyVal: unknown[]) => itemKeyVal[0]
             );
 
@@ -320,7 +320,7 @@ const Inventory: FC = () => {
         rendered: boolean
     ) => {
         if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
+            const newPdfs = viewablePDF?.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
 
             setNumPdfPages({
                 ...numPdfPages,
@@ -329,7 +329,7 @@ const Inventory: FC = () => {
             setViewablePDF(newPdfs);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
+            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
 
             setNumDrawPages({
                 ...numDrawPages,
@@ -338,7 +338,7 @@ const Inventory: FC = () => {
             setDrawingFilesNames(newDrawingFiles);
         }
         if (location == 'specs' && rendered === false) {
-            const newSpecs = viewableSpecs.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
+            const newSpecs = viewableSpecs?.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
 
             setNumSpecPages({
                 ...numSpecPages,
@@ -383,22 +383,22 @@ const Inventory: FC = () => {
             };
 
             setImageNames(
-                files.images.map((x: string, index: number) =>
+                files.images?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setDrawingFilesNames(
-                files.drawingFiles.map((x: string, index: number) =>
+                files.drawingFiles?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setViewablePDF(
-                files.pdf.map((x: string, index: number) =>
+                files.pdf?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setViewableSpecs(
-                files.specs.map((x: string, index: number) =>
+                files.specs?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
@@ -809,7 +809,7 @@ const Inventory: FC = () => {
                                 Exisiting Items
                             </label>
                             <datalist id="catalog">
-                                {catalogItems.map((item: any) => {
+                                {catalogItems?.map((item: any) => {
                                     return (
                                         <option
                                             key={uuid()}
@@ -2026,7 +2026,7 @@ const Inventory: FC = () => {
                                     placeholder="Use Packages"
                                     type="text"
                                     name="usePackagesValues"
-                                    value={itemDetails.usePackages || ''}
+                                    value={itemDetails?.usePackages || ''}
                                     readOnly
                                 />
                             </div>
@@ -2061,12 +2061,12 @@ const Inventory: FC = () => {
                                     accept="image/png, image/jpeg, image/jpg"
                                     multiple
                                     name="images"
-                                    key={imageName.name || ''}
+                                    key={imageName?.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {imageName.map((url: any) => {
+                                {imageName?.map((url: any) => {
                                     return (
                                         <div
                                             key={uuid()}
@@ -2114,12 +2114,12 @@ const Inventory: FC = () => {
                                     accept="application/pdf"
                                     multiple
                                     name="pdf"
-                                    key={viewablePDF.name || ''}
+                                    key={viewablePDF?.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any) => {
+                                {viewablePDF?.map((url: any) => {
                                     return (
                                         <Document
                                             key={uuid()}
@@ -2208,7 +2208,7 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs.map((url: any) => {
+                                {viewableSpecs?.map((url: any) => {
                                     return (
                                         <Document
                                             key={uuid()}
@@ -2301,7 +2301,7 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {drawingFilesNames.map((url: any) => {
+                                {drawingFilesNames?.map((url: any) => {
                                     return (
                                         <Document
                                             key={uuid()}
