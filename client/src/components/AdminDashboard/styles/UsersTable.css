@@ -51,7 +51,7 @@
 
 .users-table-headers {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     display: grid;
     grid-template-columns: 2fr 2fr 1fr 1fr;
     border-bottom: 2px solid #949494;
@@ -64,7 +64,7 @@
 }
 
 .remove-td {
-    padding-left: 30px;
+    justify-content: center !important;
 }
 
 .user-options-button {
@@ -97,9 +97,7 @@
     align-items: center;
     justify-content: flex-start;
 }
-.user-table-row .button-td {
-    justify-content: flex-end;
-}
+
 .user-table-row .remove-button-td {
     justify-content: center;
 } /*# sourceMappingURL=UsersTable.css.map */

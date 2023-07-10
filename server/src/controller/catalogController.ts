@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { isArray } from "lodash";
 import mongoose from "mongoose";
+import logging from "../../config/logging";
+
 import { uploadFunc } from "../middleware/s3";
 import CatalogItem from "../model/CatalogItem";
+import { AttachmentType } from "../utils/constants";
 
 const createCatalogItem = async (req: Request, res: Response) => {
   let {
@@ -46,14 +48,15 @@ const createCatalogItem = async (req: Request, res: Response) => {
     costAdmin,
     partnerCodeAdmin,
   } = req.body;
-
   let { images, pdf, specs, drawingFiles } = req.body; //[]//s3
   images = [];
   pdf = [];
   specs = [];
   drawingFiles = [];
   const existingCatalog = await CatalogItem.findOne({ item_ID });
-  console.log("existingCatalog: ", existingCatalog);
+
+  logging.info(`existingCatalog: ${existingCatalog}`, "createCatalogItem")
+
   if (existingCatalog) {
     return res.status(400).json({
       message: "This Item already exists.",
@@ -61,20 +64,20 @@ const createCatalogItem = async (req: Request, res: Response) => {
   } else {
     if (req.files) {
       const documents = Object.values(req.files as any);
-
       const results: any = await uploadFunc(documents);
+
       if (results?.length) {
         for (let i = 0; i < results?.length; i++) {
           for (let j = 0; j < results[i].length; j++) {
             const singleDoc = await results[i][j];
 
-            if (singleDoc.field === "images") {
+            if (singleDoc.field === AttachmentType.IMAGE) {
               images.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "drawingFiles") {
+            } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
               drawingFiles.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "pdf") {
+            } else if (singleDoc.field === AttachmentType.PDF) {
               pdf.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === "specs") {
+            } else if (singleDoc.field === AttachmentType.SPEC) {
               specs.push(singleDoc.s3Upload.Location);
             }
           }
@@ -138,6 +141,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "createCatalogItem");
         return res.status(500).json({
           message: error.message,
           error,
@@ -151,6 +155,7 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
     (x) => x === "designStyle" || x == "usePackages"
   );
   const workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
+
   CatalogItem.find()
     .then((items) => {
       if (items) {
@@ -160,24 +165,25 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
           items = items.filter((x) => {
             const dz = designCheck
               ? workArray["designStyle"].every(
-                  (v: string) =>
-                    x.designStyle[0]
-                      .split(",")
-                      .map((x) => x.toLowerCase())
-                      .indexOf(v) > -1
-                )
+                (v: string) =>
+                  x.designStyle[0]
+                    .split(",")
+                    .map((x) => x.toLowerCase())
+                    .indexOf(v) > -1
+              )
               : false;
             const uses = useCheck
               ? workArray["usePackages"].every((v: string) => {
-                  const usePackage = v.match(/[a-z]/g)?.join("");
-                  return x.usePackages[0]
-                    .split(",")
-                    .some(
-                      (x) =>
-                        x.toLowerCase().match(/[a-z]/g)?.join("") == usePackage
-                    );
-                })
+                const usePackage = v.match(/[a-z]/g)?.join("");
+                return x.usePackages[0]
+                  .split(",")
+                  .some(
+                    (x) =>
+                      x.toLowerCase().match(/[a-z]/g)?.join("") == usePackage
+                  );
+              })
               : false;
+
             if (check.length === 2) {
               if (dz == true && uses == true) {
                 return x;
@@ -203,6 +209,7 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getCatalogItems");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -231,6 +238,7 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
   pdf = [];
   specs = [];
   drawingFiles = [];
+
   if (req.files) {
     const documents = Object.values(req.files as any);
 
@@ -239,13 +247,13 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       for (let i = 0; i < results?.length; i++) {
         for (let j = 0; j < results[i].length; j++) {
           const singleDoc = await results[i][j];
-          if (singleDoc.field === "images") {
+          if (singleDoc.field === AttachmentType.IMAGE) {
             images.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "drawingFiles") {
+          } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
             drawingFiles.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "pdf") {
+          } else if (singleDoc.field === AttachmentType.PDF) {
             pdf.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === "specs") {
+          } else if (singleDoc.field === AttachmentType.SPEC) {
             specs.push(singleDoc.s3Upload.Location);
           } else {
             next();
@@ -254,66 +262,75 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   }
-  console.log("editBOD: ", req.body);
+
+  logging.info(`editBOD: ${JSON.stringify(req.body)}`, "getLight");
+
   return await CatalogItem.findOne(search)
     .exec()
     .then(async (light: any) => {
       if (light) {
-        console.log("lightFound", light);
-        if (light && keys.length) {
+        logging.info(`lightFound: ${JSON.stringify(light)}`, "getLight");
+        if (keys.length) {
           keys.map((keyName: string) => {
             if (/edit/.test(keyName)) {
               switch (keyName) {
                 case "editImages":
                   if (images.length) {
                     const paramsSplit = parameters[keyName].split(",");
+
                     light.images = [...images, ...paramsSplit].filter((x) => x);
-                  }else if(images.length && parameters[keyName].length == 0){
+                  } else if (images.length && parameters[keyName].length == 0) {
                     light.images = images;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
+
                     light.images = paramsSplit;
                   }
                   break;
                 case "editpdf":
                   if (pdf.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
+
                     light.pdf = [...pdf, ...paramsSplit];
-                  }else if(pdf.length && parameters[keyName].length == 0){
+                  } else if (pdf.length && parameters[keyName].length == 0) {
                     light.pdf = pdf;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
+
                     light.pdf = paramsSplit;
                   }
                   break;
                 case "editDrawingFiles":
                   if (drawingFiles.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
+
                     light.drawingFiles = [...drawingFiles, ...paramsSplit];
-                  } else if(drawingFiles.length && parameters[keyName].length == 0){
+                  } else if (drawingFiles.length && parameters[keyName].length == 0) {
                     light.drawingFiles = drawingFiles;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
+
                     light.drawingFiles = paramsSplit;
                   }
                   break;
                 case "editSpecs":
                   if (specs.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
+
                     light.specs = [...specs, ...paramsSplit];
-                  }else if(specs.length && parameters[keyName].length == 0){
-                    console.log("HIT!")
+                  } else if (specs.length && parameters[keyName].length == 0) {
                     light.specs = specs;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
+
                     light.specs = paramsSplit;
                   }
                   break;
@@ -344,6 +361,7 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       }
     })
     .catch((error) => {
+      logging.error(error.message, "getLight");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -355,10 +373,11 @@ const removeLight = async (req: Request, res: Response) => {
       return !light
         ? res.status(200).json(light)
         : res.status(404).json({
-            message: "The Catalog item you are looking for no longer exists",
-          });
+          message: "The Catalog item you are looking for no longer exists",
+        });
     })
     .catch((error) => {
+      logging.error(error.message, "removeLight");
       return res.status(500).json(error);
     });
 };

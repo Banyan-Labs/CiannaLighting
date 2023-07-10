@@ -258,6 +258,7 @@
     font-size: 16px;
     border-bottom: 2px solid #3f3c39;
     height: 6.17vh;
+    font-weight: 700;
 }
 
 .all__projects {
@@ -344,7 +345,7 @@
 .projects-table-dynamic-status .statusColorRFP {
     background-color: #949494;
 }
-.projects-table-dynamic-status .statusColorInternalApproval {
+.projects-table-dynamic-status .statusColorInternal {
     background-color: #3f3c39;
     color: #f7f6f4;
 }
@@ -358,8 +359,6 @@
 .bs-three-dots-container {
     cursor: pointer;
     display: flex;
-    justify-content: center;
-    padding: 6px;
     font-size: 18px;
     color: #9b9b9b;
 }
@@ -370,8 +369,7 @@
 }
 
 .align-modal-dots {
-    display: flex;
-    justify-content: center;
+    margin-left: 20%;
 }
 
 .project-mini-modal {

@@ -202,7 +202,7 @@ export const projectSlice = createSlice({
             ...state,
             userProjects: action.payload.projects,
         }),
-        setPersonalizedDefaults: (state) =>({
+        setPersonalizedDefaults: (state) => ({
             ...state,
             roomId: '',
             projectId: '',

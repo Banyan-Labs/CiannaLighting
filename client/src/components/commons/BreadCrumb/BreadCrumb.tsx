@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsChevronLeft } from 'react-icons/bs';
+
 import './breadCrumb.style.scss';
 
 type Props = {
@@ -18,6 +19,7 @@ const BreadCrumb = ({ label, linkTo, stateAction }: Props) => {
             <span className="bread-crumb__label">{label}</span>
         </>
     );
+    
     if (linkTo) {
         return (
             <Link className="bread-crumb__container" to={linkTo}>

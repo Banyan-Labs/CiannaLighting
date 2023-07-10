@@ -1,9 +1,11 @@
 import React, { FC, useEffect } from 'react';
-import './styles/AdminDashboard.scss';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteTheLog, getAllLogs } from '../../redux/actions/authActions';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import uuid from 'react-uuid';
+
+import './styles/AdminDashboard.scss';
+
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { deleteTheLog, getAllLogs } from '../../redux/actions/authActions';
 
 const Activity: FC = () => {
     const { logs } = useAppSelector(({ auth: user }) => user);
@@ -16,6 +18,7 @@ const Activity: FC = () => {
     useEffect(() => {
         dispatch(getAllLogs());
     }, []);
+
     return (
         <div>
             <h2>Recent Logs</h2>
@@ -24,40 +27,35 @@ const Activity: FC = () => {
                 <table className="dashboard-all-projects-table">
                     <thead className="table-headers">
                         <tr>
-                            <td className="log-table">Name</td>
-                            <td className="log-table">IP Address</td>
-                            <td className="log-table">Role</td>
-                            <td className="log-table">Last Login</td>
+                            <td>Name</td>
+                            <td>IP Address</td>
+                            <td>Role</td>
+                            <td>Last Login</td>
+                            <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>
                         {logs?.map((log) => {
-                            const RDate =
-                                log?.updatedAt !== ''
-                                    ? log?.updatedAt
-                                    : log?.createdAt;
-                            const date = new Date(
-                                Date.parse(RDate)
-                            ).toDateString();
-                            const time = new Date(
-                                Date.parse(RDate)
-                            ).toLocaleTimeString();
+                            const RDate = log?.updatedAt !== '' ? log?.updatedAt : log?.createdAt;
+                            const date = new Date(Date.parse(RDate)).toDateString();
+                            const time = new Date(Date.parse(RDate)).toLocaleTimeString();
+
                             return (
                                 <tr
                                     key={uuid()}
                                     id="log-table-container"
                                     className="projects-table-dynamic-row"
                                 >
-                                    <th className="col-3 m-0 p-0">
+                                    <td className="col-3 m-0 p-0">
                                         {log.name}
-                                    </th>
-                                    <td className="projects-table-dynamic-designer log-table">
+                                    </td>
+                                    <td className="projects-table-dynamic-designer ">
                                         {log.ipAddress}
                                     </td>
-                                    <td className="projects-table-dynamic-region log-table">
+                                    <td className="projects-table-dynamic-region ">
                                         {log.role === '6677' ? 'Admin' : 'User'}
                                     </td>
-                                    <td className="projects-table-dynamic-region log-table">
+                                    <td className="projects-table-dynamic-region ">
                                         <span>{date + ' @ ' + time}</span>
                                     </td>
                                     <td

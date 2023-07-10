@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
+
 import Cards from './Cards';
 import SearchBar from './SearchBar';
 import CreateEditLight from './CreateEditLight';
+
 import '../style/roomDetails.scss';
 
 interface catalogPros {

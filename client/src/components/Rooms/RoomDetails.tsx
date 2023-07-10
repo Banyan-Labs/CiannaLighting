@@ -1,18 +1,20 @@
 import React, { FC, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-// import Default from '../../assets/stairway.jpeg';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
+import { BsChevronLeft } from 'react-icons/bs';
+import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import uuid from 'react-uuid';
 import { Link } from 'react-router-dom';
+
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
-import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
-import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import { CopyType } from 'app/constants';
+
 import './style/roomDetails.scss';
-import uuid from 'react-uuid';
+import { findClosestSystemStatus } from 'app/utils';
 
 interface lightProps {
     setEditLight: any;
@@ -32,12 +34,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const [editRoom, setEditRoom] = useState(false);
     const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
-
-    const Color =
-        Object.keys(dataHolding.setData().color).length === 0
-            ? '#AC92EB'
-            : dataHolding.setData().color;
-
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
 
@@ -68,24 +64,28 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const response = await dispatch(
             getEditLight({ item_ID: String(light.item_ID) })
         );
+
         setTheData(light, response);
     };
 
     const copyRoom = async (e: any) => {
         e.preventDefault();
+
         const axiosPriv = await axiosPrivate();
         const projectId: string = project?._id ?? '';
         const copyRoom = [room?._id];
         const payload = {
             _id: projectId,
             rooms: copyRoom,
-            copy: 'room',
+            copy: CopyType.ROOM,
             clientId: room?.clientId,
         };
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
+
             dispatch(getAllProjectRoomsAction(projectId));
+
             return response;
         } catch (error: any) {
             throw new Error(error.message);
@@ -96,10 +96,10 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const item =
             setAllCatalog && setAllCatalog.length
                 ? setAllCatalog.find(
-                      (item: any) => item.item_ID === light.item_ID
-                  ) : null;
+                    (item: any) => item.item_ID === light.item_ID
+                ) : null;
         const image = item?.images?.length ? item.images[0] : '';
-        
+
         return (
             <div className="single-room-container d-flex row" key={uuid()}>
                 <div className="first-light-section d-flex mb-2">
@@ -247,11 +247,12 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 <div className="col-6 d-flex justify-content-end">
                     <p className="project-name">
                         <span className="project-tag">Project</span> <br />
-                        {project?.name}
-                        <FaCircle
-                            style={{ color: String(Color) }}
-                            className="room-details-circle-icon"
-                        />
+                        <div className="project-title-with-status-icon">
+                            {project?.name}
+                            <FaCircle
+                                className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
+                            />
+                        </div>
                     </p>
                 </div>
             </div>

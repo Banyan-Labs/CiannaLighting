@@ -2,11 +2,9 @@
 import React, { FC, useState, FormEvent } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import {
-    deleteLight,
-    getRoomLights,
-} from '../../../redux/actions/lightActions';
+import { deleteLight, getRoomLights } from '../../../redux/actions/lightActions';
 import {
     getProject,
     setTheRoom,
@@ -14,7 +12,7 @@ import {
     deleteThisRoom,
     editThisRoom,
 } from '../../../redux/actions/projectActions';
-import useParams from '../../../app/utils';
+import { useParams } from '../../../app/utils';
 import '../../NewRoomModal/style/newRoomModal.css';
 
 type Props = {
@@ -76,6 +74,7 @@ export const DeleteModal: FC<Props> = ({
             );
             await dispatch(getProject(String(storedProjId)));
         };
+        
         try {
             !deleteRoom ? await nonRoom(light) : await nonLight();
             navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
@@ -106,6 +105,7 @@ export const DeleteModal: FC<Props> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+
         try {
             await dispatch(
                 editThisRoom({
@@ -122,6 +122,7 @@ export const DeleteModal: FC<Props> = ({
         } catch (err: any) {
             throw new Error(err.message);
         }
+        
         await dispatch(getProject({ _id: String(storedProjId) }));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(getRoomLights(String(storedRoomId)));

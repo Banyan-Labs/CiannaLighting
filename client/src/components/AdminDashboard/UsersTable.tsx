@@ -1,14 +1,17 @@
 import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'react';
+import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
+import { BsThreeDots } from 'react-icons/bs';
+import { FaPencilAlt } from 'react-icons/fa';
+import { RiArchiveDrawerFill } from 'react-icons/ri';
+
 import CreateUserModal from './CreateUserModal';
 import { axiosPrivate } from '../../api/axios';
 import { ROLES } from '../../app/constants';
-import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { CreateUserType, UserType } from '../../app/typescriptTypes';
-import { FaPencilAlt } from 'react-icons/fa';
-import { RiArchiveDrawerFill } from 'react-icons/ri';
+import logging from 'config/logging';
+
 import './styles/UsersTable.scss';
 
 const UsersTable: FC = () => {
@@ -42,11 +45,14 @@ const UsersTable: FC = () => {
     }, []);
     useEffect(() => {
         const toastEle = document.getElementById('toast');
+
         if (toastEle) {
             if (apiMessage) {
                 toastEle.style.display = 'block';
+
                 setTimeout(() => {
                     toastEle.style.display = 'none';
+
                     setApiMessage('');
                     dispatch(getAllUsers());
                 }, 3000);
@@ -61,7 +67,6 @@ const UsersTable: FC = () => {
     const unsetMini = () => {
         setOptions(false);
         setOptionIndex(-1);
-        
     };
     const activateEdit = (user: any) => {
         setUserDetails({
@@ -123,6 +128,7 @@ const UsersTable: FC = () => {
                 return 0;
             }),
         };
+
         setSortedData(sorted[direction]);
         setCurrentSort(field);
     };
@@ -132,6 +138,7 @@ const UsersTable: FC = () => {
             1: <FaChevronUp className="sort-chevron" />,
             2: <FaChevronDown className="sort-chevron" />,
         };
+
         if (field == currentSort) {
             return directionCall[sortDirection];
         } else {
@@ -144,18 +151,21 @@ const UsersTable: FC = () => {
         userId: string
     ) => {
         event.preventDefault();
+
         const axiosPriv = axiosPrivate();
         const response = await axiosPriv.put(`/cmd/toggle-user/${userId}`);
+
         if (response.status === 200) {
             setApiMessage(response.data.message);
         } else {
             setApiMessage('Unable to toggle user status');
         }
+        
         // dispatch(getAllUsers());
         unsetMini();
         forceUpdate();
     };
-    console.log(sortedData)
+    logging.info(sortedData, "UsersTable")
 
     return (
         <>
@@ -189,7 +199,7 @@ const UsersTable: FC = () => {
                         <td onClick={() => triggerDirection('role')}>
                             Role {sortDisplay('role')}
                         </td>
-                        <td></td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -211,21 +221,11 @@ const UsersTable: FC = () => {
                                             : {}
                                     }
                                 >
-                                    {(!user.isActive ? <FaUserAltSlash/> : <FaUserCheck className='active-user'/>)}{'\xa0\xa0\xa0'}{ user.name }
+                                    {(!user.isActive ? <FaUserAltSlash /> : <FaUserCheck className='active-user' />)}{'\xa0\xa0\xa0'}{user.name}
                                 </th>
                                 <td>{user.email}</td>
                                 <td>
-                                    {Object.entries(ROLES).map((role) => {
-                                        if (role[1] === user.role) {
-                                            if (role[0] === 'Cmd') {
-                                                return 'Admin';
-                                            } else if (role[0] === 'Int') {
-                                                return 'Employee';
-                                            } else {
-                                                return role[0];
-                                            }
-                                        }
-                                    })}
+                                    {Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role)}
                                 </td>
                                 <td
                                     className="button-td"

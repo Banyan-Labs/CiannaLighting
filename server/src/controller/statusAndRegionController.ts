@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+
+import logging from "../../config/logging";
 import statusAndRegion from "../model/statusAndRegion";
 
 const addInfo = (req: Request, res: Response) => {
   const { label, value } = req.body;
-
   const data = new statusAndRegion({
     label,
     value,
@@ -18,6 +19,7 @@ const addInfo = (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "addInfo");
       return res.status(500).json({
         message: error.message,
         error,
@@ -27,6 +29,7 @@ const addInfo = (req: Request, res: Response) => {
 
 const getData = async (req: Request, res: Response) => {
   const { label } = req.body;
+
   await statusAndRegion
     .find({ label })
     .exec()
@@ -36,6 +39,7 @@ const getData = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getData");
       return res.status(500).json({
         message: error.message,
         error,
@@ -54,6 +58,7 @@ const deleteData = async (req: Request, res: Response) => {
       });
     })
     .catch((error) => {
+      logging.error(error.message, "deleteData");
       return res.status(500).json({
         message: error.message,
         error,

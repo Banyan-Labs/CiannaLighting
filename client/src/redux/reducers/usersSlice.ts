@@ -24,7 +24,7 @@ export const getAllUsersSlice = createSlice({
             user: action.payload,
             users: [action.payload, ...state.users],
         }),
-        setStatus: (state, action) =>({
+        setStatus: (state, action) => ({
             ...state,
             lastStatus: action.payload
         })

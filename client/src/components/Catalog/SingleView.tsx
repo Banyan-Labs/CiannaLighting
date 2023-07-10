@@ -1,12 +1,15 @@
 import React, { FC } from 'react';
+import { BsChevronLeft } from 'react-icons/bs';
+
+import Tabs from './Tabs/Tabs';
+import Pictures from './Tabs/Pictures';
+
 import './style/catalog.scss';
+
 interface catalogPros {
     catalogItem: any;
     setCatalogItem: any;
 }
-import { BsChevronLeft } from 'react-icons/bs';
-import Tabs from './Tabs/Tabs';
-import Pictures from './Tabs/Pictures';
 
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     return (

@@ -1,7 +1,9 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+
 import { getFilteredProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+
 import './style/filterModal.scss';
 
 type Props = {
@@ -22,7 +24,6 @@ export const FilterModal: FC<Props> = ({
         status: '',
         region: '',
     });
-
     const [submittalForm, setSubmittalForm] = useState<any>({});
 
     const filterInfo = allProjects
@@ -57,6 +58,7 @@ export const FilterModal: FC<Props> = ({
             ...formDetails,
             [e.currentTarget.name]: e.currentTarget.value,
         });
+
         if (e.currentTarget.value == '') {
             delete submittalForm[e.currentTarget.name];
         } else {
@@ -74,6 +76,7 @@ export const FilterModal: FC<Props> = ({
             region: '',
         });
         setSubmittalForm({});
+
         const designers = document.getElementById(
             'clientName'
         ) as HTMLSelectElement | null;
@@ -92,6 +95,7 @@ export const FilterModal: FC<Props> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+
         try {
             await dispatch(
                 getFilteredProjects(submittalForm, {
@@ -145,7 +149,7 @@ export const FilterModal: FC<Props> = ({
                                                 key={index}
                                                 value={
                                                     designer ==
-                                                    'Select from designers..'
+                                                        'Select from designers..'
                                                         ? ''
                                                         : designer
                                                 }
@@ -176,7 +180,7 @@ export const FilterModal: FC<Props> = ({
                                                 key={index}
                                                 value={
                                                     status ==
-                                                    'Select a status..'
+                                                        'Select a status..'
                                                         ? ''
                                                         : status
                                                 }
@@ -206,7 +210,7 @@ export const FilterModal: FC<Props> = ({
                                                 key={index}
                                                 value={
                                                     region ==
-                                                    'Select from regions..'
+                                                        'Select from regions..'
                                                         ? ''
                                                         : region
                                                 }

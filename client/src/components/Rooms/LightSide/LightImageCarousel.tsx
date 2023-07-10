@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { SlSizeFullscreen } from 'react-icons/sl';
 import uuid from 'react-uuid';
+
 import ModalBase from '../../commons/ModalBase/ModalBase';
+
 import './carousel.style.scss';
 
 export type ImageType = { url: string };
@@ -37,6 +39,7 @@ const LightCarousel = ({ images }: Props) => {
         if (images && images.length > 0) {
             setSelectedImage(images[newIdx]);
             setSelectedImageIndex(newIdx);
+
             if (carouselItemsRef?.current[newIdx]) {
                 carouselItemsRef?.current[newIdx]?.scrollIntoView({
                     inline: 'center',
@@ -49,9 +52,11 @@ const LightCarousel = ({ images }: Props) => {
     const handleRightClick = () => {
         if (images && images.length > 0) {
             let newIdx = selectedImageIndex + 1;
+
             if (newIdx >= images.length) {
                 newIdx = 0;
             }
+
             handleSelectedImageChange(newIdx);
         }
     };
@@ -59,9 +64,11 @@ const LightCarousel = ({ images }: Props) => {
     const handleLeftClick = () => {
         if (images && images.length > 0) {
             let newIdx = selectedImageIndex - 1;
+
             if (newIdx < 0) {
                 newIdx = images.length - 1;
             }
+
             handleSelectedImageChange(newIdx);
         }
     };
@@ -88,10 +95,7 @@ const LightCarousel = ({ images }: Props) => {
                                         backgroundImage: `url(${image.url})`,
                                     }}
                                     key={uuid()}
-                                    className={`carousel__image ${
-                                        selectedImageIndex === idx &&
-                                        'carousel__image-selected'
-                                    }`}
+                                    className={`carousel__image ${ selectedImageIndex === idx && 'carousel__image-selected' }`}
                                     ref={(el) =>
                                         (carouselItemsRef.current[idx] = el)
                                     }

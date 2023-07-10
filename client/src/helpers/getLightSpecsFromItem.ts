@@ -12,16 +12,19 @@ type T = { key: string; value: string | number };
  */
 export default (lightItem: CatalogLightItem): T[] => {
     const results = [];
+
     for (const key in lightItem) {
         if (specKeys.includes(key)) {
             const label = key
                 .replace(/([A-Z])/g, (match) => ' ' + match)
                 .replace(/^[a-z]/, (match) => match.toUpperCase());
+
             results.push({
                 key: label,
                 value: lightItem[key as keyof LightSpecs],
             });
         }
     }
+    
     return results;
 };

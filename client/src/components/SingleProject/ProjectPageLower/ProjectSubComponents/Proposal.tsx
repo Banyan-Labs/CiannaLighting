@@ -1,8 +1,11 @@
 import React, { FC, useState } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
-import './style/proposal.scss';
 import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+import { useAppSelector } from '../../../../app/hooks';
+
+import './style/proposal.scss';
+
 interface Props {
     ref: any;
 }

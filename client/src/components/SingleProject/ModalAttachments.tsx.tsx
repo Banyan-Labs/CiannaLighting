@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { FC, useState, ChangeEvent } from 'react';
 import { FaTimes } from 'react-icons/fa';
+
 import { axiosFileUpload } from '../../api/axios';
+
 import '../NewRoomModal/style/newRoomModal.css';
 
 type Props = {
@@ -39,9 +41,11 @@ export const ModalAttachments: FC<Props> = ({
 
     const listFileNames = (e: any) => {
         e.preventDefault();
+
         if (imgFiles.length) {
             for (const key of Object.keys(imgFiles)) {
                 const objectUrl = URL.createObjectURL(imgFiles[key]);
+
                 setImageNames([...imageName, objectUrl]);
                 setImages([...images, imgFiles[key]]);
             }
@@ -55,6 +59,7 @@ export const ModalAttachments: FC<Props> = ({
         if (drawingFilesArray.length) {
             for (const key of Object.keys(drawingFilesArray)) {
                 const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
+
                 setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
                 setDrawingFilesNames([...drawingFilesNames, objectUrl]);
             }
@@ -63,9 +68,12 @@ export const ModalAttachments: FC<Props> = ({
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+
         const axiosPriv = axiosFileUpload();
         const fs = new FormData();
+
         fs.append('projId', project._id);
+        
         if (images.length > 0) {
             for (let i = 0; i < images.length; i++) {
                 fs.append('images', images[i]);

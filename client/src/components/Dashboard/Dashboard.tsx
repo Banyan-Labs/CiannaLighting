@@ -1,10 +1,11 @@
 import React, { FC, useEffect } from 'react';
+
 import { useAppDispatch } from '../../app/hooks';
 import YourProjects from './YourProjects/YourProjects';
-
-import './style/dashboard.scss';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 import { getCatalogItems } from '../../redux/actions/lightActions';
+
+import './style/dashboard.scss';
 
 const Dashboard: FC = () => {
     const dispatch = useAppDispatch();

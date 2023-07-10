@@ -1,8 +1,11 @@
 import React, { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { BsThreeDots } from 'react-icons/bs';
+
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import { axiosPrivate } from '../../../../api/axios';
-import { BsThreeDots } from 'react-icons/bs';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
@@ -12,14 +15,14 @@ import {
     setDefaults
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
-import { FaSlidersH, FaChevronUp, FaChevronDown } from 'react-icons/fa';
-import './style/allProjects.scss';
-
-import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FilterModal } from '../../../FilterModal/FilterParams';
 import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
+import { CopyType } from 'app/constants';
+import { findClosestSystemStatus } from 'app/utils';
+
+import './style/allProjects.scss';
 
 type Props = {
     renderedPage: string;
@@ -56,21 +59,21 @@ const AllProjects: FC<Props> = ({
         ({ project }) => project
     );
     const [processing, setProcessing] = useState(false);
-    const [projectOptionsModal, setProjectOptionsModal] =
-        useState<boolean>(false);
+    const [projectOptionsModal, setProjectOptionsModal] = useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inactiveClearModal, setInactiveClearModal] =
-        useState<boolean>(false);
+    const [inactiveClearModal, setInactiveClearModal] = useState<boolean>(false);
     const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
     const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
+
     useEffect(() => {
         dispatch(getAllProjects());
         dispatch(setFilterProjNone());
         dispatch(setDefaults());
     }, []);
+
     const inactiveModalTrigger = (): void => {
         setInactiveClearModal(true);
         onMouseOut();
@@ -107,12 +110,14 @@ const AllProjects: FC<Props> = ({
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         let utilizedData: any = [];
+
         if (renderedPage == 'All Projects') {
             utilizedData = activeProjects;
         } else {
             utilizedData = archivedProjects;
             return;
         }
+
         const sorted: any = {
             0: utilizedData,
             1: utilizedData.slice().sort((a: any, b: any) => {
@@ -134,6 +139,7 @@ const AllProjects: FC<Props> = ({
                 return 0;
             }),
         };
+
         setSortedData(sorted[direction]);
         setCurrentSort(field);
     };
@@ -148,8 +154,10 @@ const AllProjects: FC<Props> = ({
 
     const searchFilter = (e: any, data: any) => {
         setInputValue(e.currentTarget.value.toLowerCase());
+
         const searchValue: string = inputValue;
         const checkSearchVal = /^[A-Za-z0-9 ]+$/.test(searchValue);
+
         try {
             checkSearchVal;
         } catch (error: any) {
@@ -157,6 +165,7 @@ const AllProjects: FC<Props> = ({
         }
         if (searchValue === '') {
             setParsedData(data);
+
             return data;
         } else if (checkSearchVal && searchValue.length) {
             const searchData = data.filter((item: ProjectType) => {
@@ -168,10 +177,12 @@ const AllProjects: FC<Props> = ({
                 };
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
+
                 itemVals.map((item: string) => {
                     const regCheck = new RegExp(searchValue, 'g').test(
                         item.toLowerCase()
                     );
+
                     if (regCheck) {
                         doesMatch = true;
                     }
@@ -182,7 +193,9 @@ const AllProjects: FC<Props> = ({
                     return '';
                 }
             });
+            
             setParsedData(searchData);
+
             return searchData;
         } else {
             alert('Please no special characters.');
@@ -202,8 +215,8 @@ const AllProjects: FC<Props> = ({
     const filteredProjects = sortedData.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-        ? activeProjects.reverse().slice(firstIndex, lastIndex)
-        : archivedProjects.reverse().slice(firstIndex, lastIndex);
+            ? activeProjects.reverse().slice(firstIndex, lastIndex)
+            : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData.length / projectsPerPage);
     const sortDisplay = (field: string) => {
@@ -223,14 +236,16 @@ const AllProjects: FC<Props> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
-        const axiosPriv = axiosPrivate();
 
+        const axiosPriv = axiosPrivate();
         const attach = await axiosPriv.post('/get-attachments', {
             projId: proj._id,
         });
         let attachments = [];
+
         if (attach) {
             attachments = attach.data.proj.pdf;
+
             if (attachments.length) {
                 const payload = {
                     project: {
@@ -238,29 +253,31 @@ const AllProjects: FC<Props> = ({
                         clientId: user._id,
                         clientName: user.name,
                     },
-                    copy: 'project',
+                    copy: CopyType.PROJECT,
                     attachments: attachments,
                 };
+
                 try {
                     const response = await dispatch(
                         createProjectAction(payload)
                     );
+
                     dispatch(getUserProjects(user._id));
                     dispatch(getAllProjects());
                     setProcessing(false);
                     alert(`Copy of ${proj.name} created in your dashboard.`);
+
                     return response;
                 } catch (error: any) {
                     throw new Error(error.message);
                 }
             }
-        }else{
+        } else {
             throw new Error("Error in copying project route.")
         }
     };
 
     const allProjectsTableDisplay = filteredProjects.map((project, index) => {
-        const statusNoSpace = project.status.replace(/\s/g, '');
         return (
             <tbody key={index}>
                 <tr
@@ -270,23 +287,23 @@ const AllProjects: FC<Props> = ({
                     <th className="projects-table-dynamic-name">
                         {project.name}
                     </th>
-                    <td className="projects-table-dynamic-designer">
+                    <td className="projects-table-dynamic-designer text-center">
                         {project.clientName}
                     </td>
-                    <td className="projects-table-dynamic-region">
+                    <td className="projects-table-dynamic-region text-center">
                         {project.region}
                     </td>
-                    <td className="projects-table-dynamic-status">
-                        <span className={`statusColor${statusNoSpace}`}>
+                    <td className="projects-table-dynamic-status text-center">
+                        <span className={`text-center statusColor${findClosestSystemStatus(project.status)}`}>
                             {project.status}
                         </span>
                     </td>
                     <td
-                        className="projects-table-dynamic-dots"
+                        className="projects-table-dynamic-dots text-center"
                         onMouseOver={() => onMouseOver(index)}
                         onMouseLeave={() => onMouseOut()}
                     >
-                        <div className="align-modal-dots">
+                        <div className="align-modal-dots text-center">
                             <span className="bs-three-dots-container">
                                 <BsThreeDots className="project-table-dots" />
                             </span>
@@ -356,7 +373,7 @@ const AllProjects: FC<Props> = ({
                                         Name {sortDisplay('name')}
                                     </td>
                                     <td
-                                        className="projects-table-designer"
+                                        className="projects-table-designer text-center"
                                         onClick={() =>
                                             triggerDirection('clientName')
                                         }
@@ -364,7 +381,7 @@ const AllProjects: FC<Props> = ({
                                         Designer {sortDisplay('clientName')}
                                     </td>
                                     <td
-                                        className="projects-table-region"
+                                        className="projects-table-region text-center"
                                         onClick={() =>
                                             triggerDirection('region')
                                         }
@@ -372,14 +389,14 @@ const AllProjects: FC<Props> = ({
                                         Region {sortDisplay('region')}
                                     </td>
                                     <td
-                                        className="projects-table-status"
+                                        className="projects-table-status text-center"
                                         onClick={() =>
                                             triggerDirection('status')
                                         }
                                     >
                                         Status {sortDisplay('status')}
                                     </td>
-                                    <td className="projects-table-dots"></td>
+                                    <td className="projects-table-dots text-center">Actions</td>
                                 </tr>
                             </thead>
                             {allProjectsTableDisplay}
@@ -395,9 +412,9 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    reduxData.length - archivedProjects.length
+                                        reduxData.length - archivedProjects.length
                                         ? reduxData.length -
-                                          archivedProjects.length
+                                        archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {(parsedData.length
@@ -412,7 +429,7 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                    archivedProjects.length
+                                        archivedProjects.length
                                         ? archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects.length}
@@ -436,14 +453,20 @@ const AllProjects: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length 
-                                            : archivedProjects.length 
+                                            ? activeProjects.length
+                                            : archivedProjects.length
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {currentPage !== lastPage && (
+                                {(
+                                    currentPage !== lastPage && (
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length
+                                            : archivedProjects.length
+                                    )
+                                ) ? (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);
@@ -455,7 +478,7 @@ const AllProjects: FC<Props> = ({
                                             id="arrow-pag-next"
                                         />
                                     </li>
-                                )}
+                                ) : null}
                             </ul>
                         </nav>
                     </div>

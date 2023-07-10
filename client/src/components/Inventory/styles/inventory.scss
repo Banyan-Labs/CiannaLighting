@@ -13,12 +13,15 @@
     .head-left {
         display: flex;
         flex-direction: column;
+        height: 18vh;
     }
     .head-right {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        justify-content: space-between;
         width: 40%;
+        height: 18vh;
         .editor-contain {
             width: 100%;
             padding-top: 10px;
@@ -26,7 +29,6 @@
             .edit-input {
                 font-family: inherit;
                 width: 100%;
-                margin: 10px 0;
                 border: 0;
                 border-bottom: 2px solid $line-gray;
                 outline: 0;
@@ -35,19 +37,14 @@
                 padding: 7px 0;
                 background: transparent;
                 &::placeholder {
-                    color: transparent;
+                    font-style: italic;
+                    font-weight: 300;
                 }
-
-                &:placeholder-shown ~ .form__label {
-                    font-size: 14px;
-                    cursor: text;
-                    top: 20px;
-                }
+                cursor: pointer;
             }
             .form__label {
                 position: relative;
-                top: -45px;
-                margin-bottom: -25px;
+                top: -50px;
             }
             .edit-input:focus {
                 ~ .form__label {
@@ -59,22 +56,9 @@
                     color: #c09d5b;
                     font-weight: 700;
                 }
-                padding-bottom: 6px;
                 font-weight: 700;
                 border-width: 3px;
                 border-color: $line-light;
-            }
-            .edit-button {
-                background: $accent-gold;
-                color: $primary-bg-white;
-                padding: 3px 8px;
-                margin-bottom: 15px;
-                margin-top: 5px;
-                font-size: large;
-                font-family: $font-family-medium;
-                border-radius: 3px;
-                border: none;
-                float: right;
             }
         }
     }
@@ -112,7 +96,7 @@
     display: block;
     transition: 0.2s;
     font-size: 14px;
-    color: $line-gray;
+    color:#000000;;
 }
 
 .form__field:focus {
@@ -333,20 +317,17 @@ input:checked {
     width: 100%;
     .inventory-btn {
         @include button($accent-gold, #fff);
-        width: 50%;
         margin: 25px 0px;
         cursor: pointer;
     }
     .edit-inventory {
         @include button($accent-gold, #fff);
-        width: 25%;
         margin: 25px 0px;
         margin-left: 10px;
         cursor: pointer;
     }
     .cancel-button {
         @include button($primary-bg-white-sub-text, $primary-bg-white-text);
-        width: 25%;
         margin: 25px 0px;
         margin-right: 10px;
         cursor: pointer;
@@ -389,11 +370,6 @@ input:checked {
     transition: all 0.2s ease-in-out;
     border: none;
     background-color: $primary-bg-dark;
-    padding: 12px 8px 12px 8px;
-    border-radius: 5px;
-    width: 70px;
-    height: 34px;
-    font-size: x-small;
     &:hover {
         transition: all 0.2s ease-in-out;
         background-color: $primary-bg-dark-text;
@@ -404,12 +380,14 @@ input:checked {
     transition: all 0.2s ease-in-out;
     background-color: $accent-gold;
     border: 1px $line-dark solid;
-    padding: 12px 16px 12px 16px;
-    border-radius: 5px;
     color: $primary-bg-white;
-    width: 70px;
-    height: 34px;
-    font-size: x-small;
+}
+
+.inv-togl {
+    background-color: #ecebe7;
+    border: 1px $line-light solid;
+    border-radius: 5px;
+    width: fit-content;
 }
 
 @include media-lg {

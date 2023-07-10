@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+
 import LightSelection from "../model/LIghtSelection";
 import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import { longString } from "aws-sdk/clients/datapipeline";
+import { ActionType } from "../utils/constants";
+import logging from "../../config/logging";
 
 const lightSelected = async (
   req: Request,
@@ -40,7 +42,6 @@ const lightSelected = async (
     numberOfLamps,
     totalLumens,
   } = req.body.light;
-
   const light = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
     item_ID,
@@ -71,34 +72,38 @@ const lightSelected = async (
     numberOfLamps,
     totalLumens,
   });
+
   const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
     .then((room) => {
       if (room) {
         room.lights = [...room.lights, light._id];
         room.save();
-        const roomSuccess = `added light to room: ${roomId}`;
+
         return light
           .save()
           .then(async (light) => {
             if (light) {
-              console.log("adding before call", projectId, item_ID, roomName);
+              logging.info(`Sending following values to lightIdService: projectId = ${projectId}, item_ID = ${item_ID}, roomName = ${roomName}`, "lightSelected");
               const finished = await lightIdService(
                 projectId,
-                "add",
+                ActionType.ADD,
                 item_ID,
                 roomName
               );
+
               if (finished) {
-                console.log("finished update: ", light);
+                logging.info(`Finished update of light: ${JSON.stringify(light)}`, "lightSelected");
               }
+
               return res.status(201).json({
                 light,
-                message: roomSuccess,
+                message: `added light to room: ${roomId}`,
               });
             }
           })
           .catch((error) => {
+            logging.error(error.message, "lightSelected");
             return res.status(500).json({
               message: error.message,
               error,
@@ -109,6 +114,7 @@ const lightSelected = async (
       }
     })
     .catch((error) => {
+      logging.error(error.message, "lightSelected");
       return res.status(500).json({
         message: error.message,
         error,
@@ -120,6 +126,7 @@ const lightSelected = async (
 
 const getAllSelectedLights = (req: Request, res: Response) => {
   const { roomId, item_ID } = req.body;
+
   if (roomId && roomId.length) {
     LightSelection.find({ roomId })
       .then((lights) => {
@@ -128,6 +135,7 @@ const getAllSelectedLights = (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllSelectedLights");
         return res.status(500).json({ message: error.message, error });
       });
   } else {
@@ -138,6 +146,7 @@ const getAllSelectedLights = (req: Request, res: Response) => {
         });
       })
       .catch((error) => {
+        logging.error(error.message, "getAllSelectedLights");
         return res.status(500).json({ message: error.message, error });
       });
   }
@@ -147,6 +156,7 @@ const getSelectedLight = async (req: Request, res: Response) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
+
   return await LightSelection.findOne({ _id: req.body._id })
     .exec()
     .then((light: any) => {
@@ -156,11 +166,13 @@ const getSelectedLight = async (req: Request, res: Response) => {
         });
         light.save();
       }
+
       return res.status(200).json({
         light,
       });
     })
     .catch((error) => {
+      logging.error(error.message, "getSelectedLight");
       return res.status(500).json({ message: error.message, error });
     });
 };
@@ -173,85 +185,93 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
     projectId: string;
   };
   const { item_ID, roomId, _id, projectId }: RequestBody = req.body;
-  return await Room.findByIdAndUpdate({ _id: req.body.roomId })
+
+  return await Room.findByIdAndUpdate({ _id: roomId })
     .exec()
     .then(async (room) => {
       if (room) {
         const updateLightIds = await lightIdService(
           projectId,
-          "delete",
+          ActionType.DELETE,
           item_ID,
           room.name
         );
+
         if (updateLightIds) {
-          console.log("lightIDs updated!@#$#@!");
+          logging.info(`LightId updated for item_id ${item_ID} in room ${room.name} of project ${projectId}`, "deleteSelectedLight");
         }
+
         room.lights = room.lights.filter((id: string) => {
           return String(id) !== _id ? id : "";
         });
+
         room.save();
-        const lightRemoved = "light removed successfully from room";
+
         return await LightSelection.findByIdAndDelete({ _id: _id })
           .then((lightSelection) => {
+            // is the following logic correct? 
             return !lightSelection
               ? res.status(200).json({
-                  lightSelection,
-                })
+                lightSelection,
+              })
               : res.status(404).json({
-                  message:
-                    "The light selection you are looking for no longer exists",
-                  lightRemoved,
-                });
+                message: "The light selection you are looking for no longer exists",
+                lightRemoved: "light removed successfully from room",
+              });
           })
           .catch((error) => {
+            logging.error(error.message, "deleteSelectedLight");
             res.status(500).json(error);
           });
       } else {
-        return "failed to delete light from room";
+        return res.status(204).json( { message: `No room found using _id of #${roomId}.` } );
       }
     });
 };
 
 export const lightIdService = async (
   projectId: string,
-  type: string,
+  type: ActionType,
   item_ID: string,
   room: string
 ) => {
-  console.log("adding AFTER call", projectId, item_ID, room);
+  logging.info(`LightIdService called with projectId: ${projectId}, type: ${type}, item_ID: ${item_ID}, room: ${room}`, "lightIdService");
   const project = await Project.findOne({ _id: projectId });
+
   if (project) {
-    console.log("PROJ lightService in add: ", project);
+    logging.info(`Project found: ${JSON.stringify(project)} `, "lightIdService");
     const lightIDs = project.lightIDs;
     //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing
+
     if (lightIDs && lightIDs.length) {
-      console.log("In lightIDS if statement: ", lightIDs);
+      logging.info(`LightIDs found: ${JSON.stringify(lightIDs)}`, "lightIdService");
       const reWrite: LightREF[] = lightIDs
         .map((item: LightREF): LightREF => {
           if (item.item_ID === item_ID) {
-            if (type === "add") {
-              console.log("in the ADD section of the lightIdService!");
+            if (type === ActionType.ADD) {
               const newItem = { ...item, rooms: [...item.rooms, room] };
+
               return newItem;
-            } else if (type === "delete") {
-              console.log("In the delte secion of the lightIdService!");
-              console.log("Item rooms before delete: ", item, item.rooms);
+            } else if (type === ActionType.DELETE) {
+              logging.info(`Item before delete: ${JSON.stringify(item)}`, "lightIdService");
               const deletingRooms =
                 item.rooms && item.rooms.length
                   ? item.rooms.filter(
-                      (roomName: string, index: number, copy: string[]) =>
-                        roomName.toLowerCase() === room.toLowerCase()
-                          ? index === copy.lastIndexOf(roomName)
-                            ? ""
-                            : roomName
+                    (roomName: string, index: number, copy: string[]) =>
+                      roomName.toLowerCase() === room.toLowerCase()
+                        ? index === copy.lastIndexOf(roomName)
+                          ? ""
                           : roomName
-                    )
+                        : roomName
+                  )
                   : [];
-              console.log("DeletingRooms Variable: ", deletingRooms);
+              logging.info(`deletingRooms: ${JSON.stringify(deletingRooms)}`, "lightIdService");
+
               if (deletingRooms.length) {
-                console.log("In the deltingrooms length if statement!");
+                logging.info(`deletingRooms found`, "lightIdService");
                 const newItem = { ...item, rooms: deletingRooms };
-                console.log("New deleted rooms item: ", newItem);
+                logging.info(`newItem: ${JSON.stringify(newItem)}`, "lightIdService");
+
                 return newItem;
               } else {
                 return { item_ID: "", rooms: [] };
@@ -264,43 +284,46 @@ export const lightIdService = async (
           }
         })
         .filter((item) => item.item_ID.length && item.rooms.length);
-      console.log("REWRITE variable: ", reWrite);
-      console.log("project light Ids before reWriting: ", project.lightIDs);
+
+      logging.info(`reWrite variable: ${JSON.stringify(reWrite)}`, "lightIdService");
+      logging.info(`project light Ids before reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
+      
       const checkForId = project.lightIDs.find(
         (item) => item.item_ID === item_ID
       );
-      console.log("id check", checkForId);
+      logging.info(`checkForId: ${JSON.stringify(checkForId)}`, "lightIdService");
+
       if (checkForId == undefined) {
         const lightIdAddOn = [
           ...project.lightIDs,
           { item_ID: item_ID, rooms: [room] },
         ];
-        console.log("Adding onto lightIDS: ", lightIdAddOn);
+        logging.info(`lightIdAddOn: ${JSON.stringify(lightIdAddOn)}`, "lightIdService");
+
         project.lightIDs = lightIdAddOn;
-        console.log(
-          "proj lightIDS after refactoring with add on: ",
-          project.lightIDs
-        );
+        logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
       } else {
         project.lightIDs = reWrite;
       }
-      console.log("projLIghtIds: ", project.lightIDs);
     } else {
-      project.lightIDs = [{ item_ID: item_ID, rooms: [room] }];
+      project.lightIDs = [{ item_ID, rooms: [room] }];
     }
 
+    logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
+
     const done = await project.save();
+
     if (done) {
-      console.log("Done and Saved successfully: ", done, done.lightIDs);
+      logging.info(`Done and Saved successfully: ${JSON.stringify(done)}`, "lightIdService");
       return done;
     } else {
-      console.log("Error in lightID service with saving.");
+      logging.error(`Error saving project in the add section of lightIdService.`, "lightIdService");
       throw new Error(
         "Error saving project in the add section of lightIdService."
       );
     }
   } else {
-    console.log("couldnt find project in lightIdService");
+    logging.error(`Error finding project in the add section of lightIdService.`, "lightIdService");
     throw new Error(
       "Error finding project in the add section of lightIdService."
     );

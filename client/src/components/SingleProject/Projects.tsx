@@ -1,14 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
+
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { getProject, setDefaults } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
-import useParams from '../../app/utils';
+import { useParams } from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
 import ProjectAttachments from './ProjectAttachments';
 import AllProjectView from './AllProjectView';
+
 import './style/projects.scss';
 
 const Projects: FC = () => {
@@ -47,10 +49,10 @@ const Projects: FC = () => {
     useEffect(() => {
         fetchData();
     }, [projectId]);
-    useEffect(()=>{
-        if(yourProjects === false){
+    useEffect(() => {
+        if (yourProjects === false) {
             dispatch(setDefaults());
-        }else{
+        } else {
             null
         }
     }, [yourProjects])
@@ -93,4 +95,5 @@ const Projects: FC = () => {
         </>
     );
 };
+
 export default Projects;

@@ -1,10 +1,12 @@
 // eslint-disable-next-line
 import React, { useState, useEffect } from 'react';
+
 interface Gap {
     before: boolean;
     paginationGroup: number[];
     after: boolean;
 }
+
 const usePagination: UsePagination = ({ contentPerPage, count }) => {
     const [page, setPage] = useState(1);
     // like 3 dots that surrounds the immediate pages
@@ -36,6 +38,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
         let paginationGroup = [];
         let before = false;
         let after = false;
+
         if (page === 1) {
             paginationGroup = pagesInBetween.slice(0, 3);
         } else if (
@@ -58,6 +61,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
         } else {
             before = false;
             after = false;
+
             if (paginationGroup[0] > 2) {
                 before = true;
             }
@@ -65,6 +69,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
                 after = true;
             }
         }
+
         setGaps({ paginationGroup, before, after });
     }, [page, pagesInBetween, pageCount]);
 
@@ -77,6 +82,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
                 if (state === pageCount) {
                     return state;
                 }
+
                 return state + 1;
                 // go back
             } else {
@@ -84,6 +90,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
                 if (state === 1) {
                     return state;
                 }
+                
                 return state - 1;
             }
         });

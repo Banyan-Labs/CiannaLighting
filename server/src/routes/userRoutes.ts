@@ -1,4 +1,5 @@
 import express from "express";
+
 import verifyJWT from "../middleware/verifyJWT";
 import verifyAuthorization from "../middleware/verifyAuthorization";
 import projectController from "../controller/projectController";
@@ -10,27 +11,23 @@ import userController from "../controller/userController";
 import ROLES_LIST from "../../config/rolesList";
 import multiUpload from "../middleware/fileUpload";
 import projectAttchmentController from "../controller/projectAttchmentController";
+
 const router = express.Router();
 
 router.use(verifyJWT);
 router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
+
 router
   .post("/find-user", userController.getUser)
   .post("/find-light", catalogController.getLight)
-
   // Project Routes
   .post("/get-projects", projectController.getAllProjects)
   .post("/account-projects", projectController.getAccountProjects)
   .post("/find-project", projectController.getProject)
   .post("/create-project", projectController.createProject)
   .post("/delete-project", projectController.deleteProject)
-
   //ProjAttachments
-  .post(
-    "/new-attachments",
-    multiUpload,
-    projectAttchmentController.addAttachmentSection
-  )
+  .post("/new-attachments", multiUpload, projectAttchmentController.addAttachmentSection)
   .post("/get-attachments", projectAttchmentController.getData)
   .post("/delete-attachments", projectAttchmentController.deleteData)
   // Room Routes
@@ -55,4 +52,5 @@ router
   .post("/delete-props", rfpController.deleteProp)
   .post("/get-proposals", rfpController.getProposalRows)
   .post("/delete-rfp", rfpController.deleteRFP);
+
 export default router;

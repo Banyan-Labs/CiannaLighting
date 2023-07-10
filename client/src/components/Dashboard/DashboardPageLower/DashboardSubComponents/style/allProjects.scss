@@ -77,7 +77,9 @@ transition: 0.3s ease-in-out;
     margin-top: -15px;
 }
 .button-toggler{
-    margin-left: 50px;
+    background-color: #ecebe7;
+    border: 1px $line-light solid;
+    border-radius: 5px;
 }
 .projects__bar {
     margin: 1vh 0 3vh 0;
@@ -97,6 +99,7 @@ transition: 0.3s ease-in-out;
     font-size: $primary-text-fs;
     border-bottom: 2px solid $primary-bg-dark-title;
     height: 6.17vh;
+    font-weight: 700;
 }
 
 .all__projects {
@@ -167,49 +170,11 @@ transition: 0.3s ease-in-out;
         width: 100px;
         color: $primary-bg-dark-button-text;
     }
-
-    .statusColorNew {
-        background-color: $accent-pink-shade-granite;
-    }
-
-    .statusColorConstruction {
-        background-color: $accent-pink-shade-granite;
-    }
-
-    .statusColorCompleted {
-        background-color: $accent-empress;
-    }
-
-    .statusColorHold {
-        background-color: $accent-grayish-orange;
-    }
-
-    .statusColorConfigure {
-        background-color: $accent-light-grayish-orange;
-    }
-
-    .statusColorRFP {
-        background-color: $accent-dark-gray;
-    }
-
-    .statusColorInternalApproval {
-        background-color: $accent-dark-orange;
-        color: $primary-bg-white;
-    }
-
-    .statusColorAwarded {
-        background-color: $accent-gold;
-    }
-
-    .statusColorCanceled {
-        background-color: $accent-light-grayish-yellow;
-    }
 }
 
 .bs-three-dots-container {
     cursor: pointer;
     display: flex;
-    justify-content: center;
     padding: 6px;
     font-size: 18px;
     color: $primary-bg-light-grey;
@@ -222,7 +187,6 @@ transition: 0.3s ease-in-out;
 
 .align-modal-dots {
     display: flex;
-    justify-content: center;
 }
 
 .project-mini-modal {
@@ -273,7 +237,11 @@ table {
 //Showing items blank of blank
 .pagination {
     position: absolute;
-    right: 0;
+    right: 10px;
+}
+
+.project-pagination {
+    right: 25px !important;
 }
 
 .table-showing {

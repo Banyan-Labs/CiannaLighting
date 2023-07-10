@@ -9,3 +9,66 @@ body {
     margin: 0;
     padding-bottom: 100px;
 }
+
+.statusColorNew {
+    background-color: $accent-grayish-red;
+    fill: $accent-grayish-red;
+}
+
+.statusColorDesign {
+    background-color: $accent-grayish-orange;
+}
+.statusColorInternal {
+    background-color: $accent-grayish-orange;
+}
+
+.statusColorHold {
+    background-color: $accent-pink-shade-granite;
+    fill: $accent-pink-shade-granite;
+}
+
+.statusColorCanceled {
+    background-color: $accent-dark-gray;
+}
+
+.statusColorRFP {
+    background-color: $accent-gold;
+}
+.statusColorAwarded {
+    background-color: $accent-gold;
+}
+.statusColorCompleted {
+    background-color: $accent-gold;
+}
+
+.statusColorDefault {
+    background-color: $accent-light-grayish-yellow;
+}
+
+.background-unset {
+    background-color: unset;
+}
+
+.project-title-with-status-icon {
+    display: flex;
+    align-items: center;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.submit-icon {
+    margin-right: 6px;
+}
+
+.text-center {
+    text-align: center;
+    text-align: -webkit-center;
+    justify-content: center;
+}
+
+button {
+    cursor: pointer;
+}

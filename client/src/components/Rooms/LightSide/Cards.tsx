@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+
 import usePagination from './usePagination';
 import { getCatalogItems } from '../../../redux/actions/lightActions';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
@@ -79,9 +80,9 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                         className={el.isActive ? "item d-flex row align-content-start" : "item d-flex row align-content-start inactive-shadow"}
                                         key={index}
                                         onClick={() => {
-                                            if(el.isActive){
-                                            setCatalogItem(el);
-                                            }else{
+                                            if (el.isActive) {
+                                                setCatalogItem(el);
+                                            } else {
                                                 alert('This light is currently unavailable!')
                                             }
                                         }}
@@ -93,9 +94,9 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                                 style={{ minHeight: '75px' }}
                                             >
                                                 {el.itemName} <br />{' '}
-                                                <span>{el.item_ID}</span><br/>{' '} 
+                                                <span>{el.item_ID}</span><br />{' '}
                                                 {!el.isActive && (
-                                                <span>inactive</span>)}
+                                                    <span>inactive</span>)}
                                             </h4>
                                         </div>
                                     </div>

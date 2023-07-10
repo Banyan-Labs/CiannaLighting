@@ -13,6 +13,7 @@ const envVars = {
   AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY || 'private',
   AWS_SECRET_KEY: process.env.AWS_SECRET_KEY || 'private',
   PORT: process.env.PORT || 1337,
+  NODE_ENV: process.env.NODE_ENV || "development"
 };
 
 export type EnvVars = typeof envVars;

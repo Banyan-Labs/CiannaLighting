@@ -1,6 +1,8 @@
 import React, { useRef, SyntheticEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
+
 import ModalBase from '../commons/ModalBase/ModalBase';
+import logging from 'config/logging';
 
 type ComponentProps = {
     isOpen: boolean;
@@ -22,12 +24,15 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
 
     const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const formEle = event.currentTarget;
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/public/forgot-password`,
                 { email: userEmail.current?.value }
             );
+
             if (response.status === 200) {
                 formEle.reset();
                 setStatusDetails(() => ({
@@ -37,6 +42,7 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
             }
         } catch (error: any | AxiosError) {
             const axiosErr: AxiosError = error;
+
             if (axios.isAxiosError(error) && axiosErr?.response?.status) {
                 switch (axiosErr.response.status) {
                     case 404:
@@ -59,10 +65,7 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
                         break;
                 }
             } else {
-                console.error(
-                    '🚀 ~ file: ForgotPasswordModal.tsx:20 ~ handleSubmit ~ error',
-                    error
-                );
+                logging.error(error.message, "ForgotPasswordModal");
                 throw Error(error);
             }
         }
@@ -89,7 +92,7 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
                         style={{ marginLeft: '12px' }}
                         type="button"
                         className="modal-cancel-button"
-                        onClick={() =>setIsOpen(false)}
+                        onClick={() => setIsOpen(false)}
                     >
                         Cancel
                     </button>

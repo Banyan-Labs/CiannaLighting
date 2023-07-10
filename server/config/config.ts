@@ -1,3 +1,5 @@
+import envVars from "../src/config";
+
 export const config = {
   mongo: {
     options: {
@@ -9,11 +11,12 @@ export const config = {
       autoIndex: false,
       retryWrites: false,
     },
-    url: process.env.DATABASE_URI as string,
+    url: envVars.DATABASE_URI as string,
   },
   server: {
     host: "localhost",
-    port: process.env.PORT,
+    port: envVars.PORT,
   },
 };
+
 export default config;

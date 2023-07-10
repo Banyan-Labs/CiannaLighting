@@ -1,8 +1,20 @@
 import { useSearchParams } from 'react-router-dom';
+import { SystemStatus } from './constants';
 
-const useParams = (query: string) => {
+export const useParams = (query: string) => {
     const [searchParams] = useSearchParams();
+
     return searchParams.getAll(query);
 };
 
-export default useParams;
+export const findClosestSystemStatus = (givenStatus: string) => {
+    const stausWithoutSpecialCharsOrSpace = givenStatus
+        .replace(/\s/g, '')
+        .replace(/[^\w\s]/gi, '');
+
+    const closestStatus = SystemStatus.find(
+        (status) => stausWithoutSpecialCharsOrSpace.includes(status)
+    );
+
+    return closestStatus ? closestStatus : 'Default';
+}

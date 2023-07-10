@@ -78,6 +78,7 @@
     border: none;
     background-color: #ecebe7;
     padding: 12px 8px 12px 8px;
+    margin-right: 10px;
     border-radius: 5px;
 }
 .type-project-btn:hover {
