@@ -367,7 +367,7 @@ const Inventory: FC = () => {
         e.preventDefault();
 
         setEditingInput(e.currentTarget.value);
-        
+
         const item: any = catalogItems.find(
             (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
@@ -414,7 +414,6 @@ const Inventory: FC = () => {
                 editDrawingFiles: files.drawingFiles,
                 editSpecs: files.specs,
             });
-            setEditingInput('');
         }
     };
 
@@ -655,12 +654,12 @@ const Inventory: FC = () => {
             if (!set) {
                 return;
             }
-            
+
             type = 'edit';
         }
 
         setUsedItem(false);
-        
+
         setItemDetails({
             isActive: true,
             employeeID: user._id,
@@ -717,16 +716,17 @@ const Inventory: FC = () => {
         setDrawingFilesNames([]);
         setTypeOfProject(type);
         setEditingItem(set);
+        setEditingInput('');
     };
     return (
         <div className="inventory-container">
             <div className="inventory-head">
                 <div className="head-left">
                     <div className="inv-header">
-                        {editingItem ? 'Edit Items' : 'Catalog Items'}
+                        Catalog Items
                     </div>
                     <div>
-                        <p className="mb-4">
+                        <p>
                             {editingItem
                                 ? 'Edit an item in the catalog.'
                                 : 'Add an item to the catalog.'}
@@ -800,12 +800,13 @@ const Inventory: FC = () => {
                                 list="catalog"
                                 id="edit-input"
                                 name="editor"
+                                placeholder="Select an item to edit..."
                                 className="edit-input"
                                 value={editingInput}
-                                onChange={ (e) => setEdit(e) }
+                                onChange={(e) => setEdit(e)}
                             />
                             <label htmlFor="editor" className="form__label">
-                                Choose item here..
+                                Exisiting Items
                             </label>
                             <datalist id="catalog">
                                 {catalogItems.map((item: any) => {

@@ -13,12 +13,15 @@
     .head-left {
         display: flex;
         flex-direction: column;
+        height: 18vh;
     }
     .head-right {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        justify-content: space-between;
         width: 40%;
+        height: 18vh;
         .editor-contain {
             width: 100%;
             padding-top: 10px;
@@ -26,7 +29,6 @@
             .edit-input {
                 font-family: inherit;
                 width: 100%;
-                margin: 10px 0;
                 border: 0;
                 border-bottom: 2px solid $line-gray;
                 outline: 0;
@@ -35,21 +37,14 @@
                 padding: 7px 0;
                 background: transparent;
                 &::placeholder {
-                    color: transparent;
+                    font-style: italic;
+                    font-weight: 300;
                 }
-
-                &:placeholder-shown ~ .form__label {
-                    font-size: 14px;
-                    cursor: text;
-                    top: 20px;
-                }
-
                 cursor: pointer;
             }
             .form__label {
                 position: relative;
-                top: -45px;
-                margin-bottom: -25px;
+                top: -50px;
             }
             .edit-input:focus {
                 ~ .form__label {
@@ -61,22 +56,9 @@
                     color: #c09d5b;
                     font-weight: 700;
                 }
-                padding-bottom: 6px;
                 font-weight: 700;
                 border-width: 3px;
                 border-color: $line-light;
-            }
-            .edit-button {
-                background: $accent-gold;
-                color: $primary-bg-white;
-                padding: 3px 8px;
-                margin-bottom: 15px;
-                margin-top: 5px;
-                font-size: large;
-                font-family: $font-family-medium;
-                border-radius: 3px;
-                border: none;
-                float: right;
             }
         }
     }
