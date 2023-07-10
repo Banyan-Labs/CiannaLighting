@@ -77,7 +77,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                                 .slice(firstContentIndex, lastContentIndex)
                                 .map((el: any, index: any) => (
                                     <div
-                                        className={el.isActive ? "item d-flex row align-content-start" : "item d-flex row align-content-start inactive-shadow"}
+                                        className={el.isActive ? "item d-flex flex-column align-content-start" : "item d-flex flex-column align-content-start inactive-shadow"}
                                         key={index}
                                         onClick={() => {
                                             if (el.isActive) {
