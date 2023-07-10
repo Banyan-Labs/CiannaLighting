@@ -43,7 +43,7 @@ const Activity: FC = () => {
                             return (
                                 <tr
                                     key={uuid()}
-                                    id="-container"
+                                    id="log-table-container"
                                     className="projects-table-dynamic-row"
                                 >
                                     <td className="col-3 m-0 p-0">
