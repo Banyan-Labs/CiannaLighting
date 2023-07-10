@@ -308,23 +308,23 @@ const AllProjectView: FC<Props> = ({
                     <th className="projects-table-dynamic-name">
                         {project.name}
                     </th>
-                    <td className="projects-table-dynamic-designer">
+                    <td className="projects-table-dynamic-designer text-center">
                         {project.clientName}
                     </td>
-                    <td className="projects-table-dynamic-region">
+                    <td className="projects-table-dynamic-region text-center">
                         {project.region}
                     </td>
-                    <td className="projects-table-dynamic-status">
+                    <td className="projects-table-dynamic-status text-center">
                         <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
                             {project.status}
                         </span>
                     </td>
                     <td
-                        className="projects-table-dynamic-dots"
+                        className="projects-table-dynamic-dots text-center"
                         onMouseOver={() => onMouseOver(index)}
                         onMouseLeave={() => onMouseOut()}
                     >
-                        <div className="align-modal-dots">
+                        <div className="align-modal-dots text-center">
                             <span className="bs-three-dots-container">
                                 <BsThreeDots className="project-table-dots" />
                             </span>
@@ -483,7 +483,7 @@ const AllProjectView: FC<Props> = ({
                                         Name {sortDisplay('name')}
                                     </td>
                                     <td
-                                        className="projects-table-designer"
+                                        className="projects-table-designer text-center"
                                         onClick={() =>
                                             triggerDirection('clientName')
                                         }
@@ -491,7 +491,7 @@ const AllProjectView: FC<Props> = ({
                                         Designer {sortDisplay('clientName')}
                                     </td>
                                     <td
-                                        className="projects-table-region"
+                                        className="projects-table-region text-center"
                                         onClick={() =>
                                             triggerDirection('region')
                                         }
@@ -499,14 +499,14 @@ const AllProjectView: FC<Props> = ({
                                         Region {sortDisplay('region')}
                                     </td>
                                     <td
-                                        className="projects-table-status"
+                                        className="projects-table-status text-center"
                                         onClick={() =>
                                             triggerDirection('status')
                                         }
                                     >
                                         Status {sortDisplay('status')}
                                     </td>
-                                    <td className="projects-table-dots"> </td>
+                                    <td className="projects-table-dots text-center">Actions</td>
                                 </tr>
                             </thead>
                             {allProjectsTableDisplay}
@@ -546,7 +546,7 @@ const AllProjectView: FC<Props> = ({
                                 </div>
                             )}
 
-                            <ul className="pagination">
+                            <ul className="pagination project-pagination">
                                 {currentPage > 1 && (
                                     <li
                                         onClick={() =>
@@ -570,7 +570,13 @@ const AllProjectView: FC<Props> = ({
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {(currentPage !== lastPage && (activeProjects.length || archivedProjects.length)) && (
+                                {(
+                                    currentPage !== lastPage && (
+                                        renderedPage === 'All Projects'
+                                            ? activeProjects.length && activeProjects.length > projectsPerPage
+                                            : archivedProjects.length && archivedProjects.length > projectsPerPage
+                                    )
+                                ) ? (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);
@@ -582,7 +588,7 @@ const AllProjectView: FC<Props> = ({
                                             id="arrow-pag-next"
                                         />
                                     </li>
-                                )}
+                                ): null}
                             </ul>
                         </nav>
                     </div>

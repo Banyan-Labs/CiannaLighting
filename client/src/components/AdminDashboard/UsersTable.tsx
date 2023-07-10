@@ -199,7 +199,7 @@ const UsersTable: FC = () => {
                         <td onClick={() => triggerDirection('role')}>
                             Role {sortDisplay('role')}
                         </td>
-                        <td></td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <tbody>

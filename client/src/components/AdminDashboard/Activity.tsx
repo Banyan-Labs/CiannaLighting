@@ -31,6 +31,7 @@ const Activity: FC = () => {
                             <td>IP Address</td>
                             <td>Role</td>
                             <td>Last Login</td>
+                            <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>

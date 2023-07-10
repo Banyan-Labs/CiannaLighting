@@ -97,9 +97,7 @@
     align-items: center;
     justify-content: flex-start;
 }
-.user-table-row .button-td {
-    justify-content: flex-end;
-}
+
 .user-table-row .remove-button-td {
     justify-content: center;
 } /*# sourceMappingURL=UsersTable.css.map */

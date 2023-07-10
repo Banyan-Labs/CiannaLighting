@@ -13,6 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
+import logging from 'config/logging';
 
 import './styles/inventory.scss';
 
@@ -148,9 +149,6 @@ const Inventory: FC = () => {
         initializeCatalog();
     }, []);
 
-    const handleEditingChange = (val: string) => {
-        setEditingInput(val);
-    };
     const deleteFiles = (e: any, filePath: any, type: string) => {
         e.preventDefault();
 
@@ -365,10 +363,13 @@ const Inventory: FC = () => {
     };
 
     const setEdit = (e: any) => {
+        logging.info(e.currentTarget.value);
         e.preventDefault();
 
+        setEditingInput(e.currentTarget.value);
+        
         const item: any = catalogItems.find(
-            (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
+            (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
 
         checkItemUsage(item.item_ID);
@@ -644,58 +645,68 @@ const Inventory: FC = () => {
 
         let type = '';
 
-        setUsedItem(false);
-        
         if (editingItem) {
-            setItemDetails({
-                isActive: true,
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
+            if (set) {
+                return;
+            }
+
             type = 'non-edit';
         } else {
+            if (!set) {
+                return;
+            }
+            
             type = 'edit';
         }
+
+        setUsedItem(false);
+        
+        setItemDetails({
+            isActive: true,
+            employeeID: user._id,
+            item_ID: '',
+            itemName: '',
+            itemDescription: '',
+            bodyDiameter: '',
+            bodyLength: '',
+            bodyWidth: '',
+            bodyHeight: '',
+            fixtureOverallHeight: '',
+            sconceHeight: '',
+            sconceWidth: '',
+            sconceExtension: '',
+            material: '',
+            socketQuantity: 0,
+            estimatedWeight: 0,
+            lampType: '',
+            lampColor: '',
+            numberOfLamps: 0,
+            wattsPerLamp: 0,
+            powerInWatts: 0,
+            price: 0,
+            exteriorFinish: [], //[]
+            interiorFinish: [], //[]
+            lensMaterial: [], //[]
+            glassOptions: [], //[]
+            acrylicOptions: [], //[]
+            environment: [], //[]
+            safetyCert: [], //[]
+            projectVoltage: [], //[]
+            socketType: [], //[]
+            mounting: [], //[]
+            crystalType: [], //[]
+            crystalPinType: [], //[]
+            crystalPinColor: [], //[]
+            designStyle: [], //[]
+            usePackages: [], //[]
+            editImages: [],
+            editpdf: [],
+            editDrawingFiles: [],
+            editSpecs: [],
+            costAdmin: 0,
+            partnerCodeAdmin: '',
+        });
+
         setImages([]);
         setDrawingFiles([]);
         setPdf([]);
@@ -791,19 +802,11 @@ const Inventory: FC = () => {
                                 name="editor"
                                 className="edit-input"
                                 value={editingInput}
-                                onChange={(e) =>
-                                    handleEditingChange(e.currentTarget.value)
-                                }
+                                onChange={ (e) => setEdit(e) }
                             />
                             <label htmlFor="editor" className="form__label">
                                 Choose item here..
                             </label>
-                            <button
-                                className="edit-button"
-                                onClick={(e) => setEdit(e)}
-                            >
-                                edit
-                            </button>
                             <datalist id="catalog">
                                 {catalogItems.map((item: any) => {
                                     return (

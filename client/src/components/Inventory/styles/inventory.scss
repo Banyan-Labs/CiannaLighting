@@ -43,6 +43,8 @@
                     cursor: text;
                     top: 20px;
                 }
+
+                cursor: pointer;
             }
             .form__label {
                 position: relative;
@@ -112,7 +114,7 @@
     display: block;
     transition: 0.2s;
     font-size: 14px;
-    color: $line-gray;
+    color:#000000;;
 }
 
 .form__field:focus {
@@ -333,20 +335,17 @@ input:checked {
     width: 100%;
     .inventory-btn {
         @include button($accent-gold, #fff);
-        width: 50%;
         margin: 25px 0px;
         cursor: pointer;
     }
     .edit-inventory {
         @include button($accent-gold, #fff);
-        width: 25%;
         margin: 25px 0px;
         margin-left: 10px;
         cursor: pointer;
     }
     .cancel-button {
         @include button($primary-bg-white-sub-text, $primary-bg-white-text);
-        width: 25%;
         margin: 25px 0px;
         margin-right: 10px;
         cursor: pointer;

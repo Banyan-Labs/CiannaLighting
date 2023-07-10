@@ -173,7 +173,6 @@ transition: 0.3s ease-in-out;
 .bs-three-dots-container {
     cursor: pointer;
     display: flex;
-    justify-content: center;
     padding: 6px;
     font-size: 18px;
     color: $primary-bg-light-grey;
@@ -186,7 +185,6 @@ transition: 0.3s ease-in-out;
 
 .align-modal-dots {
     display: flex;
-    justify-content: center;
 }
 
 .project-mini-modal {
@@ -238,6 +236,10 @@ table {
 .pagination {
     position: absolute;
     right: 10px;
+}
+
+.project-pagination {
+    right: 25px !important;
 }
 
 .table-showing {

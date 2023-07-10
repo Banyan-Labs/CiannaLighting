@@ -199,7 +199,7 @@ const Settings: FC = () => {
                         <td>Status</td>
                         <td>{sortDisplay('status')}</td>
                         <td>click to sort</td>
-                        <td className="remove-td">Remove</td>
+                        <td className="remove-td">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,7 +254,7 @@ const Settings: FC = () => {
                         <td>Region</td>
                         <td>{sortDisplay('region')}</td>
                         <td>click to sort</td>
-                        <td className="remove-td">Remove</td>
+                        <td className="remove-td">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
