@@ -737,8 +737,8 @@ const Inventory: FC = () => {
                             <button
                                 className={
                                     itemDetails.isActive
-                                        ? 'selected-active'
-                                        : 'un-selected-active'
+                                        ? 'selected-active type-project-btn'
+                                        : 'un-selected-active type-project-btn'
                                 }
                                 onClick={() => {
                                     setItemDetails({
@@ -752,8 +752,8 @@ const Inventory: FC = () => {
                             <button
                                 className={
                                     !itemDetails.isActive
-                                        ? 'selected-active'
-                                        : 'un-selected-active'
+                                        ? 'selected-active type-project-btn'
+                                        : 'un-selected-active type-project-btn'
                                 }
                                 onClick={() => {
                                     setItemDetails({

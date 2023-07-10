@@ -22,8 +22,6 @@
     background-color: $accent-gold;
     border: 1px $line-dark solid;
     padding: 12px 16px 12px 16px;
-    border-radius: 5px;
-    margin-right: 10px;
     color: $primary-bg-white;
 }
 
@@ -32,8 +30,6 @@
     background-color: $accent-gold;
     border: 1px $line-dark solid;
     padding: 12px 16px 12px 16px;
-    margin-left: 10px;
-    border-radius: 5px;
     color: $primary-bg-white;
 }
 
@@ -42,9 +38,6 @@
     border: none;
     background-color: $primary-bg-dark;
     padding: 12px 16px 12px 16px;
-    margin-right: 10px;
-    margin-left: 10px;
-    border-radius: 5px;
     &:hover {
         transition: all 0.2s ease-in-out;
         background-color: $primary-bg-dark-text;

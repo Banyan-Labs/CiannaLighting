@@ -77,7 +77,9 @@ transition: 0.3s ease-in-out;
     margin-top: -15px;
 }
 .button-toggler{
-    margin-left: 50px;
+    background-color: #ecebe7;
+    border: 1px $line-light solid;
+    border-radius: 5px;
 }
 .projects__bar {
     margin: 1vh 0 3vh 0;

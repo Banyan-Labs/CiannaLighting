@@ -388,11 +388,6 @@ input:checked {
     transition: all 0.2s ease-in-out;
     border: none;
     background-color: $primary-bg-dark;
-    padding: 12px 8px 12px 8px;
-    border-radius: 5px;
-    width: 70px;
-    height: 34px;
-    font-size: x-small;
     &:hover {
         transition: all 0.2s ease-in-out;
         background-color: $primary-bg-dark-text;
@@ -403,12 +398,14 @@ input:checked {
     transition: all 0.2s ease-in-out;
     background-color: $accent-gold;
     border: 1px $line-dark solid;
-    padding: 12px 16px 12px 16px;
-    border-radius: 5px;
     color: $primary-bg-white;
-    width: 70px;
-    height: 34px;
-    font-size: x-small;
+}
+
+.inv-togl {
+    background-color: #ecebe7;
+    border: 1px $line-light solid;
+    border-radius: 5px;
+    width: fit-content;
 }
 
 @include media-lg {
