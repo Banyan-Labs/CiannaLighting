@@ -439,17 +439,67 @@ const Inventory: FC = () => {
     };
 
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+
+        if (!files?.length) return;
+
         if (e.target.name === 'images') {
-            setImgfiles(e.target.files);
+            setImgfiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setImageNames([
+                    ...imageName,
+                    { name: file.name, url: objectUrl },
+                ]);
+
+                setImages([...images, file]);
+            });
         }
+
         if (e.target.name === 'pdf') {
-            setPdfFiles(e.target.files);
+            setPdfFiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setViewablePDF([
+                    ...viewablePDF,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+                setPdf([...pdf, file]);
+                setPdfNames([...pdfNames, file.name]);
+            });
         }
+
         if (e.target.name === 'specs') {
-            setSpecFiles(e.target.files);
+            setSpecFiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setViewableSpecs([
+                    ...viewableSpecs,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+                setSpecs([...specs, file]);
+                setSpecNames([...specNames, file.name]);
+            });
         }
+        
         if (e.target.name === 'drawingFiles') {
-            setDrawingFilesArray(e.target.files);
+            setDrawingFilesArray(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setDrawingFiles([...drawingFiles, file]);
+                setDrawingFilesNames([
+                    ...drawingFilesNames,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+            });
         }
     };
 
@@ -476,57 +526,7 @@ const Inventory: FC = () => {
             [item]: itemDetails[item].slice(0, -1),
         });
     };
-    const listFileNames = (e: any, name: string) => {
-        e.preventDefault();
 
-        if (name === 'images' && imgFiles.length) {
-            for (const key of Object.keys(imgFiles)) {
-                const objectUrl = URL.createObjectURL(imgFiles[key]);
-
-                setImageNames([
-                    ...imageName,
-                    { name: imgFiles[key].name, url: objectUrl },
-                ]);
-
-                setImages([...images, imgFiles[key]]);
-            }
-        }
-        if (name === 'pdf' && pdfFiles.length) {
-            for (const key of Object.keys(pdfFiles)) {
-                const objectUrl = URL.createObjectURL(pdfFiles[key]);
-
-                setViewablePDF([
-                    ...viewablePDF,
-                    { name: pdfFiles[key].name, url: objectUrl, rendered: false },
-                ]);
-                setPdf([...pdf, pdfFiles[key]]);
-                setPdfNames([...pdfNames, pdfFiles[key].name]);
-            }
-        }
-        if (name === 'specs' && specFiles.length) {
-            for (const key of Object.keys(specFiles)) {
-                const objectUrl = URL.createObjectURL(specFiles[key]);
-
-                setViewableSpecs([
-                    ...viewableSpecs,
-                    { name: specFiles[key].name, url: objectUrl, rendered: false },
-                ]);
-                setSpecs([...specs, specFiles[key]]);
-                setSpecNames([...specNames, specFiles[key].name]);
-            }
-        }
-        if (name === 'drawingFiles' && drawingFilesArray.length) {
-            for (const key of Object.keys(drawingFilesArray)) {
-                const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
-
-                setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
-                setDrawingFilesNames([
-                    ...drawingFilesNames,
-                    { name: drawingFilesArray[key].name, url: objectUrl, rendered: false },
-                ]);
-            }
-        }
-    };
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
@@ -2045,13 +2045,6 @@ const Inventory: FC = () => {
                                 >
                                     Images
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'images')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
                                     tabIndex={-1}
                                     className="list-input tabIndex={-1}"
@@ -2098,13 +2091,6 @@ const Inventory: FC = () => {
                                 <label className="images__label" htmlFor="pdf">
                                     PDF
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'pdf')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
                                     tabIndex={-1}
                                     className="list-input tabIndex={-1}"
@@ -2187,13 +2173,6 @@ const Inventory: FC = () => {
                                 <label className="images__label" htmlFor="pdf">
                                     SPECS
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'specs')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
                                     tabIndex={-1}
                                     className="list-input tabIndex={-1}"
@@ -2278,15 +2257,6 @@ const Inventory: FC = () => {
                                 >
                                     Drawing Files
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) =>
-                                        listFileNames(e, 'drawingFiles')
-                                    }
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
                                     tabIndex={-1}
                                     className="list-input tabIndex={-1}"

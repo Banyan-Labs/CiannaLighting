@@ -234,39 +234,34 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     });
 
     return (
-        <div className="">
-            <div className="col-12 d-flex row m-0">
-                <div className="back-to-project col-6">
-                    <Link
-                        to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}
-                    >
-                        <BsChevronLeft className="chevron-icon" /> Back to
-                        Project
+        <div>
+            <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
+                <div className="back-to-project">
+                    <Link to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}>
+                        <BsChevronLeft className="chevron-icon" /> Back to Project
                     </Link>
                 </div>
-                <div className="col-6 d-flex justify-content-end">
-                    <p className="project-name">
-                        <span className="project-tag">Project</span> <br />
-                        <div className="project-title-with-status-icon">
-                            {project?.name}
-                            <FaCircle
-                                className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
-                            />
-                        </div>
-                    </p>
+                <div className="project-name">
+                    <span className="project-tag">Project</span> <br />
+                    <div className="project-title-with-status-icon">
+                        {project?.name}
+                        <FaCircle
+                            className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="col-12 m-0 d-flex">
-                <div className="project-date d-flex row">
+            <div className="col-7 d-flex mt-4 justify-content-between">
+                <div className="project-date d-flex flex-column">
                     <h3 className="m-0">{room?.name}</h3>
                     <p className="">Created: {date}</p>
                 </div>
-                <div className=" icon-container d-flex align-items-center justify-content-center">
+                <div className="icon-container d-flex align-items-center justify-content-center">
                     <FaRegEdit
                         data-for="edit"
                         data-tip="Edit Room"
-                        className="m-2 room-icons"
+                        className="m-2 edit-icon"
                         onClick={() => {
                             setOpenModal(true);
                             setEditRoom(true);
@@ -275,7 +270,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <FaRegClone
                         data-for="copy"
                         data-tip="Copy Room"
-                        className="m-2 room-icons"
+                        className="m-2 clone-icon"
                         onClick={(e) => copyRoom(e)}
                     />
                     <FaRegTrashAlt
@@ -285,7 +280,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         }}
                         data-for="delete"
                         data-tip="Delete Room"
-                        className="m-2 room-icons"
+                        className="m-2 archive-icon"
                     />
                     <ReactTooltip id="edit" />
                     <ReactTooltip id="copy" />
@@ -306,25 +301,25 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
                     >
-                        View Room Lights <span>{isCollapsed ? '-' : '+'} </span>
+                        {isCollapsed ? 'Expand' : 'Collapse'} <span>{isCollapsed ? '+' : '-'}</span>
                     </h4>
                 </div>
                 {/* <div className="room-description-light-divider"></div> */}
 
                 <div
                     className={
-                        !isCollapsed
+                        isCollapsed
                             ? 'container-for-light-cards-off '
                             : 'container-for-light-cards'
                     }
                 >
-                    {room?.lights?.length != 0 && isCollapsed === true ? (
+                    {room?.lights?.length != 0 && !isCollapsed ? (
                         singleRoom
                     ) : (
                         <div className="container-no-lights d-flex justify-content-center align-items-center col-12">
                             <p className="">
-                                {isCollapsed === false && roomLights.length > 0
-                                    ? 'Show Room Lights.'
+                                {isCollapsed && roomLights.length > 0
+                                    ? 'Expand for light details.'
                                     : 'No lights for this room.'}
                             </p>
                         </div>

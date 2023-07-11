@@ -54,7 +54,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
             });
           });
       } else {
-        res.status(204).json( { message: `No project found using _id of #${projectId}.` } );
+        res.status(204).json({ message: `No project found using _id of #${projectId}.` });
       }
     })
     .catch((error) => {
@@ -122,7 +122,7 @@ const getRoom = async (req: Request, res: Response) => {
         });
         room.save();
       } else if (!room) {
-        return res.status(204).json( { message: `No room found using _id of #${req.body._id}.` } );
+        return res.status(204).json({ message: `No room found using _id of #${req.body._id}.` });
       }
 
       return res.status(200).json({
@@ -157,40 +157,45 @@ const deleteRoom = async (req: Request, res: Response) => {
             ],
           ],
         };
+
         project.rooms = project.rooms.filter((id: string) => {
-          return String(id) !== _id ? id : "";
+          return String(id) !== _id;
         });
 
         await project.save();
+
+        await LightSelection.deleteMany({ roomId: _id })
+          .exec()
+          .then((lightSelection) => {
+            logging.info(`LightSelections deleted: ${lightSelection.deletedCount}`, "deleteRoom");
+          })
+          .catch((error) => {
+            logging.error(error.message, "deleteRoom");
+            res.status(500).json(error);
+          });
+  
+        await Room.findByIdAndDelete({ _id: req.body._id })
+          .then((room) => {
+            if (room && req.body.itemIDS && req.body.itemIDS.length) {
+              itemIDS.forEach(async (item_ID: string) => {
+                await lightIdService(room.projectId, ActionType.DELETE, item_ID, room.name)
+              });
+            } else if (!room) {
+              return res.status(204).json({ message: `No room found using _id of #${req.body._id}.` });
+            }
+
+            return res.status(200).json(room);
+          })
+          .catch((error) => {
+            logging.error(error.message, "deleteRoom");
+            return res.status(500).json(error);
+          });
+      } else {
+        res.status(204).json({ message: `No project found using _id of #${projectId}.` });
       }
-
-      await LightSelection.deleteMany({ roomId: _id })
-        .exec()
-        .then((res) => {
-          return res.deletedCount;
-        })
-        .catch((err) => {
-          return err.message;
-        });
-      return await Room.findByIdAndDelete({ _id: req.body._id })
-        .then((room) => {
-          if (room && req.body.itemIDS && req.body.itemIDS.length) {
-            itemIDS.forEach(async (item_ID: string) => await lightIdService(room.projectId, ActionType.DELETE, item_ID, room.name))
-          }
-
-          return !room
-            ? res.status(200).json({
-              room,
-            })
-            : res.status(404).json({
-              message: "The Room you are looking for no longer exists",
-              roomRemoved: "room removed successfully from project",
-            });
-        })
-        .catch((error) => {
-          logging.error(error.message, "deleteRoom");
-          res.status(500).json(error);
-        });
+    }).catch((error) => {
+      logging.error(error.message, "deleteRoom");
+      return res.status(500).json(error);
     });
 };
 

@@ -20,7 +20,8 @@ body {
 
         &.left {
             width: 40%;
-            border-right: 1px solid #666;
+            border-right: 1px solid #ada9a9ab;
+            background-color: #ecebe7;
         }
 
         &.right {
@@ -103,10 +104,6 @@ body {
 }
 
 .project-date {
-    border-right: 1px solid black;
-    margin-left: 20px;
-    padding-right: 20px;
-
     h3 {
         font-size: 22px;
     }
@@ -152,29 +149,6 @@ body {
 .container-no-lights {
     height: 200px;
     color: $primary-bg-white-sub-text;
-}
-
-.back-to-project {
-    margin-top: 1rem;
-    font-weight: bold;
-    .chevron-icon {
-        position: relative;
-        top: 2px;
-    }
-    a {
-        margin-left: 10px;
-        text-decoration: none;
-        font-size: 14px;
-        color: black;
-        cursor: pointer;
-    }
-    a:hover {
-        color: #ada9a9ab;
-    }
-}
-
-.icon-container {
-    padding-left: 20px;
 }
 
 .collapse-button {
@@ -315,17 +289,6 @@ body {
 }
 
 // ******** Filter Componet *********
-.container-filter {
-    height: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 100px;
-}
-
 .filter-lights-btn {
     background: transparent;
     border: none;

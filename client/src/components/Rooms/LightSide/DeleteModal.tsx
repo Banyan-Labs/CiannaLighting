@@ -47,7 +47,7 @@ export const DeleteModal: FC<Props> = ({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const onSubmit1 = async () => {
-        const nonRoom = async (light: any) => {
+        const deleteLightMethod = async (light: any) => {
             await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
@@ -58,13 +58,11 @@ export const DeleteModal: FC<Props> = ({
                 })
             );
         };
-        const nonLight = async () => {
+        const deleteRoomMethod = async () => {
             const itemIDS = roomLights
                 ? roomLights.map((room: any) => room.item_ID)
                 : [];
-            if (roomLights && roomLights.length) {
-                await deleteAttachments(roomLights);
-            }
+            
             await dispatch(
                 deleteThisRoom({
                     _id: String(storedRoomId),
@@ -72,11 +70,12 @@ export const DeleteModal: FC<Props> = ({
                     itemIDS: itemIDS,
                 })
             );
-            await dispatch(getProject(String(storedProjId)));
+            
+            await dispatch(getProject({_id: String(storedProjId)}));
         };
         
         try {
-            !deleteRoom ? await nonRoom(light) : await nonLight();
+            !deleteRoom ? await deleteLightMethod(light) : await deleteRoomMethod();
             navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
         } catch (err: any) {
             throw new Error(err.message);

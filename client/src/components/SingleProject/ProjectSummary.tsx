@@ -151,18 +151,22 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
 
     return (
-        <div className="project-summary-container">
-            <div className="projects-summary">
-                <div className="back-to-projects">
-                    <button
+        <div className="project-summary-container col-6">
+            <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
+                <div className="back-to-project">
+                    <a
                         className="back-to-all-projects"
                         onClick={() => dispatch(setTheYourProjects(false))}
                     >
-                        <BsChevronLeft className="chevron-icon" /> Back to
-                        Projects
-                    </button>
+                        <BsChevronLeft className="chevron-icon" /> Back to Projects
+                    </a>
                 </div>
-                <div className="project-summary-top-bar">
+                <div className="project-summary-status">
+                    <p className="status">Status: {details?.status}</p>
+                </div>
+            </div>
+            <div className="projects-summary">
+                <div className="col-7 d-flex justify-content-between">
                     <div className="project-summary-name-and-date">
                         <h3 className="project-summary-project-name">
                             <div className="project-title-with-status-icon">
@@ -174,7 +178,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
-                    <div className="project-summary-icons">
+                    <div className="icon-container d-flex align-items-center justify-content-center">
                         <FaRegEdit
                             onClick={() => {
                                 setOpenModal(true);
@@ -216,9 +220,6 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         <ReactTooltip id="copy" />
                         <ReactTooltip id="edit" />
                         <ReactTooltip id="archive" />
-                    </div>
-                    <div className="project-summary-status">
-                        <p className="status">Status: {details?.status}</p>
                     </div>
                 </div>
                 <div className="project-summary-text-container">

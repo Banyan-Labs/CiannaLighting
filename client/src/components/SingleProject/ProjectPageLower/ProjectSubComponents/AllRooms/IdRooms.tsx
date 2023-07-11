@@ -62,6 +62,9 @@ const IdRooms: FC = () => {
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
                 key={index}
+                onClick={() => {
+                    projectRoute(room?._id, room?.projectId);
+                }}
             >
                 <span style={{ color: 'black' }}>
                     Lights: <strong>{room.lights?.length}</strong>
@@ -78,9 +81,6 @@ const IdRooms: FC = () => {
                     <ReactTooltip id="new-room" />
                     <span
                         style={{ color: 'black' }}
-                        onClick={() => {
-                            projectRoute(room?._id, room?.projectId);
-                        }}
                     >
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />

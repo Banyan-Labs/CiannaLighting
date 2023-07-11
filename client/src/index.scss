@@ -52,6 +52,8 @@ body {
 .project-title-with-status-icon {
     display: flex;
     align-items: center;
+    font-size: 22px;
+    color: black;
 }
 
 .disabled {
@@ -71,4 +73,77 @@ body {
 
 button {
     cursor: pointer;
+}
+
+.back-to-project {
+    font-weight: bold;
+    .chevron-icon {
+        margin-top: 1%;
+        padding-right: 0.5em;    
+    }
+    a, button {
+        text-decoration: none;
+        font-size: 14px;
+        color: black;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+    a:hover, button:hover {
+        color: #ada9a9ab;
+    }
+}
+
+.back-button-container {
+    height: 7vh;
+}
+
+.icon-container {
+    padding-left: 40px;
+    border-left: 1px solid #ada9a9ab;
+}
+
+.archive-icon {
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: #949494;
+}
+
+.archive-icon:hover {
+    cursor: pointer;
+}
+
+.clone-icon {
+    margin-left: 15px;
+    font-size: 1.2em;
+    color: #949494;
+}
+
+.clone-icon:hover {
+    cursor: pointer;
+}
+
+.edit-icon {
+    margin-left: 0px;
+    font-size: 1.2em;
+    color: #949494;
+}
+
+.edit-icon:hover {
+    cursor: pointer;
+}
+
+.container-filter {
+    height: 100%;
+    position: fixed;
+    z-index: 13;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    margin-top: 100px !important;
+    background-color: $primary-bg-dark;
+    border-left: $accent-gold 1px solid;
+    border-top: $accent-gold 1px solid;
+    box-shadow: $box-shadow;
 }

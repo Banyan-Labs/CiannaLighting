@@ -65,7 +65,7 @@ const ProjectsNav: FC<ProjectNavProps> = ({ processing }) => {
                     <div className="proposal_container">
                         <Proposal ref={componentRef} />
                         <button className="print_btn" onClick={handlePrint}>
-                            Print this out!
+                            Print
                         </button>
                     </div>
                 ) : null}

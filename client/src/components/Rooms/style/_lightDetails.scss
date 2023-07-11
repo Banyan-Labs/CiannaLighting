@@ -8,7 +8,6 @@
 .light-top-catalog {
     padding-top: 10px;
     span {
-        font-weight: 500;
         padding-left: 10px;
     }
 
@@ -151,13 +150,6 @@
 }
 
 // Filter ***************************
-.container-filter {
-    background-color: $primary-bg-dark;
-    position: relative;
-    border-left: $accent-gold 1px solid;
-    border-top: $accent-gold 1px solid;
-}
-
 .top-filter {
     height: fit-content;
     padding-top: 30px !important;
@@ -178,7 +170,6 @@
 }
 
 .filter-form-container {
-    padding-top: 20px;
     height: fit-content;
 
     p {
