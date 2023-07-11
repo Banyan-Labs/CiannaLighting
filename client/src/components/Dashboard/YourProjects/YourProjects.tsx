@@ -76,15 +76,13 @@ const YourProjects: FC = () => {
                     case 'New':
                         newProjectsNumber = newProjectsNumber + 1;
                         break;
-                    case 'RFP':
-                    case 'Awarded':
-                    case 'Completed':
+                    case 'Complete':
                         completedProjectsNumber = completedProjectsNumber + 1;
                         break;
                     case 'Hold':
                         onHoldProjectsNumber = onHoldProjectsNumber + 1;
                         break;
-                    case 'Canceled':
+                    case 'Cancel':
                         canceledProjectsNumber = canceledProjectsNumber + 1;
                         break;
                     default:
