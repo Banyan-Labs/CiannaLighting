@@ -15,33 +15,21 @@ body {
     fill: $accent-grayish-red;
 }
 
-.statusColorDesign {
-    background-color: $accent-grayish-orange;
-}
-.statusColorInternal {
-    background-color: $accent-grayish-orange;
-}
 
 .statusColorHold {
     background-color: $accent-pink-shade-granite;
     fill: $accent-pink-shade-granite;
 }
 
-.statusColorCanceled {
+.statusColorCancel {
     background-color: $accent-dark-gray;
 }
 
-.statusColorRFP {
-    background-color: $accent-gold;
-}
-.statusColorAwarded {
-    background-color: $accent-gold;
-}
-.statusColorCompleted {
+.statusColorComplete {
     background-color: $accent-gold;
 }
 
-.statusColorDefault {
+.statusColorProgress {
     background-color: $accent-light-grayish-yellow;
     fill: $accent-light-grayish-yellow;
 }
