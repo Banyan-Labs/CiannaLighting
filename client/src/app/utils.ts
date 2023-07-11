@@ -16,5 +16,5 @@ export const findClosestSystemStatus = (givenStatus: string) => {
         (status) => stausWithoutSpecialCharsOrSpace.includes(status)
     );
 
-    return closestStatus ? closestStatus : 'Default';
+    return closestStatus ? closestStatus : 'Progress';
 }
