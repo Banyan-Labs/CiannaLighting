@@ -76,7 +76,7 @@ const YourProjects: FC = () => {
                     case 'New':
                         newProjectsNumber = newProjectsNumber + 1;
                         break;
-                    case 'Completed':
+                    case 'Complete':
                         completedProjectsNumber = completedProjectsNumber + 1;
                         break;
                     case 'Hold':
