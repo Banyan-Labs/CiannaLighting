@@ -33,7 +33,6 @@ const SelectDropdown = ({
                         className="select-dropdown__option"
                         key={uuid()}
                         value={value}
-                        selected={defaultValue === value}
                         defaultValue={defaultValue}
                     >
                         {value}

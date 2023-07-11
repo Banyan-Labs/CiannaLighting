@@ -69,3 +69,21 @@ export const SystemStatus = [
     'Awarded',
     'Canceled'
 ];
+
+export const DesignStyle = {
+    ART_DECO: 'Art Deco',
+    WESTERN: 'Western',
+    NATIVE: 'Native',
+    ASIAN: 'Asian',
+    TRADITIONAL: 'Traditional',
+    TRANSITIONAL: 'Transitional'
+};
+
+export const UsePackage: Record<string, string> = {
+    BRIDES_ROOM: 'Bride\'s Room',
+    CELESTIAL_ROOM: 'Celestial Room',
+    BAPTISTRY: 'Baptistry',
+    HALLWAY: 'Hallway',
+    FOYER: 'Foyer', 
+    BALLROOM: 'Ballroom',
+};

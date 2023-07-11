@@ -5,35 +5,18 @@ import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
 import DesignStyles from './DesignStyles/DesignStyles';
 import SingleView from './SingleView';
+import { UsePackage } from 'app/constants';
 
 import './style/catalog.scss';
 
-const usePackagesData = [
-    {
-        name: "Bride's Room",
-        img: '/pexels-kseniia-lopyreva-4959835.jpg',
-    },
-    {
-        name: 'Celestial Room',
-        img: '/celestial-room.jpeg',
-    },
-    {
-        name: 'Baptistry',
-        img: '/baptistry.jpeg',
-    },
-    {
-        name: 'Hallway',
-        img: '/hallway.jpeg',
-    },
-    {
-        name: 'Forier',
-        img: '/reception.jpeg',
-    },
-    {
-        name: 'Ball-room',
-        img: '/stairway.jpeg',
-    },
-];
+const usePackageImages: Record<string, string> = { 
+    BRIDES_ROOM: '/pexels-kseniia-lopyreva-4959835.jpg', 
+    CELESTIAL_ROOM: '/celestial-room.jpeg', 
+    BAPTISTRY: '/baptistry.jpeg', 
+    HALLWAY: '/hallway.jpeg', 
+    FOYER: '/reception.jpeg', 
+    BALLROOM: '/stairway.jpeg',
+};
 
 const Catalog: FC = () => {
     const [catalogItem, setCatalogItem] = useState(null);
@@ -51,28 +34,31 @@ const Catalog: FC = () => {
         );
     };
 
-    const usePackages = usePackagesData.map((usePackage, index) => {
+    const usePackages = Object.keys(UsePackage).map((packageItem: string, index) => {
+        const usePackage = UsePackage[packageItem];
+        const image = usePackageImages[packageItem];
+
         return (
             <div className="use-package-container" key={index}>
                 <button
-                    key={usePackage.name}
+                    key={usePackage}
                     style={{
-                        backgroundImage: `url(/images${usePackage.img})`,
+                        backgroundImage: `url(/images${image})`,
                         backgroundPosition: 'top',
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         cursor: 'pointer',
                     }}
                     className="use-package-image"
-                    value={usePackage.name}
+                    value={usePackage}
                     onClick={(e) => {
                         fetchData1(e);
-                        setCatalogType(usePackage.name);
+                        setCatalogType(usePackage);
                         setRenderPage('usePackages');
                     }}
                 ></button>
 
-                <p style={{ fontSize: '14px' }}>{usePackage.name}</p>
+                <p style={{ fontSize: '14px' }}>{usePackage}</p>
             </div>
         );
     });

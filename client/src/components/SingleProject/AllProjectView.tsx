@@ -109,37 +109,31 @@ const AllProjectView: FC<Props> = ({
         const attach = await axiosPriv.post('/get-attachments', {
             projId: proj._id,
         });
-        let attachments = [];
+        const attachments = attach?.data?.proj?.pdf || [];
 
-        if (attach) {
-            attachments = attach.data.proj.pdf;
+        const payload = {
+            project: {
+                ...proj,
+                clientId: user._id,
+                clientName: user.name,
+            },
+            copy: CopyType.PROJECT,
+            attachments,
+        };
 
-            if (attachments.length) {
-                const payload = {
-                    project: {
-                        ...proj,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: CopyType.PROJECT,
-                    attachments: attachments,
-                };
+        try {
+            const response = await dispatch(
+                createProjectAction(payload)
+            );
 
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
+            dispatch(getUserProjects(user._id));
+            dispatch(getAllProjects());
+            setProcessing(false);
+            alert(`Copy of ${proj.name} created in your dashboard.`);
 
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
-
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
+            return response;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 

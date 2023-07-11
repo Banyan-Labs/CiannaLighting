@@ -239,12 +239,10 @@ export const lightIdService = async (
   const project = await Project.findOne({ _id: projectId });
 
   if (project) {
-    logging.info(`Project found: ${JSON.stringify(project)} `, "lightIdService");
     const lightIDs = project.lightIDs;
     //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing
 
     if (lightIDs && lightIDs.length) {
-      logging.info(`LightIDs found: ${JSON.stringify(lightIDs)}`, "lightIdService");
       const reWrite: LightREF[] = lightIDs
         .map((item: LightREF): LightREF => {
           if (item.item_ID === item_ID) {
@@ -315,6 +313,7 @@ export const lightIdService = async (
 
     if (done) {
       logging.info(`Done and Saved successfully: ${JSON.stringify(done)}`, "lightIdService");
+      
       return done;
     } else {
       logging.error(`Error saving project in the add section of lightIdService.`, "lightIdService");

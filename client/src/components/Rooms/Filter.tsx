@@ -2,6 +2,7 @@ import React, { FC, useState, FormEvent } from 'react';
 
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
+import { DesignStyle, UsePackage } from 'app/constants';
 
 import './style/roomDetails.scss';
 
@@ -17,14 +18,7 @@ const DetailsFilter: FC<catalogPros> = ({
 }) => {
     const dispatch = useAppDispatch();
 
-    const [designDetails, setDesignDetails] = useState<any>({
-        asian: '',
-        artDeco: '',
-        colonial: '',
-        western: '',
-        traditional: '',
-        transitional: '',
-    });
+    const [designDetails, setDesignDetails] = useState<string>("");
 
     const [packageDetails, setPackageDetails] = useState<any>({
         baptistry: '',
@@ -35,11 +29,7 @@ const DetailsFilter: FC<catalogPros> = ({
     });
 
     const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
-        setDesignDetails({
-            ...designDetails,
-            [e.currentTarget.name]:
-                e.currentTarget.checked === true ? e.currentTarget.name : '',
-        });
+        setDesignDetails( e.currentTarget.checked === true ? e.currentTarget.name : '' );
     };
     const handlePackagesInput = (e: FormEvent<HTMLInputElement>) => {
         setPackageDetails({
@@ -52,9 +42,6 @@ const DetailsFilter: FC<catalogPros> = ({
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
-        const designs = Object.values(designDetails).filter((x: any) =>
-            x.toLowerCase()
-        );
         const packages = Object.values(packageDetails).filter((x: any) =>
             x.toLowerCase()
         );
@@ -62,19 +49,12 @@ const DetailsFilter: FC<catalogPros> = ({
         try {
             dispatch(
                 filterCatalogItems({
-                    designStyle: designs,
-                    usePackages: packages,
+                    designStyle: [designDetails],
+                    UsePackage: packages,
                 })
             );
 
-            setDesignDetails({
-                asian: '',
-                artDeco: '',
-                colonial: '',
-                western: '',
-                traditional: '',
-                transitional: '',
-            });
+            setDesignDetails('');
             setPackageDetails({
                 baptistry: '',
                 bridesRoom: '',
@@ -101,7 +81,7 @@ const DetailsFilter: FC<catalogPros> = ({
         <div
             className={
                 filterBar === true
-                    ? 'container-filter container col-md-4 col-lg-3 col-xl-2 d-flex row m-0 p-0 align-content-start'
+                    ? 'container-filter container col-md-4 col-lg-3 col-xl-2 d-flex row align-content-start'
                     : 'd-none'
             }
         >
@@ -117,126 +97,43 @@ const DetailsFilter: FC<catalogPros> = ({
             >
                 <div className="design-container d-flex row m-0 p-0">
                     <h5 className="m-0 p-0">Design Styles</h5>
-                    <div className="input-container-filter">
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="asian"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Asian</p>
-                        </div>
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="art-deco"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Art Deco</p>
-                        </div>
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="colonial"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Colonial</p>
-                        </div>
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="western"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Western</p>
-                        </div>
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="traditional"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Traditional</p>
-                        </div>
-                        <div className="d-flex m-0">
-                            <input
-                                className="m-1"
-                                type="checkBox"
-                                name="transitional"
-                                id="designStyles"
-                                onChange={(e) => handleDesignInput(e)}
-                            />
-                            <p className="m-1">Transitional</p>
-                        </div>
-                    </div>
+                    <form className="input-container-filter">
+                        {
+                            Object.values(DesignStyle).map((design: any) => (
+                                <div className="d-flex m-0" key={design.length}>
+                                    <input
+                                        className="m-1"
+                                        type="radio"
+                                        name={design}
+                                        id="designStyles"
+                                        checked={designDetails === design}
+                                        onChange={(e) => handleDesignInput(e)}
+                                    />
+                                    <p className="m-1">{design}</p>
+                                </div>
+                            ))
+                        }
+                    </form>
                     <div className="design-container d-flex row m-0 p-0">
                         <h5 className="m-0 p-0">Use Packages</h5>
-                        <div className="input-container-filter">
-                            <div className="d-flex m-0">
-                                <input
-                                    className="m-1"
-                                    type="checkBox"
-                                    name="baptistry"
-                                    id="usePackages"
-                                    onChange={(e) => handlePackagesInput(e)}
-                                />
-                                <p className="m-1">Baptistry</p>
-                            </div>
-                            <div className="d-flex m-0">
-                                <input
-                                    className="m-1"
-                                    type="checkBox"
-                                    name="bridesRoom"
-                                    id="usePackages"
-                                    onChange={(e) => handlePackagesInput(e)}
-                                />
-                                <p className="m-1">Brides Room</p>
-                            </div>
-                            <div className="d-flex m-0">
-                                <input
-                                    className="m-1"
-                                    type="checkBox"
-                                    name="celestialRoom"
-                                    id="usePackages"
-                                    onChange={(e) => handlePackagesInput(e)}
-                                />
-                                <p className="m-1">Celestial Room</p>
-                            </div>
-                            <div className="d-flex m-0">
-                                <input
-                                    className="m-1"
-                                    type="checkBox"
-                                    name="hallway"
-                                    id="usePackages"
-                                    onChange={(e) => handlePackagesInput(e)}
-                                />
-                                <p className="m-1">Hallway</p>
-                            </div>
-                            <div className="d-flex m-0">
-                                <input
-                                    className="m-1"
-                                    type="checkBox"
-                                    name="forier"
-                                    id="usePackages"
-                                    onChange={(e) => handlePackagesInput(e)}
-                                />
-                                <p className="m-1">Forier</p>
-                            </div>
-                        </div>
+                        {
+                            Object.values(UsePackage).map((usePackage: any) => (
+                                <div className="d-flex m-0" key={usePackage.length}>
+                                    <input
+                                        className="m-1"
+                                        type="checkBox"
+                                        name={usePackage}
+                                        id="UsePackage"
+                                        onChange={(e) => handlePackagesInput(e)}
+                                    />
+                                    <p className="m-1">{usePackage}</p>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
-                <div className="col-12 d-flex row button-container-filters">
-                    <button>Apply Filters</button>
+                <div className="d-flex button-container-filters mt-4">
+                    <button>Apply</button>
                 </div>
             </form>
         </div>

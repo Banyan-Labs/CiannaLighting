@@ -34,7 +34,7 @@ const LightDetails: FC<catalogPros> = ({
                         <div className="d-flex row justify-content-center align-items-center">
                             <div className="col-12 d-flex justify-content-end align-items-center tooltip bs-tooltip-top">
                                 <h2 className="col-6 col-md-6 m-0">
-                                    Catalog<span>Lights</span>
+                                    Catalog Lights
                                 </h2>
                                 <SearchBar setSearchTerm={setSearchTerm} />
                             </div>
