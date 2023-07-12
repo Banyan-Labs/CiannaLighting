@@ -90,7 +90,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         let attachments = [];
 
         if (attach) {
-            attachments = attach.data.proj.pdf;
+            attachments = attach.data?.proj?.pdf;
 
             if (attachments.length) {
                 const payload = {
