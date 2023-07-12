@@ -66,7 +66,7 @@ export const setSpecFile =
                 const answer = await response('/new-attachments');
 
                 if (answer) {
-                    dispatch(setAttachments(answer.data.attachments.pdf));
+                    dispatch(setAttachments(answer.data?.attachments?.pdf || []));
                 }
             } else {
                 dispatch(setAttachments([]));
@@ -75,7 +75,7 @@ export const setSpecFile =
 
                 logging.info(`Status of get attachements call: ${answer.status}`, "setSpecFile")
                 if (answer.status === 200) {
-                    dispatch(setAttachments(answer.data.proj.pdf));
+                    dispatch(setAttachments(answer?.data?.proj?.pdf || []));
                 } else {
                     dispatch(setAttachments([]));
                 }
@@ -94,7 +94,7 @@ export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
         dispatch(setAttachments(response.data.projectAttach.pdf));
 
         if (response) {
-            const runIDS = payload.lights.map((prop: any) => prop._id);
+            const runIDS = payload.lights?.map((prop: any) => prop._id) || [];
             const finished = runIDS.length;
             let i = 0;
 
@@ -114,7 +114,7 @@ export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
                 });
 
                 if (proposalSet) {
-                    dispatch(setProposals(proposalSet.data.proposal));
+                    dispatch(setProposals(proposalSet.data?.proposal));
                 }
             }
         }
@@ -136,7 +136,7 @@ export const createLight =
 
                 if (created) {
                     const proposal = await axiosPriv.post('/update-rfp', {
-                        light: { ...light, lightID: created.data.light._id },
+                        light: { ...light, lightID: created.data?.light._id },
                     });
 
                     if (proposal) {
@@ -145,7 +145,7 @@ export const createLight =
                         });
 
                         if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data.proposal));
+                            dispatch(setProposals(proposalSet.data?.proposal));
                         }
                     }
                 }
