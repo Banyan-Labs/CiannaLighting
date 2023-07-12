@@ -28,7 +28,7 @@ const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
-    const latestProject = userProjects.slice(userProjects.length - 1);
+    const latestProject = userProjects?.length ? userProjects.slice(userProjects.length - 1) : [];
     const defaultProjId = String(latestProject.map((p) => p._id));
     const Id = storedProjId ? storedProjId : defaultProjId;
 
