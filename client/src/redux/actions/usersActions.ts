@@ -27,7 +27,7 @@ export const createUserAction =
 
             logging.info(response, "createUserAction");
             // set something to throw error
-            if (response.data) {
+            if (response?.data) {
                 dispatch(setNewUser(response.data.user));
                 dispatch(setStatus("User created successfully."))
             } else {

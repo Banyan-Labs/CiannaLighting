@@ -28,7 +28,7 @@ export const createProjectAction =
 
             try {
                 const response = await axiosPriv.post('/create-project', {
-                    ...payload.project,
+                    ...payload?.project,
                     copy: payload.copy,
                 });
 
