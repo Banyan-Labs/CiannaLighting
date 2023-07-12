@@ -22,7 +22,7 @@ export const getRoomLights =
                     roomId: roomId,
                 });
 
-                dispatch(setRoomLights(response.data.lights));
+                dispatch(setRoomLights(response?.data?.lights));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
             }
@@ -36,10 +36,10 @@ export const getCatalogItems =
             try {
                 const response = await axiosPriv.post('/public/get-catalog');
 
-                dispatch(setCatalogLights(response.data.items));
+                dispatch(setCatalogLights(response?.data?.items));
 
                 if (response) {
-                    const inactiveFilter = response.data.items.filter(
+                    const inactiveFilter = response.data?.items?.filter(
                         (item: any) => !item.isActive
                     );
                     const inactiveList = inactiveFilter.map(
@@ -91,7 +91,7 @@ export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axiosPriv.post('/delete-attachments', payload);
 
-        dispatch(setAttachments(response.data.projectAttach.pdf));
+        dispatch(setAttachments(response?.data?.projectAttach?.pdf));
 
         if (response) {
             const runIDS = payload.lights?.map((prop: any) => prop._id) || [];
@@ -141,7 +141,7 @@ export const createLight =
 
                     if (proposal) {
                         const proposalSet = await axiosPriv.post('/get-proposals', {
-                            projectId: light.projectId,
+                            projectId: light?.projectId,
                         });
 
                         if (proposalSet) {
@@ -176,9 +176,9 @@ export const getEditLight =
             try {
                 const response = await axiosPriv.post('/find-light', payload);
 
-                dispatch(setCatalogConnect(response.data.light));
+                dispatch(setCatalogConnect(response?.data?.light));
 
-                return response.data.light;
+                return response?.data?.light;
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);
@@ -208,7 +208,7 @@ export const theEditLight =
                         });
 
                         if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data.proposal));
+                            dispatch(setProposals(proposalSet.data?.proposal));
                         }
                     }
                 }
@@ -231,7 +231,7 @@ export const filterCatalogItems =
                     payload
                 );
                 
-                dispatch(setCatalogLights(response.data.items));
+                dispatch(setCatalogLights(response?.data?.items));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);

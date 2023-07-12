@@ -56,7 +56,7 @@ export const getAllLogs =
                     withCredentials: true,
                 });
 
-                dispatch(setLogs(response.data));
+                dispatch(setLogs(response?.data));
             } catch (error: any) {
                 throw new Error(error.message);
             }

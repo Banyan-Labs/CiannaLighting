@@ -152,7 +152,7 @@ export const projectSlice = createSlice({
         }),
         setAllProjects: (state, action) => ({
             ...state,
-            allProjects: action.payload.projects,
+            allProjects: action.payload?.projects,
         }),
         setFilteredProjects: (state, action) => ({
             ...state,
@@ -190,7 +190,7 @@ export const projectSlice = createSlice({
         }),
         setProjectId: (state, action) => ({
             ...state,
-            projectId: action.payload._id,
+            projectId: action.payload?._id,
         }),
         setRoomLights: (state, action) => ({
             ...state,
@@ -200,7 +200,7 @@ export const projectSlice = createSlice({
         resetProject: (state) => ({ ...state, project: null }),
         setUserProjects: (state, action) => ({
             ...state,
-            userProjects: action.payload.projects,
+            userProjects: action.payload?.projects,
         }),
         setPersonalizedDefaults: (state) => ({
             ...state,

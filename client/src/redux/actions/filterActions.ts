@@ -13,7 +13,7 @@ export const getAllStatus =
                     label: 'status',
                 });
 
-                dispatch(setStatus(AllStatus.data));
+                dispatch(setStatus(AllStatus?.data));
             } catch (error: any) {
                 dispatch(setError(error.response.data));
             }
@@ -29,7 +29,7 @@ export const getAllRegions =
                     label: 'region',
                 });
                 
-                dispatch(setRegion(AllRegion.data));
+                dispatch(setRegion(AllRegion?.data));
             } catch (error: any) {
                 dispatch(setError(error.response.data));
             }
