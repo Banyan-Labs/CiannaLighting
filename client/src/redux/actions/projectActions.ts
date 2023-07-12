@@ -158,7 +158,7 @@ export const getAllProjectRoomsAction =
                     projectId: projectId,
                 });
 
-                dispatch(setProjectRooms(response.data.rooms));
+                dispatch(setProjectRooms(response?.data?.rooms));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);
@@ -175,7 +175,7 @@ export const getUserProjects =
                     clientId: userId,
                 });
 
-                dispatch(setUserProjects(projects.data));
+                dispatch(setUserProjects(projects?.data));
             } catch (error: any) {
                 throw new Error(error.message);
             }
@@ -190,6 +190,8 @@ export const setTheYourProjects =
 export const getProject =
     (payload: any) =>
         async (dispatch: Dispatch): Promise<void> => {
+            if(!payload._id) return;
+
             const axioscall = axiosPrivate();
 
             try {
@@ -263,13 +265,13 @@ export const getFilteredProjects =
                 });
 
                 if (extraFilter.filter === 'allProjects') {
-                    dispatch(setFilteredProjects(projects.data.projects));
+                    dispatch(setFilteredProjects(projects?.data?.projects));
 
-                    return projects.data.projects;
+                    return projects?.data?.projects;
                 } else {
-                    dispatch(setFilteredProjects(projects.data.filterProj));
+                    dispatch(setFilteredProjects(projects?.data?.filterProj));
 
-                    return projects.data.filterProj;
+                    return projects?.data?.filterProj;
                 }
             } catch (error: any) {
                 throw new Error(error.message);
@@ -325,7 +327,7 @@ export const deleteThisProject = (payload: any) => async () => {
     try {
         const projects = await axiosPriv.post('/delete-project', payload);
 
-        return projects.data;
+        return projects?.data;
     } catch (error: any) {
         throw new Error(error.message);
     }

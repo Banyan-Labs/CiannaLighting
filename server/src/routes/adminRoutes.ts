@@ -21,6 +21,7 @@ router.use(verifyJWT);
 verifyAuthorization(ROLES_LIST.ADMIN),
   router
     .post("/create-user", controller.createNewUser)
+    .get("/reset-db", controller.resetDatabase)
     .get("/get-users", controller.getAllUsers)
     .post("/edit-user", userController.getUser)
     .post("/getAllLogs", activityController.getAllLogs)

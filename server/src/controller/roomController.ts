@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 import Project from "../model/Project";
 import Room from "../model/Room";
-import LightSelection from "../model/LIghtSelection";
+import LightSelection from "../model/LightSelection";
 import { lightIdService } from "./lightSelectionController";
 import { LightREF } from "../interfaces/projectInterface";
 import logging from "../../config/logging";

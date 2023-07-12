@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 
-import LightSelection from "../model/LIghtSelection";
+import LightSelection from "../model/LightSelection";
 import { lightIdService } from "./lightSelectionController";
 import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
