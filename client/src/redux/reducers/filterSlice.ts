@@ -18,11 +18,11 @@ export const filterSlice = createSlice({
     reducers: {
         setStatus: (state, action) => ({
             ...state,
-            status: action.payload.data,
+            status: action?.payload?.data,
         }),
         setRegion: (state, action) => ({
             ...state,
-            region: action.payload.data,
+            region: action?.payload?.data,
         }),
         setError: (state, action) => ({ ...state, error: action.payload }),
     },

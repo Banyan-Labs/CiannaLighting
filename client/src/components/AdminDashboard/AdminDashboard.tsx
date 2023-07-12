@@ -9,12 +9,30 @@ import RequireAuth from '../RequireAuth/RequireAuth';
 import { ROLES } from '../../app/constants';
 import { adminLinks } from './links';
 import { useAppSelector } from '../../app/hooks';
+import { axiosPrivate } from 'api/axios';
 
 import './styles/AdminDashboard.scss';
+import logging from 'config/logging';
 
 const AdminDashboard: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
     const location = useLocation();
+
+    const resetDB = async () => {
+        const axiosPriv = axiosPrivate();
+
+        try {
+            const deletedItems = await axiosPriv.get('cmd/reset-db');
+
+            if (deletedItems) {
+                logging.info(deletedItems)
+            }
+
+            return deletedItems;
+        } catch (error: any) {
+            logging.error(error);
+        }
+    };
 
     return (
         <div className="admin-dashboard-container">
@@ -38,6 +56,11 @@ const AdminDashboard: FC = () => {
                             >
                                 {link.text}
                             </Link>
+                            {
+                                index === adminLinks.length - 1 && (
+                                    <button onClick={resetDB}>Reset DB</button>
+                                )
+                            }
                         </div>
                     ))}
             </div>
