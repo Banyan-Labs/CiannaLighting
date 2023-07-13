@@ -26,10 +26,9 @@ const Catalog: FC = () => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
-        const value = e.currentTarget.value.toLowerCase();
         dispatch(
             filterCatalogItems({
-                usePackages: [value],
+                usePackages: [e.currentTarget.value],
             })
         );
     };

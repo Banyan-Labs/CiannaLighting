@@ -15,11 +15,9 @@ const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
-        const value = e.currentTarget.value.toLowerCase();
-
         dispatch(
             filterCatalogItems({
-                designStyle: [value],
+                designStyle: e.currentTarget.value,
             })
         );
     };
