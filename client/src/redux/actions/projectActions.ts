@@ -18,7 +18,7 @@ import {
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import { ActionType } from 'app/constants';
+import { ActionType, CopyType } from 'app/constants';
 import logging from 'config/logging';
 
 export const createProjectAction =
@@ -356,17 +356,20 @@ export const editThisRoom =
 
                 if (payload.roomName != payload.name) {
                     const exchangeLoad = {
-                        type: 'room',
+                        type: CopyType.ROOM,
                         name: payload.roomName,
                         newName: payload.name,
                         projectId: payload.projectId,
                     };
 
                     await axiosPriv.post('/name-exchange', exchangeLoad);
+
+                    dispatch(setRoomId(response.data.room._id));
+                    dispatch(setRoom(response.data.room));
+                } else {
+                    dispatch(setRoomId(response.data.room._id));
+                    dispatch(setRoom(response.data.room));
                 }
-                
-                dispatch(setRoomId(response.data.room._id));
-                dispatch(setRoom(response.data.room));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);
