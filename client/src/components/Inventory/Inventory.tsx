@@ -13,6 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
+import { UsePackage, DesignStyle } from 'app/constants';
 import logging from 'config/logging';
 
 import './styles/inventory.scss';
@@ -372,9 +373,10 @@ const Inventory: FC = () => {
             (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
 
-        checkItemUsage(item.item_ID);
-
+        
         if (item) {
+            checkItemUsage(item.item_ID);
+            
             const files: any = {
                 images: item.images,
                 pdf: item.pdf,
@@ -436,6 +438,25 @@ const Inventory: FC = () => {
                 value: e.currentTarget.value,
             });
         }
+    };
+
+    const handleUsePackageUpdate = (e: any) => {
+        const selectedUsePackages = e.target.selectedOptions;
+        const selectedUsePackageValues = Array.from(selectedUsePackages).map(
+            (option: any) => option.value
+        );
+
+        setItemDetails({
+            ...itemDetails,
+            usePackages: [...itemDetails.usePackages, ...selectedUsePackageValues],
+        });
+    };
+
+    const handleDesignStyleUpdate = (e: any) => {
+        setItemDetails({
+            ...itemDetails,
+            designStyle: e.target.selectedOptions[0].value,
+        });
     };
 
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -1930,20 +1951,26 @@ const Inventory: FC = () => {
                         <div className="tab-content">
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
+                                    <select
                                         tabIndex={-1}
                                         className="form__field"
                                         id="designStyle"
                                         placeholder="Design Styles"
-                                        type="text"
                                         name="designStyle"
                                         value={
                                             listValue.name == 'designStyle'
                                                 ? listValue.value
                                                 : ''
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                        onChange={(e) => handleDesignStyleUpdate(e)}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(DesignStyle).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="designStyle"
@@ -1981,20 +2008,26 @@ const Inventory: FC = () => {
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
+                                    <select
                                         tabIndex={-1}
                                         className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
-                                        type="text"
                                         name="usePackages"
                                         value={
                                             listValue.name == 'usePackages'
                                                 ? listValue.value
                                                 : ''
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                        onChange={(e) => handleUsePackageUpdate(e)}
+                                    >
+                                        <option value="">Select</option>
+                                        {
+                                            Object.values(UsePackage).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="usePackages"

@@ -194,7 +194,6 @@
         width: 70%;
         padding: 10px 10px 10px 10px;
         color: $primary-bg-dark-title;
-        background-color: $accent-gold;
         font-weight: 500;
         border-radius: 0.2rem;
         border: none;
@@ -205,6 +204,14 @@
             background-color: $primary-bg-dark-text;
             color: $primary-bg-white;
         }
+    }
+
+    .submit {
+        background-color: $accent-gold;
+    }
+    .reset {
+        background-color: $primary-bg-dark-link-hover;
+        color: #f7f6f4;
     }
 }
 

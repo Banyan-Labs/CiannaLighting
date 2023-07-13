@@ -18,60 +18,37 @@ const DetailsFilter: FC<catalogPros> = ({
 }) => {
     const dispatch = useAppDispatch();
 
-    const [designDetails, setDesignDetails] = useState<string>("");
+    const [designStyle, setDesignStyle] = useState<string>("");
 
-    const [packageDetails, setPackageDetails] = useState<any>({
-        baptistry: '',
-        bridesRoom: '',
-        celestialRoom: '',
-        hallway: '',
-        forier: '',
-    });
+    const [usePackages, setUsePackages] = useState<string[]>([]);
 
     const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
-        setDesignDetails( e.currentTarget.checked === true ? e.currentTarget.name : '' );
+        setDesignStyle( e.currentTarget.checked === true ? e.currentTarget.name : '' );
     };
     const handlePackagesInput = (e: FormEvent<HTMLInputElement>) => {
-        setPackageDetails({
-            ...packageDetails,
-            [e.currentTarget.name]:
-                e.currentTarget.checked === true ? e.currentTarget.name : '',
-        });
+        e.currentTarget.checked 
+        ? setUsePackages([...usePackages, e.currentTarget.name])
+        : setUsePackages(usePackages.filter((x: any) => x !== e.currentTarget.name));
+    };
+    const resetFilters = (e: any) => {
+        e.preventDefault();
+
+        setDesignStyle('');
+        setUsePackages([]);
     };
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
-        const packages = Object.values(packageDetails).filter((x: any) =>
-            x.toLowerCase()
-        );
-
         try {
             dispatch(
                 filterCatalogItems({
-                    designStyle: [designDetails],
-                    UsePackage: packages,
+                    designStyle,
+                    usePackages,
                 })
             );
-
-            setDesignDetails('');
-            setPackageDetails({
-                baptistry: '',
-                bridesRoom: '',
-                celestialRoom: '',
-                hallway: '',
-                forier: '',
-            });
         } catch (err: any) {
             throw new Error(err.message);
-        }
-
-        const inputs = document.getElementsByTagName('input');
-
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].type == 'checkbox') {
-                inputs[i].checked = false;
-            }
         }
         
         setFilterBar(!filterBar);
@@ -106,7 +83,7 @@ const DetailsFilter: FC<catalogPros> = ({
                                         type="radio"
                                         name={design}
                                         id="designStyles"
-                                        checked={designDetails === design}
+                                        checked={designStyle === design}
                                         onChange={(e) => handleDesignInput(e)}
                                     />
                                     <p className="m-1">{design}</p>
@@ -124,6 +101,7 @@ const DetailsFilter: FC<catalogPros> = ({
                                         type="checkBox"
                                         name={usePackage}
                                         id="UsePackage"
+                                        checked={usePackages.includes(usePackage)}
                                         onChange={(e) => handlePackagesInput(e)}
                                     />
                                     <p className="m-1">{usePackage}</p>
@@ -133,7 +111,8 @@ const DetailsFilter: FC<catalogPros> = ({
                     </div>
                 </div>
                 <div className="d-flex button-container-filters mt-4">
-                    <button>Apply</button>
+                    <button className="reset mx-1" onClick={resetFilters}>Reset</button>
+                    <button className="submit mx-1" type="submit">Apply</button>
                 </div>
             </form>
         </div>
