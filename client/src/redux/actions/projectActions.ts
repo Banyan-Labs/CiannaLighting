@@ -213,7 +213,7 @@ export const getProject =
                             payload.region != payload.projectRegion
                         ) {
                             const exchangeLoad = {
-                                type: 'project',
+                                type: CopyType.PROJECT,
                                 name: payload.projectName,
                                 newName: payload.name,
                                 projectId: payload._id,
