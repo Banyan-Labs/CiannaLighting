@@ -167,7 +167,7 @@ const AllProjects: FC<Props> = ({
             setParsedData(data);
 
             return data;
-        } else if (checkSearchVal && searchValue.length) {
+        } else if (checkSearchVal && searchValue?.length) {
             const searchData = data.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
@@ -202,23 +202,23 @@ const AllProjects: FC<Props> = ({
         }
     };
 
-    const reduxData = filterQueryProjects.length
+    const reduxData = filterQueryProjects?.length
         ? filterQueryProjects.slice()
         : allProjects.slice();
-    const activeProjects = (parsedData.length ? parsedData : reduxData).filter(
+    const activeProjects = (parsedData?.length ? parsedData : reduxData).filter(
         (project) => !project.archived
     );
     const archivedProjects = (
-        parsedData.length ? parsedData : reduxData
+        parsedData?.length ? parsedData : reduxData
     ).filter((project) => project.archived == true);
 
-    const filteredProjects = sortedData.length
+    const filteredProjects = sortedData?.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
             ? activeProjects.reverse().slice(firstIndex, lastIndex)
             : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const lastPage = Math.ceil(reduxData.length / projectsPerPage);
+    const lastPage = Math.ceil(reduxData?.length / projectsPerPage);
     const sortDisplay = (field: string) => {
         const directionCall: any = {
             0: '',
@@ -244,9 +244,9 @@ const AllProjects: FC<Props> = ({
         let attachments = [];
 
         if (attach) {
-            attachments = attach.data.proj.pdf;
+            attachments = attach?.data?.proj?.pdf;
 
-            if (attachments.length) {
+            if (attachments?.length) {
                 const payload = {
                     project: {
                         ...proj,
@@ -412,15 +412,15 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        reduxData.length - archivedProjects.length
-                                        ? reduxData.length -
-                                        archivedProjects.length
+                                        reduxData?.length - archivedProjects?.length
+                                        ? reduxData?.length -
+                                        archivedProjects?.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
-                                    {(parsedData.length
-                                        ? parsedData.length
-                                        : reduxData.length) -
-                                        archivedProjects.length}
+                                    {(parsedData?.length
+                                        ? parsedData?.length
+                                        : reduxData?.length) -
+                                        archivedProjects?.length}
                                 </div>
                             ) : (
                                 <div className="table-showing">
@@ -429,10 +429,10 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        archivedProjects.length
-                                        ? archivedProjects.length
+                                        archivedProjects?.length
+                                        ? archivedProjects?.length
                                         : currentPage * projectsPerPage}{' '}
-                                    of {archivedProjects.length}
+                                    of {archivedProjects?.length}
                                 </div>
                             )}
 
@@ -453,8 +453,8 @@ const AllProjects: FC<Props> = ({
                                 <Pagination
                                     totalProjects={
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length
-                                            : archivedProjects.length
+                                            ? activeProjects?.length
+                                            : archivedProjects?.length
                                     }
                                     projectsPerPage={projectsPerPage}
                                     currentPage={currentPage}
@@ -463,8 +463,8 @@ const AllProjects: FC<Props> = ({
                                 {(
                                     currentPage !== lastPage && (
                                         renderedPage === 'All Projects'
-                                            ? activeProjects.length
-                                            : archivedProjects.length
+                                            ? activeProjects?.length
+                                            : archivedProjects?.length
                                     )
                                 ) ? (
                                     <li
