@@ -68,7 +68,7 @@ const YourProjects: FC = () => {
         let completedProjectsNumber = 0;
         let inProgressProjectsNumber = 0;
 
-        if (userProjects.length != 0) {
+        if (userProjects?.length != 0) {
             userProjects.map((project) => {
                 const closestSystemStatus = findClosestSystemStatus(project.status);
 
@@ -96,9 +96,9 @@ const YourProjects: FC = () => {
             setCanceledProjects(canceledProjectsNumber);
             setCompletedProjects(completedProjectsNumber);
         }
-    }, [user._id, userProjects.length]);
+    }, [user._id, userProjects?.length]);
 
-    const singleProject = userProjects.map((project: any, index: any) => {
+    const singleProject = userProjects?.map((project: any, index: any) => {
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
             await dispatch(
@@ -166,7 +166,7 @@ const YourProjects: FC = () => {
                             Total Projects
                         </div>
                         <div className="overview-total-num overview-num-main">
-                            {userProjects.length}
+                            {userProjects?.length}
                         </div>
                         {/* New Projects */}
                         <AiOutlineExclamationCircle className="overview-new overview-icon" />
@@ -244,7 +244,7 @@ const YourProjects: FC = () => {
 
                     <div className="your-projects-section" ref={ref}>
                         {singleProject}
-                        {singleProject.length == 0 ? (
+                        {singleProject?.length == 0 ? (
                             <div className="your-projects-none">
                                 <span>You have no projects.</span>
                             </div>
