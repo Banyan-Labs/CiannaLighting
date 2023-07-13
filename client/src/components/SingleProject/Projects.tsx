@@ -26,7 +26,7 @@ const Projects: FC = () => {
     );
 
     const [storedProjId] = useParams('projectId');
-    const latestProject = userProjects.slice(userProjects.length - 1);
+    const latestProject = userProjects?.slice(userProjects?.length - 1);
     const defaultProjId = latestProject.map((p) => p._id);
     const fetchData1 = async () => {
         storedProjId
