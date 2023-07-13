@@ -6,7 +6,7 @@ import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
-import { getAllProjectRoomsAction } from '../../../../../redux/actions/projectActions';
+import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 
 import './rooms.scss';
@@ -17,9 +17,18 @@ const IdRooms: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const projectRoute = useCallback(
+    const roomRoute = useCallback(
         (roomId: string, projId: string) => {
             const to = `/createLight/ ?_id= ${user._id}&roomId=${roomId}&projectId=${projId}`;
+
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
+
+    const projectRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
@@ -32,6 +41,7 @@ const IdRooms: FC = () => {
 
     const copyRoom = async (e: any, room: RoomType) => {
         e.preventDefault();
+        e.stopPropagation();
 
         const axiosPriv = await axiosPrivate();
         const projectId: string = project?._id ?? '';
@@ -46,7 +56,11 @@ const IdRooms: FC = () => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            dispatch(getAllProjectRoomsAction(projectId));
+            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+
+            projectRoute(projectId);
+            await dispatch(setTheYourProjects(true));
+            await dispatch(getAllProjectRoomsAction(projectId));
             
             return response.data;
         } catch (error: any) {
@@ -63,7 +77,7 @@ const IdRooms: FC = () => {
                 }}
                 key={index}
                 onClick={() => {
-                    projectRoute(room?._id, room?.projectId);
+                    roomRoute(room?._id, room?.projectId);
                 }}
             >
                 <span style={{ color: 'black' }}>

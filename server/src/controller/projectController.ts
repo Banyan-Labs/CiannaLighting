@@ -9,6 +9,7 @@ import Room from "../model/Room";
 import RFP from "../model/RFP";
 import { ActionType, CopyType } from "../utils/constants";
 import logging from "../../config/logging";
+import ProjectAttachments from "../model/ProjectAttachments";
 
 const createProject = async (req: Request, res: Response) => {
   const {
@@ -96,7 +97,7 @@ const createProject = async (req: Request, res: Response) => {
       .then(async (project) => {
         if (project) {
           project.rfp = String(rfp._id);
-          if (_id && copy === CopyType.PROJECT ) {
+          if (_id && copy === CopyType.PROJECT) {
             if (project) {
               let i = 0;
 
@@ -232,7 +233,7 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
           project,
         });
       } else {
-        return res.status(204).json( { message: `No project found using _id #${req.body._id}.` } );
+        return res.status(204).json({ message: `No project found using _id #${req.body._id}.` });
       }
     })
     .catch((error) => {
@@ -250,40 +251,38 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
    */
   const newRoom = new Room({
     _id: new mongoose.Types.ObjectId(),
-    name: name,
+    name: copy === CopyType.ROOM ? `Copy of ${name}` : name,
     clientId: clientId,
     projectId: newProjectId,
     description: description,
     lights: [],
   });
-  const roomAndProject = await Project.findOne({ _id: newProjectId });
+  const project = await Project.findOne({ _id: newProjectId });
   let curDate = new Date().toISOString().split("T")[0].split("-");
 
-  if (roomAndProject) {
-    roomAndProject.activity = {
-      ...roomAndProject.activity,
+  if (project) {
+    project.activity = {
+      ...project.activity,
       rooms: [
         [
-          `${room.name.toUpperCase()} copied and created new roomID: ${newRoom._id
-          }.`,
+          `${room.name.toUpperCase()} copied and created new roomID: ${newRoom._id}.`,
           `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
         ],
-        ...roomAndProject.activity.rooms,
+        ...project.activity.rooms,
       ],
       createUpdate: `Updated on ${[curDate[1], curDate[2], curDate[0]].join("/")}`,
     };
-    roomAndProject.rooms = [...roomAndProject.rooms, newRoom._id];
+    project.rooms = [...project.rooms, newRoom._id];
 
-    await roomAndProject.save();
+    await project.save();
   }
 
   await newRoom.save().then(async (room) => {
     if (room) {
-      logging.info(`Lights: ${lights}`, "runRoom");
       for (let i = 0; i < lights.length; i++) {
-        logging.info(`Copying light ${lights[i]} at index ${i}`, "runRoom");
+        logging.info(`Copying light ${lights[i]._id} in room ${room._id} of project ${newProjectId}`, "runRoom");
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, room.projectId, clientId, copy);
+          await runLights(light, room._id, newProjectId, clientId, copy);
         });
       }
 
@@ -291,6 +290,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
     }
   });
 };
+
 
 const runLights = async (
   light: any,
@@ -329,18 +329,18 @@ const runLights = async (
     numberOfLamps: light.numberOfLamps,
     totalLumens: light.totalLumens,
   });
-  const lightAndRoom = await Room.findOne({ _id: newRoomId });
+  const room = await Room.findOne({ _id: newRoomId });
 
-  if (lightAndRoom) {
-    lightAndRoom.lights = [...lightAndRoom.lights, newLight._id];
+  if (room) {
+    room.lights = [...room.lights, newLight._id];
 
-    return await lightAndRoom
+    return await room
       .save()
       .then(async () => {
         const newlight = await newLight.save();
         ///////
         /**
-         * gonna work here, going to have to find a way to conditionally add the propID ( compare with the add Proposal stuff)
+         * gonna work here, going to have to find a way to conditionally add the existingProposal ( compare with the add Proposal stuff)
          */
         //////
         if (newlight) {
@@ -375,14 +375,14 @@ const runLights = async (
             glassOptions: glassOptions,
             acrylicOptions: acrylicOptions,
           };
-          const propID = await ProposalTableRow.findOne({
+          const existingProposal = await ProposalTableRow.findOne({
             itemID: item_ID,
             sub: "",
             projectId: projectId,
           });
           const proposal = new ProposalTableRow({
             _id: new mongoose.Types.ObjectId(),
-            sub: propID ? propID._id : "",
+            sub: existingProposal ? existingProposal._id : "",
             itemID: item_ID,
             lightID: String(newLight._id),
             projectId: projectId,
@@ -400,17 +400,17 @@ const runLights = async (
             subTableRow: [],
           });
 
-          if (propID) {
-            logging.info(`Updating current proposal row: ${propID}`, "runLights");
+          if (existingProposal) {
+            logging.info(`Updating current proposal row: ${existingProposal.id}`, "runLights");
             let runCheck = [];
-            let rowFinishes: any = propID.finishes;
-            const sameRoom = propID.rooms
+            let rowFinishes: any = existingProposal.finishes;
+            const sameRoom = existingProposal.rooms
               .map((room: any) => room.name)
               .indexOf(roomName);
 
             if (sameRoom == -1) {
-              const subs = propID.subTableRow;
-              propID.subTableRow = [...subs, String(proposal._id)];
+              const subs = existingProposal.subTableRow;
+              existingProposal.subTableRow = [...subs, String(proposal._id)];
 
               await proposal.save();
             } else {
@@ -418,27 +418,27 @@ const runLights = async (
                 runCheck.push(rowFinishes[key] == finishes[key]);
               }
               if (runCheck.some((item) => item == false)) {
-                const subs = propID.subTableRow;
+                const subs = existingProposal.subTableRow;
 
                 if (subs) {
-                  propID.subTableRow = [...subs, String(proposal._id)];
+                  existingProposal.subTableRow = [...subs, String(proposal._id)];
                 }
 
                 await proposal.save();
               }
             }
-            const newQuantity = propID.lightQuantity + quantity;
+            const newQuantity = existingProposal.lightQuantity + quantity;
             const newWattage = totalWatts * newQuantity;
             const newTotalLumens = totalLumens * newQuantity;
-            const roomFind = propID.rooms.find(
+            const roomFind = existingProposal.rooms.find(
               (room: any) => room.name == roomName
             );
-            const roomFilter = propID.rooms.filter(
+            const roomFilter = existingProposal.rooms.filter(
               (room: any) => room.name != roomName
             );
             const newRooms: any =
               sameRoom == -1
-                ? [...propID.rooms, { name: roomName, lightNumber: quantity }]
+                ? [...existingProposal.rooms, { name: roomName, lightNumber: quantity }]
                 : [
                   ...roomFilter,
                   {
@@ -448,20 +448,14 @@ const runLights = async (
                       : quantity,
                   },
                 ];
-            propID.lightQuantity = newQuantity;
-            propID.totalWatts = newWattage;
-            propID.totalLumens = newTotalLumens;
-            propID.rooms = newRooms;
-            const done = await propID.save();
+            existingProposal.lightQuantity = newQuantity;
+            existingProposal.totalWatts = newWattage;
+            existingProposal.totalLumens = newTotalLumens;
+            existingProposal.rooms = newRooms;
 
-            if (done) {
-              return {
-                message: "Successful Update",
-                done,
-              };
-            }
+            await existingProposal.save();
           } else {
-            const updateRfp = await RFP.findOne({ projectId: projectId })
+            await RFP.findOne({ projectId: projectId })
               .exec()
               .then(async (rfp) => {
                 if (rfp) {
@@ -470,25 +464,41 @@ const runLights = async (
 
                   const newRow = [String(proposal._id), ...rfp.tableRow];
                   rfp.tableRow = newRow;
-                  const done = await rfp.save();
 
-                  if (done) {
-                    return {
-                      message: "Successful Add",
-                      done,
-                    };
-                  }
+                  await rfp.save();
                 }
               })
               .catch((error: any) => {
                 return { message: error.message, error };
               });
-
-            return updateRfp;
           }
+
+          const existingProjectAttachments = await ProjectAttachments.findOne({ newProjectId });
+          const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
+          const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
+          const newImages = light.images ? light.images : [];
+          const newPdf = light.pdf ? light.pdf : [];
+
+          const projectAttachments = new ProjectAttachments({
+            projectId: newProjectId,
+            images: [...new Set([...existingImages, ...newImages])],
+            pdf: [...new Set([...existingPdf, ...newPdf])],
+          });
+
+          await projectAttachments
+            .save()
+            .then((attachments) => {
+              if (attachments) {
+                logging.info(`Project Attachments created for ${newProjectId}`, "runLights");
+                logging.info(attachments, "runLights");
+              }
+            })
+            .catch((error) => {
+              logging.error(error.message, "runLights");
+              return error;
+            });
         }
-      })
-      .catch((error) => {
+      }).catch((error) => {
         return error;
       });
   }

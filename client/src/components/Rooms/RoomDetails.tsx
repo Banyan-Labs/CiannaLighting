@@ -1,16 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { BsChevronLeft } from 'react-icons/bs';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
 import uuid from 'react-uuid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 
 import './style/roomDetails.scss';
@@ -68,6 +68,16 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         setTheData(light, response);
     };
 
+    const navigate = useNavigate();
+    const projectRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
+
     const copyRoom = async (e: any) => {
         e.preventDefault();
 
@@ -84,7 +94,9 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            dispatch(getAllProjectRoomsAction(projectId));
+            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            projectRoute(projectId);
+            await dispatch(setTheYourProjects(true));
 
             return response;
         } catch (error: any) {

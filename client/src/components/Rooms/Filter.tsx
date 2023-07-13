@@ -74,7 +74,7 @@ const DetailsFilter: FC<catalogPros> = ({
             >
                 <div className="design-container d-flex row m-0 p-0">
                     <h5 className="m-0 p-0">Design Styles</h5>
-                    <form className="input-container-filter">
+                    <div className="input-container-filter">
                         {
                             Object.values(DesignStyle).map((design: any) => (
                                 <div className="d-flex m-0" key={design.length}>
@@ -90,7 +90,7 @@ const DetailsFilter: FC<catalogPros> = ({
                                 </div>
                             ))
                         }
-                    </form>
+                    </div>
                     <div className="design-container d-flex row m-0 p-0">
                         <h5 className="m-0 p-0">Use Packages</h5>
                         {
