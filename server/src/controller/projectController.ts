@@ -10,6 +10,7 @@ import RFP from "../model/RFP";
 import { ActionType, CopyType } from "../utils/constants";
 import logging from "../../config/logging";
 import ProjectAttachments from "../model/ProjectAttachments";
+import CatalogItem from "../model/CatalogItem";
 
 const createProject = async (req: Request, res: Response) => {
   const {
@@ -285,8 +286,6 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
           await runLights(light, room._id, newProjectId, clientId, copy);
         });
       }
-
-      return room
     }
   });
 };
@@ -337,13 +336,13 @@ const runLights = async (
     return await room
       .save()
       .then(async () => {
-        const newlight = await newLight.save();
+        const savedLight = await newLight.save();
         ///////
         /**
          * gonna work here, going to have to find a way to conditionally add the existingProposal ( compare with the add Proposal stuff)
          */
         //////
-        if (newlight) {
+        if (savedLight) {
           const {
             item_ID,
             exteriorFinish,
@@ -362,7 +361,7 @@ const runLights = async (
             totalWatts,
             numberOfLamps,
             totalLumens,
-          } = newlight;
+          } = savedLight;
 
           if (copy === CopyType.ROOM) {
             await lightIdService(projectId, ActionType.ADD, item_ID, roomName);
@@ -384,7 +383,7 @@ const runLights = async (
             _id: new mongoose.Types.ObjectId(),
             sub: existingProposal ? existingProposal._id : "",
             itemID: item_ID,
-            lightID: String(newLight._id),
+            lightID: String(savedLight._id),
             projectId: projectId,
             description: description,
             lampType: lampType,
@@ -459,7 +458,7 @@ const runLights = async (
               .exec()
               .then(async (rfp) => {
                 if (rfp) {
-                  logging.info(`Updating current RFP: ${JSON.stringify(rfp)}`, "runLights");
+                  logging.info(`Updating current RFP`, "runLights");
                   await proposal.save();
 
                   const newRow = [String(proposal._id), ...rfp.tableRow];
@@ -473,33 +472,44 @@ const runLights = async (
               });
           }
 
-          const existingProjectAttachments = await ProjectAttachments.findOne({ newProjectId });
-          const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
-          const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
-          const newImages = light.images ? light.images : [];
-          const newPdf = light.pdf ? light.pdf : [];
-
-          const projectAttachments = new ProjectAttachments({
-            projectId: newProjectId,
-            images: [...new Set([...existingImages, ...newImages])],
-            pdf: [...new Set([...existingPdf, ...newPdf])],
-          });
-
-          await projectAttachments
-            .save()
-            .then((attachments) => {
-              if (attachments) {
-                logging.info(`Project Attachments created for ${newProjectId}`, "runLights");
-                logging.info(attachments, "runLights");
-              }
-            })
-            .catch((error) => {
-              logging.error(error.message, "runLights");
-              return error;
-            });
+          const catalogItem = CatalogItem
+            .findOne({ item_ID: item_ID })
+            .exec()
+            .then(async (catalogLight) => {
+              if (catalogLight) {
+                const existingProjectAttachments = await ProjectAttachments.findOne({ newProjectId });
+                const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
+                const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
+                const newImages = catalogLight.images ? catalogLight.images : [];
+                const newPdf = catalogLight.pdf ? catalogLight.pdf : [];
+      
+                logging.info({existingImages, existingPdf, newImages, newPdf}, "runLights");
+      
+                const projectAttachments = new ProjectAttachments({
+                  projectId: newProjectId,
+                  images: [...new Set([...existingImages, ...newImages])],
+                  pdf: [...new Set([...existingPdf, ...newPdf])],
+                });
+      
+                await projectAttachments
+                  .save()
+                  .then((attachments) => {
+                    if (attachments) {
+                      logging.info(`Project Attachments created for ${newProjectId}`, "runLights");
+                      logging.info(attachments, "runLights");
+                    }
+                  })
+                  .catch((error) => {
+                    logging.error(error.message, "runLights");
+                  });
+                }
+              })
+              .catch((error) => {
+                logging.error(error.message, "runLights");
+              });
         }
       }).catch((error) => {
-        return error;
+        logging.error(error.message, "runLights");
       });
   }
 };

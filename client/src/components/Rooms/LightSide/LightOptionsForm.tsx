@@ -73,12 +73,8 @@ function LightOptionsForm({
             if (!editLight) {
                 if (lightSpecs.length) {
                     const specs = lightSpecs.length ? lightSpecs : [];
-                    const catalogPDF = catalogLight?.pdf?.length ? catalogLight.pdf : [];
-                    const catalogDrawings = catalogLight?.drawingFiles?.length ? catalogLight.drawingFiles : [];
                     const attachments = [
                         ...specs, 
-                        ...catalogPDF, 
-                        ...catalogDrawings
                     ];
 
                     dispatch(
