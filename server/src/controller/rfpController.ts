@@ -218,9 +218,13 @@ const propNameExchange = async (
       return res.status(204).json( { message: `No proposals found using projectID of #${projectId}.` } );
     }
   } else {
-    throw new Error('Error in propNameExchange.')
+    logging.error("Invalid CopyType", "propNameExchange");
+    return res.status(400).json({
+      message: "Invalid CopyType",
+    });
   }
 };
+
 const rfpEditor = async (req: Request, res: Response) => {
   const {
     lightID,
