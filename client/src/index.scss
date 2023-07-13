@@ -136,3 +136,9 @@ button {
     border-top: $accent-gold 1px solid;
     box-shadow: $box-shadow;
 }
+
+.carousel-wrapper {
+    display: inline-block;
+    width: 50%;
+    grid-area: carousel;
+}
