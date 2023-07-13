@@ -151,61 +151,28 @@ const createCatalogItem = async (req: Request, res: Response) => {
 };
 
 const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
-  const check = Object.keys(req.body).filter(
-    (x) => x === "designStyle" || x == "usePackages"
-  );
-  const workArray = Object.fromEntries(check.map((x) => [x, req.body[x]]));
+  const { designStyle, usePackages } = req.body;
 
   CatalogItem.find()
     .then((items) => {
       if (items) {
-        if (check.length) {
-          const designCheck = check.indexOf("designStyle") > -1;
-          const useCheck = check.indexOf("usePackages") > -1;
+        if (designStyle || usePackages) {
           items = items.filter((x) => {
-            const dz = designCheck
-              ? workArray["designStyle"].every(
-                (v: string) =>
-                  x.designStyle[0]
-                    .split(",")
-                    .map((x) => x.toLowerCase())
-                    .indexOf(v) > -1
-              )
-              : false;
-            const uses = useCheck
-              ? workArray["usePackages"].every((v: string) => {
-                const usePackage = v.match(/[a-z]/g)?.join("");
-                return x.usePackages[0]
-                  .split(",")
-                  .some(
-                    (x) =>
-                      x.toLowerCase().match(/[a-z]/g)?.join("") == usePackage
-                  );
-              })
-              : false;
+            const hasDesignStyle = designStyle ? x.designStyle?.filter((v) => designStyle === v).length > 0 : true;
+            const itemUsePackages: any = x.usePackages ? x.usePackages[0] : [];
+            const hasUsePackages = usePackages ? usePackages.every((v: string) => itemUsePackages.split(",").includes(v)): true;
 
-            if (check.length === 2) {
-              if (dz == true && uses == true) {
-                return x;
-              } else {
-                return "";
-              }
-            } else {
-              if (check.indexOf("designStyle") > -1 && dz == true) {
-                return x;
-              } else if (check.indexOf("usePackages") > -1 && uses == true) {
-                return x;
-              } else {
-                return "";
-              }
-            }
+            return hasDesignStyle && hasUsePackages;
           });
         }
+
         return res.status(200).json({
           items,
         });
       } else {
-        next();
+        return res.status(204).json({
+          message: "No items found",
+        });
       }
     })
     .catch((error) => {
