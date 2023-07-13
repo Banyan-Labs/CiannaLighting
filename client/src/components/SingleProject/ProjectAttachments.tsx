@@ -23,9 +23,12 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-            const fileName = [
-                file.match(/(?:\d{9,}-)(\w+)/g)[0].split('-')[1],
-            ];
+            let fileName = file?.split('/')[file.split('/').length - 1];
+            fileName = fileName?.split('-')[fileName.split('-').length - 1];
+
+            if (fileName) {
+                fileName = decodeURI(fileName)?.replace(/%2B/g, ' ');
+            }
 
             return (
                 <tbody key={index}>
