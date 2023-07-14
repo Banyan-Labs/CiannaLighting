@@ -73,7 +73,7 @@ const DetailsFilter: FC<catalogPros> = ({
                 className="filter-form-container row m-0 col-12 d-flex "
             >
                 <div className="design-container d-flex row m-0 p-0">
-                    <h5 className="m-0 p-0">Design Styles</h5>
+                    <h5 className="m-0 p-0">Design Style</h5>
                     <div className="input-container-filter">
                         {
                             Object.values(DesignStyle).map((design: any) => (

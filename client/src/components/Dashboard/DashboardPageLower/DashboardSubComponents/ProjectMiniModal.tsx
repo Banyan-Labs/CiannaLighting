@@ -40,7 +40,6 @@ const ProjectMiniModal: FC<projectProps> = ({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
-    logging.info(user);
     const { setInactive } = useAppSelector(({ project }) => project);
 
     const changeProject = async (prodId: string) => {
