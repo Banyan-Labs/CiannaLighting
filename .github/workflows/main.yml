@@ -11,7 +11,7 @@ on:
   #     - "stage"
 
 # this will cancel in progress workflows with the same name and branch if a newer one is started
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -28,11 +28,7 @@ jobs:
           node-version: 16
           check-latest: true
 
-      - name: Install Modules
-        run: npm run install-modules
-
-      - name: Build Server
-        run: npm run build:server
-        
-      - name: Build Client
-        run: npm run build:client
+      - name: Install And Build
+        run: npm run install-modules && \
+          npm run build:client && \
+          npm run build:server
