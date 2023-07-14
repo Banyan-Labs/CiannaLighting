@@ -68,7 +68,7 @@ const YourProjects: FC = () => {
         let completedProjectsNumber = 0;
         let inProgressProjectsNumber = 0;
 
-        if (userProjects?.length != 0) {
+        if (userProjects?.length) {
             userProjects.map((project) => {
                 const closestSystemStatus = findClosestSystemStatus(project.status);
 
