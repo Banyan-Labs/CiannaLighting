@@ -203,8 +203,8 @@ const AllProjects: FC<Props> = ({
     };
 
     const reduxData = filterQueryProjects?.length
-        ? filterQueryProjects.slice()
-        : allProjects.slice();
+        ? filterQueryProjects?.slice()
+        : allProjects?.slice();
     const activeProjects = (parsedData?.length ? parsedData : reduxData).filter(
         (project) => !project.archived
     );
@@ -213,10 +213,10 @@ const AllProjects: FC<Props> = ({
     ).filter((project) => project.archived == true);
 
     const filteredProjects = sortedData?.length
-        ? sortedData.slice(firstIndex, lastIndex)
+        ? sortedData?.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-            ? activeProjects.reverse().slice(firstIndex, lastIndex)
-            : archivedProjects.reverse().slice(firstIndex, lastIndex);
+            ? activeProjects?.reverse().slice(firstIndex, lastIndex)
+            : archivedProjects?.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData?.length / projectsPerPage);
     const sortDisplay = (field: string) => {
