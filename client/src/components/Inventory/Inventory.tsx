@@ -2059,7 +2059,6 @@ const Inventory: FC = () => {
                                     accept="image/png, image/jpeg, image/jpg"
                                     multiple
                                     name="images"
-                                    key={imageName?.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                     onFocus={(e) => firstItemFocus(e, 7)}
                                 />
@@ -2101,12 +2100,11 @@ const Inventory: FC = () => {
                                     tabIndex={45}
                                     className="list-input"
                                     id="pdf"
-                                    placeholder="Upload PDF's"
+                                    placeholder="Upload PDF(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
                                     name="pdf"
-                                    key={viewablePDF?.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
@@ -2181,14 +2179,13 @@ const Inventory: FC = () => {
                                 </label>
                                 <input
                                     tabIndex={46}
-                                    className="list-input tabIndex={-1}"
+                                    className="list-input"
                                     id="specs"
                                     placeholder="Upload Spec File(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
                                     name="specs"
-                                    key={viewableSpecs || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
@@ -2272,7 +2269,6 @@ const Inventory: FC = () => {
                                     multiple
                                     accept="application/pdf"
                                     name="drawingFiles"
-                                    key={drawingFilesNames || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
