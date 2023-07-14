@@ -15,7 +15,7 @@ import projectAttchmentController from "../controller/projectAttchmentController
 const router = express.Router();
 
 router.use(verifyJWT);
-router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER));
+router.use(verifyAuthorization(ROLES_LIST.ADMIN, ROLES_LIST.USER, ROLES_LIST.EMPLOYEE));
 
 router
   .post("/find-user", userController.getUser)
