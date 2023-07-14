@@ -168,7 +168,7 @@ const AllProjects: FC<Props> = ({
 
             return data;
         } else if (checkSearchVal && searchValue?.length) {
-            const searchData = data.filter((item: ProjectType) => {
+            const searchData = data?.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
                     name: item.name,
@@ -205,12 +205,12 @@ const AllProjects: FC<Props> = ({
     const reduxData = filterQueryProjects?.length
         ? filterQueryProjects?.slice()
         : allProjects?.slice();
-    const activeProjects = (parsedData?.length ? parsedData : reduxData).filter(
+    const activeProjects = (parsedData?.length ? parsedData : reduxData)?.filter(
         (project) => !project.archived
     );
     const archivedProjects = (
         parsedData?.length ? parsedData : reduxData
-    ).filter((project) => project.archived == true);
+    )?.filter((project) => project.archived == true);
 
     const filteredProjects = sortedData?.length
         ? sortedData?.slice(firstIndex, lastIndex)
