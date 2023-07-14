@@ -3,6 +3,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 import { useAppSelector } from '../../../../app/hooks';
+import logging from 'config/logging';
 
 import './style/proposal.scss';
 
@@ -112,7 +113,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                     key={index}
                     file={url}
                     onLoadSuccess={onDocumentLoadSuccess}
-                    onLoadError={console.error}
+                    onLoadError={(err) => logging.error(err, "Document")}
                     className="pdf-document"
                 >
                     {Array.from(new Array(numPages), (el, index) => (
@@ -124,6 +125,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                             pageNumber={index + 1}
                             scale={1.0}
                             width={1100}
+                            onLoadError={(err) => logging.error(err, "Page")}
                         />
                     ))}
                 </Document>
