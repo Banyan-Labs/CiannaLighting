@@ -44,9 +44,9 @@ const Login: FC = () => {
     };
 
     useEffect(() => {
-        if (user._id && dashRoles.includes(user.role)) {
+        if (user._id && !dashRoles.includes(user.role)) {
             navigate(`/dashboard?_id=${user._id}`);
-        } else if (user._id && !dashRoles.includes(user.role)) {
+        } else if (user._id && dashRoles.includes(user.role)) {
             navigate(`/cmd/dash?_id=${user._id}`);
         }
     }, [user._id]);
