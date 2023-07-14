@@ -120,7 +120,7 @@ const AllProjects: FC<Props> = ({
 
         const sorted: any = {
             0: utilizedData,
-            1: utilizedData.slice().sort((a: any, b: any) => {
+            1: utilizedData?.slice().sort((a: any, b: any) => {
                 if (a[field] < b[field]) {
                     return -1;
                 }
@@ -129,7 +129,7 @@ const AllProjects: FC<Props> = ({
                 }
                 return 0;
             }),
-            2: utilizedData.slice().sort((a: any, b: any) => {
+            2: utilizedData?.slice().sort((a: any, b: any) => {
                 if (b[String(field)] < a[String(field)]) {
                     return -1;
                 }
