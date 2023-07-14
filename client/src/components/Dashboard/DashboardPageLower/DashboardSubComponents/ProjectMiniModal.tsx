@@ -14,7 +14,6 @@ import {
 import { useAppDispatch } from '../../../../app/hooks';
 
 import './style/allProjects.scss';
-import logging from 'config/logging';
 
 interface projectProps {
     setOpenModal: any;
@@ -40,7 +39,6 @@ const ProjectMiniModal: FC<projectProps> = ({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
-    logging.info(user);
     const { setInactive } = useAppSelector(({ project }) => project);
 
     const changeProject = async (prodId: string) => {
