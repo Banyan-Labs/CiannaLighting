@@ -14,7 +14,6 @@ import {
 import { useAppDispatch } from '../../../../app/hooks';
 
 import './style/allProjects.scss';
-import logging from 'config/logging';
 
 interface projectProps {
     setOpenModal: any;
