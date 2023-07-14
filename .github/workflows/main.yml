@@ -28,5 +28,11 @@ jobs:
           node-version: 16
           check-latest: true
 
-      - name: Install And Build
-        run: npm run install-modules && npm run build:client && npm run build:server
+      - name: Install Modules
+        run: npm run install-modules
+
+      - name: Build Server
+        run: npm run build:server
+
+      - name: Build Client
+        run: npm run build:client
