@@ -29,6 +29,4 @@ jobs:
           check-latest: true
 
       - name: Install And Build
-        run: npm run install-modules && \
-          npm run build:client && \
-          npm run build:server
+        run: npm run install-modules && npm run build:client && npm run build:server
