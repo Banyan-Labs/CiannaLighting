@@ -10,6 +10,11 @@ on:
   #   branches-ignore:
   #     - "stage"
 
+# this will cancel in progress workflows with the same name and branch if a newer one is started
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
