@@ -472,7 +472,7 @@ const runLights = async (
               });
           }
 
-          const catalogItem = CatalogItem
+          CatalogItem
             .findOne({ item_ID: item_ID })
             .exec()
             .then(async (catalogLight) => {
@@ -481,7 +481,7 @@ const runLights = async (
                 const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
                 const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
                 const newImages = catalogLight.images ? catalogLight.images : [];
-                const newPdf = catalogLight.pdf ? catalogLight.pdf : [];
+                const newPdf = catalogLight.specs ? catalogLight.specs : [];
       
                 logging.info({existingImages, existingPdf, newImages, newPdf}, "runLights");
       

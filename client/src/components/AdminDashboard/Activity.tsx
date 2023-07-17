@@ -50,7 +50,7 @@ const Activity: FC = () => {
                                         {log.name}
                                     </td>
                                     <td className="projects-table-dynamic-designer ">
-                                        {log.ipAddress}
+                                        {log.ipAddress?.replace("::ffff:", "")}
                                     </td>
                                     <td className="projects-table-dynamic-region ">
                                         {log.role === '6677' ? 'Admin' : 'User'}
