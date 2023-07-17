@@ -41,6 +41,7 @@ jobs:
       - name: Update codebase - Stage environment
         run: ssh ec2 '
           cd ~/CiannaLighting &&
+          git gc &&
           git checkout stage &&
           sudo git pull &&
           sudo npm run install-modules &&
