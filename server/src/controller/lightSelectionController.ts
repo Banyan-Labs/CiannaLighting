@@ -224,7 +224,7 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
             res.status(500).json(error);
           });
       } else {
-        return res.status(204).json( { message: `No room found using _id of #${roomId}.` } );
+        return res.status(204).json({ message: `No room found using _id of #${roomId}.` });
       }
     });
 };
@@ -251,18 +251,7 @@ export const lightIdService = async (
 
               return newItem;
             } else if (type === ActionType.DELETE) {
-              logging.info(`Item before delete: ${JSON.stringify(item)}`, "lightIdService");
-              const deletingRooms =
-                item.rooms && item.rooms.length
-                  ? item.rooms.filter(
-                    (roomName: string, index: number, copy: string[]) =>
-                      roomName.toLowerCase() === room.toLowerCase()
-                        ? index === copy.lastIndexOf(roomName)
-                          ? ""
-                          : roomName
-                        : roomName
-                  )
-                  : [];
+              const deletingRooms = item?.rooms?.length ? item.rooms.filter((roomName: string) => roomName !== room) : [];
               logging.info(`deletingRooms: ${JSON.stringify(deletingRooms)}`, "lightIdService");
 
               if (deletingRooms.length) {
@@ -285,7 +274,7 @@ export const lightIdService = async (
 
       logging.info(`reWrite variable: ${JSON.stringify(reWrite)}`, "lightIdService");
       logging.info(`project light Ids before reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
-      
+
       const checkForId = project.lightIDs.find(
         (item) => item.item_ID === item_ID
       );
@@ -313,7 +302,7 @@ export const lightIdService = async (
 
     if (done) {
       logging.info(`Done and Saved successfully: ${JSON.stringify(done)}`, "lightIdService");
-      
+
       return done;
     } else {
       logging.error(`Error saving project in the add section of lightIdService.`, "lightIdService");

@@ -544,7 +544,7 @@ const Inventory: FC = () => {
 
         setItemDetails({
             ...itemDetails,
-            [item]:  singleValue ? '' : itemDetails[item].slice(0, -1),
+            [item]: singleValue ? '' : itemDetails[item].slice(0, -1),
         });
     };
 
@@ -651,7 +651,11 @@ const Inventory: FC = () => {
         resetForm();
     };
 
-    const resetForm = () => {
+    const resetForm = (e?: SyntheticEvent) => {
+        if (e) {
+            e.preventDefault();
+        }
+
         setItemDetails({
             isActive: true,
             employeeID: user._id,
@@ -2064,10 +2068,10 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {imageName?.map((url: any) => {
+                                {imageName?.map((file: any) => {
                                     return (
                                         <div
-                                            key={uuid()}
+                                            key={file.name}
                                             className="file-contain"
                                         >
                                             <button
@@ -2075,7 +2079,7 @@ const Inventory: FC = () => {
                                                 onClick={(e) =>
                                                     deleteFiles(
                                                         e,
-                                                        url,
+                                                        file,
                                                         'images'
                                                     )
                                                 }
@@ -2083,7 +2087,7 @@ const Inventory: FC = () => {
                                                 <FaRegWindowClose />
                                             </button>
                                             <img
-                                                src={String(url.url)}
+                                                src={String(file.url)}
                                                 alt=""
                                                 className="imgAttachment"
                                             />
@@ -2109,17 +2113,17 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF?.map((url: any) => {
+                                {viewablePDF?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
+                                            key={file.name}
+                                            file={file.url}
                                             onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'pdf',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
                                             }
                                             }
@@ -2128,11 +2132,11 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numPdfPages[url.name]
+                                                    numPdfPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={index}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2141,7 +2145,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'pdf'
                                                                     )
                                                                 }
@@ -2150,8 +2154,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${index + 1
-                                                                }`}
+                                                            key={file.name + index + 'pdf'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2190,17 +2193,17 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs?.map((url: any) => {
+                                {viewableSpecs?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
+                                            key={file.name}
+                                            file={file.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'specs',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
@@ -2208,11 +2211,11 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numSpecPages[url.name]
+                                                    numSpecPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={index}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2221,7 +2224,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'specs'
                                                                     )
                                                                 }
@@ -2230,8 +2233,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${index + 1
-                                                                }`}
+                                                            key={file.name + index + 'specs'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2273,17 +2275,17 @@ const Inventory: FC = () => {
                                 />
                             </div>
                             <div className="file-row">
-                                {drawingFilesNames?.map((url: any) => {
+                                {drawingFilesNames?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
+                                            key={file.name}
+                                            file={file.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'drawingFiles',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
@@ -2291,11 +2293,11 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numDrawPages[url.name]
+                                                    numDrawPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={uuid()}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2304,7 +2306,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'drawingFiles'
                                                                     )
                                                                 }
@@ -2313,8 +2315,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${index + 1
-                                                                }`}
+                                                            key={file.name + index + 'drawingFiles'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2384,14 +2385,12 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="edit-button-container">
-                        {editingItem && (
-                            <button
-                                className="cancel-button"
-                                onClick={() => resetForm()}
-                            >
-                                Clear
-                            </button>
-                        )}
+                        <button
+                            className="cancel-button"
+                            onClick={(e) => resetForm(e)}
+                        >
+                            Clear
+                        </button>
 
                         <button
                             id="inventory-btn"

@@ -178,7 +178,7 @@ const AllProjects: FC<Props> = ({
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
 
-                itemVals.map((item: string) => {
+                itemVals?.map((item: string) => {
                     const regCheck = new RegExp(searchValue, 'g').test(
                         item.toLowerCase()
                     );
@@ -277,7 +277,7 @@ const AllProjects: FC<Props> = ({
         }
     };
 
-    const allProjectsTableDisplay = filteredProjects.map((project, index) => {
+    const allProjectsTableDisplay = filteredProjects?.map((project, index) => {
         return (
             <tbody key={index}>
                 <tr

@@ -39,6 +39,18 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
         [item, displayChildren[item._id]].flat()
     );
 
+    const camelCaseToTitleCase = (camelCase: string) => {
+        // Insert spaces before capital letters, then convert the entire string to lowercase
+        const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
+    
+        // Convert the first character of each word to uppercase
+        const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function(match) {
+            return match.toUpperCase();
+        });
+    
+        return titleCase;
+    }
+
     const ltrs = Array(52)
         .fill('')
         .map((_, index) =>
@@ -86,7 +98,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                             className="list"
                                             key={index + item[0]}
                                         >
-                                            {item[0]}: {item[1]}
+                                            {camelCaseToTitleCase(item[0])}: {item[1]}
                                         </span>
                                     );
                                 }

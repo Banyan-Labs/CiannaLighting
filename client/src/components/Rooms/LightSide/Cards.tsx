@@ -38,6 +38,48 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         count: searchValue.length,
     });
 
+    const filteredData = setAllCatalog
+        .filter((val: any) => {
+            if (searchTerm === '') {
+                return val;
+            } else if (
+                val.item_ID
+                    .toLowerCase()
+                    .includes(
+                        searchTerm.toLocaleLowerCase()
+                    )
+            ) {
+                return val;
+            } else page > 1 ? setPage(1) : '';
+        })
+        .slice(firstContentIndex, lastContentIndex)
+        .map((el: any, index: any) => (
+            <div
+                className={el.isActive ? "item d-flex flex-column align-content-start" : "item d-flex flex-column align-content-start inactive-shadow"}
+                key={index}
+                onClick={() => {
+                    if (el.isActive) {
+                        setCatalogItem(el);
+                    } else {
+                        alert('This light is currently unavailable!')
+                    }
+                }}
+            >
+                <img src={el.images[0]} />
+                <div className="item-bottom-sections">
+                    <h4
+                        className=""
+                        style={{ minHeight: '75px' }}
+                    >
+                        {el.itemName} <br />{' '}
+                        <span>{el.item_ID}</span><br />{' '}
+                        {!el.isActive && (
+                            <span>inactive</span>)}
+                    </h4>
+                </div>
+            </div>
+        ));
+
     useEffect(() => {
         (async () => {
             try {
@@ -53,6 +95,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
     return (
         <>
             <div className="lightCard d-flex row flex-wrap m-0 p-0">
+                { }
                 {loading ? (
                     <h2>Loading...</h2>
                 ) : error ? (
@@ -60,48 +103,17 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                 ) : (
                     <>
                         <div className="items d-flex m-0 p-0 flex-wrap justify-content-center">
-                            {setAllCatalog
-                                .filter((val: any) => {
-                                    if (searchTerm === '') {
-                                        return val;
-                                    } else if (
-                                        val.item_ID
-                                            .toLowerCase()
-                                            .includes(
-                                                searchTerm.toLocaleLowerCase()
-                                            )
-                                    ) {
-                                        return val;
-                                    } else page > 1 ? setPage(1) : '';
-                                })
-                                .slice(firstContentIndex, lastContentIndex)
-                                .map((el: any, index: any) => (
-                                    <div
-                                        className={el.isActive ? "item d-flex flex-column align-content-start" : "item d-flex flex-column align-content-start inactive-shadow"}
-                                        key={index}
-                                        onClick={() => {
-                                            if (el.isActive) {
-                                                setCatalogItem(el);
-                                            } else {
-                                                alert('This light is currently unavailable!')
-                                            }
-                                        }}
-                                    >
-                                        <img src={el.images[0]} />
-                                        <div className="item-bottom-sections">
-                                            <h4
-                                                className=""
-                                                style={{ minHeight: '75px' }}
-                                            >
-                                                {el.itemName} <br />{' '}
-                                                <span>{el.item_ID}</span><br />{' '}
-                                                {!el.isActive && (
-                                                    <span>inactive</span>)}
-                                            </h4>
-                                        </div>
+                            {filteredData?.length ? filteredData
+                            :   <div className="main-catalog-filter-container d-flex m-0">
+                                    <div className="col-12 d-flex row m-0 p-0">
+                                        <h4 className="d-flex justify-content-center">
+                                            No catalog items found.
+                                        </h4>
                                     </div>
-                                ))}
+                                </div>
+                            }
                         </div>
+
                     </>
                 )}
             </div>

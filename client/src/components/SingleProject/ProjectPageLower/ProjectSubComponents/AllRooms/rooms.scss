@@ -98,3 +98,37 @@
         }
     }
 }
+
+// your projects
+.your-rooms-section {
+    button {
+        background-color: transparent;
+        color: $primary-bg-dark-link;
+        font-size: 16px;
+        border: none;
+        margin-left: 20px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .your-projects-icons {
+        margin-left: auto;
+        color: #3f3c39;
+        font-size: 20px;
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+    #your-project-icons-left {
+        padding-right: 10px;
+    }
+    .your-projects-buttons {
+        font-size: 25px;
+    }
+    .your-projects-buttons:hover {
+        cursor: pointer;
+        color: rgba(63, 60, 57, 0.219);
+    }
+}
