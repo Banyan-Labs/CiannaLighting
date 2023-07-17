@@ -5,6 +5,7 @@ import React, {
     ChangeEvent,
     useEffect,
     SyntheticEvent,
+    useRef
 } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
@@ -584,8 +585,14 @@ const Inventory: FC = () => {
         container.scrollTop = sectionHeader.offsetTop;
     };
 
+    const ref = useRef<HTMLButtonElement>(null);
+
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+
+        const submitButton = ref.current as HTMLButtonElement;
+        submitButton.disabled = true;
+        submitButton.className = 'inventory-btn disabled';
 
         const axiosPriv = await axiosFileUpload();
         const fs = new FormData();
@@ -622,16 +629,22 @@ const Inventory: FC = () => {
                     setEditingItem(false);
                     initializeCatalog();
                     alert('Item Edited!');
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
                     toggleEdit(e, false);
                 }
             } else {
                 await axiosPriv.post('/internal/create-light', fs);
                 alert('Item created!');
+                submitButton.disabled = false;
+                submitButton.className = 'inventory-btn';
             }
 
             resetForm();
         } catch (error: any) {
             alert(error.messsge);
+            submitButton.disabled = false;
+            submitButton.className = 'inventory-btn';
         }
     };
     const toggleEdit = (e: SyntheticEvent, set: boolean) => {
@@ -2395,9 +2408,8 @@ const Inventory: FC = () => {
                         <button
                             id="inventory-btn"
                             tabIndex={51}
-                            className={
-                                editingItem ? 'edit-inventory' : 'inventory-btn'
-                            }
+                            ref={ref}
+                            className="inventory-btn"
                         >
                             {editingItem ? 'Submit Edit' : 'Submit'}
                         </button>
