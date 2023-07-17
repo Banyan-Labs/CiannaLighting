@@ -146,98 +146,94 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         Qty. <span>{light.quantity}</span>
                     </p>
                 </div>
-                <div className={`  col-12 d-flex collapse-content `}>
-                    <div className="col-7 d-flex row second-left-section">
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Exterior Finish:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.exteriorFinish}
-                            </h5>
+                <div className="d-flex collapse-content mt-4 flex-wrap">
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Exterior Finish:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Interior Finish:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.interiorFinish}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Environment:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.environment}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1 ">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Safety Cert:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.safetyCert}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Project Voltage:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.projectVoltage}
-                            </h5>
+                        <div className="grey">
+                            {light.exteriorFinish}
                         </div>
                     </div>
-                    <div className="col-5 d-flex row second-right-section ">
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Socket Type:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.socketType}
-                            </h5>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Interior Finish:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Mounting:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.mounting}
-                            </h5>
+                        <div className="grey">
+                            {light.interiorFinish}
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Lens Material:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.lensMaterial}
-                            </h5>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Environment:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Options:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.glassOptions}
-                            </h5>
+                        <div className="grey">
+                            {light.environment}
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Crystal Type:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.crystalType}
-                            </h5>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Safety Cert:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Options:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.crystalPinType} <br />
-                                <span>{light.crystalPinColor}</span>
-                            </h5>
+                        <div className="grey">
+                            {light.safetyCert}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Project Voltage:
+                        </div>
+                        <div className="grey">
+                            {light.projectVoltage}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Socket Type:
+                        </div>
+                        <div className="grey">
+                            {light.socketType}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Mounting:
+                        </div>
+                        <div className="grey">
+                            {light.mounting}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Lens Material:
+                        </div>
+                        <div className="grey">
+                            {light.lensMaterial}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Options:
+                        </div>
+                        <div className="grey">
+                            {light.glassOptions}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Crystal Type:
+                        </div>
+                        <div className="grey">
+                            {light.crystalType}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Options:
+                        </div>
+                        <div className="grey">
+                            {light.crystalPinType} <br />
+                            <span>{light.crystalPinColor}</span>
                         </div>
                     </div>
                 </div>

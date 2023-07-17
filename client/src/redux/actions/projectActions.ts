@@ -48,7 +48,7 @@ export const createProjectAction =
                             (attachment: string) => {
                                 {
                                     return {
-                                        projId: response.data.project._id,
+                                        projId: response?.data?.project?._id,
                                         pdf: [attachment],
                                         images: [
                                             {
@@ -85,18 +85,18 @@ export const createProjectAction =
                     }
 
                     const getRfp = await axiosPriv.post('/get-rfps', {
-                        projectId: response.data.project._id,
+                        projectId: response?.data?.project?._id,
                     });
 
                     if (getRfp) {
                         dispatch(setRfp(getRfp.data.rfp[0]));
 
                         const proposalSet = await axiosPriv.post('/get-proposals', {
-                            projectId: response.data.project._id,
+                            projectId: response?.data?.project?._id,
                         });
 
                         if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data.proposal));
+                            dispatch(setProposals(proposalSet.data?.proposal));
                         } /* TAKE THIS OUT FIRE ANOTHER THING TO GET THE PROPOSAL TO FIRE IN REDUX! */
                     }
                 } else {
@@ -115,8 +115,8 @@ export const createRoomAction =
             try {
                 const response = await axiosPriv.post('/create-room', payload);
 
-                dispatch(setRoomId(response.data.room._id));
-                dispatch(setRoom(response.data.room));
+                dispatch(setRoomId(response?.data?.room?._id));
+                dispatch(setRoom(response?.data?.room));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
             }
@@ -132,8 +132,8 @@ export const setTheRoom =
                     _id: roomId,
                 });
 
-                dispatch(setRoomId(response.data.room._id));
-                dispatch(setRoom(response.data.room));
+                dispatch(setRoomId(response?.data?.room?._id));
+                dispatch(setRoom(response?.data?.room));
             } catch (error: any) {
                 dispatch(setProjectError(error.message));
             }
@@ -198,15 +198,15 @@ export const getProject =
                 const project = await axioscall.post('/find-project', payload);
 
                 if (project) {
-                    dispatch(setProject(project.data.project));
-                    dispatch(setProjectId(project.data.project));
+                    dispatch(setProject(project.data?.project));
+                    dispatch(setProjectId(project.data?.project));
 
                     const proposalSet = await axioscall.post('/get-proposals', {
-                        projectId: project.data.project._id,
+                        projectId: project.data?.project?._id,
                     });
 
                     if (proposalSet) {
-                        dispatch(setProposals(proposalSet.data.proposal));
+                        dispatch(setProposals(proposalSet.data?.proposal));
 
                         if (
                             payload.projectName != payload.name ||
@@ -225,11 +225,11 @@ export const getProject =
                         }
 
                         const getRfp = await axioscall.post('/get-rfps', {
-                            projectId: project.data.project._id,
+                            projectId: project?.data?.project?._id,
                         });
 
                         if (getRfp) {
-                            dispatch(setRfp(getRfp.data.rfp[0]));
+                            dispatch(setRfp(getRfp.data?.rfp[0]));
                         }
                     }
                 }
@@ -297,7 +297,7 @@ export const viewProjectRooms =
                     projectId: projectId,
                 });
 
-                return response.data.rooms;
+                return response?.data?.rooms;
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);
@@ -364,11 +364,11 @@ export const editThisRoom =
 
                     await axiosPriv.post('/name-exchange', exchangeLoad);
 
-                    dispatch(setRoomId(response.data.room._id));
-                    dispatch(setRoom(response.data.room));
+                    dispatch(setRoomId(response?.data?.room?._id));
+                    dispatch(setRoom(response?.data?.room));
                 } else {
-                    dispatch(setRoomId(response.data.room._id));
-                    dispatch(setRoom(response.data.room));
+                    dispatch(setRoomId(response?.data?.room?._id));
+                    dispatch(setRoom(response?.data?.room));
                 }
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));

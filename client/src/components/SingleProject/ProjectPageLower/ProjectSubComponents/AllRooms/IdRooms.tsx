@@ -1,7 +1,11 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
+import {
+    IoIosArrowDropleftCircle,
+    IoIosArrowDroprightCircle,
+} from 'react-icons/io';
 
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
@@ -61,11 +65,17 @@ const IdRooms: FC = () => {
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
             await dispatch(getAllProjectRoomsAction(projectId));
-            
+
             return response.data;
         } catch (error: any) {
             throw new Error(error.message);
         }
+    };
+
+    // Scroll using arrows - Your Projects section
+    const ref = useRef<HTMLDivElement>(null);
+    const scroll = (scrollAmount: number) => {
+        ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
     };
 
     const singleRoom = projectRooms?.map((room: any, index: any) => {
@@ -107,17 +117,28 @@ const IdRooms: FC = () => {
     return (
         <>
             <div className="your-rooms">
-                <div className="your-rooms-section">
+                <div className="your-rooms-section" ref={ref}>
                     {singleRoom}
                     {singleRoom.length == 0 ? (
                         <div className="your-projects-none">
                             <span>There are no rooms in this project.</span>
                         </div>
-                    ) : singleRoom.length <= 3 ? (
-                        <div className="your-projects-none other-none">
-                            <span style={{ fontSize: '14px' }}>
-                                No other rooms for this project
-                            </span>
+                    ) : singleRoom.length >= 5 ? (
+                        <div className="your-projects-icons">
+                            <IoIosArrowDropleftCircle
+                                id="your-project-icons-left"
+                                className="your-projects-buttons"
+                                onClick={() => {
+                                    scroll(-200);
+                                }}
+                            />
+
+                            <IoIosArrowDroprightCircle
+                                className="your-projects-buttons"
+                                onClick={() => {
+                                    scroll(200);
+                                }}
+                            />
                         </div>
                     ) : (
                         <></>
