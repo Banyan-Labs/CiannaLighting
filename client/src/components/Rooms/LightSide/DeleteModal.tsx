@@ -38,7 +38,6 @@ export const DeleteModal: FC<Props> = ({
     room,
     editRoom,
     setEditRoom,
-    deleteAttachments,
 }) => {
     const { roomLights, projectId } = useAppSelector(({ project }) => project);
     const storedProjId = useParams('projectId');
@@ -48,7 +47,6 @@ export const DeleteModal: FC<Props> = ({
     const navigate = useNavigate();
     const onSubmit1 = async () => {
         const deleteLightMethod = async (light: any) => {
-            await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
                     item_ID: light.item_ID,

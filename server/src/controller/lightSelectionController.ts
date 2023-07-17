@@ -210,16 +210,8 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
         room.save();
 
         return await LightSelection.findByIdAndDelete({ _id: _id })
-          .then((lightSelection) => {
-            // is the following logic correct? 
-            return !lightSelection
-              ? res.status(200).json({
-                lightSelection,
-              })
-              : res.status(404).json({
-                message: "The light selection you are looking for no longer exists",
-                lightRemoved: "light removed successfully from room",
-              });
+          .then(() => { 
+            return res.status(200);
           })
           .catch((error) => {
             logging.error(error.message, "deleteSelectedLight");
