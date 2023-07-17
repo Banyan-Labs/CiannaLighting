@@ -2,11 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
+import CatalogItem from "../model/CatalogItem";
 import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import { ActionType } from "../utils/constants";
 import logging from "../../config/logging";
+import ProjectAttachments from "../model/ProjectAttachments";
 
 const lightSelected = async (
   req: Request,
@@ -299,6 +301,40 @@ export const lightIdService = async (
     logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
 
     const done = await project.save();
+
+    if (type === ActionType.DELETE) {
+      await CatalogItem.find({})
+      .then((catalogItems) => {
+        let specDict: any = {};
+
+        for (let item of catalogItems) {
+          for (let spec of item.specs) {
+            specDict[spec] = item.item_ID.toString();
+          }
+        }
+
+
+        ProjectAttachments.findOne({ projectId: projectId })
+          .then(async (projectAttachments: any) => {
+            const specFiles: any[] = projectAttachments?.pdf;
+
+            logging.info(`exisitng specFiles: ${JSON.stringify(specFiles)}`, "lightIdService");
+
+            specFiles?.forEach((specFile: any) => {
+              const lightId: string = specDict[specFile];
+              const existingLightIds: string[] = project.lightIDs.map((item: any) => item.item_ID);
+              logging.info(`lightId: ${lightId}`, "lightIdService");
+              logging.info(`existingLightIds: ${JSON.stringify(existingLightIds)}`, "lightIdService");
+
+              if (!existingLightIds.includes(lightId)) {
+                projectAttachments.pdf = projectAttachments.pdf.filter((file: any) => file !== specFile);
+              }
+            });
+
+            await projectAttachments.save();
+          });
+      });
+    }
 
     if (done) {
       logging.info(`Done and Saved successfully: ${JSON.stringify(done)}`, "lightIdService");
