@@ -193,7 +193,7 @@ const AllProjects: FC<Props> = ({
                     return '';
                 }
             });
-            
+
             setParsedData(searchData);
 
             return searchData;
@@ -243,37 +243,32 @@ const AllProjects: FC<Props> = ({
         });
         let attachments = [];
 
-        if (attach) {
-            attachments = attach?.data?.proj?.pdf;
+        attachments = attach?.data?.proj?.pdf;
 
-            if (attachments?.length) {
-                const payload = {
-                    project: {
-                        ...proj,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: CopyType.PROJECT,
-                    attachments: attachments,
-                };
 
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
+        const payload = {
+            project: {
+                ...proj,
+                clientId: user._id,
+                clientName: user.name,
+            },
+            copy: CopyType.PROJECT,
+            attachments: attachments,
+        };
 
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
+        try {
+            const response = await dispatch(
+                createProjectAction(payload)
+            );
 
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
-        } else {
-            throw new Error("Error in copying project route.")
+            dispatch(getUserProjects(user._id));
+            dispatch(getAllProjects());
+            setProcessing(false);
+            alert(`Copy of ${proj.name} created in your dashboard.`);
+
+            return response;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 
