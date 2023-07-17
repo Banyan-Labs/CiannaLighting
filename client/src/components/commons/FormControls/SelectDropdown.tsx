@@ -1,6 +1,8 @@
 import React from 'react';
 import uuid from 'react-uuid';
+
 import convertCsvInArray from 'helpers/convertCsvInArray';
+
 import './style.scss';
 
 type Props = {
@@ -31,7 +33,6 @@ const SelectDropdown = ({
                         className="select-dropdown__option"
                         key={uuid()}
                         value={value}
-                        selected={defaultValue === value}
                         defaultValue={defaultValue}
                     >
                         {value}

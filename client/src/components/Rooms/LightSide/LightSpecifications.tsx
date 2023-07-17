@@ -1,4 +1,5 @@
 import React from 'react';
+
 import CollapsibleList from 'components/commons/ui/CollapsibleList';
 import { CatalogLightItem } from 'typescript/CatalogItem';
 import convertCsvInArray from 'helpers/convertCsvInArray';

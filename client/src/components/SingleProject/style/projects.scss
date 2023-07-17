@@ -11,9 +11,8 @@
 .project-summary-container {
     margin-top: 100px;
     background-color: $primary-bg-dark;
-    color: $primary-bg-dark-text;
-    width: 100%;
     border-right: 1px $line-dark solid;
+    padding: 0px 24px 0px;
 }
 
 .back-to-projects {
@@ -54,7 +53,6 @@
     margin-top: 10px;
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
 }
 
 .project-summary-project-name {
@@ -62,8 +60,6 @@
 }
 
 .project-summary-name-and-date {
-    border-right: 0.1px solid rgb(48, 47, 47);
-    padding-right: 20px;
 }
 
 .circle-icon {

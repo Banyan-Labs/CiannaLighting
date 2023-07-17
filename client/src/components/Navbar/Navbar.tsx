@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
 import * as data from './links.json';
 import logo from '../../assets/ciana-logo-black.png';
-import useParams from '../../app/utils';
+import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { FaRegBell } from 'react-icons/fa';
 import { logoutAction } from '../../redux/actions/authActions';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
-import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+
 import './style/Navbar.scss';
 
 const links = JSON.parse(JSON.stringify(data)).links;
@@ -26,7 +28,7 @@ const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
-    const latestProject = userProjects.slice(userProjects.length - 1);
+    const latestProject = userProjects?.length ? userProjects.slice(userProjects.length - 1) : [];
     const defaultProjId = String(latestProject.map((p) => p._id));
     const Id = storedProjId ? storedProjId : defaultProjId;
 
@@ -35,7 +37,7 @@ const Links: FC<{ links: Link[] }> = () => {
             {links
                 .slice()
                 .filter((link: Link) =>
-                    link.label === 'Admin' && user.role != ROLES.Cmd ? '' : link
+                    link.label === 'Admin' && user.role != ROLES.Admin ? '' : link
                 )
                 .map((link: Link) => {
                     return (
@@ -49,9 +51,9 @@ const Links: FC<{ links: Link[] }> = () => {
                                     search: `?_id=${user._id}&projectId=${Id}`,
                                 }}
                                 className={
-                                    activeLocation === link.label.toLowerCase()
-                                        ? 'active navbar-links'
-                                        : 'navbar-links'
+                                    link.label === 'Admin' 
+                                    ? link.href.includes(activeLocation) ? 'active navbar-links' : 'navbar-links'
+                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links' : 'navbar-links'
                                 }
                             >
                                 {link.label}
@@ -65,13 +67,15 @@ const Links: FC<{ links: Link[] }> = () => {
 
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
+    const userRole = Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role);
     const dispatch = useAppDispatch();
 
     const handleLogout = async (e: any) => {
         try {
             e.preventDefault();
+            
             dispatch(logoutAction(user.email));
-        } catch (err:any) {
+        } catch (err: any) {
             throw new Error(err.message)
         }
     };
@@ -96,7 +100,7 @@ const Navbar: FC = () => {
                             !
                         </span>
                         <br />
-                        <span className="navbar-user-role">User</span>
+                        <span className="navbar-user-role">{userRole}</span>
                     </div>
                     {/* <FaChevronDown /> */}
                 </div>

@@ -1,4 +1,6 @@
 import React, { FC, useState } from 'react';
+
+import logging from 'config/logging';
 import Details from './Details';
 import Options from './Options';
 import Specifications from './Specifications';
@@ -60,15 +62,19 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">Drawing Files:</h4>
                             {Item?.drawingFiles.map(
-                                (ef: string, index = ef.indexOf(ef)) => {                                    
-                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    const fileName = ef.match(
+                                        /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
+                                    );
+                                    logging.info(fileName, 'Tabs');
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0] : '' }
+                                            {`Drawing file #${index + 1}`}
+                                            {/* {fileName ? fileName[0] : '' } */}
                                         </a>
                                     );
                                 }
@@ -78,15 +84,20 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         <div className="d-flex flex-column h-50 align-items-center m-0">
                             <h4 className="m-0">PDF:</h4>
                             {Item?.pdf.map(
-                                (ef: string, index = ef.indexOf(ef)) => {                                    
-                                    const fileName =  ef.match(/(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g);                                    
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    const fileName = ef.match(
+                                        /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
+                                    );
+                                    logging.info(fileName, 'Tabs');
+                                    
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {fileName ? fileName[0]: '' }
+                                            {`PDF file #${index + 1}`}
+                                            {/* {fileName ? fileName[0] : ''} */}
                                         </a>
                                     );
                                 }

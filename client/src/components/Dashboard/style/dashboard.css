@@ -42,7 +42,7 @@
     color: #949494;
     font-size: 12px;
     position: relative;
-    top: -3px;
+    top: -1px;
 }
 
 .dashboard-project-overview {
@@ -255,7 +255,7 @@
     height: 0.5px;
     width: 80%;
     margin-top: 15px;
-    background-color: #c09d5b;
+    background-color: #000000;
 }
 .single-project h3 {
     padding: 5px 15px;
@@ -269,7 +269,7 @@
     bottom: 0;
     height: 50px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.219);
+    background-color: rgb(0 0 0 / 22%);
 }
 .single-project .view-details-block span {
     position: relative;

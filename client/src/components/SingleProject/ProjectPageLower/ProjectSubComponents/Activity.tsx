@@ -1,9 +1,11 @@
 import React, { FC, useState } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
-
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
+
+import { useAppSelector } from '../../../../app/hooks';
 import Pagination from '../../../Dashboard/DashboardPageLower/Pagination/Pagination';
+
 import './style/activityTable.scss';
+
 const Activity: FC = () => {
     const { project } = useAppSelector(({ project }) => project);
     const projectsPerPage = 5;
@@ -34,6 +36,7 @@ const Activity: FC = () => {
             A: setArchPage(page),
             S: setStatusPage(page),
         };
+
         actionTrigger[String(action)];
     };
 
@@ -68,10 +71,15 @@ const Activity: FC = () => {
             </div>
             <label className="activity-label">Room Actions</label>
             <table className="activity-table">
-                {activityTables(rooms?.slice(roomFirstIndex, roomLastIndex))}
-                <tfoot>
-                    <tr className="projects-table-dynamic-row"></tr>
-                </tfoot>
+                {
+                    rooms?.length
+                        ? activityTables(rooms.slice(roomFirstIndex, roomLastIndex))
+                        : (
+                            <tfoot>
+                                <tr className="projects-table-dynamic-row"></tr>
+                            </tfoot>
+                        )
+                }
             </table>
             <div className="activity-pagination">
                 {roomPage > 1 && (
@@ -109,12 +117,15 @@ const Activity: FC = () => {
 
             <label className="activity-label">Archive / Restore</label>
             <table className="activity-table">
-                {activityTables(
-                    archRestore?.slice(archFirstIndex, archLastIndex)
-                )}
-                <tfoot>
-                    <tr className="projects-table-dynamic-row"></tr>
-                </tfoot>
+                {
+                    archRestore?.length
+                        ? activityTables(archRestore.slice(archFirstIndex, archLastIndex))
+                        : (
+                            <tfoot>
+                                <tr className="projects-table-dynamic-row"></tr>
+                            </tfoot>
+                        )
+                }
             </table>
             <div className="activity-pagination">
                 {archPage > 1 && (
@@ -151,12 +162,16 @@ const Activity: FC = () => {
             </div>
             <label className="activity-label">Status Change</label>
             <table className="activity-table">
-                {activityTables(
-                    status?.slice(statusFirstIndex, statusLastIndex)
-                )}
-                <tfoot>
-                    <tr className="projects-table-dynamic-row"></tr>
-                </tfoot>
+                {
+                    status?.length
+                        ? activityTables(status.slice(statusFirstIndex, statusLastIndex))
+                        : (
+                            <tfoot>
+                                <tr className="projects-table-dynamic-row"></tr>
+                            </tfoot>
+                        )
+                }
+
             </table>
             <div className="activity-pagination">
                 {statusPage > 1 && (

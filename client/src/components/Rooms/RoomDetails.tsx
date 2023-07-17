@@ -1,18 +1,20 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import ReactTooltip from 'react-tooltip';
-// import Default from '../../assets/stairway.jpeg';
-import dataHolding from '../Dashboard/YourProjects/projectDetails';
-import { Link } from 'react-router-dom';
+import { BsChevronLeft } from 'react-icons/bs';
+import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import uuid from 'react-uuid';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
 import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
-import { BsChevronLeft } from 'react-icons/bs';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
-import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
+import { setTheYourProjects } from '../../redux/actions/projectActions';
+import { CopyType } from 'app/constants';
+
 import './style/roomDetails.scss';
-import uuid from 'react-uuid';
+import { findClosestSystemStatus } from 'app/utils';
 
 interface lightProps {
     setEditLight: any;
@@ -32,12 +34,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const [editRoom, setEditRoom] = useState(false);
     const newLights = roomLights ? roomLights.slice().reverse() : [];
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
-
-    const Color =
-        Object.keys(dataHolding.setData().color).length === 0
-            ? '#AC92EB'
-            : dataHolding.setData().color;
-
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
 
@@ -68,24 +64,40 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const response = await dispatch(
             getEditLight({ item_ID: String(light.item_ID) })
         );
+
         setTheData(light, response);
     };
 
+    const navigate = useNavigate();
+    const projectRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
+
     const copyRoom = async (e: any) => {
         e.preventDefault();
+
         const axiosPriv = await axiosPrivate();
         const projectId: string = project?._id ?? '';
         const copyRoom = [room?._id];
         const payload = {
             _id: projectId,
             rooms: copyRoom,
-            copy: 'room',
+            copy: CopyType.ROOM,
             clientId: room?.clientId,
         };
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
-            dispatch(getAllProjectRoomsAction(projectId));
+
+            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            projectRoute(projectId);
+            await dispatch(setTheYourProjects(true));
+
             return response;
         } catch (error: any) {
             throw new Error(error.message);
@@ -96,10 +108,10 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         const item =
             setAllCatalog && setAllCatalog.length
                 ? setAllCatalog.find(
-                      (item: any) => item.item_ID === light.item_ID
-                  ).images[0]
-                : '';
-        const image = item.images ? item.images[0] : '';
+                    (item: any) => item.item_ID === light.item_ID
+                ) : null;
+        const image = item?.images?.length ? item.images[0] : '';
+
         return (
             <div className="single-room-container d-flex row" key={uuid()}>
                 <div className="first-light-section d-flex mb-2">
@@ -134,98 +146,94 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         Qty. <span>{light.quantity}</span>
                     </p>
                 </div>
-                <div className={`  col-12 d-flex collapse-content `}>
-                    <div className="col-7 d-flex row second-left-section">
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Exterior Finish:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.exteriorFinish}
-                            </h5>
+                <div className="d-flex collapse-content mt-4 flex-wrap">
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Exterior Finish:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Interior Finish:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.interiorFinish}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Environment:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.environment}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1 ">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Safety Cert:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.safetyCert}
-                            </h5>
-                        </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Project Voltage:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.projectVoltage}
-                            </h5>
+                        <div className="grey">
+                            {light.exteriorFinish}
                         </div>
                     </div>
-                    <div className="col-5 d-flex row second-right-section ">
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Socket Type:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.socketType}
-                            </h5>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Interior Finish:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Mounting:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.mounting}
-                            </h5>
+                        <div className="grey">
+                            {light.interiorFinish}
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Lens Material:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.lensMaterial}
-                            </h5>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Environment:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Options:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.glassOptions}
-                            </h5>
+                        <div className="grey">
+                            {light.environment}
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Crystal Type:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.crystalType}
-                            </h5>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Safety Cert:
                         </div>
-                        <div className="d-flex py-1">
-                            <h5 className="m-0 col-6 col-xl-4 col-lg-6">
-                                Options:
-                            </h5>
-                            <h5 className="m-0 col-6 col-xl-8 col-lg-6">
-                                {light.crystalPinType} <br />
-                                <span>{light.crystalPinColor}</span>
-                            </h5>
+                        <div className="grey">
+                            {light.safetyCert}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Project Voltage:
+                        </div>
+                        <div className="grey">
+                            {light.projectVoltage}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Socket Type:
+                        </div>
+                        <div className="grey">
+                            {light.socketType}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Mounting:
+                        </div>
+                        <div className="grey">
+                            {light.mounting}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Lens Material:
+                        </div>
+                        <div className="grey">
+                            {light.lensMaterial}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Options:
+                        </div>
+                        <div className="grey">
+                            {light.glassOptions}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Crystal Type:
+                        </div>
+                        <div className="grey">
+                            {light.crystalType}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Options:
+                        </div>
+                        <div className="grey">
+                            {light.crystalPinType} <br />
+                            <span>{light.crystalPinColor}</span>
                         </div>
                     </div>
                 </div>
@@ -234,38 +242,34 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     });
 
     return (
-        <div className="">
-            <div className="col-12 d-flex row m-0">
-                <div className="back-to-project col-6">
-                    <Link
-                        to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}
-                    >
-                        <BsChevronLeft className="chevron-icon" /> Back to
-                        Project
+        <div>
+            <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
+                <div className="back-to-project">
+                    <Link to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}>
+                        <BsChevronLeft className="chevron-icon" /> Back to Project
                     </Link>
                 </div>
-                <div className="col-6 d-flex justify-content-end">
-                    <p className="project-name">
-                        <span className="project-tag">Project</span> <br />
+                <div className="project-name">
+                    <span className="project-tag">Project</span> <br />
+                    <div className="project-title-with-status-icon">
                         {project?.name}
                         <FaCircle
-                            style={{ color: String(Color) }}
-                            className="room-details-circle-icon"
+                            className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
                         />
-                    </p>
+                    </div>
                 </div>
             </div>
 
-            <div className="col-12 m-0 d-flex">
-                <div className="project-date d-flex row">
+            <div className="col-7 d-flex mt-4 justify-content-between">
+                <div className="project-date d-flex flex-column">
                     <h3 className="m-0">{room?.name}</h3>
                     <p className="">Created: {date}</p>
                 </div>
-                <div className=" icon-container d-flex align-items-center justify-content-center">
+                <div className="icon-container d-flex align-items-center justify-content-center">
                     <FaRegEdit
                         data-for="edit"
                         data-tip="Edit Room"
-                        className="m-2 room-icons"
+                        className="m-2 edit-icon"
                         onClick={() => {
                             setOpenModal(true);
                             setEditRoom(true);
@@ -274,7 +278,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <FaRegClone
                         data-for="copy"
                         data-tip="Copy Room"
-                        className="m-2 room-icons"
+                        className="m-2 clone-icon"
                         onClick={(e) => copyRoom(e)}
                     />
                     <FaRegTrashAlt
@@ -284,7 +288,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         }}
                         data-for="delete"
                         data-tip="Delete Room"
-                        className="m-2 room-icons"
+                        className="m-2 archive-icon"
                     />
                     <ReactTooltip id="edit" />
                     <ReactTooltip id="copy" />
@@ -305,25 +309,25 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                         className="collapse-button"
                         onClick={() => setIsCollapsed(!isCollapsed)}
                     >
-                        View Room Lights <span>{isCollapsed ? '-' : '+'} </span>
+                        {isCollapsed ? 'Expand' : 'Collapse'} <span>{isCollapsed ? '+' : '-'}</span>
                     </h4>
                 </div>
                 {/* <div className="room-description-light-divider"></div> */}
 
                 <div
                     className={
-                        !isCollapsed
+                        isCollapsed
                             ? 'container-for-light-cards-off '
                             : 'container-for-light-cards'
                     }
                 >
-                    {room?.lights?.length != 0 && isCollapsed === true ? (
+                    {room?.lights?.length != 0 && !isCollapsed ? (
                         singleRoom
                     ) : (
                         <div className="container-no-lights d-flex justify-content-center align-items-center col-12">
                             <p className="">
-                                {isCollapsed === false && roomLights.length > 0
-                                    ? 'Show Room Lights.'
+                                {isCollapsed && roomLights.length > 0
+                                    ? 'Expand for light details.'
                                     : 'No lights for this room.'}
                             </p>
                         </div>

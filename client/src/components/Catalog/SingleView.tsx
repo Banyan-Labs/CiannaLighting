@@ -1,12 +1,15 @@
 import React, { FC } from 'react';
+import { BsChevronLeft } from 'react-icons/bs';
+
+import Tabs from './Tabs/Tabs';
+import LightCarousel from 'components/Rooms/LightSide/LightImageCarousel';
+
 import './style/catalog.scss';
+
 interface catalogPros {
     catalogItem: any;
     setCatalogItem: any;
 }
-import { BsChevronLeft } from 'react-icons/bs';
-import Tabs from './Tabs/Tabs';
-import Pictures from './Tabs/Pictures';
 
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     return (
@@ -21,11 +24,7 @@ const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
             <div className="d-flex m-0 p-2 row justify-content-center">
                 <div className="main-img-catalog-container m-2 col-12 col-lg-8 col-xl-4">
                     {!catalogItem.isActive && (<span >*** This Light is Currently Unavailable ***</span>)}
-                    <img
-                        className="img-fluid"
-                        src={catalogItem.images[0]}
-                        alt="img of light"
-                    />
+                    <LightCarousel images={catalogItem.images?.map((img: string) => ({ url: img }))} />
                 </div>
                 <div className="main-right-tab-container col-12 col-xl-7">
                     <Tabs
@@ -33,9 +32,6 @@ const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         setCatalogItem={setCatalogItem}
                     />
                 </div>
-            </div>
-            <div className="col-12">
-                <Pictures catalogItem={catalogItem} />
             </div>
         </div>
     );

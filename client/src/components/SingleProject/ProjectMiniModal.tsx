@@ -1,8 +1,8 @@
 import React, { FC, SyntheticEvent, useCallback } from 'react';
-import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
-import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 import { FaRegCopy, FaTrash, FaPlay, FaBookReader } from 'react-icons/fa';
+
+import { useAppSelector } from '../../app/hooks';
 import { ROLES } from '../../app/constants';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
@@ -13,6 +13,8 @@ import {
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { setSpecFile } from '../../redux/actions/lightActions';
+
+import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
 interface projectProps {
     setOpenModal: any;
@@ -33,7 +35,7 @@ const ProjectMiniModal: FC<projectProps> = ({
     setProjectModal,
     project,
     setDeleteProject,
-    typeOfProject, 
+    typeOfProject,
     setInactiveList,
     setProjectHold,
     inactiveModalTrigger,
@@ -43,42 +45,50 @@ const ProjectMiniModal: FC<projectProps> = ({
     const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
     const { setInactive } = useAppSelector(({ project }) => project);
+
     const inactiveLightCheck = (e: SyntheticEvent) => {
         e.preventDefault();
+
         let finalLightCheck: LightREF[] | [] = [];
 
         setInactive.forEach((item: string) => {
             const inactive = project.lightIDs.find(
                 (light: LightREF) => light.item_ID === item
             );
+
             if (inactive && inactive !== undefined) {
                 finalLightCheck = [...finalLightCheck, inactive];
             }
+
             return item;
         });
         if (finalLightCheck && finalLightCheck.length) {
             setInactiveList(finalLightCheck);
             setProjectHold(project);
             inactiveModalTrigger();
+
             return true;
         } else {
             copyOfProject(e, project);
+
             return false;
         }
     };
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
-        dataHolding.getData(project, '#d3b9b8');
+        dataHolding.getData(project);
     };
 
     const projectRoute = useCallback(
         (projId: string) => {
             const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+
             navigate(to);
         },
         [user.name, navigate]
     );
+    
     const goToProject = () => {
         return (
             <div
@@ -96,7 +106,7 @@ const ProjectMiniModal: FC<projectProps> = ({
             </div>
         );
     };
-    
+
     return (
         <div className="project-mini-modal">
             <div
@@ -113,14 +123,14 @@ const ProjectMiniModal: FC<projectProps> = ({
                     onClick={
                         project?.clientId === user?._id
                             ? async () => {
-                                  await changeProject(project._id);
-                                  await projectRoute(project._id);
-                                  await dispatch(setTheYourProjects(true));
-                              }
+                                await changeProject(project._id);
+                                await projectRoute(project._id);
+                                await dispatch(setTheYourProjects(true));
+                            }
                             : () => {
-                                  setOpenModal(true);
-                                  setProjectModal(project);
-                              }
+                                setOpenModal(true);
+                                setProjectModal(project);
+                            }
                     }
                     className="project-mini-modal-link"
                 >
@@ -136,7 +146,7 @@ const ProjectMiniModal: FC<projectProps> = ({
                     </p>
                 </div>
             )}
-            {user.role === ROLES.Cmd ? (
+            {user.role === ROLES.Admin ? (
                 <div
                     onClick={() => {
                         setOpenModal(true);

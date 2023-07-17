@@ -4,7 +4,6 @@ import { UserType } from '../../app/typescriptTypes';
 export interface AuthStateType {
     user: UserType;
     error: null | { message: string };
-
     logs: any[];
 }
 
@@ -21,9 +20,10 @@ export const authSlice = createSlice({
         setUser: (state, action) => {
             localStorage.setItem('token', action.payload.accessToken);
             localStorage.setItem('role', action.payload.user.role);
+
             return {
                 ...state,
-                user: {...action.payload.user, token: action.payload.accessToken},
+                user: { ...action.payload.user, token: action.payload.accessToken },
             };
         },
         setLogs: (state, action) => {
@@ -39,14 +39,16 @@ export const authSlice = createSlice({
         setAccessToken: (state, action) => {
             localStorage.setItem('token', action.payload.accessToken);
             localStorage.setItem('role', action.payload.user.role);
+
             return {
                 ...state,
-                user: {...action.payload.user, token: action.payload.accessToken},
+                user: { ...action.payload.user, token: action.payload.accessToken },
             };
         },
         logout: () => {
             localStorage.removeItem('token');
             localStorage.removeItem('role');
+            
             return initialState;
         },
         setError: (state, action) => ({ ...state, error: action.payload }),

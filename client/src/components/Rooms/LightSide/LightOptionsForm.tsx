@@ -1,8 +1,9 @@
 import React, { useRef, FormEvent, useState } from 'react';
-import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import uuid from 'react-uuid';
+
+import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import useParams from 'app/utils';
+import { useParams } from 'app/utils';
 import { CatalogLightItem, LightItemType } from 'typescript/CatalogItem';
 import {
     getLightOptionsDropValuesFromItem,
@@ -20,6 +21,8 @@ import {
     setTheRoom,
     getAllProjectRoomsAction,
 } from 'redux/actions/projectActions';
+import { ActionType } from 'app/constants';
+
 import './lightOptionsForm.style.scss';
 
 type Props = {
@@ -39,7 +42,7 @@ function LightOptionsForm({
 }: Props) {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, attachments, projectId, roomId, proposal } = useAppSelector(
+    const { room, projectId, roomId, proposal } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -69,23 +72,29 @@ function LightOptionsForm({
         try {
             if (!editLight) {
                 if (lightSpecs.length) {
+                    const specs = lightSpecs.length ? lightSpecs : [];
+                    const attachments = [
+                        ...specs, 
+                    ];
+
                     dispatch(
                         setSpecFile(
                             {
                                 projId: projectId,
-                                pdf: lightSpecs,
+                                pdf: attachments,
                                 images: [
                                     {
                                         lightId: lightID,
-                                        attachments: lightSpecs,
+                                        attachments: catalogLight.images,
                                     },
                                 ],
-                                edit: 'add',
+                                edit: ActionType.ADD,
                             },
-                            attachments.length > 0 ? false : true
+                            attachments.length > 0 || catalogLight.images.length > 0
                         )
                     );
                 }
+
                 await dispatch(
                     createLight({ ...catalogLight, ...rfpPassData })
                 );
@@ -97,6 +106,7 @@ function LightOptionsForm({
                     )
                 );
             }
+
             await dispatch(getProject({ _id: String(storedProjId) }));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
@@ -110,6 +120,7 @@ function LightOptionsForm({
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
+
         if (formRef.current) {
             const formEleData = buildObjectFromFormControls(
                 formRef.current.elements
@@ -144,6 +155,7 @@ function LightOptionsForm({
                 numberOfLamps: catalogLightItem.numberOfLamps,
                 totalLumens: catalogLightItem.lumens,
             };
+
             try {
                 await dispatchSubmit(
                     editLightItem,
@@ -156,6 +168,7 @@ function LightOptionsForm({
             }
         }
     };
+    
     const InputElements = getLightOptionsDropValuesFromItem(
         catalogLightItem
     ).map((selectField) => {
@@ -168,9 +181,9 @@ function LightOptionsForm({
                 defaultValue={
                     editLightItem !== null
                         ? getDefaultDropValueFromLightEntity(
-                              editLightItem,
-                              selectField.key
-                          )
+                            editLightItem,
+                            selectField.key
+                        )
                         : selectField.values[0]
                 }
             />

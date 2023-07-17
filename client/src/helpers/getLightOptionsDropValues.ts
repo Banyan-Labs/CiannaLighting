@@ -33,14 +33,17 @@ export const getLightOptionsDropValuesFromItem = (
     lightItem: CatalogLightItem
 ): T[] => {
     const results = [];
+
     for (const key in lightItem) {
         if (LIGHT_FORM_OPTIONS_KEYS.includes(key)) {
             const label = key
                 .replace(/([A-Z])/g, (match) => ' ' + match)
                 .replace(/^[a-z]/, (match) => match.toUpperCase());
             const values = lightItem[key as keyof LightOptions];
+
             results.push({ label, key, values });
         }
     }
+    
     return results;
 };

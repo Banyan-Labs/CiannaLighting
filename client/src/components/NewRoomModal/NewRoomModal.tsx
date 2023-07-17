@@ -2,11 +2,10 @@
 import React, { FC, FormEvent, useState, useEffect, useCallback } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-    createRoomAction,
-    getAllProjectRoomsAction,
-} from '../../redux/actions/projectActions';
+import { createRoomAction, getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+
 import './style/newRoomModal.css';
 
 type Props = {
@@ -49,6 +48,7 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+
         try {
             if (projectId) {
                 const newRoom = {
@@ -57,9 +57,11 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                     name: roomDetails.name,
                     description: roomDetails.description,
                 };
+
                 dispatch(createRoomAction(newRoom));
                 setRoomCreated(!roomCreated);
             }
+            
             setRoomDetails({
                 name: '',
                 description: '',

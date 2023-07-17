@@ -1,8 +1,12 @@
 import React, { FC, useState } from 'react';
-import { useAppSelector } from '../../../../app/hooks';
-import './style/proposal.scss';
 import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+import { useAppSelector } from '../../../../app/hooks';
+import logging from 'config/logging';
+
+import './style/proposal.scss';
+
 interface Props {
     ref: any;
 }
@@ -34,6 +38,18 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     const finalDisplay = base.map((item) =>
         [item, displayChildren[item._id]].flat()
     );
+
+    const camelCaseToTitleCase = (camelCase: string) => {
+        // Insert spaces before capital letters, then convert the entire string to lowercase
+        const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
+
+        // Convert the first character of each word to uppercase
+        const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
+            return match.toUpperCase();
+        });
+
+        return titleCase;
+    }
 
     const ltrs = Array(52)
         .fill('')
@@ -82,7 +98,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                             className="list"
                                             key={index + item[0]}
                                         >
-                                            {item[0]}: {item[1]}
+                                            {camelCaseToTitleCase(item[0])}: {item[1]}
                                         </span>
                                     );
                                 }
@@ -109,7 +125,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                     key={index}
                     file={url}
                     onLoadSuccess={onDocumentLoadSuccess}
-                    onLoadError={console.error}
+                    onLoadError={(err) => logging.error(err, "Document")}
                     className="pdf-document"
                 >
                     {Array.from(new Array(numPages), (el, index) => (
@@ -121,6 +137,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                             pageNumber={index + 1}
                             scale={1.0}
                             width={1100}
+                            onLoadError={(err) => logging.error(err, "Page")}
                         />
                     ))}
                 </Document>

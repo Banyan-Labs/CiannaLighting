@@ -1,15 +1,24 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import User from "../model/User";
 import bcrypt from "bcrypt";
+
+import User from "../model/User";
+import Project from "../model/Project";
+import ProjectAttachments from "../model/ProjectAttachments";
+import LightSelection from "../model/LightSelection";
+import CatalogItem from "../model/CatalogItem";
+import Room from "../model/Room";
+import RFP from "../model/RFP";
+import logging from "../../config/logging";
 
 const createNewUser = async (req: Request, res: Response) => {
   const { name, email, password, role } = req.body;
 
-  if (!name || !email || !password || !role)
+  if (!name || !email || !password || !role) {
     return res
       .status(400)
       .json({ message: "Please fill in all required fields" });
+  }
 
   await User.findOne({ email })
     .then(async (existingUser) => {
@@ -41,12 +50,14 @@ const createNewUser = async (req: Request, res: Response) => {
             });
           })
           .catch((error) => {
+            logging.error(error.message, "createNewUser");
             res.status(500).json({ message: error.message });
           });
       }
     })
     .catch((error) => {
-      res.sendStatus(500);
+      logging.error(error.message, "createNewUser");
+      res.sendStatus(500).json({ message: error.message });
     });
 };
 
@@ -54,7 +65,8 @@ const getAllUsers = (req: Request, res: Response) => {
   User.find()
     .exec()
     .then((results) => {
-      console.log(results)
+      logging.info(`Users: ${results}`, "getAllUsers");
+
       return res.status(200).json({
         users: results,
         count: results.length,
@@ -62,4 +74,57 @@ const getAllUsers = (req: Request, res: Response) => {
     });
 };
 
-export default { createNewUser, getAllUsers };
+const resetDatabase = (req: Request, res: Response) => {
+  try {
+    let deletedProjectCount = 0;
+    let deletedProjectAttachmentsCount = 0;
+    let deletedLightSelectionCount = 0;
+    let deletedCatalogItemCount = 0;
+    let deletedRoomCount = 0;
+    let deletedRFPCount = 0;
+
+    Project.deleteMany({})
+      .exec().then((result) => {
+        deletedProjectCount = result.deletedCount;
+      });
+
+    ProjectAttachments.deleteMany({})
+      .exec().then((result) => {
+        deletedProjectAttachmentsCount = result.deletedCount;
+      });
+
+    LightSelection.deleteMany({})
+      .exec().then((result) => {
+        deletedLightSelectionCount = result.deletedCount;
+      });
+
+    CatalogItem.deleteMany({})
+      .exec().then((result) => {
+        deletedCatalogItemCount = result.deletedCount;
+      });
+
+    Room.deleteMany({})
+      .exec().then((result) => {
+        deletedRoomCount = result.deletedCount;
+      });
+
+    RFP.deleteMany({})
+      .exec().then((result) => {
+        deletedRFPCount = result.deletedCount;
+      });
+
+    return res.status(200).json({
+      deletedProjectCount,
+      deletedProjectAttachmentsCount,
+      deletedLightSelectionCount,
+      deletedCatalogItemCount,
+      deletedRoomCount,
+      deletedRFPCount,
+    });
+  } catch (error: any) {
+    logging.error(error.message, "resetDatabase");
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export default { createNewUser, getAllUsers, resetDatabase };

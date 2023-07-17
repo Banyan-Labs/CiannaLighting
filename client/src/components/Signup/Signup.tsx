@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+
 import { useAppDispatch } from '../../app/hooks';
 import { createUserAction } from '../../redux/actions/usersActions';
 
@@ -24,6 +25,7 @@ const Signup: FC = () => {
 
     const registerUser = (e: any) => {
         e.preventDefault();
+        
         if (password !== confirmPassword) {
             setErrorMessage('Password does not match');
         } else {

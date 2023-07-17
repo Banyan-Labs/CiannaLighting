@@ -1,8 +1,10 @@
 import React, { FC, useState, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+
 import Rooms from './ProjectSubComponents/Rooms';
 import Activity from './ProjectSubComponents/Activity';
 import Proposal from './ProjectSubComponents/Proposal';
+
 import './style/projectNav.scss';
 
 type ProjectNavProps = {
@@ -63,7 +65,7 @@ const ProjectsNav: FC<ProjectNavProps> = ({ processing }) => {
                     <div className="proposal_container">
                         <Proposal ref={componentRef} />
                         <button className="print_btn" onClick={handlePrint}>
-                            Print this out!
+                            Print
                         </button>
                     </div>
                 ) : null}

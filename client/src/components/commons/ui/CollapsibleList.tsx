@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronDown } from 'react-icons/fa';
-import './CollapsibleList.style.scss';
 import uuid from 'react-uuid';
+
+import './CollapsibleList.style.scss';
 
 type Props = {
     title: string;

@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
+
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
     getAllProjects,
@@ -16,6 +17,7 @@ const RequireAuth: FC<{ roles: string[] }> = ({ roles }) => {
             await dispatch(getUserProjects(user._id));
             await dispatch(getAllProjects());
         };
+
         fetchData();
     }, [user._id]);
 

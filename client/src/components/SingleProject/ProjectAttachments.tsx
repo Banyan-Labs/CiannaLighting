@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
+
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { deleteSpecFile } from '../../redux/actions/lightActions';
 
@@ -22,23 +23,30 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-              const fileName = [
-                  file.match(/(?:\d{9,}-)(\w+)/g)[0].split('-')[1],
-              ];
-              return (
-                  <tbody key={index}>
-                      <tr className="attachments-dynamic-row">
-                          <td className="file-file-name">{fileName}</td>
-                          <td className="file-file-remove">
-                              <FaTrashAlt
-                                  onClick={() => deleteAttachments(file)}
-                              />
-                          </td>
-                      </tr>
-                  </tbody>
-              );
-          })
+            let fileName = file?.split('/')[file.split('/').length - 1];
+            fileName = fileName?.split('-');
+            fileName.shift();
+            fileName = fileName?.join('-');
+
+            if (fileName) {
+                fileName = decodeURI(fileName)?.replace(/%2B/g, ' ');
+            }
+
+            return (
+                <tbody key={index}>
+                    <tr className="attachments-dynamic-row">
+                        <td className="file-file-name">{fileName}</td>
+                        <td className="file-file-remove">
+                            <FaTrashAlt
+                                onClick={() => deleteAttachments(file)}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            );
+        })
         : [];
+
     return (
         <div className="project-attachments-container">
             <div className="project-attachments-top-bar">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+
 import { useAppSelector } from '../../app/hooks';
 import Navbar from '../Navbar/Navbar';
 

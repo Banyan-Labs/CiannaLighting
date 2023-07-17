@@ -2,15 +2,7 @@ import React, { FC } from 'react';
 import './style/design-styles.scss';
 import { useAppDispatch } from '../../../app/hooks';
 import { filterCatalogItems } from '../../../redux/actions/lightActions';
-
-const designStylesData = [
-    'Art-deco',
-    'Western',
-    'Native',
-    'Asian',
-    'Transitional',
-    'Traditional',
-];
+import { DesignStyle } from 'app/constants';
 
 interface catalogPros {
     catalogType: any;
@@ -23,16 +15,14 @@ const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
-        const value = e.currentTarget.value.toLowerCase();
-
         dispatch(
             filterCatalogItems({
-                designStyle: [value],
+                designStyle: e.currentTarget.value,
             })
         );
     };
 
-    const designStyles = designStylesData.map((style) => {
+    const designStyles = Object.values(DesignStyle).map((style) => {
         return (
             <div className="design-style-buttons-container" key={style}>
                 <button

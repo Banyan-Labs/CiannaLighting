@@ -1,14 +1,18 @@
 import React, { FC, SyntheticEvent, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { FaTimes } from 'react-icons/fa';
+
 import './style/inactive.scss';
+
 type InactiveProps = {
     inactiveList: LightREF[];
     projectHold: ProjectType | null;
     clearInactiveModal: () => void;
     copyOfProject: (e: SyntheticEvent, proj: ProjectType) => Promise<void>;
 };
+
 const InactiveNotification: FC<InactiveProps> = ({
     inactiveList,
     projectHold,
@@ -18,6 +22,7 @@ const InactiveNotification: FC<InactiveProps> = ({
     const [copied, setCopied] = useState(false);
     const triggerCopying = (e: SyntheticEvent) => {
         e.preventDefault();
+
         setTimeout(() => {
             clearInactiveModal();
             if (projectHold) {
@@ -28,13 +33,16 @@ const InactiveNotification: FC<InactiveProps> = ({
     };
     const copyList = (e: SyntheticEvent): void => {
         e.preventDefault();
+
         const newList = inactiveList
             .map((item) => `(${item.item_ID}: ${item.rooms.join(', ')})`)
             .join('\n');
+
         navigator.clipboard.writeText(newList);
         setCopied(true);
         triggerCopying(e);
     };
+
     return (
         <div className="new-project-modal-background">
             <div className="new-project-modal-container">
@@ -86,4 +94,5 @@ const InactiveNotification: FC<InactiveProps> = ({
         </div>
     );
 };
+
 export default InactiveNotification;

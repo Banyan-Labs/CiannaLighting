@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
+
 import Cards from './Cards';
 import SearchBar from './SearchBar';
 import CreateEditLight from './CreateEditLight';
+
 import '../style/roomDetails.scss';
 
 interface catalogPros {
@@ -32,15 +34,14 @@ const LightDetails: FC<catalogPros> = ({
                         <div className="d-flex row justify-content-center align-items-center">
                             <div className="col-12 d-flex justify-content-end align-items-center tooltip bs-tooltip-top">
                                 <h2 className="col-6 col-md-6 m-0">
-                                    Catalog<span>Lights</span>
+                                    Catalog Lights
                                 </h2>
                                 <SearchBar setSearchTerm={setSearchTerm} />
                             </div>
 
                             <div className="col-12 d-flex m-0 px-2 align-items-center tooltip bs-tooltip-top">
                                 <p className="col-md-9 col-lg-8 m-0 p-0">
-                                    Select a light to customize and add to your
-                                    room.
+                                    Select a light to customize and add to your room.
                                 </p>
                                 <button
                                     className="col-md-3 col-lg-4 d-flex justify-content-end align-items-center filter-lights-btn"

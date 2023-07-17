@@ -5,14 +5,19 @@ import React, {
     ChangeEvent,
     useEffect,
     SyntheticEvent,
+    useRef
 } from 'react';
-import { axiosFileUpload, axiosPrivate } from '../../api/axios';
-import { useAppSelector } from '../../app/hooks';
-import './styles/inventory.scss';
-import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
+import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+import { axiosFileUpload, axiosPrivate } from '../../api/axios';
+import { useAppSelector } from '../../app/hooks';
+import { UsePackage, DesignStyle } from 'app/constants';
+import logging from 'config/logging';
+
+import './styles/inventory.scss';
 
 interface CatalogType {
     item_ID: string;
@@ -140,25 +145,29 @@ const Inventory: FC = () => {
         } catch (error: any) {
             throw new Error(error.message);
         }
-    };    
+    };
+
     useEffect(() => {
         initializeCatalog();
     }, []);
-    const handleEditingChange = (val: string) => {
-        setEditingInput(val);
-    };
+
     const deleteFiles = (e: any, filePath: any, type: string) => {
         e.preventDefault();
+
         if (type == 'images') {
-            const newImages = imageName.filter(
+            const newImages = imageName?.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setImageNames(newImages);
+
             if (typeof filePath.name == 'string') {
                 const newimg = images.filter(
                     (img: any) => img.name != filePath.name
                 );
+
                 setImages(newimg);
+
                 if (imgFiles[0].name === filePath.name) {
                     setImgfiles([]);
                 }
@@ -166,22 +175,29 @@ const Inventory: FC = () => {
                 const editImg = itemDetails.editImages.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editImages: editImg });
             }
         }
         if (type == 'pdf') {
-            const newPdf = viewablePDF.filter(
+            const newPdf = viewablePDF?.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setViewablePDF(newPdf);
+
             const newPages = numPdfPages;
             delete newPages[filePath.name];
+
             setNumPdfPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newpdf = pdf.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setPdf(newpdf);
+
                 if (pdfFiles[0].name === filePath.name) {
                     setPdfFiles([]);
                 }
@@ -189,6 +205,7 @@ const Inventory: FC = () => {
                 const editPdf = itemDetails.editpdf.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editpdf: editPdf });
             }
         }
@@ -196,15 +213,21 @@ const Inventory: FC = () => {
             const newDrawing = drawingFilesNames.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setDrawingFilesNames(newDrawing);
+
             const newPages = numDrawPages;
             delete newPages[filePath.name];
+
             setNumDrawPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newdraw = drawingFiles.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setDrawingFiles(newdraw);
+
                 if (drawingFilesArray[0].name === filePath.name) {
                     setDrawingFilesArray([]);
                 }
@@ -212,6 +235,7 @@ const Inventory: FC = () => {
                 const editDraw = itemDetails.editDrawingFiles.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editDrawingFiles: editDraw });
             }
         }
@@ -219,15 +243,21 @@ const Inventory: FC = () => {
             const newSpecs = viewableSpecs.filter(
                 (x: any) => x.name != filePath.name
             );
+
             setViewableSpecs(newSpecs);
+
             const newPages = numSpecPages;
             delete newPages[filePath.name];
+
             setNumSpecPages(newPages);
+
             if (typeof filePath.name == 'string') {
                 const newspecs = specs.filter(
                     (file: any) => file.name != filePath.name
                 );
+
                 setSpecs(newspecs);
+
                 if (specFiles[0].name === filePath.name) {
                     setSpecFiles([]);
                 }
@@ -235,6 +265,7 @@ const Inventory: FC = () => {
                 const editSpec = itemDetails.editSpecs.filter(
                     (url: string) => url !== filePath.url
                 );
+
                 setItemDetails({ ...itemDetails, editSpecs: editSpec });
             }
         }
@@ -242,6 +273,7 @@ const Inventory: FC = () => {
 
     const checkForm = (e: any) => {
         e.preventDefault();
+
         const editKeys: Array<string | unknown> = [
             'editImages',
             'editpdf',
@@ -251,13 +283,13 @@ const Inventory: FC = () => {
             '__v',
         ];
         const vals = Object.entries(itemDetails);
-        const check = vals.map((itemKeyVal: any) =>
+        const check = vals?.map((itemKeyVal: any) =>
             itemKeyVal[1]
                 ? typeof itemKeyVal[1] == 'number'
                     ? [itemKeyVal[0], itemKeyVal[1] > 0]
                     : typeof itemKeyVal[1] == 'string'
-                    ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
-                    : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
+                        ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
+                        : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
                 : [itemKeyVal[0], false]
         );
         const checker = check.filter(
@@ -267,10 +299,12 @@ const Inventory: FC = () => {
         const checkVals = checker.filter(
             (itemKeyVal: Array<string | unknown>) => !itemKeyVal[1]
         );
+
         if (checkVals.length) {
-            const showRequired = checkVals.map(
+            const showRequired = checkVals?.map(
                 (itemKeyVal: unknown[]) => itemKeyVal[0]
             );
+
             alert(
                 `Please fill out the following fields: \n ${showRequired.join(
                     '\n'
@@ -288,7 +322,8 @@ const Inventory: FC = () => {
         rendered: boolean
     ) => {
         if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF.map((pdf: any)=> pdf.name === name ? {...pdf, rendered: true} : pdf)
+            const newPdfs = viewablePDF?.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
+
             setNumPdfPages({
                 ...numPdfPages,
                 [name]: e.numPages,
@@ -296,21 +331,23 @@ const Inventory: FC = () => {
             setViewablePDF(newPdfs);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames.map((drawFile: any)=> drawFile.name === name ? {...drawFile, rendered: true} : drawFile)
+            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
+
             setNumDrawPages({
                 ...numDrawPages,
                 [name]: e.numPages,
             });
             setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs' && rendered === false){
-            const newSpecs = viewableSpecs.map((spec: any)=> spec.name === name ? {...spec, rendered: true} : spec)
+        if (location == 'specs' && rendered === false) {
+            const newSpecs = viewableSpecs?.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
+
             setNumSpecPages({
                 ...numSpecPages,
                 [name]: e.numPages,
             });
             setViewableSpecs(newSpecs);
-           
+
         }
     };
 
@@ -319,6 +356,7 @@ const Inventory: FC = () => {
         const check = await axiosPriv.post('/get-lightSelections', {
             item_ID: ID,
         });
+
         if (check.data.lights && check.data.lights.length) {
             setUsedItem(true);
         } else {
@@ -327,41 +365,51 @@ const Inventory: FC = () => {
     };
 
     const setEdit = (e: any) => {
+        logging.info(e.currentTarget.value);
         e.preventDefault();
+
+        setEditingInput(e.currentTarget.value);
+
         const item: any = catalogItems.find(
-            (x: any) => x.item_ID.toLowerCase() === editingInput.toLowerCase()
+            (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
-        checkItemUsage(item.item_ID);
+
+
         if (item) {
+            checkItemUsage(item.item_ID);
+
             const files: any = {
                 images: item.images,
                 pdf: item.pdf,
                 specs: item.specs,
                 drawingFiles: item.drawingFiles,
             };
+
             setImageNames(
-                files.images.map((x: string, index: number) =>
+                files.images?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setDrawingFilesNames(
-                files.drawingFiles.map((x: string, index: number) =>
+                files.drawingFiles?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setViewablePDF(
-                files.pdf.map((x: string, index: number) =>
+                files.pdf?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
             setViewableSpecs(
-                files.specs.map((x: string, index: number) =>
+                files.specs?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
+
             for (const val in files) {
                 delete item[val];
             }
+
             setItemDetails({
                 ...item,
                 editImages: files.images,
@@ -369,7 +417,6 @@ const Inventory: FC = () => {
                 editDrawingFiles: files.drawingFiles,
                 editSpecs: files.specs,
             });
-            setEditingInput('');
         }
     };
 
@@ -394,25 +441,94 @@ const Inventory: FC = () => {
         }
     };
 
+    const handleUsePackageUpdate = (e: any) => {
+        const selectedUsePackages = e.target.selectedOptions;
+        const selectedUsePackageValues = Array.from(selectedUsePackages).map(
+            (option: any) => option.value
+        );
+
+        setItemDetails({
+            ...itemDetails,
+            usePackages: [...itemDetails.usePackages, ...selectedUsePackageValues],
+        });
+    };
+
+    const handleDesignStyleUpdate = (e: any) => {
+        setItemDetails({
+            ...itemDetails,
+            designStyle: e.target.selectedOptions[0].value,
+        });
+    };
+
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+
+        if (!files?.length) return;
+
         if (e.target.name === 'images') {
-            setImgfiles(e.target.files);
+            setImgfiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setImageNames([
+                    ...imageName,
+                    { name: file.name, url: objectUrl },
+                ]);
+
+                setImages([...images, file]);
+            });
         }
+
         if (e.target.name === 'pdf') {
-            setPdfFiles(e.target.files);
+            setPdfFiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setViewablePDF([
+                    ...viewablePDF,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+                setPdf([...pdf, file]);
+                setPdfNames([...pdfNames, file.name]);
+            });
         }
+
         if (e.target.name === 'specs') {
-            setSpecFiles(e.target.files);
+            setSpecFiles(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setViewableSpecs([
+                    ...viewableSpecs,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+                setSpecs([...specs, file]);
+                setSpecNames([...specNames, file.name]);
+            });
         }
+
         if (e.target.name === 'drawingFiles') {
-            setDrawingFilesArray(e.target.files);
+            setDrawingFilesArray(files);
+
+            Array.from(files).forEach((file: any) => {
+                const objectUrl = URL.createObjectURL(file);
+
+                setDrawingFiles([...drawingFiles, file]);
+                setDrawingFilesNames([
+                    ...drawingFilesNames,
+                    { name: file.name, url: objectUrl, rendered: false },
+                ]);
+            });
         }
     };
 
     const listValSubmit = (e: any) => {
         e.preventDefault();
-        const valueOfKey: any =
-            itemDetails[listValue.name as keyof CatalogType];
+
+        const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType];
 
         setItemDetails({
             ...itemDetails,
@@ -424,62 +540,63 @@ const Inventory: FC = () => {
         });
     };
 
-    const removeItem = (e: any, item: any) => {
+    const removeItem = (e: any, item: any, singleValue = false) => {
         e.preventDefault();
+
         setItemDetails({
             ...itemDetails,
-            [item]: itemDetails[item].slice(0, -1),
+            [item]: singleValue ? '' : itemDetails[item].slice(0, -1),
         });
     };
-    const listFileNames = (e: any, name: string) => {
-        e.preventDefault();
-        if (name === 'images' && imgFiles.length) {
-            for (const key of Object.keys(imgFiles)) {
-                const objectUrl = URL.createObjectURL(imgFiles[key]);
-                setImageNames([
-                    ...imageName,
-                    { name: imgFiles[key].name, url: objectUrl },
-                ]);
-                setImages([...images, imgFiles[key]]);
-            }
-        }
-        if (name === 'pdf' && pdfFiles.length) {            
-            for (const key of Object.keys(pdfFiles)) {
-                const objectUrl = URL.createObjectURL(pdfFiles[key]);
-                setViewablePDF([
-                    ...viewablePDF,
-                    { name: pdfFiles[key].name, url: objectUrl, rendered: false },
-                ]);
-                setPdf([...pdf, pdfFiles[key]]);
-                setPdfNames([...pdfNames, pdfFiles[key].name]);
-            }
-        }
-        if (name === 'specs' && specFiles.length) {
-            for (const key of Object.keys(specFiles)) {
-                const objectUrl = URL.createObjectURL(specFiles[key]);
-                setViewableSpecs([
-                    ...viewableSpecs,
-                    { name: specFiles[key].name, url: objectUrl, rendered: false },
-                ]);
-                setSpecs([...specs, specFiles[key]]);
-                setSpecNames([...specNames, specFiles[key].name]);
-            }
-        }
-        if (name === 'drawingFiles' && drawingFilesArray.length) {
-            for (const key of Object.keys(drawingFilesArray)) {
-                const objectUrl = URL.createObjectURL(drawingFilesArray[key]);
-                setDrawingFiles([...drawingFiles, drawingFilesArray[key]]);
-                setDrawingFilesNames([
-                    ...drawingFilesNames,
-                    { name: drawingFilesArray[key].name, url: objectUrl, rendered: false },
-                ]);
-            }
+
+    const firstItemFocus = (e: any, id: number) => {
+        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
+        const container = document.getElementById('inventory-container') as HTMLDivElement;
+        const sections = [...Array(8)].map((_, index) => index + 1);
+
+        sections.forEach((section) => {
+            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+
+            element.checked = section === id;
+        });
+
+
+        if (sectionHeader.checked) {
+            container.scrollTop = sectionHeader.offsetTop;
         }
     };
+
+    const closeOtherSections = (e: any, id: number) => {
+        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
+
+        if (!sectionHeader.checked) {
+            return;
+        }
+
+        const container = document.getElementById('inventory-container') as HTMLDivElement;
+        const sections = [...Array(8)].map((_, index) => index + 1);
+
+        sections.forEach((section) => {
+            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+
+            element.checked = section === id;
+        });
+
+        container.scrollTop = sectionHeader.offsetTop;
+    };
+
+    const ref = useRef<HTMLButtonElement>(null);
+
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+
+        const submitButton = ref.current as HTMLButtonElement;
+        submitButton.disabled = true;
+        submitButton.className = 'inventory-btn disabled';
+
         const axiosPriv = await axiosFileUpload();
         const fs = new FormData();
+
         for (const key of Object.keys(itemDetails)) {
             fs.append(key, itemDetails[key]);
         }
@@ -512,132 +629,92 @@ const Inventory: FC = () => {
                     setEditingItem(false);
                     initializeCatalog();
                     alert('Item Edited!');
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
                     toggleEdit(e, false);
                 }
             } else {
                 await axiosPriv.post('/internal/create-light', fs);
-                initializeCatalog();
                 alert('Item created!');
-            setItemDetails({
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
-        }
-            setImageNames([]);
-            setViewablePDF([]);
-            setViewableSpecs([]);
-            setDrawingFilesNames([]);
-            setNumDrawPages([]);
-            setNumPdfPages([]);
-            setNumSpecPages([]);
-            setImages([]);
-            setDrawingFiles([]);
-            setPdf([]);
-            setSpecs([]);
-            initializeCatalog();
+                submitButton.disabled = false;
+                submitButton.className = 'inventory-btn';
+            }
 
-            const checked = document.querySelectorAll('input[type=checkbox]');
-            checked.forEach((item: any, index: number) => {
-                if (index > 0 && item.checked) item.checked = false;
-            });
+            resetForm();
         } catch (error: any) {
             alert(error.messsge);
+            submitButton.disabled = false;
+            submitButton.className = 'inventory-btn';
         }
     };
     const toggleEdit = (e: SyntheticEvent, set: boolean) => {
         e.preventDefault();
+
         let type = '';
-        setUsedItem(false);
+
         if (editingItem) {
-            setItemDetails({
-                isActive: true,
-                employeeID: user._id,
-                item_ID: '',
-                itemName: '',
-                itemDescription: '',
-                bodyDiameter: '',
-                bodyLength: '',
-                bodyWidth: '',
-                bodyHeight: '',
-                fixtureOverallHeight: '',
-                sconceHeight: '',
-                sconceWidth: '',
-                sconceExtension: '',
-                material: '',
-                socketQuantity: 0,
-                estimatedWeight: 0,
-                lampType: '',
-                lampColor: '',
-                numberOfLamps: 0,
-                wattsPerLamp: 0,
-                powerInWatts: 0,
-                price: 0,
-                exteriorFinish: [], //[]
-                interiorFinish: [], //[]
-                lensMaterial: [], //[]
-                glassOptions: [], //[]
-                acrylicOptions: [], //[]
-                environment: [], //[]
-                safetyCert: [], //[]
-                projectVoltage: [], //[]
-                socketType: [], //[]
-                mounting: [], //[]
-                crystalType: [], //[]
-                crystalPinType: [], //[]
-                crystalPinColor: [], //[]
-                designStyle: [], //[]
-                usePackages: [], //[]
-                editImages: [],
-                editpdf: [],
-                editDrawingFiles: [],
-                editSpecs: [],
-                costAdmin: 0,
-                partnerCodeAdmin: '',
-            });
             type = 'non-edit';
         } else {
             type = 'edit';
         }
+
+        setTypeOfProject(type);
+        setEditingItem(set);
+        setUsedItem(false);
+        resetForm();
+    };
+
+    const resetForm = (e?: SyntheticEvent) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        setItemDetails({
+            isActive: true,
+            employeeID: user._id,
+            item_ID: '',
+            itemName: '',
+            itemDescription: '',
+            bodyDiameter: '',
+            bodyLength: '',
+            bodyWidth: '',
+            bodyHeight: '',
+            fixtureOverallHeight: '',
+            sconceHeight: '',
+            sconceWidth: '',
+            sconceExtension: '',
+            material: '',
+            socketQuantity: 0,
+            estimatedWeight: 0,
+            lampType: '',
+            lampColor: '',
+            numberOfLamps: 0,
+            wattsPerLamp: 0,
+            powerInWatts: 0,
+            price: 0,
+            exteriorFinish: [], //[]
+            interiorFinish: [], //[]
+            lensMaterial: [], //[]
+            glassOptions: [], //[]
+            acrylicOptions: [], //[]
+            environment: [], //[]
+            safetyCert: [], //[]
+            projectVoltage: [], //[]
+            socketType: [], //[]
+            mounting: [], //[]
+            crystalType: [], //[]
+            crystalPinType: [], //[]
+            crystalPinColor: [], //[]
+            designStyle: [], //[]
+            usePackages: [], //[]
+            editImages: [],
+            editpdf: [],
+            editDrawingFiles: [],
+            editSpecs: [],
+            costAdmin: 0,
+            partnerCodeAdmin: '',
+        });
+
         setImages([]);
         setDrawingFiles([]);
         setPdf([]);
@@ -646,57 +723,72 @@ const Inventory: FC = () => {
         setViewablePDF([]);
         setViewableSpecs([]);
         setDrawingFilesNames([]);
-        setTypeOfProject(type);
-        setEditingItem(set);
+        setEditingInput('');
+
+        const fileInputs = document.querySelectorAll('input[type=file]');
+        const checkboxes = document.querySelectorAll('input[type=checkbox]');
+        const firstSectionHeader = document.getElementById(`chck1`) as HTMLInputElement;
+
+        fileInputs.forEach((item: any) => {
+            item.value = '';
+        });
+
+
+        checkboxes.forEach((item: any, index: number) => {
+            if (index > 0 && item.checked) item.checked = false;
+        });
+
+        firstSectionHeader.checked = true;
     };
+
     return (
         <div className="inventory-container">
             <div className="inventory-head">
                 <div className="head-left">
                     <div className="inv-header">
-                        {editingItem ? 'Edit Items' : 'Catalog Items'}
+                        Catalog Items
                     </div>
                     <div>
-                        <p className="mb-4">
+                        <p>
                             {editingItem
                                 ? 'Edit an item in the catalog.'
                                 : 'Add an item to the catalog.'}
                         </p>
                     </div>
                     {editingItem && (
-                    <div className="inv-togl">
-                        <button
-                            className={
-                                itemDetails.isActive 
-                                    ? 'selected-active'
-                                    : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: true
-                                })                            
-                            }}
-                        >
-                            Active
-                        </button>
-                        <button
-                            className={
-                                !itemDetails.isActive
-                                ? 'selected-active'
-                                : 'un-selected-active'
-                            }
-                            onClick={() => {
-                                setItemDetails({
-                                    ...itemDetails,
-                                    isActive: false
-                                })
-                            }}
-                        >
-                            Inactive
-                        </button>
-                    </div>
-                )}
+                        <div className="inv-togl">
+                            <button
+                                className={
+                                    itemDetails.isActive
+                                        ? 'selected-active type-project-btn'
+                                        : 'un-selected-active type-project-btn'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: true
+                                    })
+                                }}
+                            >
+                                Active
+                            </button>
+                            <button
+                                className={
+                                    !itemDetails.isActive
+                                        ? 'selected-active type-project-btn'
+                                        : 'un-selected-active type-project-btn'
+                                }
+                                onClick={() => {
+                                    setItemDetails({
+                                        ...itemDetails,
+                                        isActive: false
+                                    })
+                                }}
+                            >
+                                Inactive
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="head-right">
                     <div className="button-toggler inv-togl">
@@ -731,23 +823,17 @@ const Inventory: FC = () => {
                                 list="catalog"
                                 id="edit-input"
                                 name="editor"
+                                placeholder="Select an item to edit..."
                                 className="edit-input"
                                 value={editingInput}
-                                onChange={(e) =>
-                                    handleEditingChange(e.currentTarget.value)
-                                }
+                                onChange={(e) => setEdit(e)}
+                                tabIndex={1}
                             />
                             <label htmlFor="editor" className="form__label">
-                                Choose item here..
+                                Exisiting Items
                             </label>
-                            <button
-                                className="edit-button"
-                                onClick={(e) => setEdit(e)}
-                            >
-                                edit
-                            </button>
                             <datalist id="catalog">
-                                {catalogItems.map((item: any) => {
+                                {catalogItems?.map((item: any) => {
                                     return (
                                         <option
                                             key={uuid()}
@@ -760,12 +846,14 @@ const Inventory: FC = () => {
                     )}
                 </div>
             </div>
-            <div className="inventory_form_container">
+            <div className="inventory_form_container" id="inventory-container">
                 <form
                     className="inventory-form"
                     tabIndex={-1}
                     onSubmit={checkForm}
+                    id="inventory-form"
                 >
+                    {/* Details */}
                     <div className="tabs">
                         <div className="tab">
                             <input
@@ -773,35 +861,25 @@ const Inventory: FC = () => {
                                 type="checkbox"
                                 id="chck1"
                                 defaultChecked
+                                onClick={(e) => closeOtherSections(e, 1)}
                             />
                             <label className="tab-label" htmlFor="chck1">
                                 Details
                             </label>
                             <div className="tab-content">
                                 <div className="form__group field">
-                                    {usedItem && editingItem ? (
-                                        <input
-                                            tabIndex={-1}
-                                            className="form__field"
-                                            type="input"
-                                            id="item_ID"
-                                            name="item_ID"
-                                            value={itemDetails.item_ID}
-                                            readOnly
-                                            placeholder="Item ID"
-                                        />
-                                    ) : (
-                                        <input
-                                            tabIndex={-1}
-                                            className="form__field"
-                                            type="input"
-                                            id="item_ID"
-                                            name="item_ID"
-                                            value={itemDetails.item_ID}
-                                            onChange={(e) => handleFormInput(e)}
-                                            placeholder="Item ID"
-                                        />
-                                    )}
+                                    <input
+                                        tabIndex={2}
+                                        className="form__field"
+                                        type="input"
+                                        id="item_ID"
+                                        name="item_ID"
+                                        value={itemDetails.item_ID}
+                                        onChange={(e) => handleFormInput(e)}
+                                        readOnly={usedItem && editingItem}
+                                        placeholder="Item ID"
+                                        onFocus={(e) => firstItemFocus(e, 1)}
+                                    />
                                     <label
                                         htmlFor="name"
                                         className="form__label"
@@ -811,7 +889,7 @@ const Inventory: FC = () => {
                                 </div>
                                 <div className="form__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={3}
                                         className="form__field"
                                         type="input"
                                         id="itemName"
@@ -829,7 +907,7 @@ const Inventory: FC = () => {
                                 </div>
                                 <div className="form__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={4}
                                         className="form__field"
                                         type="text"
                                         id="itemDescription"
@@ -850,15 +928,16 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Measuremnts */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck2" />
+                        <input tabIndex={-1} type="checkbox" id="chck2" onClick={(e) => closeOtherSections(e, 2)} />
                         <label className="tab-label" htmlFor="chck2">
                             Measurements
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={6}
                                     className="form__field"
                                     id="bodyDiameter"
                                     placeholder="Body Diameter"
@@ -866,6 +945,7 @@ const Inventory: FC = () => {
                                     name="bodyDiameter"
                                     value={itemDetails.bodyDiameter || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 2)}
                                 />
                                 <label
                                     htmlFor="bodyDiameter"
@@ -876,7 +956,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={7}
                                     className="form__field"
                                     id="bodyLength"
                                     placeholder="Body Length"
@@ -894,7 +974,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={8}
                                     className="form__field"
                                     id="bodyWidth"
                                     placeholder="bodyWidth"
@@ -912,7 +992,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={9}
                                     className="form__field"
                                     id="bodyHeight"
                                     placeholder="Body Height"
@@ -930,7 +1010,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={10}
                                     className="form__field"
                                     id="fixtureOverallHeight"
                                     placeholder="Fixture Overall Height"
@@ -950,7 +1030,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={11}
                                     className="form__field"
                                     id="sconceHeight"
                                     placeholder="Sconce Height"
@@ -968,7 +1048,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={12}
                                     className="form__field"
                                     id="sconceWidth"
                                     placeholder="Sconce Width"
@@ -986,7 +1066,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={13}
                                     className="form__field"
                                     id="sconceExtension"
                                     placeholder="Sconce Extension"
@@ -1004,7 +1084,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={14}
                                     className="form__field"
                                     id="estimatedWeight"
                                     placeholder="Estimated Weight"
@@ -1022,15 +1102,16 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Lamp Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck3" />
+                        <input tabIndex={-1} type="checkbox" id="chck3" onClick={(e) => closeOtherSections(e, 3)} />
                         <label className="tab-label" htmlFor="chck3">
                             Lamp Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={16}
                                     className="form__field"
                                     id="lampType"
                                     placeholder="Lamp Type"
@@ -1038,6 +1119,7 @@ const Inventory: FC = () => {
                                     name="lampType"
                                     value={itemDetails.lampType || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 3)}
                                 />
                                 <label
                                     className="form__label"
@@ -1048,7 +1130,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={17}
                                     className="form__field"
                                     id="lampColor"
                                     placeholder="Lamp Color"
@@ -1066,7 +1148,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={18}
                                     className="form__field"
                                     id="numberOfLamps"
                                     placeholder="Number of Lamps"
@@ -1084,7 +1166,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={19}
                                     className="form__field"
                                     id="wattsPerLamp"
                                     placeholder="Watts per Lamp"
@@ -1102,7 +1184,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={20}
                                     className="form__field"
                                     id="powerInWatts"
                                     placeholder="Power in Watts"
@@ -1120,7 +1202,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={21}
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
@@ -1135,16 +1217,16 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Material Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck4" />
+                        <input tabIndex={-1} type="checkbox" id="chck4" onClick={(e) => closeOtherSections(e, 4)} />
                         <label className="tab-label" htmlFor="chck4">
                             Material Options
-                            {/*  */}
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={23}
                                     className="form__field"
                                     id="material"
                                     placeholder="Material"
@@ -1152,6 +1234,7 @@ const Inventory: FC = () => {
                                     name="material"
                                     value={itemDetails.material || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 4)}
                                 />
                                 <label
                                     htmlFor="description"
@@ -1163,7 +1246,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={24}
                                         className="form__field"
                                         id="exteriorFinish"
                                         placeholder="Exterior Finish"
@@ -1207,14 +1290,14 @@ const Inventory: FC = () => {
                                     placeholder="Exterior Finishes"
                                     type="text"
                                     name="exteriorFinishValues"
-                                    value={itemDetails.exteriorFinish || ''}
+                                    value={itemDetails?.exteriorFinish?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={25}
                                         className="form__field"
                                         id="interiorFinish"
                                         placeholder="Interior Finish"
@@ -1258,14 +1341,14 @@ const Inventory: FC = () => {
                                     placeholder="Interior Finishes"
                                     type="text"
                                     name="interiorFinishValues"
-                                    value={itemDetails.interiorFinish || ''}
+                                    value={itemDetails?.interiorFinish?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={26}
                                         className="form__field"
                                         id="lensMaterial"
                                         placeholder="Lens Material"
@@ -1309,14 +1392,14 @@ const Inventory: FC = () => {
                                     placeholder="Lens Materiales"
                                     type="text"
                                     name="lensMaterialValues"
-                                    value={itemDetails.lensMaterial || ''}
+                                    value={itemDetails?.lensMaterial?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={27}
                                         className="form__field"
                                         id="glassOptions"
                                         placeholder="Glass Options"
@@ -1360,14 +1443,14 @@ const Inventory: FC = () => {
                                     placeholder="Glass Options"
                                     type="text"
                                     name="glassOptionsValues"
-                                    value={itemDetails.glassOptions || ''}
+                                    value={itemDetails?.glassOptions?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={28}
                                         className="form__field"
                                         id="acrylicOptions"
                                         placeholder="Acrylic Options"
@@ -1411,14 +1494,14 @@ const Inventory: FC = () => {
                                     placeholder="Acrylic Options"
                                     type="text"
                                     name="acrylicOptionsValues"
-                                    value={itemDetails.acrylicOptions || ''}
+                                    value={itemDetails?.acrylicOptions?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={29}
                                         className="form__field"
                                         id="crystalType"
                                         placeholder="Crystal Types"
@@ -1462,14 +1545,14 @@ const Inventory: FC = () => {
                                     placeholder="Crystal Types"
                                     type="text"
                                     name="crystalTypeValues"
-                                    value={itemDetails.crystalType || ''}
+                                    value={itemDetails.crystalType?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={30}
                                         className="form__field"
                                         id="crystalPinType"
                                         placeholder="Crystal Pin Types"
@@ -1513,14 +1596,14 @@ const Inventory: FC = () => {
                                     placeholder="Crystal Pin Types"
                                     type="text"
                                     name="crystalPinTypeValues"
-                                    value={itemDetails.crystalPinType || ''}
+                                    value={itemDetails?.crystalPinType?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={31}
                                         className="form__field"
                                         id="crystalPinColor"
                                         placeholder="Crystal Pin Colors"
@@ -1564,21 +1647,22 @@ const Inventory: FC = () => {
                                     placeholder="Crystal Pin Colors"
                                     type="text"
                                     name="crystalPinColorValues"
-                                    value={itemDetails.crystalPinColor || ''}
+                                    value={itemDetails?.crystalPinColor?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                         </div>
                     </div>
+                    {/* Other Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck5" />
+                        <input tabIndex={32} type="checkbox" id="chck5" onClick={(e) => closeOtherSections(e, 5)} />
                         <label className="tab-label" htmlFor="chck5">
                             Other Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={33}
                                     className="form__field"
                                     id="socketQuantity"
                                     placeholder="Socket Quantity"
@@ -1586,6 +1670,7 @@ const Inventory: FC = () => {
                                     name="socketQuantity"
                                     value={itemDetails.socketQuantity || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 5)}
                                 />
                                 <label
                                     className="form__label"
@@ -1596,7 +1681,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={34}
                                     className="form__field"
                                     id="price"
                                     placeholder="Price"
@@ -1612,7 +1697,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={35}
                                         className="form__field"
                                         id="environment"
                                         placeholder="Environment"
@@ -1629,7 +1714,7 @@ const Inventory: FC = () => {
                                         className="form__label"
                                         htmlFor="environment"
                                     >
-                                        Environment
+                                        Environments
                                     </label>
                                 </div>
                                 <button
@@ -1656,14 +1741,14 @@ const Inventory: FC = () => {
                                     placeholder="Environments"
                                     type="text"
                                     name="environmentValues"
-                                    value={itemDetails.environment || ''}
+                                    value={itemDetails?.environment?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={36}
                                         className="form__field"
                                         id="safetyCert"
                                         placeholder="Safety Certifications"
@@ -1680,7 +1765,7 @@ const Inventory: FC = () => {
                                         className="form__label"
                                         htmlFor="safetyCert"
                                     >
-                                        Safety Cert
+                                        Safety Certificates
                                     </label>
                                 </div>
                                 <button
@@ -1702,7 +1787,7 @@ const Inventory: FC = () => {
                                     tabIndex={-1}
                                     className="material__list"
                                     id="safetyCertValues"
-                                    placeholder="Safety Certs"
+                                    placeholder="Safety Certificates"
                                     type="text"
                                     name="safetyCertValues"
                                     value={itemDetails.safetyCert || ''}
@@ -1712,10 +1797,10 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={37}
                                         className="form__field"
                                         id="projectVoltage"
-                                        placeholder="Project Voltage"
+                                        placeholder="Project Voltages"
                                         type="text"
                                         name="projectVoltage"
                                         value={
@@ -1756,14 +1841,14 @@ const Inventory: FC = () => {
                                     placeholder="Project Voltages"
                                     type="text"
                                     name="projectVoltageValues"
-                                    value={itemDetails.projectVoltage || ''}
+                                    value={itemDetails.projectVoltage?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={38}
                                         className="form__field"
                                         id="socketType"
                                         placeholder="Socket Types"
@@ -1780,7 +1865,7 @@ const Inventory: FC = () => {
                                         className="form__label"
                                         htmlFor="socketType"
                                     >
-                                        Socket Type
+                                        Socket Types
                                     </label>
                                 </div>
                                 <button
@@ -1805,14 +1890,14 @@ const Inventory: FC = () => {
                                     placeholder="Socket Types"
                                     type="text"
                                     name="socketTypeValues"
-                                    value={itemDetails.socketType || ''}
+                                    value={itemDetails.socketType?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <input
-                                        tabIndex={-1}
+                                        tabIndex={39}
                                         className="form__field"
                                         id="mounting"
                                         placeholder="Mounting"
@@ -1829,7 +1914,7 @@ const Inventory: FC = () => {
                                         className="form__label"
                                         htmlFor="mounting"
                                     >
-                                        Mounting
+                                        Mountings
                                     </label>
                                 </div>
                                 <button
@@ -1854,55 +1939,55 @@ const Inventory: FC = () => {
                                     placeholder="Mountings"
                                     type="text"
                                     name="mountingValues"
-                                    value={itemDetails.mounting || ''}
+                                    value={itemDetails.mounting?.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                         </div>
                     </div>
+                    {/* Design Style & Use Packages */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck6" />
+                        <input tabIndex={40} type="checkbox" id="chck6" onClick={(e) => closeOtherSections(e, 6)} />
                         <label className="tab-label" htmlFor="chck6">
-                            Design Styles & Use Packages
+                            Design Style & Use Packages
                         </label>
                         <div className="tab-content">
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={-1}
+                                    <select
+                                        tabIndex={41}
                                         className="form__field"
                                         id="designStyle"
-                                        placeholder="Design Styles"
-                                        type="text"
+                                        placeholder="Design Style"
                                         name="designStyle"
                                         value={
                                             listValue.name == 'designStyle'
                                                 ? listValue.value
                                                 : ''
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                        onChange={(e) => handleDesignStyleUpdate(e)}
+                                        onFocus={(e) => firstItemFocus(e, 6)}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(DesignStyle).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="designStyle"
                                     >
-                                        Design Styles
+                                        Design Style
                                     </label>
                                 </div>
                                 <button
                                     tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Add Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
                                     onClick={(e) =>
-                                        removeItem(e, 'designStyle')
+                                        removeItem(e, 'designStyle', true)
                                     }
-                                    className="delete-material-button"
+                                    className="delete-material-button delete-material-button-without-add"
                                 >
                                     <FaMinus />
                                 </button>
@@ -1919,20 +2004,26 @@ const Inventory: FC = () => {
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={-1}
+                                    <select
+                                        tabIndex={42}
                                         className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
-                                        type="text"
                                         name="usePackages"
                                         value={
                                             listValue.name == 'usePackages'
                                                 ? listValue.value
                                                 : ''
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                        onChange={(e) => handleUsePackageUpdate(e)}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(UsePackage).map((item: any, index: number) => (
+                                                <option key={index} value={item} disabled={itemDetails?.usePackages.indexOf(item) > -1}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="usePackages"
@@ -1942,18 +2033,10 @@ const Inventory: FC = () => {
                                 </div>
                                 <button
                                     tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Add Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'usePackages')
                                     }
-                                    className="delete-material-button"
+                                    className="delete-material-button delete-material-button-without-add"
                                 >
                                     <FaMinus />
                                 </button>
@@ -1964,14 +2047,15 @@ const Inventory: FC = () => {
                                     placeholder="Use Packages"
                                     type="text"
                                     name="usePackagesValues"
-                                    value={itemDetails.usePackages || ''}
+                                    value={itemDetails?.usePackages.join(', ') || ''}
                                     readOnly
                                 />
                             </div>
                         </div>
                     </div>
+                    {/* Images & Attachments */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck7" />
+                        <input tabIndex={43} type="checkbox" id="chck7" onClick={(e) => closeOtherSections(e, 7)} />
                         <label className="tab-label" htmlFor="chck7">
                             Images & Attachments
                         </label>
@@ -1983,31 +2067,24 @@ const Inventory: FC = () => {
                                 >
                                     Images
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'images')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
-                                    tabIndex={-1}
-                                    className="list-input tabIndex={-1}"
+                                    tabIndex={44}
+                                    className="list-input"
                                     id="images"
                                     placeholder="Upload Images"
                                     type="file"
                                     accept="image/png, image/jpeg, image/jpg"
                                     multiple
                                     name="images"
-                                    key={imageName.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
+                                    onFocus={(e) => firstItemFocus(e, 7)}
                                 />
                             </div>
                             <div className="file-row">
-                                {imageName.map((url: any) => {
+                                {imageName?.map((file: any) => {
                                     return (
                                         <div
-                                            key={uuid()}
+                                            key={file.name}
                                             className="file-contain"
                                         >
                                             <button
@@ -2015,7 +2092,7 @@ const Inventory: FC = () => {
                                                 onClick={(e) =>
                                                     deleteFiles(
                                                         e,
-                                                        url,
+                                                        file,
                                                         'images'
                                                     )
                                                 }
@@ -2023,7 +2100,7 @@ const Inventory: FC = () => {
                                                 <FaRegWindowClose />
                                             </button>
                                             <img
-                                                src={String(url.url)}
+                                                src={String(file.url)}
                                                 alt=""
                                                 className="imgAttachment"
                                             />
@@ -2036,51 +2113,43 @@ const Inventory: FC = () => {
                                 <label className="images__label" htmlFor="pdf">
                                     PDF
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'pdf')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
-                                    tabIndex={-1}
-                                    className="list-input tabIndex={-1}"
+                                    tabIndex={45}
+                                    className="list-input"
                                     id="pdf"
-                                    placeholder="Upload PDF's"
+                                    placeholder="Upload PDF(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
                                     name="pdf"
-                                    key={viewablePDF.name || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF.map((url: any) => {                                    
+                                {viewablePDF?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
-                                            onLoadSuccess={(e) =>{
+                                            key={file.name}
+                                            file={file.url}
+                                            onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'pdf',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
-                                                }
+                                            }
                                             }
                                             onLoadError={console.error}
                                             className="pdf-document2"
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numPdfPages[url.name]
+                                                    numPdfPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={index}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2089,7 +2158,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'pdf'
                                                                     )
                                                                 }
@@ -2098,9 +2167,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={file.name + index + 'pdf'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2126,38 +2193,30 @@ const Inventory: FC = () => {
                                 <label className="images__label" htmlFor="pdf">
                                     SPECS
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) => listFileNames(e, 'specs')}
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
-                                    tabIndex={-1}
-                                    className="list-input tabIndex={-1}"
+                                    tabIndex={46}
+                                    className="list-input"
                                     id="specs"
                                     placeholder="Upload Spec File(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
                                     name="specs"
-                                    key={viewableSpecs || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs.map((url: any) => {
+                                {viewableSpecs?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
+                                            key={file.name}
+                                            file={file.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'specs',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
@@ -2165,11 +2224,11 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numSpecPages[url.name]
+                                                    numSpecPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={index}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2178,7 +2237,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'specs'
                                                                     )
                                                                 }
@@ -2187,9 +2246,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={file.name + index + 'specs'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2218,40 +2275,30 @@ const Inventory: FC = () => {
                                 >
                                     Drawing Files
                                 </label>
-                                <button
-                                    tabIndex={-1}
-                                    className="add__btn"
-                                    onClick={(e) =>
-                                        listFileNames(e, 'drawingFiles')
-                                    }
-                                >
-                                    <FaPlus />
-                                </button>
                                 <input
-                                    tabIndex={-1}
-                                    className="list-input tabIndex={-1}"
+                                    tabIndex={47}
+                                    className="list-input"
                                     id="drawingFiles"
                                     placeholder="Upload Drawing Files"
                                     type="file"
                                     multiple
                                     accept="application/pdf"
                                     name="drawingFiles"
-                                    key={drawingFilesNames || ''}
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {drawingFilesNames.map((url: any) => {
+                                {drawingFilesNames?.map((file: any) => {
                                     return (
                                         <Document
-                                            key={uuid()}
-                                            file={url.url}
+                                            key={file.name}
+                                            file={file.url}
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
                                                     'drawingFiles',
-                                                    url.name,
-                                                    url.rendered
+                                                    file.name,
+                                                    file.rendered
                                                 )
                                             }
                                             onLoadError={console.error}
@@ -2259,11 +2306,11 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numDrawPages[url.name]
+                                                    numDrawPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
-                                                        key={uuid()}
+                                                        key={file.name + index}
                                                         className="pdf-contain"
                                                     >
                                                         {index == 0 && (
@@ -2272,7 +2319,7 @@ const Inventory: FC = () => {
                                                                 onClick={(e) =>
                                                                     deleteFiles(
                                                                         e,
-                                                                        url,
+                                                                        file,
                                                                         'drawingFiles'
                                                                     )
                                                                 }
@@ -2281,9 +2328,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={`page_${
-                                                                index + 1
-                                                            }`}
+                                                            key={file.name + index + 'drawingFiles'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2306,15 +2351,16 @@ const Inventory: FC = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Admin Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck8" />
+                        <input tabIndex={48} type="checkbox" id="chck8" onClick={(e) => closeOtherSections(e, 8)} />
                         <label className="tab-label" htmlFor="chck8">
                             Admin Options
                         </label>
                         <div className="tab-content">
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={49}
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
@@ -2322,6 +2368,7 @@ const Inventory: FC = () => {
                                     name="costAdmin"
                                     value={itemDetails.costAdmin || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 8)}
                                 />
                                 <label
                                     className="form__label"
@@ -2332,7 +2379,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="form__group field">
                                 <input
-                                    tabIndex={-1}
+                                    tabIndex={50}
                                     className="form__field"
                                     id="partnerCodeAdmin"
                                     placeholder="Partner Code"
@@ -2351,20 +2398,18 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="edit-button-container">
-                        {editingItem && (
-                            <button
-                                className="cancel-button"
-                                onClick={(e) => toggleEdit(e, false)}
-                            >
-                                Clear
-                            </button>
-                        )}
+                        <button
+                            className="cancel-button"
+                            onClick={(e) => resetForm(e)}
+                        >
+                            Clear
+                        </button>
 
                         <button
                             id="inventory-btn"
-                            className={
-                                editingItem ? 'edit-inventory' : 'inventory-btn'
-                            }
+                            tabIndex={51}
+                            ref={ref}
+                            className="inventory-btn"
                         >
                             {editingItem ? 'Submit Edit' : 'Submit'}
                         </button>

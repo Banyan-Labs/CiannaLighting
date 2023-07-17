@@ -10,8 +10,10 @@ import 'swiper/css/navigation';
 interface catalogProps {
     catalogItem: any;
 }
-const Pictures: FC<catalogProps> = ({catalogItem}) => {
+
+const Pictures: FC<catalogProps> = ({ catalogItem }) => {
     const Images = catalogItem.images;
+    
     return (
         <>
             <Swiper
@@ -28,17 +30,17 @@ const Pictures: FC<catalogProps> = ({catalogItem}) => {
                 modules={[Navigation, Pagination]}
             >
                 {Images
-                    ? Images.map((p:string, i: number) => {
-                          return (
-                              <SwiperSlide className="pictures-slide" key={i}>
-                                  <img
-                                      className="img-details"
-                                      src={p}
-                                      alt={p}
-                                  />
-                              </SwiperSlide>
-                          );
-                      })
+                    ? Images.map((p: string, i: number) => {
+                        return (
+                            <SwiperSlide className="pictures-slide" key={i}>
+                                <img
+                                    className="img-details"
+                                    src={p}
+                                    alt={p}
+                                />
+                            </SwiperSlide>
+                        );
+                    })
                     : ''}
             </Swiper>
         </>
