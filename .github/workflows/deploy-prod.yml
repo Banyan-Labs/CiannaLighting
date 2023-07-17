@@ -41,7 +41,6 @@ jobs:
       - name: Update codebase - Production environment
         run: ssh ec2 '
           cd ~/CiannaLighting &&
-          sudo git gc &&
           git checkout main &&
           sudo git pull &&
           sudo npm run install-modules &&
