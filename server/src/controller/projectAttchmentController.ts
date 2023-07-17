@@ -6,7 +6,7 @@ import { ActionType } from "../utils/constants";
 
 const addAttachmentSection = async (req: Request, res: Response) => {
   const { projId, images, pdf } = req.body;
-  
+
   await ProjectAttachments.findOne({ projectId: projId })
     .then(async (existing: any) => {
       if (existing) {
@@ -29,7 +29,7 @@ const addAttachmentSection = async (req: Request, res: Response) => {
           images: images ? images : [],
           pdf: pdf ? [...new Set([...pdf])] : [],
         });
-        
+
         return await projectAttchments
           .save()
           .then((attachments) => {
@@ -90,7 +90,7 @@ const getData = async (req: Request, res: Response) => {
           proj,
         });
       } else {
-        return res.status(204).json( { message: `No project attachments found using projectID of #${projId}.` } );;
+        return res.status(204).json({ message: `No project attachments found using projectID of #${projId}.` });;
       }
     })
     .catch((error) => {
@@ -109,45 +109,40 @@ const deleteData = async (req: Request, res: Response) => {
       async (projectAttach) => {
         if (projectAttach) {
           if (images && images.length) {
-            let copyOfImages = projectAttach.images.slice();
+            let copyOfImages = projectAttach.images?.slice();
 
             await images.map((containerId: any) => {
-              const indexCheck = copyOfImages
-                .map((v) => v.lightId)
-                .indexOf(containerId);
+              const indexCheck = copyOfImages?.map((v) => v.lightId).indexOf(containerId);
 
               if (indexCheck > -1) {
-                copyOfImages = copyOfImages.filter(
+                copyOfImages = copyOfImages?.filter(
                   (_, index) => index != indexCheck
                 );
               }
             });
             projectAttach.images = copyOfImages;
             //attachments is array
-            const imageVSpdf = copyOfImages
-              .map((img) => img.attachments)
-              .flat();
-            const pdfVSimg = projectAttach.pdf.filter(
-              (pdf) => imageVSpdf.indexOf(pdf) > -1
+            const imageVSpdf = copyOfImages?.map((img) => img.attachments)?.flat();
+            const pdfVSimg = projectAttach?.pdf?.filter(
+              (pdf) => imageVSpdf?.indexOf(pdf) > -1
             );
 
-            if (pdfVSimg.length !== projectAttach.pdf.length) {
+            if (pdfVSimg.length !== projectAttach?.pdf?.length) {
               projectAttach.pdf = pdfVSimg;
             }
           }
           if (item && item.length) {
-            const filteredPDF = projectAttach.pdf.filter(
+            const filteredPDF = projectAttach?.pdf?.filter(
               (internal: string) => internal !== item
             );
-            const filteredImages = projectAttach.images
-              .map((internal) =>
-                Object({
-                  lightId: internal.lightId,
-                  attachments: internal.attachments.filter(
-                    (attachment) => attachment !== item
-                  ),
-                })
-              ).filter((item) => item.attachments.length);
+            const filteredImages = projectAttach.images?.map((internal) =>
+              Object({
+                lightId: internal?.lightId,
+                attachments: internal?.attachments?.filter(
+                  (attachment) => attachment !== item
+                ),
+              })
+            )?.filter((item) => item.attachments?.length);
 
             projectAttach.pdf = filteredPDF;
             projectAttach.images = filteredImages;
