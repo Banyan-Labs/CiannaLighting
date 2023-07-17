@@ -216,9 +216,8 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
               ? res.status(200).json({
                 lightSelection,
               })
-              : res.status(404).json({
-                message: "The light selection you are looking for no longer exists",
-                lightRemoved: "light removed successfully from room",
+              : res.status(200).json({
+                message: "light removed successfully from room",
               });
           })
           .catch((error) => {
