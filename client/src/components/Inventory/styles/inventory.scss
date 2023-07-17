@@ -330,12 +330,6 @@ input:read-only {
         margin: 25px 0px;
         cursor: pointer;
     }
-    .edit-inventory {
-        @include button($accent-gold, #fff);
-        margin: 25px 0px;
-        margin-left: 10px;
-        cursor: pointer;
-    }
     .cancel-button {
         @include button($primary-bg-white-sub-text, $primary-bg-white-text);
         margin: 25px 0px;
