@@ -25,7 +25,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
         ? attachments.map((file: any, index: any) => {
             let fileName = file?.split('/')[file.split('/').length - 1];
             fileName = fileName?.split('-');
-            fileName.shift();
+            fileName?.shift();
             fileName = fileName?.join('-');
 
             if (fileName) {

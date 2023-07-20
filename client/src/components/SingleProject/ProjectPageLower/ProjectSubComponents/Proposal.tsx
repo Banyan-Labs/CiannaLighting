@@ -12,10 +12,11 @@ interface Props {
 }
 
 const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
-    const [numPages, setNumPages] = useState(null);
+    const [numPages, setNumPages] = useState<{ [key: string]: number }>({});
 
-    function onDocumentLoadSuccess({ numPages }: any) {
-        setNumPages(numPages);
+    function onDocumentLoadSuccess({ numPages }: any, url: any) {
+        const newNumPages = { ...numPages, [url]: numPages };
+        setNumPages(newNumPages);
     }
 
     const { rfp, proposal, attachments } = useAppSelector(({ project }) => {
@@ -124,11 +125,11 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                 <Document
                     key={index}
                     file={url}
-                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
                     onLoadError={(err) => logging.error(err, "Document")}
                     className="pdf-document"
                 >
-                    {Array.from(new Array(numPages), (el, index) => (
+                    {Array.from(new Array(numPages[url]), (el, index) => (
                         <Page
                             key={`page_${index + 1}`}
                             className="pdf-page"
