@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
-import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
+import { FaRegEdit, FaRegClone, FaCircle, FaArchive, FaFileAlt } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import ReactTooltip from 'react-tooltip';
@@ -15,12 +15,13 @@ import {
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
+import { getAllRegions } from '../../redux/actions/filterActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
+import ProjectAttachments from './ProjectAttachments';
 
 interface ProjectSummaryProps {
     details: any;
@@ -33,6 +34,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     setProcessing,
 }) => {
     const [openModal, setOpenModal] = useState(false);
+    const [showAttachmentModal, setShowAttachmentModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const { setInactive } = useAppSelector(({ project }) => project);
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -130,8 +132,12 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         }
     };
 
+    const showAttachments = async () => {
+        await dispatch(getAttachments(details._id));
+        setShowAttachmentModal(true);
+    };
+
     useEffect(() => {
-        dispatch(getAllStatus());
         dispatch(getAllRegions());
         dispatch(setRoomIdToDefault());
     }, []);
@@ -139,8 +145,8 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
 
     return (
-        <div className="project-summary-container col-6">
-            <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
+        <div className="project-summary-container col-12">
+            <div className="d-flex justify-content-between align-items-center mt-2 back-button-container mx-4">
                 <div className="back-to-project">
                     <a
                         className="back-to-all-projects"
@@ -153,14 +159,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     <p className="status">Status: {details?.status}</p>
                 </div>
             </div>
-            <div className="projects-summary">
+            <div className="projects-summary mx-4">
                 <div className="col-7 d-flex justify-content-between">
                     <div className="project-summary-name-and-date">
                         <h3 className="project-summary-project-name">
                             <div className="project-title-with-status-icon">
                                 {details?.name}
                                 <FaCircle
-                                    className={`circle-icon statusColor${findClosestSystemStatus(details?.status || '')} background-unset`}
+                                    className={`circle-icon ${getStatusClass(details?.status || '')} background-unset`}
                                 />
                             </div>
                         </h3>
@@ -190,8 +196,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                                     ? 'Restore'
                                     : 'Archive'
                             }
-                            className="archive-icon"
+                            className="clone-icon"
                             onClick={(e) => archiveSet(e)}
+                        />
+                        <FaFileAlt
+                            data-for="archive"
+                            data-tip="Attachments"
+                            className="archive-icon"
+                            onClick={() => showAttachments()}
                         />
 
                         <RiArchiveDrawerFill
@@ -223,6 +235,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     closeModal={setOpenModal}
                     editProject={editProject}
                     setEditProject={setEditProject}
+                />
+            )}
+            {showAttachmentModal && (
+                <ProjectAttachments
+                    openModal={showAttachmentModal}
+                    closeModal={setShowAttachmentModal}
+                    projectId={details?._id}
                 />
             )}
             {inactiveClearModal && (

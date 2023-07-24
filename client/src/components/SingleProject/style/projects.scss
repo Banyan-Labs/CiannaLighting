@@ -5,14 +5,15 @@
 .projects-top-half {
     display: flex;
     flex-direction: row;
-    height: 450px;
+    height: 400px;
+    background-color: $primary-bg-dark;
 }
 //   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-summary-container {
     margin-top: 100px;
     background-color: $primary-bg-dark;
     border-right: 1px $line-dark solid;
-    padding: 0px 24px 0px;
+    height: fit-content;
 }
 
 .back-to-projects {
@@ -57,9 +58,6 @@
 
 .project-summary-project-name {
     width: 110%;
-}
-
-.project-summary-name-and-date {
 }
 
 .circle-icon {
@@ -111,7 +109,6 @@
     font-size: 12px;
     display: flex;
     align-items: center;
-    margin-right: 25px;
 }
 
 .project-summary-text-container {
@@ -160,13 +157,9 @@
 }
 
 .project-attachments-table-container {
-    margin-left: 10%;
-    border-bottom: 1px solid rgb(39, 39, 40);
-    margin-right: 10%;
     color: $primary-bg-dark-title;
     overflow: hidden;
     overflow-y: scroll;
-    max-height: 200px;
 }
 
 .attachments-file-name {
@@ -183,18 +176,32 @@
 }
 
 .attachments-table {
-    border-bottom: 1px solid rgb(39, 39, 40);
     width: 100%;
     thead {
         top: 0;        
         position: sticky;
         background: rgb(236, 235, 231);
-        border-bottom: 2px solid $primary-bg-dark-title;
+        text-align: left;
+        font-size: $med-text;
+    }
+    td {
+        font-size: 12px;
+        padding: 0px 15px;
+        border-top: 1px $line-dark solid;
+        border-bottom: 1px $line-dark solid;
+    }
+    th {
+        font-size: 12px;
+        padding: 0px 15px;
     }
 }
 
 .attachments-dynamic-row:hover {
     transition: 200ms ease;
+    background-color: #ada9a9ab;
+}
+.attachments-dynamic-row {
+    cursor: pointer;
 }
 
 .file-file-name {

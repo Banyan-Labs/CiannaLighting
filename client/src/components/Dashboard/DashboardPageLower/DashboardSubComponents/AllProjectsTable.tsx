@@ -19,7 +19,7 @@ import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import './style/allProjects.scss';
 
@@ -278,7 +278,7 @@ const AllProjects: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`text-center statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span className={`text-center ${getStatusClass(project.status)}`}>
                             {project.status}
                         </span>
                     </td>

@@ -8,7 +8,8 @@ import {
     AiOutlineCloseCircle,
     AiOutlinePauseCircle,
     AiOutlineExclamationCircle,
-    AiOutlinePlayCircle
+    AiOutlinePlayCircle,
+    AiOutlineClockCircle,
 } from 'react-icons/ai';
 import {
     IoIosArrowDropleftCircle,
@@ -23,7 +24,7 @@ import dataHolding from './projectDetails';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
 import logging from 'config/logging';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import '../style/dashboard.scss';
 
@@ -45,11 +46,12 @@ const YourProjects: FC = () => {
         [user.name, navigate]
     );
 
-    const [newProjects, setNewProjects] = useState(0);
-    const [inProgressProjects, setInProgressProjects] = useState(0);
-    const [onHoldProjects, setOnHoldProjects] = useState(0);
-    const [canceledProjects, setCanceledProjects] = useState(0);
-    const [completedProjects, setCompletedProjects] = useState(0);
+    const [configureProjectCount, setConfigureProjectCount] = useState(0);
+    const [completedProjectCount, setcompletedProjectCount] = useState(0);
+    const [savedProjectCount, setSavedProjectCount] = useState(0);
+    const [holdProjectCount, setHoldProjectCount] = useState(0);
+    const [awardedProjectCount, setAwardedProjectCount] = useState(0);
+    const [templateProjectCount, setTemplateProjectCount] = useState(0);
 
     // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
@@ -61,39 +63,43 @@ const YourProjects: FC = () => {
         logging.info(user, 'YourProjects');
         dispatch(getUserProjects(user._id));
 
-        let newProjectsNumber = 0;
-        let onHoldProjectsNumber = 0;
-        let canceledProjectsNumber = 0;
-        let completedProjectsNumber = 0;
-        let inProgressProjectsNumber = 0;
+        let configureProjectsCount = 0;
+        let completedProjectCountCount = 0;
+        let savedProjectsCount = 0;
+        let holdProjectsCount = 0;
+        let awardedProjectsCount = 0;
+        let templateProjectsCount = 0;
 
         if (userProjects?.length) {
-            userProjects.map((project) => {
-                const closestSystemStatus = findClosestSystemStatus(project.status);
-
-                switch (closestSystemStatus) {
-                    case 'New':
-                        newProjectsNumber = newProjectsNumber + 1;
+            userProjects.forEach((project) => {
+                switch (project.status) {
+                    case 'Configure / Design':
+                        configureProjectsCount = configureProjectsCount + 1;
                         break;
-                    case 'Complete':
-                        completedProjectsNumber = completedProjectsNumber + 1;
+                    case 'RFP / Completed':
+                        completedProjectCountCount = completedProjectCountCount + 1;
                         break;
-                    case 'Hold':
-                        onHoldProjectsNumber = onHoldProjectsNumber + 1;
+                    case 'Saved Projects':
+                        savedProjectsCount = savedProjectsCount + 1;
                         break;
-                    case 'Cancel':
-                        canceledProjectsNumber = canceledProjectsNumber + 1;
+                    case 'On Hold':
+                        holdProjectsCount = holdProjectsCount + 1;
                         break;
-                    default:
-                        inProgressProjectsNumber = inProgressProjectsNumber + 1;
+                    case 'Awarded':
+                        awardedProjectsCount = awardedProjectsCount + 1;
+                        break
+                    case 'Template / New':
+                        templateProjectsCount = templateProjectsCount + 1;
+                        break
                 }
             });
 
-            setNewProjects(newProjectsNumber);
-            setInProgressProjects(inProgressProjectsNumber);
-            setOnHoldProjects(onHoldProjectsNumber);
-            setCanceledProjects(canceledProjectsNumber);
-            setCompletedProjects(completedProjectsNumber);
+            setConfigureProjectCount(configureProjectsCount);
+            setcompletedProjectCount(completedProjectCountCount);
+            setSavedProjectCount(savedProjectsCount);
+            setHoldProjectCount(holdProjectsCount);
+            setAwardedProjectCount(awardedProjectsCount);
+            setTemplateProjectCount(templateProjectsCount);
         }
     }, [user._id, userProjects?.length]);
 
@@ -108,7 +114,7 @@ const YourProjects: FC = () => {
 
         return (
             <div
-                className={`single-project statusColor${findClosestSystemStatus(project.status)}`}
+                className={`single-project ${getStatusClass(project.status)}`}
                 onClick={async () => {
                     await dispatch(setTheYourProjects(true));
                     changeProject(project._id);
@@ -158,7 +164,6 @@ const YourProjects: FC = () => {
                     <div className="overview-vertical-divider" />
                     {/* Grid for project overview */}
                     <div className="overview-display">
-                        {/* Total Projects */}
                         <VscFileSubmodule className="overview-total overview-icon-main" />
                         <div className="overview-total-title overview-label-main">
                             Total Projects
@@ -166,45 +171,53 @@ const YourProjects: FC = () => {
                         <div className="overview-total-num overview-num-main">
                             {userProjects?.length}
                         </div>
-                        {/* New Projects */}
-                        <AiOutlineExclamationCircle className="overview-new overview-icon" />
-                        <div className="overview-new-title overview-label">
-                            New
+
+                        <AiOutlineExclamationCircle className="overview-configure overview-icon" />
+                        <div className="overview-configure-title overview-label">
+                            Configure / Design
                         </div>
-                        <div className="overview-new-num overview-num">
-                            {newProjects}
+                        <div className="overview-configure-num overview-num">
+                            {configureProjectCount}
                         </div>
-                        {/* In Progress Projects */}
-                        <AiOutlinePlayCircle className="overview-in-progress overview-icon" />
-                        <div className="overview-in-progress-title overview-label">
-                            In Progress
+
+                        <AiOutlinePlayCircle className="overview-completed overview-icon" />
+                        <div className="overview-completed-title overview-label">
+                            RFP / Completed
                         </div>
-                        <div className="overview-in-progress-num overview-num">
-                            {inProgressProjects}
+                        <div className="overview-completed-num overview-num">
+                            {completedProjectCount}
                         </div>
-                        {/* On Hold Projects */}
-                        <AiOutlinePauseCircle className="overview-hold overview-icon" />
+
+                        <AiOutlinePauseCircle className="overview-saved overview-icon" />
+                        <div className="overview-saved-title overview-label">
+                           Saved Projects
+                        </div>
+                        <div className="overview-saved-num overview-num">
+                            {savedProjectCount}
+                        </div>
+
+                        <AiOutlineCloseCircle className="overview-hold overview-icon" />
                         <div className="overview-hold-title overview-label">
                             On Hold
                         </div>
                         <div className="overview-hold-num overview-num">
-                            {onHoldProjects}
+                            {holdProjectCount}
                         </div>
-                        {/* Canceled Projects */}
-                        <AiOutlineCloseCircle className="overview-canceled overview-icon" />
-                        <div className="overview-canceled-title overview-label">
-                            Canceled
+
+                        <AiOutlineCheckCircle className="overview-awarded overview-icon" />
+                        <div className="overview-awarded-title overview-label">
+                            Awarded
                         </div>
-                        <div className="overview-canceled-num overview-num">
-                            {canceledProjects}
+                        <div className="overview-awarded-num overview-num">
+                            {awardedProjectCount}
                         </div>
-                        {/* Completed Projects */}
-                        <AiOutlineCheckCircle className="overview-completed overview-icon" />
-                        <div className="overview-completed-title overview-label">
-                            Completed
+
+                        <AiOutlineClockCircle className="overview-template overview-icon" />
+                        <div className="overview-template-title overview-label">
+                            Template / New
                         </div>
-                        <div className="overview-completed-num overview-num">
-                            {completedProjects}
+                        <div className="overview-template-num overview-num">
+                            {templateProjectCount}
                         </div>
                     </div>
                 </div>

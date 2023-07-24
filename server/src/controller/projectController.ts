@@ -615,7 +615,7 @@ const getAttachments = async (req: Request, res: Response) => {
       }
     })
     .catch((error) => {
-      logging.error(error.message, "getAllProjects");
+      logging.error(error.message, "getAttachments");
       return res.status(500).json({ message: error.message, error });
     });
 };

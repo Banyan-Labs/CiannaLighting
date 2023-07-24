@@ -19,7 +19,7 @@ import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -301,7 +301,7 @@ const AllProjectView: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span className={getStatusClass(project.status)}>
                             {project.status}
                         </span>
                     </td>
@@ -430,10 +430,10 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
+                                    resetInputField();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('allProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('allProjects');
                                 }}
                             >
                                 All Projects
@@ -445,11 +445,11 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
-                                    await setSortToDefault();
+                                    resetInputField();
+                                    setSortToDefault();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('yourProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('yourProjects');
                                 }}
                             >
                                 Your Projects

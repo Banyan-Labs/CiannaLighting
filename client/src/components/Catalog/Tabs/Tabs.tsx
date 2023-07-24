@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import logging from 'config/logging';
 import Details from './Details';
 import Options from './Options';
 import Specifications from './Specifications';
@@ -16,6 +15,18 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     const handleClick = (index: any) => setActiveIndex(index);
     const checkActive = (index: any, className: any) =>
         activeIndex === index ? className : '';
+    const getFileNames = (file: any) => {
+        const fileName = file?.split('/')[file.split('/').length - 1];
+        const splitName = fileName?.split('-');
+        let displayName = splitName?.splice(2).join('');
+
+        if (displayName) {
+            displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
+        }
+
+        return displayName;
+    };
+
     return (
         <>
             <div className="tabs__catalog m-0 px-1 col-12 col-lg-12 col-xl-12">
@@ -63,18 +74,15 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                             <h4 className="m-0">Drawing Files:</h4>
                             {Item?.drawingFiles.map(
                                 (ef: string, index = ef.indexOf(ef)) => {
-                                    const fileName = ef.match(
-                                        /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
-                                    );
-                                    logging.info(fileName, 'Tabs');
+                                    const displayName = getFileNames(ef);
+
                                     return (
                                         <a
                                             className="m-2"
                                             key={index}
                                             href={ef}
                                         >
-                                            {`Drawing file #${index + 1}`}
-                                            {/* {fileName ? fileName[0] : '' } */}
+                                            { displayName || `Drawing file #${index + 1}`}
                                         </a>
                                     );
                                 }
@@ -82,13 +90,10 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         </div>
 
                         <div className="d-flex flex-column h-50 align-items-center m-0">
-                            <h4 className="m-0">Rendering:</h4>
+                            <h4 className="m-0">Renderings:</h4>
                             {Item?.renderings?.map(
                                 (ef: string, index = ef.indexOf(ef)) => {
-                                    const fileName = ef.match(
-                                        /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
-                                    );
-                                    logging.info(fileName, 'Tabs');
+                                    const displayName = getFileNames(ef);
                                     
                                     return (
                                         <a
@@ -96,8 +101,26 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                             key={index}
                                             href={ef}
                                         >
-                                            {`Rendering file #${index + 1}`}
-                                            {/* {fileName ? fileName[0] : ''} */}
+                                            { displayName || `Rendering #${index + 1}`}
+                                        </a>
+                                    );
+                                }
+                            )}
+                        </div>
+
+                        <div className="d-flex flex-column h-50 align-items-center m-0">
+                            <h4 className="m-0">Cut Sheets:</h4>
+                            {Item?.cutSheets?.map(
+                                (ef: string, index = ef.indexOf(ef)) => {
+                                    const displayName = getFileNames(ef);
+                                    
+                                    return (
+                                        <a
+                                            className="m-2"
+                                            key={index}
+                                            href={ef}
+                                        >
+                                            { displayName || `Cut sheet #${index + 1}`}
                                         </a>
                                     );
                                 }

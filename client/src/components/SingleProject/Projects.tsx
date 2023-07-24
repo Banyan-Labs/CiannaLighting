@@ -8,7 +8,6 @@ import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
-import ProjectAttachments from './ProjectAttachments';
 import AllProjectView from './AllProjectView';
 
 import './style/projects.scss';
@@ -66,7 +65,6 @@ const Projects: FC = () => {
                             processing={processing}
                             setProcessing={setProcessing}
                         />
-                        <ProjectAttachments projectId={projectId} />
                     </div>
                     <div>
                         <ProjectsNav processing={processing} />

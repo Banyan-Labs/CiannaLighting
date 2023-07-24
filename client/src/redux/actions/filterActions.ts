@@ -1,23 +1,7 @@
 import { Dispatch } from 'redux';
 
-import { setRegion, setStatus, setError } from '../reducers/filterSlice';
+import { setRegion, setError } from '../reducers/filterSlice';
 import { axiosPrivate } from '../../api/axios';
-
-export const getAllStatus =
-    () =>
-        async (dispatch: Dispatch): Promise<void> => {
-            const axioscall = await axiosPrivate();
-
-            try {
-                const AllStatus = await axioscall.post('/public/s_r', {
-                    label: 'status',
-                });
-
-                dispatch(setStatus(AllStatus?.data));
-            } catch (error: any) {
-                dispatch(setError(error.response.data));
-            }
-        };
 
 export const getAllRegions =
     () =>

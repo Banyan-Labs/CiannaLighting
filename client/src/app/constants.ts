@@ -60,11 +60,12 @@ export enum CopyType {
 }
 
 export const SystemStatus = [
-    'New',
-    'Progress',
-    'Hold',
-    'Cancel',
-    'Complete'
+    'Configure / Design',
+    'RFP / Completed',
+    'Saved Projects',
+    'On Hold',
+    'Awarded',
+    'Template / New'
 ];
 
 export const DesignStyle = {
