@@ -1,21 +1,44 @@
 import React, { FC } from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
 import { useAppSelector } from '../../app/hooks';
 
 interface ProjectSummaryProps {
     projectId: any;
+    closeModal: React.Dispatch<React.SetStateAction<any>>;
+    openModal: boolean;
 }
 
-const ProjectAttachments: FC<ProjectSummaryProps> = () => {
+const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
     const { attachments } = useAppSelector(({ project }) => project);
+    const closeModal = props.closeModal;
+    const openModal = props.openModal;
+    const downloadFile = (file: any, fileName: any) => {
+        const a = document.createElement('a');
+
+        a.href = file;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+    const camelCaseToTitleCase = (camelCase: string) => {
+        const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
+        const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
+            return match.toUpperCase();
+        });
+
+        return titleCase;
+    }
+
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
             const fileName = file?.split('/')[file.split('/').length - 1];
             const splitName = fileName?.split('-');
             const associatedItemID = splitName[0];
-            const fileType = splitName[1];
+            let fileType = camelCaseToTitleCase(splitName[1]);
+            fileType = fileType?.slice(0, fileType?.length - 1);
             let displayName = splitName?.splice(2).join('');
 
             if (displayName) {
@@ -23,38 +46,53 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
             }
 
             return (
-                <tbody key={index}>
-                    <tr className="attachments-dynamic-row">
-                        <td className="file-file-name">
-                            <span className="text-italic">({associatedItemID})&nbsp;</span>&nbsp;
-                            <span className="text-bold">&nbsp;{fileType}&nbsp;</span>&nbsp;
-                            {displayName}
-                        </td>
-                        <td className="file-file-remove">
-                            <FaTrashAlt
-                            />
-                        </td>
-                    </tr>
-                </tbody>
+                <tr key={index} className="attachments-dynamic-row" onClick={() => { downloadFile(file, displayName) }}>
+                    <td className="">
+                        <span className="text-bold">{associatedItemID}</span>
+                    </td>
+                    <td className="">
+                        <span className="text-bold">{fileType}</span>
+                    </td>
+                    <td className="">
+                        <p>{displayName}</p>
+                    </td>
+                </tr>
             );
         })
         : [];
 
     return (
-        <div className="project-attachments-container">
-            <div className="project-attachments-top-bar">
-                <h3 className="project-attachment">Attachments</h3>
-            </div>
-            <div className="project-attachments-table-container">
-                <table className="attachments-table">
-                    <thead>
-                        <tr>
-                            <th className="attachments-file-name">File name</th>
-                            <th className="attachments-file-remove">Remove</th>
-                        </tr>
-                    </thead>
-                    {userAttachments}
-                </table>
+        <div className="new-project-modal-background">
+            <div className="attachments-modal-container p-3">
+                <div className="modal-title-close-btn">
+                    <button
+                        onClick={() => {
+                            closeModal(!openModal);
+                        }}
+                    >
+                        {' '}
+                        <FaTimes />
+                    </button>
+                </div>
+                <div className="align-items-center d-flex flex-column">
+                    <div className="project-attachments-top-bar">
+                        <h3 className="project-attachment">Attachments</h3>
+                    </div>
+                    <div className="project-attachments-table-container mb-3">
+                        <table className="attachments-table">
+                            <thead>
+                                <tr>
+                                    <th className="">Source</th>
+                                    <th className="">Type</th>
+                                    <th className="">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userAttachments}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );

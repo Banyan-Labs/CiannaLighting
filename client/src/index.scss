@@ -10,28 +10,32 @@ body {
     padding-bottom: 100px;
 }
 
-.statusColorNew {
+.statusColorConfigureDesign {
     background-color: $accent-grayish-red;
     fill: $accent-grayish-red;
 }
 
 
-.statusColorHold {
+.statusColorRFPCompleted {
     background-color: $accent-pink-shade-granite;
     fill: $accent-pink-shade-granite;
 }
 
-.statusColorCancel {
+.statusColorSavedProjects {
     background-color: $accent-dark-gray;
 }
 
-.statusColorComplete {
+.statusColorOnHold {
     background-color: $accent-gold;
 }
 
-.statusColorProgress {
+.statusColorAwarded {
     background-color: $accent-light-grayish-yellow;
     fill: $accent-light-grayish-yellow;
+}
+
+.statusColorTemplateNew {
+    background-color: $accent-dark-gray;
 }
 
 .background-unset {

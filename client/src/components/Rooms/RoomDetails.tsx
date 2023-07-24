@@ -14,7 +14,7 @@ import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 
 import './style/roomDetails.scss';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 interface lightProps {
     setEditLight: any;
@@ -241,7 +241,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <div className="project-title-with-status-icon">
                         {project?.name}
                         <FaCircle
-                            className={`room-details-circle-icon statusColor${findClosestSystemStatus(project?.status || '')} background-unset`}
+                            className={`room-details-circle-icon ${getStatusClass(project?.status || '')} background-unset`}
                         />
                     </div>
                 </div>

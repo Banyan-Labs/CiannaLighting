@@ -261,7 +261,7 @@ const UsersTable: FC = () => {
                                                     )}
                                                     <p>
                                                         {user.isActive
-                                                            ? 'Archive'
+                                                            ? 'Mark Awarded'
                                                             : 'Restore'}
                                                     </p>
                                                 </div>

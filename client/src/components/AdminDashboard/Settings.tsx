@@ -5,45 +5,30 @@ import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
 import { axiosPrivate } from '../../api/axios';
 
 const Settings: FC = () => {
-    const [status, setStatus] = useState<string[]>([]);
     const [region, setRegion] = useState<string[]>([]);
-    const [newStatus, setNewStatus] = useState<string>('');
     const [newRegion, setNewRegion] = useState<string>('');
-    const [sortedStatus, setSortedStatus] = useState<string[]>([]);
     const [sortedRegion, setSortedRegion] = useState<string[]>([]);
-    const [statusSort, setStatusSort] = useState<number>(0);
     const [regionSort, setRegionSort] = useState<number>(0);
 
     const setSections = async () => {
         const axiosPriv = axiosPrivate();
         try {
-            const statusCall = await axiosPriv.post('/public/s_r', {
-                label: 'status',
-            });
             const regionCall = await axiosPriv.post('/public/s_r', {
                 label: 'region',
             });
-
-            if (statusCall) {
-                setStatus(statusCall.data.data);
-                setSortedStatus(statusCall.data.data)
-            }
 
             if (regionCall) {
                 setRegion(regionCall.data.data);
                 setSortedRegion(regionCall.data.data)
             }
 
-            setNewStatus('');
             setNewRegion('');
         } catch (error: any) {
             throw new Error(error.message)
         }
     };
     const handleChange = (e: any, section: string) => {
-        if (section == 'status') {
-            setNewStatus(e.currentTarget.value);
-        } else if (section == 'region') {
+        if (section == 'region') {
             setNewRegion(e.currentTarget.value);
         }
     };
@@ -51,9 +36,7 @@ const Settings: FC = () => {
         e.preventDefault();
 
         const submitVal =
-            section === 'status'
-                ? newStatus
-                : section === 'region'
+            section === 'region'
                     ? newRegion
                     : '';
         const axiosPriv = axiosPrivate();
@@ -94,18 +77,14 @@ const Settings: FC = () => {
             throw new Error(error.message);
         }
     };
-    const sortDisplay = (field: string) => {
+    const sortDisplay = () => {
         const directionCall: any = {
             0: '',
             1: <FaChevronUp className="sort-chevron" />,
             2: <FaChevronDown className="sort-chevron" />,
         };
 
-        if (field == 'status') {
-            return directionCall[statusSort];
-        } else {
-            return directionCall[regionSort];
-        }
+        return directionCall[regionSort];
     };
     const setUpSortTrigger = (field: string, direction: number) => {
         const utilizedData: any = field == 'status' ? status : region;
@@ -131,37 +110,19 @@ const Settings: FC = () => {
             }),
         };
 
-        if (field == 'status') {
-            setSortedStatus(sorted[direction]);
-            setStatusSort(direction);
-        } else {
-            setSortedRegion(sorted[direction]);
-            setRegionSort(direction)
-        }
+        setSortedRegion(sorted[direction]);
+        setRegionSort(direction)
     };
     const triggerDirection = (field: string) => {
-        if (field == 'status') {
-            if (statusSort == 0) {
-                setStatusSort(1);
-                setUpSortTrigger(field, 1);
-            } else if (statusSort == 1) {
-                setStatusSort(2);
-                setUpSortTrigger(field, 2);
-            } else {
-                setStatusSort(0);
-                setUpSortTrigger(field, 0);
-            }
+        if (regionSort == 0) {
+            setRegionSort(1);
+            setUpSortTrigger(field, 1);
+        } else if (regionSort == 1) {
+            setRegionSort(2);
+            setUpSortTrigger(field, 2);
         } else {
-            if (regionSort == 0) {
-                setRegionSort(1);
-                setUpSortTrigger(field, 1);
-            } else if (regionSort == 1) {
-                setRegionSort(2);
-                setUpSortTrigger(field, 2);
-            } else {
-                setRegionSort(0);
-                setUpSortTrigger(field, 0);
-            }
+            setRegionSort(0);
+            setUpSortTrigger(field, 0);
         }
     };
 
@@ -173,61 +134,6 @@ const Settings: FC = () => {
     }, []);
     return (
         <div className="settings_container">
-            <div className="add__materials">
-                <div className="list__group field">
-                    <input
-                        className="form__field"
-                        type="text"
-                        value={newStatus}
-                        onChange={(e) => handleChange(e, 'status')}
-                    />
-                    <label htmlFor="description" className="form__label">
-                        Add status
-                    </label>
-                </div>
-                <button
-                    className={`new-material-button ${newStatus.length < 1 ? 'disabled' : ''}`}
-                    onClick={(e) => handleSubmit(e, 'status')}
-                >
-                    <FaPlus className="submit-icon" />
-                    Submit
-                </button>
-            </div>
-            <table className="users-table">
-                <thead >
-                    <tr className="users-table-headers settings-head" onClick={() => triggerDirection('status')}>
-                        <td>Status</td>
-                        <td>{sortDisplay('status')}</td>
-                        <td>click to sort</td>
-                        <td className="remove-td">Actions</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sortedStatus?.map((label, index) => {
-                        return (
-                            <tr key={index} className="user-table-row">
-                                <td>{label}</td>
-                                <td></td>
-                                <td></td>
-                                <td className="remove-button-td">
-                                    <button
-                                        className="user-options-button"
-                                        onClick={(e) =>
-                                            removeSR(e, 'status', label)
-                                        }
-                                    >
-                                        <AiOutlineCloseCircle />
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-
-            <br></br>
-            <br></br>
-
             <div className="add__materials">
                 <div className="list__group field">
                     <input
@@ -252,7 +158,7 @@ const Settings: FC = () => {
                 <thead>
                     <tr className="users-table-headers settings-head" onClick={() => triggerDirection('region')}>
                         <td>Region</td>
-                        <td>{sortDisplay('region')}</td>
+                        <td>{sortDisplay()}</td>
                         <td>click to sort</td>
                         <td className="remove-td">Actions</td>
                     </tr>

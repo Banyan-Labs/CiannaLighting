@@ -115,7 +115,7 @@ const Activity: FC = () => {
                 )}
             </div>
 
-            <label className="activity-label">Archive / Restore</label>
+            <label className="activity-label">Mark Awarded / Restore</label>
             <table className="activity-table">
                 {
                     archRestore?.length

@@ -41,10 +41,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     );
 
     const camelCaseToTitleCase = (camelCase: string) => {
-        // Insert spaces before capital letters, then convert the entire string to lowercase
         const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
-
-        // Convert the first character of each word to uppercase
         const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
             return match.toUpperCase();
         });

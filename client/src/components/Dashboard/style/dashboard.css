@@ -65,7 +65,7 @@
     color: #3f3c39;
     grid-template-columns: 55px 40px 45px 40px 60px 40px 65px 40px 60px;
     grid-template-rows: 20px 50px;
-    grid-template-areas: 'total_icon total_title total_title total_title . . . . .' 'total_icon total_num . . . . . . .' '. new_icon new_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title' '. new_icon new_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num';
+    grid-template-areas: 'total_icon total_title total_title total_title . . . . .' 'total_icon total_num . . . . . . .' '. configure_icon configure_title hold_icon hold_title awarded_icon awarded_title completed_icon completed_title' '. configure_icon configure_num hold_icon hold_num awarded_icon awarded_num completed_icon completed_num';
 }
 
 .overview-icon-main {
@@ -113,16 +113,16 @@
     grid-area: total_num;
 }
 
-.overview-new {
-    grid-area: new_icon;
+.overview-configure {
+    grid-area: configure_icon;
 }
 
-.overview-new-title {
-    grid-area: new_title;
+.overview-configure-title {
+    grid-area: configure_title;
 }
 
-.overview-new-num {
-    grid-area: new_num;
+.overview-configure-num {
+    grid-area: configure_num;
 }
 
 .overview-hold {
@@ -137,16 +137,16 @@
     grid-area: hold_num;
 }
 
-.overview-canceled {
-    grid-area: canceled_icon;
+.overview-awarded {
+    grid-area: awarded_icon;
 }
 
-.overview-canceled-title {
-    grid-area: canceled_title;
+.overview-awarded-title {
+    grid-area: awarded_title;
 }
 
-.overview-canceled-num {
-    grid-area: canceled_num;
+.overview-awarded-num {
+    grid-area: awarded_num;
 }
 
 .overview-completed {

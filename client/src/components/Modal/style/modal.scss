@@ -29,6 +29,17 @@
     z-index: 1;
 }
 
+.attachments-modal-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background-color: $primary-bg-white;
+    color: $primary-bg-dark;
+    z-index: 1;
+}
+
 // === Close modal ---> "X" button ===
 
 .modal-title-close-btn button {
