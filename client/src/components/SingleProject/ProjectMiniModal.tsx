@@ -7,12 +7,12 @@ import { ROLES } from '../../app/constants';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
 import {
+    getAttachments,
     getProject,
     setTheYourProjects
 } from '../../redux/actions/projectActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { setSpecFile } from '../../redux/actions/lightActions';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -77,6 +77,7 @@ const ProjectMiniModal: FC<projectProps> = ({
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
+        await dispatch(getAttachments(prodId));
         dataHolding.getData(project);
     };
 
@@ -94,9 +95,6 @@ const ProjectMiniModal: FC<projectProps> = ({
             <div
                 onClick={async () => {
                     await changeProject(project._id);
-                    await dispatch(
-                        setSpecFile({ projId: project._id, edit: '' }, false)
-                    );
                     projectRoute(project._id);
                     await dispatch(setTheYourProjects(true));
                 }}

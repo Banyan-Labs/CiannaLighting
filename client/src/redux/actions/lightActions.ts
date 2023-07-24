@@ -5,13 +5,11 @@ import {
     setProjectError,
     setCatalogLights,
     setCatalogConnect,
-    setAttachments,
     setProposals,
     setInactiveLights,
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
 import { LightType } from '../reducers/projectSlice';
-import logging from 'config/logging';
 
 export const getRoomLights =
     (roomId: string) =>
@@ -52,77 +50,6 @@ export const getCatalogItems =
                 dispatch(setProjectError(error.response.data));
             }
         };
-
-export const setSpecFile =
-    (payload: any, newAttach: boolean) => async (dispatch: Dispatch) => {
-        const axiosPriv = axiosPrivate();
-
-        try {
-            const response = (endpoint: string) => {
-                return axiosPriv.post(endpoint, payload);
-            };
-
-            if (newAttach === true) {
-                const answer = await response('/new-attachments');
-
-                if (answer) {
-                    dispatch(setAttachments(answer.data?.attachments?.pdf || []));
-                }
-            } else {
-                dispatch(setAttachments([]));
-
-                const answer = await response('/get-attachments');
-
-                logging.info(`Status of get attachements call: ${answer.status}`, "setSpecFile")
-                if (answer.status === 200) {
-                    dispatch(setAttachments(answer?.data?.proj?.pdf || []));
-                } else {
-                    dispatch(setAttachments([]));
-                }
-            }
-        } catch (error: any) {
-            dispatch(setProjectError(error.reponse));
-            throw new Error(error.message);
-        }
-    };
-export const deleteSpecFile = (payload: any) => async (dispatch: Dispatch) => {
-    const axiosPriv = axiosPrivate();
-
-    try {
-        const response = await axiosPriv.post('/delete-attachments', payload);
-
-        dispatch(setAttachments(response?.data?.projectAttach?.pdf));
-
-        if (response) {
-            const runIDS = payload.lights?.map((prop: any) => prop._id) || [];
-            const finished = runIDS.length;
-            let i = 0;
-
-            while (i < finished) {
-                const proposal = await axiosPriv.post('/delete-props', {
-                    lightID: runIDS[i],
-                });
-
-                if (proposal) {
-                    i += 1;
-                }
-            }
-
-            if (i == finished) {
-                const proposalSet = await axiosPriv.post('/get-proposals', {
-                    projectId: payload.projectId,
-                });
-
-                if (proposalSet) {
-                    dispatch(setProposals(proposalSet.data?.proposal));
-                }
-            }
-        }
-    } catch (error: any) {
-        dispatch(setProjectError(error.response));
-        throw new Error(error.message);
-    }
-};
 
 export const createLight =
     (light: LightType) =>

@@ -5,7 +5,6 @@ import { BsThreeDots } from 'react-icons/bs';
 
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
-import { axiosPrivate } from '../../../../api/axios';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
@@ -236,24 +235,14 @@ const AllProjects: FC<Props> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
-
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
-
-        attachments = attach?.data?.proj?.pdf;
-
-
+        
         const payload = {
             project: {
                 ...proj,
                 clientId: user._id,
                 clientName: user.name,
             },
-            copy: CopyType.PROJECT,
-            attachments: attachments,
+            copy: CopyType.PROJECT
         };
 
         try {

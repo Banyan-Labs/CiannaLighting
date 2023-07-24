@@ -17,11 +17,10 @@ import {
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import { getProject, getUserProjects } from '../../../redux/actions/projectActions';
+import { getAttachments, getProject, getUserProjects } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import dataHolding from './projectDetails';
 import DashboardNav from '../DashboardPageLower/DashboardNav';
-import { setSpecFile } from '../../../redux/actions/lightActions';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
 import logging from 'config/logging';
 import { findClosestSystemStatus } from 'app/utils';
@@ -101,9 +100,8 @@ const YourProjects: FC = () => {
     const singleProject = userProjects?.map((project: any, index: any) => {
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
-            await dispatch(
-                setSpecFile({ projId: prodId, edit: '' }, false)
-            );
+            await dispatch(getAttachments(prodId));
+            
             dataHolding.getData(project);
         };
         const date = new Date(Date.parse(project.createdAt)).toDateString();

@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getProject, setDefaults } from '../../redux/actions/projectActions';
+import { getAttachments, getProject, setDefaults } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
+import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
@@ -27,12 +27,11 @@ const Projects: FC = () => {
 
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects?.slice(userProjects?.length - 1);
-    const defaultProjId = latestProject.map((p) => p._id);
+    const defaultProjId = latestProject.map((p) => p._id)[0];
+    const projectIdToUse: string = storedProjId ? storedProjId : defaultProjId;
     const fetchData1 = async () => {
-        storedProjId
-            ? await dispatch(getProject({ _id: String(storedProjId) }))
-            : await dispatch(getProject({ _id: String(defaultProjId) }));
-        await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
+        await dispatch(getProject({ _id: String(projectIdToUse) }))
+        await dispatch(getAttachments(projectIdToUse))
         await dispatch(getCatalogItems());
     };
 
@@ -67,7 +66,7 @@ const Projects: FC = () => {
                             processing={processing}
                             setProcessing={setProcessing}
                         />
-                        <ProjectAttachments details={project} />
+                        <ProjectAttachments projectId={projectId} />
                     </div>
                     <div>
                         <ProjectsNav processing={processing} />

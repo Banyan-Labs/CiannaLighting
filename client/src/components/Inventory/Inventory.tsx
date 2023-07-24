@@ -50,9 +50,6 @@ interface CatalogType {
     crystalType: string[];
     designStyle: string[];
     usePackages: string[];
-    // images: File[]; //s3
-    // pdf: string[]; //s3
-    // drawingFiles: string[]; //s3
     costAdmin: number;
     partnerCodeAdmin: string;
 }
@@ -97,9 +94,6 @@ const Inventory: FC = () => {
         crystalPinColor: [], //[]
         designStyle: [], //[]
         usePackages: [], //[]
-        // images: [], //[]//s3
-        // pdf: [], //[]//s3
-        // drawingFiles: [], //[]//s3
         editImages: [],
         editpdf: [],
         editDrawingFiles: [],

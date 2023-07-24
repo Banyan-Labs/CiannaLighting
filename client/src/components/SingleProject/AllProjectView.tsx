@@ -15,7 +15,6 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 import { LightREF } from '../../redux/reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
 import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
@@ -105,20 +104,13 @@ const AllProjectView: FC<Props> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        const attachments = attach?.data?.proj?.pdf || [];
-
         const payload = {
             project: {
                 ...proj,
                 clientId: user._id,
                 clientName: user.name,
             },
-            copy: CopyType.PROJECT,
-            attachments,
+            copy: CopyType.PROJECT
         };
 
         try {

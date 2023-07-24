@@ -15,10 +15,11 @@ import {
     setYourProjects,
     setFilteredProjNone,
     setPersonalizedDefaults,
+    setAttachments,
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import { ActionType, CopyType } from 'app/constants';
+import { CopyType } from 'app/constants';
 import logging from 'config/logging';
 
 export const createProjectAction =
@@ -36,53 +37,6 @@ export const createProjectAction =
                     dispatch(setProjectId(response.data.project));
                     dispatch(setProject(response.data.project));
                     dispatch(setProjectRooms([]));
-
-                    if (
-                        payload.copy &&
-                        payload.copy.length &&
-                        payload.attachments
-                    ) {
-                        const generateRandomId = (): string =>
-                            Math.random().toString(36).substr(2, 9);
-                        const attach = payload.attachments.map(
-                            (attachment: string) => {
-                                {
-                                    return {
-                                        projId: response?.data?.project?._id,
-                                        pdf: [attachment],
-                                        images: [
-                                            {
-                                                lightId:
-                                                    'COPY' +
-                                                    String(generateRandomId()),
-                                                attachments: attachment,
-                                            },
-                                        ],
-                                        edit: ActionType.ADD,
-                                    };
-                                }
-                            }
-                        );
-                        const attachThis = async (load: any) => {
-                            const wait = await axiosPriv.post(
-                                '/new-attachments',
-                                load
-                            );
-                            if (wait) {
-                                return 'done';
-                            }
-                        };
-                        const end = attach.length;
-                        let i = 0;
-
-                        while (i < end) {
-                            const done = await attachThis(attach[i]);
-
-                            if (done) {
-                                i += 1;
-                            }
-                        }
-                    }
 
                     const getRfp = await axiosPriv.post('/get-rfps', {
                         projectId: response?.data?.project?._id,
@@ -190,7 +144,7 @@ export const setTheYourProjects =
 export const getProject =
     (payload: any) =>
         async (dispatch: Dispatch): Promise<void> => {
-            if(!payload._id) return;
+            if (!payload._id) return;
 
             const axioscall = axiosPrivate();
 
@@ -253,6 +207,28 @@ export const getAllProjects =
                 throw new Error(error.message);
             }
         };
+
+export const getAttachments =
+    ( projectId: string ) =>
+        async (dispatch: Dispatch): Promise<any> => {
+            const axioscall: any = axiosPrivate();
+
+            try {
+                const attachments: any = await axioscall.post('/get-attachments', { projectId });
+
+                if (attachments?.data?.files?.length) {
+                    dispatch(setAttachments(attachments.data.files));
+
+                    return attachments.data.files;
+                } else {
+                    dispatch(setAttachments([]));
+                    return [];
+                }
+            } catch (error: any) {
+                throw new Error(error.message);
+            }
+        };
+
 export const getFilteredProjects =
     (payload: any, extraFilter: any) =>
         async (dispatch: Dispatch): Promise<void> => {
@@ -336,7 +312,7 @@ export const deleteThisProject = (payload: any) => async () => {
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
     logging.info(payload, 'deleteThisRoom');
-    
+
     try {
         const room = await axiosPriv.post('/delete-room', payload);
 

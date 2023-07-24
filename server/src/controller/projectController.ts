@@ -9,7 +9,6 @@ import Room from "../model/Room";
 import RFP from "../model/RFP";
 import { ActionType, CopyType } from "../utils/constants";
 import logging from "../../config/logging";
-import ProjectAttachments from "../model/ProjectAttachments";
 import CatalogItem from "../model/CatalogItem";
 
 const createProject = async (req: Request, res: Response) => {
@@ -471,42 +470,6 @@ const runLights = async (
                 return { message: error.message, error };
               });
           }
-
-          CatalogItem
-            .findOne({ item_ID: item_ID })
-            .exec()
-            .then(async (catalogLight) => {
-              if (catalogLight) {
-                const existingProjectAttachments = await ProjectAttachments.findOne({ newProjectId });
-                const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
-                const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
-                const newImages = catalogLight.images ? catalogLight.images : [];
-                const newPdf = catalogLight.specs ? catalogLight.specs : [];
-      
-                logging.info({existingImages, existingPdf, newImages, newPdf}, "runLights");
-      
-                const projectAttachments = new ProjectAttachments({
-                  projectId: newProjectId,
-                  images: [...new Set([...existingImages, ...newImages])],
-                  pdf: [...new Set([...existingPdf, ...newPdf])],
-                });
-      
-                await projectAttachments
-                  .save()
-                  .then((attachments) => {
-                    if (attachments) {
-                      logging.info(`Project Attachments created for ${newProjectId}`, "runLights");
-                      logging.info(attachments, "runLights");
-                    }
-                  })
-                  .catch((error) => {
-                    logging.error(error.message, "runLights");
-                  });
-                }
-              })
-              .catch((error) => {
-                logging.error(error.message, "runLights");
-              });
         }
       }).catch((error) => {
         logging.error(error.message, "runLights");
@@ -604,10 +567,64 @@ const deleteProject = async (req: Request, res: Response) => {
     });
 };
 
+const getAttachments = async (req: Request, res: Response) => {
+  const { projectId } = req.body;
+
+  if (!projectId) {
+    return res.status(400).json({
+      message: "No Project ID was provided",
+    });
+  }
+
+  await Project.findOne({ _id: projectId })
+    .then(async (project) => {
+      if (project) {
+        const lightSelectionIDs = project.lightIDs?.map((x) => x.item_ID);
+        
+        if (!lightSelectionIDs?.length) {
+          return res.status(200).json({
+            files: [],
+          });
+        }
+
+        const catalogItems = await CatalogItem.find({
+          item_ID: { $in: lightSelectionIDs },
+        });
+        const files: string[] = [];
+
+        catalogItems.forEach((item) => {
+          if (item.pdf?.length) {
+            item.pdf.forEach((x) => {
+              files.push(x);
+            });
+          }
+          if (item.specs?.length) {
+            item.specs.forEach((x) => {
+              files.push(x);
+            });
+          }
+        });
+
+        return res.status(200).json({
+          files: [...new Set(files)]
+        });
+      } else {
+        return res.status(404).json({
+          message: "The Project you are looking for no longer exists",
+        });
+      }
+    })
+    .catch((error) => {
+      logging.error(error.message, "getAllProjects");
+      return res.status(500).json({ message: error.message, error });
+    });
+};
+
 export default {
   createProject,
   deleteProject,
   getAllProjects,
   getProject,
   getAccountProjects,
+  getAttachments,
 };

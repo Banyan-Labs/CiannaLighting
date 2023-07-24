@@ -48,11 +48,10 @@ const createCatalogItem = async (req: Request, res: Response) => {
     costAdmin,
     partnerCodeAdmin,
   } = req.body;
-  let { images, pdf, specs, drawingFiles } = req.body; //[]//s3
-  images = [];
-  pdf = [];
-  specs = [];
-  drawingFiles = [];
+  let images = [];
+  let pdf = [];
+  let specs = [];
+  let drawingFiles = [];
   const existingCatalog = await CatalogItem.findOne({ item_ID });
 
   logging.info(`existingCatalog: ${existingCatalog}`, "createCatalogItem")
@@ -64,7 +63,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
   } else {
     if (req.files) {
       const documents = Object.values(req.files as any);
-      const results: any = await uploadFunc(documents);
+      const results: any = await uploadFunc(documents, item_ID);
 
       if (results?.length) {
         for (let i = 0; i < results?.length; i++) {
@@ -206,36 +205,36 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
   specs = [];
   drawingFiles = [];
 
-  if (req.files) {
-    const documents = Object.values(req.files as any);
-
-    const results: any = await uploadFunc(documents);
-    if (results?.length) {
-      for (let i = 0; i < results?.length; i++) {
-        for (let j = 0; j < results[i].length; j++) {
-          const singleDoc = await results[i][j];
-          if (singleDoc.field === AttachmentType.IMAGE) {
-            images.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
-            drawingFiles.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === AttachmentType.PDF) {
-            pdf.push(singleDoc.s3Upload.Location);
-          } else if (singleDoc.field === AttachmentType.SPEC) {
-            specs.push(singleDoc.s3Upload.Location);
-          } else {
-            next();
-          }
-        }
-      }
-    }
-  }
-
   logging.info(`editBOD: ${JSON.stringify(req.body)}`, "getLight");
 
   return await CatalogItem.findOne(search)
     .exec()
     .then(async (light: any) => {
       if (light) {
+        if (req.files) {
+          const documents = Object.values(req.files as any);
+      
+          const results: any = await uploadFunc(documents, light._item_ID || req.body.item_ID );
+          if (results?.length) {
+            for (let i = 0; i < results?.length; i++) {
+              for (let j = 0; j < results[i].length; j++) {
+                const singleDoc = await results[i][j];
+                if (singleDoc.field === AttachmentType.IMAGE) {
+                  images.push(singleDoc.s3Upload.Location);
+                } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
+                  drawingFiles.push(singleDoc.s3Upload.Location);
+                } else if (singleDoc.field === AttachmentType.PDF) {
+                  pdf.push(singleDoc.s3Upload.Location);
+                } else if (singleDoc.field === AttachmentType.SPEC) {
+                  specs.push(singleDoc.s3Upload.Location);
+                } else {
+                  next();
+                }
+              }
+            }
+          }
+        }
+
         logging.info(`lightFound: ${JSON.stringify(light)}`, "getLight");
         if (keys.length) {
           keys.map((keyName: string) => {

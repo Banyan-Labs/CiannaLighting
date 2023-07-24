@@ -24,7 +24,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
   let { images, pdf } = req.body; // []/s3
   const documents = Object.values(req.files as any);
 
-  const results: any = await uploadFunc(documents);
+  const results: any = await uploadFunc(documents, 'proposal');
   images = [];
   pdf = [];
 
