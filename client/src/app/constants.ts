@@ -64,7 +64,6 @@ export const SystemStatus = [
     'RFP / Completed',
     'Saved Projects',
     'On Hold',
-    'Awarded',
     'Template / New'
 ];
 
