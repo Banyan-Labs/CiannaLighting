@@ -11,12 +11,12 @@ import {
     getUserProjects,
     setTheYourProjects,
     setRoomIdToDefault,
+    getAttachments,
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
@@ -83,41 +83,28 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
+        const payload = {
+            project: {
+                ...proj,
+                clientId: user._id,
+                clientName: user.name,
+            },
+            copy: CopyType.PROJECT
+        };
 
-        if (attach) {
-            attachments = attach.data?.proj?.pdf;
+        try {
+            const response = await dispatch(
+                createProjectAction(payload)
+            );
 
-            if (attachments.length) {
-                const payload = {
-                    project: {
-                        ...proj,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: CopyType.PROJECT,
-                    attachments: attachments,
-                };
+            dispatch(getUserProjects(user._id));
+            dispatch(getAllProjects());
+            setProcessing(false);
+            alert(`Copy of ${proj.name} created in your dashboard.`);
 
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
-
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
-
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
+            return response;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 
@@ -132,6 +119,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     activity: details.archived ? 'Restore' : 'Archive',
                 })
             );
+            await dispatch(getAttachments(details._id));
 
             details?.archived === true
                 ? alert('This project was restored')

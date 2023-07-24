@@ -1,44 +1,37 @@
 import React, { FC } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { deleteSpecFile } from '../../redux/actions/lightActions';
+import { useAppSelector } from '../../app/hooks';
 
 interface ProjectSummaryProps {
-    details: any;
+    projectId: any;
 }
 
 const ProjectAttachments: FC<ProjectSummaryProps> = () => {
-    const { project, attachments } = useAppSelector(({ project }) => project);
-
-    const dispatch = useAppDispatch();
-
-    const deleteAttachments = async (attachment: string) => {
-        if (project) {
-            await dispatch(
-                deleteSpecFile({ projId: project._id, item: attachment })
-            );
-        }
-    };
+    const { attachments } = useAppSelector(({ project }) => project);
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-            let fileName = file?.split('/')[file.split('/').length - 1];
-            fileName = fileName?.split('-');
-            fileName.shift();
-            fileName = fileName?.join('-');
+            const fileName = file?.split('/')[file.split('/').length - 1];
+            const splitName = fileName?.split('-');
+            const associatedItemID = splitName[0];
+            const fileType = splitName[1];
+            let displayName = splitName?.splice(2).join('');
 
-            if (fileName) {
-                fileName = decodeURI(fileName)?.replace(/%2B/g, ' ');
+            if (displayName) {
+                displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
             }
 
             return (
                 <tbody key={index}>
                     <tr className="attachments-dynamic-row">
-                        <td className="file-file-name">{fileName}</td>
+                        <td className="file-file-name">
+                            <span className="text-italic">({associatedItemID})&nbsp;</span>&nbsp;
+                            <span className="text-bold">&nbsp;{fileType}&nbsp;</span>&nbsp;
+                            {displayName}
+                        </td>
                         <td className="file-file-remove">
                             <FaTrashAlt
-                                onClick={() => deleteAttachments(file)}
                             />
                         </td>
                     </tr>

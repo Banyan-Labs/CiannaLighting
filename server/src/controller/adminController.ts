@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 
 import User from "../model/User";
 import Project from "../model/Project";
-import ProjectAttachments from "../model/ProjectAttachments";
 import LightSelection from "../model/LightSelection";
 import CatalogItem from "../model/CatalogItem";
 import Room from "../model/Room";
@@ -86,11 +85,6 @@ const resetDatabase = (req: Request, res: Response) => {
     Project.deleteMany({})
       .exec().then((result) => {
         deletedProjectCount = result.deletedCount;
-      });
-
-    ProjectAttachments.deleteMany({})
-      .exec().then((result) => {
-        deletedProjectAttachmentsCount = result.deletedCount;
       });
 
     LightSelection.deleteMany({})

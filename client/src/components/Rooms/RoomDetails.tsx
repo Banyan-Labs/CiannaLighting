@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { DeleteModal } from './LightSide/DeleteModal';
 import { axiosPrivate } from '../../api/axios';
-import { getEditLight, deleteSpecFile } from '../../redux/actions/lightActions';
+import { getEditLight } from '../../redux/actions/lightActions';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
@@ -40,19 +40,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
         setOpenModal(true);
-    };
-    const deleteAttachments = async (lights: any) => {
-        const runDispatch = lights.map(
-            (light: any) => `${user._id}${light.item_ID}${light.roomId}`
-        );
-
-        await dispatch(
-            deleteSpecFile({
-                projId: projectId,
-                images: runDispatch,
-                lights: lights,
-            })
-        );
     };
 
     const setTheData = async (light: any, response: any) => {
@@ -339,7 +326,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     openModal={openModal}
                     closeModal={setOpenModal}
                     light={deleteLight}
-                    deleteAttachments={deleteAttachments}
                     setDeleteLight={setDeleteLight}
                     deleteRoom={deleteRoom}
                     setDeleteRoom={setDeleteRoom}

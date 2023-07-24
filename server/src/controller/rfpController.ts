@@ -21,12 +21,12 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     qualityStandards,
     contactInfo,
   } = req.body;
-  let { images, pdf } = req.body; // []/s3
+  let { images, renderings } = req.body; // []/s3
   const documents = Object.values(req.files as any);
 
-  const results: any = await uploadFunc(documents);
+  const results: any = await uploadFunc(documents, 'proposal');
   images = [];
-  pdf = [];
+  renderings = [];
 
   if (results?.length) {
     for (let i = 0; i < results?.length; i++) {
@@ -35,8 +35,8 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
 
         if (singleDoc.field === AttachmentType.IMAGE) {
           images.push(singleDoc.s3Upload.Location);
-        } else if (singleDoc.field === AttachmentType.PDF) {
-          pdf.push(singleDoc.s3Upload.Location);
+        } else if (singleDoc.field === AttachmentType.RENDERING) {
+          renderings.push(singleDoc.s3Upload.Location);
         }
       }
     }
@@ -53,7 +53,7 @@ const createRfp = async (req: Request, res: Response, next: NextFunction) => {
     qualityStandards,
     contactInfo,
     images,
-    pdf,
+    renderings,
   });
   const rfpAndProject = await Project.findByIdAndUpdate({ _id: projectId })
     .exec()

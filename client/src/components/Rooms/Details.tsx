@@ -7,6 +7,7 @@ import LightDetails from './LightSide/LightDetails';
 import { useAppDispatch } from '../../app/hooks';
 import {
     getAllProjectRoomsAction,
+    getAttachments,
     getProject,
     setTheRoom,
 } from '../../redux/actions/projectActions';
@@ -26,11 +27,12 @@ const Details: FC = () => {
     const [filterBar, setFilterBar] = useState<boolean>(false);
 
     const fetchData = async () => {
-        dispatch(getProject({ _id: String(storedProjId) }));
-        dispatch(getAllProjectRoomsAction(String(storedProjId)));
-        dispatch(setTheRoom(String(storedRoomId)));
-        dispatch(getRoomLights(String(storedRoomId)));
-        dispatch(getCatalogItems());
+        await dispatch(getProject({ _id: String(storedProjId) }));
+        await dispatch(getAttachments(String(storedProjId)))
+        await dispatch(getAllProjectRoomsAction(String(storedProjId)));
+        await dispatch(setTheRoom(String(storedRoomId)));
+        await dispatch(getRoomLights(String(storedRoomId)));
+        await dispatch(getCatalogItems());
     };
 
     useEffect(() => {

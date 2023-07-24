@@ -10,7 +10,7 @@ export type LightDetails = {
     item_ID: string;
     partnerCodeAdmin: string;
     pdf: string[];
-    specs: string[];
+    cutSheet: string[];
     usePackages: string[];
 };
 

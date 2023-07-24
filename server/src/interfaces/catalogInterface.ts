@@ -39,8 +39,8 @@ export default interface catalogInterface extends Document {
   designStyle: string[];
   usePackages: string[];
   images: string[]; //s3
-  pdf: string[]; //s3
-  specs: string[];
+  renderings: string[]; //s3
+  cutSheets: string[];
   drawingFiles: string[]; //s3
   costAdmin: number;
   partnerCodeAdmin: string;

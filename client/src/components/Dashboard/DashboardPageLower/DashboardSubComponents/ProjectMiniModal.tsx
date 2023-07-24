@@ -8,6 +8,7 @@ import { ProjectType } from '../DashboardNav';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import dataHolding from '../../../Dashboard/YourProjects/projectDetails';
 import {
+    getAttachments,
     getProject,
     setTheYourProjects
 } from '../../../../redux/actions/projectActions';
@@ -43,6 +44,7 @@ const ProjectMiniModal: FC<projectProps> = ({
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
+        await dispatch(getAttachments(prodId));
         dataHolding.getData(proj);
     };
 

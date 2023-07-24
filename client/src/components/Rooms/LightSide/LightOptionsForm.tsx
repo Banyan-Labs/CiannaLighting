@@ -14,14 +14,13 @@ import {
     createLight,
     getRoomLights,
     theEditLight,
-    setSpecFile,
 } from 'redux/actions/lightActions';
 import {
     getProject,
     setTheRoom,
     getAllProjectRoomsAction,
+    getAttachments,
 } from 'redux/actions/projectActions';
-import { ActionType } from 'app/constants';
 
 import './lightOptionsForm.style.scss';
 
@@ -38,11 +37,9 @@ function LightOptionsForm({
     editLightItem,
     setCatalogItem,
     setEditLight,
-    lightSpecs,
 }: Props) {
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, projectId, roomId, proposal } = useAppSelector(
+    const { room, proposal } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -52,7 +49,6 @@ function LightOptionsForm({
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
     const formRef = useRef<HTMLFormElement>(null);
-    const lightID = user._id + catalogLightItem.item_ID + roomId;
 
     const subtractCount = (subtract: boolean) =>
         setCount((prevState) => {
@@ -67,34 +63,9 @@ function LightOptionsForm({
         editLight: LightItemType | null,
         catalogLight: CatalogLightItem,
         rfpPassData: any,
-        lightSpecs: string[]
     ) => {
         try {
             if (!editLight) {
-                if (lightSpecs.length) {
-                    const specs = lightSpecs.length ? lightSpecs : [];
-                    const attachments = [
-                        ...specs, 
-                    ];
-
-                    dispatch(
-                        setSpecFile(
-                            {
-                                projId: projectId,
-                                pdf: attachments,
-                                images: [
-                                    {
-                                        lightId: lightID,
-                                        attachments: catalogLight.images,
-                                    },
-                                ],
-                                edit: ActionType.ADD,
-                            },
-                            attachments.length > 0 || catalogLight.images.length > 0
-                        )
-                    );
-                }
-
                 await dispatch(
                     createLight({ ...catalogLight, ...rfpPassData })
                 );
@@ -108,6 +79,7 @@ function LightOptionsForm({
             }
 
             await dispatch(getProject({ _id: String(storedProjId) }));
+            await dispatch(getAttachments(String(storedProjId)));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
             await dispatch(getRoomLights(String(storedRoomId)));
@@ -160,8 +132,7 @@ function LightOptionsForm({
                 await dispatchSubmit(
                     editLightItem,
                     { ...(lightInfoData as CatalogLightItem) },
-                    rfpPass,
-                    lightSpecs
+                    rfpPass
                 );
             } catch (error: any) {
                 throw new Error(error?.message);

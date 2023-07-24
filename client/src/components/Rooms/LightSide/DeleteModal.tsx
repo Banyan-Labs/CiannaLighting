@@ -11,6 +11,7 @@ import {
     getAllProjectRoomsAction,
     deleteThisRoom,
     editThisRoom,
+    getAttachments,
 } from '../../../redux/actions/projectActions';
 import { useParams } from '../../../app/utils';
 import '../../NewRoomModal/style/newRoomModal.css';
@@ -25,7 +26,6 @@ type Props = {
     room: any;
     editRoom: any;
     setEditRoom: any;
-    deleteAttachments: any;
 };
 
 export const DeleteModal: FC<Props> = ({
@@ -70,6 +70,7 @@ export const DeleteModal: FC<Props> = ({
             );
             
             await dispatch(getProject({_id: String(storedProjId)}));
+            await dispatch(getAttachments(String(storedProjId)));
         };
         
         try {
@@ -80,6 +81,7 @@ export const DeleteModal: FC<Props> = ({
         }
 
         await dispatch(getProject({ _id: String(storedProjId) }));
+        await dispatch(getAttachments(String(storedProjId)));
         dispatch(setTheRoom(String(storedRoomId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(getRoomLights(String(storedRoomId)));
@@ -121,6 +123,7 @@ export const DeleteModal: FC<Props> = ({
         }
         
         await dispatch(getProject({ _id: String(storedProjId) }));
+        await dispatch(getAttachments(String(storedProjId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(getRoomLights(String(storedRoomId)));
         closeModal(!openModal);

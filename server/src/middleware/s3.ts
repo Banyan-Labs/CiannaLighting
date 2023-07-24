@@ -10,13 +10,13 @@ const s3 = new AWS.S3({
   secretAccessKey: AWS_SECRET_KEY,
 });
 
-export const uploadFunc = async (files: any) => {
+export const uploadFunc = async (files: any, item_ID?: string) => {
   try {
     const response = files.map(async (field: any) => {
       const params = field.map((file: any) => {
         return {
           Bucket: AWS_BUCKET_NAME,
-          Key: `uploads/${Date.now()}-${file.originalname}`,
+          Key: `uploads/${item_ID || ''}-${file.fieldname}-${file.originalname}`,
           Body: file.buffer,
           field: file.fieldname,
         };
