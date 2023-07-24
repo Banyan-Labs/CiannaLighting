@@ -25,7 +25,7 @@ const AdminDashboard: FC = () => {
             const deletedItems = await axiosPriv.get('cmd/reset-db');
 
             if (deletedItems) {
-                logging.info(deletedItems)
+                logging.info(deletedItems.data)
             }
 
             return deletedItems;
