@@ -51,7 +51,7 @@ const DashboardNav: FC = () => {
                             : 'not-active'
                     }
                 >
-                    Active Projects
+                    Active
                 </a>
                 <a
                     id="archived"
@@ -66,7 +66,7 @@ const DashboardNav: FC = () => {
                             : 'not-active'
                     }
                 >
-                    Archived
+                    Awarded
                 </a>
             </div>
             <AllProjects

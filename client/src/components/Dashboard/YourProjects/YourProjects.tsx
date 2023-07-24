@@ -50,7 +50,6 @@ const YourProjects: FC = () => {
     const [completedProjectCount, setcompletedProjectCount] = useState(0);
     const [savedProjectCount, setSavedProjectCount] = useState(0);
     const [holdProjectCount, setHoldProjectCount] = useState(0);
-    const [awardedProjectCount, setAwardedProjectCount] = useState(0);
     const [templateProjectCount, setTemplateProjectCount] = useState(0);
 
     // Scroll using arrows - Your Projects section
@@ -67,11 +66,10 @@ const YourProjects: FC = () => {
         let completedProjectCountCount = 0;
         let savedProjectsCount = 0;
         let holdProjectsCount = 0;
-        let awardedProjectsCount = 0;
         let templateProjectsCount = 0;
 
-        if (userProjects?.length) {
-            userProjects.forEach((project) => {
+        if (filteredProjects?.length) {
+            filteredProjects.forEach((project) => {
                 switch (project.status) {
                     case 'Configure / Design':
                         configureProjectsCount = configureProjectsCount + 1;
@@ -85,9 +83,6 @@ const YourProjects: FC = () => {
                     case 'On Hold':
                         holdProjectsCount = holdProjectsCount + 1;
                         break;
-                    case 'Awarded':
-                        awardedProjectsCount = awardedProjectsCount + 1;
-                        break
                     case 'Template / New':
                         templateProjectsCount = templateProjectsCount + 1;
                         break
@@ -98,12 +93,14 @@ const YourProjects: FC = () => {
             setcompletedProjectCount(completedProjectCountCount);
             setSavedProjectCount(savedProjectsCount);
             setHoldProjectCount(holdProjectsCount);
-            setAwardedProjectCount(awardedProjectsCount);
             setTemplateProjectCount(templateProjectsCount);
         }
     }, [user._id, userProjects?.length]);
 
-    const singleProject = userProjects?.map((project: any, index: any) => {
+    const filteredProjects = userProjects?.filter(
+        (project: any) => project.archived === false
+    ) || [];
+    const singleProject = filteredProjects.map((project: any, index: any) => {
         const changeProject = async (prodId: string) => {
             await dispatch(getProject({ _id: prodId }));
             await dispatch(getAttachments(prodId));
@@ -133,7 +130,7 @@ const YourProjects: FC = () => {
 
                     <RiArchiveDrawerFill
                         data-for="ab"
-                        data-tip={`${project?.name} is archived`}
+                        data-tip={`${project?.name} is awarded.`}
                         className={
                             project?.archived
                                 ? 'archive-icon archive-show-option'
@@ -169,7 +166,7 @@ const YourProjects: FC = () => {
                             Total Projects
                         </div>
                         <div className="overview-total-num overview-num-main">
-                            {userProjects?.length}
+                            {filteredProjects?.length}
                         </div>
 
                         <AiOutlineExclamationCircle className="overview-configure overview-icon" />
@@ -202,14 +199,6 @@ const YourProjects: FC = () => {
                         </div>
                         <div className="overview-hold-num overview-num">
                             {holdProjectCount}
-                        </div>
-
-                        <AiOutlineCheckCircle className="overview-awarded overview-icon" />
-                        <div className="overview-awarded-title overview-label">
-                            Awarded
-                        </div>
-                        <div className="overview-awarded-num overview-num">
-                            {awardedProjectCount}
                         </div>
 
                         <AiOutlineClockCircle className="overview-template overview-icon" />

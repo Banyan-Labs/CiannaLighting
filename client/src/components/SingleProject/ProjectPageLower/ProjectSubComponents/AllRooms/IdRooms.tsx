@@ -72,7 +72,6 @@ const IdRooms: FC = () => {
         }
     };
 
-    // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
     const scroll = (scrollAmount: number) => {
         ref.current ? (ref.current.scrollLeft += scrollAmount) : null;

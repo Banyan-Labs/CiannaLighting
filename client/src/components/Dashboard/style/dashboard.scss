@@ -54,13 +54,13 @@
     flex-basis: 100%;
     display: grid;
     color: $primary-bg-dark-title;
-    grid-template-columns: 45px 40px 130px 40px 120px 40px 110px 40px 70px 40px 70px 40px 120px;
+    grid-template-columns: 45px 40px 130px 40px 120px 40px 110px 40px 70px 40px 120px;
     grid-template-rows: 20px 50px;
     grid-template-areas:
-        'total_icon total_title total_title total_title . . . . . . . . .'
-        'total_icon total_num . . . . . . . . . . .'
-        '. configure_icon configure_title completed_icon completed_title saved_icon saved_title hold_icon hold_title awarded_icon awarded_title template_icon template_title'
-        '. configure_icon configure_num completed_icon completed_num saved_icon saved_num hold_icon hold_num awarded_icon awarded_num template_icon template_num';
+        'total_icon total_title total_title total_title . . . . . . .'
+        'total_icon total_num . . . . . . . . .'
+        '. configure_icon configure_title completed_icon completed_title saved_icon saved_title hold_icon hold_title template_icon template_title'
+        '. configure_icon configure_num completed_icon completed_num saved_icon saved_num hold_icon hold_num template_icon template_num';
 }
 
 .overview-icon-main {
@@ -155,18 +155,6 @@
 
 .overview-hold-num {
     grid-area: hold_num;
-}
-
-.overview-awarded {
-    grid-area: awarded_icon;
-}
-
-.overview-awarded-title {
-    grid-area: awarded_title;
-}
-
-.overview-awarded-num {
-    grid-area: awarded_num;
 }
 
 .overview-template {

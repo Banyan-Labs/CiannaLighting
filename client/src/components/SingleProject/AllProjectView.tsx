@@ -395,7 +395,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Active Projects
+                            Active
                         </a>
                         <a
                             id="archived"
@@ -410,7 +410,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Archived
+                            Awarded
                         </a>
                     </div>
 

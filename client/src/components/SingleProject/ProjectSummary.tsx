@@ -125,9 +125,9 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
 
             details?.archived === true
                 ? alert('This project was restored')
-                : alert('This project was archived');
+                : alert('This project was marked as awarded');
         } catch (error: any) {
-            alert('Can not archive project.');
+            alert('Can not mark project as awarded.');
             throw new Error(error.message);
         }
     };
@@ -194,7 +194,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                             data-tip={
                                 details?.archived === true
                                     ? 'Restore'
-                                    : 'Archive'
+                                    : 'Mark awarded'
                             }
                             className="clone-icon"
                             onClick={(e) => archiveSet(e)}
@@ -208,7 +208,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
 
                         <RiArchiveDrawerFill
                             data-for="ab"
-                            data-tip={`${details?.name} is archived`}
+                            data-tip={`${details?.name} is marked awarded`}
                             className={
                                 details?.archived
                                     ? 'archive-icon archive-show-option'
