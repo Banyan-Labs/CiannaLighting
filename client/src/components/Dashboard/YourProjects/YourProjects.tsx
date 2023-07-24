@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { FaPlus, FaChevronRight } from 'react-icons/fa';
 import { VscFileSubmodule } from 'react-icons/vsc';
 import {
-    AiOutlineCheckCircle,
     AiOutlineCloseCircle,
     AiOutlinePauseCircle,
     AiOutlineExclamationCircle,
