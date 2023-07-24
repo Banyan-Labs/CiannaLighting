@@ -52,6 +52,10 @@ interface CatalogType {
     usePackages: string[];
     costAdmin: number;
     partnerCodeAdmin: string;
+    images: string[];
+    renderings: string[];
+    drawingFiles: string[];
+    cutSheets: string[];
 }
 type SetList = {
     name: string;
@@ -95,9 +99,9 @@ const Inventory: FC = () => {
         designStyle: [], //[]
         usePackages: [], //[]
         editImages: [],
-        editpdf: [],
+        editRenderings: [],
         editDrawingFiles: [],
-        editSpecs: [],
+        editCutSheets: [],
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
@@ -106,26 +110,26 @@ const Inventory: FC = () => {
         value: '',
     });
     const [imgFiles, setImgfiles] = useState<any>([]);
-    const [pdfFiles, setPdfFiles] = useState<any>([]);
-    const [specFiles, setSpecFiles] = useState<any>([]);
+    const [renderingFiles, setRenderingFiles] = useState<any>([]);
+    const [cutSheetFiles, setCutSheetFiles] = useState<any>([]);
     const [drawingFilesArray, setDrawingFilesArray] = useState<any>([]);
     const [images, setImages] = useState<any>([]);
-    const [pdf, setPdf] = useState<any>([]);
-    const [specs, setSpecs] = useState<any>([]);
+    const [renderings, setRenderings] = useState<any>([]);
+    const [cutSheets, setCutSheets] = useState<any>([]);
     const [drawingFiles, setDrawingFiles] = useState<any>([]);
     const [imageName, setImageNames] = useState<any>([]);
-    const [pdfNames, setPdfNames] = useState<any>([]);
-    const [specNames, setSpecNames] = useState<any>([]);
+    const [renderingNames, setRenderingNames] = useState<any>([]);
+    const [cutSheetNames, setCutSheetNames] = useState<any>([]);
     const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
-    const [viewablePDF, setViewablePDF] = useState<any>([]);
-    const [viewableSpecs, setViewableSpecs] = useState<any>([]);
+    const [viewableRenderings, setViewableRenderings] = useState<any>([]);
+    const [viewableCutSheets, setViewableCutSheets] = useState<any>([]);
     const [typeOfProject, setTypeOfProject] = useState('non-edit');
     const [catalogItems, setCatalogItems] = useState([]);
     const [editingInput, setEditingInput] = useState('');
     const [editingItem, setEditingItem] = useState<any>(false);
-    const [numPdfPages, setNumPdfPages] = useState<any>({});
+    const [numRenderingPages, setNumRenderingPages] = useState<any>({});
     const [numDrawPages, setNumDrawPages] = useState<any>({});
-    const [numSpecPages, setNumSpecPages] = useState<any>({});
+    const [numCutSheetPages, setNumCutSheetPages] = useState<any>({});
     const [usedItem, setUsedItem] = useState<boolean>(false);
 
     const initializeCatalog = async () => {
@@ -173,34 +177,34 @@ const Inventory: FC = () => {
                 setItemDetails({ ...itemDetails, editImages: editImg });
             }
         }
-        if (type == 'pdf') {
-            const newPdf = viewablePDF?.filter(
+        if (type == 'renderings') {
+            const newRendering = viewableRenderings?.filter(
                 (x: any) => x.name != filePath.name
             );
 
-            setViewablePDF(newPdf);
+            setViewableRenderings(newRendering);
 
-            const newPages = numPdfPages;
+            const newPages = numRenderingPages;
             delete newPages[filePath.name];
 
-            setNumPdfPages(newPages);
+            setNumRenderingPages(newPages);
 
             if (typeof filePath.name == 'string') {
-                const newpdf = pdf.filter(
+                const newRenderingData = renderings.filter(
                     (file: any) => file.name != filePath.name
                 );
 
-                setPdf(newpdf);
+                setRenderings(newRenderingData);
 
-                if (pdfFiles[0].name === filePath.name) {
-                    setPdfFiles([]);
+                if (renderingFiles[0].name === filePath.name) {
+                    setRenderingFiles([]);
                 }
             } else {
-                const editPdf = itemDetails.editpdf.filter(
+                const editRendering = itemDetails.editRenderings.filter(
                     (url: string) => url !== filePath.url
                 );
 
-                setItemDetails({ ...itemDetails, editpdf: editPdf });
+                setItemDetails({ ...itemDetails, editRenderings: editRendering });
             }
         }
         if (type == 'drawingFiles') {
@@ -233,34 +237,34 @@ const Inventory: FC = () => {
                 setItemDetails({ ...itemDetails, editDrawingFiles: editDraw });
             }
         }
-        if (type == 'specs') {
-            const newSpecs = viewableSpecs.filter(
+        if (type == 'cutSheets') {
+            const newCutSheets = viewableCutSheets.filter(
                 (x: any) => x.name != filePath.name
             );
 
-            setViewableSpecs(newSpecs);
+            setViewableCutSheets(newCutSheets);
 
-            const newPages = numSpecPages;
+            const newPages = numCutSheetPages;
             delete newPages[filePath.name];
 
-            setNumSpecPages(newPages);
+            setNumCutSheetPages(newPages);
 
             if (typeof filePath.name == 'string') {
-                const newspecs = specs.filter(
+                const cutSheetData = cutSheets.filter(
                     (file: any) => file.name != filePath.name
                 );
 
-                setSpecs(newspecs);
+                setCutSheets(cutSheetData);
 
-                if (specFiles[0].name === filePath.name) {
-                    setSpecFiles([]);
+                if (cutSheetFiles[0].name === filePath.name) {
+                    setCutSheetFiles([]);
                 }
             } else {
-                const editSpec = itemDetails.editSpecs.filter(
+                const editCutSheet = itemDetails.editCutSheets.filter(
                     (url: string) => url !== filePath.url
                 );
 
-                setItemDetails({ ...itemDetails, editSpecs: editSpec });
+                setItemDetails({ ...itemDetails, editCutSheets: editCutSheet });
             }
         }
     };
@@ -270,9 +274,9 @@ const Inventory: FC = () => {
 
         const editKeys: Array<string | unknown> = [
             'editImages',
-            'editpdf',
+            'editRenderings',
             'editDrawingFiles',
-            'editSpecs',
+            'editCutSheets',
             'isActive',
             '__v',
         ];
@@ -315,14 +319,14 @@ const Inventory: FC = () => {
         name: string | number,
         rendered: boolean
     ) => {
-        if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF?.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
+        if (location == 'renderings' && rendered === false) {
+            const newRenderings = viewableRenderings?.map((rendering: any) => rendering.name === name ? { ...rendering, rendered: true } : rendering);
 
-            setNumPdfPages({
-                ...numPdfPages,
+            setNumRenderingPages({
+                ...numRenderingPages,
                 [name]: e.numPages,
             });
-            setViewablePDF(newPdfs);
+            setViewableRenderings(newRenderings);
         }
         if (location == 'drawingFiles' && rendered === false) {
             const newDrawingFiles = drawingFilesNames?.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
@@ -333,15 +337,14 @@ const Inventory: FC = () => {
             });
             setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs' && rendered === false) {
-            const newSpecs = viewableSpecs?.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
+        if (location == 'cutSheets' && rendered === false) {
+            const newCutSheets = viewableCutSheets?.map((cutSheet: any) => cutSheet.name === name ? { ...cutSheet, rendered: true } : cutSheet);
 
-            setNumSpecPages({
-                ...numSpecPages,
+            setNumCutSheetPages({
+                ...numCutSheetPages,
                 [name]: e.numPages,
             });
-            setViewableSpecs(newSpecs);
-
+            setViewableCutSheets(newCutSheets);
         }
     };
 
@@ -374,8 +377,8 @@ const Inventory: FC = () => {
 
             const files: any = {
                 images: item.images,
-                pdf: item.pdf,
-                specs: item.specs,
+                renderings: item.renderings,
+                cutSheets: item.cutSheets,
                 drawingFiles: item.drawingFiles,
             };
 
@@ -389,13 +392,13 @@ const Inventory: FC = () => {
                     Object({ name: index, url: x })
                 )
             );
-            setViewablePDF(
-                files.pdf?.map((x: string, index: number) =>
+            setViewableRenderings(
+                files.renderings?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
-            setViewableSpecs(
-                files.specs?.map((x: string, index: number) =>
+            setViewableCutSheets(
+                files.cutSheets?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
@@ -407,14 +410,16 @@ const Inventory: FC = () => {
             setItemDetails({
                 ...item,
                 editImages: files.images,
-                editpdf: files.pdf,
+                editRenderings: files.renderings,
                 editDrawingFiles: files.drawingFiles,
-                editSpecs: files.specs,
+                editCutSheets: files.cutSheets,
             });
         }
     };
 
     const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
+        e.preventDefault();
+
         setItemDetails({
             ...itemDetails,
             [e.currentTarget.name]: e.currentTarget.value,
@@ -474,33 +479,33 @@ const Inventory: FC = () => {
             });
         }
 
-        if (e.target.name === 'pdf') {
-            setPdfFiles(files);
+        if (e.target.name === 'renderings') {
+            setRenderingFiles(files);
 
             Array.from(files).forEach((file: any) => {
                 const objectUrl = URL.createObjectURL(file);
 
-                setViewablePDF([
-                    ...viewablePDF,
+                setViewableRenderings([
+                    ...viewableRenderings,
                     { name: file.name, url: objectUrl, rendered: false },
                 ]);
-                setPdf([...pdf, file]);
-                setPdfNames([...pdfNames, file.name]);
+                setRenderings([...renderings, file]);
+                setRenderingNames([...renderingNames, file.name]);
             });
         }
 
-        if (e.target.name === 'specs') {
-            setSpecFiles(files);
+        if (e.target.name === 'cutSheets') {
+            setCutSheetFiles(files);
 
             Array.from(files).forEach((file: any) => {
                 const objectUrl = URL.createObjectURL(file);
 
-                setViewableSpecs([
-                    ...viewableSpecs,
+                setViewableCutSheets([
+                    ...viewableCutSheets,
                     { name: file.name, url: objectUrl, rendered: false },
                 ]);
-                setSpecs([...specs, file]);
-                setSpecNames([...specNames, file.name]);
+                setCutSheets([...cutSheets, file]);
+                setCutSheetNames([...cutSheetNames, file.name]);
             });
         }
 
@@ -522,7 +527,11 @@ const Inventory: FC = () => {
     const listValSubmit = (e: any) => {
         e.preventDefault();
 
+        if (!listValue.name || !listValue.value) return;
+
         const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType];
+
+        if (!valueOfKey) return;
 
         setItemDetails({
             ...itemDetails,
@@ -600,14 +609,14 @@ const Inventory: FC = () => {
                 fs.append('images', images[i]);
             }
         }
-        if (pdf.length) {
-            for (let i = 0; i < pdf.length; i++) {
-                fs.append('pdf', pdf[i]);
+        if (renderings.length) {
+            for (let i = 0; i < renderings.length; i++) {
+                fs.append('renderings', renderings[i]);
             }
         }
-        if (specs.length) {
-            for (let i = 0; i < specs.length; i++) {
-                fs.append('specs', specs[i]);
+        if (cutSheets.length) {
+            for (let i = 0; i < cutSheets.length; i++) {
+                fs.append('cutSheets', cutSheets[i]);
             }
         }
         if (drawingFiles.length) {
@@ -702,20 +711,20 @@ const Inventory: FC = () => {
             designStyle: [], //[]
             usePackages: [], //[]
             editImages: [],
-            editpdf: [],
+            editRenderings: [],
             editDrawingFiles: [],
-            editSpecs: [],
+            editCutSheets: [],
             costAdmin: 0,
             partnerCodeAdmin: '',
         });
 
         setImages([]);
         setDrawingFiles([]);
-        setPdf([]);
-        setSpecs([]);
+        setRenderings([]);
+        setCutSheets([]);
         setImageNames([]);
-        setViewablePDF([]);
-        setViewableSpecs([]);
+        setViewableRenderings([]);
+        setViewableCutSheets([]);
         setDrawingFilesNames([]);
         setEditingInput('');
 
@@ -1231,7 +1240,7 @@ const Inventory: FC = () => {
                                     onFocus={(e) => firstItemFocus(e, 4)}
                                 />
                                 <label
-                                    htmlFor="description"
+                                    htmlFor="material"
                                     className="form__label"
                                 >
                                     Material
@@ -2104,23 +2113,23 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="pdf">
-                                    PDF
+                                <label className="images__label" htmlFor="renderings">
+                                    Renderings
                                 </label>
                                 <input
                                     tabIndex={45}
                                     className="list-input"
-                                    id="pdf"
-                                    placeholder="Upload PDF(s)"
+                                    id="renderings"
+                                    placeholder="Upload Rendering(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
-                                    name="pdf"
+                                    name="renderings"
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF?.map((file: any) => {
+                                {viewableRenderings?.map((file: any) => {
                                     return (
                                         <Document
                                             key={file.name}
@@ -2128,7 +2137,7 @@ const Inventory: FC = () => {
                                             onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
-                                                    'pdf',
+                                                    'renderings',
                                                     file.name,
                                                     file.rendered
                                                 )
@@ -2139,7 +2148,7 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numPdfPages[file.name]
+                                                    numRenderingPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
@@ -2153,7 +2162,7 @@ const Inventory: FC = () => {
                                                                     deleteFiles(
                                                                         e,
                                                                         file,
-                                                                        'pdf'
+                                                                        'renderings'
                                                                     )
                                                                 }
                                                             >
@@ -2161,7 +2170,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'pdf'}
+                                                            key={file.name + index + 'renderings'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2184,23 +2193,23 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="pdf">
-                                    SPECS
+                                <label className="images__label" htmlFor="cutSheets">
+                                    Cut Sheets
                                 </label>
                                 <input
                                     tabIndex={46}
                                     className="list-input"
-                                    id="specs"
-                                    placeholder="Upload Spec File(s)"
+                                    id="cutSheets"
+                                    placeholder="Upload cutSheet File(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
-                                    name="specs"
+                                    name="cutSheets"
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs?.map((file: any) => {
+                                {viewableCutSheets?.map((file: any) => {
                                     return (
                                         <Document
                                             key={file.name}
@@ -2208,7 +2217,7 @@ const Inventory: FC = () => {
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
-                                                    'specs',
+                                                    'cutSheets',
                                                     file.name,
                                                     file.rendered
                                                 )
@@ -2218,7 +2227,7 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numSpecPages[file.name]
+                                                    numCutSheetPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
@@ -2232,7 +2241,7 @@ const Inventory: FC = () => {
                                                                     deleteFiles(
                                                                         e,
                                                                         file,
-                                                                        'specs'
+                                                                        'cutSheets'
                                                                     )
                                                                 }
                                                             >
@@ -2240,7 +2249,7 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'specs'}
+                                                            key={file.name + index + 'cutSheets'}
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false

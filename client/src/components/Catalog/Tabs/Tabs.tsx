@@ -82,8 +82,8 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                         </div>
 
                         <div className="d-flex flex-column h-50 align-items-center m-0">
-                            <h4 className="m-0">PDF:</h4>
-                            {Item?.pdf.map(
+                            <h4 className="m-0">Rendering:</h4>
+                            {Item?.renderings?.map(
                                 (ef: string, index = ef.indexOf(ef)) => {
                                     const fileName = ef.match(
                                         /(?<=\/\d+-)(\w+)(?=\.\w+)(?!\/)/g
@@ -96,7 +96,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                             key={index}
                                             href={ef}
                                         >
-                                            {`PDF file #${index + 1}`}
+                                            {`Rendering file #${index + 1}`}
                                             {/* {fileName ? fileName[0] : ''} */}
                                         </a>
                                     );

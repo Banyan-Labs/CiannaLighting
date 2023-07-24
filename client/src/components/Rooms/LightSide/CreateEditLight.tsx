@@ -69,7 +69,7 @@ const CreateEditLight = ({
                             editLightItem={editLight}
                             setCatalogItem={setCatalogItem}
                             setEditLight={setEditLight}
-                            lightSpecs={catalogItem.specs}
+                            lightSpecs={catalogItem.cutSheet}
                         />
                     </div>
                 </div>

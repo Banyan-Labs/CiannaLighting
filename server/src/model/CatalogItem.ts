@@ -41,8 +41,8 @@ const catalogItemScema = new Schema({
   designStyle: { type: Array<string>, required: true },
   usePackages: { type: Array<string>, required: true },
   images: { type: Array<string>, required: true }, //s3
-  pdf: { type: Array<string>, required: true }, //s3
-  specs: { type: Array<string>, required: true }, //s3
+  renderings: { type: Array<string>, required: true }, //s3
+  cutSheets: { type: Array<string>, required: true }, //s3
   drawingFiles: { type: Array<string>, required: true }, //s3 remember to add the light profile pic to light selection
   costAdmin: { type: Number, required: true },
   partnerCodeAdmin: { type: String, required: true },

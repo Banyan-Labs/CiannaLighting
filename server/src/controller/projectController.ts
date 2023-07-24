@@ -593,13 +593,13 @@ const getAttachments = async (req: Request, res: Response) => {
         const files: string[] = [];
 
         catalogItems.forEach((item) => {
-          if (item.pdf?.length) {
-            item.pdf.forEach((x) => {
+          if (item.renderings?.length) {
+            item.renderings.forEach((x) => {
               files.push(x);
             });
           }
-          if (item.specs?.length) {
-            item.specs.forEach((x) => {
+          if (item.cutSheets?.length) {
+            item.cutSheets.forEach((x) => {
               files.push(x);
             });
           }

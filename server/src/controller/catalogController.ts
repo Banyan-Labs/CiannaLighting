@@ -49,8 +49,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
     partnerCodeAdmin,
   } = req.body;
   let images = [];
-  let pdf = [];
-  let specs = [];
+  let renderings = [];
+  let cutSheets = [];
   let drawingFiles = [];
   const existingCatalog = await CatalogItem.findOne({ item_ID });
 
@@ -74,10 +74,10 @@ const createCatalogItem = async (req: Request, res: Response) => {
               images.push(singleDoc.s3Upload.Location);
             } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
               drawingFiles.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === AttachmentType.PDF) {
-              pdf.push(singleDoc.s3Upload.Location);
-            } else if (singleDoc.field === AttachmentType.SPEC) {
-              specs.push(singleDoc.s3Upload.Location);
+            } else if (singleDoc.field === AttachmentType.RENDERING) {
+              renderings.push(singleDoc.s3Upload.Location);
+            } else if (singleDoc.field === AttachmentType.CUT_SHEET) {
+              cutSheets.push(singleDoc.s3Upload.Location);
             }
           }
         }
@@ -125,8 +125,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
       designStyle, //[]
       usePackages, //[]
       images, //[]//s3
-      pdf, //[]//s3
-      specs, //[]//s3
+      renderings, //[]//s3
+      cutSheets, //[]//s3
       drawingFiles, //[]//s3
       costAdmin,
       partnerCodeAdmin,
@@ -187,8 +187,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       key != "item_ID" &&
       key != "authEmail" &&
       key != "images" &&
-      key != "pdf" &&
-      key != "specs" &&
+      key != "renderings" &&
+      key != "cutSheets" &&
       key != "drawingFiles" &&
       key != "authRole"
   );
@@ -199,11 +199,10 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
   const parameters = Object.fromEntries(
     keys.map((key: string) => [key, req.body[key.toString()]])
   );
-  let { images, pdf, specs, drawingFiles } = req.body; //[]//s3
-  images = [];
-  pdf = [];
-  specs = [];
-  drawingFiles = [];
+  let images: any[] = [];
+  let renderings: any[] = [];
+  let cutSheets: any[] = [];
+  let drawingFiles: any[] = [];
 
   logging.info(`editBOD: ${JSON.stringify(req.body)}`, "getLight");
 
@@ -223,10 +222,10 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                   images.push(singleDoc.s3Upload.Location);
                 } else if (singleDoc.field === AttachmentType.DRAWING_FILE) {
                   drawingFiles.push(singleDoc.s3Upload.Location);
-                } else if (singleDoc.field === AttachmentType.PDF) {
-                  pdf.push(singleDoc.s3Upload.Location);
-                } else if (singleDoc.field === AttachmentType.SPEC) {
-                  specs.push(singleDoc.s3Upload.Location);
+                } else if (singleDoc.field === AttachmentType.RENDERING) {
+                  renderings.push(singleDoc.s3Upload.Location);
+                } else if (singleDoc.field === AttachmentType.CUT_SHEET) {
+                  cutSheets.push(singleDoc.s3Upload.Location);
                 } else {
                   next();
                 }
@@ -255,19 +254,19 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                     light.images = paramsSplit;
                   }
                   break;
-                case "editpdf":
-                  if (pdf.length && parameters[keyName].length) {
+                case "editRenderings":
+                  if (renderings.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
 
-                    light.pdf = [...pdf, ...paramsSplit];
-                  } else if (pdf.length && parameters[keyName].length == 0) {
-                    light.pdf = pdf;
+                    light.renderings = [...renderings, ...paramsSplit];
+                  } else if (renderings.length && parameters[keyName].length == 0) {
+                    light.renderings = renderings;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
 
-                    light.pdf = paramsSplit;
+                    light.renderings = paramsSplit;
                   }
                   break;
                 case "editDrawingFiles":
@@ -285,19 +284,19 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
                     light.drawingFiles = paramsSplit;
                   }
                   break;
-                case "editSpecs":
-                  if (specs.length && parameters[keyName].length) {
+                case "editCutSheets":
+                  if (cutSheets.length && parameters[keyName].length) {
                     const paramsSplit = parameters[keyName].split(",");
 
-                    light.specs = [...specs, ...paramsSplit];
-                  } else if (specs.length && parameters[keyName].length == 0) {
-                    light.specs = specs;
+                    light.cutSheets = [...cutSheets, ...paramsSplit];
+                  } else if (cutSheets.length && parameters[keyName].length == 0) {
+                    light.cutSheets = cutSheets;
                   } else {
                     const paramsSplit = parameters[keyName].length
                       ? parameters[keyName].split(",")
                       : [];
 
-                    light.specs = paramsSplit;
+                    light.cutSheets = paramsSplit;
                   }
                   break;
                 default:

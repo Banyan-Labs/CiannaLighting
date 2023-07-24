@@ -16,7 +16,6 @@ const ProjectAttachments: FC<ProjectSummaryProps> = () => {
             const splitName = fileName?.split('-');
             const associatedItemID = splitName[0];
             const fileType = splitName[1];
-            // remove the first two items of the array and join hwta's left for displayName
             let displayName = splitName?.splice(2).join('');
 
             if (displayName) {

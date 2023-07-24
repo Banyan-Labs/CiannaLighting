@@ -121,27 +121,41 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
 
     const renderAttachments = () => {
         return attachments.map((url, index) => {
+            const fileName = url?.split('/')[url.split('/').length - 1];
+            const splitName = fileName?.split('-');
+            const associatedItemID = splitName[0];
+            let fileType = splitName[1];
+            fileType = fileType?.slice(0, -1);
+            let displayName = splitName?.splice(2).join('');
+
+            if (displayName) {
+                displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
+            }
+
             return (
-                <Document
-                    key={index}
-                    file={url}
-                    onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
-                    onLoadError={(err) => logging.error(err, "Document")}
-                    className="pdf-document"
-                >
-                    {Array.from(new Array(numPages[url]), (el, index) => (
-                        <Page
-                            key={`page_${index + 1}`}
-                            className="pdf-page"
-                            renderAnnotationLayer={false}
-                            renderTextLayer={false}
-                            pageNumber={index + 1}
-                            scale={1.0}
-                            width={1100}
-                            onLoadError={(err) => logging.error(err, "Page")}
-                        />
-                    ))}
-                </Document>
+                <div key={index}>
+                    <h4>{associatedItemID} - {camelCaseToTitleCase(fileType)} - {displayName}</h4>
+                    <Document
+                        key={index}
+                        file={url}
+                        onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
+                        onLoadError={(err) => logging.error(err, "Document")}
+                        className="pdf-document"
+                    >
+                        {Array.from(new Array(numPages[url]), (el, index) => (
+                            <Page
+                                key={`page_${index + 1}`}
+                                className="pdf-page"
+                                renderAnnotationLayer={false}
+                                renderTextLayer={false}
+                                pageNumber={index + 1}
+                                scale={1.0}
+                                width={1100}
+                                onLoadError={(err) => logging.error(err, "Page")}
+                            />
+                        ))}
+                    </Document>
+                </div>
             );
         });
     };
