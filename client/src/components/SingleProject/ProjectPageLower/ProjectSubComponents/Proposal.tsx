@@ -89,7 +89,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
 
     const renderAttachments = () => {
         return attachments.map((url, index) => {
-            const fileName = url?.split('/')[url.split('/').length - 1];
+            const fileName = url?.split('/uploads/')[1];
             const { itemId, fieldName, originalName } = parseFileName(fileName);
             let fileType = camelCaseToTitleCase(fieldName);
             fileType = fileType?.slice(0, fileType?.length - 1);

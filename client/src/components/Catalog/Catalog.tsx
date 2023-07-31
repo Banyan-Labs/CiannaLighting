@@ -10,12 +10,14 @@ import { UsePackage } from 'app/constants';
 import './style/catalog.scss';
 
 const usePackageImages: Record<string, string> = { 
-    BRIDES_ROOM: '/pexels-kseniia-lopyreva-4959835.jpg', 
-    CELESTIAL_ROOM: '/celestial-room.jpeg', 
+    LOBBY: '/pexels-kseniia-lopyreva-4959835.jpg', 
+    LOBBY_ALTERNATE: '/stairway.jpeg', 
     BAPTISTRY: '/baptistry.jpeg', 
-    HALLWAY: '/hallway.jpeg', 
-    FOYER: '/reception.jpeg', 
-    BALLROOM: '/stairway.jpeg',
+    ENDOWMENT: '/hallway.jpeg', 
+    SEALING: '/reception.jpeg', 
+    CELESTIAL: '/celestial-room.jpeg',
+    GENERAL: '/reception.jpeg', 
+    VEIL_CORRIDOR: '/celestial-room.jpeg',
 };
 
 const Catalog: FC = () => {

@@ -35,7 +35,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-            const fileName = file?.split('/')[file.split('/').length - 1];
+            const fileName = file?.split('/uploads/')[1];
             const { itemId, fieldName, originalName } = parseFileName(fileName);
             let fileType = camelCaseToTitleCase(fieldName);
             fileType = fileType?.slice(0, fileType?.length - 1);
