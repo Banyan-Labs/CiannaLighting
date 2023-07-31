@@ -77,10 +77,12 @@ export const DesignStyle = {
 };
 
 export const UsePackage: Record<string, string> = {
-    BRIDES_ROOM: 'Bride\'s Room',
-    CELESTIAL_ROOM: 'Celestial Room',
+    LOBBY: 'Lobby',
+    LOBBY_ALTERNATE: 'Lobby Alternate',
     BAPTISTRY: 'Baptistry',
-    HALLWAY: 'Hallway',
-    FOYER: 'Foyer', 
-    BALLROOM: 'Ballroom',
+    ENDOWMENT: 'Endowment',
+    SEALING: 'Sealing',
+    CELESTIAL: 'Celestial',
+    GENERAL: 'General',
+    VEIL_CORRIDOR: 'Veil Corridor'
 };

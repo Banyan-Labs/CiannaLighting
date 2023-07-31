@@ -17,7 +17,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     const checkActive = (index: any, className: any) =>
         activeIndex === index ? className : '';
     const getFileNames = (file: any) => {
-        const fileName = file?.split('/')[file.split('/').length - 1];
+        const fileName = file?.split('/uploads/')[1];
         const { originalName } = parseFileName(fileName);
         let displayName = '';
 
