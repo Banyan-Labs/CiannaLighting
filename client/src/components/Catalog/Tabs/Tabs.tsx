@@ -1,3 +1,4 @@
+import { parseFileName } from 'helpers/utils';
 import React, { FC, useState } from 'react';
 
 import Details from './Details';
@@ -17,11 +18,11 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
         activeIndex === index ? className : '';
     const getFileNames = (file: any) => {
         const fileName = file?.split('/')[file.split('/').length - 1];
-        const splitName = fileName?.split('-');
-        let displayName = splitName?.splice(2).join('');
+        const { originalName } = parseFileName(fileName);
+        let displayName = '';
 
-        if (displayName) {
-            displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
+        if (originalName) {
+            displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
         }
 
         return displayName;
