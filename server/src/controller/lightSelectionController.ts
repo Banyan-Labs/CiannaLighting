@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
-import CatalogItem from "../model/CatalogItem";
 import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import { ActionType } from "../utils/constants";
 import logging from "../../config/logging";
+import { lightSelectionCompare } from "../interfaces/lightSelectionInterface";
 
 const lightSelected = async (
   req: Request,
@@ -318,9 +318,56 @@ export const lightIdService = async (
   }
 };
 
+export const getLightSelectionsForProject = async (req: Request, res: Response) => {
+  const { projectId } = req.body;
+
+  if (!projectId) {
+    return res.status(400).json({ message: "Missing projectId" });
+  }
+
+  try {
+    const lightSelections = await LightSelection.find({ projectId });
+    let groupedSelections: { [key: string]: any } = {};
+
+    lightSelections.forEach(selection => {
+      let selectionCopy = {...selection._doc} as lightSelectionCompare;
+      let roomQuantity = selectionCopy.quantity;
+      let roomName = selectionCopy.roomName;
+
+      delete selectionCopy._id;
+      delete selectionCopy.roomId;
+      delete selectionCopy.roomName;
+      delete selectionCopy.quantity;
+      delete selectionCopy.clientId;
+
+      const groupKey = JSON.stringify(selectionCopy);
+
+      if (!groupedSelections[groupKey]) {
+        groupedSelections[groupKey] = { ...selectionCopy, rooms: [`${roomName} (${roomQuantity})`] };
+        groupedSelections[groupKey].lightQuantity = roomQuantity;
+      } else {
+        groupedSelections[groupKey].rooms.push(`${roomName} (${roomQuantity})`);
+        groupedSelections[groupKey].lightQuantity += roomQuantity;
+      }
+
+      groupedSelections[groupKey].rooms.sort();
+    });
+
+    let selections = Object.values(groupedSelections);
+
+    selections.sort((a: any, b: any) => a.item_ID.localeCompare(b.item_ID));
+
+    return res.status(200).json({ lightSelections: selections });
+  } catch (error) {
+    logging.error(error, "getLightSelectionsForProject");
+    return res.status(500).json({ message: "Error getting light selections for project" });
+  }
+}
+
 export default {
   lightSelected,
   getAllSelectedLights,
   deleteSelectedLight,
   getSelectedLight,
+  getLightSelectionsForProject
 };

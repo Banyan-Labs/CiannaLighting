@@ -1,8 +1,6 @@
 import { Dispatch } from 'redux';
 
 import {
-    setProposals,
-    setRfp,
     setProject,
     setProjectError,
     setRoom,
@@ -16,10 +14,10 @@ import {
     setFilteredProjNone,
     setPersonalizedDefaults,
     setAttachments,
+    setLightSelections,
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import { CopyType } from 'app/constants';
 import logging from 'config/logging';
 
 export const createProjectAction =
@@ -37,22 +35,6 @@ export const createProjectAction =
                     dispatch(setProjectId(response.data.project));
                     dispatch(setProject(response.data.project));
                     dispatch(setProjectRooms([]));
-
-                    const getRfp = await axiosPriv.post('/get-rfps', {
-                        projectId: response?.data?.project?._id,
-                    });
-
-                    if (getRfp) {
-                        dispatch(setRfp(getRfp.data.rfp[0]));
-
-                        const proposalSet = await axiosPriv.post('/get-proposals', {
-                            projectId: response?.data?.project?._id,
-                        });
-
-                        if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data?.proposal));
-                        } /* TAKE THIS OUT FIRE ANOTHER THING TO GET THE PROPOSAL TO FIRE IN REDUX! */
-                    }
                 } else {
                     null;
                 }
@@ -154,38 +136,6 @@ export const getProject =
                 if (project) {
                     dispatch(setProject(project.data?.project));
                     dispatch(setProjectId(project.data?.project));
-
-                    const proposalSet = await axioscall.post('/get-proposals', {
-                        projectId: project.data?.project?._id,
-                    });
-
-                    if (proposalSet) {
-                        dispatch(setProposals(proposalSet.data?.proposal));
-
-                        if (
-                            payload.projectName != payload.name ||
-                            payload.region != payload.projectRegion
-                        ) {
-                            const exchangeLoad = {
-                                type: CopyType.PROJECT,
-                                name: payload.projectName,
-                                newName: payload.name,
-                                projectId: payload._id,
-                                region: payload.region,
-                                projectRegion: payload.projectRegion,
-                            };
-
-                            await axioscall.post('/name-exchange', exchangeLoad);
-                        }
-
-                        const getRfp = await axioscall.post('/get-rfps', {
-                            projectId: project?.data?.project?._id,
-                        });
-
-                        if (getRfp) {
-                            dispatch(setRfp(getRfp.data?.rfp[0]));
-                        }
-                    }
                 }
             } catch (error: any) {
                 throw new Error(error.message);
@@ -229,6 +179,27 @@ export const getAttachments =
             }
         };
 
+export const getLightSelectionsForProject =
+    ( projectId: string ) =>
+        async (dispatch: Dispatch): Promise<any> => {
+            const axioscall: any = axiosPrivate();
+
+            try {
+                const lightSelections: any = await axioscall.post('/get-lightSelections-for-project', { projectId });
+
+                if (lightSelections?.data?.lightSelections?.length) {
+                    dispatch(setLightSelections(lightSelections.data.lightSelections));
+
+                    return lightSelections.data.lightSelections;
+                } else {
+                    dispatch(setLightSelections([]));
+                    return [];
+                }
+            } catch (error: any) {
+                throw new Error(error.message);
+            }
+        };
+            
 export const getFilteredProjects =
     (payload: any, extraFilter: any) =>
         async (dispatch: Dispatch): Promise<void> => {
@@ -330,22 +301,8 @@ export const editThisRoom =
             try {
                 const response = await axiosPriv.post('/find-room', payload);
 
-                if (payload.roomName != payload.name) {
-                    const exchangeLoad = {
-                        type: CopyType.ROOM,
-                        name: payload.roomName,
-                        newName: payload.name,
-                        projectId: payload.projectId,
-                    };
-
-                    await axiosPriv.post('/name-exchange', exchangeLoad);
-
-                    dispatch(setRoomId(response?.data?.room?._id));
-                    dispatch(setRoom(response?.data?.room));
-                } else {
-                    dispatch(setRoomId(response?.data?.room?._id));
-                    dispatch(setRoom(response?.data?.room));
-                }
+                dispatch(setRoomId(response?.data?.room?._id));
+                dispatch(setRoom(response?.data?.room));
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);

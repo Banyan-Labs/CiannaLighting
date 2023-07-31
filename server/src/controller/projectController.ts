@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
 import { lightIdService } from "./lightSelectionController";
-import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import RFP from "../model/RFP";
@@ -282,7 +281,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
       for (let i = 0; i < lights.length; i++) {
         logging.info(`Copying light ${lights[i]._id} in room ${room._id} of project ${newProjectId}`, "runRoom");
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, newProjectId, clientId, copy);
+          await runLights(light, room, newProjectId, clientId, copy);
         });
       }
     }
@@ -292,7 +291,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
 
 const runLights = async (
   light: any,
-  newRoomId: string,
+  newRoom: any,
   newProjectId: string,
   clientId: string,
   copy: CopyType
@@ -313,8 +312,8 @@ const runLights = async (
     crystalType: light.crystalType,
     crystalPinType: light.crystalPinType,
     crystalPinColor: light.crystalPinColor,
-    roomName: light.roomName,
-    roomId: newRoomId,
+    roomName: newRoom?.name,
+    roomId: newRoom?._id,
     projectId: newProjectId,
     clientId: clientId,
     quantity: light.quantity,
@@ -327,7 +326,7 @@ const runLights = async (
     numberOfLamps: light.numberOfLamps,
     totalLumens: light.totalLumens,
   });
-  const room = await Room.findOne({ _id: newRoomId });
+  const room = await Room.findOne({ _id: newRoom._id });
 
   if (room) {
     room.lights = [...room.lights, newLight._id];
@@ -336,139 +335,16 @@ const runLights = async (
       .save()
       .then(async () => {
         const savedLight = await newLight.save();
-        ///////
-        /**
-         * gonna work here, going to have to find a way to conditionally add the existingProposal ( compare with the add Proposal stuff)
-         */
-        //////
+
         if (savedLight) {
           const {
             item_ID,
-            exteriorFinish,
-            interiorFinish,
-            lensMaterial,
-            glassOptions,
-            acrylicOptions,
             roomName,
             projectId,
-            quantity,
-            description,
-            lampType,
-            lampColor,
-            price,
-            wattsPer,
-            totalWatts,
-            numberOfLamps,
-            totalLumens,
           } = savedLight;
 
           if (copy === CopyType.ROOM) {
             await lightIdService(projectId, ActionType.ADD, item_ID, roomName);
-          }
-
-          const finishes: any = {
-            exteriorFinish: exteriorFinish,
-            interiorFinish: interiorFinish,
-            lensMaterial: lensMaterial,
-            glassOptions: glassOptions,
-            acrylicOptions: acrylicOptions,
-          };
-          const existingProposal = await ProposalTableRow.findOne({
-            itemID: item_ID,
-            sub: "",
-            projectId: projectId,
-          });
-          const proposal = new ProposalTableRow({
-            _id: new mongoose.Types.ObjectId(),
-            sub: existingProposal ? existingProposal._id : "",
-            itemID: item_ID,
-            lightID: String(savedLight._id),
-            projectId: projectId,
-            description: description,
-            lampType: lampType,
-            lampColor: lampColor,
-            price: price,
-            lightQuantity: quantity,
-            wattsPer: wattsPer,
-            totalWatts: totalWatts * quantity,
-            numberOfLamps: numberOfLamps,
-            totalLumens: totalLumens * quantity,
-            finishes: finishes,
-            rooms: [{ name: roomName, lightNumber: quantity }],
-            subTableRow: [],
-          });
-
-          if (existingProposal) {
-            logging.info(`Updating current proposal row: ${existingProposal.id}`, "runLights");
-            let runCheck = [];
-            let rowFinishes: any = existingProposal.finishes;
-            const sameRoom = existingProposal.rooms
-              .map((room: any) => room.name)
-              .indexOf(roomName);
-
-            if (sameRoom == -1) {
-              const subs = existingProposal.subTableRow;
-              existingProposal.subTableRow = [...subs, String(proposal._id)];
-
-              await proposal.save();
-            } else {
-              for (let key in rowFinishes) {
-                runCheck.push(rowFinishes[key] == finishes[key]);
-              }
-              if (runCheck.some((item) => item == false)) {
-                const subs = existingProposal.subTableRow;
-
-                if (subs) {
-                  existingProposal.subTableRow = [...subs, String(proposal._id)];
-                }
-
-                await proposal.save();
-              }
-            }
-            const newQuantity = existingProposal.lightQuantity + quantity;
-            const newWattage = totalWatts * newQuantity;
-            const newTotalLumens = totalLumens * newQuantity;
-            const roomFind = existingProposal.rooms.find(
-              (room: any) => room.name == roomName
-            );
-            const roomFilter = existingProposal.rooms.filter(
-              (room: any) => room.name != roomName
-            );
-            const newRooms: any =
-              sameRoom == -1
-                ? [...existingProposal.rooms, { name: roomName, lightNumber: quantity }]
-                : [
-                  ...roomFilter,
-                  {
-                    name: roomFind?.name,
-                    lightNumber: roomFind
-                      ? roomFind.lightNumber + quantity
-                      : quantity,
-                  },
-                ];
-            existingProposal.lightQuantity = newQuantity;
-            existingProposal.totalWatts = newWattage;
-            existingProposal.totalLumens = newTotalLumens;
-            existingProposal.rooms = newRooms;
-
-            await existingProposal.save();
-          } else {
-            await RFP.findOne({ projectId: projectId })
-              .exec()
-              .then(async (rfp) => {
-                if (rfp) {
-                  logging.info(`Updating current RFP`, "runLights");
-                  await proposal.save();
-
-                  const newRow = [String(proposal._id), ...rfp.tableRow];
-                  rfp.tableRow = newRow;
-
-                  await rfp.save();
-                }
-              })
-              .catch((error: any) => {
-                return { message: error.message, error };
-              });
           }
         }
       }).catch((error) => {
@@ -606,7 +482,7 @@ const getAttachments = async (req: Request, res: Response) => {
         });
 
         return res.status(200).json({
-          files: [...new Set(files)]
+          files: [...new Set(files?.sort((a, b) => a.localeCompare(b)))],
         });
       } else {
         return res.status(404).json({

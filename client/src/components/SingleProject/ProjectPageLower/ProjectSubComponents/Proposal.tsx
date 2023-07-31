@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../../app/hooks';
 import logging from 'config/logging';
 
 import './style/proposal.scss';
+import { parseFileName } from 'helpers/utils';
 
 interface Props {
     ref: any;
@@ -19,26 +20,9 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
         setNumPages(newNumPages);
     }
 
-    const { rfp, proposal, attachments } = useAppSelector(({ project }) => {
+    const { attachments, selections, project } = useAppSelector(({ project }) => {
         return project;
     });
-
-    const header = rfp?.header.split(', ');
-
-    const base = proposal.filter((item) => item.sub.length == 0);
-
-    const children = proposal.filter((item) => item.sub.length > 0);
-
-    const displayChildren = Object.fromEntries(
-        base.map((item) => [
-            item._id,
-            children.filter((child) => child.sub === item._id),
-        ])
-    );
-
-    const finalDisplay = base.map((item) =>
-        [item, displayChildren[item._id]].flat()
-    );
 
     const camelCaseToTitleCase = (camelCase: string) => {
         const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
@@ -49,91 +33,76 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
         return titleCase;
     }
 
-    const ltrs = Array(52)
-        .fill('')
-        .map((_, index) =>
-            index <= 25
-                ? String.fromCharCode(index + 65)
-                : String.fromCharCode(index + 71)
-        );
+    const tableRows = selections.map((prop, index) => {
+        const finishes = {
+            exteriorFinish: prop.exteriorFinish,
+            interiorFinish: prop.interiorFinish,
+            lensMaterial: prop.lensMaterial,
+            glassOptions: prop.glassOptions,
+            acrylicOptions: prop.acrylicOptions,
+        };
 
-    const tableRows = finalDisplay
-        .map((item, indexTop) => {
-            return item.map((prop, index) => {
-                return (
-                    <tr key={indexTop + '/' + index}>
-                        <td className={index == 0 ? 'bold' : 'cell'}>
-                            {item.length > 1
-                                ? `${prop.itemID} - ${ltrs[index]}`
-                                : prop.itemID}
-                        </td>
-                        <td className={index == 0 ? 'bold' : ''}>
-                            {prop.lightQuantity}
-                        </td>
-                        <td>
-                            {prop.rooms.map((room: any, index: number) => {
-                                return (
-                                    <span
-                                        className="list"
-                                        key={index + room.name}
-                                    >
-                                        {index + 1 + ') '}
-                                        {room.name +
-                                            ' ( ' +
-                                            (room.lightNumber ||
-                                                room.roomLights) +
-                                            ' )'}
-                                    </span>
-                                );
-                            })}
-                        </td>
-                        <td>{prop.description}</td>
-                        <td>
-                            {Object.entries(prop.finishes).map(
-                                (item: any, index: number) => {
-                                    return (
-                                        <span
-                                            className="list"
-                                            key={index + item[0]}
-                                        >
-                                            {camelCaseToTitleCase(item[0])}: {item[1]}
-                                        </span>
-                                    );
-                                }
-                            )}
-                        </td>
-                        <td>{prop.lampType}</td>
-                        <td>{prop.lampColor}</td>
-                        <td>{prop.wattsPer}</td>
-                        <td>{prop.totalWatts}</td>
-                        <td>{prop.numberOfLamps * prop.lightQuantity}</td>
-                        <td>{prop.totalLumens}</td>
-                        <td>{prop.price}</td>
-                        <td>{(prop.price * prop.lightQuantity).toFixed(2)}</td>
-                    </tr>
-                );
-            });
-        })
-        .flat();
+        return (
+            <tr key={`${prop.itemID} + ${index}`}>
+                <td className="cell">
+                    {prop.item_ID}
+                </td>
+                <td>
+                    {prop.lightQuantity}
+                </td>
+                <td>
+                    {prop.rooms.map((room: any, index: number) => {
+                        return (
+                            <span
+                                className="list py-1"
+                                key={index + room}
+                            >
+                                {room}
+                            </span>
+                        );
+                    })}
+                </td>
+                <td>{prop.description}</td>
+                <td>
+                    {Object.entries(finishes).map(
+                        (item: any, index: number) => {
+                            return (
+                                <span
+                                    className="list"
+                                    key={index + item[0]}
+                                >
+                                    {camelCaseToTitleCase(item[0])}: {item[1]}
+                                </span>
+                            );
+                        }
+                    )}
+                </td>
+                <td>{prop.lampType}</td>
+                <td>{prop.lampColor}</td>
+                <td>{prop.wattsPer}</td>
+                <td>{prop.totalWatts}</td>
+                <td>{prop.numberOfLamps * prop.lightQuantity}</td>
+                <td>{prop.totalLumens}</td>
+            </tr>
+        );
+    });
 
     const renderAttachments = () => {
         return attachments.map((url, index) => {
             const fileName = url?.split('/')[url.split('/').length - 1];
-            const splitName = fileName?.split('-');
-            const associatedItemID = splitName[0];
-            let fileType = splitName[1];
-            fileType = fileType?.slice(0, -1);
-            let displayName = splitName?.splice(2).join('');
+            const { itemId, fieldName, originalName } = parseFileName(fileName);
+            let fileType = camelCaseToTitleCase(fieldName);
+            fileType = fileType?.slice(0, fileType?.length - 1);
+            let displayName = '';
 
-            if (displayName) {
-                displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
+            if (originalName) {
+                displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
             }
 
             return (
                 <div key={index}>
-                    <h4>{associatedItemID} - {camelCaseToTitleCase(fileType)} - {displayName}</h4>
+                    <h4>{itemId} - {fileType} - {displayName}</h4>
                     <Document
-                        key={index}
                         file={url}
                         onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
                         onLoadError={(err) => logging.error(err, "Document")}
@@ -166,21 +135,17 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                             <div key={index} className="proposal-container">
                                 <div className="header-section">
                                     <h1>
-                                        {header
-                                            ? header[0].toUpperCase()
-                                            : '...loading'}
+                                        {project?.name?.toUpperCase()}
                                     </h1>
                                     <h1>
-                                        {header
-                                            ? header[1].toUpperCase()
-                                            : '....'}
+                                        {project?.region?.toUpperCase()}
                                     </h1>
                                 </div>
                                 <div className="table-contain">
                                     <div className="table-border">
                                         <table>
                                             <thead>
-                                                <tr className="mini-header">
+                                                <tr>
                                                     <th colSpan={13}>
                                                         <h4>
                                                             Lighting Schedule
@@ -188,49 +153,36 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={5}>
-                                                        Information Details
+                                                    <th>Item ID</th>
+                                                    <th>
+                                                        Quantity
                                                     </th>
-                                                    <th colSpan={6}>Lamps</th>
-                                                    <th colSpan={2}>Pricing</th>
-                                                </tr>
-                                                <tr>
-                                                    <th className="five">ID</th>
-                                                    <th className="five">
-                                                        Preliminary Quantity
-                                                    </th>
-                                                    <th className="fifteen">
+                                                    <th>
                                                         Rooms
                                                     </th>
-                                                    <th className="five">
+                                                    <th>
                                                         Description
                                                     </th>
-                                                    <th className="twenty">
+                                                    <th>
                                                         Finishes
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lamp Type
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lamp Color
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Watts Per
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Total Watts
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Total Lamps
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lumens
-                                                    </th>
-                                                    <th className="five">
-                                                        Price Per
-                                                    </th>
-                                                    <th className="five l-c">
-                                                        Total
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -250,21 +202,17 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                             <div key={index} className="proposal-container">
                                 <div className="header-section">
                                     <h1>
-                                        {header
-                                            ? header[0].toUpperCase()
-                                            : '...loading'}
+                                        {project?.name?.toUpperCase()}
                                     </h1>
                                     <h1>
-                                        {header
-                                            ? header[1].toUpperCase()
-                                            : '....'}
+                                        {project?.region?.toUpperCase()}
                                     </h1>
                                 </div>
                                 <div className="table-contain">
                                     <div className="table-border">
                                         <table>
                                             <thead>
-                                                <tr className="mini-header">
+                                                <tr>
                                                     <th colSpan={13}>
                                                         <h4>
                                                             Lighting Schedule
@@ -272,49 +220,36 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th colSpan={5}>
-                                                        Information Details
+                                                    <th>Item ID</th>
+                                                    <th>
+                                                        Quantity
                                                     </th>
-                                                    <th colSpan={6}>Lamps</th>
-                                                    <th colSpan={2}>Pricing</th>
-                                                </tr>
-                                                <tr>
-                                                    <th className="five">ID</th>
-                                                    <th className="five">
-                                                        Preliminary Quantity
-                                                    </th>
-                                                    <th className="fifteen">
+                                                    <th>
                                                         Rooms
                                                     </th>
-                                                    <th className="five">
+                                                    <th>
                                                         Description
                                                     </th>
-                                                    <th className="twenty">
+                                                    <th>
                                                         Finishes
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lamp Type
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lamp Color
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Watts Per
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Total Watts
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Total Lamps
                                                     </th>
-                                                    <th className="six">
+                                                    <th>
                                                         Lumens
-                                                    </th>
-                                                    <th className="five">
-                                                        Price Per
-                                                    </th>
-                                                    <th className="five l-c">
-                                                        Total
                                                     </th>
                                                 </tr>
                                             </thead>

@@ -5,7 +5,6 @@ import {
     setProjectError,
     setCatalogLights,
     setCatalogConnect,
-    setProposals,
     setInactiveLights,
 } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
@@ -57,25 +56,9 @@ export const createLight =
             const axiosPriv = axiosPrivate();
 
             try {
-                const created = await axiosPriv.post('/create-lightSelection', {
+                await axiosPriv.post('/create-lightSelection', {
                     light: light,
                 });
-
-                if (created) {
-                    const proposal = await axiosPriv.post('/update-rfp', {
-                        light: { ...light, lightID: created.data?.light._id },
-                    });
-
-                    if (proposal) {
-                        const proposalSet = await axiosPriv.post('/get-proposals', {
-                            projectId: light?.projectId,
-                        });
-
-                        if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data?.proposal));
-                        }
-                    }
-                }
             } catch (error: any) {
                 dispatch(setProjectError(error.response.data));
                 throw new Error(error.message);
@@ -122,23 +105,6 @@ export const theEditLight =
                     ...payload,
                     _id: lightId,
                 });
-
-                if (response) {
-                    const propEdit = await axiosPriv.post('/edit-props', {
-                        ...payload,
-                        lightID: lightId,
-                    });
-
-                    if (propEdit) {
-                        const proposalSet = await axiosPriv.post('/get-proposals', {
-                            projectId: payload.projectId,
-                        });
-
-                        if (proposalSet) {
-                            dispatch(setProposals(proposalSet.data?.proposal));
-                        }
-                    }
-                }
 
                 return response.data;
             } catch (error: any) {

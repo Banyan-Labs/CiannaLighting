@@ -36,6 +36,7 @@ router
   .post("/find-lightSelection", lightSelectionController.getSelectedLight)
   .post("/create-lightSelection", lightSelectionController.lightSelected)
   .post("/delete-lightSelection", lightSelectionController.deleteSelectedLight)
+  .post("/get-lightSelections-for-project", lightSelectionController.getLightSelectionsForProject)
   // Rfp Routes
   .post("/create-rfp", multiUpload, rfpController.createRfp)
   .post("/account-rfps", rfpController.getAccountRFPS)

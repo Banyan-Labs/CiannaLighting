@@ -4,10 +4,8 @@ import mongoose from "mongoose";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import LightSelection from "../model/LightSelection";
-import { lightIdService } from "./lightSelectionController";
 import { LightREF } from "../interfaces/projectInterface";
 import logging from "../../config/logging";
-import { ActionType } from "../utils/constants";
 
 const curDate = new Date().toISOString().split("T")[0].split("-");
 
@@ -177,15 +175,7 @@ const deleteRoom = async (req: Request, res: Response) => {
   
         await Room.findByIdAndDelete({ _id })
           .then((room) => {
-            if (room && itemIDS?.length) {
-              itemIDS.forEach(async (item_ID: string) => {
-                await lightIdService(room.projectId, ActionType.DELETE, item_ID, room.name)
-              });
-
-              return res.status(200).json(room);
-            } else if (!room) {
-              return res.status(204).json({ message: `No room found using _id of #${_id}.` });
-            }
+            return res.status(200).json(room);
           })
           .catch((error) => {
             logging.error(error.message, "deleteRoom");

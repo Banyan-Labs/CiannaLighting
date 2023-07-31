@@ -1,3 +1,4 @@
+import { parseFileName } from 'helpers/utils';
 import React, { FC } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
@@ -35,20 +36,19 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
             const fileName = file?.split('/')[file.split('/').length - 1];
-            const splitName = fileName?.split('-');
-            const associatedItemID = splitName[0];
-            let fileType = camelCaseToTitleCase(splitName[1]);
+            const { itemId, fieldName, originalName } = parseFileName(fileName);
+            let fileType = camelCaseToTitleCase(fieldName);
             fileType = fileType?.slice(0, fileType?.length - 1);
-            let displayName = splitName?.splice(2).join('');
+            let displayName = '';
 
-            if (displayName) {
-                displayName = decodeURI(displayName)?.replace(/%2B/g, ' ');
+            if (originalName) {
+                displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
             }
 
             return (
                 <tr key={index} className="attachments-dynamic-row" onClick={() => { downloadFile(file, displayName) }}>
                     <td className="">
-                        <span className="text-bold">{associatedItemID}</span>
+                        <span className="text-bold">{itemId}</span>
                     </td>
                     <td className="">
                         <span className="text-bold">{fileType}</span>
@@ -82,7 +82,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
                         <table className="attachments-table">
                             <thead>
                                 <tr>
-                                    <th className="">Source</th>
+                                    <th className="">Item ID</th>
                                     <th className="">Type</th>
                                     <th className="">Name</th>
                                 </tr>

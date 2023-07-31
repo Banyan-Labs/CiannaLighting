@@ -16,6 +16,7 @@ export interface ProjectStateType {
     setAllCatalog: any[];
     setInactive: string[];
     attachments: any[];
+    selections: any[];
     catalogConnectLight: any[] | null;
     yourProjects: boolean;
 }
@@ -124,6 +125,7 @@ const initialState: ProjectStateType = {
     setAllCatalog: [],
     setInactive: [],
     attachments: [],
+    selections: [],
 };
 /**
  * proposal
@@ -149,6 +151,10 @@ export const projectSlice = createSlice({
         setAttachments: (state, action) => ({
             ...state,
             attachments: action.payload,
+        }),
+        setLightSelections: (state, action) => ({
+            ...state,
+            selections: action.payload,
         }),
         setAllProjects: (state, action) => ({
             ...state,
@@ -221,6 +227,7 @@ export const {
     setRfp,
     setProject,
     setAttachments,
+    setLightSelections,
     setRoom,
     setProjectError,
     setProjectId,
