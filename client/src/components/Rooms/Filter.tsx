@@ -77,7 +77,7 @@ const DetailsFilter: FC<catalogPros> = ({
                     <div className="input-container-filter">
                         {
                             Object.values(DesignStyle).map((design: any) => (
-                                <div className="d-flex m-0" key={design.length}>
+                                <div className="d-flex m-0" key={design}>
                                     <input
                                         className="m-1"
                                         type="radio"
@@ -95,7 +95,7 @@ const DetailsFilter: FC<catalogPros> = ({
                         <h5 className="m-0 p-0">Use Packages</h5>
                         {
                             Object.values(UsePackage).map((usePackage: any) => (
-                                <div className="d-flex m-0" key={usePackage.length}>
+                                <div className="d-flex m-0" key={usePackage}>
                                     <input
                                         className="m-1"
                                         type="checkBox"
