@@ -159,7 +159,7 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
           items = items.filter((x) => {
             const hasDesignStyle = designStyle ? x.designStyle?.filter((v) => designStyle === v).length > 0 : true;
             const itemUsePackages: any = x.usePackages ? x.usePackages[0] : [];
-            const hasUsePackages = usePackages ? usePackages.every((v: string) => itemUsePackages.split(",").includes(v)): true;
+            const hasUsePackages = usePackages ? usePackages.every((v: string) => itemUsePackages.split(",").includes(v)) : true;
 
             return hasDesignStyle && hasUsePackages;
           });
@@ -212,8 +212,8 @@ const getLight = async (req: Request, res: Response, next: NextFunction) => {
       if (light) {
         if (req.files) {
           const documents = Object.values(req.files as any);
-      
-          const results: any = await uploadFunc(documents, light._item_ID || req.body.item_ID );
+
+          const results: any = await uploadFunc(documents, light._item_ID || req.body.item_ID);
           if (results?.length) {
             for (let i = 0; i < results?.length; i++) {
               for (let j = 0; j < results[i].length; j++) {

@@ -19,7 +19,6 @@ export default interface projectInterface extends Document {
   region: string;
   status: string;
   description: string;
-  rfp: string;
   rooms: string[];
   lightIDs: LightREF[] | [];
   activity: ProjectActivity;

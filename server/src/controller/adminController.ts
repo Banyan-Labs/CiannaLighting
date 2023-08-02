@@ -7,7 +7,6 @@ import Project from "../model/Project";
 import LightSelection from "../model/LightSelection";
 import CatalogItem from "../model/CatalogItem";
 import Room from "../model/Room";
-import RFP from "../model/RFP";
 import logging from "../../config/logging";
 
 const createNewUser = async (req: Request, res: Response) => {
@@ -79,7 +78,6 @@ const resetDatabase = async (req: Request, res: Response) => {
     let deletedLightSelectionCount = 0;
     let deletedCatalogItemCount = 0;
     let deletedRoomCount = 0;
-    let deletedRFPCount = 0;
 
     await Project.deleteMany({})
       .exec().then((result) => {
@@ -101,17 +99,11 @@ const resetDatabase = async (req: Request, res: Response) => {
         deletedRoomCount = result.deletedCount;
       });
 
-    await RFP.deleteMany({})
-      .exec().then((result) => {
-        deletedRFPCount = result.deletedCount;
-      });
-
     return res.status(200).json({
       deletedProjectCount,
       deletedLightSelectionCount,
       deletedCatalogItemCount,
       deletedRoomCount,
-      deletedRFPCount,
     });
   } catch (error: any) {
     logging.error(error.message, "resetDatabase");

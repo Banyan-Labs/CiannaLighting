@@ -19,7 +19,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
     description,
     lights: [],
   });
-  const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+  const roomAndProject = await Project.findById({ _id: projectId })
     .exec()
     .then(async (project) => {
       if (project) {
@@ -172,7 +172,7 @@ const deleteRoom = async (req: Request, res: Response) => {
             logging.error(error.message, "deleteRoom");
             res.status(500).json(error);
           });
-  
+
         await Room.findByIdAndDelete({ _id })
           .then((room) => {
             return res.status(200).json(room);

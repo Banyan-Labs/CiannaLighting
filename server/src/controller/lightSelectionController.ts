@@ -330,7 +330,7 @@ export const getLightSelectionsForProject = async (req: Request, res: Response) 
     let groupedSelections: { [key: string]: any } = {};
 
     lightSelections.forEach(selection => {
-      let selectionCopy = {...selection._doc} as lightSelectionCompare;
+      let selectionCopy = { ...selection._doc } as lightSelectionCompare;
       let roomQuantity = selectionCopy.quantity;
       let roomName = selectionCopy.roomName;
 

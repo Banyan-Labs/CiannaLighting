@@ -5,7 +5,6 @@ import LightSelection from "../model/LightSelection";
 import { lightIdService } from "./lightSelectionController";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import RFP from "../model/RFP";
 import { ActionType, CopyType } from "../utils/constants";
 import logging from "../../config/logging";
 import CatalogItem from "../model/CatalogItem";
@@ -52,14 +51,6 @@ const createProject = async (req: Request, res: Response) => {
         });
       });
   } else {
-    const rfp = new RFP({
-      _id: new mongoose.Types.ObjectId(),
-      header: `${copy === CopyType.PROJECT ? "Copy of " + name : name}, ${region}`,
-      clientId: clientId,
-      projectId: "",
-      clientName: clientName,
-      tableRow: [],
-    });
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
@@ -69,7 +60,6 @@ const createProject = async (req: Request, res: Response) => {
       region: region,
       status: status,
       description: description,
-      rfp: String(rfp._id),
       rooms: [],
       lightIDs: copy === CopyType.PROJECT ? lightIDs : [],
       activity: {
@@ -87,15 +77,10 @@ const createProject = async (req: Request, res: Response) => {
       },
     });
 
-    rfp.projectId = project._id;
-
-    await rfp.save();
-
     return await project
       .save()
       .then(async (project) => {
         if (project) {
-          project.rfp = String(rfp._id);
           if (_id && copy === CopyType.PROJECT) {
             if (project) {
               let i = 0;
@@ -409,7 +394,6 @@ const getAllProjects = async (req: Request, res: Response) => {
 };
 
 const deleteProject = async (req: Request, res: Response) => {
-  // when rfpDocs are created, still need to include.
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {
@@ -456,7 +440,7 @@ const getAttachments = async (req: Request, res: Response) => {
     .then(async (project) => {
       if (project) {
         const lightSelectionIDs = project.lightIDs?.map((x) => x.item_ID);
-        
+
         if (!lightSelectionIDs?.length) {
           return res.status(200).json({
             files: [],

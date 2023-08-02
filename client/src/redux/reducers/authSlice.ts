@@ -32,10 +32,6 @@ export const authSlice = createSlice({
                 logs: action.payload.logs,
             };
         },
-        setUserOnRefresh: (state, action) => ({
-            ...state,
-            user: action.payload.authUser,
-        }),
         setAccessToken: (state, action) => {
             localStorage.setItem('token', action.payload.accessToken);
             localStorage.setItem('role', action.payload.user.role);
@@ -60,7 +56,6 @@ export const {
     setError,
     logout,
     setAccessToken,
-    setUserOnRefresh,
     setLogs,
 } = authSlice.actions;
 export default authSlice.reducer;
