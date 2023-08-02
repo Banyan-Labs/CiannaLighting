@@ -440,7 +440,7 @@ const getAttachments = async (req: Request, res: Response) => {
     .then(async (project) => {
       if (project) {
         const lightSelectionIDs = project.lightIDs?.map((x) => x.item_ID);
-        
+
         if (!lightSelectionIDs?.length) {
           return res.status(200).json({
             files: [],

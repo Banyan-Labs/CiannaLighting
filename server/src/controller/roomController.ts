@@ -172,7 +172,7 @@ const deleteRoom = async (req: Request, res: Response) => {
             logging.error(error.message, "deleteRoom");
             res.status(500).json(error);
           });
-  
+
         await Room.findByIdAndDelete({ _id })
           .then((room) => {
             return res.status(200).json(room);
