@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ProjectStateType {
-    proposal: Proposal[] | [];
-    rfp: RFP | null;
     userProjects: any[];
     allProjects: any[];
     filterQueryProjects: any[];
@@ -43,36 +41,9 @@ export type ProjectType = {
     region: string;
     status: string;
     description: string;
-    rfp?: string;
     rooms?: string[];
     attachments?: string[];
     activity?: Activity;
-};
-
-export type Proposal = {
-    _id: any;
-    sub: string;
-    projectId: string;
-    itemID: string; // changes on first insertion
-    description: string; // updates on first light insertion
-    lampType: string; // changes on first light insertion
-    lampColor: string; // changes first light insertion
-    lightQuantity: number; // increases on each room
-    price: number;
-    wattsPer: number; // changes on first light insertion
-    totalWatts: number; // increases with each "power in watts" coming in
-    numberOfLamps: number; // increases with each "number of lights"
-    totalLumens: number; // increases with each light insertion
-    finishes: any; // changes on first light insertion
-    rooms: any[]; // updates each time a room is added, and updates lightQuantity
-    subTableRow: string[];
-};
-export type RFP = {
-    header: string; // project name && creates rfp
-    projectId: string; //projectId
-    clientId: string;
-    clientName: string;
-    tableRow: string[];
 };
 
 export type LightType = {
@@ -110,13 +81,11 @@ export type RoomType = {
 const initialState: ProjectStateType = {
     roomId: '',
     projectId: '',
-    rfp: null,
     project: null,
     room: null,
     error: null,
     catalogConnectLight: null,
     yourProjects: false,
-    proposal: [],
     userProjects: [],
     allProjects: [],
     filterQueryProjects: [],
@@ -128,8 +97,6 @@ const initialState: ProjectStateType = {
     selections: [],
 };
 /**
- * proposal
- * rfp
  * project
  * projectRooms
  * room
@@ -142,11 +109,6 @@ export const projectSlice = createSlice({
     name: 'project',
     initialState,
     reducers: {
-        setProposals: (state, action) => ({
-            ...state,
-            proposal: action.payload,
-        }),
-        setRfp: (state, action) => ({ ...state, rfp: action.payload }),
         setProject: (state, action) => ({ ...state, project: action.payload }),
         setAttachments: (state, action) => ({
             ...state,
@@ -202,8 +164,6 @@ export const projectSlice = createSlice({
             ...state,
             roomLights: action.payload,
         }),
-        resetRoom: (state) => ({ ...state, room: null }),
-        resetProject: (state) => ({ ...state, project: null }),
         setUserProjects: (state, action) => ({
             ...state,
             userProjects: action.payload?.projects,
@@ -212,10 +172,8 @@ export const projectSlice = createSlice({
             ...state,
             roomId: '',
             projectId: '',
-            rfp: null,
             project: null,
             room: null,
-            proposal: [],
             projectRooms: [],
             attachments: []
         }),
@@ -223,8 +181,6 @@ export const projectSlice = createSlice({
 });
 
 export const {
-    setProposals,
-    setRfp,
     setProject,
     setAttachments,
     setLightSelections,

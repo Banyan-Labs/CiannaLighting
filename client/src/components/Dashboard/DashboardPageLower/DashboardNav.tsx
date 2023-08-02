@@ -16,7 +16,6 @@ export type ProjectType = {
     region: string;
     status: string;
     description: string;
-    rfp?: string;
     rooms?: string[];
     attachments?: string[];
     activity?: Activity;

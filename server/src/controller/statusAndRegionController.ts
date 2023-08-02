@@ -3,28 +3,27 @@ import { Request, Response } from "express";
 import logging from "../../config/logging";
 import statusAndRegion from "../model/statusAndRegion";
 
-const addInfo = (req: Request, res: Response) => {
+const addInfo = async (req: Request, res: Response) => {
   const { label, value } = req.body;
   const data = new statusAndRegion({
     label,
     value,
   });
 
-  return data
-    .save()
-    .then((data) => {
-      return res.status(201).json({
-        label: data.label,
-        value: data.value,
-      });
-    })
-    .catch((error) => {
-      logging.error(error.message, "addInfo");
-      return res.status(500).json({
-        message: error.message,
-        error,
-      });
+  try {
+    const data_1 = await data
+      .save();
+    return res.status(201).json({
+      label: data_1.label,
+      value: data_1.value,
     });
+  } catch (error: any) {
+    logging.error(error.message, "addInfo");
+    return res.status(500).json({
+      message: error.message,
+      error,
+    });
+  }
 };
 
 const getData = async (req: Request, res: Response) => {

@@ -39,7 +39,7 @@ function LightOptionsForm({
     setEditLight,
 }: Props) {
     const dispatch = useAppDispatch();
-    const { room, proposal } = useAppSelector(
+    const { room } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -62,17 +62,17 @@ function LightOptionsForm({
     const dispatchSubmit = async (
         editLight: LightItemType | null,
         catalogLight: CatalogLightItem,
-        rfpPassData: any,
+        dataObject: any,
     ) => {
         try {
             if (!editLight) {
                 await dispatch(
-                    createLight({ ...catalogLight, ...rfpPassData })
+                    createLight({ ...catalogLight, ...dataObject })
                 );
             } else {
                 dispatch(
                     theEditLight(
-                        { ...catalogLight, ...rfpPassData },
+                        { ...catalogLight, ...dataObject },
                         editLight._id
                     )
                 );
@@ -112,12 +112,8 @@ function LightOptionsForm({
                 quantity: count,
             };
 
-            const propCheck = proposal
-                .filter((item: any) => (item.sub ? '' : item))
-                .find((item: any) => item.itemID == additionalData.item_ID);
-            const propID = propCheck ? propCheck._id : '';
-            const rfpPass = {
-                propID: propID,
+            const dataObject = {
+                propID: '',
                 description: catalogLightItem.itemDescription,
                 lampType: catalogLightItem.lampType,
                 lampColor: catalogLightItem.lampColor,
@@ -132,7 +128,7 @@ function LightOptionsForm({
                 await dispatchSubmit(
                     editLightItem,
                     { ...(lightInfoData as CatalogLightItem) },
-                    rfpPass
+                    dataObject
                 );
             } catch (error: any) {
                 throw new Error(error?.message);

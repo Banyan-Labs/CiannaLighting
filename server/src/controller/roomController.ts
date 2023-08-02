@@ -19,7 +19,7 @@ const createRoom = async (req: Request, res: Response, next: NextFunction) => {
     description,
     lights: [],
   });
-  const roomAndProject = await Project.findByIdAndUpdate({ _id: projectId })
+  const roomAndProject = await Project.findById({ _id: projectId })
     .exec()
     .then(async (project) => {
       if (project) {

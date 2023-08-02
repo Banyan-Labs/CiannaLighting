@@ -41,19 +41,6 @@ export const LIGHT_FORM_OPTIONS_KEYS = [
     'projectVoltage',
 ];
 
-export enum ActionType {
-    ADD = 1,
-    REPLACE,
-    DELETE
-}
-
-export enum AttachmentType {
-    IMAGE = 'images',
-    RENDERING = 'renderings',
-    CUT_SHEET = 'cutSheets',
-    DRAWING_FILE = 'drawingFiles',
-}
-
 export enum CopyType {
     PROJECT = 1,
     ROOM
