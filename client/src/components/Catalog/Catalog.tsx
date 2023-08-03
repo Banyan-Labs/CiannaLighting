@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef } from 'react';
 
 import Cards from './Cards';
 import { useAppDispatch } from '../../app/hooks';
