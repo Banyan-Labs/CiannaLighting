@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
-import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import { ActionType } from "../utils/constants";
 import logging from "../../config/logging";
 import { lightSelectionCompare } from "../interfaces/lightSelectionInterface";
+import roomController from "./roomController";
 
 const lightSelected = async (
   req: Request,
@@ -74,14 +74,14 @@ const lightSelected = async (
     totalLumens,
   });
 
-  const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
+  const room = await Room.findById({ _id: roomId })
     .exec()
-    .then((room) => {
+    .then(async (room) => {
       if (room) {
         room.lights = [...room.lights, light._id];
-        room.save();
+        await room.save();
 
-        return light
+        return await light
           .save()
           .then(async (light) => {
             if (light) {
@@ -122,7 +122,7 @@ const lightSelected = async (
       });
     });
 
-  return lightAndRoom;
+  return room;
 };
 
 const getAllSelectedLights = (req: Request, res: Response) => {
@@ -191,6 +191,12 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
     .exec()
     .then(async (room) => {
       if (room) {
+        room.lights = room.lights.filter((id: string) => {
+          return String(id) !== _id ? id : "";
+        });
+
+        await room.save();
+
         const updateLightIds = await lightIdService(
           projectId,
           ActionType.DELETE,
@@ -202,15 +208,9 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
           logging.info(`LightId updated for item_id ${item_ID} in room ${room.name} of project ${projectId}`, "deleteSelectedLight");
         }
 
-        room.lights = room.lights.filter((id: string) => {
-          return String(id) !== _id ? id : "";
-        });
-
-        room.save();
-
         return await LightSelection.findByIdAndDelete({ _id: _id })
           .then((lightSelection) => {
-            // is the following logic correct? 
+
             return !lightSelection
               ? res.status(200).json({
                 lightSelection,
@@ -239,64 +239,7 @@ export const lightIdService = async (
   const project = await Project.findOne({ _id: projectId });
 
   if (project) {
-    const lightIDs = project.lightIDs;
-    //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing
-
-    if (lightIDs && lightIDs.length) {
-      const reWrite: LightREF[] = lightIDs
-        .map((item: LightREF): LightREF => {
-          if (item.item_ID === item_ID) {
-            if (type === ActionType.ADD) {
-              const newItem = { ...item, rooms: [...item.rooms, room] };
-
-              return newItem;
-            } else if (type === ActionType.DELETE) {
-              const deletingRooms = item?.rooms?.length ? item.rooms.filter((roomName: string) => roomName !== room) : [];
-              logging.info(`deletingRooms: ${JSON.stringify(deletingRooms)}`, "lightIdService");
-
-              if (deletingRooms.length) {
-                logging.info(`deletingRooms found`, "lightIdService");
-                const newItem = { ...item, rooms: deletingRooms };
-                logging.info(`newItem: ${JSON.stringify(newItem)}`, "lightIdService");
-
-                return newItem;
-              } else {
-                return { item_ID: "", rooms: [] };
-              }
-            } else {
-              return item;
-            }
-          } else {
-            return item;
-          }
-        })
-        .filter((item) => item.item_ID.length && item.rooms.length);
-
-      logging.info(`reWrite variable: ${JSON.stringify(reWrite)}`, "lightIdService");
-      logging.info(`project light Ids before reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
-
-      const checkForId = project.lightIDs.find(
-        (item) => item.item_ID === item_ID
-      );
-      logging.info(`checkForId: ${JSON.stringify(checkForId)}`, "lightIdService");
-
-      if (checkForId == undefined) {
-        const lightIdAddOn = [
-          ...project.lightIDs,
-          { item_ID: item_ID, rooms: [room] },
-        ];
-        logging.info(`lightIdAddOn: ${JSON.stringify(lightIdAddOn)}`, "lightIdService");
-
-        project.lightIDs = lightIdAddOn;
-        logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
-      } else {
-        project.lightIDs = reWrite;
-      }
-    } else {
-      project.lightIDs = [{ item_ID, rooms: [room] }];
-    }
-
-    logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
+    project.lightIDs = await roomController.updateLightIds(project);
 
     const done = await project.save();
 
