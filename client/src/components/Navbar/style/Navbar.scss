@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     width: 100vw;
-    height: 100px;
+    height: 10vh;
     background-color: $primary-bg-dark;
     border-bottom: $line-height solid $line-dark;
     box-shadow: $box-shadow;
@@ -39,7 +39,7 @@
     display: flex;
     align-self: center;
     width: 150px;
-    height: 125px;
+    height: 10vh;
 }
 
 .navbar-links-container {

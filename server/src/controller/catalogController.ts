@@ -158,8 +158,12 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
         if (designStyle || usePackages) {
           items = items.filter((x) => {
             const hasDesignStyle = designStyle ? x.designStyle?.filter((v) => designStyle === v).length > 0 : true;
-            const itemUsePackages: any = x.usePackages ? x.usePackages[0] : [];
-            const hasUsePackages = usePackages ? usePackages.every((v: string) => itemUsePackages.split(",").includes(v)) : true;
+            const itemUsePackages: any = x.usePackages ? x.usePackages : [];
+            const hasUsePackages = usePackages ? 
+            usePackages.length > 1 
+              ? usePackages.every((v: string) => itemUsePackages.includes(v))
+              : itemUsePackages.includes(usePackages[0])
+            : true;
 
             return hasDesignStyle && hasUsePackages;
           });

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 
 import Cards from './Cards';
 import { useAppDispatch } from '../../app/hooks';
@@ -21,6 +21,7 @@ const usePackageImages: Record<string, string> = {
 };
 
 const Catalog: FC = () => {
+    const ref = useRef<null | HTMLDivElement>(null);
     const [catalogItem, setCatalogItem] = useState(null);
     const [catalogType, setCatalogType] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,11 +29,13 @@ const Catalog: FC = () => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
-        dispatch(
+        await dispatch(
             filterCatalogItems({
                 usePackages: [e.currentTarget.value],
             })
         );
+
+        ref.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const usePackages = Object.keys(UsePackage).map((packageItem: string, index) => {
@@ -71,6 +74,7 @@ const Catalog: FC = () => {
                     <div className="catalog-container">
                         <div className="catalog-main-container">
                             <DesignStyles
+                                resultsRef={ref}
                                 catalogType={catalogType}
                                 setCatalogType={setCatalogType}
                                 setRenderPage={setRenderPage}
@@ -79,12 +83,13 @@ const Catalog: FC = () => {
 
                             <div className="catalog-use-packages">
                                 <span>Use Packages</span>
-                                <div className="catalog-use-packages-buttons">
+                                <div className="catalog-use-packages-buttons flex-wrap justify-content-between mx-auto mt-5">
                                     {usePackages}
                                 </div>
                             </div>
 
                             <Cards
+                                resultsRef={ref}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
                                 catalogItem={catalogItem}

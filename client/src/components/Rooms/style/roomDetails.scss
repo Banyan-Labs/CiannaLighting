@@ -8,10 +8,8 @@ body {
 
 .room-details-page {
     &__page-container {
-        padding-top: 100px;
+        padding-top: 10vh;
         display: flex;
-        overflow: clip;
-        height: calc(100vh - 100px);
     }
 
     &__panel-wrapper {
@@ -33,7 +31,7 @@ body {
             flex-direction: column;
             height: auto;
             overflow: scroll;
-            padding: 100px 6px;
+            padding: 10vh 6px;
         }
         &__panel-wrapper {
             padding: 0;
@@ -285,7 +283,7 @@ body {
 
 // ******** for the containers for each component
 .details-container {
-    padding-top: 100px !important;
+    padding-top: 10vh !important;
 }
 
 // ******** Filter Componet *********

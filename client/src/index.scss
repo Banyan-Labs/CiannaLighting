@@ -7,7 +7,6 @@
 
 body {
     margin: 0;
-    padding-bottom: 100px;
 }
 
 .statusColorConfigureDesign {
@@ -44,7 +43,7 @@ body {
 
 .project-title-with-status-icon {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     font-size: 22px;
     color: black;
 }
@@ -127,18 +126,18 @@ button {
 }
 
 .container-filter {
-    height: 100%;
-    position: fixed;
+    height: 90vh;
+    position: absolute;
     z-index: 13;
-    top: 0;
+    top: 10vh;
+    bottom: 0;
     right: 0;
-    overflow-x: hidden;
     transition: 0.5s;
-    margin-top: 100px !important;
-    background-color: $primary-bg-dark;
-    border-left: $accent-gold 1px solid;
-    border-top: $accent-gold 1px solid;
-    box-shadow: $box-shadow;
+    background-color: #ecebe7;
+    border-left: #c09d5b 1px solid;
+    border-top: #c09d5b 1px solid;
+    box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+    overflow-y: scroll !important;
 }
 
 .carousel-wrapper {

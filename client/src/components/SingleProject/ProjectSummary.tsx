@@ -162,27 +162,40 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             <div className="projects-summary mx-4">
                 <div className="col-7 d-flex justify-content-between">
                     <div className="project-summary-name-and-date">
-                        <h3 className="project-summary-project-name">
+                        <h3 className="align-items-center d-flex justify-content-between project-summary-project-name">
                             <div className="project-title-with-status-icon">
                                 {details?.name}
                                 <FaCircle
                                     className={`circle-icon ${getStatusClass(details?.status || '')} background-unset`}
                                 />
                             </div>
+                            {
+                                details?.archived && (
+                                    <RiArchiveDrawerFill
+                                        data-for="ab"
+                                        data-tip="Awarded"
+                                        className="archive-show-option"
+                                    />
+                                )
+                            }
+
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
                     <div className="icon-container d-flex align-items-center justify-content-center">
-                        <FaRegEdit
-                            onClick={() => {
-                                setOpenModal(true);
-                                setEditProject(true);
-                            }}
-                            className="edit-icon"
-                            data-for="edit"
-                            data-tip="Edit Project"
-                        />
-                        <div></div>
+                        {
+                            !details?.archived && (
+                                <FaRegEdit
+                                    onClick={() => {
+                                        setOpenModal(true);
+                                        setEditProject(true);
+                                    }}
+                                    className="edit-icon"
+                                    data-for="edit"
+                                    data-tip="Edit Project"
+                                />
+                            )
+                        }
                         <FaRegClone
                             data-for="copy"
                             data-tip="Copy Project"
@@ -204,16 +217,6 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                             data-tip="Attachments"
                             className="archive-icon"
                             onClick={() => showAttachments()}
-                        />
-
-                        <RiArchiveDrawerFill
-                            data-for="ab"
-                            data-tip={`${details?.name} is marked awarded`}
-                            className={
-                                details?.archived
-                                    ? 'archive-icon archive-show-option'
-                                    : 'd-none'
-                            }
                         />
 
                         <ReactTooltip id="ab" />

@@ -252,35 +252,39 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <h3 className="m-0">{room?.name}</h3>
                     <p className="">Created: {date}</p>
                 </div>
-                <div className="icon-container d-flex align-items-center justify-content-center">
-                    <FaRegEdit
-                        data-for="edit"
-                        data-tip="Edit Room"
-                        className="m-2 edit-icon"
-                        onClick={() => {
-                            setOpenModal(true);
-                            setEditRoom(true);
-                        }}
-                    />
-                    <FaRegClone
-                        data-for="copy"
-                        data-tip="Copy Room"
-                        className="m-2 clone-icon"
-                        onClick={(e) => copyRoom(e)}
-                    />
-                    <FaRegTrashAlt
-                        onClick={() => {
-                            setOpenModal(true);
-                            setDeleteRoom(true);
-                        }}
-                        data-for="delete"
-                        data-tip="Delete Room"
-                        className="m-2 archive-icon"
-                    />
-                    <ReactTooltip id="edit" />
-                    <ReactTooltip id="copy" />
-                    <ReactTooltip id="delete" />
-                </div>
+                {
+                    !project?.archived && (
+                        <div className="icon-container d-flex align-items-center justify-content-center">
+                            <FaRegEdit
+                                data-for="edit"
+                                data-tip="Edit Room"
+                                className="m-2 edit-icon"
+                                onClick={() => {
+                                    setOpenModal(true);
+                                    setEditRoom(true);
+                                }}
+                            />
+                            <FaRegClone
+                                data-for="copy"
+                                data-tip="Copy Room"
+                                className="m-2 clone-icon"
+                                onClick={(e) => copyRoom(e)}
+                            />
+                            <FaRegTrashAlt
+                                onClick={() => {
+                                    setOpenModal(true);
+                                    setDeleteRoom(true);
+                                }}
+                                data-for="delete"
+                                data-tip="Delete Room"
+                                className="m-2 archive-icon"
+                            />
+                            <ReactTooltip id="edit" />
+                            <ReactTooltip id="copy" />
+                            <ReactTooltip id="delete" />
+                        </div>
+                    )
+                }
             </div>
             <div className="">
                 <div className="description-container">
