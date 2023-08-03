@@ -55,7 +55,7 @@ const CreateProjectPage: FC = () => {
     return (
         <div
             className="project-create-form-wrapper"
-            style={{ paddingTop: '100px' }}
+            style={{ paddingTop: '10vh' }}
         >
             <form onSubmit={onSubmit} className="create-project-form">
                 <label htmlFor="name">Name</label>

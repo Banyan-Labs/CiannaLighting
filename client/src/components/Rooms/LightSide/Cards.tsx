@@ -55,7 +55,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive ? "item d-flex flex-column align-content-start" : "item d-flex flex-column align-content-start inactive-shadow"}
+                className={el.isActive ? "item-cards item d-flex flex-column align-items-center justify-content-between" : "item-cards item d-flex flex-column align-items-center inactive-shadow justify-content-between"}
                 key={index}
                 onClick={() => {
                     if (el.isActive) {
@@ -65,11 +65,12 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     }
                 }}
             >
-                <img src={el.images[0]} />
+                <div className="align-items-center d-flex image-container">
+                    <img src={el.images[0]} />
+                </div>
                 <div className="item-bottom-sections">
                     <h4
                         className=""
-                        style={{ minHeight: '75px' }}
                     >
                         {el.itemName} <br />{' '}
                         <span>{el.item_ID}</span><br />{' '}
@@ -94,7 +95,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
 
     return (
         <>
-            <div className="lightCard d-flex row flex-wrap m-0 p-0">
+            <div className="d-flex row flex-wrap m-0 p-0">
                 { }
                 {loading ? (
                     <h2>Loading...</h2>
@@ -102,7 +103,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     <h2>Error fetching users</h2>
                 ) : (
                     <>
-                        <div className="items d-flex m-0 p-0 flex-wrap justify-content-center">
+                        <div className="lightCard items d-flex flex-wrap justify-content-center">
                             {filteredData?.length ? filteredData
                             :   <div className="main-catalog-filter-container d-flex m-0">
                                     <div className="col-12 d-flex row m-0 p-0">
