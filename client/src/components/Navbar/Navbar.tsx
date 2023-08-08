@@ -5,7 +5,7 @@ import * as data from './links.json';
 import logo from '../../assets/ciana-logo-black.png';
 import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
-import { FaRegBell } from 'react-icons/fa';
+import { TbLogout } from 'react-icons/tb';
 import { logoutAction } from '../../redux/actions/authActions';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -92,22 +92,21 @@ const Navbar: FC = () => {
                     <Links links={links} />
                 </ul>
                 <div className="navbar-user-container">
-                    <FaRegBell />
                     <div>
                         <span className="navbar-user-hi">Hi, </span>
                         <span className="navbar-user-name">
                             {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
                             !
                         </span>
-                        <br />
-                        <span className="navbar-user-role">{userRole}</span>
+                        <span> 
+                            <button className="" onClick={(e) => handleLogout(e)}>
+                               <TbLogout />
+                             </button>
+                        </span>
                     </div>
-                    {/* <FaChevronDown /> */}
                 </div>
                 {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
-                <button className="me-2" onClick={(e) => handleLogout(e)}>
-                    logout
-                </button>
+
             </nav>
         </>
     );
