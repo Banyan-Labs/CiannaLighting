@@ -67,7 +67,7 @@ const Links: FC<{ links: Link[] }> = () => {
 
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const userRole = Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role);
+    
     const dispatch = useAppDispatch();
 
     const handleLogout = async (e: any) => {
@@ -105,8 +105,7 @@ const Navbar: FC = () => {
                         </span>
                     </div>
                 </div>
-                {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
-
+                
             </nav>
         </>
     );
