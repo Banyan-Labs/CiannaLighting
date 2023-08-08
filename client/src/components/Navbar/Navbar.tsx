@@ -92,20 +92,13 @@ const Navbar: FC = () => {
                     <Links links={links} />
                 </ul>
                 <div className="navbar-user-container">
-                    <div>
-                        <span className="navbar-user-hi">Hi, </span>
-                        <span className="navbar-user-name">
-                            {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
-                            !
-                        </span>
-                        <span> 
-                            <button className="" onClick={(e) => handleLogout(e)}>
-                               <TbLogout />
-                             </button>
-                        </span>
-                    </div>
+                    <span className="navbar-user-hi">Hi,&nbsp; </span>
+                    <span className="navbar-user-name">
+                        {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
+                        !
+                    </span>
+                    <TbLogout className="logout-icon" onClick={(e) => handleLogout(e)} />
                 </div>
-                
             </nav>
         </>
     );

@@ -57,10 +57,9 @@
 .navbar-user-container {
     display: flex;
     align-items: center;
-    width: 150px;
-    width: 250px;
     justify-content: space-evenly;
     margin-left: auto;
+    margin-right: 20px;
     color: $primary-bg-dark-text;
     div {
         font-size: 14px;
@@ -71,9 +70,11 @@
     .navbar-user-name {
         color: $accent-gold;
     }
-    .navbar-user-role {
-        font-size: 12px;
-        font-weight: 100;
+    .logout-icon {
+        margin-left: 10px;
+    }
+    .logout-icon:hover{
+        cursor: pointer;
     }
 }
 
