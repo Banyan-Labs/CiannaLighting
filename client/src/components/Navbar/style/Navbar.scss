@@ -5,7 +5,8 @@
     top: 0;
     width: 100vw;
     height: 10vh;
-    background-color: $primary-bg-dark;
+    // background-color: $primary-bg-dark;
+    background-color:$primary-bg-dark-nav;
     border-bottom: $line-height solid $line-dark;
     box-shadow: $box-shadow;
     display: flex;
@@ -51,7 +52,8 @@
 
 .navbar-links {
     @include nav-link;
-    color: $primary-bg-dark-title;
+    // color: $primary-bg-dark-title;
+    color: $primary-bg-light-nav-text;
 }
 
 .navbar-user-container {
@@ -60,7 +62,7 @@
     justify-content: space-evenly;
     margin-left: auto;
     margin-right: 20px;
-    color: $primary-bg-dark-text;
+    color: $primary-bg-light-nav-text;
     div {
         font-size: 14px;
     }
