@@ -114,21 +114,23 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                             <p className="m-0">LLC</p>
                         </div>
                     </div>
-                    <div className="d-flex col-6 align-items-center ms-auto">
-                        <button
-                            className="m-0 edit-link"
-                            onClick={() => editLightFunc(light)}
-                        >
-                            {' '}
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => deleteLightFunc(light)}
-                            className="m-0 remove-link"
-                        >
-                            Remove
-                        </button>
-                    </div>
+                    {!project?.archived && (
+                        <div className="d-flex col-6 align-items-center ms-auto">
+                            <button
+                                className="m-0 edit-link"
+                                onClick={() => editLightFunc(light)}
+                            >
+                                {' '}
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => deleteLightFunc(light)}
+                                className="m-0 remove-link"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    )}
                     <p className="qty">
                         Qty. <span>{light.quantity}</span>
                     </p>

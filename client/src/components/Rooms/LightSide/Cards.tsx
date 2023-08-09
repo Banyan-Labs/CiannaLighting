@@ -9,7 +9,7 @@ interface searchBarProps {
     setCatalogItem: any;
 }
 const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
-    const { setAllCatalog } = useAppSelector(({ project }) => project);
+    const { setAllCatalog, project } = useAppSelector(({ project }) => project);
 
     const searchValue = setAllCatalog.filter((val: any) => {
         if (searchTerm === '') {
@@ -55,13 +55,11 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive ? "item-cards item d-flex flex-column align-items-center justify-content-between" : "item-cards item d-flex flex-column align-items-center inactive-shadow justify-content-between"}
+                className={el.isActive && !project?.archived ? "item-cards item d-flex flex-column align-items-center justify-content-between" : "item-cards item d-flex flex-column align-items-center inactive-shadow justify-content-between"}
                 key={index}
                 onClick={() => {
-                    if (el.isActive) {
+                    if (el.isActive && !project?.archived) {
                         setCatalogItem(el);
-                    } else {
-                        alert('This light is currently unavailable!')
                     }
                 }}
             >
