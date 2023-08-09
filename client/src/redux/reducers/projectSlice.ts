@@ -54,10 +54,7 @@ export type LightType = {
     projectVoltage: string;
     socketType: string;
     lensMaterial: string;
-    glassOptions: string;
-    acrylicOptions: string;
     crystalType: string;
-    crystalPinType: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;

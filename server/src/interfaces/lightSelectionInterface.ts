@@ -6,8 +6,6 @@ export default interface lightSelectionInterface extends Document {
   exteriorFinish: string;
   interiorFinish: string;
   lensMaterial: string;
-  glassOptions: string;
-  acrylicOptions: string;
   environment: string;
   safetyCert: string;
   projectVoltage: string;
@@ -17,7 +15,6 @@ export default interface lightSelectionInterface extends Document {
   price: number;
   wattsPer:  number;
   totalWatts: number;
-  numberOfLamps: number;
   totalLumens: number;
   socketType: string;
   mounting: string;
@@ -37,8 +34,6 @@ export interface lightSelectionCompare {
   exteriorFinish: string;
   interiorFinish: string;
   lensMaterial: string;
-  glassOptions: string;
-  acrylicOptions: string;
   environment: string;
   safetyCert: string;
   projectVoltage: string;
@@ -48,7 +43,6 @@ export interface lightSelectionCompare {
   price: number;
   wattsPer:  number;
   totalWatts: number;
-  numberOfLamps: number;
   totalLumens: number;
   socketType: string;
   mounting: string;

@@ -117,10 +117,7 @@ function LightOptionsForm({
                 description: catalogLightItem.itemDescription,
                 lampType: catalogLightItem.lampType,
                 lampColor: catalogLightItem.lampColor,
-                wattsPer: catalogLightItem.wattsPerLamp,
                 price: catalogLightItem.price,
-                totalWatts: catalogLightItem.powerInWatts,
-                numberOfLamps: catalogLightItem.numberOfLamps,
                 totalLumens: catalogLightItem.lumens,
             };
 

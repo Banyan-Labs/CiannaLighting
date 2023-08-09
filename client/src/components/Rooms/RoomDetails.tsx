@@ -110,7 +110,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <div className="d-flex row first-section-name">
                         <div className="">
                             <h3>{light.item_ID}</h3>
-                            <h4 className="m-0">{light.acrylicOptions}</h4>
                             <p className="m-0">LLC</p>
                         </div>
                     </div>
@@ -202,14 +201,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </div>
                     <div className="d-flex col-6 py-1">
                         <div className="col-7">
-                            Options:
-                        </div>
-                        <div className="grey">
-                            {light.glassOptions}
-                        </div>
-                    </div>
-                    <div className="d-flex col-6 py-1">
-                        <div className="col-7">
                             Crystal Type:
                         </div>
                         <div className="grey">
@@ -221,7 +212,6 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                             Options:
                         </div>
                         <div className="grey">
-                            {light.crystalPinType} <br />
                             <span>{light.crystalPinColor}</span>
                         </div>
                     </div>

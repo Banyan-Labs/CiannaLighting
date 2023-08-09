@@ -70,10 +70,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     <h4
                         className=""
                     >
-                        {el.itemName} <br />{' '}
-                        <span>{el.item_ID}</span><br />{' '}
-                        {!el.isActive && (
-                            <span>inactive</span>)}
+                        <span>{el.item_ID}</span>
                     </h4>
                 </div>
             </div>
@@ -103,7 +100,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     <>
                         <div className="lightCard items d-flex flex-wrap justify-content-center">
                             {filteredData?.length ? filteredData
-                            :   <div className="main-catalog-filter-container d-flex m-0">
+                                : <div className="main-catalog-filter-container d-flex m-0">
                                     <div className="col-12 d-flex row m-0 p-0">
                                         <h4 className="d-flex justify-content-center">
                                             No catalog items found.

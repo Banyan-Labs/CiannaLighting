@@ -11,12 +11,6 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
         <div className="col-12 d-flex row m-0 p-0 light_details">
             <div className="d-flex col-8 px-5 flex-column">
                 <div className="light_details_container">
-                    <div className="d-flex ">
-                        <h4 className="col-4 light_details_title">Name:</h4>
-                        <h4 className="col-8 light_details_info">
-                            {Item.itemName}
-                        </h4>
-                    </div>
                     <div className="d-flex light_details_title">
                         <h4 className="col-4">Id:</h4>
                         <h4 className="col-8 light_details_info">

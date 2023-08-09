@@ -61,8 +61,6 @@ const Cards: FC<catalogProps> = ({
                     </div>
                     <div className="item-bottom-sections">
                         <h4 className="">
-                            {design.itemName}
-                            <br />
                             <span>{design.item_ID}</span>
                             <br />
                             {!design.isActive && (
