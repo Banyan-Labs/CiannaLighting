@@ -2,7 +2,6 @@ import { Document } from "mongoose";
 
 export default interface catalogInterface extends Document {
   item_ID: string;
-  itemName: string;
   employeeID: string;
   itemDescription: string;
   bodyDiameter: string;
@@ -19,15 +18,10 @@ export default interface catalogInterface extends Document {
   material: string;
   lampType: string;
   lampColor: string;
-  numberOfLamps: string;
-  wattsPerLamp: string;
-  powerInWatts: number;
   lumens: string;
   exteriorFinish: string[];
   interiorFinish: string[];
   lensMaterial: string[];
-  glassOptions: string[];
-  acrylicOptions: string[];
   environment: string[];
   safetyCert: string[];
   projectVoltage: string[];
