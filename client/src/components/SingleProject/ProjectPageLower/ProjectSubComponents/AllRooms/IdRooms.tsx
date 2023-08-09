@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 import {
     IoIosArrowDropleftCircle,
