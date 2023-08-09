@@ -8,6 +8,7 @@ import IdRooms from './AllRooms/IdRooms';
 const Rooms: FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
+    const { project } = useAppSelector(({ project }) => project);
     const handleAddRoom = (e: any) => {
         e.preventDefault();
         setOpenModal(true);
@@ -17,12 +18,14 @@ const Rooms: FC = () => {
         <>
             <div className="room-container">
                 <div className="add-room-button-container">
-                    <div className="add-room-button" onClick={handleAddRoom}>
-                        <RiAddLine className="add-sign" />
-                        <p className="room-bottom-text">
-                            Create rooms to manage your project
-                        </p>
-                    </div>
+                    {!project?.archived && (
+                        <div className="add-room-button" onClick={handleAddRoom}>
+                            <RiAddLine className="add-sign" />
+                            <p className="room-bottom-text">
+                                Create rooms to manage your project
+                            </p>
+                        </div>
+                    )}
                     <IdRooms />
                 </div>
             </div>

@@ -6,7 +6,6 @@ export type LightDetails = {
     images: string[];
     isActive: boolean;
     itemDescription: string;
-    itemName: string;
     item_ID: string;
     partnerCodeAdmin: string;
     pdf: string[];
@@ -15,11 +14,8 @@ export type LightDetails = {
 };
 
 export type LightOptions = {
-    acrylicOptions: string[];
     crystalPinColor: string[];
-    crystalPinType: string[];
     crystalType: string[];
-    glassOptions: string[];
     mounting: string[];
     socketType: string[];
     safetyCert: string[];
@@ -43,9 +39,6 @@ export type LightSpecs = {
     fixtureOverallHeight: string;
     lampColor: string;
     lampType: string;
-    numberOfLamps: string; //* should this be a number?
-    wattsPerLamp: string; //* should this be a number?
-    powerInWatts: number;
     lumens: string; //* should this be a number?
     estimatedWeight: number;
     price: number;
@@ -70,10 +63,7 @@ export type LightItemType = {
     projectVoltage: string;
     socketType: string;
     lensMaterial: string;
-    glassOptions: string;
-    acrylicOptions: string;
     crystalType: string;
-    crystalPinType: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;

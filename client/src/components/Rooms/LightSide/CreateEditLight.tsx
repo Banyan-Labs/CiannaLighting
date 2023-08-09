@@ -54,9 +54,6 @@ const CreateEditLight = ({
                     <LightSpecifications lightDetails={catalogItem} />
                 </div>
                 <div className="light-details__description-wrapper">
-                    <h2 className="light-details__item-name">
-                        {catalogItem.itemName}
-                    </h2>
                     <h3 className="light-details__item-id">
                         {catalogItem.item_ID}
                     </h3>

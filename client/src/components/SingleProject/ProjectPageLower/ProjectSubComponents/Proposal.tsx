@@ -38,8 +38,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
             exteriorFinish: prop.exteriorFinish,
             interiorFinish: prop.interiorFinish,
             lensMaterial: prop.lensMaterial,
-            glassOptions: prop.glassOptions,
-            acrylicOptions: prop.acrylicOptions,
         };
 
         return (
@@ -81,7 +79,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                 <td>{prop.lampColor}</td>
                 <td>{prop.wattsPer}</td>
                 <td>{prop.totalWatts}</td>
-                <td>{prop.numberOfLamps * prop.lightQuantity}</td>
                 <td>{prop.totalLumens}</td>
             </tr>
         );

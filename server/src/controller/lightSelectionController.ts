@@ -19,8 +19,6 @@ const lightSelected = async (
     exteriorFinish,
     interiorFinish,
     lensMaterial,
-    glassOptions,
-    acrylicOptions,
     environment,
     safetyCert,
     projectVoltage,
@@ -40,7 +38,6 @@ const lightSelected = async (
     lampColor,
     wattsPer,
     totalWatts,
-    numberOfLamps,
     totalLumens,
   } = req.body.light;
   const light = new LightSelection({
@@ -49,8 +46,6 @@ const lightSelected = async (
     exteriorFinish,
     interiorFinish,
     lensMaterial,
-    glassOptions,
-    acrylicOptions,
     environment,
     safetyCert,
     projectVoltage,
@@ -70,7 +65,6 @@ const lightSelected = async (
     lampColor,
     wattsPer,
     totalWatts,
-    numberOfLamps,
     totalLumens,
   });
 
