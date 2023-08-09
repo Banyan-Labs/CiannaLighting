@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
-import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
+import { FaMinus, FaRegWindowClose } from 'react-icons/fa';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
@@ -19,40 +19,6 @@ import logging from 'config/logging';
 
 import './styles/inventory.scss';
 
-interface CatalogType {
-    item_ID: string;
-    employeeID: string;
-    itemDescription: string;
-    bodyDiameter: string;
-    bodyLength: string;
-    bodyWidth: string;
-    bodyHeight: string;
-    fixtureOverallHeight: string;
-    sconceHeight: string;
-    sconceWidth: string;
-    sconceExtension: string;
-    socketQuantity: number;
-    estimatedWeight: number;
-    price: number;
-    material: string;
-    exteriorFinish: string[];
-    interiorFinish: string[];
-    lensMaterial: string[];
-    environment: string[];
-    safetyCert: string[];
-    projectVoltage: string[];
-    socketType: string[];
-    mounting: string[];
-    crystalType: string[];
-    designStyle: string[];
-    usePackages: string[];
-    costAdmin: number;
-    partnerCodeAdmin: string;
-    images: string[];
-    renderings: string[];
-    drawingFiles: string[];
-    cutSheets: string[];
-}
 type SetList = {
     name: string;
     value: string;
@@ -96,7 +62,7 @@ const Inventory: FC = () => {
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
-    const [listValue, setListValue] = useState<SetList>({
+    const [listValue] = useState<SetList>({
         name: '',
         value: '',
     });
@@ -417,20 +383,6 @@ const Inventory: FC = () => {
         });
     };
 
-    const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
-        if (listValue.name != e.currentTarget.name) {
-            setListValue({
-                name: e.currentTarget.name,
-                value: e.currentTarget.value,
-            });
-        } else {
-            setListValue({
-                name: listValue.name,
-                value: e.currentTarget.value,
-            });
-        }
-    };
-
     const handleListUpdate = (e: any, fieldName: string) => {
         const selectedValueList = Array.from(e.target.selectedOptions).map(
             (option: any) => option.value
@@ -519,25 +471,6 @@ const Inventory: FC = () => {
                 ]);
             });
         }
-    };
-
-    const listValSubmit = (e: any) => {
-        e.preventDefault();
-
-        if (!listValue.name || !listValue.value) return;
-
-        const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType];
-
-        if (!valueOfKey) return;
-
-        setItemDetails({
-            ...itemDetails,
-            [listValue.name]: [...valueOfKey, listValue.value],
-        });
-        setListValue({
-            name: '',
-            value: '',
-        });
     };
 
     const removeItem = (e: any, item: any, singleValue = false) => {
