@@ -5,7 +5,6 @@
     top: 0;
     width: 100vw;
     height: 10vh;
-    // background-color: $primary-bg-dark;
     background-color:$primary-bg-dark-nav;
     border-bottom: $line-height solid $line-dark;
     box-shadow: $box-shadow;
@@ -52,7 +51,6 @@
 
 .navbar-links {
     @include nav-link;
-    // color: $primary-bg-dark-title;
     color: $primary-bg-light-nav-text;
 }
 

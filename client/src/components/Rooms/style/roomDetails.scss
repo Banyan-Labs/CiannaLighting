@@ -17,13 +17,13 @@ body {
         overflow: scroll;
 
         &.left {
-            width: 40%;
+            width: 30%;
             border-right: 1px solid #ada9a9ab;
             background-color: #ecebe7;
         }
 
         &.right {
-            width: 60%;
+            width: 70%;
         }
     }
     @media screen and (max-width: 800px) {
