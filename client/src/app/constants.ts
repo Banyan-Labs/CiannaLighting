@@ -25,12 +25,15 @@ export const LIGHT_DISPLAY_SPECIFICATION_KEYS = [
 export const LIGHT_FORM_OPTIONS_KEYS = [
     'crystalPinColor',
     'crystalType',
+    'treatment',
+    'cystalBulbCover',
     'mounting',
     'socketType',
     'safetyCert',
     'environment',
     'interiorFinish',
     'exteriorFinish',
+    'finishTreatment',
     'lensMaterial',
     'projectVoltage',
 ];
@@ -118,7 +121,7 @@ export const LensMaterials = [
     'Acrylic - Milky White Acrylic N514'
 ];
 
-export const Treatmeants = [
+export const Treatments = [
     'No Frost',
     'Outside only frost',
     'Inside only frost',

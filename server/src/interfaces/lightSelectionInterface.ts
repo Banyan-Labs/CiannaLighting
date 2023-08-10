@@ -4,6 +4,7 @@ export default interface lightSelectionInterface extends Document {
   _doc?: any;
   item_ID: string;
   exteriorFinish: string;
+  finishTreatment: string;
   interiorFinish: string;
   lensMaterial: string;
   environment: string;
@@ -13,13 +14,12 @@ export default interface lightSelectionInterface extends Document {
   lampType: string;
   lampColor: string;
   price: number;
-  wattsPer:  number;
-  totalWatts: number;
   totalLumens: number;
   socketType: string;
   mounting: string;
   crystalType: string;
-  crystalPinType: string;
+  treatment: string;
+  cystalBulbCover: string;
   crystalPinColor: string;
   roomName: string;
   roomId: string;
@@ -32,6 +32,7 @@ export interface lightSelectionCompare {
   _id?: string;
   item_ID: string;
   exteriorFinish: string;
+  finishTreatment: string;
   interiorFinish: string;
   lensMaterial: string;
   environment: string;
@@ -41,13 +42,12 @@ export interface lightSelectionCompare {
   lampType: string;
   lampColor: string;
   price: number;
-  wattsPer:  number;
-  totalWatts: number;
   totalLumens: number;
   socketType: string;
   mounting: string;
   crystalType: string;
-  crystalPinType: string;
+  treatment: string;
+  cystalBulbCover: string;
   crystalPinColor: string;
   roomName?: string;
   roomId?: string;

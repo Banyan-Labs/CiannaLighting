@@ -36,6 +36,7 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     const tableRows = selections.map((prop, index) => {
         const finishes = {
             exteriorFinish: prop.exteriorFinish,
+            finishTreatment: prop.finishTreatment,
             interiorFinish: prop.interiorFinish,
             lensMaterial: prop.lensMaterial,
         };
@@ -60,7 +61,13 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                         );
                     })}
                 </td>
-                <td>{prop.description}</td>
+                <td>
+                    {
+                        prop.description.split('\n').map((p: string, index: number) => (
+                            <p className="m-0" key={index + p}>{p}</p>
+                        ))
+                    }
+                </td>
                 <td>
                     {Object.entries(finishes).map(
                         (item: any, index: number) => {
@@ -77,8 +84,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                 </td>
                 <td>{prop.lampType}</td>
                 <td>{prop.lampColor}</td>
-                <td>{prop.wattsPer}</td>
-                <td>{prop.totalWatts}</td>
                 <td>{prop.totalLumens}</td>
             </tr>
         );

@@ -285,6 +285,7 @@ const runLights = async (
     _id: new mongoose.Types.ObjectId(),
     item_ID: light.item_ID,
     exteriorFinish: light.exteriorFinish,
+    finishTreatment: light.finishTreatment,
     interiorFinish: light.interiorFinish,
     lensMaterial: light.lensMaterial,
     environment: light.environment,
@@ -293,7 +294,8 @@ const runLights = async (
     socketType: light.socketType,
     mounting: light.mounting,
     crystalType: light.crystalType,
-    crystalPinType: light.crystalPinType,
+    treatment: light.treatment,
+    cystalBulbCover: light.cystalBulbCover,
     crystalPinColor: light.crystalPinColor,
     roomName: newRoom?.name,
     roomId: newRoom?._id,
@@ -304,8 +306,6 @@ const runLights = async (
     description: light.description,
     lampType: light.lampType,
     lampColor: light.lampColor,
-    wattsPer: light.wattsPer,
-    totalWatts: light.totalWatts,
     totalLumens: light.totalLumens,
   });
   const room = await Room.findOne({ _id: newRoom._id });
