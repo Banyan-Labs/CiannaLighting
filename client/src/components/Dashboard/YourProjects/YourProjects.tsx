@@ -1,8 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
-import { FaPlus, FaChevronRight } from 'react-icons/fa';
-import { VscFileSubmodule } from 'react-icons/vsc';
+import { FaPlus, FaChevronRight, FaFolderOpen } from 'react-icons/fa';
 import {
     AiOutlineCloseCircle,
     AiOutlinePauseCircle,
@@ -160,7 +159,7 @@ const YourProjects: FC = () => {
                     <div className="overview-vertical-divider" />
                     {/* Grid for project overview */}
                     <div className="overview-display">
-                        <VscFileSubmodule className="overview-total overview-icon-main" />
+                        < FaFolderOpen className="overview-total overview-icon-main" />
                         <div className="overview-total-title overview-label-main">
                             Total Projects
                         </div>
