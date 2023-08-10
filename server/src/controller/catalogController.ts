@@ -9,7 +9,6 @@ import { AttachmentType } from "../utils/constants";
 const createCatalogItem = async (req: Request, res: Response) => {
   let {
     item_ID,
-    itemName,
     employeeID,
     itemDescription,
     bodyDiameter,
@@ -26,15 +25,10 @@ const createCatalogItem = async (req: Request, res: Response) => {
     material,
     lampType,
     lampColor,
-    numberOfLamps,
-    wattsPerLamp,
-    powerInWatts,
     lumens,
     exteriorFinish, //[]
     interiorFinish, //[]
     lensMaterial, //[]
-    glassOptions, //[]
-    acrylicOptions, //[]
     environment, //[]
     safetyCert, //[]
     projectVoltage, //[]
@@ -88,7 +82,6 @@ const createCatalogItem = async (req: Request, res: Response) => {
       _id: new mongoose.Types.ObjectId(),
       isActive: true,
       item_ID,
-      itemName,
       employeeID,
       itemDescription,
       bodyDiameter,
@@ -105,15 +98,10 @@ const createCatalogItem = async (req: Request, res: Response) => {
       material,
       lampType,
       lampColor,
-      numberOfLamps,
-      wattsPerLamp,
-      powerInWatts,
       lumens,
       exteriorFinish, //[]
       interiorFinish, //[]
       lensMaterial, //[]
-      glassOptions, //[]
-      acrylicOptions, //[]
       environment, //[]
       safetyCert, //[]
       projectVoltage, //[]

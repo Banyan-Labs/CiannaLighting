@@ -329,14 +329,6 @@ export const ViewModal: FC<Props> = ({
                                                                                                     l.lensMaterial
                                                                                                 }
                                                                                             </p>
-                                                                                            <h5 className="col-6">
-                                                                                                Options:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.acrylicOptions
-                                                                                                }
-                                                                                            </p>
                                                                                             <h5 className="col-6 m-0">
                                                                                                 Crystal
                                                                                                 Type:
@@ -352,11 +344,7 @@ export const ViewModal: FC<Props> = ({
                                                                                             <p className="col-6">
                                                                                                 {
                                                                                                     l.crystalPinColor
-                                                                                                }{' '}
-                                                                                                <br />{' '}
-                                                                                                {
-                                                                                                    l.crystalPinType
-                                                                                                }{' '}
+                                                                                                }
                                                                                             </p>
                                                                                         </div>
                                                                                     </div>

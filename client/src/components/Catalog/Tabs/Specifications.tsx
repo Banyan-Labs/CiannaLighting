@@ -53,10 +53,6 @@ const specifications: FC<catalogPros> = ({ catalogItem }) => {
                     </p>
                 </div>
                 <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Power In Watts</p>
-                    <p className="p-0 m-0 number-spec">{Item?.powerInWatts}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
                     <p className="p-0 m-0">Estimated Weight</p>
                     <p className="p-0 m-0 number-spec">
                         {Item?.estimatedWeight}

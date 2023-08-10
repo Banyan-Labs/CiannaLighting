@@ -287,8 +287,6 @@ const runLights = async (
     exteriorFinish: light.exteriorFinish,
     interiorFinish: light.interiorFinish,
     lensMaterial: light.lensMaterial,
-    glassOptions: light.glassOptions,
-    acrylicOptions: light.acrylicOptions,
     environment: light.environment,
     safetyCert: light.safetyCert,
     projectVoltage: light.projectVoltage,
@@ -308,7 +306,6 @@ const runLights = async (
     lampColor: light.lampColor,
     wattsPer: light.wattsPer,
     totalWatts: light.totalWatts,
-    numberOfLamps: light.numberOfLamps,
     totalLumens: light.totalLumens,
   });
   const room = await Room.findOne({ _id: newRoom._id });

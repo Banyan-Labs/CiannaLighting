@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 import {
     IoIosArrowDropleftCircle,
@@ -95,13 +94,13 @@ const IdRooms: FC = () => {
                 <div style={{ color: 'black' }} className="cardRoom-divider" />
                 <h3 style={{ color: 'black' }}>{room?.name}</h3>
                 <div className="room-details-block" key={index}>
-                    <FaRegClone
-                        data-for="new-room"
-                        data-tip="Copy Room"
-                        className="clone-icon"
-                        onClick={(e) => copyRoom(e, room)}
-                    />
-                    <ReactTooltip id="new-room" />
+                    {!project?.archived && (
+                        <FaRegClone
+                            data-for="new-room"
+                            data-tip="Copy Room"
+                            className="clone-icon"
+                            onClick={(e) => copyRoom(e, room)} />
+                    )}
                     <span
                         style={{ color: 'black' }}
                     >
