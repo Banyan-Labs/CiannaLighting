@@ -9,10 +9,10 @@ import {
     AiOutlinePlayCircle,
     AiOutlineClockCircle,
 } from 'react-icons/ai';
-import {
-    IoIosArrowDropleftCircle,
-    IoIosArrowDroprightCircle,
-} from 'react-icons/io';
+// import {
+//     IoIosArrowDropleftCircle,
+//     IoIosArrowDroprightCircle,
+// } from 'react-icons/io';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
@@ -157,15 +157,33 @@ const YourProjects: FC = () => {
                 <div className="dashboard-project-overview">
                     <h4>Project Overview</h4>
                     <div className="overview-vertical-divider" />
-                    {/* Grid for project overview */}
-                    <div className="overview-display">
-                        < FaFolderOpen className="overview-total overview-icon-main" />
-                        <div className="overview-total-title overview-label-main">
+                    < FaFolderOpen className="overview-total overview-icon-main" />
+                        <div className="dashboard-project-overview">
                             Total Projects
                         </div>
                         <div className="overview-total-num overview-num-main">
                             {filteredProjects?.length}
                         </div>
+                        <button
+                        className="dashboard-new-project-button"
+                        onClick={() => {
+                            setOpenModal(true);
+                        }}
+                    >
+                        <FaPlus className="submit-icon" />
+                        <span className="dashboard-new-project-sub-text">
+                            New Project
+                        </span>
+                    </button>
+                    {/* Grid for project overview */}
+                    <div className="overview-display">
+                        {/* < FaFolderOpen className="overview-total overview-icon-main" />
+                        <div className="overview-total-title overview-label-main">
+                            Total Projects
+                        </div>
+                        <div className="overview-total-num overview-num-main">
+                            {filteredProjects?.length}
+                        </div> */}
 
                         <AiOutlineExclamationCircle className="overview-configure overview-icon" />
                         <div className="overview-configure-title overview-label">
@@ -207,12 +225,13 @@ const YourProjects: FC = () => {
                             {templateProjectCount}
                         </div>
                     </div>
-                </div>
+             
+                {/* end div  */}
 
-                <div className="dashboard-your-projects">
-                    <h4>Your Projects</h4>
-                    <div className="dashboard-vertical-divider" />
-                    <button
+                {/* <div className="dashboard-your-projects"> */}
+                    {/* <h4>Your Projects</h4>
+                    <div className="dashboard-vertical-divider" /> */}
+                    {/* <button
                         className="dashboard-new-project-button"
                         onClick={() => {
                             setOpenModal(true);
@@ -222,8 +241,8 @@ const YourProjects: FC = () => {
                         <span className="dashboard-new-project-sub-text">
                             New Project
                         </span>
-                    </button>
-                    <div className="your-projects-icons">
+                    </button> */}
+                    {/* <div className="your-projects-icons">
                         <IoIosArrowDropleftCircle
                             id="your-project-icons-left"
                             className="your-projects-buttons"
@@ -238,7 +257,7 @@ const YourProjects: FC = () => {
                                 scroll(200);
                             }}
                         />
-                    </div>
+                    </div> */}
 
                     <div className="your-projects-section" ref={ref}>
                         {singleProject}
@@ -250,6 +269,7 @@ const YourProjects: FC = () => {
                             <></>
                         )}
                     </div>
+                {/* </div> */}
                 </div>
             </div>
             <DashboardNav />
