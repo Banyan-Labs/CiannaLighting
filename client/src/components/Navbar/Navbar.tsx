@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import * as data from './links.json';
-import logo from '../../assets/ciana-logo-black.png';
+import logo from '../../assets/ciana-primary-logo-birch.png';
 import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { TbLogout } from 'react-icons/tb';
