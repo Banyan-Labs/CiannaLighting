@@ -169,7 +169,7 @@ const YourProjects: FC = () => {
                         </div>
 
                         <AiOutlineExclamationCircle className="overview-configure overview-icon" />
-                        <div className="overview-configure-title overview-label">
+                        <div className="overviewasdfsdfasfd-configure-title overview-label">
                             Configure / Design
                         </div>
                         <div className="overview-configure-num overview-num">
