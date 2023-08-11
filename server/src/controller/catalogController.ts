@@ -26,20 +26,20 @@ const createCatalogItem = async (req: Request, res: Response) => {
     lampType,
     lampColor,
     lumens,
-    exteriorFinish, //[]
-    finishTreatment, //[]
-    interiorFinish, //[]
-    lensMaterial, //[]
     environment, //[]
     safetyCert, //[]
-    projectVoltage, //[]
-    socketType, //[]
     mounting, //[]
-    crystalType, //[]
-    treatment, //[]
-    crystalBulbCover, //[]
-    crystalPinColor, //[]
-    designStyle, //[]
+    exteriorFinish,
+    finishTreatment,
+    interiorFinish,
+    lensMaterial,
+    projectVoltage,
+    socketType,
+    crystalType,
+    treatment,
+    crystalBulbCover,
+    crystalPinColor,
+    designStyle,
     usePackages, //[]
     costAdmin,
     partnerCodeAdmin,
@@ -101,20 +101,20 @@ const createCatalogItem = async (req: Request, res: Response) => {
       lampType,
       lampColor,
       lumens,
-      exteriorFinish, //[]
-      finishTreatment, //[]
-      interiorFinish, //[]
-      lensMaterial, //[]
+      exteriorFinish,
+      finishTreatment,
+      interiorFinish,
+      lensMaterial,
       environment, //[]
       safetyCert, //[]
-      projectVoltage, //[]
-      socketType, //[]
+      projectVoltage, 
+      socketType, 
       mounting, //[]
-      crystalType, //[]
-      treatment, //[]
-      crystalBulbCover, //[]
-      crystalPinColor, //[]
-      designStyle, //[]
+      crystalType,
+      treatment,
+      crystalBulbCover,
+      crystalPinColor,
+      designStyle,
       usePackages, //[]
       images, //[]//s3
       renderings, //[]//s3
@@ -149,7 +149,10 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
       if (items) {
         if (designStyle || usePackages) {
           items = items.filter((x) => {
-            const hasDesignStyle = designStyle ? x.designStyle.includes(designStyle) : true;
+            logging.info(`x.designStyle : ${x.designStyle} designStyle: ${designStyle}`, "getCatalogItems");
+            const hasDesignStyle = designStyle ? x.designStyle == designStyle : true;
+            logging.info(`x.usePackages : ${x.usePackages[0]} usePackages: ${usePackages[0]}`, "getCatalogItems");
+            console.log(x.usePackages[0])
             const hasUsePackages = usePackages?.length ?
               usePackages.length > 1
                 ? usePackages.every((v: string) => x.usePackages.includes(v))

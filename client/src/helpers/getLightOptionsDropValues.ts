@@ -41,7 +41,11 @@ export const getLightOptionsDropValuesFromItem = (
                 .replace(/^[a-z]/, (match) => match.toUpperCase());
             const values = lightItem[key as keyof LightOptions];
 
-            results.push({ label, key, values });
+            if (Array.isArray(values)) {
+                results.push({ label, key, values });
+            } else {
+                results.push({ label, key, values: [values] });
+            }
         }
     }
     

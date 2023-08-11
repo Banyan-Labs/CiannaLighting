@@ -14,15 +14,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
-import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments } from 'app/constants';
+import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments, CrystalBulbCovers } from 'app/constants';
 import logging from 'config/logging';
 
 import './styles/inventory.scss';
-
-type SetList = {
-    name: string;
-    value: string;
-};
 
 const Inventory: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -43,21 +38,21 @@ const Inventory: FC = () => {
         socketQuantity: 0,
         estimatedWeight: 0,
         price: 0,
-        exteriorFinish: [], //[]
-        finishTreatment: [], //[]
-        interiorFinish: [], //[]
-        lensMaterial: [], //[]
-        environment: [], //[]
-        safetyCert: [], //[]
-        projectVoltage: [], //[]
-        socketType: [], //[]
-        mounting: [], //[]
-        crystalType: [], //[]
-        treatment: [], //[]
-        crystalBulbCover: [], //[]
-        crystalPinColor: [], //[]
-        designStyle: [], //[]
-        usePackages: [], //[]
+        exteriorFinish: '', 
+        finishTreatment: '', 
+        interiorFinish: '', 
+        lensMaterial: '', 
+        environment: [],
+        safetyCert: [],
+        mounting: [],
+        projectVoltage: '',
+        socketType: '',
+        crystalType: '',
+        treatment: '',
+        crystalBulbCover: '',
+        crystalPinColor: '',
+        designStyle: '',
+        usePackages: [],
         editImages: [],
         editRenderings: [],
         editDrawingFiles: [],
@@ -65,10 +60,7 @@ const Inventory: FC = () => {
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
-    const [listValue] = useState<SetList>({
-        name: '',
-        value: '',
-    });
+
     const [imgFiles, setImgfiles] = useState<any>([]);
     const [renderingFiles, setRenderingFiles] = useState<any>([]);
     const [cutSheetFiles, setCutSheetFiles] = useState<any>([]);
@@ -397,14 +389,7 @@ const Inventory: FC = () => {
         });
     };
 
-    const handleDesignStyleUpdate = (e: any) => {
-        setItemDetails({
-            ...itemDetails,
-            designStyle: e.target.selectedOptions[0].value,
-        });
-    };
-
-    const handleConstantRadioUpdate = (e: any, fieldName: string) => {
+    const handleSingleUpdate = (e: any, fieldName: string) => {
         setItemDetails({
             ...itemDetails,
             [fieldName]: e.target.selectedOptions[0].value,
@@ -624,21 +609,21 @@ const Inventory: FC = () => {
             lampType: '',
             lampColor: '',
             price: 0,
-            exteriorFinish: [], //[]
-            finishTreatment: [], //[]
-            interiorFinish: [], //[]
-            lensMaterial: [], //[]
-            environment: [], //[]
-            safetyCert: [], //[]
-            projectVoltage: [], //[]
-            socketType: [], //[]
-            mounting: [], //[]
-            crystalType: [], //[]
-            treatment: [], //[]
-            crystalBulbCover: [], //[]
-            crystalPinColor: [], //[]
-            designStyle: [], //[]
-            usePackages: [], //[]
+            environment: [],
+            safetyCert: [],
+            mounting: [],
+            exteriorFinish: '',
+            finishTreatment: '',
+            interiorFinish: '',
+            lensMaterial: '',
+            projectVoltage: '',
+            socketType: '',
+            crystalType: '',
+            treatment: '',
+            crystalBulbCover: '',
+            crystalPinColor: '',
+            designStyle: [],
+            usePackages: [],
             editImages: [],
             editRenderings: [],
             editDrawingFiles: [],
@@ -1050,7 +1035,7 @@ const Inventory: FC = () => {
                                     placeholder="Lamp Color"
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
-                                    onChange={(e) => handleConstantRadioUpdate(e, 'lampColor')}
+                                    onChange={(e) => handleSingleUpdate(e, 'lampColor')}
                                 >
                                     <option value="" disabled>Select</option>
                                     {
@@ -1090,9 +1075,9 @@ const Inventory: FC = () => {
                                         placeholder="Project Voltages"
                                         name="projectVoltage"
                                         value={
-                                            itemDetails.projectVoltage[0] || ''
+                                            itemDetails.projectVoltage || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'projectVoltage')}
+                                        onChange={(e) => handleSingleUpdate(e, 'projectVoltage')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1136,9 +1121,9 @@ const Inventory: FC = () => {
                                         placeholder="Socket Types"
                                         name="socketType"
                                         value={
-                                            itemDetails.socketType[0] || ''
+                                            itemDetails.socketType || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'socketType')}
+                                        onChange={(e) => handleSingleUpdate(e, 'socketType')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1171,8 +1156,8 @@ const Inventory: FC = () => {
                                     id="material"
                                     placeholder="Material"
                                     name="material"
-                                    value={itemDetails.material[0] || ''}
-                                    onChange={(e) => handleConstantRadioUpdate(e, 'material')}
+                                    value={itemDetails.material || ''}
+                                    onChange={(e) => handleSingleUpdate(e, 'material')}
                                     onFocus={(e) => firstItemFocus(e, 4)}
                                 >
                                     <option value="" disabled>Select</option>
@@ -1198,9 +1183,9 @@ const Inventory: FC = () => {
                                         placeholder="Exterior Finish"
                                         name="exteriorFinish"
                                         value={
-                                            itemDetails.exteriorFinish[0] || ''
+                                            itemDetails.exteriorFinish || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'exteriorFinish')}
+                                        onChange={(e) => handleSingleUpdate(e, 'exteriorFinish')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1226,9 +1211,9 @@ const Inventory: FC = () => {
                                         placeholder="Finish Treatment"
                                         name="finishTreatment"
                                         value={
-                                            itemDetails.finishTreatment[0] || ''
+                                            itemDetails.finishTreatment || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'finishTreatment')}
+                                        onChange={(e) => handleSingleUpdate(e, 'finishTreatment')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1254,9 +1239,9 @@ const Inventory: FC = () => {
                                         placeholder="Interior Finish"
                                         name="interiorFinish"
                                         value={
-                                            itemDetails.interiorFinish[0] || ''
+                                            itemDetails.interiorFinish || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'interiorFinish')}
+                                        onChange={(e) => handleSingleUpdate(e, 'interiorFinish')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1290,9 +1275,9 @@ const Inventory: FC = () => {
                                         placeholder="Lens Material"
                                         name="lensMaterial"
                                         value={
-                                            itemDetails.lensMaterial[0] || ''
+                                            itemDetails.lensMaterial || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'lensMaterial')}
+                                        onChange={(e) => handleSingleUpdate(e, 'lensMaterial')}
                                         onFocus={(e) => firstItemFocus(e, 5)}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1319,9 +1304,9 @@ const Inventory: FC = () => {
                                         placeholder="Treatment"
                                         name="treatment"
                                         value={
-                                            itemDetails.treatment[0] || ''
+                                            itemDetails.treatment || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'treatment')}
+                                        onChange={(e) => handleSingleUpdate(e, 'treatment')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1347,9 +1332,9 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Types"
                                         name="crystalType"
                                         value={
-                                            itemDetails.crystalType[0] || ''
+                                            itemDetails.crystalType || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalType')}
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalType')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1375,9 +1360,9 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Pin Colors"
                                         name="crystalPinColor"
                                         value={
-                                            itemDetails.crystalPinColor[0] || ''
+                                            itemDetails.crystalPinColor || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalPinColor')}
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalPinColor')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1403,13 +1388,13 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Bulb Cover"
                                         name="crystalBulbCover"
                                         value={
-                                            itemDetails.crystalBulbCover[0] || ''
+                                            itemDetails.crystalBulbCover || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalBulbCover')}
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalBulbCover')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
-                                            Object.values(Treatments).map((item: any, index: number) => (
+                                            Object.values(CrystalBulbCovers).map((item: any, index: number) => (
                                                 <option key={index} value={item}>{item}</option>
                                             ))
                                         }
@@ -1596,11 +1581,9 @@ const Inventory: FC = () => {
                                         placeholder="Design Style"
                                         name="designStyle"
                                         value={
-                                            listValue.name == 'designStyle'
-                                                ? listValue.value
-                                                : ''
+                                            itemDetails.designStyle || ''
                                         }
-                                        onChange={(e) => handleDesignStyleUpdate(e)}
+                                        onChange={(e) => handleSingleUpdate(e, 'designStyle')}
                                         onFocus={(e) => firstItemFocus(e, 7)}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1617,25 +1600,6 @@ const Inventory: FC = () => {
                                         Design Style
                                     </label>
                                 </div>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'designStyle', true)
-                                    }
-                                    className="delete-material-button delete-material-button-without-add"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="designStyleValues"
-                                    placeholder="Design Styles"
-                                    type="text"
-                                    name="designStyleValues"
-                                    value={itemDetails.designStyle || ''}
-                                    readOnly
-                                />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
