@@ -145,6 +145,14 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </div>
                     <div className="d-flex col-6 py-1">
                         <div className="col-7">
+                            Finish Treatment:
+                        </div>
+                        <div className="grey">
+                            {light.finishTreatment}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
                             Interior Finish:
                         </div>
                         <div className="grey">
@@ -209,10 +217,26 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     </div>
                     <div className="d-flex col-6 py-1">
                         <div className="col-7">
+                            Treatment:
+                        </div>
+                        <div className="grey">
+                            {light.treatment}
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
                             Options:
                         </div>
                         <div className="grey">
                             <span>{light.crystalPinColor}</span>
+                        </div>
+                    </div>
+                    <div className="d-flex col-6 py-1">
+                        <div className="col-7">
+                            Crystal Bulb Cover:
+                        </div>
+                        <div className="grey">
+                            {light.crystalBulbCover}
                         </div>
                     </div>
                 </div>

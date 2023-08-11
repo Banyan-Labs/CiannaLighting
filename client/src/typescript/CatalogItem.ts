@@ -1,6 +1,6 @@
 export type LightDetails = {
     costAdmin: number;
-    designStyle: string[];
+    designStyle: string;
     drawingFiles: string[];
     employeeID: string;
     images: string[];
@@ -14,17 +14,20 @@ export type LightDetails = {
 };
 
 export type LightOptions = {
-    crystalPinColor: string[];
-    crystalType: string[];
-    mounting: string[];
-    socketType: string[];
     safetyCert: string[];
     environment: string[];
-    interiorFinish: string[];
-    exteriorFinish: string[];
-    lensMaterial: string[];
-    projectVoltage: string[];
-    designStyle: string[];
+    mounting: string[];
+    crystalPinColor: string;
+    crystalType: string;
+    crystalBulbCover: string;
+    treatment: string;
+    socketType: string;
+    interiorFinish: string;
+    exteriorFinish: string;
+    finishTreatment: string;
+    lensMaterial: string;
+    projectVoltage: string;
+    designStyle: string;
 };
 
 export type LightSpecs = {
@@ -57,6 +60,7 @@ export interface CatalogLightItem
 export type LightItemType = {
     _id?: string;
     exteriorFinish: string;
+    finishTreatment: string;
     interiorFinish: string;
     environment: string;
     safetyCert: string;
@@ -64,6 +68,8 @@ export type LightItemType = {
     socketType: string;
     lensMaterial: string;
     crystalType: string;
+    treatment: string;
+    crystalBulbCover: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;

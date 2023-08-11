@@ -12,14 +12,13 @@
     align-items: center;
     z-index: 10;
 
-    img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 75%;
-        height: 66%;
-        margin-top: 20px;
+    .logo-container {
+        svg {
+            height: 8vh;
+            width: auto;
+        }
     }
+
     button {
         border: none;
         background-color: transparent;
@@ -35,17 +34,11 @@
     }
 }
 
-.logo-container {
-    display: flex;
-    align-self: center;
-    width: 150px;
-    height: 10vh;
-}
+
 
 .navbar-links-container {
     margin-right: 20px;
     display: flex;
-    width: 300px;
     justify-content: space-evenly;
 }
 
@@ -71,7 +64,7 @@
         color: $accent-gold;
     }
     .logout-icon {
-        margin-left: 10px;
+        margin-left: 2em;
     }
     .logout-icon:hover{
         cursor: pointer;

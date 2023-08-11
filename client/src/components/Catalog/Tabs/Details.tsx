@@ -20,9 +20,13 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
                 </div>
                 <div className="d-flex flex-column">
                     <h4 className="d-flex light_details_title">Description:</h4>{' '}
-                    <span className="ms-5 pb-2 light_details_info">
-                        {Item?.itemDescription}
-                    </span>
+                    <div className="ms-5 pb-2 light_details_info">
+                        {
+                            catalogItem.itemDescription.split('\n').map((p: string, index: number) => (
+                                <p className="m-0" key={index + p}>{p}</p>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
             <div className="d-flex col-4     flex-column">

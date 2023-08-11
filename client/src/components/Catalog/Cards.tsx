@@ -24,22 +24,13 @@ const Cards: FC<catalogProps> = ({
     resultsRef,
 }) => {
     const { setAllCatalog } = useAppSelector(({ project }) => project);
-    const designsFound: any = [];
     const reduxData = setAllCatalog?.slice();
 
     const useDesigns = reduxData?.map((design, index) => {
         const allReceived =
             renderPage === 'designStyle'
-                ? design?.designStyle.map((type: any) => {
-                    if (!designsFound.includes(type)) {
-                        designsFound.push(type);
-                    }
-                })
-                : design?.usePackages.map((type: any) => {
-                    if (!designsFound.includes(type)) {
-                        designsFound.push(type);
-                    }
-                });
+                ? [design?.designStyle]
+                : design?.usePackages;
 
         if (renderPage === '') {
             return setRenderPage('');

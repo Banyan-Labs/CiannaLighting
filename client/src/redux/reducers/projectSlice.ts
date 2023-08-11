@@ -48,6 +48,7 @@ export type ProjectType = {
 
 export type LightType = {
     exteriorFinish: string;
+    finishTreatment: string;
     interiorFinish: string;
     environment: string;
     safetyCert: string;
@@ -55,6 +56,8 @@ export type LightType = {
     socketType: string;
     lensMaterial: string;
     crystalType: string;
+    treatment: string;
+    crystalBulbCover: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;

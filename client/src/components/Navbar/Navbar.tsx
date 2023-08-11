@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import * as data from './links.json';
-import logo from '../../assets/ciana-primary-logo-birch.png';
+import { ReactComponent as Logo } from '../../assets/ciana-primary-logo-birch.svg';
 import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
 import { TbLogout } from 'react-icons/tb';
@@ -52,8 +52,8 @@ const Links: FC<{ links: Link[] }> = () => {
                                 }}
                                 className={
                                     link.label === 'Admin' 
-                                    ? link.href.includes(activeLocation) ? 'active navbar-links' : 'navbar-links'
-                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links' : 'navbar-links'
+                                    ? link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
+                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links me-5' : 'navbar-links me-5'
                                 }
                             >
                                 {link.label}
@@ -83,8 +83,8 @@ const Navbar: FC = () => {
     return (
         <>
             <nav className="navbar-container">
-                <div className="logo-container">
-                    <img src={logo} alt="Ciana Logo" />
+                <div className="logo-container ms-3 me-4">
+                    <Logo />
                 </div>
 
                 <div className="navbar-vertical-divider" />

@@ -17,6 +17,7 @@ const lightSelected = async (
   const {
     item_ID,
     exteriorFinish,
+    finishTreatment,
     interiorFinish,
     lensMaterial,
     environment,
@@ -25,7 +26,8 @@ const lightSelected = async (
     socketType,
     mounting,
     crystalType,
-    crystalPinType,
+    treatment,
+    crystalBulbCover,
     crystalPinColor,
     roomName,
     roomId,
@@ -36,14 +38,13 @@ const lightSelected = async (
     description,
     lampType,
     lampColor,
-    wattsPer,
-    totalWatts,
     totalLumens,
   } = req.body.light;
   const light = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
     item_ID,
     exteriorFinish,
+    finishTreatment,
     interiorFinish,
     lensMaterial,
     environment,
@@ -52,7 +53,8 @@ const lightSelected = async (
     socketType,
     mounting,
     crystalType,
-    crystalPinType,
+    treatment,
+    crystalBulbCover,
     crystalPinColor,
     roomName,
     roomId,
@@ -63,8 +65,6 @@ const lightSelected = async (
     description,
     lampType,
     lampColor,
-    wattsPer,
-    totalWatts,
     totalLumens,
   });
 

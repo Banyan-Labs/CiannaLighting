@@ -14,15 +14,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
-import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes } from 'app/constants';
+import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments, CrystalBulbCovers } from 'app/constants';
 import logging from 'config/logging';
 
 import './styles/inventory.scss';
-
-type SetList = {
-    name: string;
-    value: string;
-};
 
 const Inventory: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -43,18 +38,21 @@ const Inventory: FC = () => {
         socketQuantity: 0,
         estimatedWeight: 0,
         price: 0,
-        exteriorFinish: [], //[]
-        interiorFinish: [], //[]
-        lensMaterial: [], //[]
-        environment: [], //[]
-        safetyCert: [], //[]
-        projectVoltage: [], //[]
-        socketType: [], //[]
-        mounting: [], //[]
-        crystalType: [], //[]
-        crystalPinColor: [], //[]
-        designStyle: [], //[]
-        usePackages: [], //[]
+        exteriorFinish: '', 
+        finishTreatment: '', 
+        interiorFinish: '', 
+        lensMaterial: '', 
+        environment: [],
+        safetyCert: [],
+        mounting: [],
+        projectVoltage: '',
+        socketType: '',
+        crystalType: '',
+        treatment: '',
+        crystalBulbCover: '',
+        crystalPinColor: '',
+        designStyle: '',
+        usePackages: [],
         editImages: [],
         editRenderings: [],
         editDrawingFiles: [],
@@ -62,10 +60,7 @@ const Inventory: FC = () => {
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
-    const [listValue] = useState<SetList>({
-        name: '',
-        value: '',
-    });
+
     const [imgFiles, setImgfiles] = useState<any>([]);
     const [renderingFiles, setRenderingFiles] = useState<any>([]);
     const [cutSheetFiles, setCutSheetFiles] = useState<any>([]);
@@ -374,7 +369,7 @@ const Inventory: FC = () => {
         }
     };
 
-    const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
+    const handleFormInput = (e: FormEvent<any>) => {
         e.preventDefault();
 
         setItemDetails({
@@ -394,14 +389,7 @@ const Inventory: FC = () => {
         });
     };
 
-    const handleDesignStyleUpdate = (e: any) => {
-        setItemDetails({
-            ...itemDetails,
-            designStyle: e.target.selectedOptions[0].value,
-        });
-    };
-
-    const handleConstantRadioUpdate = (e: any, fieldName: string) => {
+    const handleSingleUpdate = (e: any, fieldName: string) => {
         setItemDetails({
             ...itemDetails,
             [fieldName]: e.target.selectedOptions[0].value,
@@ -485,7 +473,7 @@ const Inventory: FC = () => {
     const firstItemFocus = (e: any, id: number) => {
         const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
         const container = document.getElementById('inventory-container') as HTMLDivElement;
-        const sections = [...Array(8)].map((_, index) => index + 1);
+        const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
             const element = document.getElementById(`chck${section}`) as HTMLInputElement;
@@ -507,7 +495,7 @@ const Inventory: FC = () => {
         }
 
         const container = document.getElementById('inventory-container') as HTMLDivElement;
-        const sections = [...Array(8)].map((_, index) => index + 1);
+        const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
             const element = document.getElementById(`chck${section}`) as HTMLInputElement;
@@ -621,18 +609,21 @@ const Inventory: FC = () => {
             lampType: '',
             lampColor: '',
             price: 0,
-            exteriorFinish: [], //[]
-            interiorFinish: [], //[]
-            lensMaterial: [], //[]
-            environment: [], //[]
-            safetyCert: [], //[]
-            projectVoltage: [], //[]
-            socketType: [], //[]
-            mounting: [], //[]
-            crystalType: [], //[]
-            crystalPinColor: [], //[]
-            designStyle: [], //[]
-            usePackages: [], //[]
+            environment: [],
+            safetyCert: [],
+            mounting: [],
+            exteriorFinish: '',
+            finishTreatment: '',
+            interiorFinish: '',
+            lensMaterial: '',
+            projectVoltage: '',
+            socketType: '',
+            crystalType: '',
+            treatment: '',
+            crystalBulbCover: '',
+            crystalPinColor: '',
+            designStyle: [],
+            usePackages: [],
             editImages: [],
             editRenderings: [],
             editDrawingFiles: [],
@@ -793,7 +784,7 @@ const Inventory: FC = () => {
                                 Details
                             </label>
                             <div className="tab-content">
-                                <div className="form__group field">
+                                <div className="list__group field">
                                     <input
                                         tabIndex={2}
                                         className="form__field"
@@ -814,10 +805,9 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                                 <div className="form__group field">
-                                    <input
-                                        tabIndex={4}
+                                    <textarea
+                                        tabIndex={3}
                                         className="form__field"
-                                        type="text"
                                         id="itemDescription"
                                         name="itemDescription"
                                         value={
@@ -825,6 +815,7 @@ const Inventory: FC = () => {
                                         }
                                         onChange={(e) => handleFormInput(e)}
                                         placeholder="Description"
+                                        rows={3}
                                     />
                                     <label
                                         htmlFor="itemDescription"
@@ -843,9 +834,9 @@ const Inventory: FC = () => {
                             Measurements
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={6}
+                                    tabIndex={5}
                                     className="form__field"
                                     id="bodyDiameter"
                                     placeholder="Body Diameter"
@@ -862,9 +853,9 @@ const Inventory: FC = () => {
                                     Body Diameter
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={7}
+                                    tabIndex={6}
                                     className="form__field"
                                     id="bodyLength"
                                     placeholder="Body Length"
@@ -880,9 +871,9 @@ const Inventory: FC = () => {
                                     Body Length
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={8}
+                                    tabIndex={7}
                                     className="form__field"
                                     id="bodyWidth"
                                     placeholder="bodyWidth"
@@ -898,9 +889,9 @@ const Inventory: FC = () => {
                                     Body Width
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={9}
+                                    tabIndex={8}
                                     className="form__field"
                                     id="bodyHeight"
                                     placeholder="Body Height"
@@ -916,9 +907,9 @@ const Inventory: FC = () => {
                                     Body Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={10}
+                                    tabIndex={9}
                                     className="form__field"
                                     id="fixtureOverallHeight"
                                     placeholder="Fixture Overall Height"
@@ -936,9 +927,9 @@ const Inventory: FC = () => {
                                     Fixture Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={11}
+                                    tabIndex={10}
                                     className="form__field"
                                     id="sconceHeight"
                                     placeholder="Sconce Height"
@@ -954,9 +945,9 @@ const Inventory: FC = () => {
                                     Sconce Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={12}
+                                    tabIndex={11}
                                     className="form__field"
                                     id="sconceWidth"
                                     placeholder="Sconce Width"
@@ -972,9 +963,9 @@ const Inventory: FC = () => {
                                     Sconce Width
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={13}
+                                    tabIndex={12}
                                     className="form__field"
                                     id="sconceExtension"
                                     placeholder="Sconce Extension"
@@ -990,9 +981,9 @@ const Inventory: FC = () => {
                                     Sconce Extension
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={14}
+                                    tabIndex={13}
                                     className="form__field"
                                     id="estimatedWeight"
                                     placeholder="Estimated Weight"
@@ -1014,12 +1005,12 @@ const Inventory: FC = () => {
                     <div className="tab">
                         <input tabIndex={-1} type="checkbox" id="chck3" onClick={(e) => closeOtherSections(e, 3)} />
                         <label className="tab-label" htmlFor="chck3">
-                            Lamp Options
+                            Lamping Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={16}
+                                    tabIndex={14}
                                     className="form__field"
                                     id="lampType"
                                     placeholder="Lamp Type"
@@ -1036,15 +1027,15 @@ const Inventory: FC = () => {
                                     Lamp Type
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <select
-                                    tabIndex={17}
+                                    tabIndex={15}
                                     className="form__field"
                                     id="lampColor"
                                     placeholder="Lamp Color"
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
-                                    onChange={(e) => handleConstantRadioUpdate(e, 'lampColor')}
+                                    onChange={(e) => handleSingleUpdate(e, 'lampColor')}
                                 >
                                     <option value="" disabled>Select</option>
                                     {
@@ -1060,9 +1051,9 @@ const Inventory: FC = () => {
                                     Lamp Color
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={21}
+                                    tabIndex={16}
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
@@ -1075,6 +1066,80 @@ const Inventory: FC = () => {
                                     Lumens
                                 </label>
                             </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={17}
+                                        className="form__field"
+                                        id="projectVoltage"
+                                        placeholder="Project Voltages"
+                                        name="projectVoltage"
+                                        value={
+                                            itemDetails.projectVoltage || ''
+                                        }
+                                        onChange={(e) => handleSingleUpdate(e, 'projectVoltage')}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(ProjectVoltages).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="projectVoltage"
+                                    >
+                                        Project Voltage
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="list__group field">
+                                <input
+                                    tabIndex={18}
+                                    className="form__field"
+                                    id="socketQuantity"
+                                    placeholder="Socket Quantity"
+                                    type="number"
+                                    name="socketQuantity"
+                                    value={itemDetails.socketQuantity || ''}
+                                    onChange={(e) => handleFormInput(e)}
+                                />
+                                <label
+                                    className="form__label"
+                                    htmlFor="socketQuantity"
+                                >
+                                    Socket Quantity
+                                </label>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={19}
+                                        className="form__field"
+                                        id="socketType"
+                                        placeholder="Socket Types"
+                                        name="socketType"
+                                        value={
+                                            itemDetails.socketType || ''
+                                        }
+                                        onChange={(e) => handleSingleUpdate(e, 'socketType')}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(SocketTypes).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="socketType"
+                                    >
+                                        Socket Types
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {/* Material Options */}
@@ -1084,15 +1149,15 @@ const Inventory: FC = () => {
                             Material Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <select
-                                    tabIndex={23}
+                                    tabIndex={20}
                                     className="form__field"
                                     id="material"
                                     placeholder="Material"
                                     name="material"
                                     value={itemDetails.material || ''}
-                                    onChange={(e) => handleConstantRadioUpdate(e, 'material')}
+                                    onChange={(e) => handleSingleUpdate(e, 'material')}
                                     onFocus={(e) => firstItemFocus(e, 4)}
                                 >
                                     <option value="" disabled>Select</option>
@@ -1112,7 +1177,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={24}
+                                        tabIndex={21}
                                         className="form__field"
                                         id="exteriorFinish"
                                         placeholder="Exterior Finish"
@@ -1120,7 +1185,7 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.exteriorFinish || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'exteriorFinish')}
+                                        onChange={(e) => handleSingleUpdate(e, 'exteriorFinish')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1140,7 +1205,35 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={25}
+                                        tabIndex={22}
+                                        className="form__field"
+                                        id="finishTreatment"
+                                        placeholder="Finish Treatment"
+                                        name="finishTreatment"
+                                        value={
+                                            itemDetails.finishTreatment || ''
+                                        }
+                                        onChange={(e) => handleSingleUpdate(e, 'finishTreatment')}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(FinishTreatments).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <label
+                                        htmlFor="finishTreatment"
+                                        className="form__label"
+                                    >
+                                        Finish Treatment
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={23}
                                         className="form__field"
                                         id="interiorFinish"
                                         placeholder="Interior Finish"
@@ -1148,7 +1241,7 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.interiorFinish || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'interiorFinish')}
+                                        onChange={(e) => handleSingleUpdate(e, 'interiorFinish')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1165,10 +1258,18 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className="tab">
+                        <input tabIndex={-1} type="checkbox" id="chck5" onClick={(e) => closeOtherSections(e, 5)} />
+                        <label className="tab-label" htmlFor="chck5">
+                            Lens Materials Options
+                        </label>
+                        <div className="tab-content">
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={26}
+                                        tabIndex={24}
                                         className="form__field"
                                         id="lensMaterial"
                                         placeholder="Lens Material"
@@ -1176,7 +1277,8 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.lensMaterial || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'lensMaterial')}
+                                        onChange={(e) => handleSingleUpdate(e, 'lensMaterial')}
+                                        onFocus={(e) => firstItemFocus(e, 5)}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1196,7 +1298,35 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={29}
+                                        tabIndex={25}
+                                        className="form__field"
+                                        id="treatment"
+                                        placeholder="Treatment"
+                                        name="treatment"
+                                        value={
+                                            itemDetails.treatment || ''
+                                        }
+                                        onChange={(e) => handleSingleUpdate(e, 'treatment')}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(Treatments).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="treatment"
+                                    >
+                                        Treatment
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={26}
                                         className="form__field"
                                         id="crystalType"
                                         placeholder="Crystal Types"
@@ -1204,7 +1334,7 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.crystalType || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalType')}
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalType')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1224,7 +1354,7 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={31}
+                                        tabIndex={27}
                                         className="form__field"
                                         id="crystalPinColor"
                                         placeholder="Crystal Pin Colors"
@@ -1232,7 +1362,7 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.crystalPinColor || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalPinColor')}
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalPinColor')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1249,37 +1379,46 @@ const Inventory: FC = () => {
                                     </label>
                                 </div>
                             </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={28}
+                                        className="form__field"
+                                        id="crystalBulbCover"
+                                        placeholder="Crystal Bulb Cover"
+                                        name="crystalBulbCover"
+                                        value={
+                                            itemDetails.crystalBulbCover || ''
+                                        }
+                                        onChange={(e) => handleSingleUpdate(e, 'crystalBulbCover')}
+                                    >
+                                        <option value="" disabled>Select</option>
+                                        {
+                                            Object.values(CrystalBulbCovers).map((item: any, index: number) => (
+                                                <option key={index} value={item}>{item}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalBulbCover"
+                                    >
+                                        Crystal Bulb Cover
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {/* Other Options */}
                     <div className="tab">
-                        <input tabIndex={32} type="checkbox" id="chck5" onClick={(e) => closeOtherSections(e, 5)} />
-                        <label className="tab-label" htmlFor="chck5">
+                        <input tabIndex={-1} type="checkbox" id="chck6" onClick={(e) => closeOtherSections(e, 6)} />
+                        <label className="tab-label" htmlFor="chck6">
                             Other Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={33}
-                                    className="form__field"
-                                    id="socketQuantity"
-                                    placeholder="Socket Quantity"
-                                    type="number"
-                                    name="socketQuantity"
-                                    value={itemDetails.socketQuantity || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 5)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="socketQuantity"
-                                >
-                                    Socket Quantity
-                                </label>
-                            </div>
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={34}
+                                    tabIndex={29}
                                     className="form__field"
                                     id="price"
                                     placeholder="Price"
@@ -1287,6 +1426,7 @@ const Inventory: FC = () => {
                                     name="price"
                                     value={itemDetails.price || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 6)}
                                 />
                                 <label className="form__label" htmlFor="price">
                                     Price
@@ -1295,14 +1435,12 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={35}
+                                        tabIndex={30}
                                         className="form__field"
                                         id="environment"
                                         placeholder="Environment"
                                         name="environment"
-                                        value={
-                                            itemDetails.environment || ''
-                                        }
+                                        value=""
                                         onChange={(e) => handleListUpdate(e, 'environment')}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1342,14 +1480,12 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={36}
+                                        tabIndex={31}
                                         className="form__field"
                                         id="safetyCert"
                                         placeholder="Safety Certifications"
                                         name="safetyCert"
-                                        value={
-                                            itemDetails.safetyCert || ''
-                                        }
+                                        value=""
                                         onChange={(e) => handleListUpdate(e, 'safetyCert')}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1387,70 +1523,12 @@ const Inventory: FC = () => {
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={37}
-                                        className="form__field"
-                                        id="projectVoltage"
-                                        placeholder="Project Voltages"
-                                        name="projectVoltage"
-                                        value={
-                                            itemDetails.projectVoltage || ''
-                                        }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'projectVoltage')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(ProjectVoltages).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
-                                    </select>
-                                    <label
-                                        className="form__label"
-                                        htmlFor="projectVoltage"
-                                    >
-                                        Project Voltage
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <select
-                                        tabIndex={38}
-                                        className="form__field"
-                                        id="socketType"
-                                        placeholder="Socket Types"
-                                        name="socketType"
-                                        value={
-                                            itemDetails.socketType || ''
-                                        }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'socketType')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(SocketTypes).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
-                                    </select>
-                                    <label
-                                        className="form__label"
-                                        htmlFor="socketType"
-                                    >
-                                        Socket Types
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <select
-                                        tabIndex={39}
+                                        tabIndex={32}
                                         className="form__field"
                                         id="mounting"
-                                        placeholder="Mounting"
+                                        placeholder="Mounting Types"
                                         name="mounting"
-                                        value={
-                                            itemDetails.mounting || ''
-                                        }
+                                        value=""
                                         onChange={(e) => handleListUpdate(e, 'mounting')}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1464,7 +1542,7 @@ const Inventory: FC = () => {
                                         className="form__label"
                                         htmlFor="mounting"
                                     >
-                                        Mountings
+                                        Mounting Types
                                     </label>
                                 </div>
                                 <button
@@ -1489,26 +1567,24 @@ const Inventory: FC = () => {
                     </div>
                     {/* Design Style & Use Packages */}
                     <div className="tab">
-                        <input tabIndex={40} type="checkbox" id="chck6" onClick={(e) => closeOtherSections(e, 6)} />
-                        <label className="tab-label" htmlFor="chck6">
+                        <input tabIndex={-1} type="checkbox" id="chck7" onClick={(e) => closeOtherSections(e, 7)} />
+                        <label className="tab-label" htmlFor="chck7">
                             Design Style & Use Packages
                         </label>
                         <div className="tab-content">
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={41}
+                                        tabIndex={33}
                                         className="form__field"
                                         id="designStyle"
                                         placeholder="Design Style"
                                         name="designStyle"
                                         value={
-                                            listValue.name == 'designStyle'
-                                                ? listValue.value
-                                                : ''
+                                            itemDetails.designStyle || ''
                                         }
-                                        onChange={(e) => handleDesignStyleUpdate(e)}
-                                        onFocus={(e) => firstItemFocus(e, 6)}
+                                        onChange={(e) => handleSingleUpdate(e, 'designStyle')}
+                                        onFocus={(e) => firstItemFocus(e, 7)}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1524,39 +1600,16 @@ const Inventory: FC = () => {
                                         Design Style
                                     </label>
                                 </div>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'designStyle', true)
-                                    }
-                                    className="delete-material-button delete-material-button-without-add"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="designStyleValues"
-                                    placeholder="Design Styles"
-                                    type="text"
-                                    name="designStyleValues"
-                                    value={itemDetails.designStyle || ''}
-                                    readOnly
-                                />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={42}
+                                        tabIndex={34}
                                         className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
                                         name="usePackages"
-                                        value={
-                                            listValue.name == 'usePackages'
-                                                ? listValue.value
-                                                : ''
-                                        }
+                                        value=""
                                         onChange={(e) => handleListUpdate(e, 'usePackages')}
                                     >
                                         <option value="" disabled>Select</option>
@@ -1597,8 +1650,8 @@ const Inventory: FC = () => {
                     </div>
                     {/* Images & Attachments */}
                     <div className="tab">
-                        <input tabIndex={43} type="checkbox" id="chck7" onClick={(e) => closeOtherSections(e, 7)} />
-                        <label className="tab-label" htmlFor="chck7">
+                        <input tabIndex={-1} type="checkbox" id="chck8" onClick={(e) => closeOtherSections(e, 8)} />
+                        <label className="tab-label" htmlFor="chck8">
                             Images & Attachments
                         </label>
                         <div className="tab-content">
@@ -1610,7 +1663,7 @@ const Inventory: FC = () => {
                                     Images
                                 </label>
                                 <input
-                                    tabIndex={44}
+                                    tabIndex={35}
                                     className="list-input"
                                     id="images"
                                     placeholder="Upload Images"
@@ -1619,7 +1672,7 @@ const Inventory: FC = () => {
                                     multiple
                                     name="images"
                                     onChange={(e) => handleFileUpload(e)}
-                                    onFocus={(e) => firstItemFocus(e, 7)}
+                                    onFocus={(e) => firstItemFocus(e, 8)}
                                 />
                             </div>
                             <div className="file-row">
@@ -1656,7 +1709,7 @@ const Inventory: FC = () => {
                                     Renderings
                                 </label>
                                 <input
-                                    tabIndex={45}
+                                    tabIndex={36}
                                     className="list-input"
                                     id="renderings"
                                     placeholder="Upload Rendering(s)"
@@ -1736,7 +1789,7 @@ const Inventory: FC = () => {
                                     Cut Sheets
                                 </label>
                                 <input
-                                    tabIndex={46}
+                                    tabIndex={37}
                                     className="list-input"
                                     id="cutSheets"
                                     placeholder="Upload cutSheet File(s)"
@@ -1818,7 +1871,7 @@ const Inventory: FC = () => {
                                     Drawing Files
                                 </label>
                                 <input
-                                    tabIndex={47}
+                                    tabIndex={38}
                                     className="list-input"
                                     id="drawingFiles"
                                     placeholder="Upload Drawing Files"
@@ -1895,14 +1948,14 @@ const Inventory: FC = () => {
                     </div>
                     {/* Admin Options */}
                     <div className="tab">
-                        <input tabIndex={48} type="checkbox" id="chck8" onClick={(e) => closeOtherSections(e, 8)} />
-                        <label className="tab-label" htmlFor="chck8">
+                        <input tabIndex={-1} type="checkbox" id="chck9" onClick={(e) => closeOtherSections(e, 9)} />
+                        <label className="tab-label" htmlFor="chck9">
                             Admin Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={49}
+                                    tabIndex={39}
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
@@ -1910,7 +1963,7 @@ const Inventory: FC = () => {
                                     name="costAdmin"
                                     value={itemDetails.costAdmin || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 8)}
+                                    onFocus={(e) => firstItemFocus(e, 9)}
                                 />
                                 <label
                                     className="form__label"
@@ -1919,9 +1972,9 @@ const Inventory: FC = () => {
                                     Cost
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={50}
+                                    tabIndex={40}
                                     className="form__field"
                                     id="partnerCodeAdmin"
                                     placeholder="Partner Code"
@@ -1949,7 +2002,7 @@ const Inventory: FC = () => {
 
                         <button
                             id="inventory-btn"
-                            tabIndex={51}
+                            tabIndex={41}
                             ref={ref}
                             className="inventory-btn"
                         >

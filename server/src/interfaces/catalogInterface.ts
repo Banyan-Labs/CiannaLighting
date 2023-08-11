@@ -19,18 +19,20 @@ export default interface catalogInterface extends Document {
   lampType: string;
   lampColor: string;
   lumens: string;
-  exteriorFinish: string[];
-  interiorFinish: string[];
-  lensMaterial: string[];
   environment: string[];
   safetyCert: string[];
-  projectVoltage: string[];
-  socketType: string[];
   mounting: string[];
-  crystalType: string[]; // add to model add some stuff
-  crystalPinType: string[];
-  crystalPinColor: string[];
-  designStyle: string[];
+  exteriorFinish: string;
+  finishTreatment: string;
+  interiorFinish: string;
+  lensMaterial: string;
+  projectVoltage: string;
+  socketType: string;
+  crystalType: string;
+  treatment: string;
+  crystalBulbCover: string;
+  crystalPinColor: string;
+  designStyle: string;
   usePackages: string[];
   images: string[]; //s3
   renderings: string[]; //s3
