@@ -27,6 +27,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
     lampColor,
     lumens,
     exteriorFinish, //[]
+    finishTreatment, //[]
     interiorFinish, //[]
     lensMaterial, //[]
     environment, //[]
@@ -35,7 +36,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
     socketType, //[]
     mounting, //[]
     crystalType, //[]
-    crystalPinType, //[]
+    treatment, //[]
+    crystalBulbCover, //[]
     crystalPinColor, //[]
     designStyle, //[]
     usePackages, //[]
@@ -100,6 +102,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
       lampColor,
       lumens,
       exteriorFinish, //[]
+      finishTreatment, //[]
       interiorFinish, //[]
       lensMaterial, //[]
       environment, //[]
@@ -108,7 +111,8 @@ const createCatalogItem = async (req: Request, res: Response) => {
       socketType, //[]
       mounting, //[]
       crystalType, //[]
-      crystalPinType, //[]
+      treatment, //[]
+      crystalBulbCover, //[]
       crystalPinColor, //[]
       designStyle, //[]
       usePackages, //[]

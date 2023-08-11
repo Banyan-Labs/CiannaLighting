@@ -20,6 +20,7 @@ export default interface catalogInterface extends Document {
   lampColor: string;
   lumens: string;
   exteriorFinish: string[];
+  finishTreatment: string[];
   interiorFinish: string[];
   lensMaterial: string[];
   environment: string[];
@@ -28,7 +29,8 @@ export default interface catalogInterface extends Document {
   socketType: string[];
   mounting: string[];
   crystalType: string[]; // add to model add some stuff
-  crystalPinType: string[];
+  treatment: string[];
+  crystalBulbCover: string[];
   crystalPinColor: string[];
   designStyle: string[];
   usePackages: string[];

@@ -57,9 +57,13 @@ const CreateEditLight = ({
                     <h3 className="light-details__item-id">
                         {catalogItem.item_ID}
                     </h3>
-                    <p className="light-details__description-text">
-                        {catalogItem.itemDescription}
-                    </p>
+                    <div className="light-details__description-text">
+                        {
+                            catalogItem.itemDescription.split('\n').map((p, index) => (
+                                <p className="my-0" key={p + index}>{p}</p>
+                            ))
+                        }
+                    </div>
                     <div className="light-details__form-wrapper">
                         <LightOptionsForm
                             catalogLightItem={catalogItem}
