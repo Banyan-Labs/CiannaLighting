@@ -1090,7 +1090,7 @@ const Inventory: FC = () => {
                                         placeholder="Project Voltages"
                                         name="projectVoltage"
                                         value={
-                                            itemDetails.projectVoltage || ''
+                                            itemDetails.projectVoltage[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'projectVoltage')}
                                     >
@@ -1136,7 +1136,7 @@ const Inventory: FC = () => {
                                         placeholder="Socket Types"
                                         name="socketType"
                                         value={
-                                            itemDetails.socketType || ''
+                                            itemDetails.socketType[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'socketType')}
                                     >
@@ -1171,7 +1171,7 @@ const Inventory: FC = () => {
                                     id="material"
                                     placeholder="Material"
                                     name="material"
-                                    value={itemDetails.material || ''}
+                                    value={itemDetails.material[0] || ''}
                                     onChange={(e) => handleConstantRadioUpdate(e, 'material')}
                                     onFocus={(e) => firstItemFocus(e, 4)}
                                 >
@@ -1198,7 +1198,7 @@ const Inventory: FC = () => {
                                         placeholder="Exterior Finish"
                                         name="exteriorFinish"
                                         value={
-                                            itemDetails.exteriorFinish || ''
+                                            itemDetails.exteriorFinish[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'exteriorFinish')}
                                     >
@@ -1226,7 +1226,7 @@ const Inventory: FC = () => {
                                         placeholder="Finish Treatment"
                                         name="finishTreatment"
                                         value={
-                                            itemDetails.finishTreatment || ''
+                                            itemDetails.finishTreatment[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'finishTreatment')}
                                     >
@@ -1254,7 +1254,7 @@ const Inventory: FC = () => {
                                         placeholder="Interior Finish"
                                         name="interiorFinish"
                                         value={
-                                            itemDetails.interiorFinish || ''
+                                            itemDetails.interiorFinish[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'interiorFinish')}
                                     >
@@ -1290,7 +1290,7 @@ const Inventory: FC = () => {
                                         placeholder="Lens Material"
                                         name="lensMaterial"
                                         value={
-                                            itemDetails.lensMaterial || ''
+                                            itemDetails.lensMaterial[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'lensMaterial')}
                                         onFocus={(e) => firstItemFocus(e, 5)}
@@ -1319,7 +1319,7 @@ const Inventory: FC = () => {
                                         placeholder="Treatment"
                                         name="treatment"
                                         value={
-                                            itemDetails.treatment || ''
+                                            itemDetails.treatment[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'treatment')}
                                     >
@@ -1347,7 +1347,7 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Types"
                                         name="crystalType"
                                         value={
-                                            itemDetails.crystalType || ''
+                                            itemDetails.crystalType[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'crystalType')}
                                     >
@@ -1375,7 +1375,7 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Pin Colors"
                                         name="crystalPinColor"
                                         value={
-                                            itemDetails.crystalPinColor || ''
+                                            itemDetails.crystalPinColor[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'crystalPinColor')}
                                     >
@@ -1403,7 +1403,7 @@ const Inventory: FC = () => {
                                         placeholder="Crystal Bulb Cover"
                                         name="crystalBulbCover"
                                         value={
-                                            itemDetails.crystalBulbCover || ''
+                                            itemDetails.crystalBulbCover[0] || ''
                                         }
                                         onChange={(e) => handleConstantRadioUpdate(e, 'crystalBulbCover')}
                                     >
