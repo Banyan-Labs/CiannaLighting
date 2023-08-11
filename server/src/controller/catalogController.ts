@@ -23,7 +23,6 @@ const createCatalogItem = async (req: Request, res: Response) => {
     estimatedWeight,
     price,
     material,
-    lampType,
     lampColor,
     lumens,
     environment, //[]
@@ -98,7 +97,6 @@ const createCatalogItem = async (req: Request, res: Response) => {
       estimatedWeight,
       price,
       material,
-      lampType,
       lampColor,
       lumens,
       exteriorFinish,

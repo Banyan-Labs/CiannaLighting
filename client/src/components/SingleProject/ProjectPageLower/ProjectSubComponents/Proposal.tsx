@@ -82,7 +82,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                         }
                     )}
                 </td>
-                <td>{prop.lampType}</td>
                 <td>{prop.lampColor}</td>
                 <td>{prop.totalLumens}</td>
             </tr>

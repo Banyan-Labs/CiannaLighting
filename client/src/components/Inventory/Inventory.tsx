@@ -224,45 +224,7 @@ const Inventory: FC = () => {
     const checkForm = (e: any) => {
         e.preventDefault();
 
-        const editKeys: Array<string | unknown> = [
-            'editImages',
-            'editRenderings',
-            'editDrawingFiles',
-            'editCutSheets',
-            'isActive',
-            '__v',
-        ];
-        const vals = Object.entries(itemDetails);
-        const check = vals?.map((itemKeyVal: any) =>
-            itemKeyVal[1]
-                ? typeof itemKeyVal[1] == 'number'
-                    ? [itemKeyVal[0], itemKeyVal[1] > 0]
-                    : typeof itemKeyVal[1] == 'string'
-                        ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
-                        : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
-                : [itemKeyVal[0], false]
-        );
-        const checker = check.filter(
-            (itemKeyVal: Array<string | unknown>) =>
-                editKeys.indexOf(itemKeyVal[0]) === -1
-        );
-        const checkVals = checker.filter(
-            (itemKeyVal: Array<string | unknown>) => !itemKeyVal[1]
-        );
-
-        if (checkVals.length) {
-            const showRequired = checkVals?.map(
-                (itemKeyVal: unknown[]) => itemKeyVal[0]
-            );
-
-            alert(
-                `Please fill out the following fields: \n ${showRequired.join(
-                    '\n'
-                )}`
-            );
-        } else {
-            onSubmit(e);
-        }
+        onSubmit(e);
     };
 
     const onDocumentLoadSuccess = (
@@ -546,6 +508,7 @@ const Inventory: FC = () => {
         try {
             if (editingItem) {
                 const done = await axiosPriv.post('/internal/find-light', fs);
+                
                 if (done) {
                     setEditingItem(false);
                     initializeCatalog();
@@ -555,10 +518,18 @@ const Inventory: FC = () => {
                     toggleEdit(e, false);
                 }
             } else {
-                await axiosPriv.post('/internal/create-light', fs);
-                alert('Item created!');
-                submitButton.disabled = false;
-                submitButton.className = 'inventory-btn';
+                const response = await axiosPriv.post('/internal/create-light', fs);
+
+                if (response?.status === 201) {
+                    alert('Item created!');
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
+                    initializeCatalog();
+                } else {
+                    alert('Item not created. Please try again.');
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
+                }
             }
 
             resetForm();
@@ -606,7 +577,6 @@ const Inventory: FC = () => {
             material: '',
             socketQuantity: 0,
             estimatedWeight: 0,
-            lampType: '',
             lampColor: '',
             price: 0,
             environment: [],
@@ -1009,25 +979,6 @@ const Inventory: FC = () => {
                         </label>
                         <div className="tab-content">
                             <div className="list__group field">
-                                <input
-                                    tabIndex={14}
-                                    className="form__field"
-                                    id="lampType"
-                                    placeholder="Lamp Type"
-                                    type="text"
-                                    name="lampType"
-                                    value={itemDetails.lampType || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 3)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="lampType"
-                                >
-                                    Lamp Type
-                                </label>
-                            </div>
-                            <div className="list__group field">
                                 <select
                                     tabIndex={15}
                                     className="form__field"
@@ -1036,6 +987,7 @@ const Inventory: FC = () => {
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
                                     onChange={(e) => handleSingleUpdate(e, 'lampColor')}
+                                    onFocus={(e) => firstItemFocus(e, 3)}
                                 >
                                     <option value="" disabled>Select</option>
                                     {
@@ -1057,7 +1009,7 @@ const Inventory: FC = () => {
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
-                                    type="number"
+                                    type="text"
                                     name="lumens"
                                     value={itemDetails.lumens || ''}
                                     onChange={(e) => handleFormInput(e)}

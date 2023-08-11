@@ -36,7 +36,6 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType,
     lampColor,
     totalLumens,
   } = req.body.light;
@@ -63,7 +62,6 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType,
     lampColor,
     totalLumens,
   });
