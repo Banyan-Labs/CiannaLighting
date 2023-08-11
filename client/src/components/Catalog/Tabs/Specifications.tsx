@@ -60,7 +60,7 @@ const specifications: FC<catalogPros> = ({ catalogItem }) => {
                 </div>
                 <div className="d-flex spec-container justify-content-between p-2 m-0">
                     <p className="p-0 m-0">Price</p>
-                    <p className="p-0 m-0 number-spec">{Item?.price}$</p>
+                    <p className="p-0 m-0 number-spec">${Item?.price}</p>
                 </div>
                 <div className="d-flex spec-container justify-content-between p-2 m-0">
                     <p className="p-0 m-0">Material</p>

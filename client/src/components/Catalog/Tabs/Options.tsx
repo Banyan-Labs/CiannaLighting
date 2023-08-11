@@ -22,14 +22,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                                 :
                             </h4>
                             <ul className="col-4 p-0 mt-1">
-                                {item[1]
-                                    .join('')
-                                    .split(',')
-                                    .map((val: any) => (
-                                        <li className="" key={uuid()}>
-                                            {val}
-                                        </li>
-                                    ))}
+                                <li className="">{item[1]}</li>
                             </ul>
                         </div>
                     );
@@ -43,12 +36,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
                                     .toUpperCase()}
                             </h4>
                             <ul className="col-4 p-0 mt-1">
-                                {item[1]
-                                    .join('')
-                                    .split(',')
-                                    .map((val: any) => (
-                                        <li key={uuid()}>{val}</li>
-                                    ))}
+                                <li>{item[1]}</li>
                             </ul>
                         </div>
                     );
