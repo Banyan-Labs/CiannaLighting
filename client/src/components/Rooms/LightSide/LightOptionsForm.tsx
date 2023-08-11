@@ -115,7 +115,6 @@ function LightOptionsForm({
             const dataObject = {
                 propID: '',
                 description: catalogLightItem.itemDescription,
-                lampType: catalogLightItem.lampType,
                 lampColor: catalogLightItem.lampColor,
                 price: catalogLightItem.price,
                 totalLumens: catalogLightItem.lumens,

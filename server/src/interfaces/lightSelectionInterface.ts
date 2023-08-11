@@ -11,10 +11,9 @@ export default interface lightSelectionInterface extends Document {
   safetyCert: string;
   projectVoltage: string;
   description: string;
-  lampType: string;
   lampColor: string;
   price: number;
-  totalLumens: number;
+  totalLumens: string;
   socketType: string;
   mounting: string;
   crystalType: string;
@@ -39,10 +38,9 @@ export interface lightSelectionCompare {
   safetyCert: string;
   projectVoltage: string;
   description: string;
-  lampType: string;
   lampColor: string;
   price: number;
-  totalLumens: number;
+  totalLumens: string;
   socketType: string;
   mounting: string;
   crystalType: string;
