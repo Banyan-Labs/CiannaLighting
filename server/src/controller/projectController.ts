@@ -295,7 +295,7 @@ const runLights = async (
     mounting: light.mounting,
     crystalType: light.crystalType,
     treatment: light.treatment,
-    cystalBulbCover: light.cystalBulbCover,
+    crystalBulbCover: light.crystalBulbCover,
     crystalPinColor: light.crystalPinColor,
     roomName: newRoom?.name,
     roomId: newRoom?._id,

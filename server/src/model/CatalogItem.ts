@@ -32,7 +32,7 @@ const catalogItemScema = new Schema({
   mounting: { type: Array<string>, required: true },
   crystalType: { type: Array<string>, required: true },
   treatment: { type: Array<string>, required: true },
-  cystalBulbCover: { type: Array<string>, required: true },
+  crystalBulbCover: { type: Array<string>, required: true },
   crystalPinColor: { type: Array<string>, required: true },
   designStyle: { type: Array<string>, required: true },
   usePackages: { type: Array<string>, required: true },

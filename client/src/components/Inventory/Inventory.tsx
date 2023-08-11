@@ -54,7 +54,7 @@ const Inventory: FC = () => {
         mounting: [], //[]
         crystalType: [], //[]
         treatment: [], //[]
-        cystalBulbCover: [], //[]
+        crystalBulbCover: [], //[]
         crystalPinColor: [], //[]
         designStyle: [], //[]
         usePackages: [], //[]
@@ -635,7 +635,7 @@ const Inventory: FC = () => {
             mounting: [], //[]
             crystalType: [], //[]
             treatment: [], //[]
-            cystalBulbCover: [], //[]
+            crystalBulbCover: [], //[]
             crystalPinColor: [], //[]
             designStyle: [], //[]
             usePackages: [], //[]
@@ -1399,13 +1399,13 @@ const Inventory: FC = () => {
                                     <select
                                         tabIndex={28}
                                         className="form__field"
-                                        id="cystalBulbCover"
+                                        id="crystalBulbCover"
                                         placeholder="Crystal Bulb Cover"
-                                        name="cystalBulbCover"
+                                        name="crystalBulbCover"
                                         value={
-                                            itemDetails.cystalBulbCover || ''
+                                            itemDetails.crystalBulbCover || ''
                                         }
-                                        onChange={(e) => handleConstantRadioUpdate(e, 'cystalBulbCover')}
+                                        onChange={(e) => handleConstantRadioUpdate(e, 'crystalBulbCover')}
                                     >
                                         <option value="" disabled>Select</option>
                                         {
@@ -1416,7 +1416,7 @@ const Inventory: FC = () => {
                                     </select>
                                     <label
                                         className="form__label"
-                                        htmlFor="cystalBulbCover"
+                                        htmlFor="crystalBulbCover"
                                     >
                                         Crystal Bulb Cover
                                     </label>

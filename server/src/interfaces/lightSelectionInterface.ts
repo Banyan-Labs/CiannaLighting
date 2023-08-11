@@ -19,7 +19,7 @@ export default interface lightSelectionInterface extends Document {
   mounting: string;
   crystalType: string;
   treatment: string;
-  cystalBulbCover: string;
+  crystalBulbCover: string;
   crystalPinColor: string;
   roomName: string;
   roomId: string;
@@ -47,7 +47,7 @@ export interface lightSelectionCompare {
   mounting: string;
   crystalType: string;
   treatment: string;
-  cystalBulbCover: string;
+  crystalBulbCover: string;
   crystalPinColor: string;
   roomName?: string;
   roomId?: string;

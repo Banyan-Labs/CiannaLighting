@@ -236,7 +236,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                             Crystal Bulb Cover:
                         </div>
                         <div className="grey">
-                            {light.cystalBulbCover}
+                            {light.crystalBulbCover}
                         </div>
                     </div>
                 </div>

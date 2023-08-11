@@ -30,7 +30,7 @@ export default interface catalogInterface extends Document {
   mounting: string[];
   crystalType: string[]; // add to model add some stuff
   treatment: string[];
-  cystalBulbCover: string[];
+  crystalBulbCover: string[];
   crystalPinColor: string[];
   designStyle: string[];
   usePackages: string[];

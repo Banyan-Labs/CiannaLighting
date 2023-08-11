@@ -23,7 +23,7 @@ const lightSelectionSchema = new Schema({
   mounting: { type: String, required: true },
   crystalType: { type: String, required: true },
   treatment: { type: String, required: true },
-  cystalBulbCover: { type: String, required: true },
+  crystalBulbCover: { type: String, required: true },
   crystalPinColor: { type: String, required: true },
   roomName: { type: String, required: true },
   quantity: { type: Number, required: true },

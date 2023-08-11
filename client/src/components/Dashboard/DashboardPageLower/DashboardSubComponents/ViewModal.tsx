@@ -368,7 +368,7 @@ export const ViewModal: FC<Props> = ({
                                                                                             </h5>
                                                                                             <p className="col-6">
                                                                                                 {
-                                                                                                    l.cystalBulbCover
+                                                                                                    l.crystalBulbCover
                                                                                                 }
                                                                                             </p>
                                                                                         </div>

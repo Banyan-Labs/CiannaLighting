@@ -69,7 +69,7 @@ export type LightItemType = {
     lensMaterial: string;
     crystalType: string;
     treatment: string;
-    cystalBulbCover: string;
+    crystalBulbCover: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;
