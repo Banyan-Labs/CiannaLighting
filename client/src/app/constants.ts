@@ -26,7 +26,7 @@ export const LIGHT_FORM_OPTIONS_KEYS = [
     'crystalPinColor',
     'crystalType',
     'treatment',
-    'cystalBulbCover',
+    'crystalBulbCover',
     'mounting',
     'socketType',
     'safetyCert',
