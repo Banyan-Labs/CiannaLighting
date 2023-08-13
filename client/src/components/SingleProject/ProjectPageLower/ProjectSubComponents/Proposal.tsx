@@ -7,6 +7,7 @@ import logging from 'config/logging';
 
 import './style/proposal.scss';
 import { parseFileName } from 'helpers/utils';
+import { camelCaseToTitleCase } from 'app/utils';
 
 interface Props {
     ref: any;
@@ -23,15 +24,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     const { attachments, selections, project } = useAppSelector(({ project }) => {
         return project;
     });
-
-    const camelCaseToTitleCase = (camelCase: string) => {
-        const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
-        const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
-            return match.toUpperCase();
-        });
-
-        return titleCase;
-    }
 
     const tableRows = selections.map((prop, index) => {
         const finishes = {

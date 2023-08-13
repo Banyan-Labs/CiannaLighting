@@ -8,45 +8,13 @@
     height: 400px;
     background-color: $primary-bg-dark;
 }
+
 //   project summary component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-summary-container {
     margin-top: 100px;
     background-color: $primary-bg-dark;
     border-right: 1px $line-dark solid;
     height: fit-content;
-}
-
-.back-to-projects {
-    display: inline-flex;
-    .chevron-icon {
-        margin-right: 10px;
-        position: relative;
-        top: 2px;
-    }
-    a {
-        margin-top: 12px;
-        margin-left: 10px;
-        text-decoration: none;
-        font-size: 12px;
-        color: #808080;
-        position: relative;
-        z-index: 2;
-    }
-
-    .back-to-all-projects {
-        transition: all 0.2s ease-in-out;
-        border: none;
-        cursor: pointer;
-        background-color: $primary-bg-dark;
-
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            color: $primary-bg-dark-text;
-        }
-    }
-}
-.back-to-projects:hover {
-    cursor: pointer;
 }
 
 .project-summary-top-bar {
@@ -79,6 +47,7 @@
     font-size: 1.2em;
     color: $primary-bg-dark-text;
 }
+
 .archive-icon:hover {
     cursor: pointer;
 }
@@ -88,6 +57,7 @@
     font-size: 1.2em;
     color: $primary-bg-dark-text;
 }
+
 .clone-icon:hover {
     cursor: pointer;
 }
@@ -97,6 +67,7 @@
     font-size: 1.2em;
     color: $primary-bg-dark-text;
 }
+
 .edit-icon:hover {
     cursor: pointer;
 }
@@ -116,6 +87,7 @@
     font-weight: 100;
     font-size: $small-text;
 }
+
 // Project attachments component~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .project-attachments-container {
     padding-top: 140px;
@@ -123,6 +95,7 @@
     width: 100%;
     color: $primary-bg-dark-link;
 }
+
 .project-attachments-top-bar {
     margin-left: 15px;
     display: inline-flex;
@@ -173,19 +146,22 @@
 
 .attachments-table {
     width: 100%;
+
     thead {
-        top: 0;        
+        top: 0;
         position: sticky;
         background: rgb(236, 235, 231);
         text-align: left;
         font-size: $med-text;
     }
+
     td {
         font-size: 12px;
         padding: 0px 15px;
         border-top: 1px $line-dark solid;
         border-bottom: 1px $line-dark solid;
     }
+
     th {
         font-size: 12px;
         padding: 0px 15px;
@@ -196,6 +172,7 @@
     transition: 200ms ease;
     background-color: #ada9a9ab;
 }
+
 .attachments-dynamic-row {
     cursor: pointer;
 }

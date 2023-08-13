@@ -69,11 +69,14 @@ button {
 
 .back-to-project {
     font-weight: bold;
+
     .chevron-icon {
         margin-top: 1%;
-        padding-right: 0.5em;    
+        padding-right: 0.5em;
     }
-    a, button {
+
+    a,
+    button {
         text-decoration: none;
         font-size: 14px;
         color: black;
@@ -81,7 +84,9 @@ button {
         display: flex;
         align-items: center;
     }
-    a:hover, button:hover {
+
+    a:hover,
+    button:hover {
         color: #ada9a9ab;
     }
 }
@@ -156,4 +161,40 @@ button {
 
 .text-italic {
     font-style: italic;
+}
+
+.back-to-projects {
+    display: inline-flex;
+
+    .chevron-icon {
+        margin-right: 10px;
+        position: relative;
+        top: 2px;
+    }
+
+    a {
+        margin-top: 12px;
+        margin-left: 10px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #808080;
+        position: relative;
+        z-index: 2;
+    }
+
+    .back-to-all-projects {
+        transition: all 0.2s ease-in-out;
+        border: none;
+        cursor: pointer;
+        background-color: $primary-bg-dark;
+
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-text;
+        }
+    }
+}
+
+.back-to-projects:hover {
+    cursor: pointer;
 }

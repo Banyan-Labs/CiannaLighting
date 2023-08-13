@@ -9,14 +9,14 @@ import { UsePackage } from 'app/constants';
 
 import './style/catalog.scss';
 
-const usePackageImages: Record<string, string> = { 
-    LOBBY: '/pexels-kseniia-lopyreva-4959835.jpg', 
-    LOBBY_ALTERNATE: '/stairway.jpeg', 
-    BAPTISTRY: '/baptistry.jpeg', 
-    ENDOWMENT: '/hallway.jpeg', 
-    SEALING: '/reception.jpeg', 
+const usePackageImages: Record<string, string> = {
+    LOBBY: '/pexels-kseniia-lopyreva-4959835.jpg',
+    LOBBY_ALTERNATE: '/stairway.jpeg',
+    BAPTISTRY: '/baptistry.jpeg',
+    ENDOWMENT: '/hallway.jpeg',
+    SEALING: '/reception.jpeg',
     CELESTIAL: '/celestial-room.jpeg',
-    GENERAL: '/reception.jpeg', 
+    GENERAL: '/reception.jpeg',
     VEIL_CORRIDOR: '/celestial-room.jpeg',
 };
 
@@ -106,6 +106,7 @@ const Catalog: FC = () => {
                     <SingleView
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}
+                        showBack={true}
                     />
                 </div>
             )}

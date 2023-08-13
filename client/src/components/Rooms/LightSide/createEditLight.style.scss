@@ -10,6 +10,7 @@
 
         &.edit-prompt {
             text-align: end;
+
             &__room-name {
                 text-decoration: underline;
                 padding-left: 6px;
@@ -33,11 +34,13 @@
     &__form-wrapper {
         grid-area: form;
     }
+
     &__item-name {
         display: block;
         font-size: 2rem;
         margin: 0;
     }
+
     &__item-id {
         color: $primary-bg-white-sub-text;
     }
@@ -53,5 +56,11 @@
             display: block;
             width: 100%;
         }
+    }
+}
+
+.light-details__content {
+    .single-view-container {
+        margin-top: 1rem;
     }
 }

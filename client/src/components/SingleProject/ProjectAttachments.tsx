@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 import { useAppSelector } from '../../app/hooks';
+import { camelCaseToTitleCase } from 'app/utils';
 
 interface ProjectSummaryProps {
     projectId: any;
@@ -23,14 +24,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
         a.click();
         document.body.removeChild(a);
     };
-    const camelCaseToTitleCase = (camelCase: string) => {
-        const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
-        const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
-            return match.toUpperCase();
-        });
 
-        return titleCase;
-    }
 
 
     const userAttachments = attachments

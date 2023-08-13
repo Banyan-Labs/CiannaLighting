@@ -2,7 +2,6 @@
 
 .carousel-container {
     margin-bottom: 10px;
-    padding: 12px;
 }
 
 .img-wrapper {
@@ -90,6 +89,7 @@
 
     &__button-left {
         left: 10px;
+
         &.fullscreen-button {
             left: -56px;
         }
@@ -97,6 +97,7 @@
 
     &__button-right {
         right: 10px;
+
         &.fullscreen-button {
             right: -56px;
         }
