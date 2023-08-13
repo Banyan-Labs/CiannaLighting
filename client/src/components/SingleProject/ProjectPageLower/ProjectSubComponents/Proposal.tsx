@@ -78,7 +78,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
                         (item: any, index: number) => {
                             return (
                                 <span
-                                    className="list"
+                                    className="list option-list"
                                     key={index + item[0]}
                                 >
                                     <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
@@ -92,7 +92,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
                         (item: any, index: number) => {
                             return (
                                 <div
-                                    className="list"
+                                    className="list option-list"
                                     key={index + item[0]}
                                 >
                                     <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
@@ -169,7 +169,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
         });
     };
 
-    return (
+    return project?.rooms?.length && project.rooms.length > 0 ? (
         <div className="d-flex flex-column">
             <div ref={componentRef}>
                 <div className="proposal-container">
@@ -239,7 +239,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
                 Print
             </button>
         </div>
-    );
+    ) : null;
 });
 Proposal.displayName = 'Proposal';
 export default Proposal;

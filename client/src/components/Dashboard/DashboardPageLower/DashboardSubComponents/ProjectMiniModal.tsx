@@ -9,6 +9,7 @@ import { LightREF } from '../../../../redux/reducers/projectSlice';
 import dataHolding from '../../../Dashboard/YourProjects/projectDetails';
 import {
     getAttachments,
+    getLightSelectionsForProject,
     getProject,
     setTheYourProjects
 } from '../../../../redux/actions/projectActions';
@@ -100,9 +101,11 @@ const ProjectMiniModal: FC<projectProps> = ({
                 onClick={
                     proj?.clientId === user?._id
                         ? async () => {
-                            await changeProject(proj._id);
-                            await projectRoute(proj._id);
                             await dispatch(setTheYourProjects(true));
+                            await dispatch(getLightSelectionsForProject(proj._id));
+                            await dispatch(getAttachments(proj._id))
+                            changeProject(proj._id);
+                            projectRoute(proj._id);
                         }
                         : () => {
                             setOpenModal(true);

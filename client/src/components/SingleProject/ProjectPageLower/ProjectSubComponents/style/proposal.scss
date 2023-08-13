@@ -73,7 +73,10 @@
 
         .list {
             display: flex;
-            justify-content: space-between
+            justify-content: space-between;
+        }
+        .option-list {
+            min-width: 180px;
         }
         .bold {
             font-family: $font-family;
