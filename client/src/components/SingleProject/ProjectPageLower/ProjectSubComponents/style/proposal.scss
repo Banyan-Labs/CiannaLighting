@@ -73,8 +73,7 @@
 
         .list {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            justify-content: space-between
         }
         .bold {
             font-family: $font-family;

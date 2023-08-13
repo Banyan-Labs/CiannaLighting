@@ -81,7 +81,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
                                     className="list"
                                     key={index + item[0]}
                                 >
-                                    {camelCaseToTitleCase(item[0])}: {item[1]}
+                                    <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
                                 </span>
                             );
                         }
@@ -91,39 +91,39 @@ const Proposal: FC = React.forwardRef<any>(() => {
                     {Object.entries(materialOptions).map(
                         (item: any, index: number) => {
                             return (
-                                <span
+                                <div
                                     className="list"
                                     key={index + item[0]}
                                 >
-                                    {camelCaseToTitleCase(item[0])}: {item[1]}
-                                </span>
+                                    <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
+                                </div>
                             );
                         }
                     )}
                 </td>
                 <td>
                     <span>
-                        {prop.lampColor}
+                        {prop.lampColor || 'N/A'}
                     </span>
                 </td>
                 <td>
                     <span>
-                        {prop.lumens}
+                        {prop.lumens || 'N/A'}
                     </span>
                 </td>
                 <td>
                     <span>
-                        {prop.projectVoltage}
+                        {prop.projectVoltage || 'N/A'}
                     </span>
                 </td>
                 <td>
                     <span>
-                        {prop.socketQuantity}
+                        {prop.socketQuantity || 'N/A'}
                     </span>
                 </td>
                 <td>
                     <span>
-                        {prop.socketType}
+                        {prop.socketType || 'N/A'}
                     </span>
                 </td>
             </tr>
