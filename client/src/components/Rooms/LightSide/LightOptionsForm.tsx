@@ -1,27 +1,19 @@
 import React, { useRef, FormEvent, useState } from 'react';
-import uuid from 'react-uuid';
 
-import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { useParams } from 'app/utils';
 import { CatalogLightItem, LightItemType } from 'typescript/CatalogItem';
 import {
-    getLightOptionsDropValuesFromItem,
-    getDefaultDropValueFromLightEntity,
-} from 'helpers/getLightOptionsDropValues';
-import { buildObjectFromFormControls } from 'helpers/buildObjectFromFormControls';
-import {
     createLight,
     getRoomLights,
     theEditLight,
-    setSpecFile,
 } from 'redux/actions/lightActions';
 import {
     getProject,
     setTheRoom,
     getAllProjectRoomsAction,
+    getAttachments,
 } from 'redux/actions/projectActions';
-import { ActionType } from 'app/constants';
 
 import './lightOptionsForm.style.scss';
 
@@ -38,11 +30,9 @@ function LightOptionsForm({
     editLightItem,
     setCatalogItem,
     setEditLight,
-    lightSpecs,
 }: Props) {
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector(({ auth: user }) => user);
-    const { room, projectId, roomId, proposal } = useAppSelector(
+    const { room } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -52,7 +42,6 @@ function LightOptionsForm({
     const storedRoomId = useParams('roomId');
     const userId = useParams('_id');
     const formRef = useRef<HTMLFormElement>(null);
-    const lightID = user._id + catalogLightItem.item_ID + roomId;
 
     const subtractCount = (subtract: boolean) =>
         setCount((prevState) => {
@@ -66,48 +55,24 @@ function LightOptionsForm({
     const dispatchSubmit = async (
         editLight: LightItemType | null,
         catalogLight: CatalogLightItem,
-        rfpPassData: any,
-        lightSpecs: string[]
+        dataObject: any,
     ) => {
         try {
             if (!editLight) {
-                if (lightSpecs.length) {
-                    const specs = lightSpecs.length ? lightSpecs : [];
-                    const attachments = [
-                        ...specs, 
-                    ];
-
-                    dispatch(
-                        setSpecFile(
-                            {
-                                projId: projectId,
-                                pdf: attachments,
-                                images: [
-                                    {
-                                        lightId: lightID,
-                                        attachments: catalogLight.images,
-                                    },
-                                ],
-                                edit: ActionType.ADD,
-                            },
-                            attachments.length > 0 || catalogLight.images.length > 0
-                        )
-                    );
-                }
-
                 await dispatch(
-                    createLight({ ...catalogLight, ...rfpPassData })
+                    createLight({ ...catalogLight, ...dataObject })
                 );
             } else {
                 dispatch(
                     theEditLight(
-                        { ...catalogLight, ...rfpPassData },
+                        { ...catalogLight, ...dataObject },
                         editLight._id
                     )
                 );
             }
 
             await dispatch(getProject({ _id: String(storedProjId) }));
+            await dispatch(getAttachments(String(storedProjId)));
             dispatch(setTheRoom(String(storedRoomId)));
             dispatch(getAllProjectRoomsAction(String(storedProjId)));
             await dispatch(getRoomLights(String(storedRoomId)));
@@ -122,9 +87,6 @@ function LightOptionsForm({
         event.preventDefault();
 
         if (formRef.current) {
-            const formEleData = buildObjectFromFormControls(
-                formRef.current.elements
-            );
             const additionalData = {
                 item_ID: editLightItem
                     ? editLightItem?.item_ID
@@ -135,24 +97,16 @@ function LightOptionsForm({
                 clientId: String(userId),
             };
             const lightInfoData: unknown = {
-                ...formEleData,
+                ...catalogLightItem,
                 ...additionalData,
                 quantity: count,
             };
 
-            const propCheck = proposal
-                .filter((item: any) => (item.sub ? '' : item))
-                .find((item: any) => item.itemID == additionalData.item_ID);
-            const propID = propCheck ? propCheck._id : '';
-            const rfpPass = {
-                propID: propID,
+            const dataObject = {
+                propID: '',
                 description: catalogLightItem.itemDescription,
-                lampType: catalogLightItem.lampType,
                 lampColor: catalogLightItem.lampColor,
-                wattsPer: catalogLightItem.wattsPerLamp,
                 price: catalogLightItem.price,
-                totalWatts: catalogLightItem.powerInWatts,
-                numberOfLamps: catalogLightItem.numberOfLamps,
                 totalLumens: catalogLightItem.lumens,
             };
 
@@ -160,35 +114,13 @@ function LightOptionsForm({
                 await dispatchSubmit(
                     editLightItem,
                     { ...(lightInfoData as CatalogLightItem) },
-                    rfpPass,
-                    lightSpecs
+                    dataObject
                 );
             } catch (error: any) {
                 throw new Error(error?.message);
             }
         }
     };
-    
-    const InputElements = getLightOptionsDropValuesFromItem(
-        catalogLightItem
-    ).map((selectField) => {
-        return (
-            <SelectDropdown
-                key={uuid()}
-                itemKey={selectField.key}
-                label={selectField.label}
-                dropdownValues={selectField.values}
-                defaultValue={
-                    editLightItem !== null
-                        ? getDefaultDropValueFromLightEntity(
-                            editLightItem,
-                            selectField.key
-                        )
-                        : selectField.values[0]
-                }
-            />
-        );
-    });
 
     return (
         <form
@@ -196,7 +128,6 @@ function LightOptionsForm({
             ref={formRef}
             onSubmit={handleSubmit}
         >
-            {InputElements}
             <div className="quantity-input">
                 <button
                     type="button"

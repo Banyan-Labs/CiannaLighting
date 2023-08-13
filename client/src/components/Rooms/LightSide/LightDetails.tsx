@@ -41,8 +41,7 @@ const LightDetails: FC<catalogPros> = ({
 
                             <div className="col-12 d-flex m-0 px-2 align-items-center tooltip bs-tooltip-top">
                                 <p className="col-md-9 col-lg-8 m-0 p-0">
-                                    Select a light to customize and add to your
-                                    room.
+                                    Select a light to customize and add to your room.
                                 </p>
                                 <button
                                     className="col-md-3 col-lg-4 d-flex justify-content-end align-items-center filter-lights-btn"

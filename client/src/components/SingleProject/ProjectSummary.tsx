@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
-import { FaRegEdit, FaRegClone, FaCircle, FaArchive } from 'react-icons/fa';
+import { FaRegEdit, FaRegClone, FaCircle, FaArchive, FaFileAlt } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import ReactTooltip from 'react-tooltip';
@@ -11,16 +11,17 @@ import {
     getUserProjects,
     setTheYourProjects,
     setRoomIdToDefault,
+    getAttachments,
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getAllRegions, getAllStatus } from '../../redux/actions/filterActions';
+import { getAllRegions } from '../../redux/actions/filterActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
 import Modal from '../Modal/Modal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
+import ProjectAttachments from './ProjectAttachments';
 
 interface ProjectSummaryProps {
     details: any;
@@ -33,6 +34,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     setProcessing,
 }) => {
     const [openModal, setOpenModal] = useState(false);
+    const [showAttachmentModal, setShowAttachmentModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
     const { setInactive } = useAppSelector(({ project }) => project);
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -83,41 +85,28 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
+        const payload = {
+            project: {
+                ...proj,
+                clientId: user._id,
+                clientName: user.name,
+            },
+            copy: CopyType.PROJECT
+        };
 
-        if (attach) {
-            attachments = attach.data?.proj?.pdf;
+        try {
+            const response = await dispatch(
+                createProjectAction(payload)
+            );
 
-            if (attachments.length) {
-                const payload = {
-                    project: {
-                        ...proj,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: CopyType.PROJECT,
-                    attachments: attachments,
-                };
+            dispatch(getUserProjects(user._id));
+            dispatch(getAllProjects());
+            setProcessing(false);
+            alert(`Copy of ${proj.name} created in your dashboard.`);
 
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
-
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
-
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
+            return response;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 
@@ -132,18 +121,23 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     activity: details.archived ? 'Restore' : 'Archive',
                 })
             );
+            await dispatch(getAttachments(details._id));
 
             details?.archived === true
                 ? alert('This project was restored')
-                : alert('This project was archived');
+                : alert('This project was marked as awarded');
         } catch (error: any) {
-            alert('Can not archive project.');
+            alert('Can not mark project as awarded.');
             throw new Error(error.message);
         }
     };
 
+    const showAttachments = async () => {
+        await dispatch(getAttachments(details._id));
+        setShowAttachmentModal(true);
+    };
+
     useEffect(() => {
-        dispatch(getAllStatus());
         dispatch(getAllRegions());
         dispatch(setRoomIdToDefault());
     }, []);
@@ -151,8 +145,8 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     const date = new Date(Date.parse(details?.createdAt)).toDateString();
 
     return (
-        <div className="project-summary-container col-6">
-            <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
+        <div className="project-summary-container col-12">
+            <div className="d-flex justify-content-between align-items-center mt-2 back-button-container mx-4">
                 <div className="back-to-project">
                     <a
                         className="back-to-all-projects"
@@ -165,30 +159,43 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     <p className="status">Status: {details?.status}</p>
                 </div>
             </div>
-            <div className="projects-summary">
+            <div className="projects-summary mx-4">
                 <div className="col-7 d-flex justify-content-between">
                     <div className="project-summary-name-and-date">
-                        <h3 className="project-summary-project-name">
+                        <h3 className="align-items-center d-flex justify-content-between project-summary-project-name">
                             <div className="project-title-with-status-icon">
                                 {details?.name}
                                 <FaCircle
-                                    className={`circle-icon statusColor${findClosestSystemStatus(details?.status || '')} background-unset`}
+                                    className={`circle-icon ${getStatusClass(details?.status || '')} background-unset`}
                                 />
                             </div>
+                            {
+                                details?.archived && (
+                                    <RiArchiveDrawerFill
+                                        data-for="ab"
+                                        data-tip="Awarded"
+                                        className="archive-show-option"
+                                    />
+                                )
+                            }
+
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
                     <div className="icon-container d-flex align-items-center justify-content-center">
-                        <FaRegEdit
-                            onClick={() => {
-                                setOpenModal(true);
-                                setEditProject(true);
-                            }}
-                            className="edit-icon"
-                            data-for="edit"
-                            data-tip="Edit Project"
-                        />
-                        <div></div>
+                        {
+                            !details?.archived && (
+                                <FaRegEdit
+                                    onClick={() => {
+                                        setOpenModal(true);
+                                        setEditProject(true);
+                                    }}
+                                    className="edit-icon"
+                                    data-for="edit"
+                                    data-tip="Edit Project"
+                                />
+                            )
+                        }
                         <FaRegClone
                             data-for="copy"
                             data-tip="Copy Project"
@@ -200,20 +207,16 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                             data-tip={
                                 details?.archived === true
                                     ? 'Restore'
-                                    : 'Archive'
+                                    : 'Mark awarded'
                             }
-                            className="archive-icon"
+                            className="clone-icon"
                             onClick={(e) => archiveSet(e)}
                         />
-
-                        <RiArchiveDrawerFill
-                            data-for="ab"
-                            data-tip={`${details?.name} is archived`}
-                            className={
-                                details?.archived
-                                    ? 'archive-icon archive-show-option'
-                                    : 'd-none'
-                            }
+                        <FaFileAlt
+                            data-for="archive"
+                            data-tip="Attachments"
+                            className="archive-icon"
+                            onClick={() => showAttachments()}
                         />
 
                         <ReactTooltip id="ab" />
@@ -235,6 +238,13 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     closeModal={setOpenModal}
                     editProject={editProject}
                     setEditProject={setEditProject}
+                />
+            )}
+            {showAttachmentModal && (
+                <ProjectAttachments
+                    openModal={showAttachmentModal}
+                    closeModal={setShowAttachmentModal}
+                    projectId={details?._id}
                 />
             )}
             {inactiveClearModal && (

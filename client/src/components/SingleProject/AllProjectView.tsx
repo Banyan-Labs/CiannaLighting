@@ -15,12 +15,11 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 import { LightREF } from '../../redux/reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
 import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -105,20 +104,13 @@ const AllProjectView: FC<Props> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        const attachments = attach?.data?.proj?.pdf || [];
-
         const payload = {
             project: {
                 ...proj,
                 clientId: user._id,
                 clientName: user.name,
             },
-            copy: CopyType.PROJECT,
-            attachments,
+            copy: CopyType.PROJECT
         };
 
         try {
@@ -309,7 +301,7 @@ const AllProjectView: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span className={getStatusClass(project.status)}>
                             {project.status}
                         </span>
                     </td>
@@ -403,7 +395,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Active Projects
+                            Active
                         </a>
                         <a
                             id="archived"
@@ -418,7 +410,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Archived
+                            Awarded
                         </a>
                     </div>
 
@@ -438,10 +430,10 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
+                                    resetInputField();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('allProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('allProjects');
                                 }}
                             >
                                 All Projects
@@ -453,11 +445,11 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
-                                    await setSortToDefault();
+                                    resetInputField();
+                                    setSortToDefault();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('yourProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('yourProjects');
                                 }}
                             >
                                 Your Projects

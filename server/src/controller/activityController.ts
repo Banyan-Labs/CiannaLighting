@@ -91,18 +91,6 @@ const getAllLogs = (req: Request, res: Response) => {
     });
 };
 
-const getUserLogs = (req: Request, res: Response) => {
-  const { userId } = req.body;
-
-  Activity.findOne({ userId })
-    .exec()
-    .then((results) => {
-      return res.status(200).json({
-        logs: results,
-      });
-    });
-};
-
 const deleteLog = async (req: Request, res: Response) => {
   await Activity.findOneAndDelete({ _id: req.body._id })
     .then(() => {
@@ -122,6 +110,5 @@ const deleteLog = async (req: Request, res: Response) => {
 export default {
   getAllLogs,
   deleteLog,
-  getUserLogs,
   createLog,
 };

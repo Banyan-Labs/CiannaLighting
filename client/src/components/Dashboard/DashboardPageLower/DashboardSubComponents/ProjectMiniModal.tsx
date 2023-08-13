@@ -8,13 +8,14 @@ import { ProjectType } from '../DashboardNav';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import dataHolding from '../../../Dashboard/YourProjects/projectDetails';
 import {
+    getAttachments,
+    getLightSelectionsForProject,
     getProject,
     setTheYourProjects
 } from '../../../../redux/actions/projectActions';
 import { useAppDispatch } from '../../../../app/hooks';
 
 import './style/allProjects.scss';
-import logging from 'config/logging';
 
 interface projectProps {
     setOpenModal: any;
@@ -40,11 +41,11 @@ const ProjectMiniModal: FC<projectProps> = ({
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { user } = useAppSelector(({ auth: user }) => user);
-    logging.info(user);
     const { setInactive } = useAppSelector(({ project }) => project);
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
+        await dispatch(getAttachments(prodId));
         dataHolding.getData(proj);
     };
 
@@ -100,9 +101,11 @@ const ProjectMiniModal: FC<projectProps> = ({
                 onClick={
                     proj?.clientId === user?._id
                         ? async () => {
-                            await changeProject(proj._id);
-                            await projectRoute(proj._id);
                             await dispatch(setTheYourProjects(true));
+                            await dispatch(getLightSelectionsForProject(proj._id));
+                            await dispatch(getAttachments(proj._id))
+                            changeProject(proj._id);
+                            projectRoute(proj._id);
                         }
                         : () => {
                             setOpenModal(true);

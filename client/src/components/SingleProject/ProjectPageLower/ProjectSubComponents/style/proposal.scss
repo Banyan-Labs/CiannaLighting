@@ -2,13 +2,14 @@
 .proposal-container {
     border: 3px solid $primary-bg-dark-title;
     border-radius: 2px;
+    width: 100vw;
 }
 
 .header-section {
     display: flex;
     justify-content: space-between;
-    max-height: 100px;
-    min-height: 100px;
+    max-height: 10vh;
+    min-height: 10vh;
     // padding: 1% 2%;
     padding: 0px 20px;
     border-bottom: 2px solid $primary-bg-dark-title;
@@ -21,15 +22,25 @@
     }
 }
 
+.proposal-attachments {
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .table-contain {
-    margin: 35px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90vw;
+
     .table-border {
         table,
         th,
         td {
             border: 1px solid $primary-bg-dark-title;
             border-collapse: collapse;
-            padding: 0px 5px;
         }
         table {
             width: 100%;
@@ -38,36 +49,34 @@
             font-size: smaller;
             font-family: $font-family-medium;
             text-align: center;
+            width: fit-content;
         }
         td {
             font-size: x-small;
             font-family: $font-family-thin;
             text-align: center;
+            width: fit-content;
+
+            span, p {
+                padding-left: 0.25rem;
+                padding-right: 0.25rem;
+            }
+        }
+
+        .text-left {
+            text-align: left;
         }
 
         .mini-header {
             height: 75px;
         }
 
-        .five {
-            width: 5.5%;
-        }
-        .ten {
-            width: 10%;
-        }
-        .fifteen {
-            width: 10%;
-        }
-        .twenty {
-            width: 17.5%;
-        }
-        .six {
-            width: 6.4%;
-        }
         .list {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            justify-content: space-between;
+        }
+        .option-list {
+            min-width: 180px;
         }
         .bold {
             font-family: $font-family;

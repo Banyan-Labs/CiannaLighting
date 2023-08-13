@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 
 import Cards from './Cards';
 import { useAppDispatch } from '../../app/hooks';
@@ -9,16 +9,19 @@ import { UsePackage } from 'app/constants';
 
 import './style/catalog.scss';
 
-const usePackageImages: Record<string, string> = { 
-    BRIDES_ROOM: '/pexels-kseniia-lopyreva-4959835.jpg', 
-    CELESTIAL_ROOM: '/celestial-room.jpeg', 
-    BAPTISTRY: '/baptistry.jpeg', 
-    HALLWAY: '/hallway.jpeg', 
-    FOYER: '/reception.jpeg', 
-    BALLROOM: '/stairway.jpeg',
+const usePackageImages: Record<string, string> = {
+    LOBBY: '/pexels-kseniia-lopyreva-4959835.jpg',
+    LOBBY_ALTERNATE: '/stairway.jpeg',
+    BAPTISTRY: '/baptistry.jpeg',
+    ENDOWMENT: '/hallway.jpeg',
+    SEALING: '/reception.jpeg',
+    CELESTIAL: '/celestial-room.jpeg',
+    GENERAL: '/reception.jpeg',
+    VEIL_CORRIDOR: '/celestial-room.jpeg',
 };
 
 const Catalog: FC = () => {
+    const ref = useRef<null | HTMLDivElement>(null);
     const [catalogItem, setCatalogItem] = useState(null);
     const [catalogType, setCatalogType] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,11 +29,13 @@ const Catalog: FC = () => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
-        dispatch(
+        await dispatch(
             filterCatalogItems({
                 usePackages: [e.currentTarget.value],
             })
         );
+
+        ref.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const usePackages = Object.keys(UsePackage).map((packageItem: string, index) => {
@@ -69,6 +74,7 @@ const Catalog: FC = () => {
                     <div className="catalog-container">
                         <div className="catalog-main-container">
                             <DesignStyles
+                                resultsRef={ref}
                                 catalogType={catalogType}
                                 setCatalogType={setCatalogType}
                                 setRenderPage={setRenderPage}
@@ -77,12 +83,13 @@ const Catalog: FC = () => {
 
                             <div className="catalog-use-packages">
                                 <span>Use Packages</span>
-                                <div className="catalog-use-packages-buttons">
+                                <div className="catalog-use-packages-buttons flex-wrap justify-content-between mx-auto mt-5">
                                     {usePackages}
                                 </div>
                             </div>
 
                             <Cards
+                                resultsRef={ref}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
                                 catalogItem={catalogItem}
@@ -99,6 +106,7 @@ const Catalog: FC = () => {
                     <SingleView
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}
+                        showBack={true}
                     />
                 </div>
             )}

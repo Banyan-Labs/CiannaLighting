@@ -11,6 +11,7 @@ import {
     getAllProjectRoomsAction,
     deleteThisRoom,
     editThisRoom,
+    getAttachments,
 } from '../../../redux/actions/projectActions';
 import { useParams } from '../../../app/utils';
 import '../../NewRoomModal/style/newRoomModal.css';
@@ -25,7 +26,6 @@ type Props = {
     room: any;
     editRoom: any;
     setEditRoom: any;
-    deleteAttachments: any;
 };
 
 export const DeleteModal: FC<Props> = ({
@@ -38,7 +38,6 @@ export const DeleteModal: FC<Props> = ({
     room,
     editRoom,
     setEditRoom,
-    deleteAttachments,
 }) => {
     const { roomLights, projectId } = useAppSelector(({ project }) => project);
     const storedProjId = useParams('projectId');
@@ -48,7 +47,6 @@ export const DeleteModal: FC<Props> = ({
     const navigate = useNavigate();
     const onSubmit1 = async () => {
         const deleteLightMethod = async (light: any) => {
-            await deleteAttachments([light]);
             await dispatch(
                 deleteLight({
                     item_ID: light.item_ID,
@@ -72,16 +70,18 @@ export const DeleteModal: FC<Props> = ({
             );
             
             await dispatch(getProject({_id: String(storedProjId)}));
+            await dispatch(getAttachments(String(storedProjId)));
         };
         
         try {
             !deleteRoom ? await deleteLightMethod(light) : await deleteRoomMethod();
-            navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
+            deleteRoom ? navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`) : null;
         } catch (err: any) {
             throw new Error(err.message);
         }
 
         await dispatch(getProject({ _id: String(storedProjId) }));
+        await dispatch(getAttachments(String(storedProjId)));
         dispatch(setTheRoom(String(storedRoomId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(getRoomLights(String(storedRoomId)));
@@ -123,6 +123,7 @@ export const DeleteModal: FC<Props> = ({
         }
         
         await dispatch(getProject({ _id: String(storedProjId) }));
+        await dispatch(getAttachments(String(storedProjId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(getRoomLights(String(storedRoomId)));
         closeModal(!openModal);

@@ -4,22 +4,21 @@
     position: fixed;
     top: 0;
     width: 100vw;
-    height: 100px;
-    background-color: $primary-bg-dark;
+    height: 10vh;
+    background-color:$primary-bg-dark-nav;
     border-bottom: $line-height solid $line-dark;
     box-shadow: $box-shadow;
     display: flex;
     align-items: center;
     z-index: 10;
 
-    img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 75%;
-        height: 66%;
-        margin-top: 20px;
+    .logo-container {
+        svg {
+            height: 8vh;
+            width: auto;
+        }
     }
+
     button {
         border: none;
         background-color: transparent;
@@ -35,33 +34,26 @@
     }
 }
 
-.logo-container {
-    display: flex;
-    align-self: center;
-    width: 150px;
-    height: 125px;
-}
+
 
 .navbar-links-container {
     margin-right: 20px;
     display: flex;
-    width: 300px;
     justify-content: space-evenly;
 }
 
 .navbar-links {
     @include nav-link;
-    color: $primary-bg-dark-title;
+    color: $primary-bg-light-nav-text;
 }
 
 .navbar-user-container {
     display: flex;
     align-items: center;
-    width: 150px;
-    width: 250px;
     justify-content: space-evenly;
     margin-left: auto;
-    color: $primary-bg-dark-text;
+    margin-right: 20px;
+    color: $primary-bg-light-nav-text;
     div {
         font-size: 14px;
     }
@@ -71,9 +63,11 @@
     .navbar-user-name {
         color: $accent-gold;
     }
-    .navbar-user-role {
-        font-size: 12px;
-        font-weight: 100;
+    .logout-icon {
+        margin-left: 2em;
+    }
+    .logout-icon:hover{
+        cursor: pointer;
     }
 }
 

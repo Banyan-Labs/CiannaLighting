@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import * as data from './links.json';
-import logo from '../../assets/ciana-logo-black.png';
+import { ReactComponent as Logo } from '../../assets/ciana-primary-logo-birch.svg';
 import { useParams } from '../../app/utils';
 import { ROLES } from '../../app/constants';
-import { FaRegBell } from 'react-icons/fa';
+import { TbLogout } from 'react-icons/tb';
 import { logoutAction } from '../../redux/actions/authActions';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -52,8 +52,8 @@ const Links: FC<{ links: Link[] }> = () => {
                                 }}
                                 className={
                                     link.label === 'Admin' 
-                                    ? link.href.includes(activeLocation) ? 'active navbar-links' : 'navbar-links'
-                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links' : 'navbar-links'
+                                    ? link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
+                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links me-5' : 'navbar-links me-5'
                                 }
                             >
                                 {link.label}
@@ -67,7 +67,7 @@ const Links: FC<{ links: Link[] }> = () => {
 
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    const userRole = Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role);
+    
     const dispatch = useAppDispatch();
 
     const handleLogout = async (e: any) => {
@@ -83,8 +83,8 @@ const Navbar: FC = () => {
     return (
         <>
             <nav className="navbar-container">
-                <div className="logo-container">
-                    <img src={logo} alt="Ciana Logo" />
+                <div className="logo-container ms-3 me-4">
+                    <Logo />
                 </div>
 
                 <div className="navbar-vertical-divider" />
@@ -92,22 +92,13 @@ const Navbar: FC = () => {
                     <Links links={links} />
                 </ul>
                 <div className="navbar-user-container">
-                    <FaRegBell />
-                    <div>
-                        <span className="navbar-user-hi">Hi, </span>
-                        <span className="navbar-user-name">
-                            {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
-                            !
-                        </span>
-                        <br />
-                        <span className="navbar-user-role">{userRole}</span>
-                    </div>
-                    {/* <FaChevronDown /> */}
+                    <span className="navbar-user-hi">Hi,&nbsp; </span>
+                    <span className="navbar-user-name">
+                        {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
+                        !
+                    </span>
+                    <TbLogout className="logout-icon" onClick={(e) => handleLogout(e)} />
                 </div>
-                {/* TEMPORARY LOGOUT - logout button will move to inside dropdown once created. Dropdown will be created in different branch */}
-                <button className="me-2" onClick={(e) => handleLogout(e)}>
-                    logout
-                </button>
             </nav>
         </>
     );

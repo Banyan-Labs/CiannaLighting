@@ -54,13 +54,13 @@
     flex-basis: 100%;
     display: grid;
     color: $primary-bg-dark-title;
-    grid-template-columns: 45px 40px 50px 40px 80px 40px 70px 40px 70px 40px;
+    grid-template-columns: 45px 40px 130px 40px 120px 40px 110px 40px 70px 40px 120px;
     grid-template-rows: 20px 50px;
     grid-template-areas:
         'total_icon total_title total_title total_title . . . . . . .'
         'total_icon total_num . . . . . . . . .'
-        '. new_icon new_title in_progress_icon in_progress_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title'
-        '. new_icon new_num in_progress_icon in_progress_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num';
+        '. configure_icon configure_title completed_icon completed_title saved_icon saved_title hold_icon hold_title template_icon template_title'
+        '. configure_icon configure_num completed_icon completed_num saved_icon saved_num hold_icon hold_num template_icon template_num';
 }
 
 .overview-icon-main {
@@ -109,28 +109,40 @@
     grid-area: total_num;
 }
 
-.overview-new {
-    grid-area: new_icon;
+.overview-configure {
+    grid-area: configure_icon;
 }
 
-.overview-new-title {
-    grid-area: new_title;
+.overview-configure-title {
+    grid-area: configure_title;
 }
 
-.overview-new-num {
-    grid-area: new_num;
+.overview-configure-num {
+    grid-area: configure_num;
 }
 
-.overview-in-progress {
-    grid-area: in_progress_icon;
+.overview-completed {
+    grid-area: completed_icon;
 }
 
-.overview-in-progress-title {
-    grid-area: in_progress_title;
+.overview-completed-title {
+    grid-area: completed_title;
 }
 
-.overview-in-progress-num {
-    grid-area: in_progress_num;
+.overview-completed-num {
+    grid-area: completed_num;
+}
+
+.overview-saved {
+    grid-area: saved_icon;
+}
+
+.overview-saved-title {
+    grid-area: saved_title;
+}
+
+.overview-saved-num {
+    grid-area: saved_num;
 }
 
 .overview-hold {
@@ -145,28 +157,16 @@
     grid-area: hold_num;
 }
 
-.overview-canceled {
-    grid-area: canceled_icon;
+.overview-template {
+    grid-area: template_icon;
 }
 
-.overview-canceled-title {
-    grid-area: canceled_title;
+.overview-template-title {
+    grid-area: template_title;
 }
 
-.overview-canceled-num {
-    grid-area: canceled_num;
-}
-
-.overview-completed {
-    grid-area: completed_icon;
-}
-
-.overview-completed-title {
-    grid-area: completed_title;
-}
-
-.overview-completed-num {
-    grid-area: completed_num;
+.overview-template-num {
+    grid-area: template_num;
 }
 
 // your projects
@@ -302,7 +302,6 @@
 }
 
 .archive-icon {
-    margin-right: 25px;
     font-size: 1.2em;
     color: $primary-bg-dark-text;
 }

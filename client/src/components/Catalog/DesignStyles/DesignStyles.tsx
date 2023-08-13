@@ -9,9 +9,10 @@ interface catalogPros {
     setCatalogType: any;
     setRenderPage: any;
     renderPage: any;
+    resultsRef: any;
 }
 
-const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
+const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage, resultsRef }) => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {
@@ -20,6 +21,8 @@ const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
                 designStyle: e.currentTarget.value,
             })
         );
+
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const designStyles = Object.values(DesignStyle).map((style) => {
@@ -44,7 +47,7 @@ const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage }) => {
         <>
             <div className="catalog-design-styles">
                 <span>Design Styles</span>
-                <div className="catalog-design-styles-buttons">
+                <div className="catalog-design-styles-buttons mb-4 mt-5">
                     {designStyles}
                 </div>
                 <div className="catalog-design-styles-divider" />

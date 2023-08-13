@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 
-import LightImageCarousel from './LightImageCarousel';
-import LightSpecifications from './LightSpecifications';
 import LightOptionsForm from './LightOptionsForm';
-import BreadCrumb from 'components/commons/BreadCrumb/BreadCrumb';
 import { CatalogLightItem } from 'typescript/CatalogItem';
 
 import './createEditLight.style.scss';
+import SingleView from 'components/Catalog/SingleView';
+import { BsChevronLeft } from 'react-icons/bs';
 
 type Props = {
     setCatalogItem: any;
@@ -21,10 +20,6 @@ const CreateEditLight = ({
     editLight,
     setEditLight,
 }: Props) => {
-    const carouselImageData = catalogItem.images.map((img: string) => ({
-        url: img,
-    }));
-
     const returnToNull = () => {
         setEditLight(null);
         setCatalogItem(null);
@@ -34,11 +29,15 @@ const CreateEditLight = ({
 
     return (
         <div className="light-details">
-            <div className="light-details__heading">
-                <BreadCrumb
-                    stateAction={handleNavigationClick}
-                    label="Back to Catalog"
-                />
+            <div className="col-12 d-flex justify-content-between align-items-center back-button-container">
+                <div className="back-to-project">
+                    <a
+                        className="back-to-all-projects"
+                        onClick={handleNavigationClick}
+                    >
+                        <BsChevronLeft className="chevron-icon" /> Back to Catalog
+                    </a>
+                </div>
                 {editLight && (
                     <span className="light-details__heading edit-prompt">
                         Editing Light in:
@@ -48,28 +47,17 @@ const CreateEditLight = ({
                     </span>
                 )}
             </div>
-            <div className="light-details__content">
-                <div className="light-details__carousel-wrapper">
-                    <LightImageCarousel images={carouselImageData} />
-                    <LightSpecifications lightDetails={catalogItem} />
-                </div>
-                <div className="light-details__description-wrapper">
-                    <h2 className="light-details__item-name">
-                        {catalogItem.itemName}
-                    </h2>
-                    <h3 className="light-details__item-id">
-                        {catalogItem.item_ID}
-                    </h3>
-                    <p className="light-details__description-text">
-                        {catalogItem.itemDescription}
-                    </p>
+            <div className="light-details__content d-flex flex-column">
+                <SingleView catalogItem={catalogItem} setCatalogItem={setCatalogItem} showBack={false} />
+
+                <div className="align-self-center d-flex justify-content-center light-details__description-wrapper mt-5">
                     <div className="light-details__form-wrapper">
                         <LightOptionsForm
                             catalogLightItem={catalogItem}
                             editLightItem={editLight}
                             setCatalogItem={setCatalogItem}
                             setEditLight={setEditLight}
-                            lightSpecs={catalogItem.specs}
+                            lightSpecs={catalogItem.cutSheet}
                         />
                     </div>
                 </div>

@@ -11,7 +11,7 @@ export enum CopyType {
 
 export enum AttachmentType {
     IMAGE = 'images',
-    PDF = 'pdf',
-    SPEC = 'specs',
+    RENDERING = 'renderings',
+    CUT_SHEET = 'cutSheets',
     DRAWING_FILE = 'drawingFiles',
 }

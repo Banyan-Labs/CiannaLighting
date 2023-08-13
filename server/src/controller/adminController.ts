@@ -4,11 +4,9 @@ import bcrypt from "bcrypt";
 
 import User from "../model/User";
 import Project from "../model/Project";
-import ProjectAttachments from "../model/ProjectAttachments";
 import LightSelection from "../model/LightSelection";
 import CatalogItem from "../model/CatalogItem";
 import Room from "../model/Room";
-import RFP from "../model/RFP";
 import logging from "../../config/logging";
 
 const createNewUser = async (req: Request, res: Response) => {
@@ -74,52 +72,38 @@ const getAllUsers = (req: Request, res: Response) => {
     });
 };
 
-const resetDatabase = (req: Request, res: Response) => {
+const resetDatabase = async (req: Request, res: Response) => {
   try {
     let deletedProjectCount = 0;
-    let deletedProjectAttachmentsCount = 0;
     let deletedLightSelectionCount = 0;
     let deletedCatalogItemCount = 0;
     let deletedRoomCount = 0;
-    let deletedRFPCount = 0;
 
-    Project.deleteMany({})
+    await Project.deleteMany({})
       .exec().then((result) => {
         deletedProjectCount = result.deletedCount;
       });
 
-    ProjectAttachments.deleteMany({})
-      .exec().then((result) => {
-        deletedProjectAttachmentsCount = result.deletedCount;
-      });
-
-    LightSelection.deleteMany({})
+    await LightSelection.deleteMany({})
       .exec().then((result) => {
         deletedLightSelectionCount = result.deletedCount;
       });
 
-    CatalogItem.deleteMany({})
+    await CatalogItem.deleteMany({})
       .exec().then((result) => {
         deletedCatalogItemCount = result.deletedCount;
       });
 
-    Room.deleteMany({})
+    await Room.deleteMany({})
       .exec().then((result) => {
         deletedRoomCount = result.deletedCount;
       });
 
-    RFP.deleteMany({})
-      .exec().then((result) => {
-        deletedRFPCount = result.deletedCount;
-      });
-
     return res.status(200).json({
       deletedProjectCount,
-      deletedProjectAttachmentsCount,
       deletedLightSelectionCount,
       deletedCatalogItemCount,
       deletedRoomCount,
-      deletedRFPCount,
     });
   } catch (error: any) {
     logging.error(error.message, "resetDatabase");

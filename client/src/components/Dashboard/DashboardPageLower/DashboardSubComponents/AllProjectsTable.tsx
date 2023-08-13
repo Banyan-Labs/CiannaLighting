@@ -5,7 +5,6 @@ import { BsThreeDots } from 'react-icons/bs';
 
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
-import { axiosPrivate } from '../../../../api/axios';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
@@ -20,7 +19,7 @@ import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import './style/allProjects.scss';
 
@@ -168,7 +167,7 @@ const AllProjects: FC<Props> = ({
 
             return data;
         } else if (checkSearchVal && searchValue?.length) {
-            const searchData = data.filter((item: ProjectType) => {
+            const searchData = data?.filter((item: ProjectType) => {
                 const searchItem = {
                     clientName: item.clientName,
                     name: item.name,
@@ -178,7 +177,7 @@ const AllProjects: FC<Props> = ({
                 const itemVals: any = Object.values(searchItem);
                 let doesMatch = false;
 
-                itemVals.map((item: string) => {
+                itemVals?.map((item: string) => {
                     const regCheck = new RegExp(searchValue, 'g').test(
                         item.toLowerCase()
                     );
@@ -193,7 +192,7 @@ const AllProjects: FC<Props> = ({
                     return '';
                 }
             });
-            
+
             setParsedData(searchData);
 
             return searchData;
@@ -205,12 +204,12 @@ const AllProjects: FC<Props> = ({
     const reduxData = filterQueryProjects?.length
         ? filterQueryProjects?.slice()
         : allProjects?.slice();
-    const activeProjects = (parsedData?.length ? parsedData : reduxData).filter(
+    const activeProjects = (parsedData?.length ? parsedData : reduxData)?.filter(
         (project) => !project.archived
     );
     const archivedProjects = (
         parsedData?.length ? parsedData : reduxData
-    ).filter((project) => project.archived == true);
+    )?.filter((project) => project.archived == true);
 
     const filteredProjects = sortedData?.length
         ? sortedData?.slice(firstIndex, lastIndex)
@@ -236,48 +235,33 @@ const AllProjects: FC<Props> = ({
         e.preventDefault();
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
+        
+        const payload = {
+            project: {
+                ...proj,
+                clientId: user._id,
+                clientName: user.name,
+            },
+            copy: CopyType.PROJECT
+        };
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
+        try {
+            const response = await dispatch(
+                createProjectAction(payload)
+            );
 
-        if (attach) {
-            attachments = attach?.data?.proj?.pdf;
+            dispatch(getUserProjects(user._id));
+            dispatch(getAllProjects());
+            setProcessing(false);
+            alert(`Copy of ${proj.name} created in your dashboard.`);
 
-            if (attachments?.length) {
-                const payload = {
-                    project: {
-                        ...proj,
-                        clientId: user._id,
-                        clientName: user.name,
-                    },
-                    copy: CopyType.PROJECT,
-                    attachments: attachments,
-                };
-
-                try {
-                    const response = await dispatch(
-                        createProjectAction(payload)
-                    );
-
-                    dispatch(getUserProjects(user._id));
-                    dispatch(getAllProjects());
-                    setProcessing(false);
-                    alert(`Copy of ${proj.name} created in your dashboard.`);
-
-                    return response;
-                } catch (error: any) {
-                    throw new Error(error.message);
-                }
-            }
-        } else {
-            throw new Error("Error in copying project route.")
+            return response;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     };
 
-    const allProjectsTableDisplay = filteredProjects.map((project, index) => {
+    const allProjectsTableDisplay = filteredProjects?.map((project, index) => {
         return (
             <tbody key={index}>
                 <tr
@@ -294,7 +278,7 @@ const AllProjects: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`text-center statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span className={`text-center ${getStatusClass(project.status)}`}>
                             {project.status}
                         </span>
                     </td>

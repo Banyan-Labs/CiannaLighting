@@ -23,10 +23,6 @@
     background-color: white;
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
-
 .modal-title-close-btn button {
     position: absolute;
     left: 15px;

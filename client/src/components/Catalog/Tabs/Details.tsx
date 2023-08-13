@@ -8,51 +8,32 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
     const Item = catalogItem;
 
     return (
-        <div className="col-12 d-flex row m-0 p-0 light_details">
-            <div className="d-flex col-8 px-5 flex-column">
-                <div className="light_details_container">
-                    <div className="d-flex ">
-                        <h4 className="col-4 light_details_title">Name:</h4>
-                        <h4 className="col-8 light_details_info">
-                            {Item.itemName}
-                        </h4>
-                    </div>
-                    <div className="d-flex light_details_title">
-                        <h4 className="col-4">Id:</h4>
-                        <h4 className="col-8 light_details_info">
-                            {Item.item_ID}
-                        </h4>
-                    </div>
-                </div>
-                <div className="d-flex flex-column">
-                    <h4 className="d-flex light_details_title">Description:</h4>{' '}
-                    <span className="ms-5 pb-2 light_details_info">
-                        {Item?.itemDescription}
-                    </span>
-                </div>
+        <div className="d-flex flex-shrink-0 flex-wrap light_details px-3 mb-3">
+            <div className="col-6">
+                <h4 className="light_details_title">ID</h4>
+                <p className="light_details_info">
+                    {Item.item_ID}
+                </p>
             </div>
-            <div className="d-flex col-4     flex-column">
-                <div className="light_details_container">
-                    <h4 className="light_details_title">Design Styles:</h4>
-                    <ul className="light_details_info">
-                        {Item?.designStyle[0]
-                            .split(',')
-                            .map((ef: string, index = ef.indexOf(ef)) => (
-                                <li key={index}>{ef}</li>
-                            ))}
-                    </ul>
-                </div>
-
-                <div className="light_details_container">
-                    <h4 className="light_details_title">Use Packages:</h4>
-                    <ul className="light_details_info">
-                        {Item?.usePackages[0]
-                            .split(',')
-                            .map((ef: string, index = ef.indexOf(ef)) => (
-                                <li key={index}>{ef}</li>
-                            ))}
-                    </ul>
-                </div>
+            <div className="col-6">
+                <h4 className="light_details_title">Design Style</h4>
+                <p className="light_details_info">
+                    {Item?.designStyle}
+                </p>
+            </div>
+            <div className="col-6">
+                <h4 className="light_details_title">Description</h4>
+                {
+                    Item?.itemDescription.split('\n').map((p: string, index: number) => (
+                        <p className="light_details_info p-0 m-0" key={index + p}>{p}</p>
+                    ))
+                }
+            </div>
+            <div className="col-6">
+                <h4 className="light_details_title">Use Packages</h4>
+                <p className="light_details_info">
+                    {Item?.usePackages?.join(', ')}
+                </p>
             </div>
         </div>
     );

@@ -7,31 +7,34 @@
 
 body {
     margin: 0;
-    padding-bottom: 100px;
 }
 
-.statusColorNew {
+.statusColorConfigureDesign {
     background-color: $accent-grayish-red;
     fill: $accent-grayish-red;
 }
 
 
-.statusColorHold {
+.statusColorRFPCompleted {
     background-color: $accent-pink-shade-granite;
     fill: $accent-pink-shade-granite;
 }
 
-.statusColorCancel {
+.statusColorSavedProjects {
     background-color: $accent-dark-gray;
 }
 
-.statusColorComplete {
+.statusColorOnHold {
     background-color: $accent-gold;
 }
 
-.statusColorProgress {
+.statusColorAwarded {
     background-color: $accent-light-grayish-yellow;
     fill: $accent-light-grayish-yellow;
+}
+
+.statusColorTemplateNew {
+    background-color: $accent-dark-gray;
 }
 
 .background-unset {
@@ -40,7 +43,7 @@ body {
 
 .project-title-with-status-icon {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     font-size: 22px;
     color: black;
 }
@@ -66,11 +69,14 @@ button {
 
 .back-to-project {
     font-weight: bold;
+
     .chevron-icon {
         margin-top: 1%;
-        padding-right: 0.5em;    
+        padding-right: 0.5em;
     }
-    a, button {
+
+    a,
+    button {
         text-decoration: none;
         font-size: 14px;
         color: black;
@@ -78,7 +84,9 @@ button {
         display: flex;
         align-items: center;
     }
-    a:hover, button:hover {
+
+    a:hover,
+    button:hover {
         color: #ada9a9ab;
     }
 }
@@ -123,22 +131,70 @@ button {
 }
 
 .container-filter {
-    height: 100%;
-    position: fixed;
+    height: 90vh;
+    position: absolute;
     z-index: 13;
-    top: 0;
+    top: 10vh;
+    bottom: 0;
     right: 0;
-    overflow-x: hidden;
     transition: 0.5s;
-    margin-top: 100px !important;
-    background-color: $primary-bg-dark;
-    border-left: $accent-gold 1px solid;
-    border-top: $accent-gold 1px solid;
-    box-shadow: $box-shadow;
+    background-color: #ecebe7;
+    border-left: #c09d5b 1px solid;
+    border-top: #c09d5b 1px solid;
+    box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
+    overflow-y: scroll !important;
 }
 
 .carousel-wrapper {
     display: inline-block;
     width: 50%;
     grid-area: carousel;
+}
+
+.grey {
+    color: #949494;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-italic {
+    font-style: italic;
+}
+
+.back-to-projects {
+    display: inline-flex;
+
+    .chevron-icon {
+        margin-right: 10px;
+        position: relative;
+        top: 2px;
+    }
+
+    a {
+        margin-top: 12px;
+        margin-left: 10px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #808080;
+        position: relative;
+        z-index: 2;
+    }
+
+    .back-to-all-projects {
+        transition: all 0.2s ease-in-out;
+        border: none;
+        cursor: pointer;
+        background-color: $primary-bg-dark;
+
+        &:hover {
+            transition: all 0.2s ease-in-out;
+            color: $primary-bg-dark-text;
+        }
+    }
+}
+
+.back-to-projects:hover {
+    cursor: pointer;
 }

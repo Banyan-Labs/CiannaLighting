@@ -13,6 +13,7 @@ import {
 import logging from 'config/logging';
 
 import './style/modal.scss';
+import { SystemStatus } from 'app/constants';
 
 type ProjectType = {
     name: string;
@@ -35,7 +36,7 @@ type Props = {
 // Modal function for "New Project". Creates a modal window which allows
 // user to input the Name, Description, Status, and Region of a "New Project".
 const Modal: FC<Props> = (props) => {
-    const { status } = useAppSelector(({ filter: status }) => status);
+    const status = SystemStatus;
     const { region } = useAppSelector(({ filter: region }) => region);
     const { user } = useAppSelector(({ auth: user }) => user);
     const { project } = useAppSelector(({ project: project }) => project);

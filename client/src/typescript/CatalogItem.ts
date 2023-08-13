@@ -1,34 +1,33 @@
 export type LightDetails = {
     costAdmin: number;
-    designStyle: string[];
+    designStyle: string;
     drawingFiles: string[];
     employeeID: string;
     images: string[];
     isActive: boolean;
     itemDescription: string;
-    itemName: string;
     item_ID: string;
     partnerCodeAdmin: string;
     pdf: string[];
-    specs: string[];
+    cutSheet: string[];
     usePackages: string[];
 };
 
 export type LightOptions = {
-    acrylicOptions: string[];
-    crystalPinColor: string[];
-    crystalPinType: string[];
-    crystalType: string[];
-    glassOptions: string[];
-    mounting: string[];
-    socketType: string[];
     safetyCert: string[];
     environment: string[];
-    interiorFinish: string[];
-    exteriorFinish: string[];
-    lensMaterial: string[];
-    projectVoltage: string[];
-    designStyle: string[];
+    mounting: string[];
+    crystalPinColor: string;
+    crystalType: string;
+    crystalBulbCover: string;
+    treatment: string;
+    socketType: string;
+    interiorFinish: string;
+    exteriorFinish: string;
+    finishTreatment: string;
+    lensMaterial: string;
+    projectVoltage: string;
+    designStyle: string;
 };
 
 export type LightSpecs = {
@@ -42,10 +41,6 @@ export type LightSpecs = {
     socketQuantity: number;
     fixtureOverallHeight: string;
     lampColor: string;
-    lampType: string;
-    numberOfLamps: string; //* should this be a number?
-    wattsPerLamp: string; //* should this be a number?
-    powerInWatts: number;
     lumens: string; //* should this be a number?
     estimatedWeight: number;
     price: number;
@@ -64,16 +59,16 @@ export interface CatalogLightItem
 export type LightItemType = {
     _id?: string;
     exteriorFinish: string;
+    finishTreatment: string;
     interiorFinish: string;
     environment: string;
     safetyCert: string;
     projectVoltage: string;
     socketType: string;
     lensMaterial: string;
-    glassOptions: string;
-    acrylicOptions: string;
     crystalType: string;
-    crystalPinType: string;
+    treatment: string;
+    crystalBulbCover: string;
     crystalPinColor: string;
     mounting: string;
     item_ID: string;

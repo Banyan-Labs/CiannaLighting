@@ -2,11 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
-import { LightREF } from "../interfaces/projectInterface";
 import Project from "../model/Project";
 import Room from "../model/Room";
 import { ActionType } from "../utils/constants";
 import logging from "../../config/logging";
+import { lightSelectionCompare } from "../interfaces/lightSelectionInterface";
+import roomController from "./roomController";
 
 const lightSelected = async (
   req: Request,
@@ -16,17 +17,17 @@ const lightSelected = async (
   const {
     item_ID,
     exteriorFinish,
+    finishTreatment,
     interiorFinish,
     lensMaterial,
-    glassOptions,
-    acrylicOptions,
     environment,
     safetyCert,
     projectVoltage,
     socketType,
     mounting,
     crystalType,
-    crystalPinType,
+    treatment,
+    crystalBulbCover,
     crystalPinColor,
     roomName,
     roomId,
@@ -35,28 +36,24 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType,
     lampColor,
-    wattsPer,
-    totalWatts,
-    numberOfLamps,
     totalLumens,
   } = req.body.light;
   const light = new LightSelection({
     _id: new mongoose.Types.ObjectId(),
     item_ID,
     exteriorFinish,
+    finishTreatment,
     interiorFinish,
     lensMaterial,
-    glassOptions,
-    acrylicOptions,
     environment,
     safetyCert,
     projectVoltage,
     socketType,
     mounting,
     crystalType,
-    crystalPinType,
+    treatment,
+    crystalBulbCover,
     crystalPinColor,
     roomName,
     roomId,
@@ -65,22 +62,18 @@ const lightSelected = async (
     quantity,
     price,
     description,
-    lampType,
     lampColor,
-    wattsPer,
-    totalWatts,
-    numberOfLamps,
     totalLumens,
   });
 
-  const lightAndRoom = await Room.findByIdAndUpdate({ _id: roomId })
+  const room = await Room.findById({ _id: roomId })
     .exec()
-    .then((room) => {
+    .then(async (room) => {
       if (room) {
         room.lights = [...room.lights, light._id];
-        room.save();
+        await room.save();
 
-        return light
+        return await light
           .save()
           .then(async (light) => {
             if (light) {
@@ -121,7 +114,7 @@ const lightSelected = async (
       });
     });
 
-  return lightAndRoom;
+  return room;
 };
 
 const getAllSelectedLights = (req: Request, res: Response) => {
@@ -190,6 +183,12 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
     .exec()
     .then(async (room) => {
       if (room) {
+        room.lights = room.lights.filter((id: string) => {
+          return String(id) !== _id ? id : "";
+        });
+
+        await room.save();
+
         const updateLightIds = await lightIdService(
           projectId,
           ActionType.DELETE,
@@ -201,22 +200,15 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
           logging.info(`LightId updated for item_id ${item_ID} in room ${room.name} of project ${projectId}`, "deleteSelectedLight");
         }
 
-        room.lights = room.lights.filter((id: string) => {
-          return String(id) !== _id ? id : "";
-        });
-
-        room.save();
-
         return await LightSelection.findByIdAndDelete({ _id: _id })
           .then((lightSelection) => {
-            // is the following logic correct? 
+
             return !lightSelection
               ? res.status(200).json({
                 lightSelection,
               })
-              : res.status(404).json({
-                message: "The light selection you are looking for no longer exists",
-                lightRemoved: "light removed successfully from room",
+              : res.status(200).json({
+                message: "light removed successfully from room",
               });
           })
           .catch((error) => {
@@ -224,7 +216,7 @@ const deleteSelectedLight = async (req: Request, res: Response) => {
             res.status(500).json(error);
           });
       } else {
-        return res.status(204).json( { message: `No room found using _id of #${roomId}.` } );
+        return res.status(204).json({ message: `No room found using _id of #${roomId}.` });
       }
     });
 };
@@ -239,81 +231,13 @@ export const lightIdService = async (
   const project = await Project.findOne({ _id: projectId });
 
   if (project) {
-    const lightIDs = project.lightIDs;
-    //need to make something to add to the end of the array if there is stuff in there but you need to add a new room and itemid thing
-
-    if (lightIDs && lightIDs.length) {
-      const reWrite: LightREF[] = lightIDs
-        .map((item: LightREF): LightREF => {
-          if (item.item_ID === item_ID) {
-            if (type === ActionType.ADD) {
-              const newItem = { ...item, rooms: [...item.rooms, room] };
-
-              return newItem;
-            } else if (type === ActionType.DELETE) {
-              logging.info(`Item before delete: ${JSON.stringify(item)}`, "lightIdService");
-              const deletingRooms =
-                item.rooms && item.rooms.length
-                  ? item.rooms.filter(
-                    (roomName: string, index: number, copy: string[]) =>
-                      roomName.toLowerCase() === room.toLowerCase()
-                        ? index === copy.lastIndexOf(roomName)
-                          ? ""
-                          : roomName
-                        : roomName
-                  )
-                  : [];
-              logging.info(`deletingRooms: ${JSON.stringify(deletingRooms)}`, "lightIdService");
-
-              if (deletingRooms.length) {
-                logging.info(`deletingRooms found`, "lightIdService");
-                const newItem = { ...item, rooms: deletingRooms };
-                logging.info(`newItem: ${JSON.stringify(newItem)}`, "lightIdService");
-
-                return newItem;
-              } else {
-                return { item_ID: "", rooms: [] };
-              }
-            } else {
-              return item;
-            }
-          } else {
-            return item;
-          }
-        })
-        .filter((item) => item.item_ID.length && item.rooms.length);
-
-      logging.info(`reWrite variable: ${JSON.stringify(reWrite)}`, "lightIdService");
-      logging.info(`project light Ids before reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
-      
-      const checkForId = project.lightIDs.find(
-        (item) => item.item_ID === item_ID
-      );
-      logging.info(`checkForId: ${JSON.stringify(checkForId)}`, "lightIdService");
-
-      if (checkForId == undefined) {
-        const lightIdAddOn = [
-          ...project.lightIDs,
-          { item_ID: item_ID, rooms: [room] },
-        ];
-        logging.info(`lightIdAddOn: ${JSON.stringify(lightIdAddOn)}`, "lightIdService");
-
-        project.lightIDs = lightIdAddOn;
-        logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
-      } else {
-        project.lightIDs = reWrite;
-      }
-    } else {
-      project.lightIDs = [{ item_ID, rooms: [room] }];
-    }
-
-    logging.info(`project light Ids after reWriting: ${JSON.stringify(project.lightIDs)}`, "lightIdService");
+    project.lightIDs = await roomController.updateLightIds(project);
 
     const done = await project.save();
 
     if (done) {
       logging.info(`Done and Saved successfully: ${JSON.stringify(done)}`, "lightIdService");
-      
+
       return done;
     } else {
       logging.error(`Error saving project in the add section of lightIdService.`, "lightIdService");
@@ -329,9 +253,56 @@ export const lightIdService = async (
   }
 };
 
+export const getLightSelectionsForProject = async (req: Request, res: Response) => {
+  const { projectId } = req.body;
+
+  if (!projectId) {
+    return res.status(400).json({ message: "Missing projectId" });
+  }
+
+  try {
+    const lightSelections = await LightSelection.find({ projectId });
+    let groupedSelections: { [key: string]: any } = {};
+
+    lightSelections.forEach(selection => {
+      let selectionCopy = { ...selection._doc } as lightSelectionCompare;
+      let roomQuantity = selectionCopy.quantity;
+      let roomName = selectionCopy.roomName;
+
+      delete selectionCopy._id;
+      delete selectionCopy.roomId;
+      delete selectionCopy.roomName;
+      delete selectionCopy.quantity;
+      delete selectionCopy.clientId;
+
+      const groupKey = JSON.stringify(selectionCopy);
+
+      if (!groupedSelections[groupKey]) {
+        groupedSelections[groupKey] = { ...selectionCopy, rooms: [`${roomName} (${roomQuantity})`] };
+        groupedSelections[groupKey].lightQuantity = roomQuantity;
+      } else {
+        groupedSelections[groupKey].rooms.push(`${roomName} (${roomQuantity})`);
+        groupedSelections[groupKey].lightQuantity += roomQuantity;
+      }
+
+      groupedSelections[groupKey].rooms.sort();
+    });
+
+    let selections = Object.values(groupedSelections);
+
+    selections.sort((a: any, b: any) => a.item_ID.localeCompare(b.item_ID));
+
+    return res.status(200).json({ lightSelections: selections });
+  } catch (error) {
+    logging.error(error, "getLightSelectionsForProject");
+    return res.status(500).json({ message: "Error getting light selections for project" });
+  }
+}
+
 export default {
   lightSelected,
   getAllSelectedLights,
   deleteSelectedLight,
   getSelectedLight,
+  getLightSelectionsForProject
 };

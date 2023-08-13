@@ -13,6 +13,7 @@ interface catalogProps {
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
     setRenderPage: any;
     renderPage: any;
+    resultsRef: any;
 }
 
 const Cards: FC<catalogProps> = ({
@@ -20,24 +21,16 @@ const Cards: FC<catalogProps> = ({
     catalogType,
     setRenderPage,
     renderPage,
+    resultsRef,
 }) => {
     const { setAllCatalog } = useAppSelector(({ project }) => project);
-    const designsFound: any = [];
     const reduxData = setAllCatalog?.slice();
 
     const useDesigns = reduxData?.map((design, index) => {
         const allReceived =
             renderPage === 'designStyle'
-                ? design?.designStyle.map((type: any) => {
-                    if (!designsFound.includes(type)) {
-                        designsFound.push(type);
-                    }
-                })
-                : design?.usePackages.map((type: any) => {
-                    if (!designsFound.includes(type)) {
-                        designsFound.push(type);
-                    }
-                });
+                ? [design?.designStyle]
+                : design?.usePackages;
 
         if (renderPage === '') {
             return setRenderPage('');
@@ -53,12 +46,12 @@ const Cards: FC<catalogProps> = ({
                     setCatalogItem(design);
                 }}
             >
-                <div className="catalog-item d-flex row align-content-start m-0">
-                    <img className="m-0 p-0" src={design.images[0]} />
+                <div className="catalog-item d-flex row align-items-center m-0 item-cards">
+                    <div className="align-items-center d-flex image-container">
+                        <img className="m-0 p-0" src={design.images[0]} />
+                    </div>
                     <div className="item-bottom-sections">
                         <h4 className="">
-                            {design.itemName}
-                            <br />
                             <span>{design.item_ID}</span>
                             <br />
                             {!design.isActive && (
@@ -73,36 +66,14 @@ const Cards: FC<catalogProps> = ({
 
     return (
         <>
-            {renderPage !== '' && setAllCatalog.length > 0 ? (
+            {renderPage !== '' && setAllCatalog?.length > 0 ? (
                 <>
-                    <div className="main-catalog-filter-container d-flex m-0">
+                    <div ref={resultsRef} className="main-catalog-filter-container d-flex m-0">
                         <div className="col-12 d-flex row m-0 p-0">
                             <h4 className="d-flex justify-content-center">
-                            <b>{catalogType}</b>&nbsp;catalog items
+                                <b>{catalogType}</b>&nbsp;catalog items
                             </h4>
                             <div className="all-pulled-types d-flex col-12 justify-content-evenly m-0 p-0">
-                                {/* <ul className="col-3 col-lg-3 col-xl-2">
-                                    {designsFound
-                                        ? designsFound.map(
-                                              (
-                                                  ef: string,
-                                                  index = ef.indexOf(ef)
-                                              ) => {
-                                                  return (
-                                                      <li
-                                                          className="col-10 col-xl-12 p-1"
-                                                          key={index}
-                                                      >
-                                                          {ef
-                                                              .toUpperCase()
-                                                              .split(',')
-                                                              .join(', ')}
-                                                      </li>
-                                                  );
-                                              }
-                                          )
-                                        : ''}
-                                </ul> */}
                                 <div className="d-flex justify-content-center row col-10 col-lg-11 col-xl-12 m-0 p-0 cards-container">
                                     {useDesigns.map(
                                         (item: any, index: number) => {
@@ -122,7 +93,7 @@ const Cards: FC<catalogProps> = ({
                     </div>
                 </>
             ) : catalogType && (
-                <div className="main-catalog-filter-container d-flex m-0">
+                <div ref={resultsRef} className="main-catalog-filter-container d-flex m-0">
                     <div className="col-12 d-flex row m-0 p-0">
                         <h4 className="d-flex justify-content-center">
                             No&nbsp;<b>{catalogType}</b>&nbsp;catalog items found.

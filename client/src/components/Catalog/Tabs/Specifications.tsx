@@ -1,78 +1,47 @@
+import { camelCaseToTitleCase } from 'app/utils';
 import React, { FC } from 'react';
 import '../style/catalog.scss';
+
 interface catalogPros {
     catalogItem: any;
     setCatalogItem: any;
 }
 
 const specifications: FC<catalogPros> = ({ catalogItem }) => {
-    const Item = catalogItem;
+    const keys = Object.keys(catalogItem);
+    const specFields = [
+        'bodyDiameter',
+        'bodyHeight',
+        'bodyWidth',
+        'bodyLength',
+        'fixtureOverallHeight',
+        'sconceHeight',
+        'sconceWidth',
+        'sconceExtension',
+        'estimatedWeight',
+        'socketQuantity',
+        'lumens',
+    ];
+
     return (
-        <div className="col-12 d-flex row specifications-main-container m-0">
-            <div className="d-flex col-12 row justify-content-end m-0">
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Body Diameter</p>
-                    <p className="p-0 m-0 number-spec">{Item?.bodyDiameter}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Body Length</p>
-                    <p className="p-0 m-0 number-spec">{Item?.bodyLength}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Body Width</p>
-                    <p className="p-0 m-0 number-spec">{Item?.bodyWidth}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Body Height</p>
-                    <p className="p-0 m-0 number-spec">{Item?.bodyHeight}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Fixture Height</p>
-                    <p className="p-0 m-0 number-spec">
-                        {Item?.fixtureOverallHeight}
-                    </p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Sconce Height</p>
-                    <p className="p-0 m-0 number-spec">{Item?.sconceHeight}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Sconce Width</p>
-                    <p className="p-0 m-0 number-spec">{Item?.sconceWidth}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Sconce Extension</p>
-                    <p className="p-0 m-0 number-spec">
-                        {Item?.sconceExtension}
-                    </p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Socket Quantity</p>
-                    <p className="p-0 m-0 number-spec">
-                        {Item?.socketQuantity}
-                    </p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Power In Watts</p>
-                    <p className="p-0 m-0 number-spec">{Item?.powerInWatts}</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Estimated Weight</p>
-                    <p className="p-0 m-0 number-spec">
-                        {Item?.estimatedWeight}
-                    </p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Price</p>
-                    <p className="p-0 m-0 number-spec">{Item?.price}$</p>
-                </div>
-                <div className="d-flex spec-container justify-content-between p-2 m-0">
-                    <p className="p-0 m-0">Material</p>
-                    <p className="p-0 m-0 number-spec">{Item?.material}</p>
-                </div>
-            </div>
+        <div className="d-flex flex-shrink-0 flex-wrap light_details px-3 mb-3">
+            {
+                keys?.map((key: string, index: number) => {
+                    if (!specFields.includes(key)) return null;
+                    const item = catalogItem[key];
+            
+                    return (
+                        <div className="col-6" key={index + key}>
+                            <h4 className="light_details_title">{camelCaseToTitleCase(key)}</h4>
+                            <p className="light_details_info">
+                                {item}
+                            </p>
+                        </div>
+                    );
+                })
+            }
         </div>
-    );
+    )
 };
 
 export default specifications;

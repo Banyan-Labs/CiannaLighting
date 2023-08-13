@@ -3,13 +3,10 @@ import mongoose from "mongoose";
 
 import LightSelection from "../model/LightSelection";
 import { lightIdService } from "./lightSelectionController";
-import ProposalTableRow from "../model/ProposalTableRow";
 import Project from "../model/Project";
 import Room from "../model/Room";
-import RFP from "../model/RFP";
 import { ActionType, CopyType } from "../utils/constants";
 import logging from "../../config/logging";
-import ProjectAttachments from "../model/ProjectAttachments";
 import CatalogItem from "../model/CatalogItem";
 
 const createProject = async (req: Request, res: Response) => {
@@ -54,14 +51,6 @@ const createProject = async (req: Request, res: Response) => {
         });
       });
   } else {
-    const rfp = new RFP({
-      _id: new mongoose.Types.ObjectId(),
-      header: `${copy === CopyType.PROJECT ? "Copy of " + name : name}, ${region}`,
-      clientId: clientId,
-      projectId: "",
-      clientName: clientName,
-      tableRow: [],
-    });
     const project = new Project({
       _id: new mongoose.Types.ObjectId(),
       archived: false,
@@ -71,7 +60,6 @@ const createProject = async (req: Request, res: Response) => {
       region: region,
       status: status,
       description: description,
-      rfp: String(rfp._id),
       rooms: [],
       lightIDs: copy === CopyType.PROJECT ? lightIDs : [],
       activity: {
@@ -89,15 +77,10 @@ const createProject = async (req: Request, res: Response) => {
       },
     });
 
-    rfp.projectId = project._id;
-
-    await rfp.save();
-
     return await project
       .save()
       .then(async (project) => {
         if (project) {
-          project.rfp = String(rfp._id);
           if (_id && copy === CopyType.PROJECT) {
             if (project) {
               let i = 0;
@@ -283,7 +266,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
       for (let i = 0; i < lights.length; i++) {
         logging.info(`Copying light ${lights[i]._id} in room ${room._id} of project ${newProjectId}`, "runRoom");
         await LightSelection.findOne({ _id: lights[i] }).then(async (light) => {
-          await runLights(light, room._id, newProjectId, clientId, copy);
+          await runLights(light, room, newProjectId, clientId, copy);
         });
       }
     }
@@ -293,7 +276,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
 
 const runLights = async (
   light: any,
-  newRoomId: string,
+  newRoom: any,
   newProjectId: string,
   clientId: string,
   copy: CopyType
@@ -302,33 +285,29 @@ const runLights = async (
     _id: new mongoose.Types.ObjectId(),
     item_ID: light.item_ID,
     exteriorFinish: light.exteriorFinish,
+    finishTreatment: light.finishTreatment,
     interiorFinish: light.interiorFinish,
     lensMaterial: light.lensMaterial,
-    glassOptions: light.glassOptions,
-    acrylicOptions: light.acrylicOptions,
     environment: light.environment,
     safetyCert: light.safetyCert,
     projectVoltage: light.projectVoltage,
     socketType: light.socketType,
     mounting: light.mounting,
     crystalType: light.crystalType,
-    crystalPinType: light.crystalPinType,
+    treatment: light.treatment,
+    crystalBulbCover: light.crystalBulbCover,
     crystalPinColor: light.crystalPinColor,
-    roomName: light.roomName,
-    roomId: newRoomId,
+    roomName: newRoom?.name,
+    roomId: newRoom?._id,
     projectId: newProjectId,
     clientId: clientId,
     quantity: light.quantity,
     price: light.price,
     description: light.description,
-    lampType: light.lampType,
     lampColor: light.lampColor,
-    wattsPer: light.wattsPer,
-    totalWatts: light.totalWatts,
-    numberOfLamps: light.numberOfLamps,
     totalLumens: light.totalLumens,
   });
-  const room = await Room.findOne({ _id: newRoomId });
+  const room = await Room.findOne({ _id: newRoom._id });
 
   if (room) {
     room.lights = [...room.lights, newLight._id];
@@ -337,176 +316,17 @@ const runLights = async (
       .save()
       .then(async () => {
         const savedLight = await newLight.save();
-        ///////
-        /**
-         * gonna work here, going to have to find a way to conditionally add the existingProposal ( compare with the add Proposal stuff)
-         */
-        //////
+
         if (savedLight) {
           const {
             item_ID,
-            exteriorFinish,
-            interiorFinish,
-            lensMaterial,
-            glassOptions,
-            acrylicOptions,
             roomName,
             projectId,
-            quantity,
-            description,
-            lampType,
-            lampColor,
-            price,
-            wattsPer,
-            totalWatts,
-            numberOfLamps,
-            totalLumens,
           } = savedLight;
 
           if (copy === CopyType.ROOM) {
             await lightIdService(projectId, ActionType.ADD, item_ID, roomName);
           }
-
-          const finishes: any = {
-            exteriorFinish: exteriorFinish,
-            interiorFinish: interiorFinish,
-            lensMaterial: lensMaterial,
-            glassOptions: glassOptions,
-            acrylicOptions: acrylicOptions,
-          };
-          const existingProposal = await ProposalTableRow.findOne({
-            itemID: item_ID,
-            sub: "",
-            projectId: projectId,
-          });
-          const proposal = new ProposalTableRow({
-            _id: new mongoose.Types.ObjectId(),
-            sub: existingProposal ? existingProposal._id : "",
-            itemID: item_ID,
-            lightID: String(savedLight._id),
-            projectId: projectId,
-            description: description,
-            lampType: lampType,
-            lampColor: lampColor,
-            price: price,
-            lightQuantity: quantity,
-            wattsPer: wattsPer,
-            totalWatts: totalWatts * quantity,
-            numberOfLamps: numberOfLamps,
-            totalLumens: totalLumens * quantity,
-            finishes: finishes,
-            rooms: [{ name: roomName, lightNumber: quantity }],
-            subTableRow: [],
-          });
-
-          if (existingProposal) {
-            logging.info(`Updating current proposal row: ${existingProposal.id}`, "runLights");
-            let runCheck = [];
-            let rowFinishes: any = existingProposal.finishes;
-            const sameRoom = existingProposal.rooms
-              .map((room: any) => room.name)
-              .indexOf(roomName);
-
-            if (sameRoom == -1) {
-              const subs = existingProposal.subTableRow;
-              existingProposal.subTableRow = [...subs, String(proposal._id)];
-
-              await proposal.save();
-            } else {
-              for (let key in rowFinishes) {
-                runCheck.push(rowFinishes[key] == finishes[key]);
-              }
-              if (runCheck.some((item) => item == false)) {
-                const subs = existingProposal.subTableRow;
-
-                if (subs) {
-                  existingProposal.subTableRow = [...subs, String(proposal._id)];
-                }
-
-                await proposal.save();
-              }
-            }
-            const newQuantity = existingProposal.lightQuantity + quantity;
-            const newWattage = totalWatts * newQuantity;
-            const newTotalLumens = totalLumens * newQuantity;
-            const roomFind = existingProposal.rooms.find(
-              (room: any) => room.name == roomName
-            );
-            const roomFilter = existingProposal.rooms.filter(
-              (room: any) => room.name != roomName
-            );
-            const newRooms: any =
-              sameRoom == -1
-                ? [...existingProposal.rooms, { name: roomName, lightNumber: quantity }]
-                : [
-                  ...roomFilter,
-                  {
-                    name: roomFind?.name,
-                    lightNumber: roomFind
-                      ? roomFind.lightNumber + quantity
-                      : quantity,
-                  },
-                ];
-            existingProposal.lightQuantity = newQuantity;
-            existingProposal.totalWatts = newWattage;
-            existingProposal.totalLumens = newTotalLumens;
-            existingProposal.rooms = newRooms;
-
-            await existingProposal.save();
-          } else {
-            await RFP.findOne({ projectId: projectId })
-              .exec()
-              .then(async (rfp) => {
-                if (rfp) {
-                  logging.info(`Updating current RFP`, "runLights");
-                  await proposal.save();
-
-                  const newRow = [String(proposal._id), ...rfp.tableRow];
-                  rfp.tableRow = newRow;
-
-                  await rfp.save();
-                }
-              })
-              .catch((error: any) => {
-                return { message: error.message, error };
-              });
-          }
-
-          const catalogItem = CatalogItem
-            .findOne({ item_ID: item_ID })
-            .exec()
-            .then(async (catalogLight) => {
-              if (catalogLight) {
-                const existingProjectAttachments = await ProjectAttachments.findOne({ newProjectId });
-                const existingImages = existingProjectAttachments?.images ? existingProjectAttachments.images : [];
-                const existingPdf = existingProjectAttachments?.pdf ? existingProjectAttachments.pdf : [];
-                const newImages = catalogLight.images ? catalogLight.images : [];
-                const newPdf = catalogLight.pdf ? catalogLight.pdf : [];
-      
-                logging.info({existingImages, existingPdf, newImages, newPdf}, "runLights");
-      
-                const projectAttachments = new ProjectAttachments({
-                  projectId: newProjectId,
-                  images: [...new Set([...existingImages, ...newImages])],
-                  pdf: [...new Set([...existingPdf, ...newPdf])],
-                });
-      
-                await projectAttachments
-                  .save()
-                  .then((attachments) => {
-                    if (attachments) {
-                      logging.info(`Project Attachments created for ${newProjectId}`, "runLights");
-                      logging.info(attachments, "runLights");
-                    }
-                  })
-                  .catch((error) => {
-                    logging.error(error.message, "runLights");
-                  });
-                }
-              })
-              .catch((error) => {
-                logging.error(error.message, "runLights");
-              });
         }
       }).catch((error) => {
         logging.error(error.message, "runLights");
@@ -570,7 +390,6 @@ const getAllProjects = async (req: Request, res: Response) => {
 };
 
 const deleteProject = async (req: Request, res: Response) => {
-  // when rfpDocs are created, still need to include.
   return await Project.findByIdAndDelete({ _id: req.body._id })
     .then(async (project) => {
       if (project && project.rooms.length) {
@@ -604,10 +423,64 @@ const deleteProject = async (req: Request, res: Response) => {
     });
 };
 
+const getAttachments = async (req: Request, res: Response) => {
+  const { projectId } = req.body;
+
+  if (!projectId) {
+    return res.status(400).json({
+      message: "No Project ID was provided",
+    });
+  }
+
+  await Project.findOne({ _id: projectId })
+    .then(async (project) => {
+      if (project) {
+        const lightSelectionIDs = project.lightIDs?.map((x) => x.item_ID);
+
+        if (!lightSelectionIDs?.length) {
+          return res.status(200).json({
+            files: [],
+          });
+        }
+
+        const catalogItems = await CatalogItem.find({
+          item_ID: { $in: lightSelectionIDs },
+        });
+        const files: string[] = [];
+
+        catalogItems.forEach((item) => {
+          if (item.renderings?.length) {
+            item.renderings.forEach((x) => {
+              files.push(x);
+            });
+          }
+          if (item.cutSheets?.length) {
+            item.cutSheets.forEach((x) => {
+              files.push(x);
+            });
+          }
+        });
+
+        return res.status(200).json({
+          files: [...new Set(files?.sort((a, b) => a.localeCompare(b)))],
+        });
+      } else {
+        return res.status(404).json({
+          message: "The Project you are looking for no longer exists",
+        });
+      }
+    })
+    .catch((error) => {
+      logging.error(error.message, "getAttachments");
+      return res.status(500).json({ message: error.message, error });
+    });
+};
+
 export default {
   createProject,
   deleteProject,
   getAllProjects,
   getProject,
   getAccountProjects,
+  getAttachments,
 };

@@ -1,14 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getProject, setDefaults } from '../../redux/actions/projectActions';
+import { getAttachments, getLightSelectionsForProject, getProject, setDefaults } from '../../redux/actions/projectActions';
 import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
+import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
 import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
-import ProjectAttachments from './ProjectAttachments';
 import AllProjectView from './AllProjectView';
 
 import './style/projects.scss';
@@ -27,12 +26,12 @@ const Projects: FC = () => {
 
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects?.slice(userProjects?.length - 1);
-    const defaultProjId = latestProject.map((p) => p._id);
+    const defaultProjId = latestProject?.map((p) => p._id)[0];
+    const projectIdToUse: string = storedProjId ? storedProjId : defaultProjId;
     const fetchData1 = async () => {
-        storedProjId
-            ? await dispatch(getProject({ _id: String(storedProjId) }))
-            : await dispatch(getProject({ _id: String(defaultProjId) }));
-        await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
+        await dispatch(getProject({ _id: String(projectIdToUse) }))
+        await dispatch(getAttachments(projectIdToUse))
+        await dispatch(getLightSelectionsForProject(projectIdToUse));
         await dispatch(getCatalogItems());
     };
 
@@ -41,14 +40,14 @@ const Projects: FC = () => {
     }, [userProjects]);
 
     const fetchData = async () => {
-        storedProjId
-            ? await dispatch(getAllProjectRoomsAction(String(storedProjId)))
-            : await dispatch(getAllProjectRoomsAction(String(defaultProjId)));
+        await dispatch(getAllProjectRoomsAction(projectIdToUse));
+        await dispatch(getLightSelectionsForProject(projectIdToUse));
     };
 
     useEffect(() => {
         fetchData();
     }, [projectId]);
+
     useEffect(() => {
         if (yourProjects === false) {
             dispatch(setDefaults());
@@ -67,7 +66,6 @@ const Projects: FC = () => {
                             processing={processing}
                             setProcessing={setProcessing}
                         />
-                        <ProjectAttachments details={project} />
                     </div>
                     <div>
                         <ProjectsNav processing={processing} />

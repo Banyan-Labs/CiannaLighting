@@ -96,7 +96,6 @@
     display: block;
     transition: 0.2s;
     font-size: 14px;
-    color:#000000;;
 }
 
 .form__field:focus {
@@ -120,6 +119,7 @@
     &:invalid {
         box-shadow: none;
     }
+    color: #000000;
 }
 
 .list__group {
@@ -168,6 +168,11 @@
     border-radius: 0px 3px 3px 0px;
     margin-right: 15px;
     cursor: pointer;
+}
+
+.delete-material-button-without-add {
+    border-radius: 3px !important;
+    margin-left: 15px !important;
 }
 
 .list-input::file-selector-button {
@@ -229,7 +234,6 @@
 }
 
 .inventory_form_container {
-    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -294,7 +298,8 @@
 #chck5,
 #chck6,
 #chck7,
-#chck8 {
+#chck8,
+#chck9 {
     display: none;
 }
 
@@ -311,6 +316,11 @@ input:checked {
         padding: 1em;
     }
 }
+
+input:read-only {
+    color: #000000;
+}
+
 .edit-button-container {
     display: flex;
     justify-content: center;
@@ -318,12 +328,6 @@ input:checked {
     .inventory-btn {
         @include button($accent-gold, #fff);
         margin: 25px 0px;
-        cursor: pointer;
-    }
-    .edit-inventory {
-        @include button($accent-gold, #fff);
-        margin: 25px 0px;
-        margin-left: 10px;
         cursor: pointer;
     }
     .cancel-button {

@@ -267,6 +267,15 @@ export const ViewModal: FC<Props> = ({
                                                                                                 }
                                                                                             </p>
                                                                                             <h5 className="col-6 m-0">
+                                                                                                Finish
+                                                                                                Treatment:
+                                                                                            </h5>
+                                                                                            <p className="col-6">
+                                                                                                {
+                                                                                                    l.finishTreatment
+                                                                                                }
+                                                                                            </p>
+                                                                                            <h5 className="col-6 m-0">
                                                                                                 Interior
                                                                                                 Finish:
                                                                                             </h5>
@@ -329,12 +338,12 @@ export const ViewModal: FC<Props> = ({
                                                                                                     l.lensMaterial
                                                                                                 }
                                                                                             </p>
-                                                                                            <h5 className="col-6">
-                                                                                                Options:
+                                                                                            <h5 className="col-6 m-0">
+                                                                                                Treatment:
                                                                                             </h5>
                                                                                             <p className="col-6">
                                                                                                 {
-                                                                                                    l.acrylicOptions
+                                                                                                    l.treatment
                                                                                                 }
                                                                                             </p>
                                                                                             <h5 className="col-6 m-0">
@@ -352,11 +361,15 @@ export const ViewModal: FC<Props> = ({
                                                                                             <p className="col-6">
                                                                                                 {
                                                                                                     l.crystalPinColor
-                                                                                                }{' '}
-                                                                                                <br />{' '}
+                                                                                                }
+                                                                                            </p>
+                                                                                            <h5 className="col-6 m-0">
+                                                                                                Crystal Bulb Cover:
+                                                                                            </h5>
+                                                                                            <p className="col-6">
                                                                                                 {
-                                                                                                    l.crystalPinType
-                                                                                                }{' '}
+                                                                                                    l.crystalBulbCover
+                                                                                                }
                                                                                             </p>
                                                                                         </div>
                                                                                     </div>
