@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -8,12 +8,9 @@ import logging from 'config/logging';
 import './style/proposal.scss';
 import { parseFileName } from 'helpers/utils';
 import { camelCaseToTitleCase } from 'app/utils';
+import { useReactToPrint } from 'react-to-print';
 
-interface Props {
-    ref: any;
-}
-
-const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
+const Proposal: FC = React.forwardRef<any>(() => {
     const [numPages, setNumPages] = useState<{ [key: string]: number }>({});
 
     function onDocumentLoadSuccess({ numPages }: any, url: any) {
@@ -25,21 +22,37 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
         return project;
     });
 
+    const componentRef = useRef<HTMLDivElement>(null);
+    const handlePrint = useReactToPrint({
+        content: () => componentRef?.current,
+    });
+
     const tableRows = selections.map((prop, index) => {
         const finishes = {
+            material: prop.material,
             exteriorFinish: prop.exteriorFinish,
-            finishTreatment: prop.finishTreatment,
             interiorFinish: prop.interiorFinish,
+            finishTreatment: prop.finishTreatment,
+        };
+        const materialOptions = {
             lensMaterial: prop.lensMaterial,
+            treatment: prop.treatment,
+            crystalType: prop.crystalType,
+            crystalPinColor: prop.crystalPinColor,
+            crystalBulbCover: prop.crystalBulbCover,
         };
 
         return (
             <tr key={`${prop.itemID} + ${index}`}>
-                <td className="cell">
-                    {prop.item_ID}
+                <td>
+                    <span>
+                        {prop.item_ID}
+                    </span>
                 </td>
                 <td>
-                    {prop.lightQuantity}
+                    <span>
+                        {prop.lightQuantity}
+                    </span>
                 </td>
                 <td>
                     {prop.rooms.map((room: any, index: number) => {
@@ -53,14 +66,14 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                         );
                     })}
                 </td>
-                <td>
+                <td className="text-left">
                     {
                         prop.description.split('\n').map((p: string, index: number) => (
                             <p className="m-0" key={index + p}>{p}</p>
                         ))
                     }
                 </td>
-                <td>
+                <td className="text-left">
                     {Object.entries(finishes).map(
                         (item: any, index: number) => {
                             return (
@@ -74,8 +87,45 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                         }
                     )}
                 </td>
-                <td>{prop.lampColor}</td>
-                <td>{prop.totalLumens}</td>
+                <td className="text-left">
+                    {Object.entries(materialOptions).map(
+                        (item: any, index: number) => {
+                            return (
+                                <span
+                                    className="list"
+                                    key={index + item[0]}
+                                >
+                                    {camelCaseToTitleCase(item[0])}: {item[1]}
+                                </span>
+                            );
+                        }
+                    )}
+                </td>
+                <td>
+                    <span>
+                        {prop.lampColor}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {prop.lumens}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {prop.projectVoltage}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {prop.socketQuantity}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        {prop.socketType}
+                    </span>
+                </td>
             </tr>
         );
     });
@@ -93,8 +143,9 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
             }
 
             return (
-                <div key={index}>
-                    <h4>{itemId} - {fileType} - {displayName}</h4>
+                <div key={index} className="proposal-attachments mt-5">
+                    <p className="m-0"><span className="text-italic">{itemId}</span> - <span className="text-italic">{fileType}</span></p>
+                    <h4 className="m-0">{displayName}</h4>
                     <Document
                         file={url}
                         onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
@@ -109,7 +160,6 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
                                 renderTextLayer={false}
                                 pageNumber={index + 1}
                                 scale={1.0}
-                                width={1100}
                                 onLoadError={(err) => logging.error(err, "Page")}
                             />
                         ))}
@@ -120,150 +170,74 @@ const Proposal: FC<Props> = React.forwardRef<any>((props, ref) => {
     };
 
     return (
-        <div ref={ref}>
-            {tableRows &&
-                tableRows.map((item, index, arr) => {
-                    if (index && index % 6 === 0) {
-                        return (
-                            <div key={index} className="proposal-container">
-                                <div className="header-section">
-                                    <h1>
-                                        {project?.name?.toUpperCase()}
-                                    </h1>
-                                    <h1>
-                                        {project?.region?.toUpperCase()}
-                                    </h1>
-                                </div>
-                                <div className="table-contain">
-                                    <div className="table-border">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th colSpan={13}>
-                                                        <h4>
-                                                            Lighting Schedule
-                                                        </h4>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Item ID</th>
-                                                    <th>
-                                                        Quantity
-                                                    </th>
-                                                    <th>
-                                                        Rooms
-                                                    </th>
-                                                    <th>
-                                                        Description
-                                                    </th>
-                                                    <th>
-                                                        Finishes
-                                                    </th>
-                                                    <th>
-                                                        Lamp Type
-                                                    </th>
-                                                    <th>
-                                                        Lamp Color
-                                                    </th>
-                                                    <th>
-                                                        Watts Per
-                                                    </th>
-                                                    <th>
-                                                        Total Watts
-                                                    </th>
-                                                    <th>
-                                                        Total Lamps
-                                                    </th>
-                                                    <th>
-                                                        Lumens
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {tableRows.slice(
-                                                    index - 6,
-                                                    index
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    } else if (index === arr.length - 1) {
-                        return (
-                            <div key={index} className="proposal-container">
-                                <div className="header-section">
-                                    <h1>
-                                        {project?.name?.toUpperCase()}
-                                    </h1>
-                                    <h1>
-                                        {project?.region?.toUpperCase()}
-                                    </h1>
-                                </div>
-                                <div className="table-contain">
-                                    <div className="table-border">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th colSpan={13}>
-                                                        <h4>
-                                                            Lighting Schedule
-                                                        </h4>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Item ID</th>
-                                                    <th>
-                                                        Quantity
-                                                    </th>
-                                                    <th>
-                                                        Rooms
-                                                    </th>
-                                                    <th>
-                                                        Description
-                                                    </th>
-                                                    <th>
-                                                        Finishes
-                                                    </th>
-                                                    <th>
-                                                        Lamp Type
-                                                    </th>
-                                                    <th>
-                                                        Lamp Color
-                                                    </th>
-                                                    <th>
-                                                        Watts Per
-                                                    </th>
-                                                    <th>
-                                                        Total Watts
-                                                    </th>
-                                                    <th>
-                                                        Total Lamps
-                                                    </th>
-                                                    <th>
-                                                        Lumens
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {tableRows.slice(
-                                                    -(
-                                                        ((tableRows.length -
-                                                            1) %
-                                                            6) +
-                                                        1
-                                                    )
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    }
-                })}
-            {renderAttachments()}
+        <div className="d-flex flex-column">
+            <div ref={componentRef}>
+                <div className="proposal-container">
+                    <div className="header-section">
+                        <h1>
+                            {project?.name?.toUpperCase()}
+                        </h1>
+                        <h1>
+                            {project?.region?.toUpperCase()}
+                        </h1>
+                    </div>
+                    <div className="table-contain">
+                        <div className="table-border">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th colSpan={13}>
+                                            <h4 className="my-2">
+                                                Lighting Schedule
+                                            </h4>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Item ID</th>
+                                        <th>
+                                            Qty.
+                                        </th>
+                                        <th>
+                                            Rooms
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Finishes
+                                        </th>
+                                        <th>
+                                            Materials
+                                        </th>
+                                        <th>
+                                            Lamp<br />Color
+                                        </th>
+                                        <th>
+                                            Lumens
+                                        </th>
+                                        <th>
+                                            Project<br />Voltage
+                                        </th>
+                                        <th>
+                                            Socket<br />Quantity
+                                        </th>
+                                        <th>
+                                            Socket<br />Type
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tableRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {renderAttachments()}
+            </div>
+            <button className="print_btn my-5" onClick={handlePrint}>
+                Print
+            </button>
         </div>
     );
 });
