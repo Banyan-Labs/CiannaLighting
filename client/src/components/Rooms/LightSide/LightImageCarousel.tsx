@@ -81,7 +81,7 @@ const LightCarousel = ({ images }: Props) => {
                         className="fullscreen-toggle-button"
                         onClick={toggleFullscreen}
                     />
-                    <img className="selected-image" src={selectedImage?.url} />
+                    <img src={selectedImage?.url} />
                 </div>
                 <div className="carousel">
                     <div className="carousel__images">
