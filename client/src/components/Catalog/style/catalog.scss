@@ -5,6 +5,7 @@
     flex-flow: row;
     width: 100%;
     height: 100%;
+
     .catalog-main-container {
         margin-top: 10vh;
         background-color: $primary-bg-dark;
@@ -12,10 +13,12 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+
         .catalog-use-packages {
             padding: 0 50px;
             flex: 3;
             color: $primary-bg-dark-text;
+
             span {
                 position: relative;
                 top: 25px;
@@ -68,6 +71,7 @@
 .single-view-container {
     width: 100%;
     margin-top: 10vh;
+
     h1 {
         color: pink !important;
     }
@@ -79,6 +83,7 @@
         cursor: pointer;
         margin-left: 10px;
     }
+
     .chevron-icon-catalog {
         cursor: pointer;
         padding-top: 2px;
@@ -101,17 +106,29 @@
     display: flex;
     padding-right: 10px;
     padding-left: 10px;
+    transition: all 0.35s;
 }
 
 .tab__catalog {
-    justify-content: center;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    background: $primary-bg-dark;
+    color: white;
+    background: $accent-gold;
     padding: 15px 0px;
-    border-radius: 8px;
     border: none;
     cursor: pointer;
+    text-align: left;
+    padding: 15px 20px;
+    transition: all 0.35s;
+    margin-bottom: 0.50rem !important;
+}
+
+.tab__catalog::after {
+    content: "❯";
+    text-align: center;
+    transition: all 0.35s;
 }
 
 .tab__catalog:hover {
@@ -121,17 +138,14 @@
 
 .tab__catalog.active2 {
     transition: all 0.2s ease-in-out;
-    background: $accent-gold;
-    padding: 15px 20px;
-    font-weight: bold;
-    border-radius: 8px;
-    color: white;
+
+    &::after {
+        transform: rotate(90deg);
+    }
 }
 
 .panel__catalog {
     display: none;
-    padding: 10px;
-    height: 410px;
     overflow-y: scroll;
 }
 
@@ -141,9 +155,11 @@
 
 .catalog-details-left-container {
     margin-right: 0px;
+
     h4 {
         margin-top: 10px !important;
-        margin-right: 40px !important ;
+        margin-right: 40px !important;
+
         span {
             color: $primary-bg-dark-text;
         }
@@ -157,10 +173,12 @@
 
 .catalog-details-right-container {
     border-left: 1px solid $accent-gold;
+
     h4 {
         text-align: center;
         margin-top: 10px !important;
     }
+
     span {
         color: $primary-bg-dark-text;
         text-align: center;
@@ -173,16 +191,24 @@
 }
 
 .light_details {
+    width: 100%;
+
     .light_details_container {
         height: 50%;
     }
+
     .light_details_title {
-        color: $primary-bg-dark-title;
-        font-size: $table-header-fs;
-    }
-    .light_details_info {
         color: $primary-bg-dark-text;
         font-size: $table-header-fs;
+        font-family: $font-family-thin;
+        margin-bottom: 0;
+    }
+
+    .light_details_info {
+        color: $primary-bg-dark-title;
+        font-size: $table-header-fs;
+        margin-top: 0;
+        font-weight: bold;
     }
 }
 
@@ -208,9 +234,11 @@
     overflow-y: scroll;
     text-align: center;
     border-top: 1px solid $accent-gold;
+
     h4 {
         margin-top: 10px !important;
     }
+
     span {
         color: $primary-bg-dark-text;
     }
@@ -220,6 +248,7 @@
     text-align: center;
     height: 50%;
     overflow-y: scroll;
+
     span {
         color: $primary-bg-dark-text;
     }
@@ -239,9 +268,11 @@
     div {
         height: 50%;
     }
+
     h4 {
         color: $primary-bg-dark-title;
     }
+
     a {
         color: $primary-bg-dark-text;
     }

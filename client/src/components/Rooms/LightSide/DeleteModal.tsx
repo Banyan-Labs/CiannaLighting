@@ -75,7 +75,7 @@ export const DeleteModal: FC<Props> = ({
         
         try {
             !deleteRoom ? await deleteLightMethod(light) : await deleteRoomMethod();
-            navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`);
+            deleteRoom ? navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`) : null;
         } catch (err: any) {
             throw new Error(err.message);
         }

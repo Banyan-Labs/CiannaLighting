@@ -13,3 +13,12 @@ export const getStatusClass = (givenStatus: string) => {
 
     return statusWithoutSpecialCharsOrSpace ? `statusColor${statusWithoutSpecialCharsOrSpace}` : 'statusColorTemplateNew';
 }
+
+export const camelCaseToTitleCase = (camelCase: string) => {
+    const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
+    const titleCase = spaced.replace(/(^|[\s\t]+)\w/g, function (match) {
+        return match.toUpperCase();
+    });
+
+    return titleCase;
+}
