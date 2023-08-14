@@ -304,7 +304,6 @@ const runLights = async (
     quantity: light.quantity,
     price: light.price,
     description: light.description,
-    lampType: light.lampType,
     lampColor: light.lampColor,
     totalLumens: light.totalLumens,
   });

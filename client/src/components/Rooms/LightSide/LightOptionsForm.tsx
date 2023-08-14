@@ -1,15 +1,8 @@
 import React, { useRef, FormEvent, useState } from 'react';
-import uuid from 'react-uuid';
 
-import SelectDropdown from 'components/commons/FormControls/SelectDropdown';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { useParams } from 'app/utils';
 import { CatalogLightItem, LightItemType } from 'typescript/CatalogItem';
-import {
-    getLightOptionsDropValuesFromItem,
-    getDefaultDropValueFromLightEntity,
-} from 'helpers/getLightOptionsDropValues';
-import { buildObjectFromFormControls } from 'helpers/buildObjectFromFormControls';
 import {
     createLight,
     getRoomLights,
@@ -94,9 +87,6 @@ function LightOptionsForm({
         event.preventDefault();
 
         if (formRef.current) {
-            const formEleData = buildObjectFromFormControls(
-                formRef.current.elements
-            );
             const additionalData = {
                 item_ID: editLightItem
                     ? editLightItem?.item_ID
@@ -107,7 +97,7 @@ function LightOptionsForm({
                 clientId: String(userId),
             };
             const lightInfoData: unknown = {
-                ...formEleData,
+                ...catalogLightItem,
                 ...additionalData,
                 quantity: count,
             };
@@ -115,7 +105,6 @@ function LightOptionsForm({
             const dataObject = {
                 propID: '',
                 description: catalogLightItem.itemDescription,
-                lampType: catalogLightItem.lampType,
                 lampColor: catalogLightItem.lampColor,
                 price: catalogLightItem.price,
                 totalLumens: catalogLightItem.lumens,
@@ -132,27 +121,6 @@ function LightOptionsForm({
             }
         }
     };
-    
-    const InputElements = getLightOptionsDropValuesFromItem(
-        catalogLightItem
-    ).map((selectField) => {
-        return (
-            <SelectDropdown
-                key={uuid()}
-                itemKey={selectField.key}
-                label={selectField.label}
-                dropdownValues={selectField.values}
-                defaultValue={
-                    editLightItem !== null
-                        ? getDefaultDropValueFromLightEntity(
-                            editLightItem,
-                            selectField.key
-                        )
-                        : selectField.values[0]
-                }
-            />
-        );
-    });
 
     return (
         <form
@@ -160,7 +128,6 @@ function LightOptionsForm({
             ref={formRef}
             onSubmit={handleSubmit}
         >
-            {InputElements}
             <div className="quantity-input">
                 <button
                     type="button"

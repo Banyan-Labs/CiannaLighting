@@ -41,7 +41,6 @@ export type LightSpecs = {
     socketQuantity: number;
     fixtureOverallHeight: string;
     lampColor: string;
-    lampType: string;
     lumens: string; //* should this be a number?
     estimatedWeight: number;
     price: number;

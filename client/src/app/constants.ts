@@ -15,7 +15,6 @@ export const LIGHT_DISPLAY_SPECIFICATION_KEYS = [
     'socketQuantity',
     'fixtureOverallHeight',
     'lampColor',
-    'lampType',
     'lumens',
     'estimatedWeight',
     'material',

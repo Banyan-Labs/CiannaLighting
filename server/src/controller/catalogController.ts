@@ -23,7 +23,6 @@ const createCatalogItem = async (req: Request, res: Response) => {
     estimatedWeight,
     price,
     material,
-    lampType,
     lampColor,
     lumens,
     environment, //[]
@@ -98,7 +97,6 @@ const createCatalogItem = async (req: Request, res: Response) => {
       estimatedWeight,
       price,
       material,
-      lampType,
       lampColor,
       lumens,
       exteriorFinish,
@@ -149,10 +147,7 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
       if (items) {
         if (designStyle || usePackages) {
           items = items.filter((x) => {
-            logging.info(`x.designStyle : ${x.designStyle} designStyle: ${designStyle}`, "getCatalogItems");
             const hasDesignStyle = designStyle ? x.designStyle == designStyle : true;
-            logging.info(`x.usePackages : ${x.usePackages[0]} usePackages: ${usePackages[0]}`, "getCatalogItems");
-            console.log(x.usePackages[0])
             const hasUsePackages = usePackages?.length ?
               usePackages.length > 1
                 ? usePackages.every((v: string) => x.usePackages.includes(v))

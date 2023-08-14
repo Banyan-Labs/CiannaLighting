@@ -16,7 +16,6 @@ export default interface catalogInterface extends Document {
   estimatedWeight: number;
   price: number;
   material: string;
-  lampType: string;
   lampColor: string;
   lumens: string;
   environment: string[];

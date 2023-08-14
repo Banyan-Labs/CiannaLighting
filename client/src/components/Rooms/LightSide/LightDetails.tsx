@@ -14,6 +14,7 @@ interface catalogPros {
     editLight: any;
     setFilterBar: any;
     filterBar: any;
+    projectView: boolean;
 }
 
 const LightDetails: FC<catalogPros> = ({
@@ -23,13 +24,14 @@ const LightDetails: FC<catalogPros> = ({
     editLight,
     setFilterBar,
     filterBar,
+    projectView
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     return (
         <>
             {!catalogItem ? (
-                <div className="container lightDetail-container m-0 mr-0">
+                <div className="lightDetail-container">
                     <div className="col-12 d-flex row light-top-catalog justify-content-center m-0">
                         <div className="d-flex row justify-content-center align-items-center">
                             <div className="col-12 d-flex justify-content-end align-items-center tooltip bs-tooltip-top">
@@ -39,12 +41,12 @@ const LightDetails: FC<catalogPros> = ({
                                 <SearchBar setSearchTerm={setSearchTerm} />
                             </div>
 
-                            <div className="col-12 d-flex m-0 px-2 align-items-center tooltip bs-tooltip-top">
+                            <div className="col-12 d-flex m-0 px-2 align-items-center justify-content-between tooltip bs-tooltip-top">
                                 <p className="col-md-9 col-lg-8 m-0 p-0">
-                                    Select a light to customize and add to your room.
+                                    Select a light to view details.
                                 </p>
                                 <button
-                                    className="col-md-3 col-lg-4 d-flex justify-content-end align-items-center filter-lights-btn"
+                                    className="d-flex justify-content-end align-items-center filter-lights-btn"
                                     onClick={() => setFilterBar(!filterBar)}
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -68,6 +70,7 @@ const LightDetails: FC<catalogPros> = ({
                         setCatalogItem={setCatalogItem}
                         setEditLight={setEditLight}
                         editLight={editLight}
+                        projectView={projectView}
                     />
                 </div>
             )}

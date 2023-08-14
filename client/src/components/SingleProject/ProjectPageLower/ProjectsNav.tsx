@@ -1,5 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
+import React, { FC, useState } from 'react';
 
 import Rooms from './ProjectSubComponents/Rooms';
 import Activity from './ProjectSubComponents/Activity';
@@ -13,10 +12,6 @@ type ProjectNavProps = {
 
 const ProjectsNav: FC<ProjectNavProps> = ({ processing }) => {
     const [renderedPage, setRenderedPage] = useState('Rooms');
-    const componentRef: any = useRef<any>();
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });
 
     return (
         <>
@@ -63,10 +58,7 @@ const ProjectsNav: FC<ProjectNavProps> = ({ processing }) => {
                     <Activity />
                 ) : renderedPage === 'Proposal' ? (
                     <div className="proposal_container">
-                        <Proposal ref={componentRef} />
-                        <button className="print_btn" onClick={handlePrint}>
-                            Print
-                        </button>
+                        <Proposal />
                     </div>
                 ) : null}
             </div>

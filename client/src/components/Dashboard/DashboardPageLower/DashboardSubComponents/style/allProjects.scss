@@ -167,7 +167,7 @@ transition: 0.3s ease-in-out;
         padding: 2px 6px;
         font-size: 11px;
         font-weight: bold;
-        width: 100px;
+        width: 7rem;
         color: $primary-bg-dark-button-text;
     }
 }
@@ -224,10 +224,6 @@ transition: 0.3s ease-in-out;
         font-size: $med-text;
         opacity: 0.8;
     }
-}
-
-tr {
-    height: 50px;
 }
 
 table {

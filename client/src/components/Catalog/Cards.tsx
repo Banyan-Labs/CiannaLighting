@@ -66,7 +66,7 @@ const Cards: FC<catalogProps> = ({
 
     return (
         <>
-            {renderPage !== '' && setAllCatalog.length > 0 ? (
+            {renderPage !== '' && setAllCatalog?.length > 0 ? (
                 <>
                     <div ref={resultsRef} className="main-catalog-filter-container d-flex m-0">
                         <div className="col-12 d-flex row m-0 p-0">
