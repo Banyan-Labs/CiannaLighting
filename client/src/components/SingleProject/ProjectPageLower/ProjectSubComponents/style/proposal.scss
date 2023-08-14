@@ -23,7 +23,7 @@
 }
 
 .proposal-attachments {
-    width: 90vw;
+    max-width: 90vw;
     margin-left: auto;
     margin-right: auto;
 }
@@ -89,6 +89,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    max-width: 90vw;
 }
 
 .pdf-page {

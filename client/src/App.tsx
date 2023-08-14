@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ROLES } from './app/constants';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import Layout from './components/Layout/Layout';
-import Catalog from './components/Catalog/Catalog';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login/Login';
 import Projects from './components/SingleProject/Projects';
@@ -60,7 +59,7 @@ const App: FC = () => {
                                     path="/projects/:user"
                                     element={<Projects />}
                                 />
-                                <Route path="/catalog" element={<Catalog />} />
+                                <Route path="/catalog" element={<Details projectView={false} />} />
 
                                 <Route
                                     path="/create-project/:user"
@@ -68,7 +67,7 @@ const App: FC = () => {
                                 />
                                 <Route
                                     path="/createLight/:user"
-                                    element={<Details />}
+                                    element={<Details projectView={true} />}
                                 />
                                 <Route
                                     path="/unauthorized"
