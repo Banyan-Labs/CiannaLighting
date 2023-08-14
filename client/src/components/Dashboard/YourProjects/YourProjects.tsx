@@ -2,24 +2,15 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import { FaPlus, FaChevronRight, FaFolderOpen } from 'react-icons/fa';
-import {
-    AiOutlineCloseCircle,
-    AiOutlinePauseCircle,
-    AiOutlineExclamationCircle,
-    AiOutlinePlayCircle,
-    AiOutlineClockCircle,
-} from 'react-icons/ai';
-// import {
-//     IoIosArrowDropleftCircle,
-//     IoIosArrowDroprightCircle,
-// } from 'react-icons/io';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
-
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import { getAttachments, getProject, getUserProjects } from '../../../redux/actions/projectActions';
+import {
+    getAttachments,
+    getProject,
+    getUserProjects,
+} from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import dataHolding from './projectDetails';
-import DashboardNav from '../DashboardPageLower/DashboardNav';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
 import logging from 'config/logging';
 import { getStatusClass } from 'app/utils';
@@ -73,7 +64,8 @@ const YourProjects: FC = () => {
                         configureProjectsCount = configureProjectsCount + 1;
                         break;
                     case 'RFP / Completed':
-                        completedProjectCountCount = completedProjectCountCount + 1;
+                        completedProjectCountCount =
+                            completedProjectCountCount + 1;
                         break;
                     case 'Saved Projects':
                         savedProjectsCount = savedProjectsCount + 1;
@@ -83,7 +75,7 @@ const YourProjects: FC = () => {
                         break;
                     case 'Template / New':
                         templateProjectsCount = templateProjectsCount + 1;
-                        break
+                        break;
                 }
             });
 
@@ -95,129 +87,100 @@ const YourProjects: FC = () => {
         }
     }, [user._id, userProjects?.length]);
 
-    const filteredProjects = userProjects?.filter(
-        (project: any) => project.archived === false
-    ) || [];
-    const singleProject = filteredProjects.map((project: any, index: any) => {
-        const changeProject = async (prodId: string) => {
-            await dispatch(getProject({ _id: prodId }));
-            await dispatch(getAttachments(prodId));
-            
-            dataHolding.getData(project);
-        };
-        const date = new Date(Date.parse(project.createdAt)).toDateString();
+    const filteredProjects =
+        userProjects?.filter((project: any) => project.archived === false) ||
+        [];
+    const singleProject = filteredProjects
+        .map((project: any, index: any) => {
+            const changeProject = async (prodId: string) => {
+                await dispatch(getProject({ _id: prodId }));
+                await dispatch(getAttachments(prodId));
 
-        return (
-            <div
-                className={`single-project ${getStatusClass(project.status)}`}
-                onClick={async () => {
-                    await dispatch(setTheYourProjects(true));
-                    changeProject(project._id);
-                    projectRoute(project._id);
+                dataHolding.getData(project);
+            };
+            const date = new Date(Date.parse(project.createdAt)).toDateString();
 
-                }}
-                key={index}
-            >
-                <span>
-                    Created: <strong>{date}</strong>
-                </span>
-                <div className="d-flex align-items-end justify-content-between">
+            return (
+                <div
+                    className={`single-project ${getStatusClass(
+                        project.status
+                    )}`}
+                    onClick={async () => {
+                        await dispatch(setTheYourProjects(true));
+                        changeProject(project._id);
+                        projectRoute(project._id);
+                    }}
+                    key={index}
+                >
                     <span>
-                        Status: <strong>{project.status}</strong>
+                        Created: <strong>{date}</strong>
                     </span>
+                    <div className="d-flex align-items-end justify-content-between">
+                        <span>
+                            Status: <strong>{project.status}</strong>
+                        </span>
 
-                    <RiArchiveDrawerFill
-                        data-for="ab"
-                        data-tip={`${project?.name} is awarded.`}
-                        className={
-                            project?.archived
-                                ? 'archive-icon archive-show-option'
-                                : 'd-none'
-                        }
-                    />
+                        <RiArchiveDrawerFill
+                            data-for="ab"
+                            data-tip={`${project?.name} is awarded.`}
+                            className={
+                                project?.archived
+                                    ? 'archive-icon archive-show-option'
+                                    : 'd-none'
+                            }
+                        />
 
-                    <ReactTooltip id="ab" />
+                        <ReactTooltip id="ab" />
+                    </div>
+                    <div className="card-divider" />
+                    <h3>{project.name}</h3>
+                    <div className="view-details-block" key={index}>
+                        <span>
+                            View Details{' '}
+                            <FaChevronRight className="view-details-chevron" />
+                        </span>
+                    </div>
                 </div>
-                <div className="card-divider" />
-                <h3>{project.name}</h3>
-                <div className="view-details-block" key={index}>
-                    <span>
-                        View Details{' '}
-                        <FaChevronRight className="view-details-chevron" />
-                    </span>
-                </div>
-            </div>
-        );
-    })
+            );
+        })
         .reverse();
 
     return (
         <>
             <div className="dashboard-container">
                 <div className="dashboard-project-overview">
-                    <h4>Project Overview</h4>
+                    <h4>My Projects</h4>
                     <div className="overview-vertical-divider" />
-                    < FaFolderOpen className="overview-total overview-icon-main" />
-                        <div className="dashboard-project-overview">
-                            Total Projects
-                        </div>
-                        <div className="overview-total-num overview-num-main">
+                    <FaFolderOpen className="overview-icon-main" />
+                    <div className="totalProjects dashboard-project-overview">
+                        Total Projects
+                        <div className="filteredProjectsNumber">
                             {filteredProjects?.length}
                         </div>
-                        <button
-                        className="dashboard-new-project-button"
-                        onClick={() => {
-                            setOpenModal(true);
-                        }}
-                    >
-                        <FaPlus className="submit-icon" />
-                        <span className="dashboard-new-project-sub-text">
-                            New Project
-                        </span>
-                    </button>
-                    {/* Grid for project overview */}
-                    <div className="overview-display">
-                        {/* < FaFolderOpen className="overview-total overview-icon-main" />
-                        <div className="overview-total-title overview-label-main">
-                            Total Projects
-                        </div>
-                        <div className="overview-total-num overview-num-main">
-                            {filteredProjects?.length}
-                        </div> */}
-
-                        <AiOutlineExclamationCircle className="overview-configure overview-icon" />
                         <div className="overview-configure-title overview-label">
                             Configure / Design
                         </div>
                         <div className="overview-configure-num overview-num">
                             {configureProjectCount}
                         </div>
-
-                        <AiOutlinePlayCircle className="overview-completed overview-icon" />
                         <div className="overview-completed-title overview-label">
                             RFP / Completed
                         </div>
                         <div className="overview-completed-num overview-num">
                             {completedProjectCount}
                         </div>
-
-                        <AiOutlinePauseCircle className="overview-saved overview-icon" />
                         <div className="overview-saved-title overview-label">
-                           Saved Projects
+                            Saved Projects
                         </div>
                         <div className="overview-saved-num overview-num">
                             {savedProjectCount}
                         </div>
-
-                        <AiOutlineCloseCircle className="overview-hold overview-icon" />
                         <div className="overview-hold-title overview-label">
                             On Hold
                         </div>
                         <div className="overview-hold-num overview-num">
                             {holdProjectCount}
                         </div>
-
-                        <AiOutlineClockCircle className="overview-template overview-icon" />
                         <div className="overview-template-title overview-label">
                             Template / New
                         </div>
@@ -225,54 +188,31 @@ const YourProjects: FC = () => {
                             {templateProjectCount}
                         </div>
                     </div>
-             
-                {/* end div  */}
-
-                {/* <div className="dashboard-your-projects"> */}
-                    {/* <h4>Your Projects</h4>
-                    <div className="dashboard-vertical-divider" /> */}
-                    {/* <button
-                        className="dashboard-new-project-button"
-                        onClick={() => {
-                            setOpenModal(true);
-                        }}
-                    >
-                        <FaPlus className="submit-icon" />
-                        <span className="dashboard-new-project-sub-text">
-                            New Project
-                        </span>
-                    </button> */}
-                    {/* <div className="your-projects-icons">
-                        <IoIosArrowDropleftCircle
-                            id="your-project-icons-left"
-                            className="your-projects-buttons"
+                    <>
+                        <button
+                            className="dashboard-new-project-button"
                             onClick={() => {
-                                scroll(-200);
+                                setOpenModal(true);
                             }}
-                        />
-
-                        <IoIosArrowDroprightCircle
-                            className="your-projects-buttons"
-                            onClick={() => {
-                                scroll(200);
-                            }}
-                        />
-                    </div> */}
+                        >
+                            <FaPlus className="submit-icon" />
+                            <span className="dashboard-new-project-sub-text">
+                                New Project
+                            </span>
+                        </button>
+                    </>
 
                     <div className="your-projects-section" ref={ref}>
                         {singleProject}
-                        {singleProject?.length == 0 ? (
+                        {singleProject?.length === 0 && (
                             <div className="your-projects-none">
-                                <span>You have no projects.</span>
+                                <span>No active projects at this time.</span>
                             </div>
-                        ) : (
-                            <></>
                         )}
                     </div>
-                {/* </div> */}
                 </div>
             </div>
-            <DashboardNav />
+
             {openModal && (
                 <Modal
                     openModal={openModal}

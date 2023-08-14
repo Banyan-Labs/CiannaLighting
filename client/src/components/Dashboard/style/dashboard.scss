@@ -1,63 +1,75 @@
 @import '../../../variables/variables.scss';
 
+div.dashboard-container {
+    background-color: $primary-bg-dark;
+    height: 131vh;
+    margin-top: -31vh;
+}
+
 .dashboard-container {
     display: flex;
-    // height: 100%;
-    width: 100%;
-    padding-bottom: 45px;
-    padding-top: 100px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: auto;
     background-color: $primary-bg-dark;
-    box-shadow: $box-shadow;
+    margin-top: -30vh;
+    padding-left: 1%;
     h4 {
         color: $primary-bg-dark-title;
         font-size: $primary-title-fs;
+        margin-right: 20px;
     }
     a:hover {
-        font-weight: bold;
         cursor: pointer;
     }
 }
 
-.dashboard-new-project-button {
-    background-color: $primary-bg-dark-button;
-    padding: 1.5%;
-    width: 15%;
-    text-align: center;
-    letter-spacing: .25vh;
-    font-size: 3rem;
+.overview-vertical-divider {
+    display: flex;
+    align-self: center;
+    height: 35px;
+    width: 1px;
+    background-color: $accent-gold;
+    margin: 0 20px;
 }
 
-.dashboard-new-project-button:hover {
-    // background-color: hsla(0, 0%, 100%, 0.13);
+button.dashboard-new-project-button {
+    background-color: $primary-bg-dark-button;
+    color: $primary-bg-light-button-text;
+    border-radius: 5px;
+}
+
+button.dashboard-new-project-button:hover {
     background-color: $primary-bg-light-button-hover;
-    color: $primary-bg-light-button-text; 
-    // border-radius: 50px;
+    border-color: $primary-bg-light-button-hover;
+    transition: all 0.2s ease-in-out;
+    color: $primary-bg-light-button-text;
 }
 
 .dashboard-new-project-sub-text {
     color: $primary-bg-light-button-text;
-    font-size: 12px;
     position: relative;
-    top: -1px;
+    top: 0.1.1vh;
 }
 
 .submit-icon {
     color: $primary-bg-light-button-text;
+    position: relative;
+    margin-bottom: -0.17vh;
 }
 
-// project overview
-.dashboard-project-overview {
+div.dashboard-project-overview {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     flex-direction: row;
+    justify-content: space-around;
     flex-wrap: wrap;
-    width: 100%;
-    h4 {
-        padding: 5px 25px;
-    }
+    width: auto;
+    gap: 46px;
 }
 
-// project overview grid - not responsive yet (will change grid layout in media query for ipad and mobile)
 .overview-display {
     margin: 0 25px;
     position: relative;
@@ -75,135 +87,96 @@
 }
 
 .overview-icon-main {
+    display: flex;
     width: 40px;
     height: auto;
+    margin-right: -12vh;
     color: $primary-bg-light-grey;
 }
 
-.overview-label-main {
-    color: $primary-bg-light-grey;
-    position: relative;
-    top: 5px;
-    font-size: $sub-text-fs;
-}
-
-.overview-num-main {
-    font-family: $font-family;
-    font-size: 20px;
-}
-
-.overview-icon {
-    width: 30px;
-    height: auto;
-    color: $primary-bg-light-grey;
-}
-
-.overview-label {
-    color: $primary-bg-light-grey;
-    font-size: 12px;
+.filteredProjectsNumber {
+    margin-right: 0.5vh;
+    margin-left: -1.5vw;
+    font-weight: bold;
 }
 
 .overview-num {
+    display: flex;
     font-weight: bolder;
+    margin-left: -1.5vw;
 }
 
-// overview grid-area sections
 .overview-total {
+    display: flex;
     grid-area: total_icon;
 }
 
 .overview-total-title {
+    display: flex;
     grid-area: total_title;
 }
 
-.overview-total-num {
-    grid-area: total_num;
-}
-
-.overview-configure {
-    grid-area: configure_icon;
-}
-
 .overview-configure-title {
+    display: flex;
     grid-area: configure_title;
+    color: $primary-bg-dark-button-text;
 }
 
 .overview-configure-num {
+    display: flex;
     grid-area: configure_num;
 }
 
-.overview-completed {
-    grid-area: completed_icon;
-}
-
 .overview-completed-title {
+    display: flex;
     grid-area: completed_title;
+    color: $primary-bg-dark-button-text;
 }
 
 .overview-completed-num {
+    display: flex;
     grid-area: completed_num;
 }
 
-.overview-saved {
-    grid-area: saved_icon;
-}
-
 .overview-saved-title {
+    display: flex;
     grid-area: saved_title;
+    color: $primary-bg-dark-button-text;
 }
 
 .overview-saved-num {
+    display: flex;
     grid-area: saved_num;
 }
 
-.overview-hold {
-    grid-area: hold_icon;
-}
-
 .overview-hold-title {
+    display: flex;
     grid-area: hold_title;
+    color: $primary-bg-dark-button-text;
 }
 
 .overview-hold-num {
+    display: flex;
     grid-area: hold_num;
 }
 
-.overview-template {
-    grid-area: template_icon;
-}
-
 .overview-template-title {
+    display: flex;
     grid-area: template_title;
+    color: $primary-bg-dark-button-text;
 }
 
 .overview-template-num {
+    display: flex;
     grid-area: template_num;
+    margin-right: -0.75%;
 }
 
-// your projects
 .dashboard-your-projects {
-    display: flex;
+    display: block;
     flex-direction: row;
     flex-wrap: wrap;
-    // align-items: baseline;
-    // width: 60%;
-    // margin: 0 20px 0 0;
-    overflow-x: scroll;
-    // h4 {
-    //     padding: 5px 25px 0 0;
-    // }
-    button {
-        background-color: $primary-bg-dark-button #3f3c39;
-        color: $primary-bg-dark-link;
-        font-size: 16px;
-        border: none;
-        margin-left: 20px;
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-
+    align-items: baseline;
     .your-projects-icons {
         margin-left: auto;
         color: $primary-bg-dark-link-hover;
@@ -227,6 +200,7 @@
     @include vertical-line;
     position: relative;
     top: 10px;
+    margin-left: 0.1%;
 }
 
 .dashboard-vertical-divider {
@@ -235,33 +209,43 @@
     top: 10px;
 }
 
+div.your-projects-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    height: 25vh;
+    gap: 4%;
+}
+
 .your-projects-section {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    overflow-x: scroll;
-    height: 210px;
-    width: 100%;
+    justify-content: center;
+    margin-left: 5.25%;
+    margin-top: 1.5vh;
     .your-projects-none {
         flex-grow: 1;
         text-align: center;
         span {
             color: #777777;
-            font-size: 12px;
+            font-size: 13px;
         }
     }
 }
 
-// single project
 .single-project {
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
     height: 100%;
     min-width: 250px;
     max-width: 250px;
-    margin-right: 30px;
-    border-radius: 3px;
+    border-radius: 5px;
+    margin-bottom: 5vh;
+    padding-bottom: 2vh;
     span {
         padding: 10px 15px 0 15px;
         font-size: 12px;
@@ -270,7 +254,7 @@
     .card-divider {
         align-self: center;
         height: 0.5px;
-        width: 80%;
+        width: auto;
         margin-top: 15px;
         background-color: #000000;
     }
