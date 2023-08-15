@@ -207,17 +207,13 @@ div.dashboard-project-overview {
     top: 10px;
 }
 
-div.your-projects-section {
+.your-projects-section {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
     height: 25vh;
     gap: 4%;
-}
-
-.your-projects-section {
-    display: flex;
     flex-direction: row;
     justify-content: center;
     margin-left: 5.25%;
