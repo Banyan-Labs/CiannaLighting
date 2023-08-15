@@ -108,27 +108,30 @@ const YourProjects: FC = () => {
                     }}
                     key={index}
                 >
-                    <span>
-                        Created: <strong>{date}</strong>
-                    </span>
-                    <div className="d-flex align-items-end justify-content-between">
+                    <div className="d-flex flex-column">
+                        <span>
+                            Created: <strong>{date}</strong>
+                        </span>
                         <span>
                             Status: <strong>{project.status}</strong>
                         </span>
-
-                        <RiArchiveDrawerFill
-                            data-for="ab"
-                            data-tip={`${project?.name} is awarded.`}
-                            className={
-                                project?.archived
-                                    ? 'archive-icon archive-show-option'
-                                    : 'd-none'
-                            }
-                        />
-
-                        <ReactTooltip id="ab" />
                     </div>
-                    <div className="card-divider" />
+                    <div className="d-flex align-items-end justify-content-between">
+
+                        {
+                            project.archived && (
+                                <>
+                                    <RiArchiveDrawerFill
+                                        data-for="ab"
+                                        data-tip={`${project?.name} is awarded.`}
+                                        className="archive-icon archive-show-option"
+                                    />
+
+                                    <ReactTooltip id="ab" />
+                                </>
+                            )
+                        }
+                    </div>
                     <h3>{project.name}</h3>
                     <div className="view-details-block" key={index}>
                         <span>
