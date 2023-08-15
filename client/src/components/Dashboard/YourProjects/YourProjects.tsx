@@ -41,11 +41,7 @@ const YourProjects: FC = () => {
     const [holdProjectCount, setHoldProjectCount] = useState(0);
     const [templateProjectCount, setTemplateProjectCount] = useState(0);
 
-    // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
-    const scroll = (scrollAmount: number) => {
-        ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
-    };
 
     useEffect(() => {
         logging.info(user, 'YourProjects');
