@@ -1,10 +1,5 @@
 @import '../../../variables/variables.scss';
 
-div.dashboard-container {
-    background-color: $primary-bg-dark;
-    height: 131vh;
-    margin-top: -31vh;
-}
 
 .dashboard-container {
     display: flex;
@@ -12,6 +7,9 @@ div.dashboard-container {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    background-color: $primary-bg-dark;
+    height: 131vh;
+    margin-top: -31vh;
     max-width: auto;
     background-color: $primary-bg-dark;
     margin-top: -30vh;
@@ -36,7 +34,7 @@ div.dashboard-container {
 }
 
 button.dashboard-new-project-button {
-    background-color: $primary-bg-dark-button;
+    background-color: $primary-bg;
     color: $primary-bg-light-button-text;
     border-radius: 5px;
 }
@@ -119,7 +117,7 @@ div.dashboard-project-overview {
 .overview-configure-title {
     display: flex;
     grid-area: configure_title;
-    color: $primary-bg-dark-button-text;
+    color: $primary-bg;
 }
 
 .overview-configure-num {
@@ -130,7 +128,7 @@ div.dashboard-project-overview {
 .overview-completed-title {
     display: flex;
     grid-area: completed_title;
-    color: $primary-bg-dark-button-text;
+    color: $primary-bg;
 }
 
 .overview-completed-num {
@@ -141,7 +139,7 @@ div.dashboard-project-overview {
 .overview-saved-title {
     display: flex;
     grid-area: saved_title;
-    color: $primary-bg-dark-button-text;
+    color: $primary-bg;
 }
 
 .overview-saved-num {
@@ -152,7 +150,7 @@ div.dashboard-project-overview {
 .overview-hold-title {
     display: flex;
     grid-area: hold_title;
-    color: $primary-bg-dark-button-text;
+    color: $primary-bg;
 }
 
 .overview-hold-num {
@@ -163,7 +161,7 @@ div.dashboard-project-overview {
 .overview-template-title {
     display: flex;
     grid-area: template_title;
-    color: $primary-bg-dark-button-text;
+    color: $primary-bg;
 }
 
 .overview-template-num {
