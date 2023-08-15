@@ -93,11 +93,8 @@
 }
 
 .pdf-page {
-    // max-width: 20px;
-    // height: 100px;
     margin: 10px 10px 0px 0px;
-    // box-shadow: 10px green;
-    // border: 1px solid red;
+    max-width: 80vw;
 }
 
 @media print {
