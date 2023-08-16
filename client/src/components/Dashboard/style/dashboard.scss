@@ -258,6 +258,7 @@ div.dashboard-project-overview {
         margin-right: auto;
         margin-top: auto;
         margin-bottom: auto;
+        padding-bottom: 50px;
     }
     .view-details-block {
         position: absolute;
@@ -294,7 +295,6 @@ div.dashboard-project-overview {
 
 .your-projects-section > .single-project {
     justify-content: space-between;
-    height: 25vh;
 }
 
 .single-project:hover {
