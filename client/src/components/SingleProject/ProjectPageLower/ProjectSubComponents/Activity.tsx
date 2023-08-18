@@ -66,9 +66,6 @@ const Activity: FC = () => {
 
     return (
         <div className="activity-container">
-            <div className="activity-head">
-                {project?.activity?.createUpdate}
-            </div>
             <label className="activity-label">Room Actions</label>
             <table className="activity-table">
                 {

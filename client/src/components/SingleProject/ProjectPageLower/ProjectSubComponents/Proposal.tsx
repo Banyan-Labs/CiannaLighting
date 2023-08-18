@@ -57,12 +57,12 @@ const Proposal: FC = React.forwardRef<any>(() => {
                 <td>
                     {prop.rooms.map((room: any, index: number) => {
                         return (
-                            <span
-                                className="list py-1"
+                            <p
+                                className="no-wrap"
                                 key={index + room}
                             >
                                 {room}
-                            </span>
+                            </p>
                         );
                     })}
                 </td>

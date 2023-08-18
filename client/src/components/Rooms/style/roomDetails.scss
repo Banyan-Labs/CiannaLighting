@@ -81,16 +81,6 @@ body {
     justify-content: space-evenly;
 }
 
-.trash-icon {
-    margin-left: 15px;
-    font-weight: 800;
-    font-size: 1.2em;
-}
-
-.trash-icon:hover {
-    cursor: pointer;
-}
-
 .room-description-light-divider {
     border-bottom: 1px solid #ada9a9ab;
     margin-right: 20px;
@@ -124,10 +114,6 @@ body {
 }
 
 .project-name {
-    margin-right: 2rem;
-    font-weight: bold;
-    position: relative;
-
     .room-details-circle-icon {
         margin-left: 0.5rem;
         font-size: 18px;
@@ -176,20 +162,30 @@ body {
     }
 }
 
+.icon-container {
+    font-size: 0.7em;
+    .edit-icon, .archive-icon, .clone-icon {
+        color: $primary-bg;
+    }
+}
+
+.collapse-content {
+    background-color: #e3ddc6;
+    font-size: 0.6em;
+    text-wrap: nowrap;
+}
+
 .container-for-light-cards-off {
     min-height: 510px;
     max-height: 510px;
 }
-
+.room-detail-section {
+    border-bottom: solid 1px $primary-bg-light-grey;
+    padding-bottom: 1.5vh;
+}
 .container-for-light-cards {
     .single-room-container {
         background-color: $primary-bg-dark;
-        position: relative;
-        padding-top: 20px;
-        margin-right: 20px;
-        margin-left: 20px;
-        padding-bottom: 20px;
-        border-bottom: solid 1px $primary-bg-light-grey;
 
         // **** the top part of the light card *****
         .first-light-section {
@@ -210,15 +206,10 @@ body {
             }
 
             .qty {
-                position: absolute;
                 font-weight: 600;
-                right: 0px;
-                top: 0px;
-                padding-right: 10px;
                 font-size: 13px;
 
                 span {
-                    padding-left: 10px;
                     color: $primary-bg-white-sub-text;
                 }
             }
@@ -226,41 +217,9 @@ body {
 
         .lightImg {
             box-shadow: $box-shadow;
-            height: 120px;
             border-radius: 0.2rem;
-        }
-    }
-
-    .edit-link {
-        text-decoration: underline;
-        padding-right: 15px;
-        font-size: 16px !important;
-        color: $accent-gold;
-        font-weight: 500;
-        cursor: pointer;
-        border: none;
-        background: none;
-        transition: all 0.2s ease-in-out;
-
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            color: $primary-bg-dark-title;
-        }
-    }
-
-    .remove-link {
-        text-decoration: underline;
-        font-weight: 500;
-        cursor: pointer;
-        font-size: 16px !important;
-        color: $primary-bg-white-sub-text;
-        border: none;
-        background: none;
-        transition: all 0.2s ease-in-out;
-
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            color: $primary-bg-dark-title;
+            height: auto;
+            width: 100%;
         }
     }
 }

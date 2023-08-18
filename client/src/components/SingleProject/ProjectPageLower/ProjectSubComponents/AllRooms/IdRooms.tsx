@@ -98,7 +98,7 @@ const IdRooms: FC = () => {
                         <FaRegClone
                             data-for="new-room"
                             data-tip="Copy Room"
-                            className="clone-icon"
+                            className="clone-icon ms-3"
                             onClick={(e) => copyRoom(e, room)} />
                     )}
                     <span
