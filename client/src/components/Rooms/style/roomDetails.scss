@@ -14,7 +14,8 @@ body {
 
     &__panel-wrapper {
         padding: 0 24px 12px;
-
+        height: 100vh;
+        
         &.left {
             width: 30%;
             border-right: 1px solid #ada9a9ab;
