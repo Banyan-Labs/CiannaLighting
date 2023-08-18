@@ -6,7 +6,6 @@ import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
-import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
 import AllProjectView from './AllProjectView';
 
@@ -59,18 +58,13 @@ const Projects: FC = () => {
     return (
         <>
             {yourProjects === true ? (
-                <>
-                    <div className="projects-top-half">
-                        <ProjectSummary
-                            details={project}
-                            processing={processing}
-                            setProcessing={setProcessing}
-                        />
-                    </div>
-                    <div>
-                        <ProjectsNav processing={processing} />
-                    </div>
-                </>
+                <div className="projects-top-half">
+                    <ProjectSummary
+                        details={project}
+                        processing={processing}
+                        setProcessing={setProcessing}
+                    />
+                </div>
             ) : (
                 <div className="projects-bottom-half">
                     <div className="all-project-view-main-container">
