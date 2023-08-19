@@ -23,6 +23,7 @@ const Projects: FC = () => {
         ({ project }) => project
     );
 
+    const route = window.location.pathname;
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects?.slice(userProjects?.length - 1);
     const defaultProjId = latestProject?.map((p) => p._id)[0];
@@ -48,7 +49,7 @@ const Projects: FC = () => {
     }, [projectId]);
 
     useEffect(() => {
-        if (yourProjects === false) {
+        if (yourProjects === false || route.includes('projects')) {
             dispatch(setDefaults());
         } else {
             null
@@ -57,7 +58,7 @@ const Projects: FC = () => {
 
     return (
         <>
-            {yourProjects === true ? (
+            {yourProjects === true || !route.includes('projects') ? (
                 <div className="projects-top-half">
                     <ProjectSummary
                         details={project}

@@ -28,6 +28,7 @@ const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
+    console.log('pathname', activeLocation);
     const latestProject = userProjects?.length ? userProjects.slice(userProjects.length - 1) : [];
     const defaultProjId = String(latestProject.map((p) => p._id));
     const Id = storedProjId ? storedProjId : defaultProjId;
@@ -51,9 +52,7 @@ const Links: FC<{ links: Link[] }> = () => {
                                     search: `?_id=${user._id}&projectId=${Id}`,
                                 }}
                                 className={
-                                    link.label === 'Admin' 
-                                    ? link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
-                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links me-5' : 'navbar-links me-5'
+                                    link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
                                 }
                             >
                                 {link.label}

@@ -59,7 +59,14 @@ const App: FC = () => {
                                     path="/projects/:user"
                                     element={<Projects />}
                                 />
-                                <Route path="/catalog" element={<Details projectView={false} />} />
+                                <Route
+                                    path="/project/:user"
+                                    element={<Projects />}
+                                />
+                                <Route
+                                    path="/catalog"
+                                    element={<Details projectView={false} />}
+                                />
 
                                 <Route
                                     path="/create-project/:user"
