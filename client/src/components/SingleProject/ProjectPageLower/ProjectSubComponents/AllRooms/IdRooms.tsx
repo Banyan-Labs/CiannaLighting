@@ -79,7 +79,7 @@ const IdRooms: FC = () => {
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
-                className="single-project m-4"
+                className="single-project m-3"
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
