@@ -14,3 +14,4 @@ export type CreateUserType = {
     role: string;
     password: string;
 };
+

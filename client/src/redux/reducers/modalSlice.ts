@@ -1,24 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface AlertOpenStateType {
-    alertOpen: boolean;
-    error: any;
+interface AlertOpenPayload {
+  isOpen: boolean;
 }
 
-const initialState: AlertOpenStateType = {
-    alertOpen: false,
-    error: null,
+interface AlertMessagePayload {
+  alertMessage: string;
+}
+
+const initialState: AlertOpenPayload & AlertMessagePayload = {
+  isOpen: false,
+  alertMessage: '',
 };
 
 export const modalSlice = createSlice({
-    name: 'modal',
-    initialState,
-    reducers: {
-        setAlertOpen: (state, action: PayloadAction<boolean>) => {
-            state.alertOpen = action.payload;
-        },
+  name: 'modal',
+  initialState,
+  reducers: {
+    setAlertOpen: (state, action: PayloadAction<AlertOpenPayload>) => {
+      state.isOpen = action.payload.isOpen;
     },
+    setAlertMessage: (state, action: PayloadAction<AlertMessagePayload>) => {
+      state.alertMessage = action.payload.alertMessage;
+    },
+  },
 });
 
-export const { setAlertOpen } = modalSlice.actions;
+export const { setAlertOpen, setAlertMessage } = modalSlice.actions;
 export default modalSlice.reducer;

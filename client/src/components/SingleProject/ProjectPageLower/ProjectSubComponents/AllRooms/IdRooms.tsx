@@ -9,8 +9,12 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
-import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
+import {
+    getAllProjectRoomsAction,
+    setTheYourProjects,
+} from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './rooms.scss';
 
@@ -58,8 +62,14 @@ const IdRooms: FC = () => {
 
         try {
             const response = await axiosPriv.post('/create-project', payload);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`
+                })
+            );
 
-            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            // alert(`Copy of ${room?.name} created in ${project?.name}.`);
 
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
@@ -99,11 +109,10 @@ const IdRooms: FC = () => {
                             data-for="new-room"
                             data-tip="Copy Room"
                             className="clone-icon"
-                            onClick={(e) => copyRoom(e, room)} />
+                            onClick={(e) => copyRoom(e, room)}
+                        />
                     )}
-                    <span
-                        style={{ color: 'black' }}
-                    >
+                    <span style={{ color: 'black' }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
                     </span>

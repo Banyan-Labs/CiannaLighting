@@ -1,5 +1,11 @@
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
-import { FaRegEdit, FaRegClone, FaCircle, FaArchive, FaFileAlt } from 'react-icons/fa';
+import {
+    FaRegEdit,
+    FaRegClone,
+    FaCircle,
+    FaArchive,
+    FaFileAlt,
+} from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import ReactTooltip from 'react-tooltip';
@@ -22,6 +28,7 @@ import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
 import { getStatusClass } from 'app/utils';
 import ProjectAttachments from './ProjectAttachments';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 interface ProjectSummaryProps {
     details: any;
@@ -91,18 +98,23 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                 clientId: user._id,
                 clientName: user.name,
             },
-            copy: CopyType.PROJECT
+            copy: CopyType.PROJECT,
         };
 
         try {
-            const response = await dispatch(
-                createProjectAction(payload)
-            );
+            const response = await dispatch(createProjectAction(payload));
 
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`
+                })
+            );
+
+            // alert(`Copy of ${proj.name} created in your dashboard.`);
 
             return response;
         } catch (error: any) {
@@ -123,11 +135,25 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             );
             await dispatch(getAttachments(details._id));
 
-            details?.archived === true
-                ? alert('This project was restored')
-                : alert('This project was marked as awarded');
+            const alertMessage =
+                details?.archived === true
+                    ? 'This project was restored.'
+                    : 'This project was marked as awarded.';
+
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(setAlertMessage({ alertMessage }));
+
+            // ? alert('This project was restored')
+            // : alert('This project was marked as awarded');
         } catch (error: any) {
-            alert('Can not mark project as awarded.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Cannot mark project as awarded.'
+                })
+            );
+
+            // alert('Can not mark project as awarded.');
             throw new Error(error.message);
         }
     };
@@ -152,7 +178,8 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         className="back-to-all-projects"
                         onClick={() => dispatch(setTheYourProjects(false))}
                     >
-                        <BsChevronLeft className="chevron-icon" /> Back to Projects
+                        <BsChevronLeft className="chevron-icon" /> Back to
+                        Projects
                     </a>
                 </div>
                 <div className="project-summary-status">
@@ -166,36 +193,33 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                             <div className="project-title-with-status-icon">
                                 {details?.name}
                                 <FaCircle
-                                    className={`circle-icon ${getStatusClass(details?.status || '')} background-unset`}
+                                    className={`circle-icon ${getStatusClass(
+                                        details?.status || ''
+                                    )} background-unset`}
                                 />
                             </div>
-                            {
-                                details?.archived && (
-                                    <RiArchiveDrawerFill
-                                        data-for="ab"
-                                        data-tip="Awarded"
-                                        className="archive-show-option"
-                                    />
-                                )
-                            }
-
+                            {details?.archived && (
+                                <RiArchiveDrawerFill
+                                    data-for="ab"
+                                    data-tip="Awarded"
+                                    className="archive-show-option"
+                                />
+                            )}
                         </h3>
                         <p className="project-summary-date">Created: {date}</p>
                     </div>
                     <div className="icon-container d-flex align-items-center justify-content-center">
-                        {
-                            !details?.archived && (
-                                <FaRegEdit
-                                    onClick={() => {
-                                        setOpenModal(true);
-                                        setEditProject(true);
-                                    }}
-                                    className="edit-icon"
-                                    data-for="edit"
-                                    data-tip="Edit Project"
-                                />
-                            )
-                        }
+                        {!details?.archived && (
+                            <FaRegEdit
+                                onClick={() => {
+                                    setOpenModal(true);
+                                    setEditProject(true);
+                                }}
+                                className="edit-icon"
+                                data-for="edit"
+                                data-tip="Edit Project"
+                            />
+                        )}
                         <FaRegClone
                             data-for="copy"
                             data-tip="Copy Project"
