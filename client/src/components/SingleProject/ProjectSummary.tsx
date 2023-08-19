@@ -1,8 +1,9 @@
-import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
+import React, { FC, useState, useEffect, SyntheticEvent, useCallback } from 'react';
 import { FaRegEdit, FaRegClone, FaArchive, FaFileAlt } from 'react-icons/fa';
 import { RiAddLine } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
 import ReactTooltip from 'react-tooltip';
+import { useNavigate } from 'react-router-dom';
 
 import {
     createProjectAction,
@@ -37,6 +38,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     setProcessing,
     processing
 }) => {
+    const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
     const [showAttachmentModal, setShowAttachmentModal] = useState(false);
     const [editProject, setEditProject] = useState(false);
@@ -137,6 +139,14 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             throw new Error(error.message);
         }
     };
+    const projectsRoute = useCallback(
+        (projId: string) => {
+            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+
+            navigate(to);
+        },
+        [user.name, navigate]
+    );
 
     const handleAddRoom = (e: any) => {
         e.preventDefault();
@@ -144,7 +154,6 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     };
 
     const showAttachments = async () => {
-        await dispatch(getAttachments(details._id));
         setShowAttachmentModal(true);
     };
 
@@ -153,13 +162,20 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
         dispatch(setRoomIdToDefault());
     }, []);
 
+    useEffect(() => {
+        dispatch(getAttachments(details?._id));
+    }, [details]);
+
     return (
         <div className="project-summary-container col-12">
             <div className="d-flex justify-content-between align-items-center mt-2 back-button-container mx-4">
                 <div className="back-to-project">
                     <a
                         className="back-to-all-projects"
-                        onClick={() => dispatch(setTheYourProjects(false))}
+                        onClick={() => {
+                            dispatch(setTheYourProjects(false))
+                            projectsRoute(details._id);
+                        }}
                     >
                         <BsChevronLeft className="chevron-icon" /> Back to Projects
                     </a>

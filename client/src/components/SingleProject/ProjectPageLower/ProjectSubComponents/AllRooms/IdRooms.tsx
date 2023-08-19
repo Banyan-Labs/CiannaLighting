@@ -31,7 +31,7 @@ const IdRooms: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
@@ -79,7 +79,7 @@ const IdRooms: FC = () => {
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
-                className="single-project mx-1"
+                className="single-project m-3"
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
@@ -115,7 +115,7 @@ const IdRooms: FC = () => {
     return (
         <>
             <div className="your-rooms">
-                <div className="your-rooms-section" ref={ref}>
+                <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
                     {singleRoom}
                     {singleRoom.length == 0 ? (
                         <div className="your-projects-none">

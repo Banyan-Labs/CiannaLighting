@@ -13,17 +13,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    overflow-x: scroll;
 }
 
 .your-rooms-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: scroll;
-    height: 210px;
-    padding: 2rem;
-    width: 100%;
     .your-projects-none {
         flex-grow: 1;
         text-align: center;

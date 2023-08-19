@@ -29,7 +29,7 @@ const YourProjects: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
             navigate(to);
         },
         [user.name, navigate]
