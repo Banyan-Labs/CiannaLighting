@@ -15,19 +15,23 @@ import logging from 'config/logging';
 type SignInType = {
     email: string;
     password: string;
+    ip?: string;
 };
 
 export const signInAction =
     (payload: SignInType) =>
         async (dispatch: Dispatch): Promise<void> => {
             try {
-                getAllProjects();
+                const ipLookup = await axiosSrc.get('https://api.ipify.org?format=json');
+                payload.ip = ipLookup.data.ip;
 
                 const response = await axios.post('public/login/user', payload, {
                     withCredentials: true,
                 });
-
+                
                 dispatch(setUser(response.data));
+
+                getAllProjects();
             } catch (error: any | AxiosError) {
                 logging.error(error.message, "signInAction");
                 if (axiosSrc.isAxiosError(error)) {
