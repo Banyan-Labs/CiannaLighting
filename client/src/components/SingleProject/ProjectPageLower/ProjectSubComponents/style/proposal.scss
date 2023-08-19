@@ -100,6 +100,12 @@
     max-width: 80vw;
 }
 
+.react-pdf__Page__canvas {
+    margin: 0 auto;
+    width: 90% !important;
+    height: 100% !important;
+}
+
 @media print {
     @page {
         size: landscape;
