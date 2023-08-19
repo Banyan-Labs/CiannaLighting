@@ -33,14 +33,14 @@ const SingleRoom: FC<SingleRoomProps> = ({ light, project, image, editLightFunc,
                             <div className="d-flex icon-container">
                                 <FaRegEdit
                                     data-for="edit"
-                                    data-tip="Edit Room"
+                                    data-tip="Edit Light"
                                     className="m-2 edit-icon"
                                     onClick={() => editLightFunc(light)}
                                 />
                                 <FaRegTrashAlt
                                     onClick={() => deleteLightFunc(light)}
                                     data-for="delete"
-                                    data-tip="Delete Room"
+                                    data-tip="Delete Light"
                                     className="m-2 archive-icon"
                                 />
                                 <ReactTooltip id="edit" />
@@ -159,7 +159,7 @@ const SingleRoom: FC<SingleRoomProps> = ({ light, project, image, editLightFunc,
                         </div>
                         <div className="d-flex col-5 py-1 justify-content-between flex-wrap">
                             <div >
-                                Options:
+                                Crystal Pin Color:
                             </div>
                             <div className="grey">
                                 <span>{light.crystalPinColor}</span>
