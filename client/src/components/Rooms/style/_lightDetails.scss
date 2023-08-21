@@ -1,6 +1,5 @@
 .lightDetail-container {
     padding-top: 20px;
-    height: 90vh;
 }
 
 // ******** top of the container **********
@@ -26,10 +25,6 @@
         box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
         border-top-left-radius: 0.2rem;
         border-top-right-radius: 0.2rem;
-    }
-
-    .item {
-        height: 40vh;
     }
 }
 
@@ -147,7 +142,7 @@
 }
 
 .form-input-search {
-    margin-bottom: 15px;
+    width: 12vw;
 }
 
 // Filter ***************************

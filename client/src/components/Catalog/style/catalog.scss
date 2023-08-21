@@ -113,7 +113,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     color: white;
     background: $accent-gold;
     padding: 15px 0px;
@@ -147,6 +146,7 @@
 .panel__catalog {
     display: none;
     overflow-y: scroll;
+    width: 50vw;
 }
 
 .panel__catalog.active2 {

@@ -35,7 +35,7 @@ const IdRooms: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
@@ -89,7 +89,7 @@ const IdRooms: FC = () => {
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
-                className="single-project"
+                className="single-project m-3"
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
@@ -108,9 +108,8 @@ const IdRooms: FC = () => {
                         <FaRegClone
                             data-for="new-room"
                             data-tip="Copy Room"
-                            className="clone-icon"
-                            onClick={(e) => copyRoom(e, room)}
-                        />
+                            className="clone-icon ms-3"
+                            onClick={(e) => copyRoom(e, room)} />
                     )}
                     <span style={{ color: 'black' }}>
                         View Details{' '}
@@ -124,7 +123,7 @@ const IdRooms: FC = () => {
     return (
         <>
             <div className="your-rooms">
-                <div className="your-rooms-section" ref={ref}>
+                <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
                     {singleRoom}
                     {singleRoom.length == 0 ? (
                         <div className="your-projects-none">

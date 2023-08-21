@@ -7,7 +7,7 @@ import { createLogAtSignIn } from "./activityController";
 import logging from "../../config/logging";
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, ip } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ message: "Username and password are required" });
@@ -31,7 +31,7 @@ const login = async (req: Request, res: Response) => {
         if (authUser) {
           const { _id, name, email, role } = authUser;
 
-          await createLogAtSignIn(req.ip, _id, role, name);
+          await createLogAtSignIn(ip, _id, role, name);
 
           res.cookie("jwt", JWT.refreshToken, {
             httpOnly: true,

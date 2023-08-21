@@ -51,9 +51,7 @@ const Links: FC<{ links: Link[] }> = () => {
                                     search: `?_id=${user._id}&projectId=${Id}`,
                                 }}
                                 className={
-                                    link.label === 'Admin' 
-                                    ? link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
-                                    : activeLocation === link.label.toLowerCase() ? 'active navbar-links me-5' : 'navbar-links me-5'
+                                    link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
                                 }
                             >
                                 {link.label}
