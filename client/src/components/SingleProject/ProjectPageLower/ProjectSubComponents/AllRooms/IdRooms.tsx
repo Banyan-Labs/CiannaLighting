@@ -11,6 +11,7 @@ import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
 import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './rooms.scss';
 
@@ -59,7 +60,12 @@ const IdRooms: FC = () => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`
+                })
+            );
 
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
