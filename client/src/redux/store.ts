@@ -4,6 +4,7 @@ import { createLogger } from 'redux-logger';
 import authReducer from './reducers/authSlice';
 import projectReducer from './reducers/projectSlice';
 import filterSlice from './reducers/filterSlice';
+import modalSlice from './reducers/modalSlice';
 import userReducers from './reducers/usersSlice';
 
 const reducers = combineReducers({
@@ -11,6 +12,7 @@ const reducers = combineReducers({
     project: projectReducer,
     filter: filterSlice,
     users: userReducers,
+    modal: modalSlice,
 })
 
 export const store = configureStore({

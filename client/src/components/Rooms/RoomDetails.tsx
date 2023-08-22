@@ -11,6 +11,7 @@ import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
 import { setTheYourProjects } from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './style/roomDetails.scss';
 import { getStatusClass } from 'app/utils';
@@ -80,7 +81,12 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`,
+                })
+            );
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
 

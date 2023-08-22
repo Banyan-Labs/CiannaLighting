@@ -26,6 +26,7 @@ import Activity from './ProjectPageLower/ProjectSubComponents/Activity';
 import Proposal from './ProjectPageLower/ProjectSubComponents/Proposal';
 import IdRooms from './ProjectPageLower/ProjectSubComponents/AllRooms/IdRooms';
 import { NewRoomModal } from 'components/NewRoomModal/NewRoomModal';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 interface ProjectSummaryProps {
     details: any;
@@ -110,7 +111,12 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`
+                })
+            );
 
             return response;
         } catch (error: any) {
@@ -131,11 +137,21 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             );
             await dispatch(getAttachments(details._id));
 
+            const alertMessage =
             details?.archived === true
-                ? alert('This project was restored')
-                : alert('This project was marked as awarded');
+                ? 'This project was restored.'
+                : 'This project was marked as awarded.';
+
+        dispatch(setAlertOpen({ isOpen: true }));
+        dispatch(setAlertMessage({ alertMessage }));
+
         } catch (error: any) {
-            alert('Can not mark project as awarded.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Cannot mark project as awarded.'
+                })
+            );
             throw new Error(error.message);
         }
     };

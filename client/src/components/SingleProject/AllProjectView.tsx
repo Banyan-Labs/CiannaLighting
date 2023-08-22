@@ -20,6 +20,7 @@ import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
 import { getStatusClass } from 'app/utils';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -110,7 +111,12 @@ const AllProjectView: FC<Props> = ({
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`,
+                })
+            );
 
             return response;
         } catch (error: any) {
@@ -196,7 +202,12 @@ const AllProjectView: FC<Props> = ({
         try {
             checkSearchVal;
         } catch (error: any) {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
             return error;
         }
 
@@ -219,7 +230,12 @@ const AllProjectView: FC<Props> = ({
 
             return searchData;
         } else {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
     };
 

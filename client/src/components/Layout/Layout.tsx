@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '../../app/hooks';
 import Navbar from '../Navbar/Navbar';
+import AlertModal from '../Layout/AlertModal';
 
 const Layout = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -11,6 +12,7 @@ const Layout = () => {
         <>
             {user._id && <Navbar />}
             <Outlet />
+            <AlertModal />
         </>
     );
 };

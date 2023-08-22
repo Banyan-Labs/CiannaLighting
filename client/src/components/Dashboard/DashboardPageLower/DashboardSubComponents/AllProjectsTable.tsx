@@ -20,6 +20,7 @@ import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
 import { getStatusClass } from 'app/utils';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './style/allProjects.scss';
 
@@ -160,7 +161,12 @@ const AllProjects: FC<Props> = ({
         try {
             checkSearchVal;
         } catch (error: any) {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
         if (searchValue === '') {
             setParsedData(data);
@@ -197,7 +203,12 @@ const AllProjects: FC<Props> = ({
 
             return searchData;
         } else {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
     };
 
@@ -253,7 +264,13 @@ const AllProjects: FC<Props> = ({
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`,
+                })
+            );
+            
 
             return response;
         } catch (error: any) {
