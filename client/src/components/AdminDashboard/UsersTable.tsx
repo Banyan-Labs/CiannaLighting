@@ -1,5 +1,18 @@
-import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'react';
-import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
+import React, {
+    FC,
+    useEffect,
+    useState,
+    SyntheticEvent,
+    useCallback,
+} from 'react';
+import {
+    FaPlus,
+    FaChevronUp,
+    FaChevronDown,
+    FaPlay,
+    FaUserAltSlash,
+    FaUserCheck,
+} from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaPencilAlt } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
@@ -10,7 +23,6 @@ import { ROLES } from '../../app/constants';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { CreateUserType, UserType } from '../../app/typescriptTypes';
-import logging from 'config/logging';
 
 import './styles/UsersTable.scss';
 
@@ -82,7 +94,7 @@ const UsersTable: FC = () => {
     const closeAndGet = () => {
         setOpenModal(false);
         dispatch(getAllUsers());
-        setApiMessage(lastStatus)
+        setApiMessage(lastStatus);
     };
     const setSortToDefault = () => {
         setSortedData(users);
@@ -160,12 +172,11 @@ const UsersTable: FC = () => {
         } else {
             setApiMessage('Unable to toggle user status');
         }
-        
+
         // dispatch(getAllUsers());
         unsetMini();
         forceUpdate();
     };
-    logging.info(sortedData, "UsersTable")
 
     return (
         <>
@@ -221,11 +232,21 @@ const UsersTable: FC = () => {
                                             : {}
                                     }
                                 >
-                                    {(!user.isActive ? <FaUserAltSlash /> : <FaUserCheck className='active-user' />)}{'\xa0\xa0\xa0'}{user.name}
+                                    {!user.isActive ? (
+                                        <FaUserAltSlash />
+                                    ) : (
+                                        <FaUserCheck className="active-user" />
+                                    )}
+                                    {'\xa0\xa0\xa0'}
+                                    {user.name}
                                 </th>
                                 <td>{user.email}</td>
                                 <td>
-                                    {Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role)}
+                                    {Object.keys(ROLES).find(
+                                        (key: string) =>
+                                            ROLES[key as keyof typeof ROLES] ===
+                                            user.role
+                                    )}
                                 </td>
                                 <td
                                     className="button-td"

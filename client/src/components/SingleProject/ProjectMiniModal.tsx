@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../app/hooks';
 import {
     getAttachments,
     getProject,
-    setTheYourProjects
+    setTheYourProjects,
 } from '../../redux/actions/projectActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
@@ -39,7 +39,7 @@ const ProjectMiniModal: FC<projectProps> = ({
     setInactiveList,
     setProjectHold,
     inactiveModalTrigger,
-    copyOfProject
+    copyOfProject,
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -89,7 +89,7 @@ const ProjectMiniModal: FC<projectProps> = ({
         },
         [user.name, navigate]
     );
-    
+
     const goToProject = () => {
         return (
             <div
@@ -121,14 +121,14 @@ const ProjectMiniModal: FC<projectProps> = ({
                     onClick={
                         project?.clientId === user?._id
                             ? async () => {
-                                await changeProject(project._id);
-                                await projectRoute(project._id);
-                                await dispatch(setTheYourProjects(true));
-                            }
+                                  await changeProject(project._id);
+                                  await projectRoute(project._id);
+                                  await dispatch(setTheYourProjects(true));
+                              }
                             : () => {
-                                setOpenModal(true);
-                                setProjectModal(project);
-                            }
+                                  setOpenModal(true);
+                                  setProjectModal(project);
+                              }
                     }
                     className="project-mini-modal-link"
                 >

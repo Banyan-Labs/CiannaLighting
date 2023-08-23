@@ -58,65 +58,65 @@ const Pagination: FC<Props> = ({
             {pageNumbers.length > 3
                 ? end < pageNumbers.length
                     ? [
-                        ...newPages.map(
-                            (page: number | string, index: number) => (
-                                <li key={index} className="page-item">
-                                    <a
-                                        onClick={() => {
-                                            paginate(page);
-                                        }}
-                                        className={
-                                            page == currentPage
-                                                ? 'page-link active-page'
-                                                : 'page-link'
-                                        }
-                                    >
-                                        {page}
-                                    </a>
-                                </li>
-                            )
-                        ),
-                        skip('end'),
-                    ]
+                          ...newPages.map(
+                              (page: number | string, index: number) => (
+                                  <li key={index} className="page-item">
+                                      <a
+                                          onClick={() => {
+                                              paginate(page);
+                                          }}
+                                          className={
+                                              page == currentPage
+                                                  ? 'page-link active-page'
+                                                  : 'page-link'
+                                          }
+                                      >
+                                          {page}
+                                      </a>
+                                  </li>
+                              )
+                          ),
+                          skip('end'),
+                      ]
                     : [
-                        skip('start'),
-                        ...newPages.map(
-                            (page: number | string, index: number) => (
-                                <li key={index} className="page-item">
-                                    <a
-                                        onClick={() => paginate(page)}
-                                        className={
-                                            page == currentPage
-                                                ? 'page-link active-page'
-                                                : 'page-link'
-                                        }
-                                    >
-                                        {page}
-                                    </a>
-                                </li>
-                            )
-                        ),
-                    ]
+                          skip('start'),
+                          ...newPages.map(
+                              (page: number | string, index: number) => (
+                                  <li key={index} className="page-item">
+                                      <a
+                                          onClick={() => paginate(page)}
+                                          className={
+                                              page == currentPage
+                                                  ? 'page-link active-page'
+                                                  : 'page-link'
+                                          }
+                                      >
+                                          {page}
+                                      </a>
+                                  </li>
+                              )
+                          ),
+                      ]
                 : [
-                    ...newPages.map(
-                        (page: number | string, index: number) => (
-                            <li key={index} className="page-item">
-                                <a
-                                    onClick={() => {
-                                        paginate(page);
-                                    }}
-                                    className={
-                                        page == currentPage
-                                            ? 'page-link active-page'
-                                            : 'page-link'
-                                    }
-                                >
-                                    {page}
-                                </a>
-                            </li>
-                        )
-                    ),
-                ]}
+                      ...newPages.map(
+                          (page: number | string, index: number) => (
+                              <li key={index} className="page-item">
+                                  <a
+                                      onClick={() => {
+                                          paginate(page);
+                                      }}
+                                      className={
+                                          page == currentPage
+                                              ? 'page-link active-page'
+                                              : 'page-link'
+                                      }
+                                  >
+                                      {page}
+                                  </a>
+                              </li>
+                          )
+                      ),
+                  ]}
         </>
     );
 };

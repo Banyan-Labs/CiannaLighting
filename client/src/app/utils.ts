@@ -11,8 +11,10 @@ export const getStatusClass = (givenStatus: string) => {
         .replace(/\s/g, '')
         .replace(/[^\w\s]/gi, '');
 
-    return statusWithoutSpecialCharsOrSpace ? `statusColor${statusWithoutSpecialCharsOrSpace}` : 'statusColorTemplateNew';
-}
+    return statusWithoutSpecialCharsOrSpace
+        ? `statusColor${statusWithoutSpecialCharsOrSpace}`
+        : 'statusColorTemplateNew';
+};
 
 export const camelCaseToTitleCase = (camelCase: string) => {
     const spaced = camelCase.replace(/([A-Z])/g, ' $1').toLowerCase();
@@ -21,4 +23,4 @@ export const camelCaseToTitleCase = (camelCase: string) => {
     });
 
     return titleCase;
-}
+};

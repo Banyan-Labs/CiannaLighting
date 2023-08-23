@@ -18,9 +18,11 @@ const Proposal: FC = React.forwardRef<any>(() => {
         setNumPages(newNumPages);
     }
 
-    const { attachments, selections, project } = useAppSelector(({ project }) => {
-        return project;
-    });
+    const { attachments, selections, project } = useAppSelector(
+        ({ project }) => {
+            return project;
+        }
+    );
 
     const componentRef = useRef<HTMLDivElement>(null);
     const handlePrint = useReactToPrint({
@@ -45,33 +47,28 @@ const Proposal: FC = React.forwardRef<any>(() => {
         return (
             <tr key={`${prop.itemID} + ${index}`}>
                 <td>
-                    <span>
-                        {prop.item_ID}
-                    </span>
+                    <span>{prop.item_ID}</span>
                 </td>
                 <td>
-                    <span>
-                        {prop.lightQuantity}
-                    </span>
+                    <span>{prop.lightQuantity}</span>
                 </td>
                 <td>
                     {prop.rooms.map((room: any, index: number) => {
                         return (
-                            <p
-                                className="no-wrap"
-                                key={index + room}
-                            >
+                            <p className="no-wrap" key={index + room}>
                                 {room}
                             </p>
                         );
                     })}
                 </td>
                 <td className="text-left">
-                    {
-                        prop.description.split('\n').map((p: string, index: number) => (
-                            <p className="m-0" key={index + p}>{p}</p>
-                        ))
-                    }
+                    {prop.description
+                        .split('\n')
+                        .map((p: string, index: number) => (
+                            <p className="m-0" key={index + p}>
+                                {p}
+                            </p>
+                        ))}
                 </td>
                 <td className="text-left">
                     {Object.entries(finishes).map(
@@ -81,7 +78,10 @@ const Proposal: FC = React.forwardRef<any>(() => {
                                     className="list option-list"
                                     key={index + item[0]}
                                 >
-                                    <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
+                                    <span>
+                                        {camelCaseToTitleCase(item[0])}:
+                                    </span>{' '}
+                                    <span>{item[1] || 'N/A'}</span>
                                 </span>
                             );
                         }
@@ -95,36 +95,29 @@ const Proposal: FC = React.forwardRef<any>(() => {
                                     className="list option-list"
                                     key={index + item[0]}
                                 >
-                                    <span>{camelCaseToTitleCase(item[0])}:</span> <span>{item[1] || 'N/A'}</span>
+                                    <span>
+                                        {camelCaseToTitleCase(item[0])}:
+                                    </span>{' '}
+                                    <span>{item[1] || 'N/A'}</span>
                                 </div>
                             );
                         }
                     )}
                 </td>
                 <td>
-                    <span>
-                        {prop.lampColor || 'N/A'}
-                    </span>
+                    <span>{prop.lampColor || 'N/A'}</span>
                 </td>
                 <td>
-                    <span>
-                        {prop.lumens || 'N/A'}
-                    </span>
+                    <span>{prop.lumens || 'N/A'}</span>
                 </td>
                 <td>
-                    <span>
-                        {prop.projectVoltage || 'N/A'}
-                    </span>
+                    <span>{prop.projectVoltage || 'N/A'}</span>
                 </td>
                 <td>
-                    <span>
-                        {prop.socketQuantity || 'N/A'}
-                    </span>
+                    <span>{prop.socketQuantity || 'N/A'}</span>
                 </td>
                 <td>
-                    <span>
-                        {prop.socketType || 'N/A'}
-                    </span>
+                    <span>{prop.socketType || 'N/A'}</span>
                 </td>
             </tr>
         );
@@ -144,12 +137,15 @@ const Proposal: FC = React.forwardRef<any>(() => {
 
             return (
                 <div key={index} className="proposal-attachments mt-5">
-                    <p className="m-0"><span className="text-italic">{itemId}</span> - <span className="text-italic">{fileType}</span></p>
+                    <p className="m-0">
+                        <span className="text-italic">{itemId}</span> -{' '}
+                        <span className="text-italic">{fileType}</span>
+                    </p>
                     <h4 className="m-0">{displayName}</h4>
                     <Document
                         file={url}
                         onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
-                        onLoadError={(err) => logging.error(err, "Document")}
+                        onLoadError={(err) => logging.error(err, 'Document')}
                         className="pdf-document"
                     >
                         {Array.from(new Array(numPages[url]), (el, index) => (
@@ -160,7 +156,9 @@ const Proposal: FC = React.forwardRef<any>(() => {
                                 renderTextLayer={false}
                                 pageNumber={index + 1}
                                 scale={1.0}
-                                onLoadError={(err) => logging.error(err, "Page")}
+                                onLoadError={(err) =>
+                                    logging.error(err, 'Page')
+                                }
                             />
                         ))}
                     </Document>
@@ -174,12 +172,8 @@ const Proposal: FC = React.forwardRef<any>(() => {
             <div ref={componentRef}>
                 <div className="proposal-container">
                     <div className="header-section">
-                        <h1>
-                            {project?.name?.toUpperCase()}
-                        </h1>
-                        <h1>
-                            {project?.region?.toUpperCase()}
-                        </h1>
+                        <h1>{project?.name?.toUpperCase()}</h1>
+                        <h1>{project?.region?.toUpperCase()}</h1>
                     </div>
                     <div className="table-contain">
                         <div className="table-border">
@@ -194,41 +188,35 @@ const Proposal: FC = React.forwardRef<any>(() => {
                                     </tr>
                                     <tr>
                                         <th>Item ID</th>
+                                        <th>Qty.</th>
+                                        <th>Rooms</th>
+                                        <th>Description</th>
+                                        <th>Finishes</th>
+                                        <th>Materials</th>
                                         <th>
-                                            Qty.
+                                            Lamp
+                                            <br />
+                                            Color
+                                        </th>
+                                        <th>Lumens</th>
+                                        <th>
+                                            Project
+                                            <br />
+                                            Voltage
                                         </th>
                                         <th>
-                                            Rooms
+                                            Socket
+                                            <br />
+                                            Quantity
                                         </th>
                                         <th>
-                                            Description
-                                        </th>
-                                        <th>
-                                            Finishes
-                                        </th>
-                                        <th>
-                                            Materials
-                                        </th>
-                                        <th>
-                                            Lamp<br />Color
-                                        </th>
-                                        <th>
-                                            Lumens
-                                        </th>
-                                        <th>
-                                            Project<br />Voltage
-                                        </th>
-                                        <th>
-                                            Socket<br />Quantity
-                                        </th>
-                                        <th>
-                                            Socket<br />Type
+                                            Socket
+                                            <br />
+                                            Type
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {tableRows}
-                                </tbody>
+                                <tbody>{tableRows}</tbody>
                             </table>
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import React, {
     ChangeEvent,
     useEffect,
     SyntheticEvent,
-    useRef
+    useRef,
 } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
@@ -15,8 +15,25 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
-import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments, CrystalBulbCovers } from 'app/constants';
-import logging from 'config/logging';
+import {
+    UsePackage,
+    DesignStyle,
+    LampColors,
+    ProjectVoltages,
+    SocketTypes,
+    Materials,
+    InteriorFinishes,
+    ExteriorFinishes,
+    LensMaterials,
+    CrystalTypes,
+    CrystalPinColors,
+    Environments,
+    SafetyCertifications,
+    MountingTypes,
+    FinishTreatments,
+    Treatments,
+    CrystalBulbCovers,
+} from 'app/constants';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/inventory.scss';
@@ -40,10 +57,10 @@ const Inventory: FC = () => {
         socketQuantity: 0,
         estimatedWeight: 0,
         price: 0,
-        exteriorFinish: '', 
-        finishTreatment: '', 
-        interiorFinish: '', 
-        lensMaterial: '', 
+        exteriorFinish: '',
+        finishTreatment: '',
+        interiorFinish: '',
+        lensMaterial: '',
         environment: [],
         safetyCert: [],
         mounting: [],
@@ -158,7 +175,10 @@ const Inventory: FC = () => {
                     (url: string) => url !== filePath.url
                 );
 
-                setItemDetails({ ...itemDetails, editRenderings: editRendering });
+                setItemDetails({
+                    ...itemDetails,
+                    editRenderings: editRendering,
+                });
             }
         }
         if (type == 'drawingFiles') {
@@ -236,7 +256,11 @@ const Inventory: FC = () => {
         rendered: boolean
     ) => {
         if (location == 'renderings' && rendered === false) {
-            const newRenderings = viewableRenderings?.map((rendering: any) => rendering.name === name ? { ...rendering, rendered: true } : rendering);
+            const newRenderings = viewableRenderings?.map((rendering: any) =>
+                rendering.name === name
+                    ? { ...rendering, rendered: true }
+                    : rendering
+            );
 
             setNumRenderingPages({
                 ...numRenderingPages,
@@ -245,7 +269,11 @@ const Inventory: FC = () => {
             setViewableRenderings(newRenderings);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
+            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) =>
+                drawFile.name === name
+                    ? { ...drawFile, rendered: true }
+                    : drawFile
+            );
 
             setNumDrawPages({
                 ...numDrawPages,
@@ -254,7 +282,11 @@ const Inventory: FC = () => {
             setDrawingFilesNames(newDrawingFiles);
         }
         if (location == 'cutSheets' && rendered === false) {
-            const newCutSheets = viewableCutSheets?.map((cutSheet: any) => cutSheet.name === name ? { ...cutSheet, rendered: true } : cutSheet);
+            const newCutSheets = viewableCutSheets?.map((cutSheet: any) =>
+                cutSheet.name === name
+                    ? { ...cutSheet, rendered: true }
+                    : cutSheet
+            );
 
             setNumCutSheetPages({
                 ...numCutSheetPages,
@@ -278,15 +310,14 @@ const Inventory: FC = () => {
     };
 
     const setEdit = (e: any) => {
-        logging.info(e.currentTarget.value);
         e.preventDefault();
 
         setEditingInput(e.currentTarget.value);
 
         const item: any = catalogItems.find(
-            (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
+            (x: any) =>
+                x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
-
 
         if (item) {
             checkItemUsage(item.item_ID);
@@ -343,9 +374,9 @@ const Inventory: FC = () => {
     };
 
     const handleListUpdate = (e: any, fieldName: string) => {
-        const selectedValueList = Array.from(e.target.selectedOptions).map(
-            (option: any) => option.value
-        ).filter((x: string) => !itemDetails[fieldName].includes(x));
+        const selectedValueList = Array.from(e.target.selectedOptions)
+            .map((option: any) => option.value)
+            .filter((x: string) => !itemDetails[fieldName].includes(x));
 
         setItemDetails({
             ...itemDetails,
@@ -435,16 +466,21 @@ const Inventory: FC = () => {
     };
 
     const firstItemFocus = (e: any, id: number) => {
-        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
-        const container = document.getElementById('inventory-container') as HTMLDivElement;
+        const sectionHeader = document.getElementById(
+            `chck${id}`
+        ) as HTMLInputElement;
+        const container = document.getElementById(
+            'inventory-container'
+        ) as HTMLDivElement;
         const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
-            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+            const element = document.getElementById(
+                `chck${section}`
+            ) as HTMLInputElement;
 
             element.checked = section === id;
         });
-
 
         if (sectionHeader.checked) {
             container.scrollTop = sectionHeader.offsetTop;
@@ -452,17 +488,23 @@ const Inventory: FC = () => {
     };
 
     const closeOtherSections = (e: any, id: number) => {
-        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
+        const sectionHeader = document.getElementById(
+            `chck${id}`
+        ) as HTMLInputElement;
 
         if (!sectionHeader.checked) {
             return;
         }
 
-        const container = document.getElementById('inventory-container') as HTMLDivElement;
+        const container = document.getElementById(
+            'inventory-container'
+        ) as HTMLDivElement;
         const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
-            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+            const element = document.getElementById(
+                `chck${section}`
+            ) as HTMLInputElement;
 
             element.checked = section === id;
         });
@@ -511,7 +553,7 @@ const Inventory: FC = () => {
         try {
             if (editingItem) {
                 const done = await axiosPriv.post('/internal/find-light', fs);
-                
+
                 if (done) {
                     setEditingItem(false);
                     initializeCatalog();
@@ -522,11 +564,16 @@ const Inventory: FC = () => {
                     toggleEdit(e, false);
                 }
             } else {
-                const response = await axiosPriv.post('/internal/create-light', fs);
+                const response = await axiosPriv.post(
+                    '/internal/create-light',
+                    fs
+                );
 
                 if (response?.status === 201) {
                     dispatch(setAlertOpen({ isOpen: true }));
-                    dispatch(setAlertMessage({ alertMessage: 'Item Created!' }));
+                    dispatch(
+                        setAlertMessage({ alertMessage: 'Item Created!' })
+                    );
                     submitButton.disabled = false;
                     submitButton.className = 'inventory-btn';
                     initializeCatalog();
@@ -534,7 +581,8 @@ const Inventory: FC = () => {
                     dispatch(setAlertOpen({ isOpen: true }));
                     dispatch(
                         setAlertMessage({
-                            alertMessage: 'Item not created.  Please try again.'
+                            alertMessage:
+                                'Item not created.  Please try again.',
                         })
                     );
                     submitButton.disabled = false;
@@ -625,12 +673,13 @@ const Inventory: FC = () => {
 
         const fileInputs = document.querySelectorAll('input[type=file]');
         const checkboxes = document.querySelectorAll('input[type=checkbox]');
-        const firstSectionHeader = document.getElementById(`chck1`) as HTMLInputElement;
+        const firstSectionHeader = document.getElementById(
+            `chck1`
+        ) as HTMLInputElement;
 
         fileInputs.forEach((item: any) => {
             item.value = '';
         });
-
 
         checkboxes.forEach((item: any, index: number) => {
             if (index > 0 && item.checked) item.checked = false;
@@ -643,9 +692,7 @@ const Inventory: FC = () => {
         <div className="inventory-container">
             <div className="inventory-head">
                 <div className="head-left">
-                    <div className="inv-header">
-                        Catalog Items
-                    </div>
+                    <div className="inv-header">Catalog Items</div>
                     <div>
                         <p>
                             {editingItem
@@ -664,8 +711,8 @@ const Inventory: FC = () => {
                                 onClick={() => {
                                     setItemDetails({
                                         ...itemDetails,
-                                        isActive: true
-                                    })
+                                        isActive: true,
+                                    });
                                 }}
                             >
                                 Active
@@ -679,8 +726,8 @@ const Inventory: FC = () => {
                                 onClick={() => {
                                     setItemDetails({
                                         ...itemDetails,
-                                        isActive: false
-                                    })
+                                        isActive: false,
+                                    });
                                 }}
                             >
                                 Inactive
@@ -810,7 +857,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Measuremnts */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck2" onClick={(e) => closeOtherSections(e, 2)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck2"
+                            onClick={(e) => closeOtherSections(e, 2)}
+                        />
                         <label className="tab-label" htmlFor="chck2">
                             Measurements
                         </label>
@@ -984,7 +1036,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Lamp Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck3" onClick={(e) => closeOtherSections(e, 3)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck3"
+                            onClick={(e) => closeOtherSections(e, 3)}
+                        />
                         <label className="tab-label" htmlFor="chck3">
                             Lamping Options
                         </label>
@@ -997,15 +1054,21 @@ const Inventory: FC = () => {
                                     placeholder="Lamp Color"
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
-                                    onChange={(e) => handleSingleUpdate(e, 'lampColor')}
+                                    onChange={(e) =>
+                                        handleSingleUpdate(e, 'lampColor')
+                                    }
                                     onFocus={(e) => firstItemFocus(e, 3)}
                                 >
-                                    <option value="" disabled>Select</option>
-                                    {
-                                        Object.values(LampColors).map((item: any, index: number) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
+                                    <option value="" disabled>
+                                        Select
+                                    </option>
+                                    {Object.values(LampColors).map(
+                                        (item: any, index: number) => (
+                                            <option key={index} value={item}>
+                                                {item}
+                                            </option>
+                                        )
+                                    )}
                                 </select>
                                 <label
                                     className="form__label"
@@ -1037,17 +1100,27 @@ const Inventory: FC = () => {
                                         id="projectVoltage"
                                         placeholder="Project Voltages"
                                         name="projectVoltage"
-                                        value={
-                                            itemDetails.projectVoltage || ''
+                                        value={itemDetails.projectVoltage || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'projectVoltage'
+                                            )
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'projectVoltage')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(ProjectVoltages).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(ProjectVoltages).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1083,17 +1156,24 @@ const Inventory: FC = () => {
                                         id="socketType"
                                         placeholder="Socket Types"
                                         name="socketType"
-                                        value={
-                                            itemDetails.socketType || ''
+                                        value={itemDetails.socketType || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'socketType')
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'socketType')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(SocketTypes).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(SocketTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1107,7 +1187,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Material Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck4" onClick={(e) => closeOtherSections(e, 4)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck4"
+                            onClick={(e) => closeOtherSections(e, 4)}
+                        />
                         <label className="tab-label" htmlFor="chck4">
                             Material Options
                         </label>
@@ -1120,15 +1205,21 @@ const Inventory: FC = () => {
                                     placeholder="Material"
                                     name="material"
                                     value={itemDetails.material || ''}
-                                    onChange={(e) => handleSingleUpdate(e, 'material')}
+                                    onChange={(e) =>
+                                        handleSingleUpdate(e, 'material')
+                                    }
                                     onFocus={(e) => firstItemFocus(e, 4)}
                                 >
-                                    <option value="" disabled>Select</option>
-                                    {
-                                        Object.values(Materials).map((item: any, index: number) => (
-                                            <option key={index} value={item}>{item}</option>
-                                        ))
-                                    }
+                                    <option value="" disabled>
+                                        Select
+                                    </option>
+                                    {Object.values(Materials).map(
+                                        (item: any, index: number) => (
+                                            <option key={index} value={item}>
+                                                {item}
+                                            </option>
+                                        )
+                                    )}
                                 </select>
                                 <label
                                     htmlFor="material"
@@ -1145,17 +1236,27 @@ const Inventory: FC = () => {
                                         id="exteriorFinish"
                                         placeholder="Exterior Finish"
                                         name="exteriorFinish"
-                                        value={
-                                            itemDetails.exteriorFinish || ''
+                                        value={itemDetails.exteriorFinish || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'exteriorFinish'
+                                            )
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'exteriorFinish')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(ExteriorFinishes).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(ExteriorFinishes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="exteriorFinish"
@@ -1176,14 +1277,26 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.finishTreatment || ''
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'finishTreatment')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(FinishTreatments).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'finishTreatment'
+                                            )
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(FinishTreatments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="finishTreatment"
@@ -1201,17 +1314,27 @@ const Inventory: FC = () => {
                                         id="interiorFinish"
                                         placeholder="Interior Finish"
                                         name="interiorFinish"
-                                        value={
-                                            itemDetails.interiorFinish || ''
+                                        value={itemDetails.interiorFinish || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'interiorFinish'
+                                            )
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'interiorFinish')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(InteriorFinishes).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(InteriorFinishes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="interiorFinish"
@@ -1224,7 +1347,12 @@ const Inventory: FC = () => {
                         </div>
                     </div>
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck5" onClick={(e) => closeOtherSections(e, 5)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck5"
+                            onClick={(e) => closeOtherSections(e, 5)}
+                        />
                         <label className="tab-label" htmlFor="chck5">
                             Lens Materials Options
                         </label>
@@ -1237,18 +1365,28 @@ const Inventory: FC = () => {
                                         id="lensMaterial"
                                         placeholder="Lens Material"
                                         name="lensMaterial"
-                                        value={
-                                            itemDetails.lensMaterial || ''
+                                        value={itemDetails.lensMaterial || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'lensMaterial'
+                                            )
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'lensMaterial')}
                                         onFocus={(e) => firstItemFocus(e, 5)}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(LensMaterials).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(LensMaterials).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         htmlFor="lensMaterial"
@@ -1266,17 +1404,24 @@ const Inventory: FC = () => {
                                         id="treatment"
                                         placeholder="Treatment"
                                         name="treatment"
-                                        value={
-                                            itemDetails.treatment || ''
+                                        value={itemDetails.treatment || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'treatment')
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'treatment')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(Treatments).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(Treatments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1294,17 +1439,24 @@ const Inventory: FC = () => {
                                         id="crystalType"
                                         placeholder="Crystal Types"
                                         name="crystalType"
-                                        value={
-                                            itemDetails.crystalType || ''
+                                        value={itemDetails.crystalType || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'crystalType')
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'crystalType')}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(CrystalTypes).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1325,14 +1477,26 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.crystalPinColor || ''
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'crystalPinColor')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(CrystalPinColors).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'crystalPinColor'
+                                            )
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalPinColors).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1353,14 +1517,26 @@ const Inventory: FC = () => {
                                         value={
                                             itemDetails.crystalBulbCover || ''
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'crystalBulbCover')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(CrystalBulbCovers).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'crystalBulbCover'
+                                            )
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalBulbCovers).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1374,7 +1550,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Other Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck6" onClick={(e) => closeOtherSections(e, 6)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck6"
+                            onClick={(e) => closeOtherSections(e, 6)}
+                        />
                         <label className="tab-label" htmlFor="chck6">
                             Other Options
                         </label>
@@ -1404,14 +1585,28 @@ const Inventory: FC = () => {
                                         placeholder="Environment"
                                         name="environment"
                                         value=""
-                                        onChange={(e) => handleListUpdate(e, 'environment')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(Environments).map((item: any, index: number) => (
-                                                <option key={index} value={item} disabled={itemDetails?.environment?.indexOf(item) > -1}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'environment')
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(Environments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.environment?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1436,7 +1631,10 @@ const Inventory: FC = () => {
                                     placeholder="Environments"
                                     type="text"
                                     name="environmentValues"
-                                    value={itemDetails?.environment?.join(', ') || ''}
+                                    value={
+                                        itemDetails?.environment?.join(', ') ||
+                                        ''
+                                    }
                                     readOnly
                                 />
                             </div>
@@ -1449,14 +1647,28 @@ const Inventory: FC = () => {
                                         placeholder="Safety Certifications"
                                         name="safetyCert"
                                         value=""
-                                        onChange={(e) => handleListUpdate(e, 'safetyCert')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(SafetyCertifications).map((item: any, index: number) => (
-                                                <option key={index} value={item} disabled={itemDetails?.safetyCert?.indexOf(item) > -1}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'safetyCert')
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(
+                                            SafetyCertifications
+                                        ).map((item: any, index: number) => (
+                                            <option
+                                                key={index}
+                                                value={item}
+                                                disabled={
+                                                    itemDetails?.safetyCert?.indexOf(
+                                                        item
+                                                    ) > -1
+                                                }
+                                            >
+                                                {item}
+                                            </option>
+                                        ))}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1492,14 +1704,28 @@ const Inventory: FC = () => {
                                         placeholder="Mounting Types"
                                         name="mounting"
                                         value=""
-                                        onChange={(e) => handleListUpdate(e, 'mounting')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(MountingTypes).map((item: any, index: number) => (
-                                                <option key={index} value={item} disabled={itemDetails?.mounting?.indexOf(item) > -1}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'mounting')
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(MountingTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.mounting?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1522,7 +1748,9 @@ const Inventory: FC = () => {
                                     placeholder="Mountings"
                                     type="text"
                                     name="mountingValues"
-                                    value={itemDetails.mounting?.join(', ') || ''}
+                                    value={
+                                        itemDetails.mounting?.join(', ') || ''
+                                    }
                                     readOnly
                                 />
                             </div>
@@ -1530,7 +1758,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Design Style & Use Packages */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck7" onClick={(e) => closeOtherSections(e, 7)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck7"
+                            onClick={(e) => closeOtherSections(e, 7)}
+                        />
                         <label className="tab-label" htmlFor="chck7">
                             Design Style & Use Packages
                         </label>
@@ -1543,18 +1776,25 @@ const Inventory: FC = () => {
                                         id="designStyle"
                                         placeholder="Design Style"
                                         name="designStyle"
-                                        value={
-                                            itemDetails.designStyle || ''
+                                        value={itemDetails.designStyle || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'designStyle')
                                         }
-                                        onChange={(e) => handleSingleUpdate(e, 'designStyle')}
                                         onFocus={(e) => firstItemFocus(e, 7)}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(DesignStyle).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(DesignStyle).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1573,14 +1813,28 @@ const Inventory: FC = () => {
                                         placeholder="Use Packages"
                                         name="usePackages"
                                         value=""
-                                        onChange={(e) => handleListUpdate(e, 'usePackages')}
-                                    >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(UsePackage).map((item: any, index: number) => (
-                                                <option key={index} value={item} disabled={itemDetails?.usePackages?.indexOf(item) > -1}>{item}</option>
-                                            ))
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'usePackages')
                                         }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(UsePackage).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.usePackages?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1605,7 +1859,10 @@ const Inventory: FC = () => {
                                     placeholder="Use Packages"
                                     type="text"
                                     name="usePackagesValues"
-                                    value={itemDetails?.usePackages.join(', ') || ''}
+                                    value={
+                                        itemDetails?.usePackages.join(', ') ||
+                                        ''
+                                    }
                                     readOnly
                                 />
                             </div>
@@ -1613,7 +1870,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Images & Attachments */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck8" onClick={(e) => closeOtherSections(e, 8)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck8"
+                            onClick={(e) => closeOtherSections(e, 8)}
+                        />
                         <label className="tab-label" htmlFor="chck8">
                             Images & Attachments
                         </label>
@@ -1668,7 +1930,10 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="renderings">
+                                <label
+                                    className="images__label"
+                                    htmlFor="renderings"
+                                >
                                     Renderings
                                 </label>
                                 <input
@@ -1695,9 +1960,8 @@ const Inventory: FC = () => {
                                                     'renderings',
                                                     file.name,
                                                     file.rendered
-                                                )
-                                            }
-                                            }
+                                                );
+                                            }}
                                             onLoadError={console.error}
                                             className="pdf-document2"
                                         >
@@ -1725,7 +1989,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'renderings'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'renderings'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -1748,7 +2016,10 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="cutSheets">
+                                <label
+                                    className="images__label"
+                                    htmlFor="cutSheets"
+                                >
                                     Cut Sheets
                                 </label>
                                 <input
@@ -1804,7 +2075,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'cutSheets'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'cutSheets'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -1886,7 +2161,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'drawingFiles'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'drawingFiles'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -1911,7 +2190,12 @@ const Inventory: FC = () => {
                     </div>
                     {/* Admin Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck9" onClick={(e) => closeOtherSections(e, 9)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck9"
+                            onClick={(e) => closeOtherSections(e, 9)}
+                        />
                         <label className="tab-label" htmlFor="chck9">
                             Admin Options
                         </label>

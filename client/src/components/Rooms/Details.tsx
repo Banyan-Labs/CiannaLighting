@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../app/hooks';
 import {
     getAllProjectRoomsAction,
     getAttachments,
-    getProject,
     setTheRoom,
 } from '../../redux/actions/projectActions';
 import {
@@ -31,8 +30,7 @@ const Details: FC<DetailsProps> = ({ projectView }) => {
     const [filterBar, setFilterBar] = useState<boolean>(false);
 
     const fetchData = async () => {
-        await dispatch(getProject({ _id: String(storedProjId) }));
-        await dispatch(getAttachments(String(storedProjId)))
+        await dispatch(getAttachments(String(storedProjId)));
         await dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(setTheRoom(String(storedRoomId)));
         await dispatch(getRoomLights(String(storedRoomId)));
@@ -45,29 +43,31 @@ const Details: FC<DetailsProps> = ({ projectView }) => {
 
     return (
         <div className="room-details-page__page-container">
-            {
-                filterBar && (
-                    <div
-                        className="filter-bar-background"
-                        onClick={() =>
-                            filterBar ? setFilterBar(!filterBar) : null
-                        }
-                    ></div>
-                )
-            }
+            {filterBar && (
+                <div
+                    className="filter-bar-background"
+                    onClick={() =>
+                        filterBar ? setFilterBar(!filterBar) : null
+                    }
+                ></div>
+            )}
 
-            {
-                projectView && (
-                    <div className="room-details-page__panel-wrapper left">
-                        <RoomDetails
-                            setEditLight={setEditLight}
-                            setCatalogItem={setCatalogItem}
-                        />
-                    </div>
-                )
-            }
+            {projectView && (
+                <div className="room-details-page__panel-wrapper left">
+                    <RoomDetails
+                        setEditLight={setEditLight}
+                        setCatalogItem={setCatalogItem}
+                    />
+                </div>
+            )}
 
-            <div className={projectView ? "room-details-page__panel-wrapper right" : "room-details-page__panel-wrapper"}>
+            <div
+                className={
+                    projectView
+                        ? 'room-details-page__panel-wrapper right'
+                        : 'room-details-page__panel-wrapper'
+                }
+            >
                 <Filter
                     catalogItem={catalogItem}
                     filterBar={filterBar}

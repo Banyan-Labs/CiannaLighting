@@ -24,7 +24,7 @@ const LightDetails: FC<catalogPros> = ({
     editLight,
     setFilterBar,
     filterBar,
-    projectView
+    projectView,
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -36,9 +36,7 @@ const LightDetails: FC<catalogPros> = ({
                         <div className="d-flex row justify-content-center align-items-center">
                             <div className="col-12 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h2>
-                                        Catalog Lights
-                                    </h2>
+                                    <h2>Catalog Lights</h2>
                                 </div>
                                 <div className="d-flex flex-row">
                                     <SearchBar setSearchTerm={setSearchTerm} />
@@ -54,9 +52,7 @@ const LightDetails: FC<catalogPros> = ({
                                 </div>
                             </div>
                         </div>
-                        <p>
-                            Select a light to view details.
-                        </p>
+                        <p>Select a light to view details.</p>
                         <Cards
                             searchTerm={searchTerm}
                             setCatalogItem={setCatalogItem}

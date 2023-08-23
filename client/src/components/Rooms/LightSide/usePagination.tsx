@@ -90,7 +90,7 @@ const usePagination: UsePagination = ({ contentPerPage, count }) => {
                 if (state === 1) {
                     return state;
                 }
-                
+
                 return state - 1;
             }
         });

@@ -26,8 +26,8 @@ export const getAllUsersSlice = createSlice({
         }),
         setStatus: (state, action) => ({
             ...state,
-            lastStatus: action.payload
-        })
+            lastStatus: action.payload,
+        }),
     },
 });
 

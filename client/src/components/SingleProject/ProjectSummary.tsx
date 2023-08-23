@@ -1,4 +1,10 @@
-import React, { FC, useState, useEffect, SyntheticEvent, useCallback } from 'react';
+import React, {
+    FC,
+    useState,
+    useEffect,
+    SyntheticEvent,
+    useCallback,
+} from 'react';
 import { FaRegEdit, FaRegClone, FaArchive, FaFileAlt } from 'react-icons/fa';
 import { RiAddLine } from 'react-icons/ri';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -13,6 +19,8 @@ import {
     setTheYourProjects,
     setRoomIdToDefault,
     getAttachments,
+    getLightSelectionsForProject,
+    getAllProjectRoomsAction,
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
@@ -37,7 +45,7 @@ interface ProjectSummaryProps {
 const ProjectSummary: FC<ProjectSummaryProps> = ({
     details,
     setProcessing,
-    processing
+    processing,
 }) => {
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -100,13 +108,11 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                 clientId: user._id,
                 clientName: user.name,
             },
-            copy: CopyType.PROJECT
+            copy: CopyType.PROJECT,
         };
 
         try {
-            const response = await dispatch(
-                createProjectAction(payload)
-            );
+            const response = await dispatch(createProjectAction(payload));
 
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
@@ -114,7 +120,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: `Copy of ${proj.name} created in your dashboard.`
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`,
                 })
             );
 
@@ -138,18 +144,17 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             await dispatch(getAttachments(details._id));
 
             const alertMessage =
-            details?.archived === true
-                ? 'This project was restored.'
-                : 'This project was marked as awarded.';
+                details?.archived === true
+                    ? 'This project was restored.'
+                    : 'This project was marked as awarded.';
 
-        dispatch(setAlertOpen({ isOpen: true }));
-        dispatch(setAlertMessage({ alertMessage }));
-
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(setAlertMessage({ alertMessage }));
         } catch (error: any) {
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: 'Cannot mark project as awarded.'
+                    alertMessage: 'Cannot mark project as awarded.',
                 })
             );
             throw new Error(error.message);
@@ -179,7 +184,11 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     }, []);
 
     useEffect(() => {
-        dispatch(getAttachments(details?._id));
+        if (details?._id) {
+            dispatch(getAttachments(details._id));
+            dispatch(getLightSelectionsForProject(details._id));
+            dispatch(getAllProjectRoomsAction(details._id));
+        }
     }, [details]);
 
     return (
@@ -189,20 +198,19 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                     <a
                         className="back-to-all-projects"
                         onClick={() => {
-                            dispatch(setTheYourProjects(false))
+                            dispatch(setTheYourProjects(false));
                             projectsRoute(details._id);
                         }}
                     >
-                        <BsChevronLeft className="chevron-icon" /> Back to Projects
+                        <BsChevronLeft className="chevron-icon" /> Back to
+                        Projects
                     </a>
                 </div>
             </div>
             <div className="projects-summary mx-5">
                 <div className="d-flex justify-content-between align-items-baseline">
                     <div className="d-flex flex-row align-items-baseline">
-                        <h2 className="me-3">
-                            {details?.name}
-                        </h2>
+                        <h2 className="me-3">{details?.name}</h2>
                         <p className="ms-3">Status: {details?.status}</p>
                     </div>
                     <nav className="projects-navbar-container">
@@ -238,22 +246,20 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         </div>
                     </nav>
                     <div className="d-flex align-items-center justify-content-center">
-                        {
-                            !details?.archived && (
-                                <>
-                                    <FaRegEdit
-                                        data-for="edit"
-                                        data-tip="Edit Project"
-                                        onClick={() => {
-                                            setOpenModal(true);
-                                            setEditProject(true);
-                                        }}
-                                        className="edit-icon mx-2"
-                                    />
-                                    <ReactTooltip id="edit" />
-                                </>
-                            )
-                        }
+                        {!details?.archived && (
+                            <>
+                                <FaRegEdit
+                                    data-for="edit"
+                                    data-tip="Edit Project"
+                                    onClick={() => {
+                                        setOpenModal(true);
+                                        setEditProject(true);
+                                    }}
+                                    className="edit-icon mx-2"
+                                />
+                                <ReactTooltip id="edit" />
+                            </>
+                        )}
                         <FaRegClone
                             data-for="copy"
                             data-tip="Copy Project"
@@ -281,10 +287,15 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         />
                         <ReactTooltip id="archive" />
 
-                        <button className="align-items-center d-flex flex-row room-button ms-2 p-3" onClick={handleAddRoom}>
-                            <RiAddLine className="add-sign me-1" />
-                            Add Room
-                        </button>
+                        {!details?.archived && (
+                            <button
+                                className="align-items-center d-flex flex-row room-button ms-2 p-3"
+                                onClick={handleAddRoom}
+                            >
+                                <RiAddLine className="add-sign me-1" />
+                                Add Room
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { getAttachments, getLightSelectionsForProject, getProject, setDefaults } from '../../redux/actions/projectActions';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import { getProject, setDefaults } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
@@ -19,7 +18,7 @@ const Projects: FC = () => {
     const [currentSort, setCurrentSort] = useState<string>('');
     const [processing, setProcessing] = useState<boolean>(false);
     const dispatch = useAppDispatch();
-    const { userProjects, projectId, project, yourProjects } = useAppSelector(
+    const { userProjects, project, yourProjects } = useAppSelector(
         ({ project }) => project
     );
 
@@ -29,9 +28,7 @@ const Projects: FC = () => {
     const defaultProjId = latestProject?.map((p) => p._id)[0];
     const projectIdToUse: string = storedProjId ? storedProjId : defaultProjId;
     const fetchData1 = async () => {
-        await dispatch(getProject({ _id: String(projectIdToUse) }))
-        await dispatch(getAttachments(projectIdToUse))
-        await dispatch(getLightSelectionsForProject(projectIdToUse));
+        await dispatch(getProject({ _id: String(projectIdToUse) }));
         await dispatch(getCatalogItems());
     };
 
@@ -39,22 +36,13 @@ const Projects: FC = () => {
         fetchData1();
     }, [userProjects]);
 
-    const fetchData = async () => {
-        await dispatch(getAllProjectRoomsAction(projectIdToUse));
-        await dispatch(getLightSelectionsForProject(projectIdToUse));
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [projectId]);
-
     useEffect(() => {
         if (yourProjects === false || route.includes('projects')) {
             dispatch(setDefaults());
         } else {
-            null
+            null;
         }
-    }, [yourProjects])
+    }, [yourProjects]);
 
     return (
         <>

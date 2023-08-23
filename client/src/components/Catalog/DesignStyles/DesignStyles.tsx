@@ -12,7 +12,11 @@ interface catalogPros {
     resultsRef: any;
 }
 
-const DesignStyles: FC<catalogPros> = ({ setCatalogType, setRenderPage, resultsRef }) => {
+const DesignStyles: FC<catalogPros> = ({
+    setCatalogType,
+    setRenderPage,
+    resultsRef,
+}) => {
     const dispatch = useAppDispatch();
 
     const fetchData1 = async (e: any) => {

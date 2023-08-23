@@ -74,7 +74,8 @@ const InactiveNotification: FC<InactiveProps> = ({
                                 {inactiveList.map((item, index) => {
                                     return (
                                         <li key={index}>
-                                            {item.item_ID}: {item.rooms.join(', ')}
+                                            {item.item_ID}:{' '}
+                                            {item.rooms.join(', ')}
                                         </li>
                                     );
                                 })}

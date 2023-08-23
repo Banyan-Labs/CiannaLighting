@@ -3,44 +3,44 @@
 
 .all-projects-container {
     border-bottom: 2px solid $primary-bg-dark-title;
-} 
+}
 .personal-active {
-color: $accent-gold !important;
-padding-bottom: 10px;
-transition: 0.3s ease-in-out;
+    color: $accent-gold !important;
+    padding-bottom: 10px;
+    transition: 0.3s ease-in-out;
 }
 
 .personal-active::before {
-content: '';
-display: block;
-position: absolute;
-left: 0;
-bottom: 0;
-width: 40%;
-border-bottom: 4px solid $accent-gold;
-transition: 0.3s ease-in-out;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 .personal-not-active::before {
-content: '';
-display: block;
-position: absolute;
-left: 0;
-bottom: 0;
-width: 0%;
-border-bottom: 4px solid $accent-gold;
-transition: 0.3s ease-in-out;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 
 .personal-section-links a:hover::before {
-cursor: pointer;
-content: '';
-display: block;
-position: absolute;
-left: 0;
-bottom: 0;
-width: 100%;
-border-bottom: 4px solid $accent-gold;
-transition: 0.3s ease-in-out;
+    cursor: pointer;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 4px solid $accent-gold;
+    transition: 0.3s ease-in-out;
 }
 .personal-section-links {
     display: flex;
@@ -49,7 +49,7 @@ transition: 0.3s ease-in-out;
     width: 320px;
     a {
         text-decoration: none;
-        position: relative;       
+        position: relative;
         left: 20px;
         color: $primary-bg-dark-text;
         padding-bottom: 10px;
@@ -58,7 +58,6 @@ transition: 0.3s ease-in-out;
         cursor: pointer;
     }
 }
-
 
 .dashboard-all-projects {
     height: 70vh;
@@ -72,7 +71,7 @@ transition: 0.3s ease-in-out;
     width: 100%;
     height: 10vh;
 }
-.button-toggler{
+.button-toggler {
     background-color: #ecebe7;
     border: 1px $line-light solid;
     border-radius: 5px;
@@ -99,8 +98,6 @@ transition: 0.3s ease-in-out;
 }
 
 .all__projects {
-    overflow: hidden;
-    overflow-y: scroll;
     height: 65vh;
 }
 
@@ -298,18 +295,17 @@ table {
 #arrow-pag-next {
     padding: 0 8px;
 }
-.table-top{
+.table-top {
     display: flex;
     justify-content: space-between;
 }
-.processing{
+.processing {
     display: inline;
     color: $accent-gold;
     box-shadow: 0 0 10px inset black;
     border-radius: 40px;
-    padding: 0 20px
-    
+    padding: 0 20px;
 }
-.process-none{
+.process-none {
     display: none;
 }

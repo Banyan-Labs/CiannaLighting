@@ -25,23 +25,21 @@ const specifications: FC<catalogPros> = ({ catalogItem }) => {
 
     return (
         <div className="d-flex flex-shrink-0 flex-wrap light_details px-3 mb-3">
-            {
-                keys?.map((key: string, index: number) => {
-                    if (!specFields.includes(key)) return null;
-                    const item = catalogItem[key];
-            
-                    return (
-                        <div className="col-6" key={index + key}>
-                            <h4 className="light_details_title">{camelCaseToTitleCase(key)}</h4>
-                            <p className="light_details_info">
-                                {item}
-                            </p>
-                        </div>
-                    );
-                })
-            }
+            {keys?.map((key: string, index: number) => {
+                if (!specFields.includes(key)) return null;
+                const item = catalogItem[key];
+
+                return (
+                    <div className="col-6" key={index + key}>
+                        <h4 className="light_details_title">
+                            {camelCaseToTitleCase(key)}
+                        </h4>
+                        <p className="light_details_info">{item}</p>
+                    </div>
+                );
+            })}
         </div>
-    )
+    );
 };
 
 export default specifications;

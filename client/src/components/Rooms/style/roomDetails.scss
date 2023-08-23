@@ -17,7 +17,7 @@ body {
         padding: 0 24px 12px;
         height: 100vh;
         width: 100%;
-        
+
         &.left {
             width: 30%;
             border-right: 1px solid #ada9a9ab;
@@ -167,7 +167,9 @@ body {
 
 .icon-container {
     font-size: 0.7em;
-    .edit-icon, .archive-icon, .clone-icon {
+    .edit-icon,
+    .archive-icon,
+    .clone-icon {
         color: $primary-bg;
     }
 }

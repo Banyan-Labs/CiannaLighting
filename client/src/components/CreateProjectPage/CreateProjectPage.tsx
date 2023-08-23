@@ -36,7 +36,7 @@ const CreateProjectPage: FC = () => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        
+
         try {
             dispatch(createProjectAction(projectDetails));
             setProjectDetails({

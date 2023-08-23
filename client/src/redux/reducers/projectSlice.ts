@@ -175,7 +175,7 @@ export const projectSlice = createSlice({
             project: null,
             room: null,
             projectRooms: [],
-            attachments: []
+            attachments: [],
         }),
     },
 });
@@ -198,6 +198,6 @@ export const {
     setCatalogConnect,
     setYourProjects,
     setFilteredProjNone,
-    setPersonalizedDefaults
+    setPersonalizedDefaults,
 } = projectSlice.actions;
 export default projectSlice.reducer;

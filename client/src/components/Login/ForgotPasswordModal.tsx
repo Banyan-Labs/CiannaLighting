@@ -65,7 +65,7 @@ const ForgotPasswordModal = ({ isOpen, setIsOpen }: ComponentProps) => {
                         break;
                 }
             } else {
-                logging.error(error.message, "ForgotPasswordModal");
+                logging.error(error.message, 'ForgotPasswordModal');
                 throw Error(error);
             }
         }

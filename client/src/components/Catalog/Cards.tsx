@@ -54,9 +54,7 @@ const Cards: FC<catalogProps> = ({
                         <h4 className="">
                             <span>{design.item_ID}</span>
                             <br />
-                            {!design.isActive && (
-                                <span>inactive</span>
-                            )}
+                            {!design.isActive && <span>inactive</span>}
                         </h4>
                     </div>
                 </div>
@@ -68,7 +66,10 @@ const Cards: FC<catalogProps> = ({
         <>
             {renderPage !== '' && setAllCatalog?.length > 0 ? (
                 <>
-                    <div ref={resultsRef} className="main-catalog-filter-container d-flex m-0">
+                    <div
+                        ref={resultsRef}
+                        className="main-catalog-filter-container d-flex m-0"
+                    >
                         <div className="col-12 d-flex row m-0 p-0">
                             <h4 className="d-flex justify-content-center">
                                 <b>{catalogType}</b>&nbsp;catalog items
@@ -92,14 +93,20 @@ const Cards: FC<catalogProps> = ({
                         </div>
                     </div>
                 </>
-            ) : catalogType && (
-                <div ref={resultsRef} className="main-catalog-filter-container d-flex m-0">
-                    <div className="col-12 d-flex row m-0 p-0">
-                        <h4 className="d-flex justify-content-center">
-                            No&nbsp;<b>{catalogType}</b>&nbsp;catalog items found.
-                        </h4>
+            ) : (
+                catalogType && (
+                    <div
+                        ref={resultsRef}
+                        className="main-catalog-filter-container d-flex m-0"
+                    >
+                        <div className="col-12 d-flex row m-0 p-0">
+                            <h4 className="d-flex justify-content-center">
+                                No&nbsp;<b>{catalogType}</b>&nbsp;catalog items
+                                found.
+                            </h4>
+                        </div>
                     </div>
-                </div>
+                )
             )}
         </>
     );
