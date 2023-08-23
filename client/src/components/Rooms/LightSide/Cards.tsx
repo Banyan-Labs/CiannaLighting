@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import usePagination from './usePagination';
 import { getCatalogItems } from '../../../redux/actions/lightActions';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import logging from 'config/logging';
 
 interface searchBarProps {
     searchTerm: string;
@@ -22,8 +23,6 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
     });
 
     const dispatch = useAppDispatch();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const {
         firstContentIndex,
         lastContentIndex,
@@ -72,10 +71,8 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         (async () => {
             try {
                 dispatch(getCatalogItems());
-            } catch {
-                setError(true);
-            } finally {
-                setLoading(false);
+            } catch (error) {
+                logging.error(error);
             }
         })();
     }, []);
