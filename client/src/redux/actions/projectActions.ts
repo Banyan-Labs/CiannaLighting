@@ -18,7 +18,6 @@ import {
 } from '../reducers/projectSlice';
 import { RoomType } from '../reducers/projectSlice';
 import { axiosPrivate } from '../../api/axios';
-import logging from 'config/logging';
 
 export const createProjectAction =
     (payload: any) =>
@@ -61,6 +60,7 @@ export const createRoomAction =
 export const setTheRoom =
     (roomId: string) =>
         async (dispatch: Dispatch): Promise<void> => {
+            if (!roomId) return;
             const axiosPriv = axiosPrivate();
 
             try {
@@ -282,7 +282,6 @@ export const deleteThisProject = (payload: any) => async () => {
 
 export const deleteThisRoom = (payload: any) => async () => {
     const axiosPriv = axiosPrivate();
-    logging.info(payload, 'deleteThisRoom');
 
     try {
         const room = await axiosPriv.post('/delete-room', payload);

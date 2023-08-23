@@ -10,7 +10,7 @@ interface searchBarProps {
     setCatalogItem: any;
 }
 const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
-    const { setAllCatalog, project } = useAppSelector(({ project }) => project);
+    const { setAllCatalog } = useAppSelector(({ project }) => project);
 
     const searchValue = setAllCatalog.filter((val: any) => {
         if (searchTerm === '') {
@@ -54,10 +54,10 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive && !project?.archived ? "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-3" : "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-3 inactive-shadow"}
+                className={el.isActive ? "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2" : "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2 inactive-shadow"}
                 key={index}
                 onClick={() => {
-                    if (el.isActive && !project?.archived) {
+                    if (el.isActive) {
                         setCatalogItem(el);
                     }
                 }}

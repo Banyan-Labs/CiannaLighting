@@ -103,7 +103,6 @@ const ProjectMiniModal: FC<projectProps> = ({
                         ? async () => {
                             await dispatch(setTheYourProjects(true));
                             await dispatch(getLightSelectionsForProject(proj._id));
-                            await dispatch(getAttachments(proj._id))
                             changeProject(proj._id);
                             projectRoute(proj._id);
                         }

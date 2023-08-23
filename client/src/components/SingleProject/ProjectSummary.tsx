@@ -13,6 +13,8 @@ import {
     setTheYourProjects,
     setRoomIdToDefault,
     getAttachments,
+    getLightSelectionsForProject,
+    getAllProjectRoomsAction,
 } from '../../redux/actions/projectActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
@@ -138,12 +140,12 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             await dispatch(getAttachments(details._id));
 
             const alertMessage =
-            details?.archived === true
-                ? 'This project was restored.'
-                : 'This project was marked as awarded.';
+                details?.archived === true
+                    ? 'This project was restored.'
+                    : 'This project was marked as awarded.';
 
-        dispatch(setAlertOpen({ isOpen: true }));
-        dispatch(setAlertMessage({ alertMessage }));
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(setAlertMessage({ alertMessage }));
 
         } catch (error: any) {
             dispatch(setAlertOpen({ isOpen: true }));
@@ -179,7 +181,11 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
     }, []);
 
     useEffect(() => {
-        dispatch(getAttachments(details?._id));
+        if (details?._id) {
+            dispatch(getAttachments(details._id));
+            dispatch(getLightSelectionsForProject(details._id));
+            dispatch(getAllProjectRoomsAction(details._id));
+        }
     }, [details]);
 
     return (
@@ -281,10 +287,12 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
                         />
                         <ReactTooltip id="archive" />
 
-                        <button className="align-items-center d-flex flex-row room-button ms-2 p-3" onClick={handleAddRoom}>
-                            <RiAddLine className="add-sign me-1" />
-                            Add Room
-                        </button>
+                        {!details?.archived && (
+                            <button className="align-items-center d-flex flex-row room-button ms-2 p-3" onClick={handleAddRoom}>
+                                <RiAddLine className="add-sign me-1" />
+                                Add Room
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

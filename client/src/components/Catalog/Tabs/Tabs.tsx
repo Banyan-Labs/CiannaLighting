@@ -30,7 +30,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
 
     return (
         <>
-            <div className="tabs__catalog m-0 px-1 col-12 col-lg-12 col-xl-12 d-flex flex-column">
+            <div className="tabs__catalog m-0 col-12 col-lg-12 col-xl-12 d-flex flex-column">
                 <button
                     className={`tab__catalog ${checkActive(1, 'active2')}`}
                     onClick={() => handleClick(1)}
@@ -62,7 +62,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                     />
                 </div>
                 <button
-                    className={`tab__catalog ${checkActive(4, 'active2')}`}
+                    className={`tab__catalog mb-0 ${checkActive(4, 'active2')}`}
                     onClick={() => handleClick(4)}
                 >
                     Attachments

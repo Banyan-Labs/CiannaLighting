@@ -9,20 +9,21 @@
     }
 
     .quantity-input {
-        margin: 24px auto;
+        margin: 1rem auto;
         text-align: center;
+        background-color: white;
+        border-radius: 1rem;
 
         &__value-button {
             padding: 10px;
             border: none;
-            background-color: #e7e5e5ab;
             cursor: pointer;
             font-size: 1.1rem;
+            background-color: white !important;
         }
         &__value {
             padding: 10px;
             font-size: 1.1rem;
-            background-color: #e7e5e5ab;
         }
         &__submit-value {
             padding: 10px;

@@ -14,7 +14,7 @@ interface catalogPros {
 
 const SingleView: FC<catalogPros> = ({ catalogItem, setCatalogItem, showBack }) => {
     return (
-        <div className="single-view-container col-12">
+        <div className="col-12">
             {showBack && (
                 <p className="catalog-back" onClick={() => setCatalogItem(null)}>
                     <BsChevronLeft

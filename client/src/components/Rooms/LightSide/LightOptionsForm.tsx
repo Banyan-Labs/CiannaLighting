@@ -32,7 +32,7 @@ function LightOptionsForm({
     setEditLight,
 }: Props) {
     const dispatch = useAppDispatch();
-    const { room } = useAppSelector(
+    const { room, project } = useAppSelector(
         ({ project }) => project
     );
     const [count, setCount] = useState<number>(
@@ -122,7 +122,7 @@ function LightOptionsForm({
         }
     };
 
-    return (
+    return !project?.archived ? (
         <form
             className="light-options-form"
             ref={formRef}
@@ -149,7 +149,7 @@ function LightOptionsForm({
                 </button>
             </div>
         </form>
-    );
+    ): null;
 }
 
 export default LightOptionsForm;

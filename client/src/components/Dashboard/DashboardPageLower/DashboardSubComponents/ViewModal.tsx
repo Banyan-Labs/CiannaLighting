@@ -39,12 +39,11 @@ export const ViewModal: FC<Props> = ({
     const fetchData = async () => {
         const response = await dispatch(viewProjectRooms(projectModal._id));
 
-        await setRooms(response);
+        setRooms(response);
     };
 
     useEffect(() => {
         fetchData();
-        setRooms;
     }, []);
 
     const awaitData = async (roomId: any) => {

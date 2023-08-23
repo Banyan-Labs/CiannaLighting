@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../app/hooks';
 import {
     getAllProjectRoomsAction,
     getAttachments,
-    getProject,
     setTheRoom,
 } from '../../redux/actions/projectActions';
 import {
@@ -31,7 +30,6 @@ const Details: FC<DetailsProps> = ({ projectView }) => {
     const [filterBar, setFilterBar] = useState<boolean>(false);
 
     const fetchData = async () => {
-        await dispatch(getProject({ _id: String(storedProjId) }));
         await dispatch(getAttachments(String(storedProjId)))
         await dispatch(getAllProjectRoomsAction(String(storedProjId)));
         await dispatch(setTheRoom(String(storedRoomId)));

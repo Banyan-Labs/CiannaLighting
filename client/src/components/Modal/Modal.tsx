@@ -10,7 +10,6 @@ import {
     getUserProjects,
     setTheYourProjects,
 } from '../../redux/actions/projectActions';
-import logging from 'config/logging';
 
 import './style/modal.scss';
 import { SystemStatus } from 'app/constants';
@@ -74,12 +73,9 @@ const Modal: FC<Props> = (props) => {
         return reFormat;
     };
 
-    logging.info(projectDetails, "Modal");
-
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
-        logging.info(projectDetails, "Modal");
         try {
             !props.editProject
                 ? await dispatch(createProjectAction({ project: projectDetails }))

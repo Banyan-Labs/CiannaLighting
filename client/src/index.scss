@@ -124,7 +124,7 @@ button {
 
 .container-filter {
     height: 90vh;
-    position: absolute;
+    position: fixed;
     z-index: 13;
     top: 10vh;
     bottom: 0;
@@ -134,7 +134,6 @@ button {
     border-left: #c09d5b 1px solid;
     border-top: #c09d5b 1px solid;
     box-shadow: rgba(63, 60, 57, 0.1607843137) 0px 3px 6px, rgba(63, 60, 57, 0.231372549) 0px 3px 6px;
-    overflow-y: scroll !important;
 }
 
 .carousel-wrapper {

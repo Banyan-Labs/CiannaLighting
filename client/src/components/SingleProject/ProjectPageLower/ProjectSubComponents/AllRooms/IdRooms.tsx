@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 import {
@@ -38,10 +38,6 @@ const IdRooms: FC = () => {
         },
         [user.name, navigate]
     );
-
-    useEffect(() => {
-        dispatch(getAllProjectRoomsAction(String(project?._id)));
-    }, []);
 
     const copyRoom = async (e: any, room: RoomType) => {
         e.preventDefault();

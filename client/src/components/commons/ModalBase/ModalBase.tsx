@@ -9,7 +9,6 @@ type ModalBaseProps = {
     isShown: boolean;
     setIsShown: (isShown: boolean) => void;
     title?: string;
-
 };
 
 const ModalBase = ({

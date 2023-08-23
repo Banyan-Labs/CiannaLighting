@@ -5,14 +5,12 @@ import { FaChevronRight, FaFolderOpen } from 'react-icons/fa';
 import { RiAddLine, RiArchiveDrawerFill } from 'react-icons/ri';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
-    getAttachments,
     getProject,
     getUserProjects,
 } from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import dataHolding from './projectDetails';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
-import logging from 'config/logging';
 import { getStatusClass } from 'app/utils';
 
 import '../style/dashboard.scss';
@@ -44,7 +42,6 @@ const YourProjects: FC = () => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        logging.info(user, 'YourProjects');
         dispatch(getUserProjects(user._id));
 
         let configureProjectsCount = 0;
@@ -81,7 +78,7 @@ const YourProjects: FC = () => {
             setHoldProjectCount(holdProjectsCount);
             setTemplateProjectCount(templateProjectsCount);
         }
-    }, [user._id, userProjects?.length]);
+    }, [userProjects?.length]);
 
     const filteredProjects =
         userProjects?.filter((project: any) => project.archived === false) ||
@@ -90,7 +87,6 @@ const YourProjects: FC = () => {
         .map((project: any, index: any) => {
             const changeProject = async (prodId: string) => {
                 await dispatch(getProject({ _id: prodId }));
-                await dispatch(getAttachments(prodId));
 
                 dataHolding.getData(project);
             };

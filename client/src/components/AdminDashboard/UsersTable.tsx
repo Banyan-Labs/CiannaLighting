@@ -10,7 +10,6 @@ import { ROLES } from '../../app/constants';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { CreateUserType, UserType } from '../../app/typescriptTypes';
-import logging from 'config/logging';
 
 import './styles/UsersTable.scss';
 
@@ -165,7 +164,6 @@ const UsersTable: FC = () => {
         unsetMini();
         forceUpdate();
     };
-    logging.info(sortedData, "UsersTable")
 
     return (
         <>

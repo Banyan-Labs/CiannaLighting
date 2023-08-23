@@ -54,16 +54,14 @@ const CreateEditLight = ({
 
                 {
                     projectView && (
-                        <div className="align-self-center d-flex justify-content-center light-details__description-wrapper mt-5">
-                            <div className="light-details__form-wrapper">
-                                <LightOptionsForm
-                                    catalogLightItem={catalogItem}
-                                    editLightItem={editLight}
-                                    setCatalogItem={setCatalogItem}
-                                    setEditLight={setEditLight}
-                                    lightSpecs={catalogItem.cutSheet}
-                                />
-                            </div>
+                        <div className="align-self-center d-flex justify-content-center light-details__description-wrapper">
+                            <LightOptionsForm
+                                catalogLightItem={catalogItem}
+                                editLightItem={editLight}
+                                setCatalogItem={setCatalogItem}
+                                setEditLight={setEditLight}
+                                lightSpecs={catalogItem.cutSheet}
+                            />
                         </div>
                     )
                 }

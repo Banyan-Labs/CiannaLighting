@@ -16,7 +16,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments, CrystalBulbCovers } from 'app/constants';
-import logging from 'config/logging';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/inventory.scss';
@@ -278,7 +277,6 @@ const Inventory: FC = () => {
     };
 
     const setEdit = (e: any) => {
-        logging.info(e.currentTarget.value);
         e.preventDefault();
 
         setEditingInput(e.currentTarget.value);

@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { BsChevronLeft } from 'react-icons/bs';
 import { FaRegEdit, FaRegClone, FaRegTrashAlt, FaCircle } from 'react-icons/fa';
@@ -9,12 +9,12 @@ import { axiosPrivate } from '../../api/axios';
 import { getEditLight } from '../../redux/actions/lightActions';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
-import { setTheYourProjects } from '../../redux/actions/projectActions';
+import { getProject, setTheYourProjects } from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './style/roomDetails.scss';
-import { getStatusClass } from 'app/utils';
+import { getStatusClass, useParams } from 'app/utils';
 import SingleRoom from './SingleRoom';
 
 interface lightProps {
@@ -36,6 +36,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
     const date = new Date(Date.parse(room?.createdAt)).toDateString();
     const { user } = useAppSelector(({ auth: user }) => user);
     const { projectId } = useAppSelector(({ project }) => project);
+    const storedProjId = useParams('projectId');
 
     const deleteLightFunc = (light: any) => {
         setDeleteLight(light);
@@ -64,6 +65,14 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         },
         [user.name, navigate]
     );
+
+    const getProjectDetails = async () => {
+        await dispatch(getProject({ _id: storedProjId }));
+    };
+
+    useEffect(() => {
+        getProjectDetails();
+    }, []);
 
     const copyRoom = async (e: any) => {
         e.preventDefault();

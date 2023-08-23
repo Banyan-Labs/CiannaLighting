@@ -9,7 +9,6 @@ import { generatePassword } from '../../app/generatePassword';
 import { createUserAction } from '../../redux/actions/usersActions';
 import { axiosPrivate } from '../../api/axios';
 import { useParams } from '../../app/utils';
-import logging from 'config/logging';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/CreateUserModal.scss';
@@ -127,7 +126,6 @@ const CreateUserModal: FC<Props> = ({
                 const response = await axiosPriv.put('/cmd/edit-user/' + handleEdit()._id, handleEdit());
 
                 if (response) {
-                    logging.info(response.data, 'CreateUserModal');
                     setEdit(false);
 
                     if (curUser === userId) {
@@ -184,8 +182,6 @@ const CreateUserModal: FC<Props> = ({
 
         return editPass;
     };
-
-    logging.info(userDetails, 'CreateUserModal');
 
     return (
         <div className="new-user-modal-background">
