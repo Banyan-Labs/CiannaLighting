@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
-import { FaPlus, FaChevronRight, FaFolderOpen } from 'react-icons/fa';
-import { RiArchiveDrawerFill } from 'react-icons/ri';
+import { FaChevronRight, FaFolderOpen } from 'react-icons/fa';
+import { RiAddLine, RiArchiveDrawerFill } from 'react-icons/ri';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import {
     getAttachments,
@@ -98,7 +98,7 @@ const YourProjects: FC = () => {
 
             return (
                 <div
-                    className={`single-project ${getStatusClass(
+                    className={`single-project m-3 ${getStatusClass(
                         project.status
                     )}`}
                     onClick={async () => {
@@ -147,61 +147,71 @@ const YourProjects: FC = () => {
     return (
         <>
             <div className="dashboard-container">
-                <div className="dashboard-project-overview">
-                    <h4>My Projects</h4>
-                    <div className="overview-vertical-divider" />
-                    <FaFolderOpen className="overview-icon-main" />
-                    <div className="totalProjects dashboard-project-overview">
-                        Total Projects
-                        <div className="filteredProjectsNumber">
-                            {filteredProjects?.length}
-                        </div>
-                        <div className="overview-configure-title overview-label">
-                            Configure / Design
-                        </div>
-                        <div className="overview-configure-num overview-num">
-                            {configureProjectCount}
-                        </div>
-                        <div className="overview-completed-title overview-label">
-                            RFP / Completed
-                        </div>
-                        <div className="overview-completed-num overview-num">
-                            {completedProjectCount}
-                        </div>
-                        <div className="overview-saved-title overview-label">
-                            Saved Projects
-                        </div>
-                        <div className="overview-saved-num overview-num">
-                            {savedProjectCount}
-                        </div>
-                        <div className="overview-hold-title overview-label">
-                            On Hold
-                        </div>
-                        <div className="overview-hold-num overview-num">
-                            {holdProjectCount}
-                        </div>
-                        <div className="overview-template-title overview-label">
-                            Template / New
-                        </div>
-                        <div className="overview-template-num overview-num">
-                            {templateProjectCount}
+                <div className="dashboard-project-overview mx-5 no-wrap">
+                    <div className="align-items-center d-flex flex-row">
+                        <h4>My Projects</h4>
+                        <div className="overview-vertical-divider mx-5" />
+                        <FaFolderOpen className="overview-icon-main mx-1" />
+                        <div className="align-items-baseline overview-configure-title">
+                            Total Projects
+                            <div className="mx-2 num">
+                                {filteredProjects?.length}
+                            </div>
                         </div>
                     </div>
-                    <>
-                        <button
-                            className="dashboard-new-project-button"
-                            onClick={() => {
-                                setOpenModal(true);
-                            }}
-                        >
-                            <FaPlus className="submit-icon" />
-                            <span className="dashboard-new-project-sub-text">
-                                New Project
-                            </span>
+                    <div className="align-items-center d-flex flex-row flex-wrap">
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-configure-title overview-label">
+                                Configure / Design
+                            </div>
+                            <div className="mx-2 num">
+                                {configureProjectCount}
+                            </div>
+                        </div>
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-completed-title overview-label">
+                                RFP / Completed
+                            </div>
+                            <div className="mx-2 num">
+                                {completedProjectCount}
+                            </div>
+                        </div>
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-saved-title overview-label">
+                                Saved Projects
+                            </div>
+                            <div className="mx-2 num">
+                                {savedProjectCount}
+                            </div>
+                        </div>
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-hold-title overview-label">
+                                On Hold
+                            </div>
+                            <div className="mx-2 num">
+                                {holdProjectCount}
+                            </div>
+                        </div>
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-template-title overview-label">
+                                Template / New
+                            </div>
+                            <div className="mx-2 num">
+                                {templateProjectCount}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button className="align-items-center d-flex flex-row room-button ms-2 p-3" onClick={() => {
+                            setOpenModal(true);
+                        }}>
+                            <RiAddLine className="add-sign me-1" />
+                            New Project
                         </button>
-                    </>
-
-                    <div className="your-projects-section" ref={ref}>
+                    </div>
+                </div>
+                <div className="your-rooms mx-5">
+                    <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
                         {singleProject}
                         {singleProject?.length === 0 && (
                             <div className="your-projects-none">
@@ -209,6 +219,7 @@ const YourProjects: FC = () => {
                             </div>
                         )}
                     </div>
+
                 </div>
             </div>
 
