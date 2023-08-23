@@ -12,7 +12,7 @@ const SearchBar: FC<searchBarProps> = ({ setSearchTerm }) => {
                     className="form__field"
                     type="text"
                     id="header-search"
-                    placeholder="Search product"
+                    placeholder="Search products"
                     onChange={(event) => {
                         setSearchTerm(event.target.value);
                     }}

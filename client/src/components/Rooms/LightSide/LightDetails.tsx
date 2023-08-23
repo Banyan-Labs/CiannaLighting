@@ -32,9 +32,9 @@ const LightDetails: FC<catalogPros> = ({
         <>
             {!catalogItem ? (
                 <div className="lightDetail-container">
-                    <div className="col-12 d-flex row light-top-catalog justify-content-center">
+                    <div className="col-12 d-flex flex-column light-top-catalog justify-content-center">
                         <div className="d-flex row justify-content-center align-items-center">
-                            <div className="col-12 d-flex justify-content-between align-items-center dashboard-project-overview mx-5 no-wrap">
+                            <div className="col-12 d-flex justify-content-between align-items-center dashboard-project-overview no-wrap">
                                 <div>
                                     <h4 className="page-title">Catalog Lights</h4>
                                 </div>
@@ -52,7 +52,6 @@ const LightDetails: FC<catalogPros> = ({
                                 </div>
                             </div>
                         </div>
-                        <p>Select a light to view details.</p>
                         <Cards
                             searchTerm={searchTerm}
                             setCatalogItem={setCatalogItem}
