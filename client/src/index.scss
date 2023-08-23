@@ -217,3 +217,14 @@ button {
         transform: rotate(90deg);
     }
 }
+
+.search-input {
+    min-width: 15vw;
+
+    .form__field {
+        &::placeholder {
+            color: $primary-bg-white-sub-text;
+            font-style: italic;
+        }
+    }
+}

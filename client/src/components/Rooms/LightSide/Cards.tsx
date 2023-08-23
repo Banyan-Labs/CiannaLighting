@@ -55,7 +55,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive && !project?.archived ? "item-cards item d-flex flex-column align-items-center justify-content-between" : "item-cards item d-flex flex-column align-items-center inactive-shadow justify-content-between"}
+                className={el.isActive && !project?.archived ? "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-3" : "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-3 inactive-shadow"}
                 key={index}
                 onClick={() => {
                     if (el.isActive && !project?.archived) {
@@ -63,16 +63,8 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     }
                 }}
             >
-                <div className="align-items-center d-flex image-container">
-                    <img src={el.images[0]} />
-                </div>
-                <div className="item-bottom-sections">
-                    <h4
-                        className=""
-                    >
-                        <span>{el.item_ID}</span>
-                    </h4>
-                </div>
+                <img className="light-image" src={el.images[0]} />
+                <span>{el.item_ID}</span>
             </div>
         ));
 
@@ -90,28 +82,16 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
 
     return (
         <>
-            <div className="d-flex row flex-wrap m-0 p-0">
-                { }
-                {loading ? (
-                    <h2>Loading...</h2>
-                ) : error ? (
-                    <h2>Error fetching users</h2>
-                ) : (
-                    <>
-                        <div className="lightCard items d-flex flex-wrap justify-content-center">
-                            {filteredData?.length ? filteredData
-                                : <div className="main-catalog-filter-container d-flex m-0">
-                                    <div className="col-12 d-flex row m-0 p-0">
-                                        <h4 className="d-flex justify-content-center">
-                                            No catalog items found.
-                                        </h4>
-                                    </div>
-                                </div>
-                            }
+            <div className="your-rooms-section d-flex flex-wrap">
+                {filteredData?.length ? filteredData
+                    : <div className="main-catalog-filter-container d-flex m-0">
+                        <div className="col-12 d-flex row m-0 p-0">
+                            <h4 className="d-flex justify-content-center">
+                                No catalog items found.
+                            </h4>
                         </div>
-
-                    </>
-                )}
+                    </div>
+                }
             </div>
             {searchValue.length > 6 ? (
                 <div className="pagination_">
