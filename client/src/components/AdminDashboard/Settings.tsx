@@ -19,12 +19,12 @@ const Settings: FC = () => {
 
             if (regionCall) {
                 setRegion(regionCall.data.data);
-                setSortedRegion(regionCall.data.data)
+                setSortedRegion(regionCall.data.data);
             }
 
             setNewRegion('');
         } catch (error: any) {
-            throw new Error(error.message)
+            throw new Error(error.message);
         }
     };
     const handleChange = (e: any, section: string) => {
@@ -35,10 +35,7 @@ const Settings: FC = () => {
     const handleSubmit = async (e: any, section: string) => {
         e.preventDefault();
 
-        const submitVal =
-            section === 'region'
-                    ? newRegion
-                    : '';
+        const submitVal = section === 'region' ? newRegion : '';
         const axiosPriv = axiosPrivate();
 
         try {
@@ -55,7 +52,6 @@ const Settings: FC = () => {
         } catch (error: any) {
             throw new Error(error.message);
         }
-
     };
     const removeSR = async (e: any, section: string, value: string) => {
         e.preventDefault();
@@ -111,7 +107,7 @@ const Settings: FC = () => {
         };
 
         setSortedRegion(sorted[direction]);
-        setRegionSort(direction)
+        setRegionSort(direction);
     };
     const triggerDirection = (field: string) => {
         if (regionSort == 0) {
@@ -147,7 +143,9 @@ const Settings: FC = () => {
                     </label>
                 </div>
                 <button
-                    className={`new-material-button ${newRegion.length < 1 ? 'disabled' : ''}`}
+                    className={`new-material-button ${
+                        newRegion.length < 1 ? 'disabled' : ''
+                    }`}
                     onClick={(e) => handleSubmit(e, 'region')}
                 >
                     <FaPlus className="submit-icon" />
@@ -156,7 +154,10 @@ const Settings: FC = () => {
             </div>
             <table className="users-table">
                 <thead>
-                    <tr className="users-table-headers settings-head" onClick={() => triggerDirection('region')}>
+                    <tr
+                        className="users-table-headers settings-head"
+                        onClick={() => triggerDirection('region')}
+                    >
                         <td>Region</td>
                         <td>{sortDisplay()}</td>
                         <td>click to sort</td>

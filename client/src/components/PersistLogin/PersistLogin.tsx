@@ -11,7 +11,7 @@ const PersistLogin = () => {
     const userId = useParams('_id');
     const dispatch = useAppDispatch();
     const token: string = user.token;
-    
+
     useEffect(() => {
         let isMounted = true;
         const verifyRefreshToken = async () => {

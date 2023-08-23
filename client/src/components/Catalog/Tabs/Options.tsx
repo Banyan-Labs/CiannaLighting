@@ -11,7 +11,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
         'item_ID',
         'designStyle',
         'itemDescription',
-        'usePackages'
+        'usePackages',
     ];
     const specFields = [
         'bodyDiameter',
@@ -38,7 +38,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
         'costAdmin',
         'partnerCodeAdmin',
         '__v',
-        'isActive'
+        'isActive',
     ];
     const fieldsToIgnore = [
         ...detailsFields,
@@ -55,10 +55,10 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
 
                 return (
                     <div className="col-6" key={index + key}>
-                        <h4 className="light_details_title">{camelCaseToTitleCase(key)}</h4>
-                        <p className="light_details_info">
-                            {item}
-                        </p>
+                        <h4 className="light_details_title">
+                            {camelCaseToTitleCase(key)}
+                        </h4>
+                        <p className="light_details_info">{item}</p>
                     </div>
                 );
             })}

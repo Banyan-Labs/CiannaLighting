@@ -13,7 +13,8 @@ interface catalogPros {
 const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
     const Item = catalogItem;
     const [activeIndex, setActiveIndex] = useState(1);
-    const handleClick = (index: any) => index === activeIndex ? setActiveIndex(0) : setActiveIndex(index);
+    const handleClick = (index: any) =>
+        index === activeIndex ? setActiveIndex(0) : setActiveIndex(index);
     const checkActive = (index: any, className: any) =>
         activeIndex === index ? className : '';
     const getFileNames = (file: any) => {
@@ -70,17 +71,17 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                 <div className={`panel__catalog ${checkActive(4, 'active2')}`}>
                     <div className="d-flex flex-shrink-0 flex-wrap light_details px-3 mb-3">
                         <div className="col-12">
-                            <h4 className="light_details_title">Drawing Files</h4>
+                            <h4 className="light_details_title">
+                                Drawing Files
+                            </h4>
                             {Item?.drawingFiles.map(
                                 (ef: string, index = ef.indexOf(ef)) => {
                                     const displayName = getFileNames(ef);
 
                                     return (
-                                        <a
-                                            key={index}
-                                            href={ef}
-                                        >
-                                            {displayName || `Drawing file #${index + 1}`}
+                                        <a key={index} href={ef}>
+                                            {displayName ||
+                                                `Drawing file #${index + 1}`}
                                         </a>
                                     );
                                 }
@@ -94,11 +95,9 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                     const displayName = getFileNames(ef);
 
                                     return (
-                                        <a
-                                            key={index}
-                                            href={ef}
-                                        >
-                                            {displayName || `Rendering #${index + 1}`}
+                                        <a key={index} href={ef}>
+                                            {displayName ||
+                                                `Rendering #${index + 1}`}
                                         </a>
                                     );
                                 }
@@ -112,11 +111,9 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                                     const displayName = getFileNames(ef);
 
                                     return (
-                                        <a
-                                            key={index}
-                                            href={ef}
-                                        >
-                                            {displayName || `Cut sheet #${index + 1}`}
+                                        <a key={index} href={ef}>
+                                            {displayName ||
+                                                `Cut sheet #${index + 1}`}
                                         </a>
                                     );
                                 }

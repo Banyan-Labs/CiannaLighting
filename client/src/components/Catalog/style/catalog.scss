@@ -119,11 +119,11 @@
     cursor: pointer;
     text-align: left;
     padding: 15px 20px;
-    margin-bottom: 0.50rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .tab__catalog::after {
-    content: "❯";
+    content: '❯';
     text-align: center;
     transition: all 0.35s;
 }

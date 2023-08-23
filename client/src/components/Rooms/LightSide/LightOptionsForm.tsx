@@ -32,9 +32,7 @@ function LightOptionsForm({
     setEditLight,
 }: Props) {
     const dispatch = useAppDispatch();
-    const { room, project } = useAppSelector(
-        ({ project }) => project
-    );
+    const { room, project } = useAppSelector(({ project }) => project);
     const [count, setCount] = useState<number>(
         editLightItem ? editLightItem?.quantity : 1
     );
@@ -55,13 +53,11 @@ function LightOptionsForm({
     const dispatchSubmit = async (
         editLight: LightItemType | null,
         catalogLight: CatalogLightItem,
-        dataObject: any,
+        dataObject: any
     ) => {
         try {
             if (!editLight) {
-                await dispatch(
-                    createLight({ ...catalogLight, ...dataObject })
-                );
+                await dispatch(createLight({ ...catalogLight, ...dataObject }));
             } else {
                 dispatch(
                     theEditLight(
@@ -149,7 +145,7 @@ function LightOptionsForm({
                 </button>
             </div>
         </form>
-    ): null;
+    ) : null;
 }
 
 export default LightOptionsForm;

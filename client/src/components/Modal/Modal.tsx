@@ -78,15 +78,17 @@ const Modal: FC<Props> = (props) => {
 
         try {
             !props.editProject
-                ? await dispatch(createProjectAction({ project: projectDetails }))
+                ? await dispatch(
+                      createProjectAction({ project: projectDetails })
+                  )
                 : await dispatch(
-                    getProject({
-                        ...projectDetails,
-                        _id: project?._id,
-                        projectName: project?.name,
-                        projectRegion: project?.region
-                    })
-                );
+                      getProject({
+                          ...projectDetails,
+                          _id: project?._id,
+                          projectName: project?.name,
+                          projectRegion: project?.region,
+                      })
+                  );
 
             setProjectDetails({
                 name: '',
@@ -100,19 +102,19 @@ const Modal: FC<Props> = (props) => {
             !props.editProject
                 ? navigate(`/projects/ + ?_id= ${user._id}`)
                 : navigate(
-                    `/projects/ + ?_id= ${user._id}&projectId=${project?._id}`
-                );
+                      `/projects/ + ?_id= ${user._id}&projectId=${project?._id}`
+                  );
 
             await dispatch(getUserProjects(user._id));
             await dispatch(setTheYourProjects(true));
             dataHolding.getData(projectDetails);
-            
+
             if (props.editProject) {
                 closeModal(false);
                 props.setEditProject(false);
             }
         } catch (err: any) {
-            throw new Error(err.message)
+            throw new Error(err.message);
         }
     };
 
@@ -199,38 +201,38 @@ const Modal: FC<Props> = (props) => {
                                 >
                                     {!props.editProject
                                         ? status.map(
-                                            (
-                                                status: string,
-                                                index = status.indexOf(status)
-                                            ) => {
-                                                return (
-                                                    <option
-                                                        key={index}
-                                                        value={status}
-                                                    >
-                                                        {status}
-                                                    </option>
-                                                );
-                                            }
-                                        )
+                                              (
+                                                  status: string,
+                                                  index = status.indexOf(status)
+                                              ) => {
+                                                  return (
+                                                      <option
+                                                          key={index}
+                                                          value={status}
+                                                      >
+                                                          {status}
+                                                      </option>
+                                                  );
+                                              }
+                                          )
                                         : editFormat(
-                                            status,
-                                            project?.status
-                                        )?.map(
-                                            (
-                                                status: string,
-                                                index = status.indexOf(status)
-                                            ) => {
-                                                return (
-                                                    <option
-                                                        key={index}
-                                                        value={status}
-                                                    >
-                                                        {status}
-                                                    </option>
-                                                );
-                                            }
-                                        )}
+                                              status,
+                                              project?.status
+                                          )?.map(
+                                              (
+                                                  status: string,
+                                                  index = status.indexOf(status)
+                                              ) => {
+                                                  return (
+                                                      <option
+                                                          key={index}
+                                                          value={status}
+                                                      >
+                                                          {status}
+                                                      </option>
+                                                  );
+                                              }
+                                          )}
                                 </select>
                             </div>
                             <br />
@@ -247,38 +249,38 @@ const Modal: FC<Props> = (props) => {
                                 >
                                     {!props.editProject
                                         ? region.map(
-                                            (
-                                                region: string,
-                                                index = region.indexOf(region)
-                                            ) => {
-                                                return (
-                                                    <option
-                                                        key={index}
-                                                        value={region}
-                                                    >
-                                                        {region}
-                                                    </option>
-                                                );
-                                            }
-                                        )
+                                              (
+                                                  region: string,
+                                                  index = region.indexOf(region)
+                                              ) => {
+                                                  return (
+                                                      <option
+                                                          key={index}
+                                                          value={region}
+                                                      >
+                                                          {region}
+                                                      </option>
+                                                  );
+                                              }
+                                          )
                                         : editFormat(
-                                            region,
-                                            project?.region
-                                        )?.map(
-                                            (
-                                                region: string,
-                                                index = region.indexOf(region)
-                                            ) => {
-                                                return (
-                                                    <option
-                                                        key={index}
-                                                        value={region}
-                                                    >
-                                                        {region}
-                                                    </option>
-                                                );
-                                            }
-                                        )}
+                                              region,
+                                              project?.region
+                                          )?.map(
+                                              (
+                                                  region: string,
+                                                  index = region.indexOf(region)
+                                              ) => {
+                                                  return (
+                                                      <option
+                                                          key={index}
+                                                          value={region}
+                                                      >
+                                                          {region}
+                                                      </option>
+                                                  );
+                                              }
+                                          )}
                                 </select>
                             </div>
                         </div>

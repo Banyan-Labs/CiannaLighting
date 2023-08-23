@@ -44,9 +44,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
             } else if (
                 val.item_ID
                     .toLowerCase()
-                    .includes(
-                        searchTerm.toLocaleLowerCase()
-                    )
+                    .includes(searchTerm.toLocaleLowerCase())
             ) {
                 return val;
             } else page > 1 ? setPage(1) : '';
@@ -54,7 +52,11 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive ? "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2" : "item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2 inactive-shadow"}
+                className={
+                    el.isActive
+                        ? 'item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2'
+                        : 'item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2 inactive-shadow'
+                }
                 key={index}
                 onClick={() => {
                     if (el.isActive) {
@@ -80,15 +82,17 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
     return (
         <>
             <div className="your-rooms-section d-flex flex-wrap">
-                {filteredData?.length ? filteredData
-                    : <div className="main-catalog-filter-container d-flex m-0">
+                {filteredData?.length ? (
+                    filteredData
+                ) : (
+                    <div className="main-catalog-filter-container d-flex m-0">
                         <div className="col-12 d-flex row m-0 p-0">
                             <h4 className="d-flex justify-content-center">
                                 No catalog items found.
                             </h4>
                         </div>
                     </div>
-                }
+                )}
             </div>
             {searchValue.length > 6 ? (
                 <div className="pagination_">

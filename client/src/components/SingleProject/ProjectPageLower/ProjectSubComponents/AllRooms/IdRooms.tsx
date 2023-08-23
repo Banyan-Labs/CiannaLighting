@@ -9,7 +9,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
-import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
+import {
+    getAllProjectRoomsAction,
+    setTheYourProjects,
+} from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
@@ -59,7 +62,7 @@ const IdRooms: FC = () => {
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`
+                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`,
                 })
             );
 
@@ -101,11 +104,10 @@ const IdRooms: FC = () => {
                             data-for="new-room"
                             data-tip="Copy Room"
                             className="clone-icon ms-3"
-                            onClick={(e) => copyRoom(e, room)} />
+                            onClick={(e) => copyRoom(e, room)}
+                        />
                     )}
-                    <span
-                        style={{ color: 'black' }}
-                    >
+                    <span style={{ color: 'black' }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
                     </span>

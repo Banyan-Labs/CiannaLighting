@@ -39,7 +39,7 @@ export const LIGHT_FORM_OPTIONS_KEYS = [
 
 export enum CopyType {
     PROJECT = 1,
-    ROOM
+    ROOM,
 }
 
 export const SystemStatus = [
@@ -47,7 +47,7 @@ export const SystemStatus = [
     'RFP / Completed',
     'Saved Projects',
     'On Hold',
-    'Template / New'
+    'Template / New',
 ];
 
 export const DesignStyle = {
@@ -67,49 +67,27 @@ export const UsePackage: Record<string, string> = {
     SEALING: 'Sealing',
     CELESTIAL: 'Celestial',
     GENERAL: 'General',
-    VEIL_CORRIDOR: 'Veil Corridor'
+    VEIL_CORRIDOR: 'Veil Corridor',
 };
 
-export const LampColors = [
-    '2700K',
-    '3000K',
-];
+export const LampColors = ['2700K', '3000K'];
 
-export const ProjectVoltages = [
-    '120V',
-    '220V'
-];
+export const ProjectVoltages = ['120V', '220V'];
 
-export const SocketTypes = [
-    'E12',
-    'E26',
-    'E14',
-    'E26',
-    'E27'
-];
+export const SocketTypes = ['E12', 'E26', 'E14', 'E26', 'E27'];
 
-export const Materials = [
-    'Brass',
-    'Steel'
-];
+export const Materials = ['Brass', 'Steel'];
 
 export const ExteriorFinishes = [
     'Ciana Bronze',
     'Ciana Brass',
     'Polished Silver',
-    'Polished Chrome'
+    'Polished Chrome',
 ];
 
-export const FinishTreatments = [
-    'Satin',
-    'Brushed',
-    'Antiqued'
-];
+export const FinishTreatments = ['Satin', 'Brushed', 'Antiqued'];
 
-export const InteriorFinishes = [
-    'Match finish color',
-    'Polished Chrome'
-];
+export const InteriorFinishes = ['Match finish color', 'Polished Chrome'];
 
 export const LensMaterials = [
     'Glass - Clear',
@@ -117,7 +95,7 @@ export const LensMaterials = [
     'Glass - White',
     'Acrylic - Clear White Alabaster Acrylic',
     'Acrylic - Milky White Acrylic N425 ',
-    'Acrylic - Milky White Acrylic N514'
+    'Acrylic - Milky White Acrylic N514',
 ];
 
 export const Treatments = [
@@ -128,41 +106,19 @@ export const Treatments = [
     'Carved Design - as specified',
 ];
 
-export const CrystalTypes = [
-    'NA',
-    'Asfour (30% Lead)',
-    'Empire (7% Lead)'
-];
+export const CrystalTypes = ['NA', 'Asfour (30% Lead)', 'Empire (7% Lead)'];
 
 export const CrystalPinColors = [
     'NA',
     'Gold',
     'Silver',
-    'Match exterior finish color, as close as possible'
+    'Match exterior finish color, as close as possible',
 ];
 
-export const CrystalBulbCovers = [
-    'NA',
-    'Yes',
-    'No',
-];
+export const CrystalBulbCovers = ['NA', 'Yes', 'No'];
 
-export const Environments = [
-    'Interior',
-    'Exterior'
-];
+export const Environments = ['Interior', 'Exterior'];
 
-export const SafetyCertifications = [
-    'UL',
-    'CE',
-    'SEC',
-    'ETL',
-];
+export const SafetyCertifications = ['UL', 'CE', 'SEC', 'ETL'];
 
-export const MountingTypes = [
-    'Flat',
-    'Slope',
-    'Hoist',
-    'J-Box',
-    'Lag bolts',
-];
+export const MountingTypes = ['Flat', 'Slope', 'Hoist', 'J-Box', 'Lag bolts'];

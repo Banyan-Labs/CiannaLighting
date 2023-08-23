@@ -4,7 +4,10 @@ import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { deleteLight, getRoomLights } from '../../../redux/actions/lightActions';
+import {
+    deleteLight,
+    getRoomLights,
+} from '../../../redux/actions/lightActions';
 import {
     getProject,
     setTheRoom,
@@ -60,7 +63,7 @@ export const DeleteModal: FC<Props> = ({
             const itemIDS = roomLights
                 ? roomLights.map((room: any) => room.item_ID)
                 : [];
-            
+
             await dispatch(
                 deleteThisRoom({
                     _id: String(storedRoomId),
@@ -68,14 +71,20 @@ export const DeleteModal: FC<Props> = ({
                     itemIDS: itemIDS,
                 })
             );
-            
-            await dispatch(getProject({_id: String(storedProjId)}));
+
+            await dispatch(getProject({ _id: String(storedProjId) }));
             await dispatch(getAttachments(String(storedProjId)));
         };
-        
+
         try {
-            !deleteRoom ? await deleteLightMethod(light) : await deleteRoomMethod();
-            deleteRoom ? navigate(`/projects/ + ?_id= ${userId}&projectId=${storedProjId}`) : null;
+            !deleteRoom
+                ? await deleteLightMethod(light)
+                : await deleteRoomMethod();
+            deleteRoom
+                ? navigate(
+                      `/projects/ + ?_id= ${userId}&projectId=${storedProjId}`
+                  )
+                : null;
         } catch (err: any) {
             throw new Error(err.message);
         }
@@ -121,7 +130,7 @@ export const DeleteModal: FC<Props> = ({
         } catch (err: any) {
             throw new Error(err.message);
         }
-        
+
         await dispatch(getProject({ _id: String(storedProjId) }));
         await dispatch(getAttachments(String(storedProjId)));
         dispatch(getAllProjectRoomsAction(String(storedProjId)));

@@ -20,7 +20,7 @@ const CreateEditLight = ({
     catalogItem,
     editLight,
     setEditLight,
-    projectView
+    projectView,
 }: Props) => {
     const returnToNull = () => {
         setEditLight(null);
@@ -37,7 +37,8 @@ const CreateEditLight = ({
                         className="back-to-all-projects"
                         onClick={handleNavigationClick}
                     >
-                        <BsChevronLeft className="chevron-icon" /> Back to Catalog
+                        <BsChevronLeft className="chevron-icon" /> Back to
+                        Catalog
                     </a>
                 </div>
                 {editLight && (
@@ -50,21 +51,23 @@ const CreateEditLight = ({
                 )}
             </div>
             <div className="light-details__content d-flex flex-column">
-                <SingleView catalogItem={catalogItem} setCatalogItem={setCatalogItem} showBack={false} />
+                <SingleView
+                    catalogItem={catalogItem}
+                    setCatalogItem={setCatalogItem}
+                    showBack={false}
+                />
 
-                {
-                    projectView && (
-                        <div className="align-self-center d-flex justify-content-center light-details__description-wrapper">
-                            <LightOptionsForm
-                                catalogLightItem={catalogItem}
-                                editLightItem={editLight}
-                                setCatalogItem={setCatalogItem}
-                                setEditLight={setEditLight}
-                                lightSpecs={catalogItem.cutSheet}
-                            />
-                        </div>
-                    )
-                }
+                {projectView && (
+                    <div className="align-self-center d-flex justify-content-center light-details__description-wrapper">
+                        <LightOptionsForm
+                            catalogLightItem={catalogItem}
+                            editLightItem={editLight}
+                            setCatalogItem={setCatalogItem}
+                            setEditLight={setEditLight}
+                            lightSpecs={catalogItem.cutSheet}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

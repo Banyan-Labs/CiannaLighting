@@ -19,6 +19,6 @@ export const parseFileName = (filename: string) => {
     return {
         itemId: decodeURI(itemId)?.replace(/%2B/g, ' '),
         fieldName: fieldName,
-        originalName: originalName
+        originalName: originalName,
     };
-}
+};

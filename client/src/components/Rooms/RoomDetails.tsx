@@ -9,7 +9,10 @@ import { axiosPrivate } from '../../api/axios';
 import { getEditLight } from '../../redux/actions/lightActions';
 import { useAppSelector } from '../../app/hooks';
 import { useAppDispatch } from '../../app/hooks';
-import { getProject, setTheYourProjects } from '../../redux/actions/projectActions';
+import {
+    getProject,
+    setTheYourProjects,
+} from '../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
 import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
@@ -109,8 +112,11 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
         <div>
             <div className="col-12 d-flex justify-content-between align-items-center m-0 mt-2 back-button-container">
                 <div className="back-to-project">
-                    <Link to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}>
-                        <BsChevronLeft className="chevron-icon" /> Back to Project
+                    <Link
+                        to={`/projects/ ?_id= ${user._id}&projectId=${projectId}`}
+                    >
+                        <BsChevronLeft className="chevron-icon" /> Back to
+                        Project
                     </Link>
                 </div>
             </div>
@@ -120,7 +126,9 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                     <div className="project-title-with-status-icon">
                         <h3 className="m-0">{project?.name}</h3>
                         <FaCircle
-                            className={`room-details-circle-icon ${getStatusClass(project?.status || '')} background-unset`}
+                            className={`room-details-circle-icon ${getStatusClass(
+                                project?.status || ''
+                            )} background-unset`}
                         />
                     </div>
                 </div>
@@ -134,39 +142,37 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                                     <h4 className="m-0">{room?.name}</h4>
                                 </div>
                             </div>
-                            {
-                                !project?.archived && (
-                                    <div className="icon-container d-flex align-items-center justify-content-center">
-                                        <FaRegEdit
-                                            data-for="edit"
-                                            data-tip="Edit Room"
-                                            className="m-2 edit-icon"
-                                            onClick={() => {
-                                                setOpenModal(true);
-                                                setEditRoom(true);
-                                            }}
-                                        />
-                                        <FaRegClone
-                                            data-for="copy"
-                                            data-tip="Copy Room"
-                                            className="m-2 clone-icon"
-                                            onClick={(e) => copyRoom(e)}
-                                        />
-                                        <FaRegTrashAlt
-                                            onClick={() => {
-                                                setOpenModal(true);
-                                                setDeleteRoom(true);
-                                            }}
-                                            data-for="delete"
-                                            data-tip="Delete Room"
-                                            className="m-2 archive-icon"
-                                        />
-                                        <ReactTooltip id="edit" />
-                                        <ReactTooltip id="copy" />
-                                        <ReactTooltip id="delete" />
-                                    </div>
-                                )
-                            }
+                            {!project?.archived && (
+                                <div className="icon-container d-flex align-items-center justify-content-center">
+                                    <FaRegEdit
+                                        data-for="edit"
+                                        data-tip="Edit Room"
+                                        className="m-2 edit-icon"
+                                        onClick={() => {
+                                            setOpenModal(true);
+                                            setEditRoom(true);
+                                        }}
+                                    />
+                                    <FaRegClone
+                                        data-for="copy"
+                                        data-tip="Copy Room"
+                                        className="m-2 clone-icon"
+                                        onClick={(e) => copyRoom(e)}
+                                    />
+                                    <FaRegTrashAlt
+                                        onClick={() => {
+                                            setOpenModal(true);
+                                            setDeleteRoom(true);
+                                        }}
+                                        data-for="delete"
+                                        data-tip="Delete Room"
+                                        className="m-2 archive-icon"
+                                    />
+                                    <ReactTooltip id="edit" />
+                                    <ReactTooltip id="copy" />
+                                    <ReactTooltip id="delete" />
+                                </div>
+                            )}
                         </div>
                         <div className="project-date d-flex flex-column">
                             <p className="">Created: {date}</p>
@@ -181,46 +187,46 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
                 </div>
 
                 <div className="container-for-light-cards mt-3">
-                    {
-                        newLights?.map((light: any) => {
-                            const item =
-                                setAllCatalog && setAllCatalog.length
-                                    ? setAllCatalog.find(
-                                        (item: any) => item.item_ID === light.item_ID
-                                    ) : null;
-                            const image = item?.images?.length ? item.images[0] : '';
+                    {newLights?.map((light: any) => {
+                        const item =
+                            setAllCatalog && setAllCatalog.length
+                                ? setAllCatalog.find(
+                                      (item: any) =>
+                                          item.item_ID === light.item_ID
+                                  )
+                                : null;
+                        const image = item?.images?.length
+                            ? item.images[0]
+                            : '';
 
-                            return (
-                                <SingleRoom 
-                                light={light} 
-                                project={project} 
-                                image={image} 
+                        return (
+                            <SingleRoom
+                                light={light}
+                                project={project}
+                                image={image}
                                 editLightFunc={editLightFunc}
                                 deleteLightFunc={deleteLightFunc}
-                                key={light._id} />
-                            );
-                        })
-                    }
+                                key={light._id}
+                            />
+                        );
+                    })}
                 </div>
-
             </div>
 
-            {
-                openModal && (
-                    <DeleteModal
-                        openModal={openModal}
-                        closeModal={setOpenModal}
-                        light={deleteLight}
-                        setDeleteLight={setDeleteLight}
-                        deleteRoom={deleteRoom}
-                        setDeleteRoom={setDeleteRoom}
-                        room={room}
-                        editRoom={editRoom}
-                        setEditRoom={setEditRoom}
-                    />
-                )
-            }
-        </div >
+            {openModal && (
+                <DeleteModal
+                    openModal={openModal}
+                    closeModal={setOpenModal}
+                    light={deleteLight}
+                    setDeleteLight={setDeleteLight}
+                    deleteRoom={deleteRoom}
+                    setDeleteRoom={setDeleteRoom}
+                    room={room}
+                    editRoom={editRoom}
+                    setEditRoom={setEditRoom}
+                />
+            )}
+        </div>
     );
 };
 

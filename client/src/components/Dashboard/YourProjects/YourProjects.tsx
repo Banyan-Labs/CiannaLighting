@@ -113,20 +113,17 @@ const YourProjects: FC = () => {
                         </span>
                     </div>
                     <div className="d-flex align-items-end justify-content-between">
+                        {project.archived && (
+                            <>
+                                <RiArchiveDrawerFill
+                                    data-for="ab"
+                                    data-tip={`${project?.name} is awarded.`}
+                                    className="archive-icon archive-show-option"
+                                />
 
-                        {
-                            project.archived && (
-                                <>
-                                    <RiArchiveDrawerFill
-                                        data-for="ab"
-                                        data-tip={`${project?.name} is awarded.`}
-                                        className="archive-icon archive-show-option"
-                                    />
-
-                                    <ReactTooltip id="ab" />
-                                </>
-                            )
-                        }
+                                <ReactTooltip id="ab" />
+                            </>
+                        )}
                     </div>
                     <h3>{project.name}</h3>
                     <div className="view-details-block" key={index}>
@@ -176,17 +173,13 @@ const YourProjects: FC = () => {
                             <div className="overview-saved-title overview-label">
                                 Saved Projects
                             </div>
-                            <div className="mx-2 num">
-                                {savedProjectCount}
-                            </div>
+                            <div className="mx-2 num">{savedProjectCount}</div>
                         </div>
                         <div className="align-items-baseline d-flex flex-row mx-2">
                             <div className="overview-hold-title overview-label">
                                 On Hold
                             </div>
-                            <div className="mx-2 num">
-                                {holdProjectCount}
-                            </div>
+                            <div className="mx-2 num">{holdProjectCount}</div>
                         </div>
                         <div className="align-items-baseline d-flex flex-row mx-2">
                             <div className="overview-template-title overview-label">
@@ -198,16 +191,22 @@ const YourProjects: FC = () => {
                         </div>
                     </div>
                     <div>
-                        <button className="align-items-center d-flex flex-row room-button ms-2 p-3" onClick={() => {
-                            setOpenModal(true);
-                        }}>
+                        <button
+                            className="align-items-center d-flex flex-row room-button ms-2 p-3"
+                            onClick={() => {
+                                setOpenModal(true);
+                            }}
+                        >
                             <RiAddLine className="add-sign me-1" />
                             New Project
                         </button>
                     </div>
                 </div>
                 <div className="your-rooms mx-5">
-                    <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
+                    <div
+                        className="your-rooms-section d-flex flex-wrap"
+                        ref={ref}
+                    >
                         {singleProject}
                         {singleProject?.length === 0 && (
                             <div className="your-projects-none">
@@ -215,7 +214,6 @@ const YourProjects: FC = () => {
                             </div>
                         )}
                     </div>
-
                 </div>
             </div>
 

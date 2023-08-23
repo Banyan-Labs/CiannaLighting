@@ -25,6 +25,6 @@ export default (lightItem: CatalogLightItem): T[] => {
             });
         }
     }
-    
+
     return results;
 };

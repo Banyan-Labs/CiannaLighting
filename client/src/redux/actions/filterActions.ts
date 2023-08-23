@@ -5,16 +5,16 @@ import { axiosPrivate } from '../../api/axios';
 
 export const getAllRegions =
     () =>
-        async (dispatch: Dispatch): Promise<void> => {
-            const axioscall = await axiosPrivate();
+    async (dispatch: Dispatch): Promise<void> => {
+        const axioscall = await axiosPrivate();
 
-            try {
-                const AllRegion = await axioscall.post('/public/s_r', {
-                    label: 'region',
-                });
-                
-                dispatch(setRegion(AllRegion?.data));
-            } catch (error: any) {
-                dispatch(setError(error.response.data));
-            }
-        };
+        try {
+            const AllRegion = await axioscall.post('/public/s_r', {
+                label: 'region',
+            });
+
+            dispatch(setRegion(AllRegion?.data));
+        } catch (error: any) {
+            dispatch(setError(error.response.data));
+        }
+    };

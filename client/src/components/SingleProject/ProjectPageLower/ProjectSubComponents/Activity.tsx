@@ -68,15 +68,13 @@ const Activity: FC = () => {
         <div className="activity-container">
             <label className="activity-label">Room Actions</label>
             <table className="activity-table">
-                {
-                    rooms?.length
-                        ? activityTables(rooms.slice(roomFirstIndex, roomLastIndex))
-                        : (
-                            <tfoot>
-                                <tr className="projects-table-dynamic-row"></tr>
-                            </tfoot>
-                        )
-                }
+                {rooms?.length ? (
+                    activityTables(rooms.slice(roomFirstIndex, roomLastIndex))
+                ) : (
+                    <tfoot>
+                        <tr className="projects-table-dynamic-row"></tr>
+                    </tfoot>
+                )}
             </table>
             <div className="activity-pagination">
                 {roomPage > 1 && (
@@ -114,15 +112,15 @@ const Activity: FC = () => {
 
             <label className="activity-label">Mark Awarded / Restore</label>
             <table className="activity-table">
-                {
-                    archRestore?.length
-                        ? activityTables(archRestore.slice(archFirstIndex, archLastIndex))
-                        : (
-                            <tfoot>
-                                <tr className="projects-table-dynamic-row"></tr>
-                            </tfoot>
-                        )
-                }
+                {archRestore?.length ? (
+                    activityTables(
+                        archRestore.slice(archFirstIndex, archLastIndex)
+                    )
+                ) : (
+                    <tfoot>
+                        <tr className="projects-table-dynamic-row"></tr>
+                    </tfoot>
+                )}
             </table>
             <div className="activity-pagination">
                 {archPage > 1 && (
@@ -159,16 +157,15 @@ const Activity: FC = () => {
             </div>
             <label className="activity-label">Status Change</label>
             <table className="activity-table">
-                {
-                    status?.length
-                        ? activityTables(status.slice(statusFirstIndex, statusLastIndex))
-                        : (
-                            <tfoot>
-                                <tr className="projects-table-dynamic-row"></tr>
-                            </tfoot>
-                        )
-                }
-
+                {status?.length ? (
+                    activityTables(
+                        status.slice(statusFirstIndex, statusLastIndex)
+                    )
+                ) : (
+                    <tfoot>
+                        <tr className="projects-table-dynamic-row"></tr>
+                    </tfoot>
+                )}
             </table>
             <div className="activity-pagination">
                 {statusPage > 1 && (

@@ -28,7 +28,9 @@ const Links: FC<{ links: Link[] }> = () => {
     const location = useLocation();
     const pathname = location.pathname;
     const activeLocation = pathname.split('/')[1];
-    const latestProject = userProjects?.length ? userProjects.slice(userProjects.length - 1) : [];
+    const latestProject = userProjects?.length
+        ? userProjects.slice(userProjects.length - 1)
+        : [];
     const defaultProjId = String(latestProject.map((p) => p._id));
     const Id = storedProjId ? storedProjId : defaultProjId;
 
@@ -37,7 +39,9 @@ const Links: FC<{ links: Link[] }> = () => {
             {links
                 .slice()
                 .filter((link: Link) =>
-                    link.label === 'Admin' && user.role != ROLES.Admin ? '' : link
+                    link.label === 'Admin' && user.role != ROLES.Admin
+                        ? ''
+                        : link
                 )
                 .map((link: Link) => {
                     return (
@@ -51,7 +55,9 @@ const Links: FC<{ links: Link[] }> = () => {
                                     search: `?_id=${user._id}&projectId=${Id}`,
                                 }}
                                 className={
-                                    link.href.includes(activeLocation) ? 'active navbar-links me-5' : 'navbar-links me-5'
+                                    link.href.includes(activeLocation)
+                                        ? 'active navbar-links me-5'
+                                        : 'navbar-links me-5'
                                 }
                             >
                                 {link.label}
@@ -65,16 +71,16 @@ const Links: FC<{ links: Link[] }> = () => {
 
 const Navbar: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
-    
+
     const dispatch = useAppDispatch();
 
     const handleLogout = async (e: any) => {
         try {
             e.preventDefault();
-            
+
             dispatch(logoutAction(user.email));
         } catch (err: any) {
-            throw new Error(err.message)
+            throw new Error(err.message);
         }
     };
 
@@ -92,10 +98,12 @@ const Navbar: FC = () => {
                 <div className="navbar-user-container">
                     <span className="navbar-user-hi">Hi,&nbsp; </span>
                     <span className="navbar-user-name">
-                        {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}
-                        !
+                        {user?.name?.split(' ')[0]?.toUpperCase() || 'Test'}!
                     </span>
-                    <TbLogout className="logout-icon" onClick={(e) => handleLogout(e)} />
+                    <TbLogout
+                        className="logout-icon"
+                        onClick={(e) => handleLogout(e)}
+                    />
                 </div>
             </nav>
         </>

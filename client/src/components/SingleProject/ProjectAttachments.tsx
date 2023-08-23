@@ -25,34 +25,39 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
         document.body.removeChild(a);
     };
 
-
-
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-            const fileName = file?.split('/uploads/')[1];
-            const { itemId, fieldName, originalName } = parseFileName(fileName);
-            let fileType = camelCaseToTitleCase(fieldName);
-            fileType = fileType?.slice(0, fileType?.length - 1);
-            let displayName = '';
+              const fileName = file?.split('/uploads/')[1];
+              const { itemId, fieldName, originalName } =
+                  parseFileName(fileName);
+              let fileType = camelCaseToTitleCase(fieldName);
+              fileType = fileType?.slice(0, fileType?.length - 1);
+              let displayName = '';
 
-            if (originalName) {
-                displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
-            }
+              if (originalName) {
+                  displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
+              }
 
-            return (
-                <tr key={index} className="attachments-dynamic-row" onClick={() => { downloadFile(file, displayName) }}>
-                    <td className="">
-                        <span className="text-bold">{itemId}</span>
-                    </td>
-                    <td className="">
-                        <span className="text-bold">{fileType}</span>
-                    </td>
-                    <td className="">
-                        <p>{displayName}</p>
-                    </td>
-                </tr>
-            );
-        })
+              return (
+                  <tr
+                      key={index}
+                      className="attachments-dynamic-row"
+                      onClick={() => {
+                          downloadFile(file, displayName);
+                      }}
+                  >
+                      <td className="">
+                          <span className="text-bold">{itemId}</span>
+                      </td>
+                      <td className="">
+                          <span className="text-bold">{fileType}</span>
+                      </td>
+                      <td className="">
+                          <p>{displayName}</p>
+                      </td>
+                  </tr>
+              );
+          })
         : [];
 
     return (
@@ -81,9 +86,7 @@ const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
                                     <th className="">Name</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {userAttachments}
-                            </tbody>
+                            <tbody>{userAttachments}</tbody>
                         </table>
                     </div>
                 </div>

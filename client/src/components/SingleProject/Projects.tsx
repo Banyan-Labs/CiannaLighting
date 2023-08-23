@@ -28,7 +28,7 @@ const Projects: FC = () => {
     const defaultProjId = latestProject?.map((p) => p._id)[0];
     const projectIdToUse: string = storedProjId ? storedProjId : defaultProjId;
     const fetchData1 = async () => {
-        await dispatch(getProject({ _id: String(projectIdToUse) }))
+        await dispatch(getProject({ _id: String(projectIdToUse) }));
         await dispatch(getCatalogItems());
     };
 
@@ -40,9 +40,9 @@ const Projects: FC = () => {
         if (yourProjects === false || route.includes('projects')) {
             dispatch(setDefaults());
         } else {
-            null
+            null;
         }
-    }, [yourProjects])
+    }, [yourProjects]);
 
     return (
         <>

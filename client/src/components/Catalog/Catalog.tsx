@@ -38,34 +38,36 @@ const Catalog: FC = () => {
         ref.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const usePackages = Object.keys(UsePackage).map((packageItem: string, index) => {
-        const usePackage = UsePackage[packageItem];
-        const image = usePackageImages[packageItem];
+    const usePackages = Object.keys(UsePackage).map(
+        (packageItem: string, index) => {
+            const usePackage = UsePackage[packageItem];
+            const image = usePackageImages[packageItem];
 
-        return (
-            <div className="use-package-container" key={index}>
-                <button
-                    key={usePackage}
-                    style={{
-                        backgroundImage: `url(/images${image})`,
-                        backgroundPosition: 'top',
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        cursor: 'pointer',
-                    }}
-                    className="use-package-image"
-                    value={usePackage}
-                    onClick={(e) => {
-                        fetchData1(e);
-                        setCatalogType(usePackage);
-                        setRenderPage('usePackages');
-                    }}
-                ></button>
+            return (
+                <div className="use-package-container" key={index}>
+                    <button
+                        key={usePackage}
+                        style={{
+                            backgroundImage: `url(/images${image})`,
+                            backgroundPosition: 'top',
+                            backgroundSize: 'cover',
+                            backgroundRepeat: 'no-repeat',
+                            cursor: 'pointer',
+                        }}
+                        className="use-package-image"
+                        value={usePackage}
+                        onClick={(e) => {
+                            fetchData1(e);
+                            setCatalogType(usePackage);
+                            setRenderPage('usePackages');
+                        }}
+                    ></button>
 
-                <p style={{ fontSize: '14px' }}>{usePackage}</p>
-            </div>
-        );
-    });
+                    <p style={{ fontSize: '14px' }}>{usePackage}</p>
+                </div>
+            );
+        }
+    );
 
     return (
         <>

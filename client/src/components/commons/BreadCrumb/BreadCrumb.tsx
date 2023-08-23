@@ -19,7 +19,7 @@ const BreadCrumb = ({ label, linkTo, stateAction }: Props) => {
             <span className="bread-crumb__label">{label}</span>
         </>
     );
-    
+
     if (linkTo) {
         return (
             <Link className="bread-crumb__container" to={linkTo}>

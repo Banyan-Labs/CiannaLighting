@@ -95,7 +95,10 @@ const LightCarousel = ({ images }: Props) => {
                                         backgroundImage: `url(${image.url})`,
                                     }}
                                     key={uuid()}
-                                    className={`carousel__image ${ selectedImageIndex === idx && 'carousel__image-selected' }`}
+                                    className={`carousel__image ${
+                                        selectedImageIndex === idx &&
+                                        'carousel__image-selected'
+                                    }`}
                                     ref={(el) =>
                                         (carouselItemsRef.current[idx] = el)
                                     }

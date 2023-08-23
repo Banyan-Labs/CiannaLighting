@@ -48,6 +48,6 @@ export const getLightOptionsDropValuesFromItem = (
             }
         }
     }
-    
+
     return results;
 };
