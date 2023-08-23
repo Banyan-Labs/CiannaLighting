@@ -65,7 +65,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                 }}
             >
                 <img className="light-image" src={el.images[0]} />
-                <span>{el.item_ID}</span>
+                <span className="my-1">{el.item_ID}</span>
             </div>
         ));
 

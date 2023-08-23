@@ -102,14 +102,18 @@
         box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
         border-top-left-radius: 0.2rem;
         border-top-right-radius: 0.2rem;
-        width: 10vw;
-        height: auto;
+        max-width: 13vw;
+        max-height: 20vh;
     }
     &:hover {
         transition: all 0.2s ease-in-out;
         opacity: 0.4;
         background-color: $primary-bg-dark;
     }
+}
+
+.page-title {
+    font-size: 20px;
 }
 
 .image-container {
@@ -218,9 +222,4 @@
         background-color: $primary-bg-dark-link-hover;
         color: #f7f6f4;
     }
-}
-
-.room-details-page__panel-wrapper {
-    margin-left: auto;
-    margin-right: auto;
 }

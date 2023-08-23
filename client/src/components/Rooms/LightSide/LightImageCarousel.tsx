@@ -39,13 +39,6 @@ const LightCarousel = ({ images }: Props) => {
         if (images && images.length > 0) {
             setSelectedImage(images[newIdx]);
             setSelectedImageIndex(newIdx);
-
-            if (carouselItemsRef?.current[newIdx]) {
-                carouselItemsRef?.current[newIdx]?.scrollIntoView({
-                    inline: 'center',
-                    behavior: 'smooth',
-                });
-            }
         }
     };
 
