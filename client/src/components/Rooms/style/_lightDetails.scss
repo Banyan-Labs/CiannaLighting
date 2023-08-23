@@ -1,13 +1,6 @@
-.lightDetail-container {
-    padding-top: 20px;
-    height: 90vh;
-}
-
 // ******** top of the container **********
 
 .light-top-catalog {
-    padding-top: 10px;
-
     p {
         color: $primary-bg-white-sub-text;
         font-size: 14px;
@@ -26,10 +19,6 @@
         box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
         border-top-left-radius: 0.2rem;
         border-top-right-radius: 0.2rem;
-    }
-
-    .item {
-        height: 40vh;
     }
 }
 
@@ -75,10 +64,8 @@
 }
 
 .item {
-    height: 332px;
-    margin: 10px;
-    margin-top: 40px;
-    width: calc(85% / 3);
+    height: 20vh;
+    width: auto;
     cursor: pointer;
 
     &:hover {
@@ -92,14 +79,16 @@
 }
 
 .item-cards {
+    background-color: #f7f6f4;
+    cursor: pointer;
     border-radius: 0.3rem;
     box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
     border-bottom: solid 1px #ada9a9ab;
     border-right: solid 1px #ada9a9ab;
     border-left: solid 1px #ada9a9ab;
-    min-height: 10vh;
-    overflow-y: scroll;
     scroll-behavior: smooth;
+    height: 25vh;
+    width: 15vw;
     h4 {
         text-align: center;
         font-weight: 500;
@@ -108,6 +97,18 @@
     span {
         color: $primary-bg-white-sub-text;
         font-size: 12px;
+    }
+    img {
+        box-shadow: #00000029 0px 2px 4px, #0000003b 0px 2px 4px;
+        border-top-left-radius: 0.2rem;
+        border-top-right-radius: 0.2rem;
+        width: 10vw;
+        height: auto;
+    }
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        opacity: 0.4;
+        background-color: $primary-bg-dark;
     }
 }
 
@@ -147,7 +148,7 @@
 }
 
 .form-input-search {
-    margin-bottom: 15px;
+    width: 12vw;
 }
 
 // Filter ***************************
@@ -219,3 +220,7 @@
     }
 }
 
+.room-details-page__panel-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}

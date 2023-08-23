@@ -11,6 +11,7 @@ import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
 import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './rooms.scss';
 
@@ -31,7 +32,7 @@ const IdRooms: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
@@ -59,7 +60,12 @@ const IdRooms: FC = () => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`
+                })
+            );
 
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
@@ -79,7 +85,7 @@ const IdRooms: FC = () => {
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
-                className="single-project"
+                className="single-project m-3"
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
@@ -98,7 +104,7 @@ const IdRooms: FC = () => {
                         <FaRegClone
                             data-for="new-room"
                             data-tip="Copy Room"
-                            className="clone-icon"
+                            className="clone-icon ms-3"
                             onClick={(e) => copyRoom(e, room)} />
                     )}
                     <span
@@ -115,7 +121,7 @@ const IdRooms: FC = () => {
     return (
         <>
             <div className="your-rooms">
-                <div className="your-rooms-section" ref={ref}>
+                <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
                     {singleRoom}
                     {singleRoom.length == 0 ? (
                         <div className="your-projects-none">

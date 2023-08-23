@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
+import { useDispatch } from 'react-redux';
 import { FaMinus, FaRegWindowClose } from 'react-icons/fa';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -16,6 +17,7 @@ import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
 import { UsePackage, DesignStyle, LampColors, ProjectVoltages, SocketTypes, Materials, InteriorFinishes, ExteriorFinishes, LensMaterials, CrystalTypes, CrystalPinColors, Environments, SafetyCertifications, MountingTypes, FinishTreatments, Treatments, CrystalBulbCovers } from 'app/constants';
 import logging from 'config/logging';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/inventory.scss';
 
@@ -469,6 +471,7 @@ const Inventory: FC = () => {
     };
 
     const ref = useRef<HTMLButtonElement>(null);
+    const dispatch = useDispatch();
 
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -512,7 +515,8 @@ const Inventory: FC = () => {
                 if (done) {
                     setEditingItem(false);
                     initializeCatalog();
-                    alert('Item Edited!');
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(setAlertMessage({ alertMessage: 'Item Edited!' }));
                     submitButton.disabled = false;
                     submitButton.className = 'inventory-btn';
                     toggleEdit(e, false);
@@ -521,12 +525,18 @@ const Inventory: FC = () => {
                 const response = await axiosPriv.post('/internal/create-light', fs);
 
                 if (response?.status === 201) {
-                    alert('Item created!');
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(setAlertMessage({ alertMessage: 'Item Created!' }));
                     submitButton.disabled = false;
                     submitButton.className = 'inventory-btn';
                     initializeCatalog();
                 } else {
-                    alert('Item not created. Please try again.');
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(
+                        setAlertMessage({
+                            alertMessage: 'Item not created.  Please try again.'
+                        })
+                    );
                     submitButton.disabled = false;
                     submitButton.className = 'inventory-btn';
                 }
@@ -534,7 +544,8 @@ const Inventory: FC = () => {
 
             resetForm();
         } catch (error: any) {
-            alert(error.messsge);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(setAlertMessage({ alertMessage: `${error.message}.` }));
             submitButton.disabled = false;
             submitButton.className = 'inventory-btn';
         }

@@ -12,6 +12,7 @@ type Props = {
     catalogItem: CatalogLightItem;
     editLight: any;
     setEditLight: any;
+    projectView: boolean;
 };
 
 const CreateEditLight = ({
@@ -19,6 +20,7 @@ const CreateEditLight = ({
     catalogItem,
     editLight,
     setEditLight,
+    projectView
 }: Props) => {
     const returnToNull = () => {
         setEditLight(null);
@@ -50,17 +52,21 @@ const CreateEditLight = ({
             <div className="light-details__content d-flex flex-column">
                 <SingleView catalogItem={catalogItem} setCatalogItem={setCatalogItem} showBack={false} />
 
-                <div className="align-self-center d-flex justify-content-center light-details__description-wrapper mt-5">
-                    <div className="light-details__form-wrapper">
-                        <LightOptionsForm
-                            catalogLightItem={catalogItem}
-                            editLightItem={editLight}
-                            setCatalogItem={setCatalogItem}
-                            setEditLight={setEditLight}
-                            lightSpecs={catalogItem.cutSheet}
-                        />
-                    </div>
-                </div>
+                {
+                    projectView && (
+                        <div className="align-self-center d-flex justify-content-center light-details__description-wrapper mt-5">
+                            <div className="light-details__form-wrapper">
+                                <LightOptionsForm
+                                    catalogLightItem={catalogItem}
+                                    editLightItem={editLight}
+                                    setCatalogItem={setCatalogItem}
+                                    setEditLight={setEditLight}
+                                    lightSpecs={catalogItem.cutSheet}
+                                />
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

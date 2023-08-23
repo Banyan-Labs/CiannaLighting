@@ -20,6 +20,7 @@ import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
 import { getStatusClass } from 'app/utils';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -66,23 +67,12 @@ const AllProjectView: FC<Props> = ({
     const projectsPerPage = 11;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inputValue, setInputValue] = useState('');
     const [processing, setProcessing] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
     const [inactiveClearModal, setInactiveClearModal] =
         useState<boolean>(false);
     const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
     const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
-
-    // Input Field handler
-    const handleUserInput = (e: any) => {
-        setInputValue(e.currentTarget.value);
-    };
-
-    // Reset Input Field handler
-    const resetInputField = () => {
-        setInputValue('');
-    };
 
     //  Reset sort direction
     const setSortToDefault = () => {
@@ -121,7 +111,12 @@ const AllProjectView: FC<Props> = ({
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of ${proj.name} created in your dashboard.`,
+                })
+            );
 
             return response;
         } catch (error: any) {
@@ -207,7 +202,12 @@ const AllProjectView: FC<Props> = ({
         try {
             checkSearchVal;
         } catch (error: any) {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
             return error;
         }
 
@@ -218,37 +218,24 @@ const AllProjectView: FC<Props> = ({
         } else if (checkSearchVal && searchValue.length) {
             const correctSearch = filterQueryProjects.length > 0 ? filterQueryProjects : data;
             const searchData = correctSearch.filter((item: ProjectType) => {
-                const searchItem = {
-                    clientName: item.clientName,
-                    name: item.name,
-                    status: item.status,
-                    region: item.region,
-                };
-                const itemVals: any = Object.values(searchItem);
-                let doesMatch = false;
-
-                itemVals.map((item: string) => {
-                    const regCheck = new RegExp(searchValue, 'g').test(
-                        item.toLowerCase()
-                    );
-
-                    if (regCheck) {
-                        doesMatch = true;
-                    }
-                });
-
-                if (Boolean(doesMatch) === true) {
-                    return item;
-                } else {
-                    return '';
-                }
+                return (
+                    item.name.toLowerCase().includes(searchValue) ||
+                    item.clientName.toLowerCase().includes(searchValue) ||
+                    item.status.toLowerCase().includes(searchValue) ||
+                    item.region.toLowerCase().includes(searchValue)
+                );
             });
 
             setParsedData(searchData);
 
             return searchData;
         } else {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
     };
 
@@ -336,17 +323,15 @@ const AllProjectView: FC<Props> = ({
         );
     });
     return (
-        <div className="all-projects-container">
+        <div className="all-projects-container mx-5">
             <div>
                 <div className="form-bar-button-container">
-                    <div className="list__group">
+                    <div className="list__group search-input">
                         <input
                             className="form__field"
                             type="text"
-                            value={inputValue}
-                            placeholder="Search"
-                            onChange={async (e) => {
-                                handleUserInput(e);
+                            placeholder="Search projects"
+                            onChange={(e) => {
                                 if (
                                     typeOfProject === 'yourProjects' &&
                                     filterQueryProjects.length > 0
@@ -367,16 +352,12 @@ const AllProjectView: FC<Props> = ({
                                 } else searchFilter(e, reduxData);
                             }}
                         />
-                        <label htmlFor="description" className="form__label1">
-                            Search
-                        </label>
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={async () => {
-                            await resetInputField();
-                            await setParsedData([]);
                             await dispatch(setFilterProjNone());
+                            setParsedData([]);
                             setOpenModal(true);
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
@@ -430,7 +411,6 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    resetInputField();
                                     await dispatch(setFilterProjNone());
                                     setParsedData([]);
                                     setTypeOfProject('allProjects');
@@ -445,7 +425,6 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    resetInputField();
                                     setSortToDefault();
                                     await dispatch(setFilterProjNone());
                                     setParsedData([]);

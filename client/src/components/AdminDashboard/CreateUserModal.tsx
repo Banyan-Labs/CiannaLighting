@@ -10,6 +10,7 @@ import { createUserAction } from '../../redux/actions/usersActions';
 import { axiosPrivate } from '../../api/axios';
 import { useParams } from '../../app/utils';
 import logging from 'config/logging';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/CreateUserModal.scss';
 
@@ -130,14 +131,28 @@ const CreateUserModal: FC<Props> = ({
                     setEdit(false);
 
                     if (curUser === userId) {
-                        alert('Next login, you will use new credentials.')
+                        dispatch(setAlertOpen({ isOpen: true }));
+                        dispatch(
+                            setAlertMessage({
+                                alertMessage: `Next login, you will use new credentials.`,
+                            })
+                        );
                     } else {
                         const updatedUser = response.data?.data;
                         delete updatedUser?.password;
                         delete updatedUser?._id
                         delete updatedUser?.__v
 
-                        alert(`${response.data.message}\n${JSON.stringify(updatedUser).split(/[{},]/).join('\n')}`);
+                        dispatch(setAlertOpen({ isOpen: true }));
+                        dispatch(
+                            setAlertMessage({
+                                alertMessage: `${
+                                    response.data.message
+                                }\n${JSON.stringify(updatedUser)
+                                    .split(/[{},]/)
+                                    .join('\n')}`,
+                            })
+                        );
                     }
 
                     await closeAndGet();

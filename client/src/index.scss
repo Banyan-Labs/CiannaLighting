@@ -95,14 +95,8 @@ button {
     height: 7vh;
 }
 
-.icon-container {
-    padding-left: 40px;
-    border-left: 1px solid #ada9a9ab;
-}
-
 .archive-icon {
-    margin-left: 15px;
-    font-size: 1.2em;
+    font-size: 1.6em;
     color: #949494;
 }
 
@@ -111,8 +105,7 @@ button {
 }
 
 .clone-icon {
-    margin-left: 15px;
-    font-size: 1.2em;
+    font-size: 1.6em;
     color: #949494;
 }
 
@@ -121,8 +114,7 @@ button {
 }
 
 .edit-icon {
-    margin-left: 0px;
-    font-size: 1.2em;
+    font-size: 1.6em;
     color: #949494;
 }
 
@@ -197,4 +189,42 @@ button {
 
 .back-to-projects:hover {
     cursor: pointer;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.collapsed {
+    &::after {
+        content: '\276F';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        margin-left: 5px;
+    }
+}
+
+.expanded {
+    &::after {
+        content: '\276F';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        margin-left: 5px;
+        transform: rotate(90deg);
+    }
+}
+
+.search-input {
+    min-width: 15vw;
+
+    .form__field {
+        &::placeholder {
+            color: $primary-bg-white-sub-text;
+            font-style: italic;
+        }
+    }
 }

@@ -4,6 +4,9 @@
     border-radius: 2px;
     width: 100vw;
 }
+.no-wrap {
+    text-wrap: nowrap;
+}
 
 .header-section {
     display: flex;
@@ -23,7 +26,7 @@
 }
 
 .proposal-attachments {
-    width: 90vw;
+    max-width: 90vw;
     margin-left: auto;
     margin-right: auto;
 }
@@ -89,14 +92,18 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    max-width: 90vw;
 }
 
 .pdf-page {
-    // max-width: 20px;
-    // height: 100px;
     margin: 10px 10px 0px 0px;
-    // box-shadow: 10px green;
-    // border: 1px solid red;
+    max-width: 80vw;
+}
+
+.react-pdf__Page__canvas {
+    margin: 0 auto;
+    width: 90% !important;
+    height: 100% !important;
 }
 
 @media print {

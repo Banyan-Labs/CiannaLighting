@@ -18,7 +18,11 @@ import {
 
 import './style/roomDetails.scss';
 
-const Details: FC = () => {
+interface DetailsProps {
+    projectView: boolean;
+}
+
+const Details: FC<DetailsProps> = ({ projectView }) => {
     const dispatch = useAppDispatch();
     const storedProjId = useParams('projectId');
     const storedRoomId = useParams('roomId');
@@ -41,21 +45,29 @@ const Details: FC = () => {
 
     return (
         <div className="room-details-page__page-container">
-            {filterBar && (
-                <div
-                    className="filter-bar-background"
-                    onClick={() =>
-                        filterBar ? setFilterBar(!filterBar) : null
-                    }
-                ></div>
-            )}
-            <div className="room-details-page__panel-wrapper left">
-                <RoomDetails
-                    setEditLight={setEditLight}
-                    setCatalogItem={setCatalogItem}
-                />
-            </div>
-            <div className="room-details-page__panel-wrapper right">
+            {
+                filterBar && (
+                    <div
+                        className="filter-bar-background"
+                        onClick={() =>
+                            filterBar ? setFilterBar(!filterBar) : null
+                        }
+                    ></div>
+                )
+            }
+
+            {
+                projectView && (
+                    <div className="room-details-page__panel-wrapper left">
+                        <RoomDetails
+                            setEditLight={setEditLight}
+                            setCatalogItem={setCatalogItem}
+                        />
+                    </div>
+                )
+            }
+
+            <div className={projectView ? "room-details-page__panel-wrapper right" : "room-details-page__panel-wrapper"}>
                 <Filter
                     catalogItem={catalogItem}
                     filterBar={filterBar}
@@ -68,6 +80,7 @@ const Details: FC = () => {
                     editLight={editLight}
                     filterBar={filterBar}
                     setFilterBar={setFilterBar}
+                    projectView={projectView}
                 />
             </div>
         </div>
