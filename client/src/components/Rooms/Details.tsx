@@ -64,8 +64,8 @@ const Details: FC<DetailsProps> = ({ projectView }) => {
             <div
                 className={
                     projectView
-                        ? 'room-details-page__panel-wrapper right'
-                        : 'room-details-page__panel-wrapper'
+                        ? 'room-details-page__panel-wrapper mx-5 right'
+                        : 'room-details-page__panel-wrapper mx-5'
                 }
             >
                 <Filter

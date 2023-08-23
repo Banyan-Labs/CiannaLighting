@@ -34,9 +34,9 @@ const LightDetails: FC<catalogPros> = ({
                 <div className="lightDetail-container">
                     <div className="col-12 d-flex row light-top-catalog justify-content-center">
                         <div className="d-flex row justify-content-center align-items-center">
-                            <div className="col-12 d-flex justify-content-between align-items-center">
+                            <div className="col-12 d-flex justify-content-between align-items-center dashboard-project-overview mx-5 no-wrap">
                                 <div>
-                                    <h2>Catalog Lights</h2>
+                                    <h4 className="page-title">Catalog Lights</h4>
                                 </div>
                                 <div className="d-flex flex-row">
                                     <SearchBar setSearchTerm={setSearchTerm} />
