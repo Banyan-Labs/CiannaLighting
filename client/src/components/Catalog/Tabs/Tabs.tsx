@@ -74,7 +74,7 @@ const Tabs: FC<catalogPros> = ({ catalogItem, setCatalogItem }) => {
                             <h4 className="light_details_title">
                                 Drawing Files
                             </h4>
-                            {Item?.drawingFiles.map(
+                            {Item?.drawingFiles?.map(
                                 (ef: string, index = ef.indexOf(ef)) => {
                                     const displayName = getFileNames(ef);
 
