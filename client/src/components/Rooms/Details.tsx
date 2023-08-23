@@ -39,7 +39,10 @@ const Details: FC<DetailsProps> = ({ projectView }) => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+        if (!projectView) {
+            setCatalogItem(null);
+        }
+    }, [projectView]);
 
     return (
         <div className="room-details-page__page-container">
