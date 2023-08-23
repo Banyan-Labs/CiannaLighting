@@ -3,21 +3,13 @@
 
 .dashboard-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     background-color: $primary-bg-dark;
-    height: 131vh;
-    margin-top: -31vh;
-    max-width: auto;
-    background-color: $primary-bg-dark;
-    margin-top: -30vh;
-    padding-left: 1%;
+    margin-top: 10vh;
+    height: 90vh;
     h4 {
         color: $primary-bg-dark-title;
         font-size: $primary-title-fs;
-        margin-right: 20px;
     }
     a:hover {
         cursor: pointer;
@@ -25,12 +17,10 @@
 }
 
 .overview-vertical-divider {
-    display: flex;
-    align-self: center;
+    @include vertical-line;
     height: 35px;
     width: 1px;
     background-color: $accent-gold;
-    margin: 0 20px;
 }
 
 button.dashboard-new-project-button {
@@ -58,98 +48,59 @@ button.dashboard-new-project-button:hover {
     margin-bottom: -0.17vh;
 }
 
-div.dashboard-project-overview {
+.dashboard-project-overview {
     display: flex;
     align-items: center;
     flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: auto;
-    gap: 46px;
+    justify-content: space-between;
 }
 
-.overview-display {
-    margin: 0 25px;
-    position: relative;
-    top: -50px;
-    flex-basis: 100%;
-    display: grid;
-    color: $primary-bg-dark-title;
-    grid-template-columns: 45px 40px 130px 40px 120px 40px 110px 40px 70px 40px 120px;
-    grid-template-rows: 20px 50px;
-    grid-template-areas:
-        'total_icon total_title total_title total_title . . . . . . .'
-        'total_icon total_num . . . . . . . . .'
-        '. configure_icon configure_title completed_icon completed_title saved_icon saved_title hold_icon hold_title template_icon template_title'
-        '. configure_icon configure_num completed_icon completed_num saved_icon saved_num hold_icon hold_num template_icon template_num';
+.overview-label {
+    font-size: 15px;
+}
+
+.num {
+    font-size: 20px;
+    color: $accent-gold;
+    font-weight: bold;
 }
 
 .overview-icon-main {
     display: flex;
     width: 40px;
     height: auto;
-    margin-right: -12vh;
     color: $primary-bg-light-grey;
-}
-
-.filteredProjectsNumber {
-    margin-right: 0.5vh;
-    margin-left: -1.5vw;
-    font-weight: bold;
-}
-
-.overview-num {
-    display: flex;
-    font-weight: bolder;
-    margin-left: -1.5vw;
-}
-
-.overview-total {
-    display: flex;
-    grid-area: total_icon;
-}
-
-.overview-total-title {
-    display: flex;
-    grid-area: total_title;
 }
 
 .overview-configure-title {
     display: flex;
-    grid-area: configure_title;
     color: $primary-bg;
 }
 
 .overview-configure-num {
     display: flex;
-    grid-area: configure_num;
 }
 
 .overview-completed-title {
     display: flex;
-    grid-area: completed_title;
     color: $primary-bg;
 }
 
 .overview-completed-num {
     display: flex;
-    grid-area: completed_num;
 }
 
 .overview-saved-title {
     display: flex;
-    grid-area: saved_title;
     color: $primary-bg;
 }
 
 .overview-saved-num {
     display: flex;
-    grid-area: saved_num;
 }
 
 .overview-hold-title {
     display: flex;
-    grid-area: hold_title;
     color: $primary-bg;
 }
 
@@ -166,45 +117,6 @@ div.dashboard-project-overview {
 
 .overview-template-num {
     display: flex;
-    grid-area: template_num;
-    margin-right: -0.75%;
-}
-
-.dashboard-your-projects {
-    display: block;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    .your-projects-icons {
-        margin-left: auto;
-        color: $primary-bg-dark-link-hover;
-        font-size: 20px;
-        position: relative;
-        top: 5px;
-    }
-    #your-project-icons-left {
-        padding-right: 10px;
-    }
-    .your-projects-buttons {
-        font-size: 25px;
-    }
-    .your-projects-buttons:hover {
-        cursor: pointer;
-        color: rgba(63, 60, 57, 0.219);
-    }
-}
-
-.overview-vertical-divider {
-    @include vertical-line;
-    position: relative;
-    top: 10px;
-    margin-left: 0.1%;
-}
-
-.dashboard-vertical-divider {
-    @include vertical-line;
-    position: relative;
-    top: 10px;
 }
 
 .your-projects-section {
