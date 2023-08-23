@@ -323,10 +323,10 @@ const AllProjectView: FC<Props> = ({
         );
     });
     return (
-        <div className="all-projects-container">
+        <div className="all-projects-container mx-5">
             <div>
                 <div className="form-bar-button-container">
-                    <div className="list__group">
+                    <div className="list__group search-input">
                         <input
                             className="form__field"
                             type="text"

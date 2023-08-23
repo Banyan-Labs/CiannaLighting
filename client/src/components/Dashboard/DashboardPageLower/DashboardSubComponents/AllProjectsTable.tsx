@@ -331,7 +331,7 @@ const AllProjects: FC<Props> = ({
             <div>
                 <div className="table-top">
                     <div className="form-bar-button-container">
-                        <div className="list__group">
+                        <div className="list__group search-input">
                             <input
                                 className="form__field"
                                 type="text"
@@ -350,8 +350,8 @@ const AllProjects: FC<Props> = ({
                             className="dashboard-all-projects-submit"
                             onClick={async () => {
                                 await setDefault();
-                                await resetInputField();
-                                await setParsedData([]);
+                                resetInputField();
+                                setParsedData([]);
                                 await dispatch(setFilterProjNone());
                                 setOpenModal(true);
                             }}

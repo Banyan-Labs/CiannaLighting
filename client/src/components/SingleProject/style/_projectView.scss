@@ -1,13 +1,14 @@
 .projects-bottom-half {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    background-color: $primary-bg-dark;
 }
 
 .all-project-view-main-container {
-    margin-top: 140px;
+    margin-top: 10vh;
     color: $primary-bg-dark-text;
     width: 100%;
-    border-right: 1px $line-dark solid;
 }
 
 .button-filter-container {
