@@ -6,7 +6,7 @@ export const parseFileName = (filename: string) => {
     let originalName = '';
 
     for (let i = 0; i < fieldNames.length; i++) {
-        if (filename.includes(`-${fieldNames[i]}-`)) {
+        if (filename?.includes(`-${fieldNames[i]}-`)) {
             fieldName = fieldNames[i];
             const parts = filename.split(`-${fieldName}-`);
             itemId = parts[0];
