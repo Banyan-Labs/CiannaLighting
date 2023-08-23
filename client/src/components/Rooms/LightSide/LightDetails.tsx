@@ -56,6 +56,7 @@ const LightDetails: FC<catalogPros> = ({
                         <Cards
                             searchTerm={searchTerm}
                             setCatalogItem={setCatalogItem}
+                            projectView={projectView}
                         />
                     </div>
                 </div>

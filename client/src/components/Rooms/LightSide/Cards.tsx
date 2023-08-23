@@ -8,8 +8,9 @@ import logging from 'config/logging';
 interface searchBarProps {
     searchTerm: string;
     setCatalogItem: any;
+    projectView: boolean;
 }
-const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
+const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem, projectView }) => {
     const { setAllCatalog } = useAppSelector(({ project }) => project);
 
     const searchValue = setAllCatalog.filter((val: any) => {
@@ -33,7 +34,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         setPage,
         totalPages,
     } = usePagination({
-        contentPerPage: 6,
+        contentPerPage: !projectView ? 12 : 8,
         count: searchValue.length,
     });
 
@@ -94,7 +95,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
                     </div>
                 )}
             </div>
-            {searchValue.length > 6 ? (
+            {(!projectView && searchValue.length > 12) || (projectView && searchValue.length > 8) ? (
                 <div className="pagination_">
                     <p className="text">
                         Showing {page}/{totalPages}

@@ -15,7 +15,7 @@ body {
 
     &__panel-wrapper {
         padding: 0 24px 12px;
-        height: 100vh;
+        min-height: 89vh;
         width: 100%;
 
         &.left {

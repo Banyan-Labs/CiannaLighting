@@ -27,9 +27,6 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin: 1rem 0;
-    position: relative;
-    bottom: 0px;
 }
 
 .pagination_ .text {
@@ -88,7 +85,7 @@
     border-left: solid 1px #ada9a9ab;
     scroll-behavior: smooth;
     height: 25vh;
-    width: 15vw;
+    width: 14vw;
     h4 {
         text-align: center;
         font-weight: 500;
