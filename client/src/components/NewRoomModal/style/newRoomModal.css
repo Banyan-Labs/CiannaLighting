@@ -16,8 +16,7 @@
     transform: translate(-50%, -50%);
     z-index: 9 !important;
     width: 450px;
-    margin: 1rem auto;
-    padding: 2rem 5rem;
+    padding: 2rem 3rem;
     border-radius: 5px;
     background-color: white;
 }

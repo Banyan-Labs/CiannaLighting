@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 
 import { axiosPrivate } from '../../api/axios';
 
@@ -73,15 +73,7 @@ const Settings: FC = () => {
             throw new Error(error.message);
         }
     };
-    const sortDisplay = () => {
-        const directionCall: any = {
-            0: '',
-            1: <FaChevronUp className="sort-chevron" />,
-            2: <FaChevronDown className="sort-chevron" />,
-        };
 
-        return directionCall[regionSort];
-    };
     const setUpSortTrigger = (field: string, direction: number) => {
         const utilizedData: any = field == 'status' ? status : region;
         const sorted: any = {

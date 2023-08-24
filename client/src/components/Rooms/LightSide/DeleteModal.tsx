@@ -159,8 +159,8 @@ export const DeleteModal: FC<Props> = ({
                     <div className="delete-Modal-container">
                         <h4>
                             {deleteRoom
-                                ? `Delete ${room.name}`
-                                : `Delete ${light.item_ID} From ${room.name}`}
+                                ? `Confirm delete of ${room.name}?`
+                                : `Confirm delete of ${light.item_ID} from ${room.name}?`}
                         </h4>
                         <button
                             onClick={onSubmit1}
