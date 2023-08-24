@@ -129,7 +129,7 @@ const Settings: FC = () => {
         setSections();
     }, []);
     return (
-        <div className="settings_container">
+        <div className="dashboard-all-projects">
             <div className="add__materials">
                 <div className="list__group field">
                     <input
@@ -152,26 +152,22 @@ const Settings: FC = () => {
                     Submit
                 </button>
             </div>
-            <table className="users-table">
-                <thead>
+            <table className="dashboard-all-projects-table">
+                <thead className="table-headers">
                     <tr
-                        className="users-table-headers settings-head"
+                        className="rows"
                         onClick={() => triggerDirection('region')}
                     >
-                        <td>Region</td>
-                        <td>{sortDisplay()}</td>
-                        <td>click to sort</td>
-                        <td className="remove-td">Actions</td>
+                        <td className="projects-table-name">Region</td>
+                        <td className="projects-table-dots text-center">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedRegion?.map((label, index) => {
                         return (
-                            <tr key={index} className="user-table-row">
-                                <td>{label}</td>
-                                <td></td>
-                                <td></td>
-                                <td className="remove-button-td">
+                            <tr key={index} className="projects-table-dynamic-row">
+                                <td className="projects-table-dynamic-name">{label}</td>
+                                <td className="projects-table-dynamic-dots text-center">
                                     <button
                                         className="user-options-button"
                                         onClick={(e) =>

@@ -184,8 +184,8 @@ const Modal: FC<Props> = (props) => {
                         <span className="max-text-span">
                             <small className="max-text">500 max</small>
                         </span>
-                        <div className="new-projects-dropdowns-container">
-                            <div>
+                        <div className="d-flex justify-content-between new-projects-dropdowns-container">
+                            <div className="col-6">
                                 <label
                                     htmlFor="status-select-menu"
                                     className="new-project-modal-labels"
@@ -235,8 +235,7 @@ const Modal: FC<Props> = (props) => {
                                           )}
                                 </select>
                             </div>
-                            <br />
-                            <div>
+                            <div className="col-6">
                                 <label className="new-project-modal-labels">
                                     Region
                                 </label>
@@ -284,7 +283,7 @@ const Modal: FC<Props> = (props) => {
                                 </select>
                             </div>
                         </div>
-                        <div className="new-project-modal-footer">
+                        <div className="mb-3 mt-5 new-project-modal-footer">
                             <button
                                 type="submit"
                                 className="new-project-modal-button"
