@@ -19,8 +19,6 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;
-    height: 400px;
     margin: 1rem auto;
     padding: 1rem 5rem;
     border-radius: 5px;
@@ -71,23 +69,14 @@ label {
     @include input-field;
 }
 
-.new-projects-dropdowns-container {
-    position: relative;
-    top: -20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 0 auto;
-    font-size: $primary-text-fs;
-}
-
 .new-projects-dropdowns-container select {
     border: 1px solid $primary-bg-light-grey;
     border-radius: 5px;
-    margin: 0.2rem 0;
     padding: 10px 15px;
     font-size: $sub-text-fs;
     color: $primary-bg-light-grey;
     transition: all 400ms ease;
+    width: 90%;
 }
 
 .new-project-modal-labels {

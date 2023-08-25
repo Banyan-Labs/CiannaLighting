@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 
 import { axiosPrivate } from '../../api/axios';
 
@@ -73,15 +73,7 @@ const Settings: FC = () => {
             throw new Error(error.message);
         }
     };
-    const sortDisplay = () => {
-        const directionCall: any = {
-            0: '',
-            1: <FaChevronUp className="sort-chevron" />,
-            2: <FaChevronDown className="sort-chevron" />,
-        };
 
-        return directionCall[regionSort];
-    };
     const setUpSortTrigger = (field: string, direction: number) => {
         const utilizedData: any = field == 'status' ? status : region;
         const sorted: any = {
@@ -129,7 +121,7 @@ const Settings: FC = () => {
         setSections();
     }, []);
     return (
-        <div className="settings_container">
+        <div className="dashboard-all-projects">
             <div className="add__materials">
                 <div className="list__group field">
                     <input
@@ -152,26 +144,22 @@ const Settings: FC = () => {
                     Submit
                 </button>
             </div>
-            <table className="users-table">
-                <thead>
+            <table className="dashboard-all-projects-table">
+                <thead className="table-headers">
                     <tr
-                        className="users-table-headers settings-head"
+                        className="rows"
                         onClick={() => triggerDirection('region')}
                     >
-                        <td>Region</td>
-                        <td>{sortDisplay()}</td>
-                        <td>click to sort</td>
-                        <td className="remove-td">Actions</td>
+                        <td className="projects-table-name">Region</td>
+                        <td className="projects-table-dots text-center">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedRegion?.map((label, index) => {
                         return (
-                            <tr key={index} className="user-table-row">
-                                <td>{label}</td>
-                                <td></td>
-                                <td></td>
-                                <td className="remove-button-td">
+                            <tr key={index} className="projects-table-dynamic-row">
+                                <td className="projects-table-dynamic-name">{label}</td>
+                                <td className="projects-table-dynamic-dots text-center">
                                     <button
                                         className="user-options-button"
                                         onClick={(e) =>

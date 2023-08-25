@@ -23,17 +23,6 @@ const createProject = async (req: Request, res: Response) => {
     copy,
   } = req.body;
   let curDate = new Date().toISOString().split("T")[0].split("-");
-  /**
-   * If you are copying an instance of someone elses project or room, you have to pass in the userId, not the project clientId
-   */
-  /**
-   *
-   *
-   *  need to include in copying a room instead of just the light
-   *
-   *
-   *
-   */
 
   if (_id && copy === CopyType.ROOM) {
     Room.findOne({ _id: rooms[0] })
@@ -187,14 +176,14 @@ const getProject = async (req: Request, res: Response, next: NextFunction) => {
                   archiveRestore: project.activity.archiveRestore
                     ? [
                       [
-                        `Project ${parameters["activity"]}ed`,
+                        `Project ${parameters["activity"]}d`,
                         `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
                       ],
                       ...project.activity.archiveRestore,
                     ]
                     : [
                       [
-                        `Project ${parameters["activity"]}ed`,
+                        `Project ${parameters["activity"]}d`,
                         `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
                       ],
                     ],
@@ -249,7 +238,7 @@ const runRoom = async (room: any, newProjectId: string, clientId: string, copy: 
       ...project.activity,
       rooms: [
         [
-          `${room.name.toUpperCase()} copied and created new roomID: ${newRoom._id}.`,
+          `Room "${room.name}" copied and new room "${newRoom.name}" created.`,
           `${[curDate[1], curDate[2], curDate[0]].join("/")}`,
         ],
         ...project.activity.rooms,

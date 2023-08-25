@@ -62,7 +62,7 @@ const IdRooms: FC = () => {
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`,
+                    alertMessage: `Copy of "${room?.name}" created in ${project?.name}.`,
                 })
             );
 

@@ -120,7 +120,7 @@ const ProjectSummary: FC<ProjectSummaryProps> = ({
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: `Copy of ${proj.name} created in your dashboard.`,
+                    alertMessage: `Copy of "${proj.name}" created.`,
                 })
             );
 

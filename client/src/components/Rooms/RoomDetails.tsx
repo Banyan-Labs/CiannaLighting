@@ -96,7 +96,7 @@ const RoomDetails: FC<lightProps> = ({ setEditLight, setCatalogItem }) => {
             dispatch(setAlertOpen({ isOpen: true }));
             dispatch(
                 setAlertMessage({
-                    alertMessage: `Copy of ${room?.name} created in ${project?.name}.`,
+                    alertMessage: `Copy of "${room?.name}" created in ${project?.name}.`,
                 })
             );
             projectRoute(projectId);
