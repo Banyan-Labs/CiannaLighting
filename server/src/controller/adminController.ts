@@ -74,10 +74,9 @@ const getAllUsers = (req: Request, res: Response) => {
 
 const resetDatabase = async (req: Request, res: Response) => {
   try {
-    let deletedProjectCount = 0;
-    let deletedLightSelectionCount = 0;
-    let deletedCatalogItemCount = 0;
-    let deletedRoomCount = 0;
+    let deletedCutSheetsCount = 0;
+    let deletedRenderingCount = 0;
+    let deletedDrawingFileCount = 0;
 
     // await Project.deleteMany({})
     //   .exec().then((result) => {
@@ -91,13 +90,27 @@ const resetDatabase = async (req: Request, res: Response) => {
 
     // delete cutSheets, renderings, or drawingFiles that have 'undefined' value in array on catalog items
     await CatalogItem.updateMany(
-      { $pull: { cutSheets: "undefined" } },
-      { $pull: { renderings: "undefined" } },
+      { $pull: { cutSheets: "undefined" } }
+    )
+      .exec()
+      .then((result) => {
+        deletedCutSheetsCount = result.modifiedCount;
+      });
+
+    await CatalogItem.updateMany(
+      { $pull: { renderings: "undefined" } }
+    )
+      .exec()
+      .then((result) => {
+        deletedRenderingCount = result.modifiedCount;
+      });
+
+    await CatalogItem.updateMany(
       { $pull: { drawingFiles: "undefined" } }
     )
       .exec()
       .then((result) => {
-        deletedCatalogItemCount = result.modifiedCount;
+        deletedDrawingFileCount = result.modifiedCount;
       });
 
     // await Room.deleteMany({})
@@ -106,10 +119,9 @@ const resetDatabase = async (req: Request, res: Response) => {
     //   });
 
     return res.status(200).json({
-      deletedProjectCount,
-      deletedLightSelectionCount,
-      deletedCatalogItemCount,
-      deletedRoomCount,
+      deletedCutSheetsCount,
+      deletedRenderingCount,
+      deletedDrawingFileCount,
     });
   } catch (error: any) {
     logging.error(error.message, "resetDatabase");
