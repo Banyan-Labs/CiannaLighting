@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
+import { useAppDispatch } from '../../app/hooks';
 
 import Tabs from './Tabs/Tabs';
 import LightCarousel from 'components/Rooms/LightSide/LightImageCarousel';
 
 import './style/catalog.scss';
+import { filterCatalogItems } from 'redux/actions/lightActions';
 
 interface catalogPros {
     catalogItem: any;
@@ -17,15 +19,22 @@ const SingleView: FC<catalogPros> = ({
     setCatalogItem,
     showBack,
 }) => {
+    const dispatch = useAppDispatch();
+
+    const backButton = () => {
+        setCatalogItem(null);
+        dispatch(filterCatalogItems({}));
+    };
+
     return (
         <div className="col-12">
             {showBack && (
                 <p
                     className="catalog-back"
-                    onClick={() => setCatalogItem(null)}
+                    onClick={() => backButton()}
                 >
                     <BsChevronLeft
-                        onClick={() => setCatalogItem(null)}
+                        onClick={() => backButton()}
                         className="chevron-icon-catalog"
                     />{' '}
                     Back to Catalog

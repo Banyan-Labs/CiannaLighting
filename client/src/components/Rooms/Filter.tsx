@@ -36,6 +36,8 @@ const DetailsFilter: FC<catalogPros> = ({ filterBar, setFilterBar }) => {
 
         setDesignStyle('');
         setUsePackages([]);
+        dispatch(filterCatalogItems({}));
+        setFilterBar(!filterBar);
     };
 
     const onSubmit = async (e: any) => {

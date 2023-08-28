@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
 import usePagination from './usePagination';
-import { getCatalogItems } from '../../../redux/actions/lightActions';
+import { filterCatalogItems } from '../../../redux/actions/lightActions';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import logging from 'config/logging';
 
@@ -11,9 +11,9 @@ interface searchBarProps {
     projectView: boolean;
 }
 const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem, projectView }) => {
-    const { setAllCatalog } = useAppSelector(({ project }) => project);
+    const { filteredCatalog } = useAppSelector(({ project }) => project);
 
-    const searchValue = setAllCatalog.filter((val: any) => {
+    const searchValue = filteredCatalog.filter((val: any) => {
         if (searchTerm === '') {
             return val;
         } else if (
@@ -38,7 +38,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem, projectView }) 
         count: searchValue.length,
     });
 
-    const filteredData = setAllCatalog
+    const filteredData = filteredCatalog
         .filter((val: any) => {
             if (searchTerm === '') {
                 return val;
@@ -73,7 +73,7 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem, projectView }) 
     useEffect(() => {
         (async () => {
             try {
-                dispatch(getCatalogItems());
+                dispatch(filterCatalogItems({}));
             } catch (error) {
                 logging.error(error);
             }

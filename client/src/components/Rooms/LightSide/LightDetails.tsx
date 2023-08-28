@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { FaSlidersH } from 'react-icons/fa';
 
 import Cards from './Cards';
@@ -27,6 +27,10 @@ const LightDetails: FC<catalogPros> = ({
     projectView,
 }) => {
     const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        setSearchTerm('');
+    }, [catalogItem]);
 
     return (
         <>

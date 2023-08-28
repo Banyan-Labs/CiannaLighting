@@ -23,8 +23,8 @@ const Cards: FC<catalogProps> = ({
     renderPage,
     resultsRef,
 }) => {
-    const { setAllCatalog } = useAppSelector(({ project }) => project);
-    const reduxData = setAllCatalog?.slice();
+    const { filteredCatalog } = useAppSelector(({ project }) => project);
+    const reduxData = filteredCatalog?.slice();
 
     const useDesigns = reduxData?.map((design, index) => {
         const allReceived =
@@ -64,7 +64,7 @@ const Cards: FC<catalogProps> = ({
 
     return (
         <>
-            {renderPage !== '' && setAllCatalog?.length > 0 ? (
+            {renderPage !== '' && filteredCatalog?.length > 0 ? (
                 <>
                     <div
                         ref={resultsRef}
