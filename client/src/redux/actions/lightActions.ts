@@ -4,6 +4,7 @@ import {
     setRoomLights,
     setProjectError,
     setCatalogLights,
+    setFilteredCatalogLights,
     setCatalogConnect,
     setInactiveLights,
 } from '../reducers/projectSlice';
@@ -124,7 +125,7 @@ export const filterCatalogItems =
                 payload
             );
 
-            dispatch(setCatalogLights(response?.data?.items));
+            dispatch(setFilteredCatalogLights(response?.data?.items));
         } catch (error: any) {
             dispatch(setProjectError(error.response.data));
             throw new Error(error.message);
