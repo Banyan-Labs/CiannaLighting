@@ -204,7 +204,7 @@ const YourProjects: FC = () => {
                 </div>
                 <div className="your-rooms mx-5">
                     <div
-                        className="your-rooms-section d-flex flex-wrap"
+                        className="your-rooms-section justify-content-center d-flex flex-wrap"
                         ref={ref}
                     >
                         {singleProject}
