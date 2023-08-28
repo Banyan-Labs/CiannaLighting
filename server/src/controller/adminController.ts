@@ -74,54 +74,36 @@ const getAllUsers = (req: Request, res: Response) => {
 
 const resetDatabase = async (req: Request, res: Response) => {
   try {
-    let deletedCutSheetsCount = 0;
-    let deletedRenderingCount = 0;
-    let deletedDrawingFileCount = 0;
+    let deletedProjectCount = 0;
+    let deletedLightSelectionCount = 0;
+    let deletedCatalogItemCount = 0;
+    let deletedRoomCount = 0;
 
-    // await Project.deleteMany({})
-    //   .exec().then((result) => {
-    //     deletedProjectCount = result.deletedCount;
-    //   });
-
-    // await LightSelection.deleteMany({})
-    //   .exec().then((result) => {
-    //     deletedLightSelectionCount = result.deletedCount;
-    //   });
-
-    // delete cutSheets, renderings, or drawingFiles that have 'undefined' value in array on catalog items
-    await CatalogItem.updateMany(
-      { $pull: { cutSheets: "undefined" } }
-    )
-      .exec()
-      .then((result) => {
-        deletedCutSheetsCount = result.modifiedCount;
+    await Project.deleteMany({})
+      .exec().then((result) => {
+        deletedProjectCount = result.deletedCount;
       });
 
-    await CatalogItem.updateMany(
-      { $pull: { renderings: "undefined" } }
-    )
-      .exec()
-      .then((result) => {
-        deletedRenderingCount = result.modifiedCount;
+    await LightSelection.deleteMany({})
+      .exec().then((result) => {
+        deletedLightSelectionCount = result.deletedCount;
       });
 
-    await CatalogItem.updateMany(
-      { $pull: { drawingFiles: "undefined" } }
-    )
-      .exec()
-      .then((result) => {
-        deletedDrawingFileCount = result.modifiedCount;
+    await CatalogItem.deleteMany({})
+      .exec().then((result) => {
+        deletedCatalogItemCount = result.deletedCount;
       });
 
-    // await Room.deleteMany({})
-    //   .exec().then((result) => {
-    //     deletedRoomCount = result.deletedCount;
-    //   });
+    await Room.deleteMany({})
+      .exec().then((result) => {
+        deletedRoomCount = result.deletedCount;
+      });
 
     return res.status(200).json({
-      deletedCutSheetsCount,
-      deletedRenderingCount,
-      deletedDrawingFileCount,
+      deletedProjectCount,
+      deletedLightSelectionCount,
+      deletedCatalogItemCount,
+      deletedRoomCount,
     });
   } catch (error: any) {
     logging.error(error.message, "resetDatabase");
