@@ -55,6 +55,7 @@ const CreateEditLight = ({
                     catalogItem={catalogItem}
                     setCatalogItem={setCatalogItem}
                     showBack={false}
+                    projectView={projectView}
                 />
 
                 {projectView && (

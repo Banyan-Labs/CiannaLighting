@@ -10,6 +10,7 @@ const Options: FC<catalogPros> = ({ catalogItem }) => {
     const detailsFields = [
         'item_ID',
         'designStyle',
+        'styleOptions',
         'itemDescription',
         'usePackages',
     ];

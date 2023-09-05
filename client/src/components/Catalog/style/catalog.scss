@@ -91,10 +91,22 @@
 }
 
 .main-img-catalog-container {
+    height: 30vh;
+    width: 30vw;
     img {
-        width: 100%;
-        min-height: 300px;
-        max-height: 450px;
+        max-width: 30vw;
+        max-height: 30vh;
+        border-radius: 0.2rem;
+        box-shadow: $box-shadow;
+    }
+}
+
+.main-img-catalog-container-project-view {
+    width: 23vw !important;
+    height: 23vh !important;
+    img {
+        max-width: 20vw !important;
+        max-height: 20vh !important;
         border-radius: 0.2rem;
         box-shadow: $box-shadow;
     }
@@ -144,7 +156,7 @@
 .panel__catalog {
     transition: all 0.2s ease-in-out;
     display: none;
-    width: 50vw;
+    // width: 50vw;
 }
 
 .panel__catalog.active2 {
@@ -189,7 +201,7 @@
 }
 
 .light_details {
-    width: 100%;
+    width: fit-content;
 
     .light_details_container {
         height: 50%;
