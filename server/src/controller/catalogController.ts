@@ -150,10 +150,10 @@ const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
         if (designStyle || usePackages || styleOptions) {
           items = items.filter((x) => {
             const hasDesignStyle = designStyle ? x.designStyle == designStyle : true;
-            const hasStyleOptions = styleOptions?.length ?
+            const hasStyleOptions = !x.styleOptions ? false : styleOptions?.length ?
               styleOptions.length > 1
-                ? styleOptions.every((v: string) => x.styleOptions[0].split(',').includes(v))
-                : x.styleOptions[0].split(',').includes(styleOptions[0])
+                ? styleOptions.every((v: string) => x.styleOptions[0]?.split(',').includes(v))
+                : x.styleOptions[0]?.split(',').includes(styleOptions[0])
               : true;
             const hasUsePackages = usePackages?.length ?
               usePackages.length > 1
