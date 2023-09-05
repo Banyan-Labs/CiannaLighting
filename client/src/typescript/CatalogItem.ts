@@ -1,6 +1,7 @@
 export type LightDetails = {
     costAdmin: number;
     designStyle: string;
+    styleOptions: string[];
     drawingFiles: string[];
     employeeID: string;
     images: string[];
@@ -28,6 +29,7 @@ export type LightOptions = {
     lensMaterial: string;
     projectVoltage: string;
     designStyle: string;
+    styleOptions: string[];
 };
 
 export type LightSpecs = {

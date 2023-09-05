@@ -173,7 +173,7 @@
 }
 
 .filter-form-container {
-    height: 100vh;
+    height: -webkit-fill-available;
 
     p {
         color: $primary-bg-white-sub-text;

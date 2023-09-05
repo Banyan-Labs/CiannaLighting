@@ -109,6 +109,7 @@ const Catalog: FC = () => {
                         catalogItem={catalogItem}
                         setCatalogItem={setCatalogItem}
                         showBack={true}
+                        projectView={false}
                     />
                 </div>
             )}

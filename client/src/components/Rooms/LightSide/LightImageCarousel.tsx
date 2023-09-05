@@ -69,7 +69,7 @@ const LightCarousel = ({ images }: Props) => {
     return (
         <>
             <div className="carousel-container">
-                <div className="img-wrapper">
+                <div className="d-flex img-wrapper justify-content-center">
                     <SlSizeFullscreen
                         className="fullscreen-toggle-button"
                         onClick={toggleFullscreen}

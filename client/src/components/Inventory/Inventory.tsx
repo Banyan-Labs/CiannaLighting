@@ -18,6 +18,7 @@ import { useAppSelector } from '../../app/hooks';
 import {
     UsePackage,
     DesignStyle,
+    StyleOption,
     LampColors,
     ProjectVoltages,
     SocketTypes,
@@ -71,6 +72,7 @@ const Inventory: FC = () => {
         crystalBulbCover: '',
         crystalPinColor: '',
         designStyle: '',
+        styleOptions: [],
         usePackages: [],
         editImages: [],
         editRenderings: [],
@@ -652,6 +654,7 @@ const Inventory: FC = () => {
             crystalBulbCover: '',
             crystalPinColor: '',
             designStyle: [],
+            styleOptions: [],
             usePackages: [],
             editImages: [],
             editRenderings: [],
@@ -1809,6 +1812,68 @@ const Inventory: FC = () => {
                                     <select
                                         tabIndex={34}
                                         className="form__field"
+                                        id="styleOptions"
+                                        placeholder="Style Options"
+                                        name="styleOptions"
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'styleOptions')
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(StyleOption).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.styleOptions?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="styleOptions"
+                                    >
+                                        Style Options
+                                    </label>
+                                </div>
+                                <button
+                                    tabIndex={-1}
+                                    onClick={(e) =>
+                                        removeItem(e, 'styleOptions')
+                                    }
+                                    className="delete-material-button delete-material-button-without-add"
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    tabIndex={-1}
+                                    className="material__list"
+                                    id="styleOptionsValues"
+                                    placeholder="Style Options"
+                                    type="text"
+                                    name="styleOptionsValues"
+                                    value={
+                                        itemDetails?.styleOptions.join(', ') ||
+                                        ''
+                                    }
+                                    readOnly
+                                />
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={35}
+                                        className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
                                         name="usePackages"
@@ -1888,7 +1953,7 @@ const Inventory: FC = () => {
                                     Images
                                 </label>
                                 <input
-                                    tabIndex={35}
+                                    tabIndex={36}
                                     className="list-input"
                                     id="images"
                                     placeholder="Upload Images"
@@ -1937,7 +2002,7 @@ const Inventory: FC = () => {
                                     Renderings
                                 </label>
                                 <input
-                                    tabIndex={36}
+                                    tabIndex={37}
                                     className="list-input"
                                     id="renderings"
                                     placeholder="Upload Rendering(s)"
@@ -2023,7 +2088,7 @@ const Inventory: FC = () => {
                                     Cut Sheets
                                 </label>
                                 <input
-                                    tabIndex={37}
+                                    tabIndex={38}
                                     className="list-input"
                                     id="cutSheets"
                                     placeholder="Upload cutSheet File(s)"
@@ -2109,7 +2174,7 @@ const Inventory: FC = () => {
                                     Drawing Files
                                 </label>
                                 <input
-                                    tabIndex={38}
+                                    tabIndex={39}
                                     className="list-input"
                                     id="drawingFiles"
                                     placeholder="Upload Drawing Files"
@@ -2202,7 +2267,7 @@ const Inventory: FC = () => {
                         <div className="tab-content">
                             <div className="list__group field">
                                 <input
-                                    tabIndex={39}
+                                    tabIndex={40}
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
@@ -2221,7 +2286,7 @@ const Inventory: FC = () => {
                             </div>
                             <div className="list__group field">
                                 <input
-                                    tabIndex={40}
+                                    tabIndex={41}
                                     className="form__field"
                                     id="partnerCodeAdmin"
                                     placeholder="Partner Code"
@@ -2249,7 +2314,7 @@ const Inventory: FC = () => {
 
                         <button
                             id="inventory-btn"
-                            tabIndex={41}
+                            tabIndex={42}
                             ref={ref}
                             className="inventory-btn"
                         >

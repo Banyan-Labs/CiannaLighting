@@ -39,6 +39,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
     crystalBulbCover,
     crystalPinColor,
     designStyle,
+    styleOptions, //[]
     usePackages, //[]
     costAdmin,
     partnerCodeAdmin,
@@ -113,6 +114,7 @@ const createCatalogItem = async (req: Request, res: Response) => {
       crystalBulbCover,
       crystalPinColor,
       designStyle,
+      styleOptions, //[]
       usePackages, //[]
       images, //[]//s3
       renderings, //[]//s3
@@ -140,21 +142,26 @@ const createCatalogItem = async (req: Request, res: Response) => {
 };
 
 const getCatalogItems = (req: Request, res: Response, next: NextFunction) => {
-  const { designStyle, usePackages } = req.body;
+  const { designStyle, usePackages, styleOptions } = req.body;
 
   CatalogItem.find()
     .then((items) => {
       if (items) {
-        if (designStyle || usePackages) {
+        if (designStyle || usePackages || styleOptions) {
           items = items.filter((x) => {
             const hasDesignStyle = designStyle ? x.designStyle == designStyle : true;
+            const hasStyleOptions = styleOptions?.length ?
+              styleOptions.length > 1
+                ? styleOptions.every((v: string) => x.styleOptions[0].split(',').includes(v))
+                : x.styleOptions[0].split(',').includes(styleOptions[0])
+              : true;
             const hasUsePackages = usePackages?.length ?
               usePackages.length > 1
                 ? usePackages.every((v: string) => x.usePackages.includes(v))
                 : x.usePackages.includes(usePackages[0])
               : true;
 
-            return hasDesignStyle && hasUsePackages;
+            return hasDesignStyle && hasUsePackages && hasStyleOptions;
           });
         }
 

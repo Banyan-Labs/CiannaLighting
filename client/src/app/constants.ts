@@ -59,6 +59,16 @@ export const DesignStyle = {
     ART_DECO: 'Art Deco',
 };
 
+export const StyleOption = [
+    'Option 1',
+    'Option 2',
+    'Option 3',
+    'Option 4',
+    'Option 5',
+    'Option 6',
+    'Option 7'
+];
+
 export const UsePackage: Record<string, string> = {
     LOBBY: 'Lobby',
     LOBBY_ALTERNATE: 'Lobby Alternate',

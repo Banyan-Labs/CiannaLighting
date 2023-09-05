@@ -2,7 +2,7 @@ import React, { FC, useState, FormEvent } from 'react';
 
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
-import { DesignStyle, UsePackage } from 'app/constants';
+import { DesignStyle, UsePackage, StyleOption } from 'app/constants';
 
 import './style/roomDetails.scss';
 
@@ -17,24 +17,34 @@ const DetailsFilter: FC<catalogPros> = ({ filterBar, setFilterBar }) => {
 
     const [designStyle, setDesignStyle] = useState<string>('');
 
+    const [styleOptions, setStyleOptions] = useState<string[]>([]);
+
     const [usePackages, setUsePackages] = useState<string[]>([]);
 
-    const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
+    const handleDesignInput = (e: any) => {
         setDesignStyle(
-            e.currentTarget.checked === true ? e.currentTarget.name : ''
+            e.target.selectedOptions[0].value
         );
+    };
+    const handleOptionsInput = (e: FormEvent<HTMLInputElement>) => {
+        e.currentTarget.checked
+            ? setStyleOptions([...styleOptions, e.currentTarget.name])
+            : setStyleOptions(
+                styleOptions.filter((x: any) => x !== e.currentTarget.name)
+            );
     };
     const handlePackagesInput = (e: FormEvent<HTMLInputElement>) => {
         e.currentTarget.checked
             ? setUsePackages([...usePackages, e.currentTarget.name])
             : setUsePackages(
-                  usePackages.filter((x: any) => x !== e.currentTarget.name)
-              );
+                usePackages.filter((x: any) => x !== e.currentTarget.name)
+            );
     };
     const resetFilters = (e: any) => {
         e.preventDefault();
 
         setDesignStyle('');
+        setStyleOptions([]);
         setUsePackages([]);
         dispatch(filterCatalogItems({}));
         setFilterBar(!filterBar);
@@ -48,6 +58,7 @@ const DetailsFilter: FC<catalogPros> = ({ filterBar, setFilterBar }) => {
                 filterCatalogItems({
                     designStyle,
                     usePackages,
+                    styleOptions,
                 })
             );
         } catch (err: any) {
@@ -77,20 +88,43 @@ const DetailsFilter: FC<catalogPros> = ({ filterBar, setFilterBar }) => {
             >
                 <div className="design-container d-flex row m-0 p-0">
                     <h5 className="m-0 p-0">Design Style</h5>
-                    {Object.values(DesignStyle).map((design: any) => (
+                    <select
+                        className="d-flex m-0 align-items-center"
+                        id="designStyles"
+                        onChange={(e) => handleDesignInput(e)}
+                        placeholder="Design Style"
+                        name="designStyle"
+                        value={designStyle || ''}
+                    >
+                        <option value="">
+                            Any
+                        </option>
+                        {Object.values(DesignStyle).map(
+                            (item: any, index: number) => (
+                                <option
+                                    key={index}
+                                    value={item}
+                                >
+                                    {item}
+                                </option>
+                            )
+                        )}
+                    </select>
+                    <h5 className="m-0 p-0">Style Options</h5>
+                    {Object.values(StyleOption).map((option: any) => (
                         <div
                             className="d-flex m-0 align-items-center"
-                            key={design}
+                            key={option}
                         >
                             <input
                                 className="my-0"
-                                type="radio"
-                                name={design}
-                                id="designStyles"
-                                checked={designStyle === design}
-                                onChange={(e) => handleDesignInput(e)}
+                                type="checkBox"
+                                name={option}
+                                id="StyleOption"
+                                checked={styleOptions.includes(option)}
+                                onChange={(e) => handleOptionsInput(e)}
                             />
-                            <p className="m-0">{design}</p>
+                            <p className="m-0">{option}</p>
                         </div>
                     ))}
                     <h5 className="m-0 p-0">Use Packages</h5>

@@ -9,15 +9,11 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
 
     return (
         <div className="d-flex flex-shrink-0 flex-wrap light_details px-3 mb-3">
-            <div className="col-6">
+            <div className="col-12">
                 <h4 className="light_details_title">ID</h4>
                 <p className="light_details_info">{Item.item_ID}</p>
             </div>
-            <div className="col-6">
-                <h4 className="light_details_title">Design Style</h4>
-                <p className="light_details_info">{Item?.designStyle}</p>
-            </div>
-            <div className="col-6">
+            <div className="col-12">
                 <h4 className="light_details_title">Description</h4>
                 {Item?.itemDescription
                     .split('\n')
@@ -30,10 +26,20 @@ const Details: FC<catalogPros> = ({ catalogItem }) => {
                         </p>
                     ))}
             </div>
+            <div className="col-12">
+                <h4 className="light_details_title">Design Style</h4>
+                <p className="light_details_info">{Item?.designStyle}</p>
+            </div>
+            <div className="col-6">
+                <h4 className="light_details_title">Style Options</h4>
+                <p className="light_details_info">
+                    {Item?.styleOptions[0]?.split(',').join(', ')}
+                </p>
+            </div>
             <div className="col-6">
                 <h4 className="light_details_title">Use Packages</h4>
                 <p className="light_details_info">
-                    {Item?.usePackages?.join(', ')}
+                    {Item?.usePackages[0]?.split(',').join(', ')}
                 </p>
             </div>
         </div>

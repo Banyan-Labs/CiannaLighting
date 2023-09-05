@@ -34,6 +34,7 @@ const catalogItemScema = new Schema({
   crystalBulbCover: { type: String, required: false },
   crystalPinColor: { type: String, required: false },
   designStyle: { type: String, required: false },
+  styleOptions: { type: Array<string>, required: false },
   usePackages: { type: Array<string>, required: false },
   images: { type: Array<string>, required: false }, //s3
   renderings: { type: Array<string>, required: false }, //s3

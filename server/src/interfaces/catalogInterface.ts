@@ -32,6 +32,7 @@ export default interface catalogInterface extends Document {
   crystalBulbCover: string;
   crystalPinColor: string;
   designStyle: string;
+  styleOptions: string[];
   usePackages: string[];
   images: string[]; //s3
   renderings: string[]; //s3

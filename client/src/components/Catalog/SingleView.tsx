@@ -12,12 +12,14 @@ interface catalogPros {
     catalogItem: any;
     setCatalogItem: any;
     showBack: boolean;
+    projectView?: boolean;
 }
 
 const SingleView: FC<catalogPros> = ({
     catalogItem,
     setCatalogItem,
     showBack,
+    projectView,
 }) => {
     const dispatch = useAppDispatch();
 
@@ -41,7 +43,7 @@ const SingleView: FC<catalogPros> = ({
                 </p>
             )}
             <div className="d-flex m-0 p-2 row justify-content-center">
-                <div className="main-img-catalog-container col-12 col-lg-8 col-xl-4">
+                <div className={projectView ? 'main-img-catalog-container-project-view col-12 col-lg-8 col-xl-4' : 'main-img-catalog-container col-12 col-lg-8 col-xl-4'}>
                     {!catalogItem.isActive && (
                         <span>*** This Light is Currently Unavailable ***</span>
                     )}
