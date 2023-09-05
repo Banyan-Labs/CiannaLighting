@@ -57,7 +57,7 @@ const AdminDashboard: FC = () => {
                                 {link.text}
                             </Link>
                             {/* remove 'false' condition to render rest DB button */}
-                            {index === adminLinks.length - 1 && (
+                            {index === adminLinks.length - 1 && false && (
                                 <button
                                     className="d-block mt-4"
                                     onClick={resetDB}
