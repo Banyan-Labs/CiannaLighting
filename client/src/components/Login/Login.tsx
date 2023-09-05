@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import logo from '../../assets/ciana-lds-logo.png';
 import { ROLES } from '../../app/constants';
-import { signInAction, dismissErrorAction } from '../../redux/actions/authActions';
+import {
+    signInAction,
+    dismissErrorAction,
+} from '../../redux/actions/authActions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ModalBase from '../commons/ModalBase/ModalBase';
 import ForgotPasswordModal from './ForgotPasswordModal';
@@ -27,7 +30,8 @@ const Login: FC = () => {
         setModalOpen((prev) => !prev);
     };
 
-    const closeApiError = (isEmpty: boolean) => !isEmpty && dispatch(dismissErrorAction());
+    const closeApiError = (isEmpty: boolean) =>
+        !isEmpty && dispatch(dismissErrorAction());
 
     const handleLoginSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();

@@ -2,6 +2,7 @@ version: "3.8"
 services:
   mongodb:
     image: mongo:latest
+    restart: always
     volumes:
       - mongodb_data:/data/db
     ports:

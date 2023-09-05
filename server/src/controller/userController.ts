@@ -7,7 +7,7 @@ import { createLogAtSignIn } from "./activityController";
 import logging from "../../config/logging";
 
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, ip } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ message: "Username and password are required" });
@@ -31,7 +31,7 @@ const login = async (req: Request, res: Response) => {
         if (authUser) {
           const { _id, name, email, role } = authUser;
 
-          await createLogAtSignIn(req.ip, _id, role, name);
+          await createLogAtSignIn(ip, _id, role, name);
 
           res.cookie("jwt", JWT.refreshToken, {
             httpOnly: true,
@@ -104,7 +104,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
           message: `Don't forget you're new password if you changed it ${authUser?.name}!`,
         });
       } else {
-        return res.status(204).json( { message: `No user found using _id of #${_id}.` } );
+        return res.status(204).json({ message: `No user found using _id of #${_id}.` });
       }
     })
     .catch((error) => {
@@ -120,7 +120,7 @@ const logOut = async (req: Request, res: Response) => {
   const refreshToken = cookies.jwt;
 
   if (!refreshToken) {
-    return res.sendStatus(204).json( { message: "No refresh token found in cookie." } );
+    return res.sendStatus(204).json({ message: "No refresh token found in cookie." });
   }
 
   await User.findOne({ refreshToken })
@@ -132,7 +132,7 @@ const logOut = async (req: Request, res: Response) => {
           sameSite: "none",
           secure: true,
         });
-        return res.sendStatus(204).json( { message: `No user found using refreshToken of #${refreshToken}.` } );
+        return res.sendStatus(204).json({ message: `No user found using refreshToken of #${refreshToken}.` });
       }
 
       user.refreshToken = "";
@@ -160,9 +160,9 @@ const addActiveColumnToUserAndSetToTrue = async (
           isActive: true,
         },
         (error, updatedUser) => {
-          error 
-          ? logging.error(error.message, "addActiveColumnToUserAndSetToTrue") 
-          : logging.info(`Updated user: ${updatedUser}`, "addActiveColumnToUserAndSetToTrue");
+          error
+            ? logging.error(error.message, "addActiveColumnToUserAndSetToTrue")
+            : logging.info(`Updated user: ${updatedUser}`, "addActiveColumnToUserAndSetToTrue");
         }
       );
     });
@@ -188,9 +188,9 @@ const addResetPassColumnToUserAndSetToFalse = async (
           resetPasswordRequest: false,
         },
         (error, updatedUser) => {
-          error 
-          ? logging.error(error.message, "addResetPassColumnToUserAndSetToFalse") 
-          : logging.info(`Updated user: ${updatedUser}`, "addResetPassColumnToUserAndSetToFalse");
+          error
+            ? logging.error(error.message, "addResetPassColumnToUserAndSetToFalse")
+            : logging.info(`Updated user: ${updatedUser}`, "addResetPassColumnToUserAndSetToFalse");
         }
       );
     });

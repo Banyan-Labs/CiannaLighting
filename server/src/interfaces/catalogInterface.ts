@@ -2,7 +2,6 @@ import { Document } from "mongoose";
 
 export default interface catalogInterface extends Document {
   item_ID: string;
-  itemName: string;
   employeeID: string;
   itemDescription: string;
   bodyDiameter: string;
@@ -17,30 +16,27 @@ export default interface catalogInterface extends Document {
   estimatedWeight: number;
   price: number;
   material: string;
-  lampType: string;
   lampColor: string;
-  numberOfLamps: string;
-  wattsPerLamp: string;
-  powerInWatts: number;
   lumens: string;
-  exteriorFinish: string[];
-  interiorFinish: string[];
-  lensMaterial: string[];
-  glassOptions: string[];
-  acrylicOptions: string[];
   environment: string[];
   safetyCert: string[];
-  projectVoltage: string[];
-  socketType: string[];
   mounting: string[];
-  crystalType: string[]; // add to model add some stuff
-  crystalPinType: string[];
-  crystalPinColor: string[];
-  designStyle: string[];
+  exteriorFinish: string;
+  finishTreatment: string;
+  interiorFinish: string;
+  lensMaterial: string;
+  projectVoltage: string;
+  socketType: string;
+  crystalType: string;
+  treatment: string;
+  crystalBulbCover: string;
+  crystalPinColor: string;
+  designStyle: string;
+  styleOptions: string[];
   usePackages: string[];
   images: string[]; //s3
-  pdf: string[]; //s3
-  specs: string[];
+  renderings: string[]; //s3
+  cutSheets: string[];
   drawingFiles: string[]; //s3
   costAdmin: number;
   partnerCodeAdmin: string;

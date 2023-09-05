@@ -14,6 +14,12 @@ const Activity: FC = () => {
         await dispatch(deleteTheLog(_id));
         await dispatch(getAllLogs());
     };
+    const sortedLogs = [...logs].sort((a, b) => {
+        const dateA = new Date(a?.updatedAt).getTime();
+        const dateB = new Date(b?.updatedAt).getTime();
+
+        return dateB - dateA;
+    });
 
     useEffect(() => {
         dispatch(getAllLogs());
@@ -35,10 +41,17 @@ const Activity: FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {logs?.map((log) => {
-                            const RDate = log?.updatedAt !== '' ? log?.updatedAt : log?.createdAt;
-                            const date = new Date(Date.parse(RDate)).toDateString();
-                            const time = new Date(Date.parse(RDate)).toLocaleTimeString();
+                        {sortedLogs?.map((log) => {
+                            const RDate =
+                                log?.updatedAt !== ''
+                                    ? log?.updatedAt
+                                    : log?.createdAt;
+                            const date = new Date(
+                                Date.parse(RDate)
+                            ).toDateString();
+                            const time = new Date(
+                                Date.parse(RDate)
+                            ).toLocaleTimeString();
 
                             return (
                                 <tr
@@ -50,7 +63,7 @@ const Activity: FC = () => {
                                         {log.name}
                                     </td>
                                     <td className="projects-table-dynamic-designer ">
-                                        {log.ipAddress?.replace("::ffff:", "")}
+                                        {log.ipAddress?.replace('::ffff:', '')}
                                     </td>
                                     <td className="projects-table-dynamic-region ">
                                         {log.role === '6677' ? 'Admin' : 'User'}

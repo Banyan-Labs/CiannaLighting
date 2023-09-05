@@ -8,8 +8,10 @@ import { ProjectType } from '../DashboardNav';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import dataHolding from '../../../Dashboard/YourProjects/projectDetails';
 import {
+    getAttachments,
+    getLightSelectionsForProject,
     getProject,
-    setTheYourProjects
+    setTheYourProjects,
 } from '../../../../redux/actions/projectActions';
 import { useAppDispatch } from '../../../../app/hooks';
 
@@ -43,12 +45,13 @@ const ProjectMiniModal: FC<projectProps> = ({
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
+        await dispatch(getAttachments(prodId));
         dataHolding.getData(proj);
     };
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
@@ -98,46 +101,43 @@ const ProjectMiniModal: FC<projectProps> = ({
                 onClick={
                     proj?.clientId === user?._id
                         ? async () => {
-                            await changeProject(proj._id);
-                            await projectRoute(proj._id);
-                            await dispatch(setTheYourProjects(true));
-                        }
+                              await dispatch(setTheYourProjects(true));
+                              await dispatch(
+                                  getLightSelectionsForProject(proj._id)
+                              );
+                              changeProject(proj._id);
+                              projectRoute(proj._id);
+                          }
                         : () => {
-                            setOpenModal(true);
-                            setProjectModal(proj);
-                        }
+                              setOpenModal(true);
+                              setProjectModal(proj);
+                          }
                 }
                 className="project-mini-modal-link"
             >
-                {proj.clientId === user._id ? (
-                    <FaPlay />
-                ) : (
-                    <FaBookReader />
-                )}{' '}
+                {proj.clientId === user._id ? <FaPlay /> : <FaBookReader />}{' '}
                 <p>
                     {proj?.clientId === user?._id
                         ? 'Go To Project'
                         : 'Read Only'}
                 </p>
             </div>
-            {
-                user.role === ROLES.Admin ? (
-                    <div
-                        onClick={() => {
-                            setOpenModal(true);
-                            setProjectModal(proj);
-                            setDeleteProject(true);
-                        }}
-                        className="project-mini-modal-link"
-                    >
-                        <FaTrash />
-                        <p>Delete Project</p>
-                    </div>
-                ) : (
-                    ''
-                )
-            }
-        </div >
+            {user.role === ROLES.Admin ? (
+                <div
+                    onClick={() => {
+                        setOpenModal(true);
+                        setProjectModal(proj);
+                        setDeleteProject(true);
+                    }}
+                    className="project-mini-modal-link"
+                >
+                    <FaTrash />
+                    <p>Delete Project</p>
+                </div>
+            ) : (
+                ''
+            )}
+        </div>
     );
 };
 

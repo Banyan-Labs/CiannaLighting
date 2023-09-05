@@ -11,7 +11,6 @@ const projectSchema: Schema = new Schema(
     region: { type: String, required: true },
     status: { type: String, required: true },
     description: { type: String, required: true },
-    rfp: { type: String },
     rooms: { type: Array<string> },
     lightIDs: { type: Array<object> },
     activity: { type: Object },

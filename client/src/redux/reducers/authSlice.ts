@@ -23,7 +23,10 @@ export const authSlice = createSlice({
 
             return {
                 ...state,
-                user: { ...action.payload.user, token: action.payload.accessToken },
+                user: {
+                    ...action.payload.user,
+                    token: action.payload.accessToken,
+                },
             };
         },
         setLogs: (state, action) => {
@@ -32,35 +35,28 @@ export const authSlice = createSlice({
                 logs: action.payload.logs,
             };
         },
-        setUserOnRefresh: (state, action) => ({
-            ...state,
-            user: action.payload.authUser,
-        }),
         setAccessToken: (state, action) => {
             localStorage.setItem('token', action.payload.accessToken);
             localStorage.setItem('role', action.payload.user.role);
 
             return {
                 ...state,
-                user: { ...action.payload.user, token: action.payload.accessToken },
+                user: {
+                    ...action.payload.user,
+                    token: action.payload.accessToken,
+                },
             };
         },
         logout: () => {
             localStorage.removeItem('token');
             localStorage.removeItem('role');
-            
+
             return initialState;
         },
         setError: (state, action) => ({ ...state, error: action.payload }),
     },
 });
 
-export const {
-    setUser,
-    setError,
-    logout,
-    setAccessToken,
-    setUserOnRefresh,
-    setLogs,
-} = authSlice.actions;
+export const { setUser, setError, logout, setAccessToken, setLogs } =
+    authSlice.actions;
 export default authSlice.reducer;

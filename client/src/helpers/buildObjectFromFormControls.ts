@@ -5,7 +5,7 @@ export const buildObjectFromFormControls = (
 
     for (const element of Object.values(refNodeList)) {
         const controlElement = element as HTMLFormElement;
-        
+
         if (
             controlElement.tagName !== 'BUTTON' &&
             controlElement.name &&

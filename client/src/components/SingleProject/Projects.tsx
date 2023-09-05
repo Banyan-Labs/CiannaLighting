@@ -2,13 +2,10 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
 import { getProject, setDefaults } from '../../redux/actions/projectActions';
-import { getAllProjectRoomsAction } from '../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getCatalogItems, setSpecFile } from '../../redux/actions/lightActions';
+import { getCatalogItems } from '../../redux/actions/lightActions';
 import { useParams } from '../../app/utils';
-import ProjectsNav from './ProjectPageLower/ProjectsNav';
 import ProjectSummary from './ProjectSummary';
-import ProjectAttachments from './ProjectAttachments';
 import AllProjectView from './AllProjectView';
 
 import './style/projects.scss';
@@ -21,18 +18,17 @@ const Projects: FC = () => {
     const [currentSort, setCurrentSort] = useState<string>('');
     const [processing, setProcessing] = useState<boolean>(false);
     const dispatch = useAppDispatch();
-    const { userProjects, projectId, project, yourProjects } = useAppSelector(
+    const { userProjects, project, yourProjects } = useAppSelector(
         ({ project }) => project
     );
 
+    const route = window.location.pathname;
     const [storedProjId] = useParams('projectId');
     const latestProject = userProjects?.slice(userProjects?.length - 1);
-    const defaultProjId = latestProject.map((p) => p._id);
+    const defaultProjId = latestProject?.map((p) => p._id)[0];
+    const projectIdToUse: string = storedProjId ? storedProjId : defaultProjId;
     const fetchData1 = async () => {
-        storedProjId
-            ? await dispatch(getProject({ _id: String(storedProjId) }))
-            : await dispatch(getProject({ _id: String(defaultProjId) }));
-        await dispatch(setSpecFile({ projId: storedProjId, edit: '' }, false));
+        await dispatch(getProject({ _id: String(projectIdToUse) }));
         await dispatch(getCatalogItems());
     };
 
@@ -40,39 +36,24 @@ const Projects: FC = () => {
         fetchData1();
     }, [userProjects]);
 
-    const fetchData = async () => {
-        storedProjId
-            ? await dispatch(getAllProjectRoomsAction(String(storedProjId)))
-            : await dispatch(getAllProjectRoomsAction(String(defaultProjId)));
-    };
-
     useEffect(() => {
-        fetchData();
-    }, [projectId]);
-    useEffect(() => {
-        if (yourProjects === false) {
+        if (yourProjects === false || route.includes('projects')) {
             dispatch(setDefaults());
         } else {
-            null
+            null;
         }
-    }, [yourProjects])
+    }, [yourProjects]);
 
     return (
         <>
-            {yourProjects === true ? (
-                <>
-                    <div className="projects-top-half">
-                        <ProjectSummary
-                            details={project}
-                            processing={processing}
-                            setProcessing={setProcessing}
-                        />
-                        <ProjectAttachments details={project} />
-                    </div>
-                    <div>
-                        <ProjectsNav processing={processing} />
-                    </div>
-                </>
+            {yourProjects === true || !route.includes('projects') ? (
+                <div className="projects-top-half">
+                    <ProjectSummary
+                        details={project}
+                        processing={processing}
+                        setProcessing={setProcessing}
+                    />
+                </div>
             ) : (
                 <div className="projects-bottom-half">
                     <div className="all-project-view-main-container">

@@ -2,7 +2,7 @@ import React, { FC, useState, FormEvent } from 'react';
 
 import { useAppDispatch } from '../../app/hooks';
 import { filterCatalogItems } from '../../redux/actions/lightActions';
-import { DesignStyle, UsePackage } from 'app/constants';
+import { DesignStyle, UsePackage, StyleOption } from 'app/constants';
 
 import './style/roomDetails.scss';
 
@@ -12,29 +12,42 @@ interface catalogPros {
     setFilterBar: any;
 }
 
-const DetailsFilter: FC<catalogPros> = ({
-    filterBar,
-    setFilterBar,
-}) => {
+const DetailsFilter: FC<catalogPros> = ({ filterBar, setFilterBar }) => {
     const dispatch = useAppDispatch();
 
-    const [designStyle, setDesignStyle] = useState<string>("");
+    const [designStyle, setDesignStyle] = useState<string>('');
+
+    const [styleOptions, setStyleOptions] = useState<string[]>([]);
 
     const [usePackages, setUsePackages] = useState<string[]>([]);
 
-    const handleDesignInput = (e: FormEvent<HTMLInputElement>) => {
-        setDesignStyle( e.currentTarget.checked === true ? e.currentTarget.name : '' );
+    const handleDesignInput = (e: any) => {
+        setDesignStyle(
+            e.target.selectedOptions[0].value
+        );
+    };
+    const handleOptionsInput = (e: FormEvent<HTMLInputElement>) => {
+        e.currentTarget.checked
+            ? setStyleOptions([...styleOptions, e.currentTarget.name])
+            : setStyleOptions(
+                styleOptions.filter((x: any) => x !== e.currentTarget.name)
+            );
     };
     const handlePackagesInput = (e: FormEvent<HTMLInputElement>) => {
-        e.currentTarget.checked 
-        ? setUsePackages([...usePackages, e.currentTarget.name])
-        : setUsePackages(usePackages.filter((x: any) => x !== e.currentTarget.name));
+        e.currentTarget.checked
+            ? setUsePackages([...usePackages, e.currentTarget.name])
+            : setUsePackages(
+                usePackages.filter((x: any) => x !== e.currentTarget.name)
+            );
     };
     const resetFilters = (e: any) => {
         e.preventDefault();
 
         setDesignStyle('');
+        setStyleOptions([]);
         setUsePackages([]);
+        dispatch(filterCatalogItems({}));
+        setFilterBar(!filterBar);
     };
 
     const onSubmit = async (e: any) => {
@@ -45,12 +58,13 @@ const DetailsFilter: FC<catalogPros> = ({
                 filterCatalogItems({
                     designStyle,
                     usePackages,
+                    styleOptions,
                 })
             );
         } catch (err: any) {
             throw new Error(err.message);
         }
-        
+
         setFilterBar(!filterBar);
     };
 
@@ -74,45 +88,70 @@ const DetailsFilter: FC<catalogPros> = ({
             >
                 <div className="design-container d-flex row m-0 p-0">
                     <h5 className="m-0 p-0">Design Style</h5>
-                    <div className="input-container-filter">
-                        {
-                            Object.values(DesignStyle).map((design: any) => (
-                                <div className="d-flex m-0" key={design.length}>
-                                    <input
-                                        className="m-1"
-                                        type="radio"
-                                        name={design}
-                                        id="designStyles"
-                                        checked={designStyle === design}
-                                        onChange={(e) => handleDesignInput(e)}
-                                    />
-                                    <p className="m-1">{design}</p>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <div className="design-container d-flex row m-0 p-0">
-                        <h5 className="m-0 p-0">Use Packages</h5>
-                        {
-                            Object.values(UsePackage).map((usePackage: any) => (
-                                <div className="d-flex m-0" key={usePackage.length}>
-                                    <input
-                                        className="m-1"
-                                        type="checkBox"
-                                        name={usePackage}
-                                        id="UsePackage"
-                                        checked={usePackages.includes(usePackage)}
-                                        onChange={(e) => handlePackagesInput(e)}
-                                    />
-                                    <p className="m-1">{usePackage}</p>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <select
+                        className="d-flex m-0 align-items-center"
+                        id="designStyles"
+                        onChange={(e) => handleDesignInput(e)}
+                        placeholder="Design Style"
+                        name="designStyle"
+                        value={designStyle || ''}
+                    >
+                        <option value="">
+                            Any
+                        </option>
+                        {Object.values(DesignStyle).map(
+                            (item: any, index: number) => (
+                                <option
+                                    key={index}
+                                    value={item}
+                                >
+                                    {item}
+                                </option>
+                            )
+                        )}
+                    </select>
+                    <h5 className="m-0 p-0">Style Options</h5>
+                    {Object.values(StyleOption).map((option: any) => (
+                        <div
+                            className="d-flex m-0 align-items-center"
+                            key={option}
+                        >
+                            <input
+                                className="my-0"
+                                type="checkBox"
+                                name={option}
+                                id="StyleOption"
+                                checked={styleOptions.includes(option)}
+                                onChange={(e) => handleOptionsInput(e)}
+                            />
+                            <p className="m-0">{option}</p>
+                        </div>
+                    ))}
+                    <h5 className="m-0 p-0">Use Packages</h5>
+                    {Object.values(UsePackage).map((usePackage: any) => (
+                        <div
+                            className="d-flex m-0 align-items-center"
+                            key={usePackage}
+                        >
+                            <input
+                                className="my-0"
+                                type="checkBox"
+                                name={usePackage}
+                                id="UsePackage"
+                                checked={usePackages.includes(usePackage)}
+                                onChange={(e) => handlePackagesInput(e)}
+                            />
+                            <p className="m-0">{usePackage}</p>
+                        </div>
+                    ))}
                 </div>
                 <div className="d-flex button-container-filters mt-4">
-                    <button className="reset mx-1" onClick={resetFilters}>Reset</button>
-                    <button className="submit mx-1" type="submit">Apply</button>
+                    <button className="reset mx-1" onClick={resetFilters}>
+                        Reset
+                    </button>
+                    <button className="submit mx-1" type="submit">
+                        Apply
+                    </button>
                 </div>
             </form>
         </div>

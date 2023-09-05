@@ -1,30 +1,17 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
-import { FaPlus, FaChevronRight } from 'react-icons/fa';
-import { VscFileSubmodule } from 'react-icons/vsc';
-import {
-    AiOutlineCheckCircle,
-    AiOutlineCloseCircle,
-    AiOutlinePauseCircle,
-    AiOutlineExclamationCircle,
-    AiOutlinePlayCircle
-} from 'react-icons/ai';
-import {
-    IoIosArrowDropleftCircle,
-    IoIosArrowDroprightCircle,
-} from 'react-icons/io';
-import { RiArchiveDrawerFill } from 'react-icons/ri';
-
+import { FaChevronRight, FaFolderOpen } from 'react-icons/fa';
+import { RiAddLine, RiArchiveDrawerFill } from 'react-icons/ri';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
-import { getProject, getUserProjects } from '../../../redux/actions/projectActions';
+import {
+    getProject,
+    getUserProjects,
+} from '../../../redux/actions/projectActions';
 import Modal from '../../Modal/Modal';
 import dataHolding from './projectDetails';
-import DashboardNav from '../DashboardPageLower/DashboardNav';
-import { setSpecFile } from '../../../redux/actions/lightActions';
 import { setTheYourProjects } from '../../../redux/actions/projectActions';
-import logging from 'config/logging';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
 
 import '../style/dashboard.scss';
 
@@ -40,221 +27,196 @@ const YourProjects: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
             navigate(to);
         },
         [user.name, navigate]
     );
 
-    const [newProjects, setNewProjects] = useState(0);
-    const [inProgressProjects, setInProgressProjects] = useState(0);
-    const [onHoldProjects, setOnHoldProjects] = useState(0);
-    const [canceledProjects, setCanceledProjects] = useState(0);
-    const [completedProjects, setCompletedProjects] = useState(0);
+    const [configureProjectCount, setConfigureProjectCount] = useState(0);
+    const [completedProjectCount, setcompletedProjectCount] = useState(0);
+    const [savedProjectCount, setSavedProjectCount] = useState(0);
+    const [holdProjectCount, setHoldProjectCount] = useState(0);
+    const [templateProjectCount, setTemplateProjectCount] = useState(0);
 
-    // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
-    const scroll = (scrollAmount: number) => {
-        ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
-    };
 
     useEffect(() => {
-        logging.info(user, 'YourProjects');
         dispatch(getUserProjects(user._id));
 
-        let newProjectsNumber = 0;
-        let onHoldProjectsNumber = 0;
-        let canceledProjectsNumber = 0;
-        let completedProjectsNumber = 0;
-        let inProgressProjectsNumber = 0;
+        let configureProjectsCount = 0;
+        let completedProjectCountCount = 0;
+        let savedProjectsCount = 0;
+        let holdProjectsCount = 0;
+        let templateProjectsCount = 0;
 
-        if (userProjects?.length) {
-            userProjects.map((project) => {
-                const closestSystemStatus = findClosestSystemStatus(project.status);
-
-                switch (closestSystemStatus) {
-                    case 'New':
-                        newProjectsNumber = newProjectsNumber + 1;
+        if (filteredProjects?.length) {
+            filteredProjects.forEach((project) => {
+                switch (project.status) {
+                    case 'Configure / Design':
+                        configureProjectsCount = configureProjectsCount + 1;
                         break;
-                    case 'Complete':
-                        completedProjectsNumber = completedProjectsNumber + 1;
+                    case 'RFP / Completed':
+                        completedProjectCountCount =
+                            completedProjectCountCount + 1;
                         break;
-                    case 'Hold':
-                        onHoldProjectsNumber = onHoldProjectsNumber + 1;
+                    case 'Saved Projects':
+                        savedProjectsCount = savedProjectsCount + 1;
                         break;
-                    case 'Cancel':
-                        canceledProjectsNumber = canceledProjectsNumber + 1;
+                    case 'On Hold':
+                        holdProjectsCount = holdProjectsCount + 1;
                         break;
-                    default:
-                        inProgressProjectsNumber = inProgressProjectsNumber + 1;
+                    case 'Template / New':
+                        templateProjectsCount = templateProjectsCount + 1;
+                        break;
                 }
             });
 
-            setNewProjects(newProjectsNumber);
-            setInProgressProjects(inProgressProjectsNumber);
-            setOnHoldProjects(onHoldProjectsNumber);
-            setCanceledProjects(canceledProjectsNumber);
-            setCompletedProjects(completedProjectsNumber);
+            setConfigureProjectCount(configureProjectsCount);
+            setcompletedProjectCount(completedProjectCountCount);
+            setSavedProjectCount(savedProjectsCount);
+            setHoldProjectCount(holdProjectsCount);
+            setTemplateProjectCount(templateProjectsCount);
         }
-    }, [user._id, userProjects?.length]);
+    }, [userProjects?.length]);
 
-    const singleProject = userProjects?.map((project: any, index: any) => {
-        const changeProject = async (prodId: string) => {
-            await dispatch(getProject({ _id: prodId }));
-            await dispatch(
-                setSpecFile({ projId: prodId, edit: '' }, false)
+    const filteredProjects =
+        userProjects?.filter((project: any) => project.archived === false) ||
+        [];
+    const singleProject = filteredProjects
+        .map((project: any, index: any) => {
+            const changeProject = async (prodId: string) => {
+                await dispatch(getProject({ _id: prodId }));
+
+                dataHolding.getData(project);
+            };
+            const date = new Date(Date.parse(project.createdAt)).toDateString();
+
+            return (
+                <div
+                    className={`single-project m-3 ${getStatusClass(
+                        project.status
+                    )}`}
+                    onClick={async () => {
+                        await dispatch(setTheYourProjects(true));
+                        changeProject(project._id);
+                        projectRoute(project._id);
+                    }}
+                    key={index}
+                >
+                    <div className="d-flex flex-column">
+                        <span>
+                            Created: <strong>{date}</strong>
+                        </span>
+                        <span>
+                            Status: <strong>{project.status}</strong>
+                        </span>
+                    </div>
+                    <div className="d-flex align-items-end justify-content-between">
+                        {project.archived && (
+                            <>
+                                <RiArchiveDrawerFill
+                                    data-for="ab"
+                                    data-tip={`${project?.name} is awarded.`}
+                                    className="archive-icon archive-show-option"
+                                />
+
+                                <ReactTooltip id="ab" />
+                            </>
+                        )}
+                    </div>
+                    <h3>{project.name}</h3>
+                    <div className="view-details-block" key={index}>
+                        <span>
+                            View Details{' '}
+                            <FaChevronRight className="view-details-chevron" />
+                        </span>
+                    </div>
+                </div>
             );
-            dataHolding.getData(project);
-        };
-        const date = new Date(Date.parse(project.createdAt)).toDateString();
-
-        return (
-            <div
-                className={`single-project statusColor${findClosestSystemStatus(project.status)}`}
-                onClick={async () => {
-                    await dispatch(setTheYourProjects(true));
-                    changeProject(project._id);
-                    projectRoute(project._id);
-
-                }}
-                key={index}
-            >
-                <span>
-                    Created: <strong>{date}</strong>
-                </span>
-                <div className="d-flex align-items-end justify-content-between">
-                    <span>
-                        Status: <strong>{project.status}</strong>
-                    </span>
-
-                    <RiArchiveDrawerFill
-                        data-for="ab"
-                        data-tip={`${project?.name} is archived`}
-                        className={
-                            project?.archived
-                                ? 'archive-icon archive-show-option'
-                                : 'd-none'
-                        }
-                    />
-
-                    <ReactTooltip id="ab" />
-                </div>
-                <div className="card-divider" />
-                <h3>{project.name}</h3>
-                <div className="view-details-block" key={index}>
-                    <span>
-                        View Details{' '}
-                        <FaChevronRight className="view-details-chevron" />
-                    </span>
-                </div>
-            </div>
-        );
-    })
+        })
         .reverse();
 
     return (
         <>
             <div className="dashboard-container">
-                <div className="dashboard-project-overview">
-                    <h4>Project Overview</h4>
-                    <div className="overview-vertical-divider" />
-                    {/* Grid for project overview */}
-                    <div className="overview-display">
-                        {/* Total Projects */}
-                        <VscFileSubmodule className="overview-total overview-icon-main" />
-                        <div className="overview-total-title overview-label-main">
+                <div className="dashboard-project-overview mx-5 no-wrap">
+                    <div className="align-items-center d-flex flex-row">
+                        <h4>My Projects</h4>
+                        <div className="overview-vertical-divider mx-5" />
+                        <FaFolderOpen className="overview-icon-main mx-1" />
+                        <div className="align-items-baseline overview-configure-title">
                             Total Projects
+                            <div className="mx-2 num">
+                                {filteredProjects?.length}
+                            </div>
                         </div>
-                        <div className="overview-total-num overview-num-main">
-                            {userProjects?.length}
+                    </div>
+                    <div className="align-items-center d-flex flex-row flex-wrap">
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-configure-title overview-label">
+                                Configure / Design
+                            </div>
+                            <div className="mx-2 num">
+                                {configureProjectCount}
+                            </div>
                         </div>
-                        {/* New Projects */}
-                        <AiOutlineExclamationCircle className="overview-new overview-icon" />
-                        <div className="overview-new-title overview-label">
-                            New
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-completed-title overview-label">
+                                RFP / Completed
+                            </div>
+                            <div className="mx-2 num">
+                                {completedProjectCount}
+                            </div>
                         </div>
-                        <div className="overview-new-num overview-num">
-                            {newProjects}
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-saved-title overview-label">
+                                Saved Projects
+                            </div>
+                            <div className="mx-2 num">{savedProjectCount}</div>
                         </div>
-                        {/* In Progress Projects */}
-                        <AiOutlinePlayCircle className="overview-in-progress overview-icon" />
-                        <div className="overview-in-progress-title overview-label">
-                            In Progress
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-hold-title overview-label">
+                                On Hold
+                            </div>
+                            <div className="mx-2 num">{holdProjectCount}</div>
                         </div>
-                        <div className="overview-in-progress-num overview-num">
-                            {inProgressProjects}
+                        <div className="align-items-baseline d-flex flex-row mx-2">
+                            <div className="overview-template-title overview-label">
+                                Template / New
+                            </div>
+                            <div className="mx-2 num">
+                                {templateProjectCount}
+                            </div>
                         </div>
-                        {/* On Hold Projects */}
-                        <AiOutlinePauseCircle className="overview-hold overview-icon" />
-                        <div className="overview-hold-title overview-label">
-                            On Hold
-                        </div>
-                        <div className="overview-hold-num overview-num">
-                            {onHoldProjects}
-                        </div>
-                        {/* Canceled Projects */}
-                        <AiOutlineCloseCircle className="overview-canceled overview-icon" />
-                        <div className="overview-canceled-title overview-label">
-                            Canceled
-                        </div>
-                        <div className="overview-canceled-num overview-num">
-                            {canceledProjects}
-                        </div>
-                        {/* Completed Projects */}
-                        <AiOutlineCheckCircle className="overview-completed overview-icon" />
-                        <div className="overview-completed-title overview-label">
-                            Completed
-                        </div>
-                        <div className="overview-completed-num overview-num">
-                            {completedProjects}
-                        </div>
+                    </div>
+                    <div>
+                        <button
+                            className="align-items-center d-flex flex-row room-button ms-2 p-3"
+                            onClick={() => {
+                                setOpenModal(true);
+                            }}
+                        >
+                            <RiAddLine className="add-sign me-1" />
+                            New Project
+                        </button>
                     </div>
                 </div>
-
-                <div className="dashboard-your-projects">
-                    <h4>Your Projects</h4>
-                    <div className="dashboard-vertical-divider" />
-                    <button
-                        className="dashboard-new-project-button"
-                        onClick={() => {
-                            setOpenModal(true);
-                        }}
+                <div className="your-rooms mx-5">
+                    <div
+                        className="your-rooms-section justify-content-center d-flex flex-wrap"
+                        ref={ref}
                     >
-                        <FaPlus className="submit-icon" />
-                        <span className="dashboard-new-project-sub-text">
-                            New Project
-                        </span>
-                    </button>
-                    <div className="your-projects-icons">
-                        <IoIosArrowDropleftCircle
-                            id="your-project-icons-left"
-                            className="your-projects-buttons"
-                            onClick={() => {
-                                scroll(-200);
-                            }}
-                        />
-
-                        <IoIosArrowDroprightCircle
-                            className="your-projects-buttons"
-                            onClick={() => {
-                                scroll(200);
-                            }}
-                        />
-                    </div>
-
-                    <div className="your-projects-section" ref={ref}>
                         {singleProject}
-                        {singleProject?.length == 0 ? (
+                        {singleProject?.length === 0 && (
                             <div className="your-projects-none">
-                                <span>You have no projects.</span>
+                                <span>No active projects at this time.</span>
                             </div>
-                        ) : (
-                            <></>
                         )}
                     </div>
                 </div>
             </div>
-            <DashboardNav />
+
             {openModal && (
                 <Modal
                     openModal={openModal}

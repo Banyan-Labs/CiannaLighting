@@ -8,40 +8,44 @@ body {
 
 .room-details-page {
     &__page-container {
-        padding-top: 100px;
+        padding-top: 10vh;
         display: flex;
-        overflow: clip;
-        height: calc(100vh - 100px);
+        background-color: #ecebe7;
     }
 
     &__panel-wrapper {
         padding: 0 24px 12px;
-        overflow: scroll;
+        min-height: 89vh;
+        width: 100%;
 
         &.left {
-            width: 40%;
+            width: 30%;
             border-right: 1px solid #ada9a9ab;
             background-color: #ecebe7;
         }
 
         &.right {
-            width: 60%;
+            width: 70%;
         }
     }
+
     @media screen and (max-width: 800px) {
         &__page-container {
             flex-direction: column;
             height: auto;
             overflow: scroll;
-            padding: 100px 6px;
+            padding: 10vh 6px;
         }
+
         &__panel-wrapper {
             padding: 0;
+
             &.left {
                 width: 100% !important;
                 border-right: none;
                 border-bottom: 3px solid black;
             }
+
             &.right {
                 width: 100% !important;
             }
@@ -54,20 +58,25 @@ body {
     background-color: white;
     padding: 0;
 }
+
 .room-details-top {
     display: inline-flex;
 }
+
 .room-details-close-button {
     font-size: 20px;
     margin: 10px;
 }
+
 .room-details-close-button:hover {
     cursor: pointer;
 }
+
 .room-details-project-name {
     font-size: 12px;
     padding-left: 300px;
 }
+
 .room-details-room-name-bar {
     margin-right: 0px;
     display: inline-flex;
@@ -75,19 +84,12 @@ body {
     justify-content: space-evenly;
 }
 
-.trash-icon {
-    margin-left: 15px;
-    font-weight: 800;
-    font-size: 1.2em;
-}
-.trash-icon:hover {
-    cursor: pointer;
-}
 .room-description-light-divider {
     border-bottom: 1px solid #ada9a9ab;
     margin-right: 20px;
     margin-left: 20px;
 }
+
 .room-description-no-lights {
     display: block;
     align-self: center;
@@ -107,6 +109,7 @@ body {
     h3 {
         font-size: 22px;
     }
+
     p {
         font-size: 13px;
         color: $primary-bg-white-sub-text;
@@ -114,13 +117,11 @@ body {
 }
 
 .project-name {
-    margin-right: 2rem;
-    font-weight: bold;
-    position: relative;
     .room-details-circle-icon {
         margin-left: 0.5rem;
         font-size: 18px;
     }
+
     .project-tag {
         font-size: 12px;
         color: $primary-bg-white-sub-text;
@@ -131,6 +132,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+
     h4 {
         margin-left: 20px;
         font-weight: 400;
@@ -141,6 +143,7 @@ body {
         color: $primary-bg-white-sub-text;
     }
 }
+
 .light-number {
     margin-left: 20px;
     font-weight: 500;
@@ -155,30 +158,39 @@ body {
     cursor: pointer;
     font-weight: 500;
     padding-right: 20px;
+
     span {
         font-size: 20px;
         padding-left: 10px;
     }
 }
+
+.icon-container {
+    font-size: 0.7em;
+    .edit-icon,
+    .archive-icon,
+    .clone-icon {
+        color: $primary-bg;
+    }
+}
+
+.collapse-content {
+    background-color: #e3ddc6;
+    font-size: 0.6em;
+    text-wrap: nowrap;
+}
+
 .container-for-light-cards-off {
     min-height: 510px;
     max-height: 510px;
-    overflow-y: scroll;
 }
-
+.room-detail-section {
+    border-bottom: solid 1px $primary-bg-light-grey;
+    padding-bottom: 1.5vh;
+}
 .container-for-light-cards {
-    min-height: 510px;
-    max-height: 510px;
-    overflow-y: scroll;
-
     .single-room-container {
         background-color: $primary-bg-dark;
-        position: relative;
-        padding-top: 20px;
-        margin-right: 20px;
-        margin-left: 20px;
-        padding-bottom: 20px;
-        border-bottom: solid 1px $primary-bg-light-grey;
 
         // **** the top part of the light card *****
         .first-light-section {
@@ -192,60 +204,27 @@ body {
                 h3 {
                     color: $primary-bg-dark-title;
                 }
+
                 h4 {
                     color: $primary-bg-dark-title;
                 }
             }
 
             .qty {
-                position: absolute;
                 font-weight: 600;
-                right: 0px;
-                top: 0px;
-                padding-right: 10px;
                 font-size: 13px;
 
                 span {
-                    padding-left: 10px;
                     color: $primary-bg-white-sub-text;
                 }
             }
         }
+
         .lightImg {
             box-shadow: $box-shadow;
-            height: 120px;
             border-radius: 0.2rem;
-        }
-    }
-
-    .edit-link {
-        text-decoration: underline;
-        padding-right: 15px;
-        font-size: 16px !important;
-        color: $accent-gold;
-        font-weight: 500;
-        cursor: pointer;
-        border: none;
-        background: none;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            color: $primary-bg-dark-title;
-        }
-    }
-
-    .remove-link {
-        text-decoration: underline;
-        font-weight: 500;
-        cursor: pointer;
-        font-size: 16px !important;
-        color: $primary-bg-white-sub-text;
-        border: none;
-        background: none;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-            transition: all 0.2s ease-in-out;
-            color: $primary-bg-dark-title;
+            height: auto;
+            width: 100%;
         }
     }
 }
@@ -253,6 +232,7 @@ body {
 // ********* The Bottom Part Of The Light Card *********
 .second-left-section {
     font-size: $primary-text-fs;
+
     h5:nth-child(2) {
         color: gray;
     }
@@ -260,18 +240,19 @@ body {
 
 .second-right-section {
     font-size: $primary-text-fs;
+
     h5:nth-child(2) {
         color: gray;
     }
 }
 
 .delete-Modal-container {
-    min-height: 300px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     .delete-modal-button {
         background-color: red !important;
         padding: 10px 12px 10px 12px;
@@ -285,7 +266,7 @@ body {
 
 // ******** for the containers for each component
 .details-container {
-    padding-top: 100px !important;
+    padding-top: 10vh !important;
 }
 
 // ******** Filter Componet *********
@@ -312,9 +293,6 @@ body {
 
 @include media-lg {
     .container-for-light-cards {
-        min-height: 25vh;
-        max-height: 25vh;
-        overflow-y: scroll;
         padding: 5px;
     }
 
@@ -326,6 +304,7 @@ body {
         border-right: none;
         height: 45vh;
     }
+
     .details-container {
         height: 100vh;
     }

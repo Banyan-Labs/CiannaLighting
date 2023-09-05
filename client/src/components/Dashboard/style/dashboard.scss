@@ -2,255 +2,153 @@
 
 .dashboard-container {
     display: flex;
-    height: 100%;
-    width: 100%;
-    padding-bottom: 45px;
-    padding-top: 100px;
+    flex-direction: column;
     background-color: $primary-bg-dark;
-    box-shadow: $box-shadow;
+    margin-top: 10vh;
+    height: 100vh;
     h4 {
         color: $primary-bg-dark-title;
         font-size: $primary-title-fs;
     }
     a:hover {
-        font-weight: bold;
         cursor: pointer;
-    }
-}
-
-.dashboard-new-project-button {
-    padding: 5px;
-}
-
-.dashboard-new-project-button:hover {
-    background-color: hsla(0, 0%, 100%, 0.13);
-    border-radius: 50px;
-}
-
-.dashboard-new-project-sub-text {
-    color: $primary-bg-dark-text;
-    font-size: 12px;
-    position: relative;
-    top: -1px;
-}
-
-// project overview
-.dashboard-project-overview {
-    display: flex;
-    align-items: baseline;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 50%;
-    h4 {
-        padding: 5px 25px;
-    }
-}
-
-// project overview grid - not responsive yet (will change grid layout in media query for ipad and mobile)
-.overview-display {
-    margin: 0 25px;
-    position: relative;
-    top: -50px;
-    flex-basis: 100%;
-    display: grid;
-    color: $primary-bg-dark-title;
-    grid-template-columns: 45px 40px 50px 40px 80px 40px 70px 40px 70px 40px;
-    grid-template-rows: 20px 50px;
-    grid-template-areas:
-        'total_icon total_title total_title total_title . . . . . . .'
-        'total_icon total_num . . . . . . . . .'
-        '. new_icon new_title in_progress_icon in_progress_title hold_icon hold_title canceled_icon canceled_title completed_icon completed_title'
-        '. new_icon new_num in_progress_icon in_progress_num hold_icon hold_num canceled_icon canceled_num completed_icon completed_num';
-}
-
-.overview-icon-main {
-    width: 40px;
-    height: auto;
-    color: $primary-bg-light-grey;
-}
-
-.overview-label-main {
-    color: $primary-bg-light-grey;
-    position: relative;
-    top: 5px;
-    font-size: $sub-text-fs;
-}
-
-.overview-num-main {
-    font-family: $font-family;
-    font-size: 20px;
-}
-
-.overview-icon {
-    width: 30px;
-    height: auto;
-    color: $primary-bg-light-grey;
-}
-
-.overview-label {
-    color: $primary-bg-light-grey;
-    font-size: 12px;
-}
-
-.overview-num {
-    font-weight: bolder;
-}
-
-// overview grid-area sections
-.overview-total {
-    grid-area: total_icon;
-}
-
-.overview-total-title {
-    grid-area: total_title;
-}
-
-.overview-total-num {
-    grid-area: total_num;
-}
-
-.overview-new {
-    grid-area: new_icon;
-}
-
-.overview-new-title {
-    grid-area: new_title;
-}
-
-.overview-new-num {
-    grid-area: new_num;
-}
-
-.overview-in-progress {
-    grid-area: in_progress_icon;
-}
-
-.overview-in-progress-title {
-    grid-area: in_progress_title;
-}
-
-.overview-in-progress-num {
-    grid-area: in_progress_num;
-}
-
-.overview-hold {
-    grid-area: hold_icon;
-}
-
-.overview-hold-title {
-    grid-area: hold_title;
-}
-
-.overview-hold-num {
-    grid-area: hold_num;
-}
-
-.overview-canceled {
-    grid-area: canceled_icon;
-}
-
-.overview-canceled-title {
-    grid-area: canceled_title;
-}
-
-.overview-canceled-num {
-    grid-area: canceled_num;
-}
-
-.overview-completed {
-    grid-area: completed_icon;
-}
-
-.overview-completed-title {
-    grid-area: completed_title;
-}
-
-.overview-completed-num {
-    grid-area: completed_num;
-}
-
-// your projects
-.dashboard-your-projects {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    width: 60%;
-    margin: 0 20px 0 0;
-    overflow-x: scroll;
-    h4 {
-        padding: 5px 25px 0 0;
-    }
-    button {
-        background-color: transparent;
-        color: $primary-bg-dark-link;
-        font-size: 16px;
-        border: none;
-        margin-left: 20px;
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .your-projects-icons {
-        margin-left: auto;
-        color: $primary-bg-dark-link-hover;
-        font-size: 20px;
-        position: relative;
-        top: 5px;
-    }
-    #your-project-icons-left {
-        padding-right: 10px;
-    }
-    .your-projects-buttons {
-        font-size: 25px;
-    }
-    .your-projects-buttons:hover {
-        cursor: pointer;
-        color: rgba(63, 60, 57, 0.219);
     }
 }
 
 .overview-vertical-divider {
     @include vertical-line;
-    position: relative;
-    top: 10px;
+    height: 35px;
+    width: 1px;
+    background-color: $accent-gold;
 }
 
-.dashboard-vertical-divider {
-    @include vertical-line;
+button.dashboard-new-project-button {
+    background-color: $primary-bg;
+    color: $primary-bg-light-button-text;
+    border-radius: 5px;
+}
+
+button.dashboard-new-project-button:hover {
+    background-color: $primary-bg-light-button-hover;
+    border-color: $primary-bg-light-button-hover;
+    transition: all 0.2s ease-in-out;
+    color: $primary-bg-light-button-text;
+}
+
+.dashboard-new-project-sub-text {
+    color: $primary-bg-light-button-text;
     position: relative;
-    top: 10px;
+    top: 0.1.1vh;
+}
+
+.submit-icon {
+    color: $primary-bg-light-button-text;
+    position: relative;
+    margin-bottom: -0.17vh;
+}
+
+.dashboard-project-overview {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.overview-label {
+    font-size: 15px;
+}
+
+.num {
+    font-size: 20px;
+    color: $accent-gold;
+    font-weight: bold;
+}
+
+.overview-icon-main {
+    display: flex;
+    width: 30px;
+    height: auto;
+    color: $primary-bg-light-grey;
+}
+
+.overview-configure-title {
+    display: flex;
+    color: $primary-bg;
+}
+
+.overview-configure-num {
+    display: flex;
+}
+
+.overview-completed-title {
+    display: flex;
+    color: $primary-bg;
+}
+
+.overview-completed-num {
+    display: flex;
+}
+
+.overview-saved-title {
+    display: flex;
+    color: $primary-bg;
+}
+
+.overview-saved-num {
+    display: flex;
+}
+
+.overview-hold-title {
+    display: flex;
+    color: $primary-bg;
+}
+
+.overview-hold-num {
+    display: flex;
+    grid-area: hold_num;
+}
+
+.overview-template-title {
+    display: flex;
+    grid-area: template_title;
+    color: $primary-bg;
+}
+
+.overview-template-num {
+    display: flex;
 }
 
 .your-projects-section {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    overflow-x: scroll;
-    height: 210px;
     width: 100%;
+    height: 25vh;
+    gap: 4%;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 5.25%;
+    margin-top: 1.5vh;
     .your-projects-none {
         flex-grow: 1;
         text-align: center;
         span {
             color: #777777;
-            font-size: 12px;
+            font-size: 13px;
         }
     }
 }
 
-// single project
 .single-project {
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: baseline;
     height: 100%;
     min-width: 250px;
     max-width: 250px;
-    margin-right: 30px;
-    border-radius: 3px;
+    border-radius: 5px;
+    padding-bottom: 2vh;
     span {
         padding: 10px 15px 0 15px;
         font-size: 12px;
@@ -259,7 +157,7 @@
     .card-divider {
         align-self: center;
         height: 0.5px;
-        width: 80%;
+        width: auto;
         margin-top: 15px;
         background-color: #000000;
     }
@@ -267,6 +165,11 @@
         padding: 5px 15px;
         color: $primary-bg-dark-title;
         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+        padding-bottom: 50px;
     }
     .view-details-block {
         position: absolute;
@@ -292,6 +195,20 @@
     }
 }
 
+.your-rooms-section > .single-project {
+    padding-bottom: 2vh;
+    height: 25vh;
+
+    .view-details-block {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+.your-projects-section > .single-project {
+    justify-content: space-between;
+}
+
 .single-project:hover {
     transition: all 400ms ease;
     opacity: 0.8;
@@ -302,7 +219,6 @@
 }
 
 .archive-icon {
-    margin-right: 25px;
     font-size: 1.2em;
     color: $primary-bg-dark-text;
 }

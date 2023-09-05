@@ -5,14 +5,13 @@ import { BsThreeDots } from 'react-icons/bs';
 
 import Pagination from '../Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
-import { axiosPrivate } from '../../../../api/axios';
 import { ProjectType } from '../DashboardNav';
 import {
     getAllProjects,
     setFilterProjNone,
     createProjectAction,
     getUserProjects,
-    setDefaults
+    setDefaults,
 } from '../../../../redux/actions/projectActions';
 import { useAppSelector, useAppDispatch } from '../../../../app/hooks';
 import { FilterModal } from '../../../FilterModal/FilterParams';
@@ -20,7 +19,8 @@ import { ViewModal } from './ViewModal';
 import { LightREF } from '../../../../redux/reducers/projectSlice';
 import InactiveNotification from '../../../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './style/allProjects.scss';
 
@@ -59,12 +59,14 @@ const AllProjects: FC<Props> = ({
         ({ project }) => project
     );
     const [processing, setProcessing] = useState(false);
-    const [projectOptionsModal, setProjectOptionsModal] = useState<boolean>(false);
+    const [projectOptionsModal, setProjectOptionsModal] =
+        useState<boolean>(false);
     const [projectIndex, setProjectIndex] = useState<number | null>(null);
     const projectsPerPage = 5;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inactiveClearModal, setInactiveClearModal] = useState<boolean>(false);
+    const [inactiveClearModal, setInactiveClearModal] =
+        useState<boolean>(false);
     const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
     const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
 
@@ -161,7 +163,12 @@ const AllProjects: FC<Props> = ({
         try {
             checkSearchVal;
         } catch (error: any) {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
         if (searchValue === '') {
             setParsedData(data);
@@ -198,16 +205,21 @@ const AllProjects: FC<Props> = ({
 
             return searchData;
         } else {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
     };
 
     const reduxData = filterQueryProjects?.length
         ? filterQueryProjects?.slice()
         : allProjects?.slice();
-    const activeProjects = (parsedData?.length ? parsedData : reduxData)?.filter(
-        (project) => !project.archived
-    );
+    const activeProjects = (
+        parsedData?.length ? parsedData : reduxData
+    )?.filter((project) => !project.archived);
     const archivedProjects = (
         parsedData?.length ? parsedData : reduxData
     )?.filter((project) => project.archived == true);
@@ -215,8 +227,8 @@ const AllProjects: FC<Props> = ({
     const filteredProjects = sortedData?.length
         ? sortedData?.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-            ? activeProjects?.reverse().slice(firstIndex, lastIndex)
-            : archivedProjects?.reverse().slice(firstIndex, lastIndex);
+        ? activeProjects?.reverse().slice(firstIndex, lastIndex)
+        : archivedProjects?.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(reduxData?.length / projectsPerPage);
     const sortDisplay = (field: string) => {
@@ -237,15 +249,6 @@ const AllProjects: FC<Props> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        let attachments = [];
-
-        attachments = attach?.data?.proj?.pdf;
-
-
         const payload = {
             project: {
                 ...proj,
@@ -253,18 +256,20 @@ const AllProjects: FC<Props> = ({
                 clientName: user.name,
             },
             copy: CopyType.PROJECT,
-            attachments: attachments,
         };
 
         try {
-            const response = await dispatch(
-                createProjectAction(payload)
-            );
+            const response = await dispatch(createProjectAction(payload));
 
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of "${proj.name}" created.`,
+                })
+            );
 
             return response;
         } catch (error: any) {
@@ -289,7 +294,11 @@ const AllProjects: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`text-center statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span
+                            className={`text-center ${getStatusClass(
+                                project.status
+                            )}`}
+                        >
                             {project.status}
                         </span>
                     </td>
@@ -325,7 +334,7 @@ const AllProjects: FC<Props> = ({
             <div>
                 <div className="table-top">
                     <div className="form-bar-button-container">
-                        <div className="list__group">
+                        <div className="list__group search-input">
                             <input
                                 className="form__field"
                                 type="text"
@@ -344,8 +353,8 @@ const AllProjects: FC<Props> = ({
                             className="dashboard-all-projects-submit"
                             onClick={async () => {
                                 await setDefault();
-                                await resetInputField();
-                                await setParsedData([]);
+                                resetInputField();
+                                setParsedData([]);
                                 await dispatch(setFilterProjNone());
                                 setOpenModal(true);
                             }}
@@ -391,7 +400,9 @@ const AllProjects: FC<Props> = ({
                                     >
                                         Status {sortDisplay('status')}
                                     </td>
-                                    <td className="projects-table-dots text-center">Actions</td>
+                                    <td className="projects-table-dots text-center">
+                                        Actions
+                                    </td>
                                 </tr>
                             </thead>
                             {allProjectsTableDisplay}
@@ -407,9 +418,9 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        reduxData?.length - archivedProjects?.length
+                                    reduxData?.length - archivedProjects?.length
                                         ? reduxData?.length -
-                                        archivedProjects?.length
+                                          archivedProjects?.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {(parsedData?.length
@@ -424,7 +435,7 @@ const AllProjects: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        archivedProjects?.length
+                                    archivedProjects?.length
                                         ? archivedProjects?.length
                                         : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects?.length}
@@ -455,13 +466,10 @@ const AllProjects: FC<Props> = ({
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {(
-                                    currentPage !== lastPage && (
-                                        renderedPage === 'All Projects'
-                                            ? activeProjects?.length
-                                            : archivedProjects?.length
-                                    )
-                                ) ? (
+                                {currentPage !== lastPage &&
+                                (renderedPage === 'All Projects'
+                                    ? activeProjects?.length
+                                    : archivedProjects?.length) ? (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);

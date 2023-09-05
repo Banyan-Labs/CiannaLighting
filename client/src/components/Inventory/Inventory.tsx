@@ -5,61 +5,39 @@ import React, {
     ChangeEvent,
     useEffect,
     SyntheticEvent,
-    useRef
+    useRef,
 } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import uuid from 'react-uuid';
-import { FaPlus, FaMinus, FaRegWindowClose } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { FaMinus, FaRegWindowClose } from 'react-icons/fa';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 import { axiosFileUpload, axiosPrivate } from '../../api/axios';
 import { useAppSelector } from '../../app/hooks';
-import { UsePackage, DesignStyle } from 'app/constants';
-import logging from 'config/logging';
+import {
+    UsePackage,
+    DesignStyle,
+    StyleOption,
+    LampColors,
+    ProjectVoltages,
+    SocketTypes,
+    Materials,
+    InteriorFinishes,
+    ExteriorFinishes,
+    LensMaterials,
+    CrystalTypes,
+    CrystalPinColors,
+    Environments,
+    SafetyCertifications,
+    MountingTypes,
+    FinishTreatments,
+    Treatments,
+    CrystalBulbCovers,
+} from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/inventory.scss';
-
-interface CatalogType {
-    item_ID: string;
-    itemName: string;
-    employeeID: string;
-    itemDescription: string;
-    bodyDiameter: string;
-    bodyLength: string;
-    bodyWidth: string;
-    bodyHeight: string;
-    fixtureOverallHeight: string;
-    sconceHeight: string;
-    sconceWidth: string;
-    sconceExtension: string;
-    socketQuantity: number;
-    powerInWatts: number;
-    estimatedWeight: number;
-    price: number;
-    material: string;
-    exteriorFinish: string[];
-    interiorFinish: string[];
-    lensMaterial: string[];
-    glassOptions: string[];
-    acrylicOptions: string[];
-    environment: string[];
-    safetyCert: string[];
-    projectVoltage: string[];
-    socketType: string[];
-    mounting: string[];
-    crystalType: string[];
-    designStyle: string[];
-    usePackages: string[];
-    // images: File[]; //s3
-    // pdf: string[]; //s3
-    // drawingFiles: string[]; //s3
-    costAdmin: number;
-    partnerCodeAdmin: string;
-}
-type SetList = {
-    name: string;
-    value: string;
-};
 
 const Inventory: FC = () => {
     const { user } = useAppSelector(({ auth: user }) => user);
@@ -67,7 +45,6 @@ const Inventory: FC = () => {
         isActive: true,
         employeeID: user._id,
         item_ID: '',
-        itemName: '',
         itemDescription: '',
         bodyDiameter: '',
         bodyLength: '',
@@ -79,59 +56,53 @@ const Inventory: FC = () => {
         sconceExtension: '',
         material: '',
         socketQuantity: 0,
-        powerInWatts: 0,
         estimatedWeight: 0,
         price: 0,
-        exteriorFinish: [], //[]
-        interiorFinish: [], //[]
-        lensMaterial: [], //[]
-        glassOptions: [], //[]
-        acrylicOptions: [], //[]
-        environment: [], //[]
-        safetyCert: [], //[]
-        projectVoltage: [], //[]
-        socketType: [], //[]
-        mounting: [], //[]
-        crystalType: [], //[]
-        crystalPinType: [], //[]
-        crystalPinColor: [], //[]
-        designStyle: [], //[]
-        usePackages: [], //[]
-        // images: [], //[]//s3
-        // pdf: [], //[]//s3
-        // drawingFiles: [], //[]//s3
+        exteriorFinish: '',
+        finishTreatment: '',
+        interiorFinish: '',
+        lensMaterial: '',
+        environment: [],
+        safetyCert: [],
+        mounting: [],
+        projectVoltage: '',
+        socketType: '',
+        crystalType: '',
+        treatment: '',
+        crystalBulbCover: '',
+        crystalPinColor: '',
+        designStyle: '',
+        styleOptions: [],
+        usePackages: [],
         editImages: [],
-        editpdf: [],
+        editRenderings: [],
         editDrawingFiles: [],
-        editSpecs: [],
+        editCutSheets: [],
         costAdmin: 0,
         partnerCodeAdmin: '',
     });
-    const [listValue, setListValue] = useState<SetList>({
-        name: '',
-        value: '',
-    });
+
     const [imgFiles, setImgfiles] = useState<any>([]);
-    const [pdfFiles, setPdfFiles] = useState<any>([]);
-    const [specFiles, setSpecFiles] = useState<any>([]);
+    const [renderingFiles, setRenderingFiles] = useState<any>([]);
+    const [cutSheetFiles, setCutSheetFiles] = useState<any>([]);
     const [drawingFilesArray, setDrawingFilesArray] = useState<any>([]);
     const [images, setImages] = useState<any>([]);
-    const [pdf, setPdf] = useState<any>([]);
-    const [specs, setSpecs] = useState<any>([]);
+    const [renderings, setRenderings] = useState<any>([]);
+    const [cutSheets, setCutSheets] = useState<any>([]);
     const [drawingFiles, setDrawingFiles] = useState<any>([]);
     const [imageName, setImageNames] = useState<any>([]);
-    const [pdfNames, setPdfNames] = useState<any>([]);
-    const [specNames, setSpecNames] = useState<any>([]);
+    const [renderingNames, setRenderingNames] = useState<any>([]);
+    const [cutSheetNames, setCutSheetNames] = useState<any>([]);
     const [drawingFilesNames, setDrawingFilesNames] = useState<any>([]);
-    const [viewablePDF, setViewablePDF] = useState<any>([]);
-    const [viewableSpecs, setViewableSpecs] = useState<any>([]);
+    const [viewableRenderings, setViewableRenderings] = useState<any>([]);
+    const [viewableCutSheets, setViewableCutSheets] = useState<any>([]);
     const [typeOfProject, setTypeOfProject] = useState('non-edit');
     const [catalogItems, setCatalogItems] = useState([]);
     const [editingInput, setEditingInput] = useState('');
     const [editingItem, setEditingItem] = useState<any>(false);
-    const [numPdfPages, setNumPdfPages] = useState<any>({});
+    const [numRenderingPages, setNumRenderingPages] = useState<any>({});
     const [numDrawPages, setNumDrawPages] = useState<any>({});
-    const [numSpecPages, setNumSpecPages] = useState<any>({});
+    const [numCutSheetPages, setNumCutSheetPages] = useState<any>({});
     const [usedItem, setUsedItem] = useState<boolean>(false);
 
     const initializeCatalog = async () => {
@@ -179,34 +150,37 @@ const Inventory: FC = () => {
                 setItemDetails({ ...itemDetails, editImages: editImg });
             }
         }
-        if (type == 'pdf') {
-            const newPdf = viewablePDF?.filter(
+        if (type == 'renderings') {
+            const newRendering = viewableRenderings?.filter(
                 (x: any) => x.name != filePath.name
             );
 
-            setViewablePDF(newPdf);
+            setViewableRenderings(newRendering);
 
-            const newPages = numPdfPages;
+            const newPages = numRenderingPages;
             delete newPages[filePath.name];
 
-            setNumPdfPages(newPages);
+            setNumRenderingPages(newPages);
 
             if (typeof filePath.name == 'string') {
-                const newpdf = pdf.filter(
+                const newRenderingData = renderings.filter(
                     (file: any) => file.name != filePath.name
                 );
 
-                setPdf(newpdf);
+                setRenderings(newRenderingData);
 
-                if (pdfFiles[0].name === filePath.name) {
-                    setPdfFiles([]);
+                if (renderingFiles[0].name === filePath.name) {
+                    setRenderingFiles([]);
                 }
             } else {
-                const editPdf = itemDetails.editpdf.filter(
+                const editRendering = itemDetails.editRenderings.filter(
                     (url: string) => url !== filePath.url
                 );
 
-                setItemDetails({ ...itemDetails, editpdf: editPdf });
+                setItemDetails({
+                    ...itemDetails,
+                    editRenderings: editRendering,
+                });
             }
         }
         if (type == 'drawingFiles') {
@@ -239,34 +213,34 @@ const Inventory: FC = () => {
                 setItemDetails({ ...itemDetails, editDrawingFiles: editDraw });
             }
         }
-        if (type == 'specs') {
-            const newSpecs = viewableSpecs.filter(
+        if (type == 'cutSheets') {
+            const newCutSheets = viewableCutSheets.filter(
                 (x: any) => x.name != filePath.name
             );
 
-            setViewableSpecs(newSpecs);
+            setViewableCutSheets(newCutSheets);
 
-            const newPages = numSpecPages;
+            const newPages = numCutSheetPages;
             delete newPages[filePath.name];
 
-            setNumSpecPages(newPages);
+            setNumCutSheetPages(newPages);
 
             if (typeof filePath.name == 'string') {
-                const newspecs = specs.filter(
+                const cutSheetData = cutSheets.filter(
                     (file: any) => file.name != filePath.name
                 );
 
-                setSpecs(newspecs);
+                setCutSheets(cutSheetData);
 
-                if (specFiles[0].name === filePath.name) {
-                    setSpecFiles([]);
+                if (cutSheetFiles[0].name === filePath.name) {
+                    setCutSheetFiles([]);
                 }
             } else {
-                const editSpec = itemDetails.editSpecs.filter(
+                const editCutSheet = itemDetails.editCutSheets.filter(
                     (url: string) => url !== filePath.url
                 );
 
-                setItemDetails({ ...itemDetails, editSpecs: editSpec });
+                setItemDetails({ ...itemDetails, editCutSheets: editCutSheet });
             }
         }
     };
@@ -274,45 +248,7 @@ const Inventory: FC = () => {
     const checkForm = (e: any) => {
         e.preventDefault();
 
-        const editKeys: Array<string | unknown> = [
-            'editImages',
-            'editpdf',
-            'editDrawingFiles',
-            'editSpecs',
-            'isActive',
-            '__v',
-        ];
-        const vals = Object.entries(itemDetails);
-        const check = vals?.map((itemKeyVal: any) =>
-            itemKeyVal[1]
-                ? typeof itemKeyVal[1] == 'number'
-                    ? [itemKeyVal[0], itemKeyVal[1] > 0]
-                    : typeof itemKeyVal[1] == 'string'
-                        ? [itemKeyVal[0], itemKeyVal[1]?.length >= 1]
-                        : [itemKeyVal[0], itemKeyVal[1][0]?.length >= 1]
-                : [itemKeyVal[0], false]
-        );
-        const checker = check.filter(
-            (itemKeyVal: Array<string | unknown>) =>
-                editKeys.indexOf(itemKeyVal[0]) === -1
-        );
-        const checkVals = checker.filter(
-            (itemKeyVal: Array<string | unknown>) => !itemKeyVal[1]
-        );
-
-        if (checkVals.length) {
-            const showRequired = checkVals?.map(
-                (itemKeyVal: unknown[]) => itemKeyVal[0]
-            );
-
-            alert(
-                `Please fill out the following fields: \n ${showRequired.join(
-                    '\n'
-                )}`
-            );
-        } else {
-            onSubmit(e);
-        }
+        onSubmit(e);
     };
 
     const onDocumentLoadSuccess = (
@@ -321,17 +257,25 @@ const Inventory: FC = () => {
         name: string | number,
         rendered: boolean
     ) => {
-        if (location == 'pdf' && rendered === false) {
-            const newPdfs = viewablePDF?.map((pdf: any) => pdf.name === name ? { ...pdf, rendered: true } : pdf);
+        if (location == 'renderings' && rendered === false) {
+            const newRenderings = viewableRenderings?.map((rendering: any) =>
+                rendering.name === name
+                    ? { ...rendering, rendered: true }
+                    : rendering
+            );
 
-            setNumPdfPages({
-                ...numPdfPages,
+            setNumRenderingPages({
+                ...numRenderingPages,
                 [name]: e.numPages,
             });
-            setViewablePDF(newPdfs);
+            setViewableRenderings(newRenderings);
         }
         if (location == 'drawingFiles' && rendered === false) {
-            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) => drawFile.name === name ? { ...drawFile, rendered: true } : drawFile);
+            const newDrawingFiles = drawingFilesNames?.map((drawFile: any) =>
+                drawFile.name === name
+                    ? { ...drawFile, rendered: true }
+                    : drawFile
+            );
 
             setNumDrawPages({
                 ...numDrawPages,
@@ -339,15 +283,18 @@ const Inventory: FC = () => {
             });
             setDrawingFilesNames(newDrawingFiles);
         }
-        if (location == 'specs' && rendered === false) {
-            const newSpecs = viewableSpecs?.map((spec: any) => spec.name === name ? { ...spec, rendered: true } : spec);
+        if (location == 'cutSheets' && rendered === false) {
+            const newCutSheets = viewableCutSheets?.map((cutSheet: any) =>
+                cutSheet.name === name
+                    ? { ...cutSheet, rendered: true }
+                    : cutSheet
+            );
 
-            setNumSpecPages({
-                ...numSpecPages,
+            setNumCutSheetPages({
+                ...numCutSheetPages,
                 [name]: e.numPages,
             });
-            setViewableSpecs(newSpecs);
-
+            setViewableCutSheets(newCutSheets);
         }
     };
 
@@ -365,23 +312,22 @@ const Inventory: FC = () => {
     };
 
     const setEdit = (e: any) => {
-        logging.info(e.currentTarget.value);
         e.preventDefault();
 
         setEditingInput(e.currentTarget.value);
 
         const item: any = catalogItems.find(
-            (x: any) => x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
+            (x: any) =>
+                x.item_ID.toLowerCase() === e.currentTarget.value.toLowerCase()
         );
-
 
         if (item) {
             checkItemUsage(item.item_ID);
 
             const files: any = {
                 images: item.images,
-                pdf: item.pdf,
-                specs: item.specs,
+                renderings: item.renderings,
+                cutSheets: item.cutSheets,
                 drawingFiles: item.drawingFiles,
             };
 
@@ -395,13 +341,13 @@ const Inventory: FC = () => {
                     Object({ name: index, url: x })
                 )
             );
-            setViewablePDF(
-                files.pdf?.map((x: string, index: number) =>
+            setViewableRenderings(
+                files.renderings?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
-            setViewableSpecs(
-                files.specs?.map((x: string, index: number) =>
+            setViewableCutSheets(
+                files.cutSheets?.map((x: string, index: number) =>
                     Object({ name: index, url: x })
                 )
             );
@@ -413,50 +359,37 @@ const Inventory: FC = () => {
             setItemDetails({
                 ...item,
                 editImages: files.images,
-                editpdf: files.pdf,
+                editRenderings: files.renderings,
                 editDrawingFiles: files.drawingFiles,
-                editSpecs: files.specs,
+                editCutSheets: files.cutSheets,
             });
         }
     };
 
-    const handleFormInput = (e: FormEvent<HTMLInputElement>) => {
+    const handleFormInput = (e: FormEvent<any>) => {
+        e.preventDefault();
+
         setItemDetails({
             ...itemDetails,
             [e.currentTarget.name]: e.currentTarget.value,
         });
     };
 
-    const handleArrayValue = (e: FormEvent<HTMLInputElement>) => {
-        if (listValue.name != e.currentTarget.name) {
-            setListValue({
-                name: e.currentTarget.name,
-                value: e.currentTarget.value,
-            });
-        } else {
-            setListValue({
-                name: listValue.name,
-                value: e.currentTarget.value,
-            });
-        }
-    };
-
-    const handleUsePackageUpdate = (e: any) => {
-        const selectedUsePackages = e.target.selectedOptions;
-        const selectedUsePackageValues = Array.from(selectedUsePackages).map(
-            (option: any) => option.value
-        );
+    const handleListUpdate = (e: any, fieldName: string) => {
+        const selectedValueList = Array.from(e.target.selectedOptions)
+            .map((option: any) => option.value)
+            .filter((x: string) => !itemDetails[fieldName].includes(x));
 
         setItemDetails({
             ...itemDetails,
-            usePackages: [...itemDetails.usePackages, ...selectedUsePackageValues],
+            [fieldName]: [...itemDetails[fieldName], ...selectedValueList],
         });
     };
 
-    const handleDesignStyleUpdate = (e: any) => {
+    const handleSingleUpdate = (e: any, fieldName: string) => {
         setItemDetails({
             ...itemDetails,
-            designStyle: e.target.selectedOptions[0].value,
+            [fieldName]: e.target.selectedOptions[0].value,
         });
     };
 
@@ -480,33 +413,33 @@ const Inventory: FC = () => {
             });
         }
 
-        if (e.target.name === 'pdf') {
-            setPdfFiles(files);
+        if (e.target.name === 'renderings') {
+            setRenderingFiles(files);
 
             Array.from(files).forEach((file: any) => {
                 const objectUrl = URL.createObjectURL(file);
 
-                setViewablePDF([
-                    ...viewablePDF,
+                setViewableRenderings([
+                    ...viewableRenderings,
                     { name: file.name, url: objectUrl, rendered: false },
                 ]);
-                setPdf([...pdf, file]);
-                setPdfNames([...pdfNames, file.name]);
+                setRenderings([...renderings, file]);
+                setRenderingNames([...renderingNames, file.name]);
             });
         }
 
-        if (e.target.name === 'specs') {
-            setSpecFiles(files);
+        if (e.target.name === 'cutSheets') {
+            setCutSheetFiles(files);
 
             Array.from(files).forEach((file: any) => {
                 const objectUrl = URL.createObjectURL(file);
 
-                setViewableSpecs([
-                    ...viewableSpecs,
+                setViewableCutSheets([
+                    ...viewableCutSheets,
                     { name: file.name, url: objectUrl, rendered: false },
                 ]);
-                setSpecs([...specs, file]);
-                setSpecNames([...specNames, file.name]);
+                setCutSheets([...cutSheets, file]);
+                setCutSheetNames([...cutSheetNames, file.name]);
             });
         }
 
@@ -525,21 +458,6 @@ const Inventory: FC = () => {
         }
     };
 
-    const listValSubmit = (e: any) => {
-        e.preventDefault();
-
-        const valueOfKey: any = itemDetails[listValue.name as keyof CatalogType];
-
-        setItemDetails({
-            ...itemDetails,
-            [listValue.name]: [...valueOfKey, listValue.value],
-        });
-        setListValue({
-            name: '',
-            value: '',
-        });
-    };
-
     const removeItem = (e: any, item: any, singleValue = false) => {
         e.preventDefault();
 
@@ -550,16 +468,21 @@ const Inventory: FC = () => {
     };
 
     const firstItemFocus = (e: any, id: number) => {
-        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
-        const container = document.getElementById('inventory-container') as HTMLDivElement;
-        const sections = [...Array(8)].map((_, index) => index + 1);
+        const sectionHeader = document.getElementById(
+            `chck${id}`
+        ) as HTMLInputElement;
+        const container = document.getElementById(
+            'inventory-container'
+        ) as HTMLDivElement;
+        const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
-            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+            const element = document.getElementById(
+                `chck${section}`
+            ) as HTMLInputElement;
 
             element.checked = section === id;
         });
-
 
         if (sectionHeader.checked) {
             container.scrollTop = sectionHeader.offsetTop;
@@ -567,17 +490,23 @@ const Inventory: FC = () => {
     };
 
     const closeOtherSections = (e: any, id: number) => {
-        const sectionHeader = document.getElementById(`chck${id}`) as HTMLInputElement;
+        const sectionHeader = document.getElementById(
+            `chck${id}`
+        ) as HTMLInputElement;
 
         if (!sectionHeader.checked) {
             return;
         }
 
-        const container = document.getElementById('inventory-container') as HTMLDivElement;
-        const sections = [...Array(8)].map((_, index) => index + 1);
+        const container = document.getElementById(
+            'inventory-container'
+        ) as HTMLDivElement;
+        const sections = [...Array(9)].map((_, index) => index + 1);
 
         sections.forEach((section) => {
-            const element = document.getElementById(`chck${section}`) as HTMLInputElement;
+            const element = document.getElementById(
+                `chck${section}`
+            ) as HTMLInputElement;
 
             element.checked = section === id;
         });
@@ -586,6 +515,7 @@ const Inventory: FC = () => {
     };
 
     const ref = useRef<HTMLButtonElement>(null);
+    const dispatch = useDispatch();
 
     const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -606,14 +536,14 @@ const Inventory: FC = () => {
                 fs.append('images', images[i]);
             }
         }
-        if (pdf.length) {
-            for (let i = 0; i < pdf.length; i++) {
-                fs.append('pdf', pdf[i]);
+        if (renderings.length) {
+            for (let i = 0; i < renderings.length; i++) {
+                fs.append('renderings', renderings[i]);
             }
         }
-        if (specs.length) {
-            for (let i = 0; i < specs.length; i++) {
-                fs.append('specs', specs[i]);
+        if (cutSheets.length) {
+            for (let i = 0; i < cutSheets.length; i++) {
+                fs.append('cutSheets', cutSheets[i]);
             }
         }
         if (drawingFiles.length) {
@@ -625,24 +555,47 @@ const Inventory: FC = () => {
         try {
             if (editingItem) {
                 const done = await axiosPriv.post('/internal/find-light', fs);
+
                 if (done) {
                     setEditingItem(false);
                     initializeCatalog();
-                    alert('Item Edited!');
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(setAlertMessage({ alertMessage: 'Item Edited!' }));
                     submitButton.disabled = false;
                     submitButton.className = 'inventory-btn';
                     toggleEdit(e, false);
                 }
             } else {
-                await axiosPriv.post('/internal/create-light', fs);
-                alert('Item created!');
-                submitButton.disabled = false;
-                submitButton.className = 'inventory-btn';
+                const response = await axiosPriv.post(
+                    '/internal/create-light',
+                    fs
+                );
+
+                if (response?.status === 201) {
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(
+                        setAlertMessage({ alertMessage: 'Item Created!' })
+                    );
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
+                    initializeCatalog();
+                } else {
+                    dispatch(setAlertOpen({ isOpen: true }));
+                    dispatch(
+                        setAlertMessage({
+                            alertMessage:
+                                'Item not created.  Please try again.',
+                        })
+                    );
+                    submitButton.disabled = false;
+                    submitButton.className = 'inventory-btn';
+                }
             }
 
             resetForm();
         } catch (error: any) {
-            alert(error.messsge);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(setAlertMessage({ alertMessage: `${error.message}.` }));
             submitButton.disabled = false;
             submitButton.className = 'inventory-btn';
         }
@@ -673,7 +626,6 @@ const Inventory: FC = () => {
             isActive: true,
             employeeID: user._id,
             item_ID: '',
-            itemName: '',
             itemDescription: '',
             bodyDiameter: '',
             bodyLength: '',
@@ -686,53 +638,51 @@ const Inventory: FC = () => {
             material: '',
             socketQuantity: 0,
             estimatedWeight: 0,
-            lampType: '',
             lampColor: '',
-            numberOfLamps: 0,
-            wattsPerLamp: 0,
-            powerInWatts: 0,
             price: 0,
-            exteriorFinish: [], //[]
-            interiorFinish: [], //[]
-            lensMaterial: [], //[]
-            glassOptions: [], //[]
-            acrylicOptions: [], //[]
-            environment: [], //[]
-            safetyCert: [], //[]
-            projectVoltage: [], //[]
-            socketType: [], //[]
-            mounting: [], //[]
-            crystalType: [], //[]
-            crystalPinType: [], //[]
-            crystalPinColor: [], //[]
-            designStyle: [], //[]
-            usePackages: [], //[]
+            environment: [],
+            safetyCert: [],
+            mounting: [],
+            exteriorFinish: '',
+            finishTreatment: '',
+            interiorFinish: '',
+            lensMaterial: '',
+            projectVoltage: '',
+            socketType: '',
+            crystalType: '',
+            treatment: '',
+            crystalBulbCover: '',
+            crystalPinColor: '',
+            designStyle: [],
+            styleOptions: [],
+            usePackages: [],
             editImages: [],
-            editpdf: [],
+            editRenderings: [],
             editDrawingFiles: [],
-            editSpecs: [],
+            editCutSheets: [],
             costAdmin: 0,
             partnerCodeAdmin: '',
         });
 
         setImages([]);
         setDrawingFiles([]);
-        setPdf([]);
-        setSpecs([]);
+        setRenderings([]);
+        setCutSheets([]);
         setImageNames([]);
-        setViewablePDF([]);
-        setViewableSpecs([]);
+        setViewableRenderings([]);
+        setViewableCutSheets([]);
         setDrawingFilesNames([]);
         setEditingInput('');
 
         const fileInputs = document.querySelectorAll('input[type=file]');
         const checkboxes = document.querySelectorAll('input[type=checkbox]');
-        const firstSectionHeader = document.getElementById(`chck1`) as HTMLInputElement;
+        const firstSectionHeader = document.getElementById(
+            `chck1`
+        ) as HTMLInputElement;
 
         fileInputs.forEach((item: any) => {
             item.value = '';
         });
-
 
         checkboxes.forEach((item: any, index: number) => {
             if (index > 0 && item.checked) item.checked = false;
@@ -745,9 +695,7 @@ const Inventory: FC = () => {
         <div className="inventory-container">
             <div className="inventory-head">
                 <div className="head-left">
-                    <div className="inv-header">
-                        Catalog Items
-                    </div>
+                    <div className="inv-header">Catalog Items</div>
                     <div>
                         <p>
                             {editingItem
@@ -766,8 +714,8 @@ const Inventory: FC = () => {
                                 onClick={() => {
                                     setItemDetails({
                                         ...itemDetails,
-                                        isActive: true
-                                    })
+                                        isActive: true,
+                                    });
                                 }}
                             >
                                 Active
@@ -781,8 +729,8 @@ const Inventory: FC = () => {
                                 onClick={() => {
                                     setItemDetails({
                                         ...itemDetails,
-                                        isActive: false
-                                    })
+                                        isActive: false,
+                                    });
                                 }}
                             >
                                 Inactive
@@ -867,7 +815,7 @@ const Inventory: FC = () => {
                                 Details
                             </label>
                             <div className="tab-content">
-                                <div className="form__group field">
+                                <div className="list__group field">
                                     <input
                                         tabIndex={2}
                                         className="form__field"
@@ -881,35 +829,16 @@ const Inventory: FC = () => {
                                         onFocus={(e) => firstItemFocus(e, 1)}
                                     />
                                     <label
-                                        htmlFor="name"
+                                        htmlFor="item_ID"
                                         className="form__label"
                                     >
                                         Item ID
                                     </label>
                                 </div>
                                 <div className="form__group field">
-                                    <input
+                                    <textarea
                                         tabIndex={3}
                                         className="form__field"
-                                        type="input"
-                                        id="itemName"
-                                        name="itemName"
-                                        value={itemDetails.itemName || ''}
-                                        onChange={(e) => handleFormInput(e)}
-                                        placeholder="Item Name"
-                                    />
-                                    <label
-                                        htmlFor="itemName"
-                                        className="form__label"
-                                    >
-                                        Item Name
-                                    </label>
-                                </div>
-                                <div className="form__group field">
-                                    <input
-                                        tabIndex={4}
-                                        className="form__field"
-                                        type="text"
                                         id="itemDescription"
                                         name="itemDescription"
                                         value={
@@ -917,9 +846,10 @@ const Inventory: FC = () => {
                                         }
                                         onChange={(e) => handleFormInput(e)}
                                         placeholder="Description"
+                                        rows={3}
                                     />
                                     <label
-                                        htmlFor="itemName"
+                                        htmlFor="itemDescription"
                                         className="form__label"
                                     >
                                         Item Description
@@ -930,14 +860,19 @@ const Inventory: FC = () => {
                     </div>
                     {/* Measuremnts */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck2" onClick={(e) => closeOtherSections(e, 2)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck2"
+                            onClick={(e) => closeOtherSections(e, 2)}
+                        />
                         <label className="tab-label" htmlFor="chck2">
                             Measurements
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={6}
+                                    tabIndex={5}
                                     className="form__field"
                                     id="bodyDiameter"
                                     placeholder="Body Diameter"
@@ -954,9 +889,9 @@ const Inventory: FC = () => {
                                     Body Diameter
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={7}
+                                    tabIndex={6}
                                     className="form__field"
                                     id="bodyLength"
                                     placeholder="Body Length"
@@ -972,9 +907,9 @@ const Inventory: FC = () => {
                                     Body Length
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={8}
+                                    tabIndex={7}
                                     className="form__field"
                                     id="bodyWidth"
                                     placeholder="bodyWidth"
@@ -990,9 +925,9 @@ const Inventory: FC = () => {
                                     Body Width
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={9}
+                                    tabIndex={8}
                                     className="form__field"
                                     id="bodyHeight"
                                     placeholder="Body Height"
@@ -1008,9 +943,9 @@ const Inventory: FC = () => {
                                     Body Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={10}
+                                    tabIndex={9}
                                     className="form__field"
                                     id="fixtureOverallHeight"
                                     placeholder="Fixture Overall Height"
@@ -1028,9 +963,9 @@ const Inventory: FC = () => {
                                     Fixture Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={11}
+                                    tabIndex={10}
                                     className="form__field"
                                     id="sconceHeight"
                                     placeholder="Sconce Height"
@@ -1046,9 +981,9 @@ const Inventory: FC = () => {
                                     Sconce Height
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={12}
+                                    tabIndex={11}
                                     className="form__field"
                                     id="sconceWidth"
                                     placeholder="Sconce Width"
@@ -1064,9 +999,9 @@ const Inventory: FC = () => {
                                     Sconce Width
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={13}
+                                    tabIndex={12}
                                     className="form__field"
                                     id="sconceExtension"
                                     placeholder="Sconce Extension"
@@ -1082,9 +1017,9 @@ const Inventory: FC = () => {
                                     Sconce Extension
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={14}
+                                    tabIndex={13}
                                     className="form__field"
                                     id="estimatedWeight"
                                     placeholder="Estimated Weight"
@@ -1104,41 +1039,40 @@ const Inventory: FC = () => {
                     </div>
                     {/* Lamp Options */}
                     <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck3" onClick={(e) => closeOtherSections(e, 3)} />
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck3"
+                            onClick={(e) => closeOtherSections(e, 3)}
+                        />
                         <label className="tab-label" htmlFor="chck3">
-                            Lamp Options
+                            Lamping Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={16}
-                                    className="form__field"
-                                    id="lampType"
-                                    placeholder="Lamp Type"
-                                    type="text"
-                                    name="lampType"
-                                    value={itemDetails.lampType || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 3)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="lampType"
-                                >
-                                    Lamp Type
-                                </label>
-                            </div>
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={17}
+                            <div className="list__group field">
+                                <select
+                                    tabIndex={15}
                                     className="form__field"
                                     id="lampColor"
                                     placeholder="Lamp Color"
-                                    type="text"
                                     name="lampColor"
                                     value={itemDetails.lampColor || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                />
+                                    onChange={(e) =>
+                                        handleSingleUpdate(e, 'lampColor')
+                                    }
+                                    onFocus={(e) => firstItemFocus(e, 3)}
+                                >
+                                    <option value="" disabled>
+                                        Select
+                                    </option>
+                                    {Object.values(LampColors).map(
+                                        (item: any, index: number) => (
+                                            <option key={index} value={item}>
+                                                {item}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
                                 <label
                                     className="form__label"
                                     htmlFor="lampColor"
@@ -1146,67 +1080,13 @@ const Inventory: FC = () => {
                                     Lamp Color
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={18}
-                                    className="form__field"
-                                    id="numberOfLamps"
-                                    placeholder="Number of Lamps"
-                                    type="number"
-                                    name="numberOfLamps"
-                                    value={itemDetails.numberOfLamps || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="numberOfLamps"
-                                >
-                                    Number of Lamps
-                                </label>
-                            </div>
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={19}
-                                    className="form__field"
-                                    id="wattsPerLamp"
-                                    placeholder="Watts per Lamp"
-                                    type="number"
-                                    name="wattsPerLamp"
-                                    value={itemDetails.wattsPerLamp || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="wattsPerLamp"
-                                >
-                                    Watts Per Lamp
-                                </label>
-                            </div>
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={20}
-                                    className="form__field"
-                                    id="powerInWatts"
-                                    placeholder="Power in Watts"
-                                    type="number"
-                                    name="powerInWatts"
-                                    value={itemDetails.powerInWatts || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                />
-                                <label
-                                    className="form__label"
-                                    htmlFor="powerInWatts"
-                                >
-                                    Power in Watts
-                                </label>
-                            </div>
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={21}
+                                    tabIndex={16}
                                     className="form__field"
                                     id="lumens"
                                     placeholder="Lumens"
-                                    type="number"
+                                    type="text"
                                     name="lumens"
                                     value={itemDetails.lumens || ''}
                                     onChange={(e) => handleFormInput(e)}
@@ -1215,454 +1095,47 @@ const Inventory: FC = () => {
                                     Lumens
                                 </label>
                             </div>
-                        </div>
-                    </div>
-                    {/* Material Options */}
-                    <div className="tab">
-                        <input tabIndex={-1} type="checkbox" id="chck4" onClick={(e) => closeOtherSections(e, 4)} />
-                        <label className="tab-label" htmlFor="chck4">
-                            Material Options
-                        </label>
-                        <div className="tab-content">
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={23}
-                                    className="form__field"
-                                    id="material"
-                                    placeholder="Material"
-                                    type="text"
-                                    name="material"
-                                    value={itemDetails.material || ''}
-                                    onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 4)}
-                                />
-                                <label
-                                    htmlFor="description"
-                                    className="form__label"
-                                >
-                                    Material
-                                </label>
-                            </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={24}
+                                    <select
+                                        tabIndex={17}
                                         className="form__field"
-                                        id="exteriorFinish"
-                                        placeholder="Exterior Finish"
-                                        type="text"
-                                        name="exteriorFinish"
-                                        value={
-                                            listValue.name == 'exteriorFinish'
-                                                ? listValue.value
-                                                : ''
+                                        id="projectVoltage"
+                                        placeholder="Project Voltages"
+                                        name="projectVoltage"
+                                        value={itemDetails.projectVoltage || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'projectVoltage'
+                                            )
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        htmlFor="exteriorFinish"
-                                        className="form__label"
                                     >
-                                        Exterior Finish
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'exteriorFinish')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="exteriorFinishValues"
-                                    placeholder="Exterior Finishes"
-                                    type="text"
-                                    name="exteriorFinishValues"
-                                    value={itemDetails?.exteriorFinish?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={25}
-                                        className="form__field"
-                                        id="interiorFinish"
-                                        placeholder="Interior Finish"
-                                        type="text"
-                                        name="interiorFinish"
-                                        value={
-                                            listValue.name == 'interiorFinish'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        htmlFor="interiorFinish"
-                                        className="form__label"
-                                    >
-                                        Interior Finish
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'interiorFinish')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="interiorFinishValues"
-                                    placeholder="Interior Finishes"
-                                    type="text"
-                                    name="interiorFinishValues"
-                                    value={itemDetails?.interiorFinish?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={26}
-                                        className="form__field"
-                                        id="lensMaterial"
-                                        placeholder="Lens Material"
-                                        type="text"
-                                        name="lensMaterial"
-                                        value={
-                                            listValue.name == 'lensMaterial'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        htmlFor="lensMaterial"
-                                        className="form__label"
-                                    >
-                                        Lens Material
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'lensMaterial')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="lensMaterialValues"
-                                    placeholder="Lens Materiales"
-                                    type="text"
-                                    name="lensMaterialValues"
-                                    value={itemDetails?.lensMaterial?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={27}
-                                        className="form__field"
-                                        id="glassOptions"
-                                        placeholder="Glass Options"
-                                        type="text"
-                                        name="glassOptions"
-                                        value={
-                                            listValue.name == 'glassOptions'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        htmlFor="glassOptions"
-                                        className="form__label"
-                                    >
-                                        Glass Options
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'lensMaterial')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="glassOptionsValues"
-                                    placeholder="Glass Options"
-                                    type="text"
-                                    name="glassOptionsValues"
-                                    value={itemDetails?.glassOptions?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={28}
-                                        className="form__field"
-                                        id="acrylicOptions"
-                                        placeholder="Acrylic Options"
-                                        type="text"
-                                        name="acrylicOptions"
-                                        value={
-                                            listValue.name == 'acrylicOptions'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        htmlFor="acrylicOptions"
-                                        className="form__label"
-                                    >
-                                        Acrylic Options
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'acrylicOptions')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="acrylicOptionsValues"
-                                    placeholder="Acrylic Options"
-                                    type="text"
-                                    name="acrylicOptionsValues"
-                                    value={itemDetails?.acrylicOptions?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={29}
-                                        className="form__field"
-                                        id="crystalType"
-                                        placeholder="Crystal Types"
-                                        type="text"
-                                        name="crystalType"
-                                        value={
-                                            listValue.name == 'crystalType'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(ProjectVoltages).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
                                     <label
                                         className="form__label"
-                                        htmlFor="crystalType"
+                                        htmlFor="projectVoltage"
                                     >
-                                        Crystal Types
+                                        Project Voltage
                                     </label>
                                 </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'crystalType')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="crystalTypeValues"
-                                    placeholder="Crystal Types"
-                                    type="text"
-                                    name="crystalTypeValues"
-                                    value={itemDetails.crystalType?.join(', ') || ''}
-                                    readOnly
-                                />
                             </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={30}
-                                        className="form__field"
-                                        id="crystalPinType"
-                                        placeholder="Crystal Pin Types"
-                                        type="text"
-                                        name="crystalPinType"
-                                        value={
-                                            listValue.name == 'crystalPinType'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        className="form__label"
-                                        htmlFor="crystalPinType"
-                                    >
-                                        Crystal Pin Types
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'crystalPinType')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="crystalPinTypeValues"
-                                    placeholder="Crystal Pin Types"
-                                    type="text"
-                                    name="crystalPinTypeValues"
-                                    value={itemDetails?.crystalPinType?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={31}
-                                        className="form__field"
-                                        id="crystalPinColor"
-                                        placeholder="Crystal Pin Colors"
-                                        type="text"
-                                        name="crystalPinColor"
-                                        value={
-                                            listValue.name == 'crystalPinColor'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        className="form__label"
-                                        htmlFor="crystalPinColor"
-                                    >
-                                        Crystal Pin Colors
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'crystalPinColor')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="crystalPinColorValues"
-                                    placeholder="Crystal Pin Colors"
-                                    type="text"
-                                    name="crystalPinColorValues"
-                                    value={itemDetails?.crystalPinColor?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    {/* Other Options */}
-                    <div className="tab">
-                        <input tabIndex={32} type="checkbox" id="chck5" onClick={(e) => closeOtherSections(e, 5)} />
-                        <label className="tab-label" htmlFor="chck5">
-                            Other Options
-                        </label>
-                        <div className="tab-content">
-                            <div className="form__group field">
-                                <input
-                                    tabIndex={33}
+                                    tabIndex={18}
                                     className="form__field"
                                     id="socketQuantity"
                                     placeholder="Socket Quantity"
@@ -1670,7 +1143,6 @@ const Inventory: FC = () => {
                                     name="socketQuantity"
                                     value={itemDetails.socketQuantity || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 5)}
                                 />
                                 <label
                                     className="form__label"
@@ -1679,9 +1151,421 @@ const Inventory: FC = () => {
                                     Socket Quantity
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={19}
+                                        className="form__field"
+                                        id="socketType"
+                                        placeholder="Socket Types"
+                                        name="socketType"
+                                        value={itemDetails.socketType || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'socketType')
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(SocketTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="socketType"
+                                    >
+                                        Socket Types
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Material Options */}
+                    <div className="tab">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck4"
+                            onClick={(e) => closeOtherSections(e, 4)}
+                        />
+                        <label className="tab-label" htmlFor="chck4">
+                            Material Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="list__group field">
+                                <select
+                                    tabIndex={20}
+                                    className="form__field"
+                                    id="material"
+                                    placeholder="Material"
+                                    name="material"
+                                    value={itemDetails.material || ''}
+                                    onChange={(e) =>
+                                        handleSingleUpdate(e, 'material')
+                                    }
+                                    onFocus={(e) => firstItemFocus(e, 4)}
+                                >
+                                    <option value="" disabled>
+                                        Select
+                                    </option>
+                                    {Object.values(Materials).map(
+                                        (item: any, index: number) => (
+                                            <option key={index} value={item}>
+                                                {item}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
+                                <label
+                                    htmlFor="material"
+                                    className="form__label"
+                                >
+                                    Material
+                                </label>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={21}
+                                        className="form__field"
+                                        id="exteriorFinish"
+                                        placeholder="Exterior Finish"
+                                        name="exteriorFinish"
+                                        value={itemDetails.exteriorFinish || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'exteriorFinish'
+                                            )
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(ExteriorFinishes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        htmlFor="exteriorFinish"
+                                        className="form__label"
+                                    >
+                                        Exterior Finish
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={22}
+                                        className="form__field"
+                                        id="finishTreatment"
+                                        placeholder="Finish Treatment"
+                                        name="finishTreatment"
+                                        value={
+                                            itemDetails.finishTreatment || ''
+                                        }
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'finishTreatment'
+                                            )
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(FinishTreatments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        htmlFor="finishTreatment"
+                                        className="form__label"
+                                    >
+                                        Finish Treatment
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={23}
+                                        className="form__field"
+                                        id="interiorFinish"
+                                        placeholder="Interior Finish"
+                                        name="interiorFinish"
+                                        value={itemDetails.interiorFinish || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'interiorFinish'
+                                            )
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(InteriorFinishes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        htmlFor="interiorFinish"
+                                        className="form__label"
+                                    >
+                                        Interior Finish
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="tab">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck5"
+                            onClick={(e) => closeOtherSections(e, 5)}
+                        />
+                        <label className="tab-label" htmlFor="chck5">
+                            Lens Materials Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={24}
+                                        className="form__field"
+                                        id="lensMaterial"
+                                        placeholder="Lens Material"
+                                        name="lensMaterial"
+                                        value={itemDetails.lensMaterial || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'lensMaterial'
+                                            )
+                                        }
+                                        onFocus={(e) => firstItemFocus(e, 5)}
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(LensMaterials).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        htmlFor="lensMaterial"
+                                        className="form__label"
+                                    >
+                                        Lens Material
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={25}
+                                        className="form__field"
+                                        id="treatment"
+                                        placeholder="Treatment"
+                                        name="treatment"
+                                        value={itemDetails.treatment || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'treatment')
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(Treatments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="treatment"
+                                    >
+                                        Treatment
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={26}
+                                        className="form__field"
+                                        id="crystalType"
+                                        placeholder="Crystal Types"
+                                        name="crystalType"
+                                        value={itemDetails.crystalType || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'crystalType')
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalType"
+                                    >
+                                        Crystal Types
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={27}
+                                        className="form__field"
+                                        id="crystalPinColor"
+                                        placeholder="Crystal Pin Colors"
+                                        name="crystalPinColor"
+                                        value={
+                                            itemDetails.crystalPinColor || ''
+                                        }
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'crystalPinColor'
+                                            )
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalPinColors).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalPinColor"
+                                    >
+                                        Crystal Pin Colors
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={28}
+                                        className="form__field"
+                                        id="crystalBulbCover"
+                                        placeholder="Crystal Bulb Cover"
+                                        name="crystalBulbCover"
+                                        value={
+                                            itemDetails.crystalBulbCover || ''
+                                        }
+                                        onChange={(e) =>
+                                            handleSingleUpdate(
+                                                e,
+                                                'crystalBulbCover'
+                                            )
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(CrystalBulbCovers).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="crystalBulbCover"
+                                    >
+                                        Crystal Bulb Cover
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Other Options */}
+                    <div className="tab">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck6"
+                            onClick={(e) => closeOtherSections(e, 6)}
+                        />
+                        <label className="tab-label" htmlFor="chck6">
+                            Other Options
+                        </label>
+                        <div className="tab-content">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={34}
+                                    tabIndex={29}
                                     className="form__field"
                                     id="price"
                                     placeholder="Price"
@@ -1689,6 +1573,7 @@ const Inventory: FC = () => {
                                     name="price"
                                     value={itemDetails.price || ''}
                                     onChange={(e) => handleFormInput(e)}
+                                    onFocus={(e) => firstItemFocus(e, 6)}
                                 />
                                 <label className="form__label" htmlFor="price">
                                     Price
@@ -1696,20 +1581,36 @@ const Inventory: FC = () => {
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={35}
+                                    <select
+                                        tabIndex={30}
                                         className="form__field"
                                         id="environment"
                                         placeholder="Environment"
-                                        type="text"
                                         name="environment"
-                                        value={
-                                            listValue.name == 'environment'
-                                                ? listValue.value
-                                                : ''
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'environment')
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(Environments).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.environment?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="environment"
@@ -1719,18 +1620,10 @@ const Inventory: FC = () => {
                                 </div>
                                 <button
                                     tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
                                     onClick={(e) =>
                                         removeItem(e, 'environment')
                                     }
-                                    className="delete-material-button"
+                                    className="delete-material-button delete-material-button-without-add"
                                 >
                                     <FaMinus />
                                 </button>
@@ -1741,26 +1634,45 @@ const Inventory: FC = () => {
                                     placeholder="Environments"
                                     type="text"
                                     name="environmentValues"
-                                    value={itemDetails?.environment?.join(', ') || ''}
+                                    value={
+                                        itemDetails?.environment?.join(', ') ||
+                                        ''
+                                    }
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={36}
+                                    <select
+                                        tabIndex={31}
                                         className="form__field"
                                         id="safetyCert"
                                         placeholder="Safety Certifications"
-                                        type="text"
                                         name="safetyCert"
-                                        value={
-                                            listValue.name == 'safetyCert'
-                                                ? listValue.value
-                                                : ''
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'safetyCert')
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(
+                                            SafetyCertifications
+                                        ).map((item: any, index: number) => (
+                                            <option
+                                                key={index}
+                                                value={item}
+                                                disabled={
+                                                    itemDetails?.safetyCert?.indexOf(
+                                                        item
+                                                    ) > -1
+                                                }
+                                            >
+                                                {item}
+                                            </option>
+                                        ))}
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="safetyCert"
@@ -1770,16 +1682,8 @@ const Inventory: FC = () => {
                                 </div>
                                 <button
                                     tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
                                     onClick={(e) => removeItem(e, 'safetyCert')}
-                                    className="delete-material-button"
+                                    className="delete-material-button delete-material-button-without-add"
                                 >
                                     <FaMinus />
                                 </button>
@@ -1796,139 +1700,47 @@ const Inventory: FC = () => {
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
-                                    <input
-                                        tabIndex={37}
-                                        className="form__field"
-                                        id="projectVoltage"
-                                        placeholder="Project Voltages"
-                                        type="text"
-                                        name="projectVoltage"
-                                        value={
-                                            listValue.name == 'projectVoltage'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        className="form__label"
-                                        htmlFor="projectVoltage"
-                                    >
-                                        Project Voltage
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) =>
-                                        removeItem(e, 'projectVoltage')
-                                    }
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="projectVoltageValues"
-                                    placeholder="Project Voltages"
-                                    type="text"
-                                    name="projectVoltageValues"
-                                    value={itemDetails.projectVoltage?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={38}
-                                        className="form__field"
-                                        id="socketType"
-                                        placeholder="Socket Types"
-                                        type="text"
-                                        name="socketType"
-                                        value={
-                                            listValue.name == 'socketType'
-                                                ? listValue.value
-                                                : ''
-                                        }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
-                                    <label
-                                        className="form__label"
-                                        htmlFor="socketType"
-                                    >
-                                        Socket Types
-                                    </label>
-                                </div>
-                                <button
-                                    tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
-                                    onClick={(e) => removeItem(e, 'socketType')}
-                                    className="delete-material-button"
-                                >
-                                    <FaMinus />
-                                </button>
-                                <input
-                                    tabIndex={-1}
-                                    className="material__list"
-                                    id="socketTypeValues"
-                                    placeholder="Socket Types"
-                                    type="text"
-                                    name="socketTypeValues"
-                                    value={itemDetails.socketType?.join(', ') || ''}
-                                    readOnly
-                                />
-                            </div>
-                            <div className="add__materials">
-                                <div className="list__group field">
-                                    <input
-                                        tabIndex={39}
+                                    <select
+                                        tabIndex={32}
                                         className="form__field"
                                         id="mounting"
-                                        placeholder="Mounting"
-                                        type="text"
+                                        placeholder="Mounting Types"
                                         name="mounting"
-                                        value={
-                                            listValue.name == 'mounting'
-                                                ? listValue.value
-                                                : ''
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'mounting')
                                         }
-                                        onChange={(e) => handleArrayValue(e)}
-                                    />
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(MountingTypes).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.mounting?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
                                     <label
                                         className="form__label"
                                         htmlFor="mounting"
                                     >
-                                        Mountings
+                                        Mounting Types
                                     </label>
                                 </div>
                                 <button
                                     tabIndex={-1}
-                                    className="new-material-button"
-                                    onClick={(e) => listValSubmit(e)}
-                                >
-                                    <FaPlus />
-                                    Value
-                                </button>
-                                <button
-                                    tabIndex={-1}
                                     onClick={(e) => removeItem(e, 'mounting')}
-                                    className="delete-material-button"
+                                    className="delete-material-button delete-material-button-without-add"
                                 >
                                     <FaMinus />
                                 </button>
@@ -1939,7 +1751,9 @@ const Inventory: FC = () => {
                                     placeholder="Mountings"
                                     type="text"
                                     name="mountingValues"
-                                    value={itemDetails.mounting?.join(', ') || ''}
+                                    value={
+                                        itemDetails.mounting?.join(', ') || ''
+                                    }
                                     readOnly
                                 />
                             </div>
@@ -1947,33 +1761,43 @@ const Inventory: FC = () => {
                     </div>
                     {/* Design Style & Use Packages */}
                     <div className="tab">
-                        <input tabIndex={40} type="checkbox" id="chck6" onClick={(e) => closeOtherSections(e, 6)} />
-                        <label className="tab-label" htmlFor="chck6">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck7"
+                            onClick={(e) => closeOtherSections(e, 7)}
+                        />
+                        <label className="tab-label" htmlFor="chck7">
                             Design Style & Use Packages
                         </label>
                         <div className="tab-content">
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={41}
+                                        tabIndex={33}
                                         className="form__field"
                                         id="designStyle"
                                         placeholder="Design Style"
                                         name="designStyle"
-                                        value={
-                                            listValue.name == 'designStyle'
-                                                ? listValue.value
-                                                : ''
+                                        value={itemDetails.designStyle || ''}
+                                        onChange={(e) =>
+                                            handleSingleUpdate(e, 'designStyle')
                                         }
-                                        onChange={(e) => handleDesignStyleUpdate(e)}
-                                        onFocus={(e) => firstItemFocus(e, 6)}
+                                        onFocus={(e) => firstItemFocus(e, 7)}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(DesignStyle).map((item: any, index: number) => (
-                                                <option key={index} value={item}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(DesignStyle).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -1982,10 +1806,50 @@ const Inventory: FC = () => {
                                         Design Style
                                     </label>
                                 </div>
+                            </div>
+                            <div className="add__materials">
+                                <div className="list__group field">
+                                    <select
+                                        tabIndex={34}
+                                        className="form__field"
+                                        id="styleOptions"
+                                        placeholder="Style Options"
+                                        name="styleOptions"
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'styleOptions')
+                                        }
+                                    >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(StyleOption).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.styleOptions?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+                                    <label
+                                        className="form__label"
+                                        htmlFor="styleOptions"
+                                    >
+                                        Style Options
+                                    </label>
+                                </div>
                                 <button
                                     tabIndex={-1}
                                     onClick={(e) =>
-                                        removeItem(e, 'designStyle', true)
+                                        removeItem(e, 'styleOptions')
                                     }
                                     className="delete-material-button delete-material-button-without-add"
                                 >
@@ -1994,35 +1858,48 @@ const Inventory: FC = () => {
                                 <input
                                     tabIndex={-1}
                                     className="material__list"
-                                    id="designStyleValues"
-                                    placeholder="Design Styles"
+                                    id="styleOptionsValues"
+                                    placeholder="Style Options"
                                     type="text"
-                                    name="designStyleValues"
-                                    value={itemDetails.designStyle || ''}
+                                    name="styleOptionsValues"
+                                    value={
+                                        itemDetails?.styleOptions.join(', ') ||
+                                        ''
+                                    }
                                     readOnly
                                 />
                             </div>
                             <div className="add__materials">
                                 <div className="list__group field">
                                     <select
-                                        tabIndex={42}
+                                        tabIndex={35}
                                         className="form__field"
                                         id="usePackages"
                                         placeholder="Use Packages"
                                         name="usePackages"
-                                        value={
-                                            listValue.name == 'usePackages'
-                                                ? listValue.value
-                                                : ''
+                                        value=""
+                                        onChange={(e) =>
+                                            handleListUpdate(e, 'usePackages')
                                         }
-                                        onChange={(e) => handleUsePackageUpdate(e)}
                                     >
-                                        <option value="" disabled>Select</option>
-                                        {
-                                            Object.values(UsePackage).map((item: any, index: number) => (
-                                                <option key={index} value={item} disabled={itemDetails?.usePackages.indexOf(item) > -1}>{item}</option>
-                                            ))
-                                        }
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
+                                        {Object.values(UsePackage).map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    key={index}
+                                                    value={item}
+                                                    disabled={
+                                                        itemDetails?.usePackages?.indexOf(
+                                                            item
+                                                        ) > -1
+                                                    }
+                                                >
+                                                    {item}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                     <label
                                         className="form__label"
@@ -2047,7 +1924,10 @@ const Inventory: FC = () => {
                                     placeholder="Use Packages"
                                     type="text"
                                     name="usePackagesValues"
-                                    value={itemDetails?.usePackages.join(', ') || ''}
+                                    value={
+                                        itemDetails?.usePackages.join(', ') ||
+                                        ''
+                                    }
                                     readOnly
                                 />
                             </div>
@@ -2055,8 +1935,13 @@ const Inventory: FC = () => {
                     </div>
                     {/* Images & Attachments */}
                     <div className="tab">
-                        <input tabIndex={43} type="checkbox" id="chck7" onClick={(e) => closeOtherSections(e, 7)} />
-                        <label className="tab-label" htmlFor="chck7">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck8"
+                            onClick={(e) => closeOtherSections(e, 8)}
+                        />
+                        <label className="tab-label" htmlFor="chck8">
                             Images & Attachments
                         </label>
                         <div className="tab-content">
@@ -2068,7 +1953,7 @@ const Inventory: FC = () => {
                                     Images
                                 </label>
                                 <input
-                                    tabIndex={44}
+                                    tabIndex={36}
                                     className="list-input"
                                     id="images"
                                     placeholder="Upload Images"
@@ -2077,7 +1962,7 @@ const Inventory: FC = () => {
                                     multiple
                                     name="images"
                                     onChange={(e) => handleFileUpload(e)}
-                                    onFocus={(e) => firstItemFocus(e, 7)}
+                                    onFocus={(e) => firstItemFocus(e, 8)}
                                 />
                             </div>
                             <div className="file-row">
@@ -2110,23 +1995,26 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="pdf">
-                                    PDF
+                                <label
+                                    className="images__label"
+                                    htmlFor="renderings"
+                                >
+                                    Renderings
                                 </label>
                                 <input
-                                    tabIndex={45}
+                                    tabIndex={37}
                                     className="list-input"
-                                    id="pdf"
-                                    placeholder="Upload PDF(s)"
+                                    id="renderings"
+                                    placeholder="Upload Rendering(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
-                                    name="pdf"
+                                    name="renderings"
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewablePDF?.map((file: any) => {
+                                {viewableRenderings?.map((file: any) => {
                                     return (
                                         <Document
                                             key={file.name}
@@ -2134,18 +2022,17 @@ const Inventory: FC = () => {
                                             onLoadSuccess={(e) => {
                                                 onDocumentLoadSuccess(
                                                     e,
-                                                    'pdf',
+                                                    'renderings',
                                                     file.name,
                                                     file.rendered
-                                                )
-                                            }
-                                            }
+                                                );
+                                            }}
                                             onLoadError={console.error}
                                             className="pdf-document2"
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numPdfPages[file.name]
+                                                    numRenderingPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
@@ -2159,7 +2046,7 @@ const Inventory: FC = () => {
                                                                     deleteFiles(
                                                                         e,
                                                                         file,
-                                                                        'pdf'
+                                                                        'renderings'
                                                                     )
                                                                 }
                                                             >
@@ -2167,7 +2054,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'pdf'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'renderings'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2190,23 +2081,26 @@ const Inventory: FC = () => {
                             </div>
                             <br />
                             <div className="add__materials">
-                                <label className="images__label" htmlFor="pdf">
-                                    SPECS
+                                <label
+                                    className="images__label"
+                                    htmlFor="cutSheets"
+                                >
+                                    Cut Sheets
                                 </label>
                                 <input
-                                    tabIndex={46}
+                                    tabIndex={38}
                                     className="list-input"
-                                    id="specs"
-                                    placeholder="Upload Spec File(s)"
+                                    id="cutSheets"
+                                    placeholder="Upload cutSheet File(s)"
                                     type="file"
                                     accept="application/pdf"
                                     multiple
-                                    name="specs"
+                                    name="cutSheets"
                                     onChange={(e) => handleFileUpload(e)}
                                 />
                             </div>
                             <div className="file-row">
-                                {viewableSpecs?.map((file: any) => {
+                                {viewableCutSheets?.map((file: any) => {
                                     return (
                                         <Document
                                             key={file.name}
@@ -2214,7 +2108,7 @@ const Inventory: FC = () => {
                                             onLoadSuccess={(e) =>
                                                 onDocumentLoadSuccess(
                                                     e,
-                                                    'specs',
+                                                    'cutSheets',
                                                     file.name,
                                                     file.rendered
                                                 )
@@ -2224,7 +2118,7 @@ const Inventory: FC = () => {
                                         >
                                             {Array.from(
                                                 new Array(
-                                                    numSpecPages[file.name]
+                                                    numCutSheetPages[file.name]
                                                 ),
                                                 (el, index) => (
                                                     <div
@@ -2238,7 +2132,7 @@ const Inventory: FC = () => {
                                                                     deleteFiles(
                                                                         e,
                                                                         file,
-                                                                        'specs'
+                                                                        'cutSheets'
                                                                     )
                                                                 }
                                                             >
@@ -2246,7 +2140,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'specs'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'cutSheets'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2276,7 +2174,7 @@ const Inventory: FC = () => {
                                     Drawing Files
                                 </label>
                                 <input
-                                    tabIndex={47}
+                                    tabIndex={39}
                                     className="list-input"
                                     id="drawingFiles"
                                     placeholder="Upload Drawing Files"
@@ -2328,7 +2226,11 @@ const Inventory: FC = () => {
                                                             </button>
                                                         )}
                                                         <Page
-                                                            key={file.name + index + 'drawingFiles'}
+                                                            key={
+                                                                file.name +
+                                                                index +
+                                                                'drawingFiles'
+                                                            }
                                                             className="pdf-page2"
                                                             renderAnnotationLayer={
                                                                 false
@@ -2353,14 +2255,19 @@ const Inventory: FC = () => {
                     </div>
                     {/* Admin Options */}
                     <div className="tab">
-                        <input tabIndex={48} type="checkbox" id="chck8" onClick={(e) => closeOtherSections(e, 8)} />
-                        <label className="tab-label" htmlFor="chck8">
+                        <input
+                            tabIndex={-1}
+                            type="checkbox"
+                            id="chck9"
+                            onClick={(e) => closeOtherSections(e, 9)}
+                        />
+                        <label className="tab-label" htmlFor="chck9">
                             Admin Options
                         </label>
                         <div className="tab-content">
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={49}
+                                    tabIndex={40}
                                     className="form__field"
                                     id="costAdmin"
                                     placeholder="Cost"
@@ -2368,7 +2275,7 @@ const Inventory: FC = () => {
                                     name="costAdmin"
                                     value={itemDetails.costAdmin || ''}
                                     onChange={(e) => handleFormInput(e)}
-                                    onFocus={(e) => firstItemFocus(e, 8)}
+                                    onFocus={(e) => firstItemFocus(e, 9)}
                                 />
                                 <label
                                     className="form__label"
@@ -2377,9 +2284,9 @@ const Inventory: FC = () => {
                                     Cost
                                 </label>
                             </div>
-                            <div className="form__group field">
+                            <div className="list__group field">
                                 <input
-                                    tabIndex={50}
+                                    tabIndex={41}
                                     className="form__field"
                                     id="partnerCodeAdmin"
                                     placeholder="Partner Code"
@@ -2407,7 +2314,7 @@ const Inventory: FC = () => {
 
                         <button
                             id="inventory-btn"
-                            tabIndex={51}
+                            tabIndex={42}
                             ref={ref}
                             className="inventory-btn"
                         >

@@ -8,7 +8,7 @@ import {
     viewRoomLights,
     deleteThisProject,
     getAllProjects,
-    getUserProjects
+    getUserProjects,
 } from '../../../../redux/actions/projectActions';
 
 import './style/allProjects.scss';
@@ -39,12 +39,11 @@ export const ViewModal: FC<Props> = ({
     const fetchData = async () => {
         const response = await dispatch(viewProjectRooms(projectModal._id));
 
-        await setRooms(response);
+        setRooms(response);
     };
 
     useEffect(() => {
         fetchData();
-        setRooms;
     }, []);
 
     const awaitData = async (roomId: any) => {
@@ -144,7 +143,10 @@ export const ViewModal: FC<Props> = ({
                                     rooms.map(
                                         (r: any, index = r.indexOf(r)) => {
                                             const bool = roomLight
-                                                ? roomLight.map((m: any) => m.roomId === r._id)
+                                                ? roomLight.map(
+                                                      (m: any) =>
+                                                          m.roomId === r._id
+                                                  )
                                                 : '';
 
                                             return (
@@ -203,7 +205,7 @@ export const ViewModal: FC<Props> = ({
                                                                     }}
                                                                 >
                                                                     {isCollapsed &&
-                                                                        bool[0] ===
+                                                                    bool[0] ===
                                                                         true
                                                                         ? '-'
                                                                         : '+'}
@@ -217,153 +219,168 @@ export const ViewModal: FC<Props> = ({
                                                                 }
                                                             >
                                                                 {roomLight !==
-                                                                    null
+                                                                null
                                                                     ? roomLight?.map(
-                                                                        (
-                                                                            l: any,
-                                                                            index = l.indexOf(
-                                                                                l
-                                                                            )
-                                                                        ) => {
-                                                                            return (
-                                                                                <div
-                                                                                    className={
-                                                                                        l.roomId ===
-                                                                                            r._id
-                                                                                            ? 'inner-light-container'
-                                                                                            : 'd-none'
-                                                                                    }
-                                                                                    key={
-                                                                                        index
-                                                                                    }
-                                                                                >
-                                                                                    <div className="d-flex justify-content-between align-items-start">
-                                                                                        <div className="d-flex row">
-                                                                                            <h4 className="m-0 name-tag">
-                                                                                                Name
-                                                                                            </h4>
-                                                                                            <h5 className="">
-                                                                                                {
-                                                                                                    l?.item_ID
-                                                                                                }
-                                                                                            </h5>
-                                                                                        </div>
-                                                                                        <p className="m-0 name-tag">
-                                                                                            Qty.{' '}
-                                                                                            {
-                                                                                                l?.quantity
-                                                                                            }
-                                                                                        </p>
-                                                                                    </div>
-                                                                                    <div className="d-flex justify-content-between row">
-                                                                                        <div className="col-6 d-flex align-content-start row ">
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Exterior
-                                                                                                Finish:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.exteriorFinish
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Interior
-                                                                                                Finish:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.interiorFinish
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Environment:
-                                                                                            </h5>
-                                                                                            <p className="col-6 m-0">
-                                                                                                {
-                                                                                                    l.environment
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Safety
-                                                                                                Cert:
-                                                                                            </h5>
-                                                                                            <p className="col-6 m-0">
-                                                                                                {
-                                                                                                    l.safetyCert
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Project
-                                                                                                Voltage:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.projectVoltage
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Socket
-                                                                                                Type:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.socketType
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Mounting:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.mounting
-                                                                                                }
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div className="col-6 d-flex row">
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Lens
-                                                                                                Material:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.lensMaterial
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6">
-                                                                                                Options:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.acrylicOptions
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6 m-0">
-                                                                                                Crystal
-                                                                                                Type:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.crystalType
-                                                                                                }
-                                                                                            </p>
-                                                                                            <h5 className="col-6">
-                                                                                                Options:
-                                                                                            </h5>
-                                                                                            <p className="col-6">
-                                                                                                {
-                                                                                                    l.crystalPinColor
-                                                                                                }{' '}
-                                                                                                <br />{' '}
-                                                                                                {
-                                                                                                    l.crystalPinType
-                                                                                                }{' '}
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            );
-                                                                        }
-                                                                    )
+                                                                          (
+                                                                              l: any,
+                                                                              index = l.indexOf(
+                                                                                  l
+                                                                              )
+                                                                          ) => {
+                                                                              return (
+                                                                                  <div
+                                                                                      className={
+                                                                                          l.roomId ===
+                                                                                          r._id
+                                                                                              ? 'inner-light-container'
+                                                                                              : 'd-none'
+                                                                                      }
+                                                                                      key={
+                                                                                          index
+                                                                                      }
+                                                                                  >
+                                                                                      <div className="d-flex justify-content-between align-items-start">
+                                                                                          <div className="d-flex row">
+                                                                                              <h4 className="m-0 name-tag">
+                                                                                                  Name
+                                                                                              </h4>
+                                                                                              <h5 className="">
+                                                                                                  {
+                                                                                                      l?.item_ID
+                                                                                                  }
+                                                                                              </h5>
+                                                                                          </div>
+                                                                                          <p className="m-0 name-tag">
+                                                                                              Qty.{' '}
+                                                                                              {
+                                                                                                  l?.quantity
+                                                                                              }
+                                                                                          </p>
+                                                                                      </div>
+                                                                                      <div className="d-flex justify-content-between row">
+                                                                                          <div className="col-6 d-flex align-content-start row ">
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Exterior
+                                                                                                  Finish:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.exteriorFinish
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Finish
+                                                                                                  Treatment:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.finishTreatment
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Interior
+                                                                                                  Finish:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.interiorFinish
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Environment:
+                                                                                              </h5>
+                                                                                              <p className="col-6 m-0">
+                                                                                                  {
+                                                                                                      l.environment
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Safety
+                                                                                                  Cert:
+                                                                                              </h5>
+                                                                                              <p className="col-6 m-0">
+                                                                                                  {
+                                                                                                      l.safetyCert
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Project
+                                                                                                  Voltage:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.projectVoltage
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Socket
+                                                                                                  Type:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.socketType
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Mounting:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.mounting
+                                                                                                  }
+                                                                                              </p>
+                                                                                          </div>
+                                                                                          <div className="col-6 d-flex row">
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Lens
+                                                                                                  Material:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.lensMaterial
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Treatment:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.treatment
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Crystal
+                                                                                                  Type:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.crystalType
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6">
+                                                                                                  Options:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.crystalPinColor
+                                                                                                  }
+                                                                                              </p>
+                                                                                              <h5 className="col-6 m-0">
+                                                                                                  Crystal
+                                                                                                  Bulb
+                                                                                                  Cover:
+                                                                                              </h5>
+                                                                                              <p className="col-6">
+                                                                                                  {
+                                                                                                      l.crystalBulbCover
+                                                                                                  }
+                                                                                              </p>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                  </div>
+                                                                              );
+                                                                          }
+                                                                      )
                                                                     : ''}
                                                             </div>
                                                         </div>

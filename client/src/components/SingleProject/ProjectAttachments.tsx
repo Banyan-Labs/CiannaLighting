@@ -1,67 +1,95 @@
+import { parseFileName } from 'helpers/utils';
 import React, { FC } from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { deleteSpecFile } from '../../redux/actions/lightActions';
+import { useAppSelector } from '../../app/hooks';
+import { camelCaseToTitleCase } from 'app/utils';
 
 interface ProjectSummaryProps {
-    details: any;
+    projectId: any;
+    closeModal: React.Dispatch<React.SetStateAction<any>>;
+    openModal: boolean;
 }
 
-const ProjectAttachments: FC<ProjectSummaryProps> = () => {
-    const { project, attachments } = useAppSelector(({ project }) => project);
+const ProjectAttachments: FC<ProjectSummaryProps> = (props) => {
+    const { attachments } = useAppSelector(({ project }) => project);
+    const closeModal = props.closeModal;
+    const openModal = props.openModal;
+    const downloadFile = (file: any, fileName: any) => {
+        const a = document.createElement('a');
 
-    const dispatch = useAppDispatch();
-
-    const deleteAttachments = async (attachment: string) => {
-        if (project) {
-            await dispatch(
-                deleteSpecFile({ projId: project._id, item: attachment })
-            );
-        }
+        a.href = file;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     };
 
     const userAttachments = attachments
         ? attachments.map((file: any, index: any) => {
-            let fileName = file?.split('/')[file.split('/').length - 1];
-            fileName = fileName?.split('-');
-            fileName.shift();
-            fileName = fileName?.join('-');
+              const fileName = file?.split('/uploads/')[1];
+              const { itemId, fieldName, originalName } =
+                  parseFileName(fileName);
+              let fileType = camelCaseToTitleCase(fieldName);
+              fileType = fileType?.slice(0, fileType?.length - 1);
+              let displayName = '';
 
-            if (fileName) {
-                fileName = decodeURI(fileName)?.replace(/%2B/g, ' ');
-            }
+              if (originalName) {
+                  displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
+              }
 
-            return (
-                <tbody key={index}>
-                    <tr className="attachments-dynamic-row">
-                        <td className="file-file-name">{fileName}</td>
-                        <td className="file-file-remove">
-                            <FaTrashAlt
-                                onClick={() => deleteAttachments(file)}
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            );
-        })
+              return (
+                  <tr
+                      key={index}
+                      className="attachments-dynamic-row"
+                      onClick={() => {
+                          downloadFile(file, displayName);
+                      }}
+                  >
+                      <td className="">
+                          <span className="text-bold">{itemId}</span>
+                      </td>
+                      <td className="">
+                          <span className="text-bold">{fileType}</span>
+                      </td>
+                      <td className="">
+                          <p>{displayName}</p>
+                      </td>
+                  </tr>
+              );
+          })
         : [];
 
     return (
-        <div className="project-attachments-container">
-            <div className="project-attachments-top-bar">
-                <h3 className="project-attachment">Attachments</h3>
-            </div>
-            <div className="project-attachments-table-container">
-                <table className="attachments-table">
-                    <thead>
-                        <tr>
-                            <th className="attachments-file-name">File name</th>
-                            <th className="attachments-file-remove">Remove</th>
-                        </tr>
-                    </thead>
-                    {userAttachments}
-                </table>
+        <div className="new-project-modal-background">
+            <div className="attachments-modal-container p-3">
+                <div className="modal-title-close-btn">
+                    <button
+                        onClick={() => {
+                            closeModal(!openModal);
+                        }}
+                    >
+                        {' '}
+                        <FaTimes />
+                    </button>
+                </div>
+                <div className="align-items-center d-flex flex-column">
+                    <div className="project-attachments-top-bar">
+                        <h3 className="project-attachment">Attachments</h3>
+                    </div>
+                    <div className="project-attachments-table-container mb-3">
+                        <table className="attachments-table">
+                            <thead>
+                                <tr>
+                                    <th className="">Item ID</th>
+                                    <th className="">Type</th>
+                                    <th className="">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>{userAttachments}</tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );

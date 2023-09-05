@@ -4,7 +4,10 @@ import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createRoomAction, getAllProjectRoomsAction } from '../../redux/actions/projectActions';
+import {
+    createRoomAction,
+    getAllProjectRoomsAction,
+} from '../../redux/actions/projectActions';
 
 import './style/newRoomModal.css';
 
@@ -61,7 +64,7 @@ export const NewRoomModal: FC<Props> = ({ closeModal, openModal, user }) => {
                 dispatch(createRoomAction(newRoom));
                 setRoomCreated(!roomCreated);
             }
-            
+
             setRoomDetails({
                 name: '',
                 description: '',

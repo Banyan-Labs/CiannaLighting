@@ -16,7 +16,6 @@ export type ProjectType = {
     region: string;
     status: string;
     description: string;
-    rfp?: string;
     rooms?: string[];
     attachments?: string[];
     activity?: Activity;
@@ -51,7 +50,7 @@ const DashboardNav: FC = () => {
                             : 'not-active'
                     }
                 >
-                    Active Projects
+                    Active
                 </a>
                 <a
                     id="archived"
@@ -66,7 +65,7 @@ const DashboardNav: FC = () => {
                             : 'not-active'
                     }
                 >
-                    Archived
+                    Awarded
                 </a>
             </div>
             <AllProjects

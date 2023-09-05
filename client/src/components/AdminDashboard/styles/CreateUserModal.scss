@@ -22,10 +22,9 @@
     background-color: white;
     color: $primary-bg-dark;
 }
-.edit-contain{
+.edit-contain {
     height: 400px;
 }
-
 
 .new-user-modal-title-close-btn {
     position: absolute;
@@ -93,7 +92,7 @@
     @include button($accent-gold, $primary-bg-dark-title);
     cursor: pointer;
 }
-.new-user-cancel{
+.new-user-cancel {
     @include button($primary-bg-dark-link, $primary-bg-dark-title);
     cursor: pointer;
     margin-right: 140px;
@@ -130,7 +129,8 @@
     align-items: center;
 }
 
-.generate-password-circle, .copy-password-circle {
+.generate-password-circle,
+.copy-password-circle {
     position: relative;
     display: flex;
     align-items: center;
@@ -174,7 +174,6 @@
             border-color: #555 transparent transparent transparent;
         }
     }
-    
 }
 .password-input-user-modal {
     min-width: 200px;

@@ -1,9 +1,14 @@
-import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
-import { createLogger } from 'redux-logger';
+import {
+    configureStore,
+    ThunkAction,
+    Action,
+    combineReducers,
+} from '@reduxjs/toolkit';
 
 import authReducer from './reducers/authSlice';
 import projectReducer from './reducers/projectSlice';
 import filterSlice from './reducers/filterSlice';
+import modalSlice from './reducers/modalSlice';
 import userReducers from './reducers/usersSlice';
 
 const reducers = combineReducers({
@@ -11,11 +16,14 @@ const reducers = combineReducers({
     project: projectReducer,
     filter: filterSlice,
     users: userReducers,
-})
+    modal: modalSlice,
+});
 
 export const store = configureStore({
     reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(createLogger()),
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware();
+    },
 });
 
 export type AppDispatch = typeof store.dispatch;

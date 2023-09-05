@@ -15,12 +15,12 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { FilterModal } from '../FilterModal/FilterParams';
 import { ViewModal } from '../Dashboard/DashboardPageLower/DashboardSubComponents/ViewModal';
 import { LightREF } from '../../redux/reducers/projectSlice';
-import { axiosPrivate } from '../../api/axios';
 import Pagination from '../Dashboard/DashboardPageLower/Pagination/Pagination';
 import ProjectMiniModal from './ProjectMiniModal';
 import InactiveNotification from '../InactiveNotification/InactiveNotification';
 import { CopyType } from 'app/constants';
-import { findClosestSystemStatus } from 'app/utils';
+import { getStatusClass } from 'app/utils';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -67,23 +67,12 @@ const AllProjectView: FC<Props> = ({
     const projectsPerPage = 11;
     const [openModal, setOpenModal] = useState(false);
     const [parsedData, setParsedData] = useState<ProjectType[]>([]);
-    const [inputValue, setInputValue] = useState('');
     const [processing, setProcessing] = useState(false);
     const { user } = useAppSelector(({ auth: user }) => user);
     const [inactiveClearModal, setInactiveClearModal] =
         useState<boolean>(false);
     const [inactiveList, setInactiveList] = useState<LightREF[] | []>([]);
     const [projectHold, setProjectHold] = useState<ProjectType | null>(null);
-
-    // Input Field handler
-    const handleUserInput = (e: any) => {
-        setInputValue(e.currentTarget.value);
-    };
-
-    // Reset Input Field handler
-    const resetInputField = () => {
-        setInputValue('');
-    };
 
     //  Reset sort direction
     const setSortToDefault = () => {
@@ -105,12 +94,6 @@ const AllProjectView: FC<Props> = ({
         // FIND PROJECT WITH AXIOS
         setProcessing(true);
 
-        const axiosPriv = axiosPrivate();
-        const attach = await axiosPriv.post('/get-attachments', {
-            projId: proj._id,
-        });
-        const attachments = attach?.data?.proj?.pdf || [];
-
         const payload = {
             project: {
                 ...proj,
@@ -118,18 +101,20 @@ const AllProjectView: FC<Props> = ({
                 clientName: user.name,
             },
             copy: CopyType.PROJECT,
-            attachments,
         };
 
         try {
-            const response = await dispatch(
-                createProjectAction(payload)
-            );
+            const response = await dispatch(createProjectAction(payload));
 
             dispatch(getUserProjects(user._id));
             dispatch(getAllProjects());
             setProcessing(false);
-            alert(`Copy of ${proj.name} created in your dashboard.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of "${proj.name}" created.`,
+                })
+            );
 
             return response;
         } catch (error: any) {
@@ -215,7 +200,12 @@ const AllProjectView: FC<Props> = ({
         try {
             checkSearchVal;
         } catch (error: any) {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
             return error;
         }
 
@@ -224,39 +214,27 @@ const AllProjectView: FC<Props> = ({
 
             return data;
         } else if (checkSearchVal && searchValue.length) {
-            const correctSearch = filterQueryProjects.length > 0 ? filterQueryProjects : data;
+            const correctSearch =
+                filterQueryProjects.length > 0 ? filterQueryProjects : data;
             const searchData = correctSearch.filter((item: ProjectType) => {
-                const searchItem = {
-                    clientName: item.clientName,
-                    name: item.name,
-                    status: item.status,
-                    region: item.region,
-                };
-                const itemVals: any = Object.values(searchItem);
-                let doesMatch = false;
-
-                itemVals.map((item: string) => {
-                    const regCheck = new RegExp(searchValue, 'g').test(
-                        item.toLowerCase()
-                    );
-
-                    if (regCheck) {
-                        doesMatch = true;
-                    }
-                });
-
-                if (Boolean(doesMatch) === true) {
-                    return item;
-                } else {
-                    return '';
-                }
+                return (
+                    item.name.toLowerCase().includes(searchValue) ||
+                    item.clientName.toLowerCase().includes(searchValue) ||
+                    item.status.toLowerCase().includes(searchValue) ||
+                    item.region.toLowerCase().includes(searchValue)
+                );
             });
 
             setParsedData(searchData);
 
             return searchData;
         } else {
-            alert('Please no special characters.');
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: 'Please no special characters.',
+                })
+            );
         }
     };
 
@@ -273,8 +251,8 @@ const AllProjectView: FC<Props> = ({
     const filteredProjects = sortedData.length
         ? sortedData.slice(firstIndex, lastIndex)
         : renderedPage == 'All Projects'
-            ? activeProjects.reverse().slice(firstIndex, lastIndex)
-            : archivedProjects.reverse().slice(firstIndex, lastIndex);
+        ? activeProjects.reverse().slice(firstIndex, lastIndex)
+        : archivedProjects.reverse().slice(firstIndex, lastIndex);
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const lastPage = Math.ceil(
         typeOfProject === 'yourProjects'
@@ -309,7 +287,7 @@ const AllProjectView: FC<Props> = ({
                         {project.region}
                     </td>
                     <td className="projects-table-dynamic-status text-center">
-                        <span className={`statusColor${findClosestSystemStatus(project.status)}`}>
+                        <span className={getStatusClass(project.status)}>
                             {project.status}
                         </span>
                     </td>
@@ -344,17 +322,15 @@ const AllProjectView: FC<Props> = ({
         );
     });
     return (
-        <div className="all-projects-container">
+        <div className="all-projects-container mx-5">
             <div>
                 <div className="form-bar-button-container">
-                    <div className="list__group">
+                    <div className="list__group search-input">
                         <input
                             className="form__field"
                             type="text"
-                            value={inputValue}
-                            placeholder="Search"
-                            onChange={async (e) => {
-                                handleUserInput(e);
+                            placeholder="Search projects"
+                            onChange={(e) => {
                                 if (
                                     typeOfProject === 'yourProjects' &&
                                     filterQueryProjects.length > 0
@@ -375,16 +351,12 @@ const AllProjectView: FC<Props> = ({
                                 } else searchFilter(e, reduxData);
                             }}
                         />
-                        <label htmlFor="description" className="form__label1">
-                            Search
-                        </label>
                     </div>
                     <FaSlidersH
                         className="dashboard-all-projects-submit"
                         onClick={async () => {
-                            await resetInputField();
-                            await setParsedData([]);
                             await dispatch(setFilterProjNone());
+                            setParsedData([]);
                             setOpenModal(true);
                         }}
                         style={{ background: '#3f3c39', color: '#c09d5b' }}
@@ -403,7 +375,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Active Projects
+                            Active
                         </a>
                         <a
                             id="archived"
@@ -418,7 +390,7 @@ const AllProjectView: FC<Props> = ({
                                     : 'personal-not-active'
                             }
                         >
-                            Archived
+                            Awarded
                         </a>
                     </div>
 
@@ -438,10 +410,9 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('allProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('allProjects');
                                 }}
                             >
                                 All Projects
@@ -453,11 +424,10 @@ const AllProjectView: FC<Props> = ({
                                         : 'type-project-btn'
                                 }
                                 onClick={async () => {
-                                    await resetInputField();
-                                    await setSortToDefault();
+                                    setSortToDefault();
                                     await dispatch(setFilterProjNone());
-                                    await setParsedData([]);
-                                    await setTypeOfProject('yourProjects');
+                                    setParsedData([]);
+                                    setTypeOfProject('yourProjects');
                                 }}
                             >
                                 Your Projects
@@ -500,7 +470,9 @@ const AllProjectView: FC<Props> = ({
                                     >
                                         Status {sortDisplay('status')}
                                     </td>
-                                    <td className="projects-table-dots text-center">Actions</td>
+                                    <td className="projects-table-dots text-center">
+                                        Actions
+                                    </td>
                                 </tr>
                             </thead>
                             {allProjectsTableDisplay}
@@ -516,9 +488,9 @@ const AllProjectView: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        reduxData.length - archivedProjects.length
+                                    reduxData.length - archivedProjects.length
                                         ? reduxData.length -
-                                        archivedProjects.length
+                                          archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of{' '}
                                     {(parsedData.length
@@ -533,7 +505,7 @@ const AllProjectView: FC<Props> = ({
                                         (projectsPerPage - 1)}
                                     -
                                     {currentPage * projectsPerPage >
-                                        archivedProjects.length
+                                    archivedProjects.length
                                         ? archivedProjects.length
                                         : currentPage * projectsPerPage}{' '}
                                     of {archivedProjects.length}
@@ -564,13 +536,13 @@ const AllProjectView: FC<Props> = ({
                                     currentPage={currentPage}
                                     paginate={(page: number) => paginate(page)}
                                 />
-                                {(
-                                    currentPage !== lastPage && (
-                                        renderedPage === 'All Projects'
-                                            ? activeProjects.length && activeProjects.length > projectsPerPage
-                                            : archivedProjects.length && archivedProjects.length > projectsPerPage
-                                    )
-                                ) ? (
+                                {currentPage !== lastPage &&
+                                (renderedPage === 'All Projects'
+                                    ? activeProjects.length &&
+                                      activeProjects.length > projectsPerPage
+                                    : archivedProjects.length &&
+                                      archivedProjects.length >
+                                          projectsPerPage) ? (
                                     <li
                                         onClick={() => {
                                             setCurrentPage(currentPage + 1);
@@ -582,7 +554,7 @@ const AllProjectView: FC<Props> = ({
                                             id="arrow-pag-next"
                                         />
                                     </li>
-                                ): null}
+                                ) : null}
                             </ul>
                         </nav>
                     </div>

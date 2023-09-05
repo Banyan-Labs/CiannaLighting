@@ -39,13 +39,6 @@ const LightCarousel = ({ images }: Props) => {
         if (images && images.length > 0) {
             setSelectedImage(images[newIdx]);
             setSelectedImageIndex(newIdx);
-
-            if (carouselItemsRef?.current[newIdx]) {
-                carouselItemsRef?.current[newIdx]?.scrollIntoView({
-                    inline: 'center',
-                    behavior: 'smooth',
-                });
-            }
         }
     };
 
@@ -76,12 +69,12 @@ const LightCarousel = ({ images }: Props) => {
     return (
         <>
             <div className="carousel-container">
-                <div className="img-wrapper">
+                <div className="d-flex img-wrapper justify-content-center">
                     <SlSizeFullscreen
                         className="fullscreen-toggle-button"
                         onClick={toggleFullscreen}
                     />
-                    <img className="selected-image" src={selectedImage?.url} />
+                    <img src={selectedImage?.url} />
                 </div>
                 <div className="carousel">
                     <div className="carousel__images">
@@ -95,7 +88,10 @@ const LightCarousel = ({ images }: Props) => {
                                         backgroundImage: `url(${image.url})`,
                                     }}
                                     key={uuid()}
-                                    className={`carousel__image ${ selectedImageIndex === idx && 'carousel__image-selected' }`}
+                                    className={`carousel__image ${
+                                        selectedImageIndex === idx &&
+                                        'carousel__image-selected'
+                                    }`}
                                     ref={(el) =>
                                         (carouselItemsRef.current[idx] = el)
                                     }

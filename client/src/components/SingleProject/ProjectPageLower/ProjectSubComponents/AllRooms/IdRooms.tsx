@@ -1,6 +1,5 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ReactTooltip from 'react-tooltip';
 import { FaChevronRight, FaRegClone } from 'react-icons/fa';
 import {
     IoIosArrowDropleftCircle,
@@ -10,8 +9,12 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks';
 import { axiosPrivate } from '../../../../../api/axios';
 import { RoomType } from '../../../../../redux/reducers/projectSlice';
-import { getAllProjectRoomsAction, setTheYourProjects } from '../../../../../redux/actions/projectActions';
+import {
+    getAllProjectRoomsAction,
+    setTheYourProjects,
+} from '../../../../../redux/actions/projectActions';
 import { CopyType } from 'app/constants';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './rooms.scss';
 
@@ -32,16 +35,12 @@ const IdRooms: FC = () => {
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
         [user.name, navigate]
     );
-
-    useEffect(() => {
-        dispatch(getAllProjectRoomsAction(String(project?._id)));
-    }, []);
 
     const copyRoom = async (e: any, room: RoomType) => {
         e.preventDefault();
@@ -60,7 +59,12 @@ const IdRooms: FC = () => {
         try {
             const response = await axiosPriv.post('/create-project', payload);
 
-            alert(`Copy of ${room?.name} created in ${project?.name}.`);
+            dispatch(setAlertOpen({ isOpen: true }));
+            dispatch(
+                setAlertMessage({
+                    alertMessage: `Copy of "${room?.name}" created in ${project?.name}.`,
+                })
+            );
 
             projectRoute(projectId);
             await dispatch(setTheYourProjects(true));
@@ -72,7 +76,6 @@ const IdRooms: FC = () => {
         }
     };
 
-    // Scroll using arrows - Your Projects section
     const ref = useRef<HTMLDivElement>(null);
     const scroll = (scrollAmount: number) => {
         ref.current ? (ref.current.scrollLeft += scrollAmount) : null;
@@ -81,7 +84,7 @@ const IdRooms: FC = () => {
     const singleRoom = projectRooms?.map((room: any, index: any) => {
         return (
             <div
-                className="single-project"
+                className="single-project m-3"
                 style={{
                     backgroundColor: 'rgb(242, 242, 242)',
                 }}
@@ -96,16 +99,15 @@ const IdRooms: FC = () => {
                 <div style={{ color: 'black' }} className="cardRoom-divider" />
                 <h3 style={{ color: 'black' }}>{room?.name}</h3>
                 <div className="room-details-block" key={index}>
-                    <FaRegClone
-                        data-for="new-room"
-                        data-tip="Copy Room"
-                        className="clone-icon"
-                        onClick={(e) => copyRoom(e, room)}
-                    />
-                    <ReactTooltip id="new-room" />
-                    <span
-                        style={{ color: 'black' }}
-                    >
+                    {!project?.archived && (
+                        <FaRegClone
+                            data-for="new-room"
+                            data-tip="Copy Room"
+                            className="clone-icon ms-3"
+                            onClick={(e) => copyRoom(e, room)}
+                        />
+                    )}
+                    <span style={{ color: 'black' }}>
                         View Details{' '}
                         <FaChevronRight className="view-details-chevron" />
                     </span>
@@ -117,7 +119,7 @@ const IdRooms: FC = () => {
     return (
         <>
             <div className="your-rooms">
-                <div className="your-rooms-section" ref={ref}>
+                <div className="your-rooms-section d-flex flex-wrap" ref={ref}>
                     {singleRoom}
                     {singleRoom.length == 0 ? (
                         <div className="your-projects-none">

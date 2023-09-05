@@ -1,17 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import usePagination from './usePagination';
-import { getCatalogItems } from '../../../redux/actions/lightActions';
+import { filterCatalogItems } from '../../../redux/actions/lightActions';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import logging from 'config/logging';
 
 interface searchBarProps {
     searchTerm: string;
     setCatalogItem: any;
+    projectView: boolean;
 }
-const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
-    const { setAllCatalog } = useAppSelector(({ project }) => project);
+const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem, projectView }) => {
+    const { filteredCatalog } = useAppSelector(({ project }) => project);
 
-    const searchValue = setAllCatalog.filter((val: any) => {
+    const searchValue = filteredCatalog.filter((val: any) => {
         if (searchTerm === '') {
             return val;
         } else if (
@@ -22,8 +24,6 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
     });
 
     const dispatch = useAppDispatch();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const {
         firstContentIndex,
         lastContentIndex,
@@ -34,20 +34,18 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         setPage,
         totalPages,
     } = usePagination({
-        contentPerPage: 6,
+        contentPerPage: !projectView ? 12 : 8,
         count: searchValue.length,
     });
 
-    const filteredData = setAllCatalog
+    const filteredData = filteredCatalog
         .filter((val: any) => {
             if (searchTerm === '') {
                 return val;
             } else if (
                 val.item_ID
                     .toLowerCase()
-                    .includes(
-                        searchTerm.toLocaleLowerCase()
-                    )
+                    .includes(searchTerm.toLocaleLowerCase())
             ) {
                 return val;
             } else page > 1 ? setPage(1) : '';
@@ -55,69 +53,49 @@ const Cards: FC<searchBarProps> = ({ searchTerm, setCatalogItem }) => {
         .slice(firstContentIndex, lastContentIndex)
         .map((el: any, index: any) => (
             <div
-                className={el.isActive ? "item d-flex flex-column align-content-start" : "item d-flex flex-column align-content-start inactive-shadow"}
+                className={
+                    el.isActive
+                        ? 'item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2'
+                        : 'item-cards d-flex flex-column align-items-center justify-content-between py-3 m-2 inactive-shadow'
+                }
                 key={index}
                 onClick={() => {
                     if (el.isActive) {
                         setCatalogItem(el);
-                    } else {
-                        alert('This light is currently unavailable!')
                     }
                 }}
             >
-                <img src={el.images[0]} />
-                <div className="item-bottom-sections">
-                    <h4
-                        className=""
-                        style={{ minHeight: '75px' }}
-                    >
-                        {el.itemName} <br />{' '}
-                        <span>{el.item_ID}</span><br />{' '}
-                        {!el.isActive && (
-                            <span>inactive</span>)}
-                    </h4>
-                </div>
+                <img className="light-image" src={el.images[0]} />
+                <span className="my-1">{el.item_ID}</span>
             </div>
         ));
 
     useEffect(() => {
         (async () => {
             try {
-                dispatch(getCatalogItems());
-            } catch {
-                setError(true);
-            } finally {
-                setLoading(false);
+                dispatch(filterCatalogItems({}));
+            } catch (error) {
+                logging.error(error);
             }
         })();
     }, []);
 
     return (
         <>
-            <div className="lightCard d-flex row flex-wrap m-0 p-0">
-                { }
-                {loading ? (
-                    <h2>Loading...</h2>
-                ) : error ? (
-                    <h2>Error fetching users</h2>
+            <div className="your-rooms-section d-flex flex-wrap">
+                {filteredData?.length ? (
+                    filteredData
                 ) : (
-                    <>
-                        <div className="items d-flex m-0 p-0 flex-wrap justify-content-center">
-                            {filteredData?.length ? filteredData
-                            :   <div className="main-catalog-filter-container d-flex m-0">
-                                    <div className="col-12 d-flex row m-0 p-0">
-                                        <h4 className="d-flex justify-content-center">
-                                            No catalog items found.
-                                        </h4>
-                                    </div>
-                                </div>
-                            }
+                    <div className="main-catalog-filter-container d-flex m-0">
+                        <div className="col-12 d-flex row m-0 p-0">
+                            <h4 className="d-flex justify-content-center">
+                                No catalog items found.
+                            </h4>
                         </div>
-
-                    </>
+                    </div>
                 )}
             </div>
-            {searchValue.length > 6 ? (
+            {(!projectView && searchValue.length > 12) || (projectView && searchValue.length > 8) ? (
                 <div className="pagination_">
                     <p className="text">
                         Showing {page}/{totalPages}

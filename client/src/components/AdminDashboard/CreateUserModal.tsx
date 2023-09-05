@@ -9,7 +9,7 @@ import { generatePassword } from '../../app/generatePassword';
 import { createUserAction } from '../../redux/actions/usersActions';
 import { axiosPrivate } from '../../api/axios';
 import { useParams } from '../../app/utils';
-import logging from 'config/logging';
+import { setAlertOpen, setAlertMessage } from 'redux/reducers/modalSlice';
 
 import './styles/CreateUserModal.scss';
 
@@ -32,7 +32,7 @@ const CreateUserModal: FC<Props> = ({
     userDetails,
     setUserDetails,
     curUser,
-    closeAndGet
+    closeAndGet,
 }) => {
     const dispatch = useAppDispatch();
     const [showRoleExplanation, setShowRoleExplanation] = useState(false);
@@ -116,28 +116,44 @@ const CreateUserModal: FC<Props> = ({
         });
 
         closeModal(false);
-    }
+    };
     const onSubmit = async (e: any) => {
         e.preventDefault();
 
         try {
             if (edit) {
                 const axiosPriv = axiosPrivate();
-                const response = await axiosPriv.put('/cmd/edit-user/' + handleEdit()._id, handleEdit());
+                const response = await axiosPriv.put(
+                    '/cmd/edit-user/' + handleEdit()._id,
+                    handleEdit()
+                );
 
                 if (response) {
-                    logging.info(response.data, 'CreateUserModal');
                     setEdit(false);
 
                     if (curUser === userId) {
-                        alert('Next login, you will use new credentials.')
+                        dispatch(setAlertOpen({ isOpen: true }));
+                        dispatch(
+                            setAlertMessage({
+                                alertMessage: `Next login, you will use new credentials.`,
+                            })
+                        );
                     } else {
                         const updatedUser = response.data?.data;
                         delete updatedUser?.password;
-                        delete updatedUser?._id
-                        delete updatedUser?.__v
+                        delete updatedUser?._id;
+                        delete updatedUser?.__v;
 
-                        alert(`${response.data.message}\n${JSON.stringify(updatedUser).split(/[{},]/).join('\n')}`);
+                        dispatch(setAlertOpen({ isOpen: true }));
+                        dispatch(
+                            setAlertMessage({
+                                alertMessage: `${
+                                    response.data.message
+                                }\n${JSON.stringify(updatedUser)
+                                    .split(/[{},]/)
+                                    .join('\n')}`,
+                            })
+                        );
                     }
 
                     await closeAndGet();
@@ -164,17 +180,21 @@ const CreateUserModal: FC<Props> = ({
             emailChange: userDetails.email,
             passwordChange: userDetails.password,
             role: userDetails.role,
-            update: true
-        }
+            update: true,
+        };
 
         return editPass;
     };
 
-    logging.info(userDetails, 'CreateUserModal');
-
     return (
         <div className="new-user-modal-background">
-            <div className={edit ? "new-user-modal-container edit-contain" : "new-user-modal-container"}>
+            <div
+                className={
+                    edit
+                        ? 'new-user-modal-container edit-contain'
+                        : 'new-user-modal-container'
+                }
+            >
                 <div className="new-user-modal-title-close-btn">
                     <button onClick={() => closeModal(!openModal)}>
                         <FaTimes />
@@ -182,7 +202,9 @@ const CreateUserModal: FC<Props> = ({
                 </div>
 
                 <div className="new-user-modal-title">
-                    <h3 className="new-user-modal-title">{edit ? 'Edit User' : 'New User'}</h3>
+                    <h3 className="new-user-modal-title">
+                        {edit ? 'Edit User' : 'New User'}
+                    </h3>
                 </div>
                 <div>
                     <form onSubmit={onSubmit}>
@@ -303,7 +325,8 @@ const CreateUserModal: FC<Props> = ({
                                 className="generate-password-circle"
                                 onClick={handleGeneratePassword}
                                 onMouseLeave={() =>
-                                    onExitTooltip('generatePassTooltip')}
+                                    onExitTooltip('generatePassTooltip')
+                                }
                             >
                                 <span
                                     className="tooltip-text"
@@ -330,12 +353,21 @@ const CreateUserModal: FC<Props> = ({
                             </span>
                         </div>
                         <div className="new-user-modal-footer">
-                            {edit && <button className='new-user-cancel' onClick={(e) => onCancel(e)}> Cancel </button>}
-                            <button type="submit" className='new-user-submit'>{edit ? ' Edit User' : 'Create User'}</button>
+                            {edit && (
+                                <button
+                                    className="new-user-cancel"
+                                    onClick={(e) => onCancel(e)}
+                                >
+                                    {' '}
+                                    Cancel{' '}
+                                </button>
+                            )}
+                            <button type="submit" className="new-user-submit">
+                                {edit ? ' Edit User' : 'Create User'}
+                            </button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     );

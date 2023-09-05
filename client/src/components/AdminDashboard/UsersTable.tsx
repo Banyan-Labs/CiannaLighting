@@ -1,5 +1,18 @@
-import React, { FC, useEffect, useState, SyntheticEvent, useCallback } from 'react';
-import { FaPlus, FaChevronUp, FaChevronDown, FaPlay, FaUserAltSlash, FaUserCheck } from 'react-icons/fa';
+import React, {
+    FC,
+    useEffect,
+    useState,
+    SyntheticEvent,
+    useCallback,
+} from 'react';
+import {
+    FaPlus,
+    FaChevronUp,
+    FaChevronDown,
+    FaPlay,
+    FaUserAltSlash,
+    FaUserCheck,
+} from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { FaPencilAlt } from 'react-icons/fa';
 import { RiArchiveDrawerFill } from 'react-icons/ri';
@@ -10,7 +23,6 @@ import { ROLES } from '../../app/constants';
 import { getAllUsers } from '../../redux/actions/usersActions';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { CreateUserType, UserType } from '../../app/typescriptTypes';
-import logging from 'config/logging';
 
 import './styles/UsersTable.scss';
 
@@ -82,7 +94,7 @@ const UsersTable: FC = () => {
     const closeAndGet = () => {
         setOpenModal(false);
         dispatch(getAllUsers());
-        setApiMessage(lastStatus)
+        setApiMessage(lastStatus);
     };
     const setSortToDefault = () => {
         setSortedData(users);
@@ -160,12 +172,11 @@ const UsersTable: FC = () => {
         } else {
             setApiMessage('Unable to toggle user status');
         }
-        
+
         // dispatch(getAllUsers());
         unsetMini();
         forceUpdate();
     };
-    logging.info(sortedData, "UsersTable")
 
     return (
         <>
@@ -187,19 +198,19 @@ const UsersTable: FC = () => {
                     New User
                 </button>
             </div>
-            <table className="users-table">
-                <thead>
-                    <tr className="users-table-headers">
-                        <td onClick={() => triggerDirection('name')}>
+            <table className="dashboard-all-projects-table">
+                <thead className="table-headers">
+                    <tr className="rows">
+                        <td className="projects-table-name" onClick={() => triggerDirection('name')}>
                             Name {sortDisplay('name')}
                         </td>
-                        <td onClick={() => triggerDirection('email')}>
+                        <td className="projects-table-designer text-center" onClick={() => triggerDirection('email')}>
                             Email{sortDisplay('email')}
                         </td>
-                        <td onClick={() => triggerDirection('role')}>
+                        <td className="projects-table-region text-center" onClick={() => triggerDirection('role')}>
                             Role {sortDisplay('role')}
                         </td>
-                        <td>Actions</td>
+                        <td className="projects-table-dots text-center">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -207,7 +218,7 @@ const UsersTable: FC = () => {
                         (user: UserType, index: number) => (
                             <tr
                                 key={user._id}
-                                className="user-table-row"
+                                className="projects-table-dynamic-row"
                                 style={
                                     !user.isActive
                                         ? { background: '#ccc', opacity: 0.6 }
@@ -215,20 +226,31 @@ const UsersTable: FC = () => {
                                 }
                             >
                                 <th
+                                className="projects-table-dynamic-name"
                                     style={
                                         user.resetPasswordRequest
                                             ? { color: 'red', opacity: 0.5 }
                                             : {}
                                     }
                                 >
-                                    {(!user.isActive ? <FaUserAltSlash /> : <FaUserCheck className='active-user' />)}{'\xa0\xa0\xa0'}{user.name}
+                                    {!user.isActive ? (
+                                        <FaUserAltSlash />
+                                    ) : (
+                                        <FaUserCheck className="active-user" />
+                                    )}
+                                    {'\xa0\xa0\xa0'}
+                                    {user.name}
                                 </th>
-                                <td>{user.email}</td>
-                                <td>
-                                    {Object.keys(ROLES).find((key: string) => ROLES[key as keyof typeof ROLES] === user.role)}
+                                <td className="projects-table-dynamic-designer text-center">{user.email}</td>
+                                <td className="projects-table-dynamic-region text-center">
+                                    {Object.keys(ROLES).find(
+                                        (key: string) =>
+                                            ROLES[key as keyof typeof ROLES] ===
+                                            user.role
+                                    )}
                                 </td>
                                 <td
-                                    className="button-td"
+                                    className="projects-table-dynamic-dots text-center"
                                     onMouseOver={() => setMini(index)}
                                     onMouseLeave={() => unsetMini()}
                                 >
@@ -261,7 +283,7 @@ const UsersTable: FC = () => {
                                                     )}
                                                     <p>
                                                         {user.isActive
-                                                            ? 'Archive'
+                                                            ? 'Mark Awarded'
                                                             : 'Restore'}
                                                     </p>
                                                 </div>

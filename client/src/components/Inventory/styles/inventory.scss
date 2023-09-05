@@ -234,7 +234,6 @@
 }
 
 .inventory_form_container {
-    max-height: 75vh;
     overflow-y: auto;
 }
 
@@ -299,7 +298,8 @@
 #chck5,
 #chck6,
 #chck7,
-#chck8 {
+#chck8,
+#chck9 {
     display: none;
 }
 

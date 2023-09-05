@@ -7,12 +7,12 @@ import { ROLES } from '../../app/constants';
 import dataHolding from '../Dashboard/YourProjects/projectDetails';
 import { useAppDispatch } from '../../app/hooks';
 import {
+    getAttachments,
     getProject,
-    setTheYourProjects
+    setTheYourProjects,
 } from '../../redux/actions/projectActions';
 import { LightREF } from '../../redux/reducers/projectSlice';
 import { ProjectType } from '../Dashboard/DashboardPageLower/DashboardNav';
-import { setSpecFile } from '../../redux/actions/lightActions';
 
 import '../Dashboard/DashboardPageLower/DashboardSubComponents/style/allProjects.scss';
 
@@ -39,7 +39,7 @@ const ProjectMiniModal: FC<projectProps> = ({
     setInactiveList,
     setProjectHold,
     inactiveModalTrigger,
-    copyOfProject
+    copyOfProject,
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -77,26 +77,24 @@ const ProjectMiniModal: FC<projectProps> = ({
 
     const changeProject = async (prodId: string) => {
         await dispatch(getProject({ _id: prodId }));
+        await dispatch(getAttachments(prodId));
         dataHolding.getData(project);
     };
 
     const projectRoute = useCallback(
         (projId: string) => {
-            const to = `/projects/+?_id= ${user._id}&projectId=${projId}`;
+            const to = `/project/+?_id= ${user._id}&projectId=${projId}`;
 
             navigate(to);
         },
         [user.name, navigate]
     );
-    
+
     const goToProject = () => {
         return (
             <div
                 onClick={async () => {
                     await changeProject(project._id);
-                    await dispatch(
-                        setSpecFile({ projId: project._id, edit: '' }, false)
-                    );
                     projectRoute(project._id);
                     await dispatch(setTheYourProjects(true));
                 }}
@@ -123,14 +121,14 @@ const ProjectMiniModal: FC<projectProps> = ({
                     onClick={
                         project?.clientId === user?._id
                             ? async () => {
-                                await changeProject(project._id);
-                                await projectRoute(project._id);
-                                await dispatch(setTheYourProjects(true));
-                            }
+                                  await changeProject(project._id);
+                                  await projectRoute(project._id);
+                                  await dispatch(setTheYourProjects(true));
+                              }
                             : () => {
-                                setOpenModal(true);
-                                setProjectModal(project);
-                            }
+                                  setOpenModal(true);
+                                  setProjectModal(project);
+                              }
                     }
                     className="project-mini-modal-link"
                 >

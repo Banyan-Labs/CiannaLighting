@@ -14,10 +14,9 @@
     justify-content: space-between;
     padding: 0 5%;
     text-align: center;
-    margin-top: 4%;
-    margin-bottom: 3%;
     .design-style-button {
-        width: 180px;
+        width: 10vw;
+        min-width: fit-content;
         padding: 10px 5px;
         background-color: transparent;
         border-radius: 50px;
@@ -25,7 +24,7 @@
         color: $primary-bg-dark-text;
         font-size: $primary-text-fs;
         font-weight: 100;
-        box-shadow: 0 0  4px inset $primary-bg-dark-text;
+        box-shadow: 0 0 4px inset $primary-bg-dark-text;
     }
     .design-style-button:hover {
         transition: 600ms ease;
@@ -130,12 +129,11 @@
             opacity: 0.4;
         }
         background-color: $primary-bg-dark;
-        height: fit-content;
     }
     .item-bottom-sections {
         background: $primary-bg-white;
         border-radius: 0.3rem;
-        min-height: 100px;
+        min-height: 10vh;
         overflow-y: scroll;
         h4 {
             text-align: center;

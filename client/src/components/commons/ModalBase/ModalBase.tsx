@@ -9,14 +9,13 @@ type ModalBaseProps = {
     isShown: boolean;
     setIsShown: (isShown: boolean) => void;
     title?: string;
-
 };
 
 const ModalBase = ({
     children,
     isShown,
     setIsShown,
-    title
+    title,
 }: ModalBaseProps) => {
     const handleEscape = (event: KeyboardEvent): any => {
         if (event.key === 'Escape') setIsShown(false);
@@ -30,26 +29,26 @@ const ModalBase = ({
 
     return isShown
         ? createPortal(
-            <div className="modal-container">
-                <div className="modal-wrapper">
-                    <header className="modal-card-head">
-                        <button
-                            className="delete"
-                            aria-label="close"
-                            onClick={() => setIsShown(false)}
-                        >
-                            <FaTimes />
-                        </button>
-                        {title && (
-                            <h3 className="modal-card-title">{title}</h3>
-                        )}
-                    </header>
+              <div className="modal-container">
+                  <div className="modal-wrapper">
+                      <header className="modal-card-head">
+                          <button
+                              className="delete"
+                              aria-label="close"
+                              onClick={() => setIsShown(false)}
+                          >
+                              <FaTimes />
+                          </button>
+                          {title && (
+                              <h3 className="modal-card-title">{title}</h3>
+                          )}
+                      </header>
 
-                    <section className="modal-card-body">{children}</section>
-                </div>
-            </div>,
-            document.body
-        )
+                      <section className="modal-card-body">{children}</section>
+                  </div>
+              </div>,
+              document.body
+          )
         : null;
 };
 

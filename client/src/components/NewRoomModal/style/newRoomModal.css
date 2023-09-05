@@ -16,15 +16,9 @@
     transform: translate(-50%, -50%);
     z-index: 9 !important;
     width: 450px;
-    min-height: 370px;
-    margin: 1rem auto;
-    padding: 2rem 5rem;
+    padding: 2rem 3rem;
     border-radius: 5px;
     background-color: white;
-}
-
-::-webkit-scrollbar {
-    display: none;
 }
 
 .modal-title-close-btn button {
@@ -53,16 +47,12 @@ label {
     border: 1px solid #cbcbcb;
     border-radius: 5px;
     padding: 15px 10px;
-    width: 95%;
+    width: 100%;
     margin-bottom: 25px;
 }
 
 .new-project-modal-button:hover {
     background-color: #345c9c;
-}
-
-.new-room-modal-labels {
-    font-weight: bold;
 }
 
 .new-room-name {
@@ -141,8 +131,8 @@ label {
 
 .skip-lights-container {
     position: absolute;
-    bottom: 50px;
-    right: 50px;
+    bottom: 30px;
+    right: 10px;
 }
 
 .skip-lights-step {
