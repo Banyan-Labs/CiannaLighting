@@ -1,24 +1,24 @@
-import React, { FC, useRef, useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import React, { FC, useRef } from 'react';
+// import { Document, Page, pdfjs } from 'react-pdf';
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 import { useAppSelector } from '../../../../app/hooks';
-import logging from 'config/logging';
+// import logging from 'config/logging';
+// import { parseFileName } from 'helpers/utils';
 
 import './style/proposal.scss';
-import { parseFileName } from 'helpers/utils';
 import { camelCaseToTitleCase } from 'app/utils';
 import { useReactToPrint } from 'react-to-print';
 
 const Proposal: FC = React.forwardRef<any>(() => {
-    const [numPages, setNumPages] = useState<{ [key: string]: number }>({});
+    // const [numPages, setNumPages] = useState<{ [key: string]: number }>({});
 
-    function onDocumentLoadSuccess({ numPages }: any, url: any) {
-        const newNumPages = { ...numPages, [url]: numPages };
-        setNumPages(newNumPages);
-    }
+    // function onDocumentLoadSuccess({ numPages }: any, url: any) {
+    //     const newNumPages = { ...numPages, [url]: numPages };
+    //     setNumPages(newNumPages);
+    // }
 
-    const { attachments, selections, project } = useAppSelector(
+    const { selections, project } = useAppSelector(
         ({ project }) => {
             return project;
         }
@@ -123,49 +123,49 @@ const Proposal: FC = React.forwardRef<any>(() => {
         );
     });
 
-    const renderAttachments = () => {
-        return attachments.map((url, index) => {
-            const fileName = url?.split('/uploads/')[1];
-            const { itemId, fieldName, originalName } = parseFileName(fileName);
-            let fileType = camelCaseToTitleCase(fieldName);
-            fileType = fileType?.slice(0, fileType?.length - 1);
-            let displayName = '';
+    // const renderAttachments = () => {
+    //     return attachments.map((url, index) => {
+    //         const fileName = url?.split('/uploads/')[1];
+    //         const { itemId, fieldName, originalName } = parseFileName(fileName);
+    //         let fileType = camelCaseToTitleCase(fieldName);
+    //         fileType = fileType?.slice(0, fileType?.length - 1);
+    //         let displayName = '';
 
-            if (originalName) {
-                displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
-            }
+    //         if (originalName) {
+    //             displayName = decodeURI(originalName)?.replace(/%2B/g, ' ');
+    //         }
 
-            return (
-                <div key={index} className="proposal-attachments mt-5">
-                    <p className="m-0">
-                        <span className="text-italic">{itemId}</span> -{' '}
-                        <span className="text-italic">{fileType}</span>
-                    </p>
-                    <h4 className="m-0">{displayName}</h4>
-                    <Document
-                        file={url}
-                        onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
-                        onLoadError={(err) => logging.error(err, 'Document')}
-                        className="pdf-document"
-                    >
-                        {Array.from(new Array(numPages[url]), (el, index) => (
-                            <Page
-                                key={`page_${index + 1}`}
-                                className="pdf-page"
-                                renderAnnotationLayer={false}
-                                renderTextLayer={false}
-                                pageNumber={index + 1}
-                                scale={1.0}
-                                onLoadError={(err) =>
-                                    logging.error(err, 'Page')
-                                }
-                            />
-                        ))}
-                    </Document>
-                </div>
-            );
-        });
-    };
+    //         return (
+    //             <div key={index} className="proposal-attachments mt-5">
+    //                 <p className="m-0">
+    //                     <span className="text-italic">{itemId}</span> -{' '}
+    //                     <span className="text-italic">{fileType}</span>
+    //                 </p>
+    //                 <h4 className="m-0">{displayName}</h4>
+    //                 <Document
+    //                     file={url}
+    //                     onLoadSuccess={(pdf) => onDocumentLoadSuccess(pdf, url)}
+    //                     onLoadError={(err) => logging.error(err, 'Document')}
+    //                     className="pdf-document"
+    //                 >
+    //                     {Array.from(new Array(numPages[url]), (el, index) => (
+    //                         <Page
+    //                             key={`page_${index + 1}`}
+    //                             className="pdf-page"
+    //                             renderAnnotationLayer={false}
+    //                             renderTextLayer={false}
+    //                             pageNumber={index + 1}
+    //                             scale={1.0}
+    //                             onLoadError={(err) =>
+    //                                 logging.error(err, 'Page')
+    //                             }
+    //                         />
+    //                     ))}
+    //                 </Document>
+    //             </div>
+    //         );
+    //     });
+    // };
 
     return project?.rooms?.length && project.rooms.length > 0 ? (
         <div className="d-flex flex-column">
@@ -221,7 +221,7 @@ const Proposal: FC = React.forwardRef<any>(() => {
                         </div>
                     </div>
                 </div>
-                {renderAttachments()}
+                {/* {renderAttachments()} */}
             </div>
             <button className="print_btn my-5" onClick={handlePrint}>
                 Print
