@@ -42,8 +42,9 @@ jobs:
         run: ssh ec2 '
           cd ~/CiannaLighting &&
           git checkout main &&
-          sudo git pull &&
-          sudo npm run install-modules &&
+          sudo chown -R 1000:1000 "/root/.npm" &&
+          git pull &&
+          npm run install-modules &&
           cd client && npm run build &&
           cd ../server && npm run build
           '
